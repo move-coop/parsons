@@ -124,11 +124,11 @@ class DatabaseConnector(ABC):
     def table_exists(self, table_name: str) -> bool:
         """Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
         """
@@ -138,7 +138,7 @@ class DatabaseConnector(ABC):
     def copy(self, tbl: Table, table_name: str, if_exists: str):
         """Copy a :ref:`parsons-table` to the database.
 
-        `Args`:
+        Args:
             tbl (Table):
                 Table containing the data to save.
             table_name (str):
@@ -176,13 +176,13 @@ class DatabaseConnector(ABC):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             db.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: Optional[list]
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

@@ -24,7 +24,7 @@ class MobileCommons:
     """
     Instantiate the MobileCommons class.
 
-    `Args:`
+    Args:
         api_key: str
             A valid API Key created by a MobileCommons account. Not required if
             ``MOBILECOMMONS_PASSWORD`` env variable is set.
@@ -51,7 +51,7 @@ class MobileCommons:
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             first_data_key: str
@@ -67,7 +67,7 @@ class MobileCommons:
                 final table
             limit: int
                 The maximum number of rows to return
-        `Returns:`
+        Returns:
             Parsons table with requested data
         """
 
@@ -163,7 +163,7 @@ class MobileCommons:
         A helper function that checks the status code of a response and raises an error if the
         response code is not 200
 
-        `Args:`
+        Args:
             response: requests package response object
         """
         if response.status_code != 200:
@@ -178,12 +178,12 @@ class MobileCommons:
         A helper function that sends a get request to MobileCommons and then parses XML responses in
         order to return the response as a dictionary
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             params: dict
                 Parameters to be passed into GET request
-        `Returns:`
+        Returns:
             xml response parsed into list or dictionary
         """
         response = self.client.request(endpoint, "GET", params=params)
@@ -202,12 +202,12 @@ class MobileCommons:
         """
         A function for POST requests that handles MobileCommons xml responses
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             params: dict
                 Parameters to be passed into GET request
-        `Returns:`
+        Returns:
             xml response parsed into list or dictionary
         """
 
@@ -227,7 +227,7 @@ class MobileCommons:
         """
         A function for get broadcasts
 
-        `Args:`
+        Args:
             first_date: str
                 The date of the earliest possible broadcast you'd like returned. All common date
                 format should work (e.g. mm/dd/yy or yyyy-mm-dd)
@@ -241,7 +241,7 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
         """
 
@@ -273,7 +273,7 @@ class MobileCommons:
         """
         A function for getting subscribers of a specified campaign
 
-        `Args:`
+        Args:
             campaign_id: int
                 The campaign for which you'd like to get subscribers. You can get this from the url
                 of the campaign's page after select a campaign at
@@ -290,7 +290,7 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
         """
 
@@ -322,7 +322,7 @@ class MobileCommons:
         """
         A function for getting profiles, which are MobileCommons people records
 
-        `Args:`
+        Args:
             phones: list
                 A list of phone numbers including country codes for which you want profiles returned
                 MobileCommons claims to recognize most formats.
@@ -341,7 +341,7 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
         """
 
@@ -385,7 +385,7 @@ class MobileCommons:
         """
         A function for creating or updating a single MobileCommons profile
 
-        `Args:`
+        Args:
             phone: str
                 Phone number to assign profile
             first_name: str
@@ -409,7 +409,7 @@ class MobileCommons:
                 Dictionary with custom column names as keys and custom column values
                 as dictionary values
 
-        `Returns:`
+        Returns:
             ID of created/updated  profile
         """
 

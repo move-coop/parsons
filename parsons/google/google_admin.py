@@ -13,7 +13,7 @@ class GoogleAdmin:
     """
     A connector for Google Admin.
 
-    `Args:`
+    Args:
         app_creds: str
             A credentials json string or a path to a json file. Not required if
             ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
@@ -21,7 +21,7 @@ class GoogleAdmin:
             An email address that this service account will act on behalf of (via domain-wide
             delegation)
 
-    `Returns:`
+    Returns:
         GoogleAdmin Class
 
     """
@@ -79,13 +79,13 @@ class GoogleAdmin:
         `Google Admin API Documentation -- groups.aliases/list
         <https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
 
-        `Args:`
+        Args:
             group_key: str
                 The Google group id
             params: dict
                 A dictionary of fields for the GET request
 
-        `Returns:`
+        Returns:
             Table Class
 
         """
@@ -98,13 +98,13 @@ class GoogleAdmin:
         `Google Admin API Documentation -- manage-group-members#get_all_members
         <https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members#get_all_members>`_
 
-        `Args:`
+        Args:
             group_key: str
                 The Google group id
             params: dict
                 A dictionary of fields for the GET request
 
-        `Returns:`
+        Returns:
             Table Class
 
         """
@@ -117,11 +117,11 @@ class GoogleAdmin:
         `Google Admin API Documentation -- manage-groups#get_all_domain_groups
         <https://developers.google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups>`_
 
-        `Args:`
+        Args:
             params: dict
                 A dictionary of fields for the GET request.
 
-        `Returns:`
+        Returns:
             Table Class
 
         """

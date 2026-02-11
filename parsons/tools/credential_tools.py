@@ -11,7 +11,7 @@ PREFIX = "PRSNSENV"
 def decode_credential(credential, save_path=None, export=True, echo=False):
     """Decode an encoded credential to a Python object.
 
-    `Args:`
+    Args:
         credential: str
             An encoded credential.
         save_path: str
@@ -21,7 +21,7 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
             Defaults to true.
         echo: bool
             A flag for whether to print the decoded object. Defaults to False.
-    `Returns:`
+    Returns:
         dict
             The decoded object.
     """
@@ -50,10 +50,10 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
 def encode_from_json_str(credential):
     """Encode credential(s) from a json string.
 
-    `Args:`
+    Args:
         credential: str
             The credential json string to be encoded.
-    `Returns:`
+    Returns:
         str
             The encoded credential.
     """
@@ -68,10 +68,10 @@ def encode_from_json_str(credential):
 def encode_from_json_file(credential_file):
     """Encode credential(s) from a json file.
 
-    `Args:`
+    Args:
         credential_file: str
             The path to the json file with the credential to be encoded.
-    `Returns:`
+    Returns:
         str
             The encoded credential.
     """
@@ -87,10 +87,10 @@ def encode_from_json_file(credential_file):
 def encode_from_env(env_variables):
     """Encode credential(s) from the current environment.
 
-    `Args:`
+    Args:
         env_variables: list
             The list of credentials from the environment to be encoded.
-    `Returns:`
+    Returns:
         str
             The encoded credential.
     """
@@ -107,10 +107,10 @@ def encode_from_env(env_variables):
 def encode_from_dict(credential):
     """Encode credential(s) from a dictionary.
 
-    `Args:`
+    Args:
         credential: dict
             The list of credentials from the environment to be encoded.
-    `Returns:`
+    Returns:
         str
             The encoded credential.
     """

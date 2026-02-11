@@ -27,7 +27,7 @@ class ZoomV1:
         """
         Instantiate the Zoom class.
 
-        `Args:`
+        Args:
             account_id: str
                 A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env
                 variable set.
@@ -64,7 +64,7 @@ class ZoomV1:
         """
         TODO: Consider increasing default page size.
 
-        `Args`:
+        Args:
             endpoint: str
                 API endpoint to send GET request
             data_key: str
@@ -73,7 +73,7 @@ class ZoomV1:
             params: dict
                 Additional request parameters, defaults to None
 
-        `Returns`:
+        Returns:
             Parsons Table of API responses
         """
 
@@ -110,14 +110,14 @@ class ZoomV1:
         This function unpacks JSON values from Zoom's API, which are often
         objects nested in lists
 
-        `Args`:
+        Args:
             table: parsons.Table
                 Parsons Table of Zoom API responses
 
             column: str
                 Column name of nested JSON
 
-        `Returns`:
+        Returns:
             Parsons Table
         """
         if version == 2:
@@ -134,11 +134,11 @@ class ZoomV1:
         """
         Unpacks nested poll results values from the Zoom reports endpoint
 
-        `Args`:
+        Args:
             tbl: parsons.Table
                 Table of poll results derived from Zoom API request
 
-        `Returns`:
+        Returns:
             Parsons Table
         """
         if tbl.num_rows == 0:
@@ -169,13 +169,13 @@ class ZoomV1:
         """
         Get users.
 
-        `Args:`
+        Args:
             status: str
                 Filter by the user status. Must be one of following: ``active``,
                 ``inactive``, or ``pending``.
             role_id: str
                 Filter by the user role.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -201,7 +201,7 @@ class ZoomV1:
         """
         Get meetings scheduled by a user.
 
-        `Args:`
+        Args:
             user_id: str
                 A user id or email address of the meeting host.
             meeting_type: str
@@ -225,7 +225,7 @@ class ZoomV1:
                 Optional start date for the range of meetings to retrieve.
             to_date: datetime.date or None
                 Optional end date for the range of meetings to retrieve.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -243,10 +243,10 @@ class ZoomV1:
         """
         Get metadata regarding a past meeting.
 
-        `Args:`
+        Args:
             meeting_id: int
                 The meeting id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -259,10 +259,10 @@ class ZoomV1:
         """
         Get past meeting participants.
 
-        `Args:`
+        Args:
             meeting_id: int
                 The meeting id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -275,10 +275,10 @@ class ZoomV1:
         """
         Get meeting registrants.
 
-        `Args:`
+        Args:
             meeting_id: int
                 The meeting id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -291,10 +291,10 @@ class ZoomV1:
         """
         Get meeting registrants.
 
-        `Args:`
+        Args:
             user_id: str
                 The user id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -307,10 +307,10 @@ class ZoomV1:
         """
         Get past meeting participants
 
-        `Args:`
+        Args:
             webinar_id: str
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -324,10 +324,10 @@ class ZoomV1:
         """
         Get past meeting participants
 
-        `Args:`
+        Args:
             webinar_id: str
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -340,10 +340,10 @@ class ZoomV1:
         """
         Get past meeting participants
 
-        `Args:`
+        Args:
             webinar_id: str
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -358,13 +358,13 @@ class ZoomV1:
 
         Required scopes: `meeting:read`
 
-        `Args`:
+        Args:
             meeting_id: int
                 Unique identifier for Zoom meeting
             poll_id: int
                 Unique identifier for poll
 
-        `Returns`:
+        Returns:
             Parsons Table of all polling responses
         """
 
@@ -391,11 +391,11 @@ class ZoomV1:
 
         Required scopes: `meeting:read`
 
-        `Args`:
+        Args:
             meeting_id: int
                 Unique identifier for Zoom meeting
 
-        `Returns`:
+        Returns:
             Parsons Table of all polling responses
         """
 
@@ -416,11 +416,11 @@ class ZoomV1:
 
         Required scopes: `meeting:read`
 
-        `Args`:
+        Args:
             meeting_id: int
                 The meeting's ID or universally unique ID (UUID).
 
-        `Returns`:
+        Returns:
             Parsons Table of poll results
         """
 
@@ -444,13 +444,13 @@ class ZoomV1:
 
         Required scopes: `webinar:read`
 
-        `Args`:
+        Args:
             webinar_id: str
                 Unique identifier for Zoom webinar
             poll_id: int
                 Unique identifier for poll
 
-        `Returns`:
+        Returns:
             Parsons Table of all polling responses
         """
 
@@ -473,11 +473,11 @@ class ZoomV1:
 
         Required scopes: `webinar:read`
 
-        `Args`:
+        Args:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns`:
+        Returns:
             Parsons Table of all polling responses
         """
 
@@ -498,11 +498,11 @@ class ZoomV1:
 
         Required scopes: `webinar:read`
 
-        `Args`:
+        Args:
             webinar_id: str
                 The webinar's ID or universally unique ID (UUID).
 
-        `Returns`:
+        Returns:
             Parsons Table of all polling responses
         """
 
@@ -602,7 +602,7 @@ class ZoomV2(ZoomV1):
         **kwargs,
     ) -> Table:
         """
-        `Args`:
+        Args:
             endpoint: str
                 API endpoint to send GET request
             data_key: str
@@ -611,7 +611,7 @@ class ZoomV2(ZoomV1):
             params: dict
                 Additional request parameters, defaults to None
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -649,10 +649,10 @@ class ZoomV2(ZoomV1):
         """
         Get webinars scheduled by or on behalf of a webinar host.
 
-        `Args:`
+        Args:
             user_id: str
                 The user id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -665,10 +665,10 @@ class ZoomV2(ZoomV1):
         """
         Get webinar occurrences for a given webinar ID.
 
-        `Args:`
+        Args:
             webinar_id: int
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -680,10 +680,10 @@ class ZoomV2(ZoomV1):
         """
         Get past webinar occurrences for a given webinar ID.
 
-        `Args:`
+        Args:
             webinar_id: int
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -701,10 +701,10 @@ class ZoomV2(ZoomV1):
         """
         Get past meeting participants.
 
-        `Args:`
+        Args:
             meeting_id: int
                 The meeting id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -717,10 +717,10 @@ class ZoomV2(ZoomV1):
         """
         Get past webinar participants.
 
-        `Args:`
+        Args:
             webinar_id: int
                 The webinar id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -733,10 +733,10 @@ class ZoomV2(ZoomV1):
         """
         Get past meeting occurrences for a given meeting ID.
 
-        `Args:`
+        Args:
             meeting_id: int
                 The meeting id
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -750,13 +750,13 @@ class ZoomV2(ZoomV1):
         Get information about a single poll for a given meeting ID.
         The returned data is identical to get_meeting_polls.
 
-        `Args`:
+        Args:
             meeting_id: int
                 Unique identifier for Zoom meeting
             poll_id: str
                 Unique identifier for Zoom poll
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -777,11 +777,11 @@ class ZoomV2(ZoomV1):
         The returned data is identical to get_meeting_poll but for
         all polls in the meeting.
 
-        `Args`:
+        Args:
             meeting_id: int
                 Unique identifier for Zoom meeting
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -800,11 +800,11 @@ class ZoomV2(ZoomV1):
         """
         Get results for all polls for a given past meeting ID
 
-        `Args`:
+        Args:
             meeting_id: int
                 Unique identifier for Zoom meeting
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -824,13 +824,13 @@ class ZoomV2(ZoomV1):
         Get information about a single poll for a given webinar ID.
         The returned data is identical to get_webinar_polls.
 
-        `Args`:
+        Args:
             webinar_id: int
                 Unique identifier for Zoom webinar
             poll_id: str
                 Unique identifier for Zoom poll
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -851,11 +851,11 @@ class ZoomV2(ZoomV1):
         The returned data is identical to get_webinar_poll but includes
         all polls in the webinar
 
-        `Args`:
+        Args:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -874,11 +874,11 @@ class ZoomV2(ZoomV1):
         """
         Get results for all polls for a given past webinar ID
 
-        `Args`:
+        Args:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -897,11 +897,11 @@ class ZoomV2(ZoomV1):
         """
         Get polls reports for a given past meeting ID
 
-        `Args`:
+        Args:
             meeting_id: str
                 Unique identifier for Zoom meeting
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -920,11 +920,11 @@ class ZoomV2(ZoomV1):
         """
         Get results for all polls for a given past webinar ID
 
-        `Args`:
+        Args:
             webinar_id: str
                 Unique identifier for Zoom webinar
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

@@ -22,11 +22,11 @@ class PrintedLists:
         """
         Get printed lists.
 
-        `Args:`
+        Args:
             folder_id: int
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -50,10 +50,10 @@ class PrintedLists:
         """
         Returns a printed list object.
 
-        `Args:`
+        Args:
             printed_list_number: int
                 The printed list number
-        `Returns:`
+        Returns:
             dict
         """
 

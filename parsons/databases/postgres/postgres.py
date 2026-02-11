@@ -63,7 +63,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        `Args:`
+        Args:
             tbl: parsons.Table
                 A Parsons table object
             table_name: str

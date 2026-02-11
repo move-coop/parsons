@@ -15,7 +15,7 @@ class NationBuilder:
     """
     Instantiate the NationBuilder class
 
-    `Args:`
+    Args:
         slug: str
             The Nation Builder slug Not required if ``NB_SLUG`` env variable set. The slug is the
             nation slug of the nation from which your application is requesting approval to retrieve
@@ -81,7 +81,7 @@ class NationBuilder:
 
     def get_people(self) -> Table:
         """
-        `Returns:`
+        Returns:
             A Table of all people stored in Nation Builder.
         """
         data = []
@@ -122,14 +122,14 @@ class NationBuilder:
         This method updates a person with the provided id to have the provided data. It returns a
         full representation of the updated person.
 
-        `Args:`
+        Args:
             person_id: str
                 Nation Builder person id.
             data: dict
                 Nation builder person object.
                 For example {"email": "user@example.com", "tags": ["foo", "bar"]}
                 Docs: https://nationbuilder.com/people_api
-        `Returns:`
+        Returns:
             A person object with the updated data.
         """
         if person_id is None:
@@ -169,12 +169,12 @@ class NationBuilder:
             - twitter_login
             - van_id
 
-        `Args:`
+        Args:
             data: dict
                 Nation builder person object.
                 For example {"email": "user@example.com", "tags": ["foo", "bar"]}
                 Docs: https://nationbuilder.com/people_api
-        `Returns:`
+        Returns:
             A tuple of `created` and `person` object with the updated data. If the request fails
             the method will return a tuple of `False` and `None`.
         """

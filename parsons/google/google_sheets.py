@@ -17,7 +17,7 @@ class GoogleSheets:
     """
     A connector for Google Sheets, handling data import and export.
 
-    `Args:`
+    Args:
         google_keyfile_dict: dict
             A dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console. Required if env variable
@@ -67,10 +67,10 @@ class GoogleSheets:
         """
         Return a list of worksheets in the spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-        `Returns:`
+        Returns:
             list
                 A List of worksheets order by their index
         """
@@ -82,12 +82,12 @@ class GoogleSheets:
         Get the first sheet in a Google spreadsheet with the given title. The
         title is case sensitive and the index begins with 0.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             title: str
                 The sheet title
-        `Returns:`
+        Returns:
             str
                 The sheet index
         """
@@ -102,13 +102,13 @@ class GoogleSheets:
         """
         Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -131,7 +131,7 @@ class GoogleSheets:
         """
         Share a spreadsheet with a user, group of users, domain and/or the public.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             sharee: str
@@ -166,10 +166,10 @@ class GoogleSheets:
         """
         List the permissioned users and groups for a spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -184,7 +184,7 @@ class GoogleSheets:
         Creates a new Google spreadsheet. Optionally shares the new doc with
         the given email address. Optionally creates the sheet in a specified folder.
 
-        `Args:`
+        Args:
             title: str
                 The human-readable title of the new spreadsheet
             editor_email: str (optional)
@@ -195,7 +195,7 @@ class GoogleSheets:
                 Tip: Get this from the folder URL.
                 Anyone shared on the folder will have access to the spreadsheet.
 
-        `Returns:`
+        Returns:
             str
                 The spreadsheet ID
         """
@@ -217,7 +217,7 @@ class GoogleSheets:
         """
         Deletes a Google spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
         """
@@ -228,7 +228,7 @@ class GoogleSheets:
         """
         Adds a sheet to a Google spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             rows: int
@@ -236,7 +236,7 @@ class GoogleSheets:
             cols
                 Number of cols
 
-        `Returns:`
+        Returns:
             str
                 The sheet index
         """
@@ -253,7 +253,7 @@ class GoogleSheets:
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
@@ -311,7 +311,7 @@ class GoogleSheets:
         `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
         (which sticks the data only after all other existing data).
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL).
             table: obj
@@ -366,7 +366,7 @@ class GoogleSheets:
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
         first row.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
@@ -416,7 +416,7 @@ class GoogleSheets:
         """
         Format the cells of a worksheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             range: str

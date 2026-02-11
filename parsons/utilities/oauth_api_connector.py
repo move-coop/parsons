@@ -12,7 +12,7 @@ class OAuth2APIConnector(APIConnector):
     It extends APIConnector by wrapping the request methods in a server-side OAuth2 client
     and otherwise provides the same interface as APIConnector.
 
-    `Args:`
+    Args:
         uri: str
             The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
         client_id: str
@@ -31,7 +31,7 @@ class OAuth2APIConnector(APIConnector):
         data_key: str
             The name of the key in the response json where the data is contained. Required
             if the data is nested in the response json
-    `Returns`:
+    Returns:
         OAuthAPIConnector class
     """
 
@@ -79,7 +79,7 @@ class OAuth2APIConnector(APIConnector):
         """
         Base request using requests libary.
 
-        `Args:`
+        Args:
             url: str
                 The url request string; if ``url`` is a relative URL, it will be joined with
                 the ``uri`` of the ``OAuthAPIConnector`; if ``url`` is an absolute URL, it will
@@ -94,7 +94,7 @@ class OAuth2APIConnector(APIConnector):
             params: dict
                 The parameters to append to the url (e.g. http://myapi.com/things?id=1)
 
-        `Returns:`
+        Returns:
             requests response
         """
         full_url = urllib.parse.urljoin(self.uri, url)

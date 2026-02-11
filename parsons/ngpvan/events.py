@@ -24,7 +24,7 @@ class Events:
         """
         Get events.
 
-        `Args:`
+        Args:
             code_ids: str
                 Filter by code id.
             event_type_ids: str
@@ -42,7 +42,7 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -84,7 +84,7 @@ class Events:
         """
         Get an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             expand_fields: list
@@ -92,7 +92,7 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
                 ``ticketCategories``, ``voterRegistrationBatches`.`
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -136,7 +136,7 @@ class Events:
         """
         Create an event
 
-        `Args:`
+        Args:
             name: str
                 A name for this event, no longer than 500 characters.
             short_name: str
@@ -183,7 +183,7 @@ class Events:
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
-        `Returns:`
+        Returns:
             int
               The event code.
         """
@@ -230,10 +230,10 @@ class Events:
         """
         Delete an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -245,7 +245,7 @@ class Events:
         """
         Add shifts to an event
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             shift_name: str
@@ -254,7 +254,7 @@ class Events:
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
-        `Returns:`
+        Returns:
             int
               The shift id.
         """
@@ -269,7 +269,7 @@ class Events:
         """
         Get event types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

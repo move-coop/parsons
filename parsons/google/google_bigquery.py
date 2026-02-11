@@ -80,7 +80,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
     from Google's API can be found here:
         https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
 
-    `Args`:
+    Args:
         schema_definition: list
         This function expects a list of dictionaries in the following format:
 
@@ -103,7 +103,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
                 }
             ]
 
-    `Returns`:
+    Returns:
         List of instantiated `SchemaField` objects
     """
 
@@ -196,7 +196,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Get the Google BigQuery client to use for making queries.
 
-        `Returns:`
+        Returns:
             `google.cloud.bigquery.client.Client`
         """
         if not self._client:
@@ -227,7 +227,7 @@ class GoogleBigQuery(DatabaseConnector):
         any context manager):
         ``with bq.connection() as conn:``
 
-        `Returns:`
+        Returns:
             Google BigQuery ``connection`` object
         """
         conn = self._dbapi.connect(self.client)
@@ -273,7 +273,7 @@ class GoogleBigQuery(DatabaseConnector):
            sql = "SELECT * FROM my_table WHERE name = %(name)s"
            rs.query(sql, parameters={'name': name})
 
-        `Args:`
+        Args:
             sql: str
                 A valid BigTable statement
             parameters: dict
@@ -281,7 +281,7 @@ class GoogleBigQuery(DatabaseConnector):
             job_config: QueryJobConfig or None
                 An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -309,7 +309,7 @@ class GoogleBigQuery(DatabaseConnector):
         Useful for batching queries together. Will return ``None`` if the query
         returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -321,7 +321,7 @@ class GoogleBigQuery(DatabaseConnector):
             job_config: QueryJobConfig or None
                 An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -373,7 +373,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Fetch a job
 
-        `Args:`
+        Args:
             job_id: str
                 ID of job to fetch
             location: str
@@ -410,7 +410,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Copy a csv saved in Google Cloud Storage into Google BigQuery.
 
-        `Args:`
+        Args:
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
             table_name: str
@@ -594,7 +594,7 @@ class GoogleBigQuery(DatabaseConnector):
         Copy a compressed CSV file that exceeds the maximum size in Google Cloud Storage
         into Google BigQuery.
 
-        `Args:`
+        Args:
             gcs_blob_uri: str
                 The GoogleCloudStorage URI referencing the file to be copied.
             table_name: str
@@ -732,7 +732,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Copy a file from s3 to BigQuery.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (``tmc.cool_table``) to point the file.
             bucket: str
@@ -840,7 +840,7 @@ class GoogleBigQuery(DatabaseConnector):
         directly. This will work well for smaller data. For larger
         data, use the :meth:`copy` method which stages the upload through CloudStorage.
 
-        `Args:`
+        Args:
             tbl: obj
                 The Parsons Table to copy into BigQuery.
             table_name: str
@@ -932,7 +932,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
 
-        `Args:`
+        Args:
             tbl: obj
                 The Parsons Table to copy into BigQuery.
             table_name: str
@@ -1099,7 +1099,7 @@ class GoogleBigQuery(DatabaseConnector):
         Create a copy of an existing table (or subset of rows) in a new
         table.
 
-        `Args:`
+        Args:
             source_table: str
                 Name of existing schema and table (e.g. ``myschema.oldtable``)
             destination_table: str
@@ -1141,7 +1141,7 @@ class GoogleBigQuery(DatabaseConnector):
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
-        `Args:`
+        Args:
             table_obj: obj
                 A Parsons table object
             target_table: str
@@ -1243,7 +1243,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Delete a BigQuery table.
 
-        `Args:`
+        Args:
             table_name: str
                 The name of the table to delete.
         """
@@ -1254,10 +1254,10 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Check whether or not the Google BigQuery table exists in the specified dataset.
 
-        `Args:`
+        Args:
             table_name: str
                 The name of the BigQuery table to check for
-        `Returns:`
+        Returns:
             bool
                 True if the table exists in the specified dataset, false otherwise
         """
@@ -1278,7 +1278,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a schema
             table_name: str
                 Filter by a table name
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -1298,7 +1298,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a schema
             view: str
                 Filter by a table name
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -1320,13 +1320,13 @@ class GoogleBigQuery(DatabaseConnector):
         Gets the column names (and other column metadata) for a table. If you
         need just the column names run ``get_columns_list()``, as it is faster.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             table_name: str
                 The table name
 
-        `Returns:`
+        Returns:
             A dictionary mapping column name to a dictionary with extra info. The
             keys of the dictionary are ordered just liked the columns in the table.
             The extra info is a dict with format
@@ -1357,13 +1357,13 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Gets the column names for a table.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             table_name: str
                 The table name
 
-        `Returns:`
+        Returns:
             A list of column names
         """
 
@@ -1379,13 +1379,13 @@ class GoogleBigQuery(DatabaseConnector):
         especially those with many columns. This is because BigQuery scans all table data
         to perform the count, even though only the row count is returned.
 
-        `Args`:
+        Args:
             schema: str
                 The schema name
             table_name: str
                 The table name
 
-        `Returns:`
+        Returns:
             Row count of the target table
         """
 
@@ -1499,11 +1499,11 @@ class GoogleBigQuery(DatabaseConnector):
         As a convention, if both the job_config and keyword arguments specify a value,
         we defer to the job_config.
 
-        `Args`:
+        Args:
             job_config: `LoadJobConfig`
                 Optionally supplied GCS `LoadJobConfig` object
 
-        `Returns`:
+        Returns:
             A `LoadJobConfig` object
         """
 
@@ -1657,7 +1657,7 @@ class GoogleBigQuery(DatabaseConnector):
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
 
-        `Args`:
+        Args:
             dataset: str
                 The BigQuery dataset containing the table.
             table_name: str
@@ -1718,7 +1718,7 @@ class GoogleBigQuery(DatabaseConnector):
         If the target table exists, the flag if_table_exists controls behavior.
             It defaults to 'fail'; set it to 'overwrite' if it's ok to overwrite an existing table.
 
-        `Args`:
+        Args:
             source_project: str
                 Name of source project
             source_dataset: str
@@ -1736,7 +1736,7 @@ class GoogleBigQuery(DatabaseConnector):
             if_table_exists: str
                 Action if table exists {'fail', 'overwrite'}
 
-        `Returns:`
+        Returns:
             None
         """
 

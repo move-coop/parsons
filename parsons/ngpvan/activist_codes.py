@@ -16,7 +16,7 @@ class ActivistCodes:
         """
         Get activist codes.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -29,10 +29,10 @@ class ActivistCodes:
         """
         Get an activist code.
 
-        `Args:`
+        Args:
             activist_code_id : int
                 The activist code id.
-        `Returns:`
+        Returns:
             dict
                 The activist code
         """
@@ -66,7 +66,7 @@ class ActivistCodes:
         """
         Apply an activist code to or from a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             activist_code_id: int
@@ -91,7 +91,7 @@ class ActivistCodes:
         """
         Remove an activist code to or from a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             activist_code_id: int

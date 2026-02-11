@@ -15,7 +15,7 @@ API_URL = "https://actionnetwork.org/api/v2"
 
 class ActionNetwork:
     """
-    `Args:`
+    Args:
         api_token: str
             The OSDI API token
     """
@@ -63,7 +63,7 @@ class ActionNetwork:
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -74,9 +74,9 @@ class ActionNetwork:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with all of the advocacy_campaigns (letters) entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/advocacy_campaigns
         """
         if page:
@@ -85,12 +85,12 @@ class ActionNetwork:
 
     def get_advocacy_campaign(self, advocacy_campaign_id):
         """
-        `Args:`
+        Args:
             advocacy_campaign_id:
                The unique id of the advocacy_campaign
-        `Returns:`
+        Returns:
             A  JSON with advocacy_campaign entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/advocacy_campaigns
         """
         return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
@@ -98,7 +98,7 @@ class ActionNetwork:
     # Attendances
     def get_person_attendances(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             limit:
@@ -110,9 +110,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the attendances entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         if page:
@@ -121,7 +121,7 @@ class ActionNetwork:
 
     def get_event_attendances(self, event_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             event_id: the unique id of the event
             limit:
                The number of entries to return. When None, returns all entries.
@@ -132,9 +132,9 @@ class ActionNetwork:
            filter
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with the attendances entries related to the event
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         if page:
@@ -143,35 +143,35 @@ class ActionNetwork:
 
     def get_event_attendance(self, event_id, attendance_id):
         """
-        `Args:`
+        Args:
             event_id:
                The unique id of the event
             attendance_id:
                The unique id of the attendance
-        `Returns:`
+        Returns:
             A  JSON with the attendance entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         return self.api.get_request(f"events/{event_id}/attendances/{attendance_id}")
 
     def get_person_attendance(self, person_id, attendance_id):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             attendance_id:
                The unique id of the attendance
-        `Returns:`
+        Returns:
             A  JSON with the attendance entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         return self.api.get_request(f"people/{person_id}/attendances/{attendance_id}")
 
     def create_attendance(self, event_id, payload):
         """
-        `Args:`
+        Args:
             event_id: the unique id of the event
             payload: the payload for creating the event attendance
                 {
@@ -179,16 +179,16 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
-        `Returns:`
+        Returns:
             A JSON response after creating the event attendance
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         return self.api.post_request(f"events/{event_id}/attendances", payload)
 
     def update_attendance(self, event_id, attendance_id, payload):
         """
-        `Args:`
+        Args:
             event_id:
                The unique id of the event
             attendance_id:
@@ -200,9 +200,9 @@ class ActionNetwork:
                        "other-system:230125a"
                    ]
                }
-        `Returns:`
+        Returns:
             A JSON response after updating the event attendance
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
         """
         return self.api.put_request(f"events/{event_id}/attendances/{attendance_id}", payload)
@@ -210,7 +210,7 @@ class ActionNetwork:
     # Campaigns
     def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -220,9 +220,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all of the campaigns entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/campaigns
         """
         if page:
@@ -231,12 +231,12 @@ class ActionNetwork:
 
     def get_campaign(self, campaign_id):
         """
-        `Args:`
+        Args:
             campaign_id:
                The unique id of the campaign
-        `Returns:`
+        Returns:
             A  JSON with the campaign entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/campaigns
         """
         return self.api.get_request(f"campaigns/{campaign_id}")
@@ -244,11 +244,11 @@ class ActionNetwork:
     # Custom Fields
     def get_custom_fields(self):
         """
-        `Args:`
+        Args:
             None
-        `Returns:`
+        Returns:
             A  JSON with the custom_fields associated with your API key.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/custom_fields
         """
         return self.api.get_request("metadata/custom_fields")
@@ -256,18 +256,18 @@ class ActionNetwork:
     # Donations
     def get_donation(self, donation_id):
         """
-        `Args:`
+        Args:
             donation_id: The unique id of the donation
-        `Returns:`
+        Returns:
             A  JSON with donation data
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
         """
         return self.api.get_request(url=f"donations/{donation_id}")
 
     def get_donations(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
              limit:
                 The number of entries to return. When None, returns all entries.
             per_page:
@@ -277,9 +277,9 @@ class ActionNetwork:
             filter:
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the donations entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
         """
         if page:
@@ -290,7 +290,7 @@ class ActionNetwork:
         self, fundraising_page_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
-        `Args:`
+        Args:
              fundraising_page_id: The id of the fundraiser
              limit:
                 The number of entries to return. When None, returns all entries.
@@ -302,9 +302,9 @@ class ActionNetwork:
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with fundraising_page entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
         """
         if page:
@@ -323,7 +323,7 @@ class ActionNetwork:
 
     def get_person_donations(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
              person_id: The id of the person
              limit:
                 The number of entries to return. When None, returns all entries.
@@ -335,9 +335,9 @@ class ActionNetwork:
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with all donations related to person
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
         """
         if page:
@@ -356,7 +356,7 @@ class ActionNetwork:
 
     def create_donation(self, fundraising_page_id, donation_payload):
         """
-        `Args:`
+        Args:
             fundraising_page_id: The id of the fundraising page
             donation_payload: The payload containing donation details
                 {
@@ -371,9 +371,9 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "link" }
                     }
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the donation
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
         """
         return self.api.post_request(
@@ -383,14 +383,14 @@ class ActionNetwork:
     # Embeds
     def get_embeds(self, action_type, action_id):
         """
-        `Args:`
+        Args:
             action_type:
               The action type (petition, events, etc.)
             action_id:
               The unique id of the action
-        `Returns:`
+        Returns:
             A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/embeds
         """
         return self.api.get_request(f"{action_type}/{action_id}/embed")
@@ -398,7 +398,7 @@ class ActionNetwork:
     # Event Campaigns
     def get_event_campaigns(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -408,9 +408,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the event_campaigns entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
         if page:
@@ -419,34 +419,34 @@ class ActionNetwork:
 
     def get_event_campaign(self, event_campaign_id):
         """
-        `Args:`
+        Args:
             event_campaign_id:
                The unique id of the event_campaign
-        `Returns:`
+        Returns:
             A  JSON with event_campaign entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
         return self.api.get_request(f"event_campaigns/{event_campaign_id}")
 
     def create_event_campaign(self, payload):
         """
-        `Args:`
+        Args:
             payload: The payload containing event campaign details
                 {
                     "title": "My Canvassing Event",
                     "origin_system": "CanvassingEvents.com"
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the event campaign
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
         return self.api.post_request("event_campaigns", payload)
 
     def create_event_in_event_campaign(self, event_campaign_id, payload):
         """
-        `Args:`
+        Args:
             event_campaign_id:
                The unique id of the event_campaign
             payload:
@@ -455,16 +455,16 @@ class ActionNetwork:
                    "title": "My Free Event",
                    "origin_system": "FreeEvents.com"
                }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the event in the event campaign
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
         return self.api.post_request(f"event_campaigns/{event_campaign_id}/events", payload)
 
     def update_event_campaign(self, event_campaign_id, payload):
         """
-        `Args:`
+        Args:
             event_campaign_id:
                The unique id of the event_campaign
             payload:
@@ -472,9 +472,9 @@ class ActionNetwork:
                {
                    "description": "This is my new event campaign description"
                }
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the event campaign
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
         """
         return self.api.put_request(f"event_campaigns/{event_campaign_id}", payload)
@@ -482,7 +482,7 @@ class ActionNetwork:
     # Events
     def get_events(self, limit=None, per_page=25, page=None, filter=None):
         """
-         `Args:`
+         Args:
         limit:
             The number of entries to return. When None, returns all entries.
         per_page
@@ -492,9 +492,9 @@ class ActionNetwork:
         filter
             The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
             When None, no filter is applied.
-         `Returns:`
+         Returns:
              A  JSON with all the events entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/events
         """
         if page:
@@ -503,11 +503,11 @@ class ActionNetwork:
 
     def get_event(self, event_id):
         """
-        `Args:`
+        Args:
             event_id: the unique id of the event
-        `Returns:`
+        Returns:
             A  JSON with event entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/events
         """
         return self.api.get_request(f"events/{event_id}")
@@ -516,7 +516,7 @@ class ActionNetwork:
         self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
-        `Args:`
+        Args:
             event_campaign_id:
                The unique id of the event_campaign
             limit:
@@ -528,9 +528,9 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the eventes related to the event_campaign entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/events
         """
         if page:
@@ -545,7 +545,7 @@ class ActionNetwork:
         """
         Create an event in Action Network
 
-        `Args:`
+        Args:
             title: str
                 The public title of the event
             start_date: str OR datetime
@@ -568,9 +568,9 @@ class ActionNetwork:
                         "country": "US"
                     }
 
-        `Returns:`
+        Returns:
             Dict of Action Network Event data.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/events
         """
 
@@ -594,7 +594,7 @@ class ActionNetwork:
         """
         Update an event in Action Network
 
-        `Args:`
+        Args:
             event_id: str
                 The unique id of the event
             payload: dict
@@ -604,9 +604,9 @@ class ActionNetwork:
                     "description": "This is my free event description"
                 }
 
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the event
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/events
         """
         return self.api.put_request(f"events/{event_id}", payload)
@@ -614,7 +614,7 @@ class ActionNetwork:
     # Forms
     def get_forms(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
              limit:
                 The number of entries to return. When None, returns all entries.
             per_page
@@ -624,9 +624,9 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the forms entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
         """
         if page:
@@ -635,12 +635,12 @@ class ActionNetwork:
 
     def get_form(self, form_id):
         """
-        `Args:`
+        Args:
             form_id:
                The unique id of the form
-        `Returns:`
+        Returns:
             A  JSON with form entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
         """
         return self.api.get_request(f"forms/{form_id}")
@@ -649,7 +649,7 @@ class ActionNetwork:
         """
         Create a form in Action Network
 
-        `Args:`
+        Args:
             payload: dict
                 The payload containing form details
 
@@ -658,9 +658,9 @@ class ActionNetwork:
                     "origin_system": "FreeForms.com"
                 }
 
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the form
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
         """
         return self.api.post_request("forms", payload)
@@ -669,7 +669,7 @@ class ActionNetwork:
         """
         Update a form in Action Network
 
-        `Args:`
+        Args:
             form_id:
                 The unique id of the form
             payload: dict
@@ -680,9 +680,9 @@ class ActionNetwork:
                     "origin_system": "FreeForms.com"
                 }
 
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the form
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
         """
         return self.api.put_request(f"forms/{form_id}", payload)
@@ -690,18 +690,18 @@ class ActionNetwork:
     # Fundraising Pages
     def get_fundraising_page(self, fundraising_page_id):
         """
-        `Args:`
+        Args:
             fundraising_page_id: The id of the fundraiser
-        `Returns:`
+        Returns:
             A  JSON with fundraising_page entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
         """
         return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
 
     def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
              limit:
                 The number of entries to return. When None, returns all entries.
             per_page
@@ -712,9 +712,9 @@ class ActionNetwork:
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with all the fundraising_pages entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
         """
         if page:
@@ -728,16 +728,16 @@ class ActionNetwork:
         """
         Create a fundraising page in Action Network
 
-        `Args:`
+        Args:
             payload: dict
                 The payload containing fundraising page details
                 {
                     "title": "My Free Fundraiser",
                     "origin_system": "FreeFundraisers.com"
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the fundraising page
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
         """
         return self.api.post_request("fundraising_pages", payload)
@@ -746,7 +746,7 @@ class ActionNetwork:
         """
         Update a fundraising page in Action Network
 
-        `Args:`
+        Args:
             fundraising_page_id: The id of the fundraiser
             payload: dict
                 The payload containing updated fundraising page details
@@ -754,9 +754,9 @@ class ActionNetwork:
                     "title": "My Free Fundraiser",
                     "origin_system": "FreeFundraisers.com"
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the fundraising page
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
         """
         return self.api.put_request(f"fundraising_pages/{fundraising_page_id}", payload)
@@ -764,7 +764,7 @@ class ActionNetwork:
     # Items
     def get_items(self, list_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             list_id:
                 The unique id of the list
             limit:
@@ -776,9 +776,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the list item entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/items
         """
         if page:
@@ -787,14 +787,14 @@ class ActionNetwork:
 
     def get_item(self, list_id, item_id):
         """
-        `Args:`
+        Args:
            list_id:
               The unique id of the list
             item_id:
               The unique id of the item
-        `Returns:`
+        Returns:
             A  JSON with the item entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/items
         """
         return self.api.get_request(f"lists/{list_id}/items/{item_id}")
@@ -802,7 +802,7 @@ class ActionNetwork:
     # Lists
     def get_lists(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -814,9 +814,9 @@ class ActionNetwork:
                When None, no filter is applied.
 
 
-        `Returns:`
+        Returns:
             A  JSON with all the list entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/lists
         """
         if page:
@@ -825,12 +825,12 @@ class ActionNetwork:
 
     def get_list(self, list_id):
         """
-        `Args:`
+        Args:
            list_id:
               The unique id of the list
-        `Returns:`
+        Returns:
             A  JSON with the list entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/lists
         """
         return self.api.get_request(f"lists/{list_id}")
@@ -840,7 +840,7 @@ class ActionNetwork:
         self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False
     ):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -853,9 +853,9 @@ class ActionNetwork:
            unpack_statistics:
                Whether to unpack the statistics dictionary into the table. Default to False.
 
-        `Returns:`
+        Returns:
             A Parsons Table with all the messages related entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
         """
         if page:
@@ -868,12 +868,12 @@ class ActionNetwork:
 
     def get_message(self, message_id):
         """
-        `Args:`
+        Args:
             message_id:
                The unique id of the message
-        `Returns:`
+        Returns:
             A  JSON with the signature entry.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
         """
         return self.api.get_request(f"messages/{message_id}")
@@ -882,7 +882,7 @@ class ActionNetwork:
         """
         Create a message in Action Network
 
-        `Args:`
+        Args:
             payload: dict
                 The payload containing message details
                 {
@@ -901,9 +901,9 @@ class ActionNetwork:
                     }
                   }
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the message
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
         """
         return self.api.post_request("messages", json=payload)
@@ -912,7 +912,7 @@ class ActionNetwork:
         """
         Update a message in Action Network
 
-        `Args:`
+        Args:
             message_id:
                The unique id of the message
             payload: dict
@@ -921,9 +921,9 @@ class ActionNetwork:
                     "name": "Stop doing the bad thing email send 1",
                     "subject": "Please! Stop doing the bad thing"
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the message
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
         """
         return self.api.put_request(f"messages/{message_id}", json=payload)
@@ -932,15 +932,15 @@ class ActionNetwork:
         """
         Schedule a message in Action Network
 
-        `Args:`
+        Args:
             message_id:
                The unique id of the message
             scheduled_start_date:
                 The UTC timestamp to schedule the message at in ISO8601 format.
                 e.g. "2015-03-14T12:00:00Z"
-        `Returns:`
+        Returns:
             A JSON response confirming the scheduling
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/schedule_helper
         """
         return self.api.post_request(
@@ -952,12 +952,12 @@ class ActionNetwork:
         """
         Send a message in Action Network
 
-        `Args:`
+        Args:
             message_id:
                The unique id of the message
-        `Returns:`
+        Returns:
             A JSON response confirming the message was sent
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/send_helper
         """
         return self.api.post_request(f"messages/{message_id}/send/", {})
@@ -965,11 +965,11 @@ class ActionNetwork:
     # Metadata
     def get_metadata(self):
         """
-        `Args:`
+        Args:
            None
-        `Returns:`
+        Returns:
             A  JSON with the metadata entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/metadata
         """
         return self.api.get_request("metadata")
@@ -979,7 +979,7 @@ class ActionNetwork:
         self, advocacy_campaign_id, limit=None, per_page=25, page=None, filter=None
     ):
         """
-        `Args:`
+        Args:
             advocacy_campaign_id:
                The unique id of the advocacy_campaign
             limit:
@@ -992,9 +992,9 @@ class ActionNetwork:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
 
-        `Returns:`
+        Returns:
            A  JSON with all the outreaches entries related to the advocacy_campaign_id
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         if page:
@@ -1013,7 +1013,7 @@ class ActionNetwork:
 
     def get_person_outreaches(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             limit:
@@ -1026,9 +1026,9 @@ class ActionNetwork:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with all the outreaches entries related to our group
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         if page:
@@ -1037,14 +1037,14 @@ class ActionNetwork:
 
     def get_advocacy_campaign_outreach(self, advocacy_campaign_id, outreach_id):
         """
-        `Args:`
+        Args:
             advocacy_campaign_id:
                The unique id of the campaign
             outreach_id:
                The unique id of the outreach
-        `Returns:`
+        Returns:
             A  JSON with the outreach entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         return self.api.get_request(
@@ -1053,14 +1053,14 @@ class ActionNetwork:
 
     def get_person_outreach(self, person_id, outreach_id):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the campaign
             outreach_id:
                The unique id of the outreach
-        `Returns:`
+        Returns:
             A  JSON with the outreach entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         return self.api.get_request(f"people/{person_id}/outreaches/{outreach_id}")
@@ -1069,7 +1069,7 @@ class ActionNetwork:
         """
         Create an outreach in Action Network
 
-        `Args:`
+        Args:
             advocacy_campaign_id:
                 The unique id of the campaign
             payload:
@@ -1085,9 +1085,9 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the creation of the outreach
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         return self.api.post_request(
@@ -1098,7 +1098,7 @@ class ActionNetwork:
         """
         Update an outreach in Action Network
 
-        `Args:`
+        Args:
             advocacy_campaign_id:
                 The unique id of the campaign
             outreach_id:
@@ -1108,9 +1108,9 @@ class ActionNetwork:
                 {
                     "subject": "Please vote no!"
                 }
-        `Returns:`
+        Returns:
             A JSON response confirming the update of the outreach
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
         """
         return self.api.put_request(
@@ -1121,7 +1121,7 @@ class ActionNetwork:
     # People
     def get_people(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                 The number of entries to return. When None, returns all entries.
             per_page
@@ -1131,9 +1131,9 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
+        Returns:
             A list of JSONs of people stored in Action Network.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/people
         """
         if page:
@@ -1142,13 +1142,13 @@ class ActionNetwork:
 
     def get_person(self, person_id):
         """
-        `Args:`
+        Args:
             person_id:
                 Id of the person.
-        `Returns:`
+        Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             ``{'error': 'Couldn't find person with id = <id>'}``.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/people
         """
         return self.api.get_request(url=f"people/{person_id}")
@@ -1176,7 +1176,7 @@ class ActionNetwork:
         they are not globally unique. ActionNetwork support strongly
         encourages developers not to use custom identifiers.
 
-        `Args:`
+        Args:
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following
                     - a string with the person's email
@@ -1229,7 +1229,7 @@ class ActionNetwork:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
         Adds a person to Action Network
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/people
         """
         email_addresses_field = None
@@ -1354,7 +1354,7 @@ class ActionNetwork:
         Updates a person's data in Action Network, given their Action Network ID. Note that you
         can't alter a person's tags with this method. Instead, use upsert_person.
 
-        `Args:`
+        Args:
             entry_id:
                 The person's Action Network id
             background_processing: bool
@@ -1390,7 +1390,7 @@ class ActionNetwork:
                         https://actionnetwork.org/docs/v2/people#put
                     custom_fields:
                         A dictionary of any other fields to store about the person.
-                    `Documentation Reference`:
+                    Documentation Reference:
                         https://actionnetwork.org/docs/v2/people
         """
         data = {**kwargs}
@@ -1408,7 +1408,7 @@ class ActionNetwork:
     # Petitions
     def get_petitions(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -1418,9 +1418,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all of the petitions entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
         """
         if page:
@@ -1429,12 +1429,12 @@ class ActionNetwork:
 
     def get_petition(self, petition_id):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition
-        `Returns:`
+        Returns:
             A  JSON with the petition entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
         """
         return self.api.get_request(f"petitions/{petition_id}")
@@ -1443,7 +1443,7 @@ class ActionNetwork:
         self, title, description, petition_text, target, background_processing=False
     ):
         """
-        `Args:`
+        Args:
             title:
                The title of the petition
             description:
@@ -1454,9 +1454,9 @@ class ActionNetwork:
                The target of the petition
             background_processing:
                Whether to process the request in the background
-        `Returns:`
+        Returns:
             A JSON with the response from the API
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
         """
         data = {
@@ -1485,7 +1485,7 @@ class ActionNetwork:
         background_processing=False,
     ):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition to be updated
             title:
@@ -1498,9 +1498,9 @@ class ActionNetwork:
                The updated target of the petition
             background_processing:
                Whether to process the request in the background
-        `Returns:`
+        Returns:
             A JSON with the response from the API
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
         """
         data = {
@@ -1522,7 +1522,7 @@ class ActionNetwork:
     # Queries
     def get_queries(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -1534,9 +1534,9 @@ class ActionNetwork:
                When None, no filter is applied.
 
 
-        `Returns:`
+        Returns:
             A  JSON with all the query entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/queries
         """
         if page:
@@ -1545,12 +1545,12 @@ class ActionNetwork:
 
     def get_query(self, query_id):
         """
-        `Args:`
+        Args:
            query_id:
               The unique id of the query
-        `Returns:`
+        Returns:
             A  JSON with the query entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/queries
         """
         return self.api.get_request(f"queries/{query_id}")
@@ -1558,7 +1558,7 @@ class ActionNetwork:
     # Signatures
     def get_petition_signatures(self, petition_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition
             limit:
@@ -1570,9 +1570,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the signatures related to the petition entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         if page:
@@ -1581,7 +1581,7 @@ class ActionNetwork:
 
     def get_person_signatures(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             limit:
@@ -1595,9 +1595,9 @@ class ActionNetwork:
                When None, no filter is applied.
 
 
-        `Returns:`
+        Returns:
             A  JSON with all the signatures related to the petition entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         if page:
@@ -1606,35 +1606,35 @@ class ActionNetwork:
 
     def get_petition_signature(self, petition_id, signature_id):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition
             signature_id:
                The unique id of the signature
-        `Returns:`
+        Returns:
             A  JSON with the signature entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
 
     def get_person_signature(self, person_id, signature_id):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             signature_id:
                The unique id of the signature
-        `Returns:`
+        Returns:
             A  JSON with the signature entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")
 
     def create_signature(self, petition_id, data):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition
             data:
@@ -1645,16 +1645,16 @@ class ActionNetwork:
                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                    }
                }
-        `Returns:`
+        Returns:
             A JSON with the created signature entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         return self.api.post_request(f"petitions/{petition_id}/signatures", data)
 
     def update_signature(self, petition_id, signature_id, data):
         """
-        `Args:`
+        Args:
             petition_id:
                The unique id of the petition
             signature_id:
@@ -1664,9 +1664,9 @@ class ActionNetwork:
                {
                    "comments": "Some new comments"
                }
-        `Returns:`
+        Returns:
             A JSON with the updated signature entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
         """
         return self.api.put_request(f"petitions/{petition_id}/signatures/{signature_id}", data)
@@ -1674,7 +1674,7 @@ class ActionNetwork:
     # Submissions
     def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             form_id:
                The unique id of the form
             limit:
@@ -1687,9 +1687,9 @@ class ActionNetwork:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
 
-        `Returns:`
+        Returns:
             A  JSON with all the submissions entries related to the form
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         if page:
@@ -1698,7 +1698,7 @@ class ActionNetwork:
 
     def get_person_submissions(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the person
             limit:
@@ -1710,9 +1710,9 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
-        `Returns:`
+        Returns:
             A  JSON with all the submissions entries related with our group
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         if page:
@@ -1721,42 +1721,42 @@ class ActionNetwork:
 
     def get_form_submission(self, form_id, submission_id):
         """
-        `Args:`
+        Args:
             form_id:
                The unique id of the form
             submission_id:
                The unique id of the submission
-        `Returns:`
+        Returns:
             A  JSON with the submission entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         return self.api.get_request(f"forms/{form_id}/submissions/{submission_id}")
 
     def get_person_submission(self, person_id, submission_id):
         """
-        `Args:`
+        Args:
             person_id:
                The unique id of the submission
             submission_id:
                The unique id of the submission
-        `Returns:`
+        Returns:
             A  JSON with the submission entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         return self.api.get_request(f"people/{person_id}/submissions/{submission_id}")
 
     def create_submission(self, form_id, person_id):
         """
-        `Args:`
+        Args:
             form_id:
                 The unique id of the form
             person_id:
                 The unique id of the person
-        `Returns:`
+        Returns:
             A JSON response indicating the success or failure of the submission creation
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         payload = {
@@ -1768,7 +1768,7 @@ class ActionNetwork:
 
     def update_submission(self, form_id, submission_id, data):
         """
-        `Args:`
+        Args:
             form_id:
                 The unique id of the form
             submission_id:
@@ -1780,9 +1780,9 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
-        `Returns:`
+        Returns:
             A JSON with the updated submission entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
         """
         return self.api.put_request(
@@ -1795,12 +1795,12 @@ class ActionNetwork:
         Survey resources are sometimes presented as collections of surveys.
         For example, calling the surveys endpoint will return a collection
         of all the surveys associated with your API key.
-        `Args:`
+        Args:
             limit:
                 The number of entries to return. When None, returns all entries.
             per_page:
                 The number of entries per page to return. 25 maximum.
-        `Returns:`
+        Returns:
         """
         if page:
             return self._get_page("surveys", page, per_page, filter)
@@ -1808,19 +1808,19 @@ class ActionNetwork:
 
     def get_survey(self, survey_id):
         """
-        `Args:`
+        Args:
             survey_id:
                 The unique id of the survey
-        `Returns:`
+        Returns:
             A JSON with the survey entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
         """
         return self.api.get_request(f"surveys/{survey_id}")
 
     def create_survey(self, data):
         """
-        `Args:`
+        Args:
             data:
                 The payload for creating the survey
                 {
@@ -1838,16 +1838,16 @@ class ActionNetwork:
                             }
                     }
                 }
-        `Returns:`
+        Returns:
             A JSON with the created survey entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
         """
         return self.api.post_request("surveys", data=json.dumps(data))
 
     def update_survey(self, survey_id, data):
         """
-        `Args:`
+        Args:
             survey_id:
                 The unique id of the survey
             data:
@@ -1856,9 +1856,9 @@ class ActionNetwork:
                     "title": "My Free Survey",
                     "origin_system": "FreeSurveys.com",
                 }
-        `Returns:`
+        Returns:
             A JSON with the updated survey entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
         """
         return self.api.post_request(f"surveys/{survey_id}", data=json.dumps(data))
@@ -1866,14 +1866,14 @@ class ActionNetwork:
     # Tags
     def get_tags(self, limit=None, per_page=None):
         """
-        `Args:`
+        Args:
             limit:
                 The number of entries to return. When None, returns all entries.
             per_page:
                 This is a deprecated argument.
-        `Returns:`
+        Returns:
             A list of JSONs of tags in Action Network.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
         """
         if per_page:
@@ -1886,24 +1886,24 @@ class ActionNetwork:
 
     def get_tag(self, tag_id):
         """
-        `Args:`
+        Args:
             tag_id:
                 Id of the tag.
-        `Returns:`
+        Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             "{'error': 'Couldn't find tag with id = <id>'}"
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
         """
         return self.api.get_request(url=f"tags/{tag_id}")
 
     def add_tag(self, name):
         """
-        `Args:`
+        Args:
             name:
                 The tag's name. This is the ONLY editable field
         Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
         """
         data = {"name": name}
@@ -1918,7 +1918,7 @@ class ActionNetwork:
     # Taggings
     def get_taggings(self, tag_id, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             tag_id:
                 The unique id of the tag
             limit:
@@ -1932,9 +1932,9 @@ class ActionNetwork:
                When None, no filter is applied.
 
 
-        `Returns:`
+        Returns:
             A  JSON with all the tagging entries associated with the tag_id
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
         """
         if page:
@@ -1943,21 +1943,21 @@ class ActionNetwork:
 
     def get_tagging(self, tag_id, tagging_id):
         """
-        `Args:`
+        Args:
            tag_id:
               The unique id of the tag
            tagging_id:
               The unique id of the tagging
-        `Returns:`
+        Returns:
             A  JSON with the tagging entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
         """
         return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
 
     def create_tagging(self, tag_id, payload, background_processing=False):
         """
-        `Args:`
+        Args:
             tag_id:
                 The unique id of the tag
             payload:
@@ -1972,9 +1972,9 @@ class ActionNetwork:
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
-        `Returns:`
+        Returns:
             A JSON response after creating the tagging
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
         """
         url = f"tags/{tag_id}/taggings"
@@ -1984,7 +1984,7 @@ class ActionNetwork:
 
     def delete_tagging(self, tag_id, tagging_id, background_processing=False):
         """
-        `Args:`
+        Args:
             tag_id:
                 The unique id of the tag
             tagging_id:
@@ -1994,9 +1994,9 @@ class ActionNetwork:
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
-        `Returns:`
+        Returns:
             A JSON response after deleting the tagging
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
         """
         url = f"tags/{tag_id}/taggings/{tagging_id}"
@@ -2007,7 +2007,7 @@ class ActionNetwork:
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
         """
-        `Args:`
+        Args:
             limit:
                The number of entries to return. When None, returns all entries.
            per_page:
@@ -2019,9 +2019,9 @@ class ActionNetwork:
                When None, no filter is applied.
 
 
-        `Returns:`
+        Returns:
             A  JSON with all the wrapper entries
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/wrappers
         """
         if page:
@@ -2030,14 +2030,14 @@ class ActionNetwork:
 
     def get_wrapper(self, wrapper_id):
         """
-        `Args:`
+        Args:
            wrapper_id:
               The unique id of the wrapper
            tagging_id:
               The unique id of the tagging
-        `Returns:`
+        Returns:
             A  JSON with the wrapper entry
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/wrappers
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
@@ -2062,26 +2062,26 @@ class ActionNetwork:
 
     def get_unique_id_list(self, unique_id_list_id):
         """
-        `Args:`
+        Args:
             unique_id_list_id:
                 The unique id of the unique ID list
-        `Returns:`
+        Returns:
             A JSON response with the unique ID list details
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/unique_id_lists
         """
         return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
 
     def create_unique_id_list(self, list_name, unique_ids):
         """
-        `Args:`
+        Args:
             list_name:
                 The name for the new list
             unique_ids:
                 An array of unique IDs to upload
-        `Returns:`
+        Returns:
             A JSON response with the unique ID list details
-        `Documentation Reference`:
+        Documentation Reference:
             https://actionnetwork.org/docs/v2/unique_id_lists
         """
         return self.api.post_request(

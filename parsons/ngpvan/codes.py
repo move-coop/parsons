@@ -15,7 +15,7 @@ class Codes:
         """
         Get codes.
 
-        `Args:`
+        Args:
             name : str
                 Filter by name of code.
             supported_entities: str
@@ -24,7 +24,7 @@ class Codes:
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -45,10 +45,10 @@ class Codes:
         """
         Get a code.
 
-        `Args:`
+        Args:
             code_id : int
                 The code id.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -62,7 +62,7 @@ class Codes:
         """
         Get code types.
 
-        `Returns:`
+        Returns:
             list
                 A list of code types.
         """
@@ -82,7 +82,7 @@ class Codes:
         """
         Create a code.
 
-        `Args:`
+        Args:
             name: str
                 The name of the code.
             parent_code_id: int
@@ -147,7 +147,7 @@ class Codes:
         """
         Update a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
             name: str
@@ -209,10 +209,10 @@ class Codes:
         """
         Delete a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -224,7 +224,7 @@ class Codes:
         """
         Get code supported entities.
 
-        `Returns:`
+        Returns:
             list
                 A list of code supported entities.
         """

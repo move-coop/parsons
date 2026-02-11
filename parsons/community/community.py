@@ -13,7 +13,7 @@ class Community:
     """
     Instantiate class.
 
-       `Args:`
+       Args:
             community_client_id: str
                 The Community provided Client ID. Not required if ``COMMUNITY_CLIENT_ID`` env
                 variable set.
@@ -49,7 +49,7 @@ class Community:
         """
         GET request to Community.com API to get the CSV data.
 
-        `Args:`
+        Args:
             filename: str
                 Data filename you are requesting.
                 Options:
@@ -62,7 +62,7 @@ class Community:
                     'communities': Communities data
                     'member_communities': Member Communities data
 
-        `Returns:`
+        Returns:
             Response of GET request; a successful response returns the CSV formatted data
         """
 
@@ -79,7 +79,7 @@ class Community:
         """
         Get specified data from Community.com API as Parsons table.
 
-        `Args:`
+        Args:
             filename: str
                 Data filename you are requesting.
                 Options:
@@ -92,7 +92,7 @@ class Community:
                     'communities': Communities data
                     'member_communities': Member Communities data
 
-        `Returns:`
+        Returns:
             Contents of the generated contribution CSV as a Parsons table.
         """
 

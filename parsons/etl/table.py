@@ -35,7 +35,7 @@ class Table(ETL, ToFrom):
     - A list of dicts
     - A petl table
 
-    `Args:`
+    Args:
         lst: list
             See above for accepted list formats
         source: str
@@ -125,7 +125,7 @@ class Table(ETL, ToFrom):
     @property
     def num_rows(self):
         """
-        `Returns:`
+        Returns:
             int
                 Number of rows in the table
         """
@@ -145,7 +145,7 @@ class Table(ETL, ToFrom):
     @property
     def columns(self):
         """
-        `Returns:`
+        Returns:
             list
                 List of the table's column names
         """
@@ -169,9 +169,9 @@ class Table(ETL, ToFrom):
         """
         Returns a row in table
 
-        `Args:`
+        Args:
             row_index: int
-        `Returns:`
+        Returns:
             dict
                 A dictionary of the row with the column as the key and the cell
                 as the value.
@@ -195,10 +195,10 @@ class Table(ETL, ToFrom):
         """
         Returns the data in the column as a list.
 
-        `Args:`
+        Args:
             column_name: str
                 The name of the column
-        `Returns`:
+        Returns:
             list
                 A list of data in the column.
         """
@@ -229,11 +229,11 @@ class Table(ETL, ToFrom):
 
         This method updates the current table in place.
 
-        `Args:`
+        Args:
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
-        `Returns:`
+        Returns:
             str
                 Path to the temp file that now contains the table
         """
@@ -258,7 +258,7 @@ class Table(ETL, ToFrom):
         Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
         table within the Parsons Table.
 
-        `Returns:`
+        Returns:
             bool
         """
 
@@ -277,10 +277,10 @@ class Table(ETL, ToFrom):
         Checks if a given column is empty. Returns ``True`` if empty and ``False``
         if not empty.
 
-        `Args:`
+        Args:
             column: str
                 The column name
-        `Returns:`
+        Returns:
             bool
         """
 

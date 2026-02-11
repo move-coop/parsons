@@ -15,7 +15,7 @@ class SupporterGroups:
         """
         Get supporter groups.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -28,10 +28,10 @@ class SupporterGroups:
         """
         Get a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id.
-        `Returns:`
+        Returns:
             dict
         """
 
@@ -43,7 +43,7 @@ class SupporterGroups:
         """
         Create a new supporter group.
 
-        `Args:`
+        Args:
             name: str
                 The name of the supporter group. 100 character limit
             description: str
@@ -61,10 +61,10 @@ class SupporterGroups:
         """
         Delete a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -76,12 +76,12 @@ class SupporterGroups:
         """
         Add a person to a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -93,12 +93,12 @@ class SupporterGroups:
         """
         Remove a person from a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
-        `Returns:`
+        Returns:
             ``None``
         """
 

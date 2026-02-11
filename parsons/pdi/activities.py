@@ -8,11 +8,11 @@ class Activities:
 
     def get_activities(self, limit: int = None):
         """Get a list of Activities.
-        `Args:`
+        Args:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -21,7 +21,7 @@ class Activities:
     def create_activity(self, activity_name: str, canvassing_shift: bool):
         """
         Create a New Activity
-        `Args:`
+        Args:
             activity_name str: The activity name
             canvassing_shift bool: The canvassing shift
         """
@@ -31,10 +31,10 @@ class Activities:
     def get_activity(self, id: str):
         """
         Get a Activity by id.
-        `Args:`
+        Args:
             id: str
                 The Activity id
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -43,7 +43,7 @@ class Activities:
     def update_activity(self, id: str, activity_name: str, canvassing_shift: str):
         """
         Update an Activity
-        `Args:`
+        Args:
             id: Activity id
             activity_name str: The activity name
             canvassing_shift bool: The canvassing shift

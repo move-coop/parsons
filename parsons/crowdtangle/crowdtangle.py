@@ -17,11 +17,11 @@ class CrowdTangle:
     """
     Instantiate CrowdTangle Class
 
-    `Args:`
+    Args:
         api_key: str
             A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env
             variable set.
-    `Returns:`
+    Returns:
         CrowdTangle Class
     """
 
@@ -111,7 +111,7 @@ class CrowdTangle:
         .. warning::
           Rate limit is 2 calls / minute.
 
-        `Args:`
+        Args:
             start_date: str
                 Filter to the earliest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
@@ -153,7 +153,7 @@ class CrowdTangle:
                 The ``video`` type does not mean all videos, it refers to videos
                 that are not ``native_video``, ``youtube`` or ``vine``.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -184,7 +184,7 @@ class CrowdTangle:
         .. warning::
           Rate limit is 6 calls / minute.
 
-        `Args:`
+        Args:
             start_date: str
                 Filter to the earliest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
@@ -197,7 +197,7 @@ class CrowdTangle:
                 A list of CrowdTangle accountIds to retrieve leaderboard data for.
                 This and ``list_id`` are mutually exclusive; if both are sent, the
                 ``account_ids`` value will be used.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -225,7 +225,7 @@ class CrowdTangle:
         .. warning::
           Rate limit is 2 calls / minute.
 
-        `Args:`
+        Args:
             link: str
                 The link to filter posts to.
             start_date: str
@@ -242,7 +242,7 @@ class CrowdTangle:
             platforms: list
                 Filter by platforms
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """

@@ -22,7 +22,7 @@ class FacebookAds:
     """
     Instantiate the FacebookAds class
 
-    `Args:`
+    Args:
         app_id: str
             A Facebook app ID. Required if env var FB_APP_ID is not populated.
         app_secret: str
@@ -148,11 +148,11 @@ class FacebookAds:
 
         See ``FacebookAds.create_custom_audience`` for more details.
 
-        `Args`:
+        Args:
             users_table: Table
                 The source table for matching
 
-        `Returns:`
+        Returns:
             Table
                 The prepared table
         """
@@ -216,7 +216,7 @@ class FacebookAds:
         """
         Creates a FB custom audience.
 
-        `Args:`
+        Args:
             name: str
                 The name of the custom audience
             data_source: str
@@ -227,7 +227,7 @@ class FacebookAds:
             description: str
                 Optional. The description of the custom audience
 
-        `Returns:`
+        Returns:
             ID of the created audience
         """
 
@@ -248,7 +248,7 @@ class FacebookAds:
         """
         Deletes a FB custom audience.
 
-        `Args:`
+        Args:
             audience_id: str
                 The ID of the custom audience to delete.
         """
@@ -342,7 +342,7 @@ class FacebookAds:
         use "United States" instead of "US" for the "country" field, the API will appear to accept
         it, when in reality it is probably ignoring that field. So read the docs if you're worried.
 
-        `Args:`
+        Args:
             audience_id: str
                 The ID of the custom audience to delete.
             users_table: obj

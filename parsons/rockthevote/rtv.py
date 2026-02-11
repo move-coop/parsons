@@ -43,7 +43,7 @@ class RockTheVote:
     """
     Instantiate the RockTheVote class
 
-    `Args:`
+    Args:
         partner_id: str
             The RockTheVote partner ID for the RTV account.
             Not required if the ``RTV_PARTNER_ID`` environmental variable is set.
@@ -52,7 +52,7 @@ class RockTheVote:
             Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
-    `Returns`:
+    Returns:
         RockTheVote class
     """
 
@@ -69,7 +69,7 @@ class RockTheVote:
         """
         Create a new registration report.
 
-        `Args:`
+        Args:
             before: str
                 Limit to registrations that were started before this date, in
                 ISO format (e.g. 2020-01-01)
@@ -79,7 +79,7 @@ class RockTheVote:
             report_type: str
                 The type of report to create. If left as None, it creates the default report. The
                 ``extended`` report includes additional fields. Currently only accepts ``extended``.
-        `Returns:`
+        Returns:
             int
                 The ID of the created report.
         """
@@ -142,7 +142,7 @@ class RockTheVote:
         """
         Get data from an existing registration report.
 
-        `Args:`
+        Args:
             report_id: int
                 The ID of the report to get data from
             block: bool
@@ -151,7 +151,7 @@ class RockTheVote:
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int
                 If blocking, how long to wait for the report before timing out
-        `Returns:`
+        Returns:
             Parsons Table
                 Parsons table with the report data.
         """
@@ -235,7 +235,7 @@ class RockTheVote:
         This method will block until the report has finished generating, or until the specified
         timeout is reached.
 
-        `Args:`
+        Args:
             before: str
                 Limit to registrations that were started before this date, in
                 ISO format (e.g. 2020-01-01)
@@ -249,7 +249,7 @@ class RockTheVote:
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int
                 If blocking, how long to wait for the report before timing out
-        `Returns:`
+        Returns:
             Parsons.Table
                 The table with the report data.
         """

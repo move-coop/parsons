@@ -127,7 +127,7 @@ class Redshift(
         any context manager):
         ``with rs.connection() as conn:``
 
-        `Returns:`
+        Returns:
             Psycopg2 ``connection`` object
         """
 
@@ -182,13 +182,13 @@ class Redshift(
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
@@ -203,7 +203,7 @@ class Redshift(
         Useful for batching queries together. Will return ``None`` if the query
         returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -215,7 +215,7 @@ class Redshift(
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -302,7 +302,7 @@ class Redshift(
         """
         Copy a file from s3 to Redshift.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (``tmc.cool_table``) to point the file.
             bucket: str
@@ -503,7 +503,7 @@ class Redshift(
         """
         Copy a :ref:`parsons-table` to Redshift.
 
-        `Args:`
+        Args:
             tbl: obj
                 A Parsons Table.
             table_name: str
@@ -896,7 +896,7 @@ class Redshift(
         AWS keys are not required if ``AWS_ACCESS_KEY_ID`` and
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.
 
-        `Args:`
+        Args:
 
             buckets: list or str
                 A list of buckets or single bucket from which to generate manifest
@@ -914,7 +914,7 @@ class Redshift(
             manifest_key: str
                 Optional key name for S3 bucket to write file
 
-        `Returns:`
+        Returns:
             ``dict`` of manifest
         """
 
@@ -975,7 +975,7 @@ class Redshift(
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
-        `Args:`
+        Args:
             table_obj: obj
                 A Parsons table object
             target_table: str
@@ -1168,12 +1168,12 @@ class Redshift(
         of a Parsons table. The columns are matched by column name and not their
         index.
 
-        `Args:`
+        Args:
             tbl: obj
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
-        `Returns:`
+        Returns:
             ``None``
         """
 

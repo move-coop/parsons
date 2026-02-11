@@ -14,7 +14,7 @@ class Flags:
     def get_flags(self, start_date, end_date, limit=None):
         """Get a list of flags.
 
-        `Args:`
+        Args:
             start_date: str
                 A start date formatted like yyyy-MM-dd.
             end_date: str
@@ -22,7 +22,7 @@ class Flags:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
                 A Parsons table of all the data.
         """
@@ -69,7 +69,7 @@ class Flags:
     def delete_flag(self, id: str):
         """
         Delete a Flag by id.
-        `Args:`
+        Args:
             id: str
                 The Flag id
         """

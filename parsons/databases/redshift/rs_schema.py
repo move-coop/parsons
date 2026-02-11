@@ -9,7 +9,7 @@ class RedshiftSchema:
         Creates a Redshift schema (if it doesn't already exist), and grants usage permissions to
         a Redshift group (if specified).
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             group: str
@@ -28,7 +28,7 @@ class RedshiftSchema:
         """
         Grants a Redshift group permissions to all tables within an existing schema.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             group: str

@@ -14,14 +14,14 @@ class Freshdesk:
     """
     Instantiate Freshdesk class
 
-    `Args:`
+    Args:
         domain: str
             The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
             env variable set.
         api_key: str
             The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
-    `Returns:`
+    Returns:
         Freshdesk class
     """
 
@@ -54,12 +54,12 @@ class Freshdesk:
     def _post_request(self, endpoint, data):
         """
         Send a POST request to the specified Freshdesk endpoint.
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint of the Freshdesk API to which the request is being sent.
             data: dict
                 The data to be sent in the request body.
-        `Returns:`
+        Returns:
             dict
                 The JSON response from the API.
         """
@@ -102,7 +102,7 @@ class Freshdesk:
             the past 30 days are returned. To access additional tickets, utilize the
             ``updated_since`` parameter.
 
-        `Args:`
+        Args:
             ticket_type: str
                 Filter by type of ticket to filter by. Valid fields include ``new_and_my_open``,
                 ``watching``, ``spam`` and ``deleted``.
@@ -116,7 +116,7 @@ class Freshdesk:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -149,7 +149,7 @@ class Freshdesk:
         See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`_
         for more information.
 
-        `Args:`
+        Args:
             email: str
                 Filter by email address.
             mobile: str
@@ -164,7 +164,7 @@ class Freshdesk:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -189,10 +189,10 @@ class Freshdesk:
         See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`_
         for more information.
 
-        `Args:`
+        Args:
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -208,7 +208,7 @@ class Freshdesk:
         See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`_
         for more information.
 
-        `Args:`
+        Args:
             email: str
                 Filter by email address.
             mobile: str
@@ -217,7 +217,7 @@ class Freshdesk:
                 Filter by phone number
             state: str
                 Filter by state
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -236,7 +236,7 @@ class Freshdesk:
     ):
         """
         Create a ticket in Freshdesk.
-        `Args:`
+        Args:
             subject: str
                 The subject of the ticket.
             description: str
@@ -251,7 +251,7 @@ class Freshdesk:
                 List of email addresses to CC.
             custom_fields: dict (optional)
                 Custom fields data.
-        `Returns:`
+        Returns:
             dict
                 JSON response from the API.
         """

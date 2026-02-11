@@ -19,7 +19,7 @@ class Scores:
         """
         Get all scores.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -32,10 +32,10 @@ class Scores:
         """
         Get an individual score.
 
-        `Args:`
+        Args:
             score_id: int
                 The score id
-        `Returns:`
+        Returns:
             dict
         """
 
@@ -47,14 +47,14 @@ class Scores:
         """
         Get score updates.
 
-        `Args:`
+        Args:
             created_before: str
                 Filter score updates to those created before date. Use "YYYY-MM-DD"
                 format.
             created_after: str
                 Filter score updates to those created after date. Use "YYYY-MM-DD"
                 format.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -76,10 +76,10 @@ class Scores:
         """
         Get a score update object
 
-            `Args:`
+            Args:
                 score_update_id : int
                         The score update id
-            `Returns:`
+            Returns:
                 dict
         """
 
@@ -92,12 +92,12 @@ class Scores:
         Change the status of a score update object. This end point is used to
         approve a score loading job.
 
-        `Args:`
+        Args:
             score_update_id: str
                 The score update id
             status: str
                 One of 'pending approval', 'approved', 'disapproved'
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -130,7 +130,7 @@ class Scores:
         Upload scores. Use to create or overwrite scores. Multiple score loads
         should be configured in a single call. [1]_
 
-        `Args:`
+        Args:
             tbl: object
                 A parsons.Table object. The table must contain the scores and first column in the
                 table must contain the primary key (e.g. vanid).
@@ -169,7 +169,7 @@ class Scores:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+        Returns:
             int
                The score load job id.
 
@@ -253,7 +253,7 @@ class FileLoadingJobs:
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.
 
-        `Args:`
+        Args:
             file_name: str
                 The name of the file contained in the zip file.
             file_url: str
@@ -278,7 +278,7 @@ class FileLoadingJobs:
                 The fault tolerance of the VAN calculated average compared to the ``auto_average``.
                 The tolerance must be less than 10% of the difference between the maximum and
                 minimum possible acceptable values of the score.
-        `Returns:`
+        Returns:
             dict
                 The file load id
         """
@@ -346,7 +346,7 @@ class FileLoadingJobs:
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
 
-        `Args:`
+        Args:
             file_name : str
                 The name of the file contained in the zip file.
             file_url : str
@@ -373,7 +373,7 @@ class FileLoadingJobs:
 
             email: str
                 A valid email address in which file loading status will be sent.
-        `Returns:`
+        Returns:
             The file load job id
         """
 

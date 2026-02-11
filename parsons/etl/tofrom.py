@@ -13,7 +13,7 @@ class ToFrom:
         """
         Outputs table as a Pandas Dataframe
 
-        `Args:`
+        Args:
             index: str, list
                 Field of array to use as the index, alternately a specific set
                 of input labels to use
@@ -25,7 +25,7 @@ class ToFrom:
                 columns. Otherwise this argument indicates the order of the
                 columns in the result (any names not found in the data will
                 become all-NA columns)
-        `Returns:`
+        Returns:
             dataframe
                 Pandas DataFrame object
         """
@@ -56,7 +56,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the html locally. If not specified, a temporary file will be
                 created and returned, and that file will be removed automatically when the script
@@ -76,7 +76,7 @@ class ToFrom:
                 Styles to be applied to the table cells.
             truncate: int
                 Length of cell data.
-        `Returns:`
+        Returns:
             str
                 The path of the new file
         """
@@ -115,7 +115,7 @@ class ToFrom:
         Avro is a data serialization framework that is generally is faster
         and safer than text formats like Json, XML or CSV.
 
-        `Args:`
+        Args:
             target: str
                 the file path for creating the avro file.
                 Note that if a file already exists at the given location, it will be
@@ -199,7 +199,7 @@ class ToFrom:
         This method assume that each column has values with the same type
         for all rows of the source `table`.
 
-        `Args:`
+        Args:
             target: str
                 the file path for creating the avro file.
             schema: dict
@@ -236,7 +236,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the csv locally. If it ends in ".gz" or ".zip", the file will be
                 compressed. If not specified, a temporary file will be created and returned,
@@ -258,7 +258,7 @@ class ToFrom:
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the new file
         """
@@ -298,7 +298,7 @@ class ToFrom:
         are passed to ``csv.writer()``. So, e.g., to override the delimiter
         from the default CSV dialect, provide the delimiter keyword argument.
 
-        `Args:`
+        Args:
             local_path: str
                 The local path of an existing CSV file. If it ends in ".gz", the file will
                 be compressed.
@@ -310,7 +310,7 @@ class ToFrom:
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the file
         """
@@ -337,7 +337,7 @@ class ToFrom:
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
 
-        `Args:`
+        Args:
             archive_path: str
                 The path to zip achive. If not specified, a temporary file will be created and
                 returned, and that file will be removed automatically when the script is done
@@ -357,7 +357,7 @@ class ToFrom:
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the archive
         """
@@ -380,7 +380,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the JSON locally. If it ends in ".gz", it will be
                 compressed first. If not specified, a temporary file will be created and returned,
@@ -393,7 +393,7 @@ class ToFrom:
                 Whether the file will be line-delimited JSON (with a row on each line), or a proper
                 JSON file.
 
-        `Returns:`
+        Returns:
             str
                 The path of the new file
         """
@@ -432,7 +432,7 @@ class ToFrom:
         """
         Output table as a list of dicts.
 
-        `Returns:`
+        Returns:
             list
         """
 
@@ -455,7 +455,7 @@ class ToFrom:
         r"""
         Writes the table to a CSV file on a remote SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file. If it ends in '.gz', the file will be compressed.
             host: str
@@ -514,7 +514,7 @@ class ToFrom:
         r"""
         Writes the table to an s3 object as a CSV
 
-        `Args:`
+        Args:
             bucket: str
                 The s3 bucket to upload to
             key: str
@@ -546,7 +546,7 @@ class ToFrom:
                 variable even if the ``aws_session_token`` argument was not passed in.
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
-        `Returns:`
+        Returns:
             Public url if specified. If not ``None``.
         """
 
@@ -597,7 +597,7 @@ class ToFrom:
         r"""
         Writes the table to a Google Cloud Storage blob as a CSV.
 
-        `Args:`
+        Args:
             bucket_name: str
                 The bucket to upload to
             blob_name: str
@@ -625,7 +625,7 @@ class ToFrom:
                 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
-        `Returns:`
+        Returns:
             Public url if specified. If not ``None``.
         """
 
@@ -742,7 +742,7 @@ class ToFrom:
         """
         Write a table to BigQuery
 
-        `Args`:
+        Args:
             table_name: str
                 Table name to write to in BigQuery; this should be in `schema.table` format
             app_creds: str
@@ -755,7 +755,7 @@ class ToFrom:
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
 
-        `Returns`:
+        Returns:
             ``None``
         """
 
@@ -837,7 +837,7 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from an Avro file.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to the Avro file.
             limit: int, optional
@@ -847,7 +847,7 @@ class ToFrom:
             \**avro_args: kwargs
                 Additional arguments passed to `fastavro.reader`.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -859,13 +859,13 @@ class ToFrom:
         r"""
         Create a ``parsons table`` object from a CSV file
 
-        `Args:`
+        Args:
             local_path: obj
                 A csv formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
             **csvargs: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -883,12 +883,12 @@ class ToFrom:
         """
         Create a ``parsons table`` object from a string representing a CSV.
 
-        `Args:`
+        Args:
             str: str
                 The string object to convert to a table
             **csvargs: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -902,12 +902,12 @@ class ToFrom:
         """
         Create a ``parsons table`` from a list of lists organized as columns
 
-        `Args:`
+        Args:
             cols: list
                 A list of lists organized as columns
             header: list
                 List of column names. If not specified, will use dummy column names
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -919,7 +919,7 @@ class ToFrom:
         """
         Create a ``parsons table`` from a json file
 
-        `Args:`
+        Args:
             local_path: list
                 A JSON formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
@@ -929,7 +929,7 @@ class ToFrom:
             line_delimited: bool
                 Whether the file is line-delimited JSON (with a row on each line), or a proper
                 JSON file.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -951,7 +951,7 @@ class ToFrom:
 
         To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             username: str
@@ -965,7 +965,7 @@ class ToFrom:
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -1011,7 +1011,7 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from a key in an S3 bucket.
 
-        `Args:`
+        Args:
             bucket: str
                 The S3 bucket.
             key: str
@@ -1025,7 +1025,7 @@ class ToFrom:
                 Required if not included as environmental variable.
             **csvargs: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             `parsons.Table` object
         """
 
@@ -1061,7 +1061,7 @@ class ToFrom:
 
         To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
 
-        `Args`:
+        Args:
             sql: str
                 A valid SQL statement
             app_creds: str
@@ -1072,7 +1072,7 @@ class ToFrom:
                 then will use the default inferred environment.
             TODO - Should users be able to pass in kwargs here? For parameters?
 
-        `Returns`:
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -1088,7 +1088,7 @@ class ToFrom:
         """
         Create a ``parsons table`` from a Pandas dataframe.
 
-        `Args:`
+        Args:
             dataframe: dataframe
                 A valid Pandas dataframe objectt
             include_index: boolean

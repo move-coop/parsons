@@ -17,7 +17,7 @@ class Bloomerang:
     """
     Instantiate Bloomerang class
 
-    `Args:`
+    Args:
         api_key: str
             The Bloomerang API key. Not required if the ``BLOOMERANG_API_KEY`` environmental
             variable is set or if the OAuth2 authentication parameters ``client_id`` and
@@ -114,7 +114,7 @@ class Bloomerang:
 
     def create_constituent(self, **kwargs):
         """
-        `Args:`
+        Args:
             **kwargs:`
                 Fields to include, e.g., FirstName = 'Rachel'.
 
@@ -124,7 +124,7 @@ class Bloomerang:
 
     def update_constituent(self, constituent_id, **kwargs):
         """
-        `Args:`
+        Args:
             constituent_id: str or int
                 Constituent ID to update
             **kwargs:`
@@ -136,17 +136,17 @@ class Bloomerang:
 
     def get_constituent(self, constituent_id):
         """
-        `Args:`
+        Args:
             constituent_id: str or int
                 Constituent ID to get fields for
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         return self._base_get("constituent", entity_id=constituent_id)
 
     def delete_constituent(self, constituent_id):
         """
-        `Args:`
+        Args:
             constituent_id: str or int
                 Constituent ID to delete
         """
@@ -161,7 +161,7 @@ class Bloomerang:
         last_modified=None,
     ):
         """
-        `Args:`
+        Args:
             page_number: int
                 Number of the page to fetch
             page_size: int
@@ -172,7 +172,7 @@ class Bloomerang:
                 Sorts the order_by in ``Asc`` or ``Desc`` order.
             last_modified: str
                 Filters to constituents last modified after the specified date (ISO-8601 format).
-        `Returns:`
+        Returns:
             A Table of the entries.
         """
         params = self._base_pagination_params(page_number, page_size)
@@ -186,7 +186,7 @@ class Bloomerang:
 
     def create_transaction(self, **kwargs):
         """
-        `Args:`
+        Args:
             **kwargs:`
                 Fields to include, e.g., CreditCardType = 'Visa'.
 
@@ -196,7 +196,7 @@ class Bloomerang:
 
     def update_transaction(self, transaction_id, **kwargs):
         """
-        `Args:`
+        Args:
             transaction_id: str or int
                 Transaction ID to update
             **kwargs:`
@@ -208,17 +208,17 @@ class Bloomerang:
 
     def get_transaction(self, transaction_id):
         """
-        `Args:`
+        Args:
             transaction_id: str or int
                 Transaction ID to get fields for
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         return self._base_get("transaction", entity_id=transaction_id)
 
     def delete_transaction(self, transaction_id):
         """
-        `Args:`
+        Args:
             transaction_id: str or int
                 Transaction ID to delete
         """
@@ -226,7 +226,7 @@ class Bloomerang:
 
     def get_transactions(self, page_number=1, page_size=50, order_by=None, order_direction=None):
         """
-        `Args:`
+        Args:
             page_number: int
                 Number of the page to fetch
             page_size: int
@@ -235,7 +235,7 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
@@ -246,10 +246,10 @@ class Bloomerang:
 
     def get_transaction_designation(self, designation_id):
         """
-        `Args:`
+        Args:
             designation_id: str or int
                 Transaction Designation ID to get fields for
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         return self._base_get("transaction/designation", entity_id=designation_id)
@@ -258,7 +258,7 @@ class Bloomerang:
         self, page_number=1, page_size=50, order_by=None, order_direction=None
     ):
         """
-        `Args:`
+        Args:
             page_number: int
                 Number of the page to fetch
             page_size: int
@@ -267,7 +267,7 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)
@@ -278,7 +278,7 @@ class Bloomerang:
 
     def create_interaction(self, **kwargs):
         """
-        `Args:`
+        Args:
             **kwargs:`
                 Fields to include, e.g., Channel = "Email".
 
@@ -288,7 +288,7 @@ class Bloomerang:
 
     def update_interaction(self, interaction_id, **kwargs):
         """
-        `Args:`
+        Args:
             interaction_id: str or int
                 Interaction ID to update
             **kwargs:`
@@ -300,17 +300,17 @@ class Bloomerang:
 
     def get_interaction(self, interaction_id):
         """
-        `Args:`
+        Args:
             interaction_id: str or int
                 Interaction ID to get fields for
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         return self._base_get("interaction", entity_id=interaction_id)
 
     def delete_interaction(self, interaction_id):
         """
-        `Args:`
+        Args:
             interaction_id: str or int
                 Interaction ID to delete
         """
@@ -318,12 +318,12 @@ class Bloomerang:
 
     def get_interactions(self, page_number=1, page_size=50):
         """
-        `Args:`
+        Args:
             page_number: int
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
-        `Returns:`
+        Returns:
             A  JSON of the entry or an error.
         """
         params = self._base_pagination_params(page_number, page_size)

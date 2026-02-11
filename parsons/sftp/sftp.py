@@ -17,7 +17,7 @@ class SFTP:
     """
     Instantiate SFTP Class
 
-    `Args:`
+    Args:
         host: str
             The host name
         username: str
@@ -33,7 +33,7 @@ class SFTP:
             Optionally pass a paramiko RSAKey object directly
         timeout: int
             Timeout argument for use when getting files through SFTP.
-    `Returns:`
+    Returns:
         SFTP Class
     """
 
@@ -95,12 +95,12 @@ class SFTP:
         """
         List the contents of a directory
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the directory
             connection: obj
                 An SFTP connection object
-        `Returns:`
+        Returns:
             list of files and subdirectories in the provided directory
         """
 
@@ -114,7 +114,7 @@ class SFTP:
         """
         Makes a new directory on the SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the directory
             connection: obj
@@ -131,7 +131,7 @@ class SFTP:
         """
         Remove a directory from the SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the directory
             connection: obj
@@ -154,7 +154,7 @@ class SFTP:
         """
         Download a file from the SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file to download
 
@@ -169,7 +169,7 @@ class SFTP:
             export_chunk_size: int
                 Optional. Size in bytes to iteratively export from the remote server.
 
-        `Returns:`
+        Returns:
             str
                 The path of the local file
         """
@@ -208,7 +208,7 @@ class SFTP:
         """
         Download a file in chunked-increments from the remote host to the local path
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file to download
 
@@ -255,7 +255,7 @@ class SFTP:
         Download a list of files, either by providing the list explicitly, providing directories
         that contain files to download, or both.
 
-        `Args:`
+        Args:
             files_to_download: list
                 A list of full remote paths (can be relative) to files to download
             remote: str or list
@@ -268,7 +268,7 @@ class SFTP:
             local_paths: list
                 A list of paths to which to save the selected files. Defaults to None. If it is not
                 the same length as the files to be fetched, temporary files are used instead.
-        `Returns:`
+        Returns:
             list
                 Local paths where the files are saved.
         """
@@ -321,12 +321,12 @@ class SFTP:
         The file may be compressed with gzip, or zip, but may not contain
         multiple files in the archive.
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file to download
             connection: obj
                 An SFTP connection object
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -355,7 +355,7 @@ class SFTP:
         """
         Put a file on the SFTP server
 
-        `Args:`
+        Args:
             local_path: str
                 The local path of the source file
             remote_path: str
@@ -376,7 +376,7 @@ class SFTP:
         """
         Delete a file on the SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file
             connection: obj
@@ -394,12 +394,12 @@ class SFTP:
         Get the size of a file in MB on the SFTP server. The file is
         not downloaded locally.
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file
             connection: obj
                 An SFTP connection object
-        `Returns:`
+        Returns:
             int
                 The file size in MB.
         """
@@ -437,7 +437,7 @@ class SFTP:
         """
         List the subdirectories of a directory on the remote server.
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote directory whose subdirectories will be listed
             connection: obj
@@ -445,7 +445,7 @@ class SFTP:
             pattern: str
                 A regex pattern with which to select full directory paths. Defaults to None, in
                 which case all subdirectories will be selected.
-        `Returns:`
+        Returns:
             list
                 The subdirectories in `remote_path`.
         """
@@ -456,7 +456,7 @@ class SFTP:
         """
         List the files in a directory on the remote server.
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote directory whose files will be listed
             connection: obj
@@ -464,7 +464,7 @@ class SFTP:
             pattern: str
                 A regex pattern with which to select file names. Defaults to None, in which case
                 all files will be selected.
-        `Returns:`
+        Returns:
             list
                 The files in `remote_path`.
         """
@@ -485,7 +485,7 @@ class SFTP:
         they match `dir_pattern` and `file_pattern`, respectively) and the maximum directory
         depth hasn't been exceeded. Optionally downloads discovered files.
 
-        `Args:`
+        Args:
             remote_path: str
                 The top level directory to walk
             connection: obj
@@ -501,7 +501,7 @@ class SFTP:
             max_depth: int
                 A limit on how many directories deep to traverse.  The default, 2, will search the
                 contents of `remote_path` and its subdirectories.
-        `Returns:`
+        Returns:
             tuple
                 A list of directories touched and a list of files.  If the files were downloaded
                 the file list will consist of local paths, if not, remote paths.

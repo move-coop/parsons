@@ -9,7 +9,7 @@ class Airmeet:
     """
     Instantiate class.
 
-       `Args:`
+       Args:
             airmeet_uri: string
                 The URI of the Airmeet API endpoint. Not required. The default
                 is https://api-gateway.airmeet.com/prod/. You can set an
@@ -30,14 +30,14 @@ class Airmeet:
         Authenticate with the Airmeet API and update the connection headers
         with the access token.
 
-        `Args:`
+        Args:
             airmeet_uri: string
                 The Airmeet API endpoint.
             airmeet_access_key: string
                 The Airmeet API access key.
             airmeet_secret_key: string
                 The Airmeet API secret key.
-        `Returns:`
+        Returns:
             ``None``
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
@@ -62,7 +62,7 @@ class Airmeet:
         Get all the results from an Airmeet API url, handling pagination based
         on the returned pageCount.
 
-        `Args:`
+        Args:
             page_size: 50
                 The number of items to get per page. The max allowed varies by
                 API call. For details, see `Airmeet's Event Details API
@@ -70,7 +70,7 @@ class Airmeet:
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
             **kwargs:
                 Additional parameters to include in the request.
-        `Returns:`
+        Returns:
             ``None``
         """
         results = []
@@ -105,7 +105,7 @@ class Airmeet:
         Get the list of Airmeets. The API excludes any Airmeets that are
         Archived (Deleted).
 
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of Airmeets
         """
@@ -119,7 +119,7 @@ class Airmeet:
         pagination based on the returned totalUserCount. This API doesn't use
         cursors for paging, so we can't use _get_all_pages() here.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
             sorting_key: string
@@ -127,7 +127,7 @@ class Airmeet:
                 'registrationDate' (the default).
             sorting_direction: string
                 Can be either 'ASC' or 'DESC' (the default).
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of participants for the Airmeet event
         """
@@ -169,10 +169,10 @@ class Airmeet:
         """
         Get the list of sessions for an Airmeet.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of sessions for this Airmeet event
         """
@@ -184,13 +184,13 @@ class Airmeet:
         Get the data for an Airmeet (event), which include the list of
         sessions, session hosts/cohosts, and various other info.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
             lists_to_tables: bool
                 If True, will convert any dictionary values that are lists
                 to Tables.
-        `Returns:`
+        Returns:
             Dict containing the Airmeet data
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
@@ -204,10 +204,10 @@ class Airmeet:
         """
         Get the list of custom registration fields for an Airmeet.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of custom registration fields for this Airmeet event
         """
@@ -225,10 +225,10 @@ class Airmeet:
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of attendees for this Airmeet event
         """
@@ -245,10 +245,10 @@ class Airmeet:
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
 
-        `Args:`
+        Args:
             session_id: string
                 The id of the session.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of attendees for this session
         """
@@ -261,10 +261,10 @@ class Airmeet:
         `CAUTION: This method is untested. Booths are available only in
         certain Airmeet plans.`
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of booths for this Airmeet
         """
@@ -285,12 +285,12 @@ class Airmeet:
         `CAUTION: This method is untested. Booths are available only in
         certain Airmeet plans.`
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
             booth_id: string
                 The id of the booth.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of attendees for this booth
         """
@@ -305,10 +305,10 @@ class Airmeet:
 
         Maximum number of results per page = 50.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of users. For each user, the value for the "polls"
                 key is a list of poll questions and answers for that user.
@@ -319,10 +319,10 @@ class Airmeet:
         """
         Get a list of the questions asked in an Airmeet.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of users. For each user, the value for the "questions"
                 key is a list of that user's questions.
@@ -337,10 +337,10 @@ class Airmeet:
         `CAUTION: This method is untested. Event tracks are available only in
         certain Airmeet plans.`
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of event tracks
         """
@@ -358,10 +358,10 @@ class Airmeet:
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of UTM parameters captured during registration
         """
@@ -378,13 +378,13 @@ class Airmeet:
         The API docs don't specify if that's the case, but this method will
         need to be updated if it is.
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
             session_id: string
                 (optional) If provided, limits results to only the recording
                 of the specified session.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of session recordings
         """
@@ -406,13 +406,13 @@ class Airmeet:
         "This is an Asynchronous API. If you get a 202 code in response,
         please try again after 5 minutes."
 
-        `Args:`
+        Args:
             airmeet_id: string
                 The id of the Airmeet.
             session_id: string
                 (optional) If provided, limits results to only attendees of
                 the specified session.
-        `Returns:`
+        Returns:
             Parsons.Table
                 List of event replay attendees
         """

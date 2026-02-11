@@ -77,7 +77,7 @@ class Sqlite(DatabaseConnector):
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -89,7 +89,7 @@ class Sqlite(DatabaseConnector):
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -187,7 +187,7 @@ class Sqlite(DatabaseConnector):
         """
         Copy a :ref:`parsons-table` to Sqlite.
 
-        `Args:`
+        Args:
             tbl: parsons.Table
                 A Parsons table object
             table_name: str
@@ -272,7 +272,7 @@ class Sqlite(DatabaseConnector):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
+        Args:
             connection: obj
                 A connection object obtained from ``redshift.connection()``
             table_name: str
@@ -280,7 +280,7 @@ class Sqlite(DatabaseConnector):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-        `Returns:`
+        Returns:
             bool
                 True if the table needs to be created, False otherwise.
         """
@@ -313,13 +313,13 @@ class Sqlite(DatabaseConnector):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
             view: boolean
                 Check to see if a view exists by the same name. Defaults to ``False``.
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
         """

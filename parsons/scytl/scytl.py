@@ -67,7 +67,7 @@ class Scytl:
     """
     Instantiate a Scytl connector.
 
-    `Args:`:
+    Args::
         state: str
             The two letter code of the state the publishing election results.
             ex: GA
@@ -96,10 +96,10 @@ class Scytl:
         """
         Parse datetime string as datetime in UTC
 
-        `Args`:
+        Args:
             input_dt: str
                 The datetime string to be parsed
-        `Returns`:
+        Returns:
             datetime | None
         """
 
@@ -115,13 +115,13 @@ class Scytl:
         """
         Fetch the latest version of the election results from the Clarity site
 
-        `Args`:
+        Args:
             administrator: str
                 The url code for the election administrator, either the two-letter
                 state code or the state code and the county, separated by a slash
             election_id: str
                 The election id for the given election as a string
-        `Returns`:
+        Returns:
             str
             The version id as a string
         """
@@ -138,12 +138,12 @@ class Scytl:
         """
         Fetch a zip file from the given url and unzip to a byte array
 
-        `Args`:
+        Args:
             zipfile_url: str
                 The url where the zip file can be found
             election_id: str
                 The expected name of the file in the zipfile to read
-        `Returns`:
+        Returns:
             bytes
             The unzipped file as bytes
         """
@@ -165,14 +165,14 @@ class Scytl:
         Fetch the settings JSON file for the election and parse the county details
         for participating counties in a state election.
 
-        `Args`:
+        Args:
             state: str
                 The two-letter state code for the state
             election_id: str
                 The election ID for the given election
             version_num: str
                 The latest version ID of the election as a string
-        `Returns`:
+        Returns:
             dict[str, CountyDetails]
             A dictionary mapping county names to their sub-election information
         """
@@ -216,13 +216,13 @@ class Scytl:
         Parse a detail XML file for a county into a list of election
         results by precinct and vote method.
 
-        `Args`:
+        Args:
             county_data: bytes
                 The detail XML file for a county as bytes
             county_details: str
                 The details class for the county, including name,
                 id, and last updated datetime
-        `Returns`:
+        Returns:
             list[dict]
             The list of election results by precinct and vote method in the file.
         """
@@ -299,12 +299,12 @@ class Scytl:
         Parse a detail XML file for a state into a list of election
         results by county and vote method.
 
-        `Args`:
+        Args:
             state_data: bytes
                 The detail XML file for a state as bytes
             state: str
                 The two-letter state code for the state associated with the file
-        `Returns`:
+        Returns:
             list[dict]
             The list of election results by state and vote method in the file.
         """
@@ -377,7 +377,7 @@ class Scytl:
         Fetches the summary results CSV file from the Scytl site and parses it
         into a list of election results by candidate.
 
-        `Args`:
+        Args:
             administrator: str
                 The url code for the election administrator, either the two-letter
                 state code or the state code and the county, separated by a slash
@@ -387,7 +387,7 @@ class Scytl:
                 The latest version ID of the election as a string
             county: str
                 The name of the county associated with the summary file
-        `Returns`:
+        Returns:
             list[dict]
             The list of election results by candidate.
         """
@@ -430,13 +430,13 @@ class Scytl:
         Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
-        `Args:`
+        Args:
             force_update: bool
                 If this is False, the connector will check to see if the current version
                     matches the previously fetched version of the results.
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
-        `Returns:`
+        Returns:
             list[dict]
             The list should contain entries for each candidate in each office.
             Each row will contain the following:
@@ -475,13 +475,13 @@ class Scytl:
         Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
-        `Args:`
+        Args:
             force_update: bool
                 If this is False, the connector will check to see if the current version
                     matches the previously fetched version of the results.
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
-        `Returns:`
+        Returns:
             list[dict]
             The list should contain entries for each candidate in each office,
                 per vote method and per county.
@@ -564,7 +564,7 @@ class Scytl:
         Please note that all electoral entities administer their elections differently,
             so not all values will be populated if the entity doesn't provide them.
 
-        `Args:`
+        Args:
             county_names: list[str]
                 The list of counties to get precinct-level results for.
                 Default: None (get all counties)
@@ -574,7 +574,7 @@ class Scytl:
                     If the version has not been changed, no results will be fetched or returned.
                 Default: false
 
-        `Returns:`
+        Returns:
             list[str]
             The list of county names that could not be fetched
 

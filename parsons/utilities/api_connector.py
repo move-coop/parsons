@@ -18,7 +18,7 @@ class APIConnector:
     of utilities that can be mixed and matched to, hopefully, meet the needs of the specific
     API.
 
-    `Args:`
+    Args:
         uri: str
             The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
         headers: dict
@@ -31,7 +31,7 @@ class APIConnector:
         data_key: str
             The name of the key in the response json where the data is contained. Required
             if the data is nested in the response json
-    `Returns`:
+    Returns:
         APIConnector class
     """
 
@@ -50,7 +50,7 @@ class APIConnector:
         """
         Base request using requests libary.
 
-        `Args:`
+        Args:
             url: str
                 The url request string; if ``url`` is a relative URL, it will be joined with
                 the ``uri`` of the ``APIConnector`; if ``url`` is an absolute URL, it will
@@ -69,7 +69,7 @@ class APIConnector:
                 error. In most cases, this should be True, however in some cases, if you
                 are looping through data, you might want to ignore individual failures.
 
-        `Returns:`
+        Returns:
             requests response
         """
         full_url = urllib.parse.urljoin(self.uri, url)
@@ -112,7 +112,7 @@ class APIConnector:
         """
         Make a POST request.
 
-        `Args:`
+        Args:
             url: str
                 A complete and valid url for the api request
             params: dict
@@ -123,7 +123,7 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
-        `Returns:`
+        Returns:
             A requests response object
         """
 
@@ -206,7 +206,7 @@ class APIConnector:
         """
         Make a PATCH request.
 
-        `Args:`
+        Args:
             url: str
                 A complete and valid url for the api request
             params: dict
@@ -217,7 +217,7 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
-        `Returns:`
+        Returns:
             A requests response object
         """
 
@@ -240,7 +240,7 @@ class APIConnector:
         Validate that the response is not an error code. If it is, then raise an error
         and display the error message.
 
-        `Args:`
+        Args:
             resp: object
                 A response object
         """
@@ -265,10 +265,10 @@ class APIConnector:
         data. This is useful in dealing with requests that might return multiple records, while
         others might return only a single record.
 
-        `Args:`
+        Args:
             resp:
                 A response dictionary
-        `Returns:`
+        Returns:
             dict
                 A dictionary of data.
         """
@@ -294,7 +294,7 @@ class APIConnector:
         Check to determine if there is a next page. This requires that the response json
         contains a pagination key that is empty if there is not a next page.
 
-        `Args:`
+        Args:
             resp:
                 A response dictionary
         `Returns:

@@ -9,14 +9,14 @@ class Phone2Action:
     """
     Instantiate Phone2Action Class
 
-    `Args:`
+    Args:
         app_id: str
             The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``
             env variable set.
         app_key: str
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
-    `Returns:`
+    Returns:
         Phone2Action Class
     """
 
@@ -37,7 +37,7 @@ class Phone2Action:
         If no page is specified, the method will automatically paginate through the available
         advocates.
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state
                 or territory e.g., "CA" "NY" or "DC"
@@ -49,7 +49,7 @@ class Phone2Action:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
-        `Returns:`
+        Returns:
             A dict of parsons tables:
                 * emails
                 * phones
@@ -72,7 +72,7 @@ class Phone2Action:
         """
         Returns a list of campaigns
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
             zip: int
@@ -84,7 +84,7 @@ class Phone2Action:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -121,7 +121,7 @@ class Phone2Action:
         For a complete list of fields that can be updated, see
         `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
             first_name: str
@@ -161,7 +161,7 @@ class Phone2Action:
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
-        `Returns:`
+        Returns:
             The int ID of the created advocate.
         """
         return self.capitol_canary.create_advocate(
@@ -204,7 +204,7 @@ class Phone2Action:
         For a complete list of fields that can be updated, see
         `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             advocate_id: integer
                 The ID of the advocate being updates
             campaigns: list

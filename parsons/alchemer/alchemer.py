@@ -27,7 +27,7 @@ class Alchemer:
     """
     Instantiate Alchemer Class
 
-    `Args:`
+    Args:
         api_token:
             The Alchemer-provided application token. Not required if
             ``ALCHEMER_API_TOKEN`` env variable set.
@@ -41,7 +41,7 @@ class Alchemer:
             ``ALCHEMER_API_VERSION`` env variable set.
             Default v5
 
-    `Returns:`
+    Returns:
         Alchemer Class
     """
 
@@ -62,12 +62,12 @@ class Alchemer:
         """
         Get a table of lists under the account.
 
-        `Args:`
+        Args:
             page : int
                 Retrieve a specific page of responses. If not given,
                 then all pages are retrieved.
 
-        `Returns:`
+        Returns:
             Table Class
         """
 
@@ -90,7 +90,7 @@ class Alchemer:
         """
         Get the responses for a given survey.
 
-        `Args:`
+        Args:
             survey_id: string
                 The id of survey for which to retrieve the responses.
 
@@ -98,7 +98,7 @@ class Alchemer:
                 Retrieve a specific page of responses. If not given,
                 then all pages are retrieved.
 
-        `Returns:`
+        Returns:
             Table Class
         """
 

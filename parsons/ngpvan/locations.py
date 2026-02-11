@@ -15,10 +15,10 @@ class Locations:
         """
         Get locations.
 
-        `Args:`
+        Args:
             name: str
                 Filter locations by name.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -31,10 +31,10 @@ class Locations:
         """
         Get a location.
 
-        `Args:`
+        Args:
             location_id: int
                 The location id.
-        `Returns:`
+        Returns:
             dict
         """
 
@@ -54,7 +54,7 @@ class Locations:
         """
         Find or create a location. If location already exists, will return location id.
 
-        `Args:`
+        Args:
             name: str
                 A name for this location, no longer than 50 characters.
             address_line1: str
@@ -67,7 +67,7 @@ class Locations:
                 Two or three character state or province code (e.g., MN, ON, NSW, etc.).
             zip_code: str
                 ZIP, ZIP+4, Postal Code, Post code, etc.
-            `Returns:`
+            Returns:
                 int
                     A location id.
         """
@@ -91,10 +91,10 @@ class Locations:
         """
         Delete a location.
 
-        `Args:`
+        Args:
             location_id: int
                 The location id
-        `Returns:`
+        Returns:
             ``None``
         """
 

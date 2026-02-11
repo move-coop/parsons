@@ -13,11 +13,11 @@ class CustomFields:
         """
         Get custom fields.
 
-        `Args:`
+        Args:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -32,11 +32,11 @@ class CustomFields:
         """
         Get custom field values as a long table.
 
-        `Args:`
+        Args:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -66,10 +66,10 @@ class CustomFields:
         """
         Get a custom field.
 
-        `Args:`
+        Args:
             custom_field_id: int
                 A valid custom field id.
-        `Returns:`
+        Returns:
             A json.
         """
 

@@ -408,7 +408,7 @@ class NewmodeV2:
     ):
         """
         Instantiate Class
-        `Args`:
+        Args:
             client_id: str
                 The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
                 env variable set.
@@ -599,12 +599,12 @@ class NewmodeV2:
         Retrieve a specific campaign by ID.
 
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+        Returns:
             Parsons Table containing campaign data.
         """
         if params is None:
@@ -623,12 +623,12 @@ class NewmodeV2:
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+        Args:
             organization_id: str
                 ID of organization
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+        Returns:
             List containing all campaign ids.
         """
         if params is None:
@@ -658,7 +658,7 @@ class NewmodeV2:
     ) -> Table:
         """
         Retrieve a specific recipient by ID
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             street_address: str
@@ -671,7 +671,7 @@ class NewmodeV2:
                 Region (i.e. state/province abbreviation) of recipient
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+        Returns:
             Parsons Table containing recipient data.
         """
         if params is None:
@@ -708,12 +708,12 @@ class NewmodeV2:
         sends an email or triggers a phone call
         depending on your campaign type
 
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+        Returns:
             Parsons Table containing submit data.
         """
 
@@ -741,10 +741,10 @@ class NewmodeV2:
         for a specified campaign using a range of filters
         that include campaign id, data range and submission status
 
-        `Args:`
+        Args:
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+        Returns:
             Parsons Table containing submit data.
         """
         if params is None:
@@ -772,7 +772,7 @@ class Newmode:
         """
         Create and return Newmode instance based on chosen version (V1 or V2)
 
-        `Args`:
+        Args:
             api_user: str
                 The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
                 passed. Needed for V1.

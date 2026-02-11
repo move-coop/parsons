@@ -17,12 +17,12 @@ class Signups:
         or event. You must pass one of ``event_id`` or ``event_type_id``
         but not both.
 
-        `Args:`
+        Args:
             event_id: int
                 A valid event id.
             event_type_id: int
                 A valid event type id.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -46,10 +46,10 @@ class Signups:
         """
         Get the signup history of a person.
 
-        `Args:`
+        Args:
             vanid: int
                 A valid vanid associated with a person.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -62,10 +62,10 @@ class Signups:
         """
         Get the signup history of an event.
 
-        `Args:`
+        Args:
             event_id: int
                 A valid event_id associated with an event
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -78,10 +78,10 @@ class Signups:
         """
         Get a single signup object.
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event_signup_id associated with a signup.
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
         """
@@ -94,7 +94,7 @@ class Signups:
         """
         Create a new signup for an event.
 
-        `Args:`
+        Args:
             vanid: int
                 A valid vanid of the person to signup for the event.
             event_id: int
@@ -107,7 +107,7 @@ class Signups:
                 A status_id of the person
             location_id:
                 A location_id for the event
-        `Returns:`
+        Returns:
             Int
                 The event signup id
         """
@@ -137,7 +137,7 @@ class Signups:
         Update a signup object. All of the kwargs will update the values associated
         with them.
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event signup id
             shift_id: int
@@ -148,7 +148,7 @@ class Signups:
                 The status_id to update
             location_id: int
                 The location_id to update
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -171,10 +171,10 @@ class Signups:
         """
         Delete a signup object
 
-        `Args:`
+        Args:
             event_signup_id: int
                 A valid event signup id
-        `Returns:`
+        Returns:
             ``None``
         """
 

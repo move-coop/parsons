@@ -15,7 +15,7 @@ class AzureBlobStorage:
     """
     Instantiate AzureBlobStorage Class for a given Azure storage account.
 
-    `Args:`
+    Args:
         account_name: str
             The name of the Azure storage account to use. Not required if ``AZURE_ACCOUNT_NAME``
             environment variable is set, or if ``account_url`` is supplied.
@@ -30,7 +30,7 @@ class AzureBlobStorage:
         account_url: str
             The account URL for the Azure storage account including the account name and domain.
             Not required if ``AZURE_ACCOUNT_URL`` environment variable is set.
-    `Returns:`
+    Returns:
         `AzureBlobStorage`
     """
 
@@ -60,7 +60,7 @@ class AzureBlobStorage:
         """
         Returns a list of container names for the storage account
 
-        `Returns:`
+        Returns:
             list[str]
                 List of container names
         """
@@ -73,10 +73,10 @@ class AzureBlobStorage:
         """
         Verify that a container exists within the storage account
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container
-        `Returns:`
+        Returns:
             bool
         """
 
@@ -93,10 +93,10 @@ class AzureBlobStorage:
         """
         Returns a container client
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container
-        `Returns:`
+        Returns:
             `ContainerClient`
         """
 
@@ -107,7 +107,7 @@ class AzureBlobStorage:
         """
         Create a container
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container
             metadata: Optional[dict[str, str]]
@@ -119,7 +119,7 @@ class AzureBlobStorage:
                 Additional arguments to be supplied to the Azure Blob Storage API. See `Azure Blob
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#create-container-name--metadata-none--public-access-none----kwargs->`_
                 for more info.
-        `Returns:`
+        Returns:
             `ContainerClient`
         """
 
@@ -133,10 +133,10 @@ class AzureBlobStorage:
         """
         Delete a container.
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -147,12 +147,12 @@ class AzureBlobStorage:
         """
         List all of the names of blobs in a container
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container
             name_starts_with: Optional[str]
                 A prefix to filter blob names
-        `Returns:`
+        Returns:
             list[str]
                 A list of blob names
         """
@@ -166,12 +166,12 @@ class AzureBlobStorage:
         """
         Verify that a blob exists in the specified container
 
-        `Args:`
+        Args:
             container_name: str
                 The container name
             blob_name: str
                 The blob name
-        `Returns:`
+        Returns:
             bool
         """
 
@@ -188,12 +188,12 @@ class AzureBlobStorage:
         """
         Get a blob object
 
-        `Args:`
+        Args:
             container_name: str
                 The container name
             blob_name: str
                 The blob name
-        `Returns:`
+        Returns:
             `BlobClient`
         """
 
@@ -213,7 +213,7 @@ class AzureBlobStorage:
         """
         Get a URL with a shared access signature for a blob
 
-        `Args:`
+        Args:
             container_name: str
                 The container name
             blob_name: str
@@ -230,7 +230,7 @@ class AzureBlobStorage:
             start: Optional[Union[datetime, str]]
                 The datetime when the URL should become valid. Defaults to UTC. If it is ``None``,
                 the URL becomes active when it is first created.
-        `Returns:`
+        Returns:
             str
                 URL with shared access signature for blob
         """
@@ -258,10 +258,10 @@ class AzureBlobStorage:
         Removes any keys for ``ContentSettings`` from a dict and returns a tuple of the generated
         settings or ``None`` and a dict with the settings keys removed.
 
-        `Args:`
+        Args:
             kwargs_dict: dict
                 A dict which should be processed and may have keys for ``ContentSettings``
-        `Returns:`
+        Returns:
             tuple[Optional[ContentSettings], dict]
                 Any created settings or ``None`` and the dict with settings keys remvoed
         """
@@ -290,7 +290,7 @@ class AzureBlobStorage:
         """
         Puts a blob (aka file) in a bucket
 
-        `Args:`
+        Args:
             container_name: str
                 The name of the container to store the blob
             blob_name: str
@@ -302,7 +302,7 @@ class AzureBlobStorage:
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient?view=azure-python#upload-blob-data--blob-type--blobtype-blockblob---blockblob----length-none--metadata-none----kwargs->`_
                 for more info. Any keys that belong to the ``ContentSettings`` object will be
                 provided to that class directly.
-        `Returns:`
+        Returns:
             `BlobClient`
         """
 
@@ -326,7 +326,7 @@ class AzureBlobStorage:
         """
         Downloads a blob from a container into the specified file path or a temporary file path
 
-        `Args:`
+        Args:
             container_name: str
                 The container name
             blob_name: str
@@ -335,7 +335,7 @@ class AzureBlobStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-        `Returns:`
+        Returns:
             str
                 The path of the downloaded file
         """
@@ -356,12 +356,12 @@ class AzureBlobStorage:
         """
         Delete a blob in a specified container.
 
-        `Args:`
+        Args:
             container_name: str
                 The container name
             blob_name: str
                 The blob name
-        `Returns:`
+        Returns:
             ``None``
         """
 
@@ -373,7 +373,7 @@ class AzureBlobStorage:
         """
         Load the data from a Parsons table into a blob.
 
-        `Args:`
+        Args:
             table: obj
                 A :ref:`parsons-table`
             container_name: str
@@ -384,7 +384,7 @@ class AzureBlobStorage:
                 The file format to use when writing the data. One of: `csv` or `json`
             kwargs:
                 Additional keyword arguments to supply to ``put_blob``
-        `Returns:`
+        Returns:
             `BlobClient`
         """
 

@@ -15,7 +15,7 @@ class ParsonsBraintreeError(Exception):
 class Braintree:
     """
     Braintree is a payment processor.
-    `Args:`
+    Args:
         merchant_id: str
             Braintree merchant id -- probably a 16-char alphanumeric.
             Not required if ``BRAINTREE_MERCHANT_ID`` env variable is set.
@@ -31,7 +31,7 @@ class Braintree:
         production: bool
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
-    `Returns:`
+    Returns:
         Braintree class
     """
 
@@ -205,7 +205,7 @@ class Braintree:
         There are three ways to pass query arguments: Pass a start_date and end_date
         together for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             start_date: date or str
                 Start date of the dispute range. Requires `end_date` arg. e.g. '2020-11-03'
             end_date: date or str
@@ -227,7 +227,7 @@ class Braintree:
                         {"merchant_account_id": {"in_list": [123, 456]}}
                         {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
-        `Returns:`
+        Returns:
             Table Class
         """
         collection = self._get_collection(
@@ -265,7 +265,7 @@ class Braintree:
         Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             start_date: date or str
                 Start date of the subscription range. Requires `end_date` arg.
                 e.g. '2020-11-03'
@@ -302,7 +302,7 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
-        `Returns:`
+        Returns:
             Table Class
         """
         collection = self._get_collection(
@@ -348,7 +348,7 @@ class Braintree:
         Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             disbursement_start_date: date or str
                 Start date of the disbursement range. Requires `disbursement_end_date` arg.
                 e.g. '2020-11-03'
@@ -382,7 +382,7 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
-        `Returns:`
+        Returns:
             Table Class
         """
         collection = self._get_collection(

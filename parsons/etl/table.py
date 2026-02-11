@@ -233,6 +233,7 @@ class Table(ETL, ToFrom):
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
+
         Returns:
             str
                 Path to the temp file that now contains the table

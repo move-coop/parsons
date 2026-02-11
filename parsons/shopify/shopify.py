@@ -64,6 +64,7 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             table_name: str
                 The name of the Shopify table to query.
+
         Returns:
             int
         """
@@ -84,6 +85,7 @@ class Shopify:
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
+
         Returns:
             Table Class
         """

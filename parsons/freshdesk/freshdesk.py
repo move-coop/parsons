@@ -21,6 +21,7 @@ class Freshdesk:
         api_key: str
             The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
+
     Returns:
         Freshdesk class
     """
@@ -59,6 +60,7 @@ class Freshdesk:
                 The endpoint of the Freshdesk API to which the request is being sent.
             data: dict
                 The data to be sent in the request body.
+
         Returns:
             dict
                 The JSON response from the API.
@@ -116,6 +118,7 @@ class Freshdesk:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -164,6 +167,7 @@ class Freshdesk:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -192,6 +196,7 @@ class Freshdesk:
         Args:
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -251,6 +256,7 @@ class Freshdesk:
                 List of email addresses to CC.
             custom_fields: dict (optional)
                 Custom fields data.
+
         Returns:
             dict
                 JSON response from the API.

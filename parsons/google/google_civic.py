@@ -66,6 +66,7 @@ class GoogleCivic:
                 :meth:`get_elections` method.
             address: str
                 A valid US address in a single string.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -87,6 +88,7 @@ class GoogleCivic:
                 A valid US address in a single string.
             address_field: str
                 The name of the column where the address is stored.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

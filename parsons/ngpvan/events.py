@@ -42,6 +42,7 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -233,6 +234,7 @@ class Events:
         Args:
             event_id: int
                 The event id.
+
         Returns:
             ``None``
         """
@@ -254,6 +256,7 @@ class Events:
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
+
         Returns:
             int
               The shift id.

@@ -11,6 +11,7 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
             Value to parse
         tzinfo: datetime.timezone
             `Optional`: Timezone for the datetime; defaults to UTC.
+
     Returns:
         Unix timestamp (int)
     """
@@ -48,6 +49,7 @@ def parse_date(value, tzinfo=datetime.timezone.utc):
             Value to parse
         tzinfo: datetime.timezone
             `Optional`: Timezone for the datetime; defaults to UTC.
+
     Returns:
         datetime.datetime or None
     """

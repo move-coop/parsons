@@ -24,6 +24,7 @@ class TurboVote:
         subdomain: str
             Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
+
     Returns:
         class
     """

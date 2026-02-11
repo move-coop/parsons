@@ -16,6 +16,7 @@ class Phone2Action:
         app_key: str
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
+
     Returns:
         Phone2Action Class
     """
@@ -49,6 +50,7 @@ class Phone2Action:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
+
         Returns:
             A dict of parsons tables:
                 * emails
@@ -84,6 +86,7 @@ class Phone2Action:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

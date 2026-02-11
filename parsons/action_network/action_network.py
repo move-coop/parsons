@@ -110,6 +110,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all the attendances entries
         Documentation Reference:
@@ -132,6 +133,7 @@ class ActionNetwork:
            filter
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with the attendances entries related to the event
         Documentation Reference:
@@ -179,6 +181,7 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
+
         Returns:
             A JSON response after creating the event attendance
         Documentation Reference:
@@ -200,6 +203,7 @@ class ActionNetwork:
                        "other-system:230125a"
                    ]
                }
+
         Returns:
             A JSON response after updating the event attendance
         Documentation Reference:
@@ -220,6 +224,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all of the campaigns entries
         Documentation Reference:
@@ -277,6 +282,7 @@ class ActionNetwork:
             filter:
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
+
         Returns:
             A  JSON with all the donations entries
         Documentation Reference:
@@ -371,6 +377,7 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "link" }
                     }
                 }
+
         Returns:
             A JSON response confirming the creation of the donation
         Documentation Reference:
@@ -408,6 +415,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all the event_campaigns entries
         Documentation Reference:
@@ -437,6 +445,7 @@ class ActionNetwork:
                     "title": "My Canvassing Event",
                     "origin_system": "CanvassingEvents.com"
                 }
+
         Returns:
             A JSON response confirming the creation of the event campaign
         Documentation Reference:
@@ -455,6 +464,7 @@ class ActionNetwork:
                    "title": "My Free Event",
                    "origin_system": "FreeEvents.com"
                }
+
         Returns:
             A JSON response confirming the creation of the event in the event campaign
         Documentation Reference:
@@ -472,6 +482,7 @@ class ActionNetwork:
                {
                    "description": "This is my new event campaign description"
                }
+
         Returns:
             A JSON response confirming the update of the event campaign
         Documentation Reference:
@@ -492,6 +503,7 @@ class ActionNetwork:
         filter
             The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
             When None, no filter is applied.
+
          Returns:
              A  JSON with all the events entries
         Documentation Reference:
@@ -528,6 +540,7 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
+
         Returns:
             A  JSON with all the eventes related to the event_campaign entry
         Documentation Reference:
@@ -624,6 +637,7 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
+
         Returns:
             A  JSON with all the forms entries
         Documentation Reference:
@@ -735,6 +749,7 @@ class ActionNetwork:
                     "title": "My Free Fundraiser",
                     "origin_system": "FreeFundraisers.com"
                 }
+
         Returns:
             A JSON response confirming the creation of the fundraising page
         Documentation Reference:
@@ -754,6 +769,7 @@ class ActionNetwork:
                     "title": "My Free Fundraiser",
                     "origin_system": "FreeFundraisers.com"
                 }
+
         Returns:
             A JSON response confirming the update of the fundraising page
         Documentation Reference:
@@ -776,6 +792,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all the list item entries
         Documentation Reference:
@@ -901,6 +918,7 @@ class ActionNetwork:
                     }
                   }
                 }
+
         Returns:
             A JSON response confirming the creation of the message
         Documentation Reference:
@@ -921,6 +939,7 @@ class ActionNetwork:
                     "name": "Stop doing the bad thing email send 1",
                     "subject": "Please! Stop doing the bad thing"
                 }
+
         Returns:
             A JSON response confirming the update of the message
         Documentation Reference:
@@ -1085,6 +1104,7 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
+
         Returns:
             A JSON response confirming the creation of the outreach
         Documentation Reference:
@@ -1108,6 +1128,7 @@ class ActionNetwork:
                 {
                     "subject": "Please vote no!"
                 }
+
         Returns:
             A JSON response confirming the update of the outreach
         Documentation Reference:
@@ -1131,6 +1152,7 @@ class ActionNetwork:
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
+
         Returns:
             A list of JSONs of people stored in Action Network.
         Documentation Reference:
@@ -1145,6 +1167,7 @@ class ActionNetwork:
         Args:
             person_id:
                 Id of the person.
+
         Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             ``{'error': 'Couldn't find person with id = <id>'}``.
@@ -1418,6 +1441,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all of the petitions entries
         Documentation Reference:
@@ -1570,6 +1594,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all the signatures related to the petition entry
         Documentation Reference:
@@ -1645,6 +1670,7 @@ class ActionNetwork:
                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                    }
                }
+
         Returns:
             A JSON with the created signature entry
         Documentation Reference:
@@ -1664,6 +1690,7 @@ class ActionNetwork:
                {
                    "comments": "Some new comments"
                }
+
         Returns:
             A JSON with the updated signature entry
         Documentation Reference:
@@ -1710,6 +1737,7 @@ class ActionNetwork:
            filter:
                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
+
         Returns:
             A  JSON with all the submissions entries related with our group
         Documentation Reference:
@@ -1780,6 +1808,7 @@ class ActionNetwork:
                         "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
                 }
+
         Returns:
             A JSON with the updated submission entry
         Documentation Reference:
@@ -1800,6 +1829,7 @@ class ActionNetwork:
                 The number of entries to return. When None, returns all entries.
             per_page:
                 The number of entries per page to return. 25 maximum.
+
         Returns:
         """
         if page:
@@ -1838,6 +1868,7 @@ class ActionNetwork:
                             }
                     }
                 }
+
         Returns:
             A JSON with the created survey entry
         Documentation Reference:
@@ -1856,6 +1887,7 @@ class ActionNetwork:
                     "title": "My Free Survey",
                     "origin_system": "FreeSurveys.com",
                 }
+
         Returns:
             A JSON with the updated survey entry
         Documentation Reference:
@@ -1871,6 +1903,7 @@ class ActionNetwork:
                 The number of entries to return. When None, returns all entries.
             per_page:
                 This is a deprecated argument.
+
         Returns:
             A list of JSONs of tags in Action Network.
         Documentation Reference:
@@ -1889,6 +1922,7 @@ class ActionNetwork:
         Args:
             tag_id:
                 Id of the tag.
+
         Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             "{'error': 'Couldn't find tag with id = <id>'}"
@@ -2051,6 +2085,7 @@ class ActionNetwork:
             per_page: The number of unique ID lists to return per page. Default is 25.
             page: The specific page of unique ID lists to return.
             filter: The filter criteria to apply when retrieving unique ID lists.
+
         Returns:
             A JSON response with the unique ID lists.
         Documentation Reference:

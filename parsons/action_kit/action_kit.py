@@ -102,6 +102,7 @@ class ActionKit:
         Args:
             user_id: int
                 The user id of the record to get.
+
         Returns:
             User json object
         """
@@ -134,6 +135,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             User json object
         """
@@ -156,6 +158,7 @@ class ActionKit:
                 The type of the phone (e.g., "Home").
             phone: string
                 The phone number.
+
         Returns:
             Phone json object
         """
@@ -192,6 +195,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``HTTP response from the patch request``
         """
@@ -211,6 +215,7 @@ class ActionKit:
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/phone/schema/ path on any ActionKit instance.
+
         Returns:
             ``HTTP response from the patch request``
         """
@@ -226,6 +231,7 @@ class ActionKit:
         Args:
             event_id: int
                 The id for the event.
+
         Returns:
             dict
                 Event json object.
@@ -269,6 +275,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -288,6 +295,7 @@ class ActionKit:
                 The name of the event field.
             value: string
                 The value of the event field.
+
         Returns:
             Event field json object
         """
@@ -310,6 +318,7 @@ class ActionKit:
                 The name of the event field.
             value: string
                 The value of the event field.
+
         Returns:
             ``None``
         """
@@ -333,6 +342,7 @@ class ActionKit:
         Args:
             email: str
                 Blackholed email of the record to get.
+
         Returns:
             Parsons.Table
                 The blackholed email data.
@@ -370,6 +380,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
                 rest/users.html>`_.
+
         Returns:
             API location of anonymized user
         """
@@ -402,6 +413,7 @@ class ActionKit:
         Args:
             campaign_id: int
                 The campaign id of the record.
+
         Returns:
             Campaign json object
         """
@@ -435,6 +447,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -494,6 +507,7 @@ class ActionKit:
                 A dictionary of other options for filtering. See `ActionKit's docs on the
                 search API
                 <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+
         Returns:
             Parsons.Table
                 The list of events.
@@ -521,6 +535,7 @@ class ActionKit:
         Args:
             event_create_page_id: int
                 The event create page id of the record to get.
+
         Returns:
             Event create page json object
         """
@@ -558,6 +573,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -578,6 +594,7 @@ class ActionKit:
         Args:
             event_create_form_id: int
                 The event create form id of the record to get.
+
         Returns:
             Event create form json object
         """
@@ -613,6 +630,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -632,6 +650,7 @@ class ActionKit:
         Args:
             event_signup_page_id: int
                 The event signup page id of the record to get.
+
         Returns:
             Event signup page json object
         """
@@ -669,6 +688,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -689,6 +709,7 @@ class ActionKit:
         Args:
             event_signup_form_id: str
                 The event signup form id of the record to get.
+
         Returns:
             Event signup form json object
         """
@@ -724,6 +745,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -749,6 +771,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -765,6 +788,7 @@ class ActionKit:
         Args:
             entity_id: int
                 The entity id of the record to get.
+
         Returns:
             Mailer json object
         """
@@ -780,6 +804,7 @@ class ActionKit:
                 Arguments and fields to pass to the client. A full list can be found in the
                 `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
                 rest/mailer.html>`_.
+
         Returns:
             URI of new mailer
         """
@@ -807,6 +832,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``HTTP response from the patch request``
         """
@@ -822,6 +848,7 @@ class ActionKit:
         Args:
             mailing_id: int
                 Id of the mailer.
+
         Returns:
             URI to poll for progress
         """
@@ -838,6 +865,7 @@ class ActionKit:
         Args:
             mailing_id: int
                 Id of the mailer.
+
         Returns:
             URI to poll for progress
         """
@@ -969,6 +997,7 @@ class ActionKit:
         Args:
             order_id: int
                 The order id of the record to get.
+
         Returns:
             User json object
         """
@@ -988,6 +1017,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -1005,6 +1035,7 @@ class ActionKit:
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
+
         Returns:
             ``HTTP response from the patch request``
         """
@@ -1023,6 +1054,7 @@ class ActionKit:
         Args:
             orderrecurring_id: int
                 The orderrecurring id of the record to get.
+
         Returns:
             User json object
         """
@@ -1040,6 +1072,7 @@ class ActionKit:
         Args:
             recurring_id: int
                 The id of the recurring order to update (NOT the order_id)
+
         Returns:
             ``None``
         """
@@ -1059,6 +1092,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -1105,6 +1139,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``HTTP response``
         """
@@ -1123,6 +1158,7 @@ class ActionKit:
         Args:
             page_followup_id: int
                 The user id of the record to get.
+
         Returns:
             Page followup json object
         """
@@ -1158,6 +1194,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             API location of new resource
         """
@@ -1177,6 +1214,7 @@ class ActionKit:
         Args:
             survey_question_id: int
                 The survey question id of the record to get.
+
         Returns:
             Survey question json object
         """
@@ -1200,6 +1238,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -1217,6 +1256,7 @@ class ActionKit:
         Args:
             **kwargs:
                 Optional arguments and fields to pass to the client.
+
         Returns:
             Transaction json object
         """
@@ -1238,6 +1278,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             ``None``
         """
@@ -1287,6 +1328,7 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
+
         Returns:
             dict
                 The response json
@@ -1314,6 +1356,7 @@ class ActionKit:
             **kwargs:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/importaction/schema/ path on any ActionKit instance.
+
         Returns:
             ``HTTP response from the patch request``
         """
@@ -1356,6 +1399,7 @@ class ActionKit:
               When uploading only an email/user_id column and user_ user fields,
               ActionKit has a fast processing path.
               This doesn't work, if you upload a zipped csv though.
+
         Returns:
             dict
                 success: whether upload was successful
@@ -1427,6 +1471,7 @@ class ActionKit:
             set_only_columns: list
                 This is similar to no_overwrite_on_empty but restricts to a specific set of columns
                 which, if blank, should not be overwritten.
+
         Returns:
             dict
                 success: bool -- whether upload was successful (individual rows may not have been)

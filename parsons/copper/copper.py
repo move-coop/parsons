@@ -24,6 +24,7 @@ class Copper:
         api_key:
             The Copper provided application key. Not required if ``COPPER_API_KEY``
             env. variable set.
+
     Returns:
         Copper Class
     """

@@ -54,6 +54,7 @@ class Scores:
             created_after: str
                 Filter score updates to those created after date. Use "YYYY-MM-DD"
                 format.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -169,6 +170,7 @@ class Scores:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                The score load job id.
@@ -278,6 +280,7 @@ class FileLoadingJobs:
                 The fault tolerance of the VAN calculated average compared to the ``auto_average``.
                 The tolerance must be less than 10% of the difference between the maximum and
                 minimum possible acceptable values of the score.
+
         Returns:
             dict
                 The file load id
@@ -373,6 +376,7 @@ class FileLoadingJobs:
 
             email: str
                 A valid email address in which file loading status will be sent.
+
         Returns:
             The file load job id
         """

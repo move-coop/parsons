@@ -39,6 +39,7 @@ class SavedLists:
         Args:
             saved_list_id: int
                 The saved list id.
+
         Returns:
             dict
         """
@@ -54,6 +55,7 @@ class SavedLists:
         Args:
             saved_list_id: int
                 The saved list id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -119,6 +121,7 @@ class SavedLists:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             dict
                 Upload results information included the number of matched and saved
@@ -214,6 +217,7 @@ class SavedLists:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             dict
                 Upload results information included the number of matched and saved
@@ -299,6 +303,7 @@ class Folders:
         Args:
             folder_id: int
                 The folder id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -363,6 +368,7 @@ class ExportJobs:
         Args:
             export_job_id: int
                 The xxport job id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

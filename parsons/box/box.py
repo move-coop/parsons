@@ -47,6 +47,7 @@ class Box:
             Note that this is only valid for developer use only, and should not
             be used when creating and maintaining access for typical users.
             Not required if ''BOX_ACCESS_TOKEN'' env variable is set.
+
     Returns:
             Box class
 

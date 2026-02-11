@@ -31,6 +31,7 @@ class Braintree:
         production: bool
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
+
     Returns:
         Braintree class
     """
@@ -302,6 +303,7 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
+
         Returns:
             Table Class
         """
@@ -382,6 +384,7 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
+
         Returns:
             Table Class
         """

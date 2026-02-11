@@ -22,6 +22,7 @@ class Signups:
                 A valid event id.
             event_type_id: int
                 A valid event type id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -49,6 +50,7 @@ class Signups:
         Args:
             vanid: int
                 A valid vanid associated with a person.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -81,6 +83,7 @@ class Signups:
         Args:
             event_signup_id: int
                 A valid event_signup_id associated with a signup.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

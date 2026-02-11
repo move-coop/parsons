@@ -31,6 +31,7 @@ class Redash:
             Specify time between polling for refreshed queries (Defaults to 3 seconds)
         verify: bool
             For https requests, should the certificate be verified (Defaults to True)
+
     Returns:
         Redash Class
     """
@@ -90,6 +91,7 @@ class Redash:
         Args:
             data_source_id: int or str
                 ID of data source.
+
         Returns:
             Data source json object
         """
@@ -118,6 +120,7 @@ class Redash:
                 Port of data source.
             user: str
                 Username of data source.
+
         Returns:
             ``None``
         """
@@ -156,6 +159,7 @@ class Redash:
                 If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
                 the values, then you must include the "p_" prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
+
         Returns:
             Table Class
         """
@@ -200,6 +204,7 @@ class Redash:
             query_api_key: str
                 If you did not supply a user_api_key on the Redash object, then you can
                 supply a query_api_key to get cached results back anonymously.
+
         Returns:
             Table Class
         """

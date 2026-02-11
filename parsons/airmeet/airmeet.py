@@ -37,6 +37,7 @@ class Airmeet:
                 The Airmeet API access key.
             airmeet_secret_key: string
                 The Airmeet API secret key.
+
         Returns:
             ``None``
         """
@@ -70,6 +71,7 @@ class Airmeet:
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
             **kwargs:
                 Additional parameters to include in the request.
+
         Returns:
             ``None``
         """
@@ -127,6 +129,7 @@ class Airmeet:
                 'registrationDate' (the default).
             sorting_direction: string
                 Can be either 'ASC' or 'DESC' (the default).
+
         Returns:
             Parsons.Table
                 List of participants for the Airmeet event
@@ -172,6 +175,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of sessions for this Airmeet event
@@ -190,6 +194,7 @@ class Airmeet:
             lists_to_tables: bool
                 If True, will convert any dictionary values that are lists
                 to Tables.
+
         Returns:
             Dict containing the Airmeet data
         """
@@ -207,6 +212,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of custom registration fields for this Airmeet event
@@ -228,6 +234,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of attendees for this Airmeet event
@@ -248,6 +255,7 @@ class Airmeet:
         Args:
             session_id: string
                 The id of the session.
+
         Returns:
             Parsons.Table
                 List of attendees for this session
@@ -264,6 +272,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of booths for this Airmeet
@@ -290,6 +299,7 @@ class Airmeet:
                 The id of the Airmeet.
             booth_id: string
                 The id of the booth.
+
         Returns:
             Parsons.Table
                 List of attendees for this booth
@@ -308,6 +318,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of users. For each user, the value for the "polls"
@@ -322,6 +333,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of users. For each user, the value for the "questions"
@@ -340,6 +352,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of event tracks
@@ -361,6 +374,7 @@ class Airmeet:
         Args:
             airmeet_id: string
                 The id of the Airmeet.
+
         Returns:
             Parsons.Table
                 List of UTM parameters captured during registration
@@ -384,6 +398,7 @@ class Airmeet:
             session_id: string
                 (optional) If provided, limits results to only the recording
                 of the specified session.
+
         Returns:
             Parsons.Table
                 List of session recordings
@@ -412,6 +427,7 @@ class Airmeet:
             session_id: string
                 (optional) If provided, limits results to only attendees of
                 the specified session.
+
         Returns:
             Parsons.Table
                 List of event replay attendees

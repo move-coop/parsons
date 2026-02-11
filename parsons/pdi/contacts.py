@@ -26,6 +26,7 @@ class Contacts:
             search_by_email: bool, whether to search using email address
             limit: int
                 The number of contacts to return.
+
         Returns:
             parsons.Table
                 A Parsons table of all the data.

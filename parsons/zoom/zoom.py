@@ -175,6 +175,7 @@ class ZoomV1:
                 ``inactive``, or ``pending``.
             role_id: str
                 Filter by the user role.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -225,6 +226,7 @@ class ZoomV1:
                 Optional start date for the range of meetings to retrieve.
             to_date: datetime.date or None
                 Optional end date for the range of meetings to retrieve.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

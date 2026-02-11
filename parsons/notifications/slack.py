@@ -47,6 +47,7 @@ class Slack:
                 Mix and match channel types by providing a list of any
                 combination of `public_channel`, `private_channel`,
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -83,6 +84,7 @@ class Slack:
                 `id` and `name` and `deleted` status are returned. See
                 https://api.slack.com/methods/users.list for a full list of
                 available fields. `Notes:` nested fields are unpacked.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -206,6 +208,7 @@ class Slack:
             is_binary: bool
                 If True, open this file in binary mode. This is needed if
                 uploading binary files. Defaults to False.
+
         Returns:
             `dict`:
                 A response json

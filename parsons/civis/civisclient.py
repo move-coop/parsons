@@ -16,6 +16,7 @@ class CivisClient:
             The Civis api key.
         **kwargs: args
             Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
+
     Returns:
         Civis class
     """

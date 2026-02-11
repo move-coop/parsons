@@ -25,6 +25,7 @@ class ToFrom:
                 columns. Otherwise this argument indicates the order of the
                 columns in the result (any names not found in the data will
                 become all-NA columns)
+
         Returns:
             dataframe
                 Pandas DataFrame object
@@ -76,6 +77,7 @@ class ToFrom:
                 Styles to be applied to the table cells.
             truncate: int
                 Length of cell data.
+
         Returns:
             str
                 The path of the new file
@@ -929,6 +931,7 @@ class ToFrom:
             line_delimited: bool
                 Whether the file is line-delimited JSON (with a row on each line), or a proper
                 JSON file.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

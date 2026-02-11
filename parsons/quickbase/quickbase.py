@@ -18,6 +18,7 @@ class Quickbase:
         user_token: str
             The Quickbase account user token (API key). Not required if
             ``QUICKBASE_USER_TOKEN`` env variable is set.
+
     Returns:
         Quickbase Class
     """
@@ -43,6 +44,7 @@ class Quickbase:
         Args:
             app_id: str
                 Identifies which Quickbase app from which to fetch tables.
+
         Returns:
             Table Class
         """
@@ -59,6 +61,7 @@ class Quickbase:
         Args:
             from: str
                 The ID of a Quickbase resource (i.e. a table) to query.
+
         Returns:
             Table Class
         """

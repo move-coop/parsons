@@ -29,6 +29,7 @@ class SurveyQuestions:
                 Filter to survey questions with script questions that contain the given input.
             cycle: str
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -56,6 +57,7 @@ class SurveyQuestions:
         Args:
             survey_question_id: int
                 The survey question id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

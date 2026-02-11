@@ -197,6 +197,7 @@ def distribute_task(
            set to "local".
         use_s3_env_token: str
            If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
+
     Returns:
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.

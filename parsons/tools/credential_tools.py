@@ -21,6 +21,7 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
             Defaults to true.
         echo: bool
             A flag for whether to print the decoded object. Defaults to False.
+
     Returns:
         dict
             The decoded object.
@@ -53,6 +54,7 @@ def encode_from_json_str(credential):
     Args:
         credential: str
             The credential json string to be encoded.
+
     Returns:
         str
             The encoded credential.
@@ -71,6 +73,7 @@ def encode_from_json_file(credential_file):
     Args:
         credential_file: str
             The path to the json file with the credential to be encoded.
+
     Returns:
         str
             The encoded credential.
@@ -90,6 +93,7 @@ def encode_from_env(env_variables):
     Args:
         env_variables: list
             The list of credentials from the environment to be encoded.
+
     Returns:
         str
             The encoded credential.
@@ -110,6 +114,7 @@ def encode_from_dict(credential):
     Args:
         credential: dict
             The list of credentials from the environment to be encoded.
+
     Returns:
         str
             The encoded credential.

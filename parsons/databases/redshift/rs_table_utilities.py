@@ -69,6 +69,7 @@ class RedshiftTableUtilities:
         Args:
             table_name: str
                 The schema and name (e.g. ``myschema.mytable``) of the table.
+
         Returns:
             int
         """
@@ -110,6 +111,7 @@ class RedshiftTableUtilities:
                 New name of schema and table (e.g. ``my_schema.newtable``)
             drop_original: boolean
                 Drop the source table.
+
         Returns:
                 None
         """
@@ -151,6 +153,7 @@ class RedshiftTableUtilities:
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
+
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
@@ -537,6 +540,7 @@ class RedshiftTableUtilities:
         Args:
             object_name: str
                 The schema.obj for which to get the object type.
+
         Returns:
             `str` of the object type.
 
@@ -570,6 +574,7 @@ class RedshiftTableUtilities:
         Args:
             object_name: str
                 The schema.obj to test if it's a view.
+
         Returns:
             `bool`
 
@@ -585,6 +590,7 @@ class RedshiftTableUtilities:
         Args:
             object_name: str
                 The schema.obj to test if it's a table.
+
         Returns:
             `bool`
 
@@ -600,6 +606,7 @@ class RedshiftTableUtilities:
         Args:
             table: str
                 The schema.table for which to get the table definition.
+
         Returns:
             str
         """
@@ -627,6 +634,7 @@ class RedshiftTableUtilities:
                 The schema to filter by.
             table: str
                 The table to filter by.
+
         Returns:
             `list` of dicts with matching tables.
 
@@ -675,6 +683,7 @@ class RedshiftTableUtilities:
         Args:
             view: str
                 The schema.view for which to get the view definition.
+
         Returns:
             str
         """
@@ -702,6 +711,7 @@ class RedshiftTableUtilities:
                 The schema to filter by.
             view: str
                 The view to filter by.
+
         Returns:
             `list` of dicts with matching views.
 

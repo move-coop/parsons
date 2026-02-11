@@ -71,6 +71,7 @@ def create_temp_file_for_path(path):
     Args:
         path: str
             Path (or just file name) of the file you want the temp file to mimick.
+
     Returns:
         str
             The path of the temp file
@@ -196,6 +197,7 @@ def read_file(path):
     Args:
         path: str
             The path to the file to read.
+
     Returns:
         str
             The contents of a files.
@@ -262,6 +264,7 @@ def has_data(file_path):
     Args:
         file_path: str
             The file path.
+
     Returns:
         boolean
             ``True`` if data in the file and ``False`` if not.

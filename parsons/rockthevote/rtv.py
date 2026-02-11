@@ -52,6 +52,7 @@ class RockTheVote:
             Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
+
     Returns:
         RockTheVote class
     """
@@ -79,6 +80,7 @@ class RockTheVote:
             report_type: str
                 The type of report to create. If left as None, it creates the default report. The
                 ``extended`` report includes additional fields. Currently only accepts ``extended``.
+
         Returns:
             int
                 The ID of the created report.

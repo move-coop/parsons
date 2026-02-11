@@ -37,6 +37,7 @@ class PostgresCreateStatement(DatabaseCreateStatement):
                 The column to rename.
             index: int
                 (Optional) The index of the column.
+
         Returns:
             str
                 The rename column.

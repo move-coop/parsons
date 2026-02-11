@@ -30,6 +30,7 @@ class AzureBlobStorage:
         account_url: str
             The account URL for the Azure storage account including the account name and domain.
             Not required if ``AZURE_ACCOUNT_URL`` environment variable is set.
+
     Returns:
         `AzureBlobStorage`
     """
@@ -119,6 +120,7 @@ class AzureBlobStorage:
                 Additional arguments to be supplied to the Azure Blob Storage API. See `Azure Blob
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#create-container-name--metadata-none--public-access-none----kwargs->`_
                 for more info.
+
         Returns:
             `ContainerClient`
         """
@@ -230,6 +232,7 @@ class AzureBlobStorage:
             start: Optional[Union[datetime, str]]
                 The datetime when the URL should become valid. Defaults to UTC. If it is ``None``,
                 the URL becomes active when it is first created.
+
         Returns:
             str
                 URL with shared access signature for blob
@@ -302,6 +305,7 @@ class AzureBlobStorage:
                 Storage SDK documentation <https://docs.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient?view=azure-python#upload-blob-data--blob-type--blobtype-blockblob---blockblob----length-none--metadata-none----kwargs->`_
                 for more info. Any keys that belong to the ``ContentSettings`` object will be
                 provided to that class directly.
+
         Returns:
             `BlobClient`
         """
@@ -335,6 +339,7 @@ class AzureBlobStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+
         Returns:
             str
                 The path of the downloaded file

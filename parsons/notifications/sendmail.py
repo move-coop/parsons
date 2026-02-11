@@ -63,6 +63,7 @@ class SendMail(ABC):
                 The subject of the email message.
             message_text: str
                 The text of the email message.
+
         Returns:
             An object passable to send_message to send
         """
@@ -89,6 +90,7 @@ class SendMail(ABC):
                 The text of the email message.
             message_html: str
                 The html formatted text of the email message.
+
         Returns:
             An object passable to send_message to send
         """
@@ -122,6 +124,7 @@ class SendMail(ABC):
                 The path(s) to the file(s) to be attached.
             message_html: str
                 Optional; The html formatted text of the email message.
+
         Returns:
             An object passable to send_message to send
         """

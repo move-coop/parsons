@@ -141,6 +141,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict containing Action Builder tag data.
         """
@@ -180,6 +181,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict containing Action Builder entity data.
         """
@@ -222,6 +224,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict containing Action Builder entity data.
         """
@@ -257,6 +260,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict with HTTP response.
         """
@@ -282,6 +286,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict containing Action Builder entity data of the entity being tagged.
         """
@@ -330,6 +335,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             API response JSON which contains `{'message': 'Tag has been removed from Taggable
             Logbook'}` if successful.
@@ -399,6 +405,7 @@ class ActionBuilder:
             reactivate: bool
                 Optional. Whether or not to set the `inactive` flag on a given Connection to False
                 if the Connection exists and has `inactive` set to True. True by default.
+
         Returns:
             Dict containing Action Builder connection data.
         """
@@ -458,6 +465,7 @@ class ActionBuilder:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
+
         Returns:
             Dict containing Action Builder connection data.
         """

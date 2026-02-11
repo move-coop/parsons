@@ -276,6 +276,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
+
         Returns:
             bool
                 True if the table needs to be created, False otherwise.

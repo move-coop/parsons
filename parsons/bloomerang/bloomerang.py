@@ -172,6 +172,7 @@ class Bloomerang:
                 Sorts the order_by in ``Asc`` or ``Desc`` order.
             last_modified: str
                 Filters to constituents last modified after the specified date (ISO-8601 format).
+
         Returns:
             A Table of the entries.
         """
@@ -235,6 +236,7 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
+
         Returns:
             A  JSON of the entry or an error.
         """
@@ -267,6 +269,7 @@ class Bloomerang:
                 Sorts by ``Date``, ``CreatedDate``, or ``LastModifiedDate`` (default ``Date``).
             order_direction: str
                 Sorts the order_by in ``Asc`` or ``Desc`` order (default ``Desc``).
+
         Returns:
             A  JSON of the entry or an error.
         """
@@ -323,6 +326,7 @@ class Bloomerang:
                 Number of the page to fetch
             page_size: int
                 Number of records per page (maximum allowed is 50)
+
         Returns:
             A  JSON of the entry or an error.
         """

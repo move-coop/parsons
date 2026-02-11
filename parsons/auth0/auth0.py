@@ -22,6 +22,7 @@ class Auth0:
             The Auth0 client secret. Not required if ``AUTH0_CLIENT_SECRET`` env variable set.
         domain: str
             The Auth0 domain. Not required if ``AUTH0_DOMAIN`` env variable set.
+
     Returns:
         Auth0 Class
     """
@@ -53,6 +54,7 @@ class Auth0:
         Args:
             id: str
                 The user ID of the record to delete.
+
         Returns:
             int
         """
@@ -67,6 +69,7 @@ class Auth0:
         Args:
             email: str
                 The user email of the record to get.
+
         Returns:
             Table Class
         """
@@ -147,6 +150,7 @@ class Auth0:
                 Auth0 user id
             connection: optional str
                 Name of auth0 connection (default to Username-Password-Authentication)
+
         Returns:
             Requests Response object
         """
@@ -167,6 +171,7 @@ class Auth0:
         Args:
             connection: optional str
                 Name of auth0 connection (default to Username-Password-Authentication)
+
         Returns:
             Requests Response object
         """

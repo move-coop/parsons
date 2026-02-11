@@ -70,6 +70,7 @@ class GoogleSheets:
         Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+
         Returns:
             list
                 A List of worksheets order by their index
@@ -108,6 +109,7 @@ class GoogleSheets:
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -169,6 +171,7 @@ class GoogleSheets:
         Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

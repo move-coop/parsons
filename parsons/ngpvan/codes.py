@@ -24,6 +24,7 @@ class Codes:
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -48,6 +49,7 @@ class Codes:
         Args:
             code_id : int
                 The code id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -212,6 +214,7 @@ class Codes:
         Args:
             code_id: int
                 The code id.
+
         Returns:
             ``None``
         """

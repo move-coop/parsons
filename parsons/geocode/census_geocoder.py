@@ -42,6 +42,7 @@ class CensusGeocoder:
             return_type: str
                 ``geographies`` will return information about the Census geographies
                 while ``locations`` will information about the address.
+
         Returns:
             dict
         """
@@ -74,6 +75,7 @@ class CensusGeocoder:
             return_type: str
                 ``geographies`` will return information about the Census geographies
                 while ``locations`` will information about the address.
+
         Returns:
             dict
         """

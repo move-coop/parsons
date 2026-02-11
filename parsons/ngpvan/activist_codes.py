@@ -32,6 +32,7 @@ class ActivistCodes:
         Args:
             activist_code_id : int
                 The activist code id.
+
         Returns:
             dict
                 The activist code
@@ -79,6 +80,7 @@ class ActivistCodes:
             omit_contact: boolean
                 If set to false the contact history will be updated with a contact
                 attempt.
+
         Returns:
             ``None``
         """

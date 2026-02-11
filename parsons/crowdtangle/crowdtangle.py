@@ -21,6 +21,7 @@ class CrowdTangle:
         api_key: str
             A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env
             variable set.
+
     Returns:
         CrowdTangle Class
     """
@@ -197,6 +198,7 @@ class CrowdTangle:
                 A list of CrowdTangle accountIds to retrieve leaderboard data for.
                 This and ``list_id`` are mutually exclusive; if both are sent, the
                 ``account_ids`` value will be used.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

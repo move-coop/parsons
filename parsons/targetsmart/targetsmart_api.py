@@ -211,6 +211,7 @@ class Person:
             table: parsons table
                 See :ref:`parsons-table`. One row per phone number,
                 up to 500 phone numbers.
+
         Returns:
             See :ref:`parsons-table` for output options.
         """

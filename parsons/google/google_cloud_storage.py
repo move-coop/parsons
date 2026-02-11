@@ -57,6 +57,7 @@ class GoogleCloudStorage:
         project: str
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
+
     Returns:
         GoogleCloudStorage Class
 
@@ -139,6 +140,7 @@ class GoogleCloudStorage:
         Args:
             bucket_name: str
                 A globally unique name for the bucket.
+
         Returns:
             ``None``
         """
@@ -280,6 +282,7 @@ class GoogleCloudStorage:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
+
         Returns:
             str
                 The path of the downloaded file

@@ -17,6 +17,7 @@ class CustomFields:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -36,6 +37,7 @@ class CustomFields:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -69,6 +71,7 @@ class CustomFields:
         Args:
             custom_field_id: int
                 A valid custom field id.
+
         Returns:
             A json.
         """

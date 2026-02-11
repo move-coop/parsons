@@ -31,6 +31,7 @@ class SupporterGroups:
         Args:
             supporter_group_id: int
                 The supporter group id.
+
         Returns:
             dict
         """

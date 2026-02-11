@@ -204,6 +204,7 @@ class GoogleDrive:
                 The ID of the destination folder. If not provided, copies to the same parent folder.
             new_name: str
                 The name for the copied file. If not provided, Drive will use "Copy of [original name]".
+
         Returns:
             str: The ID of the newly created copy
         """

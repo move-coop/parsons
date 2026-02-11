@@ -20,6 +20,7 @@ class Sisense:
         api_key: str
             The Sisense API Key. Not required if the ``SISENSE_API_KEY``
             environmental variable is set.
+
     Returns:
         Sisense class
     """
@@ -46,6 +47,7 @@ class Sisense:
                 The ID of the chart. Only required for publishing individual charts.
             **kwargs:
                 Optional arguments.
+
         Returns:
             Response (dict containing the URL) or an error
         """
@@ -59,6 +61,7 @@ class Sisense:
         Args:
             dashboard_id: str or int
                 The ID the dashboard (required).
+
         Returns:
             Response or an error
         """
@@ -77,6 +80,7 @@ class Sisense:
         Args:
             token: str or int
                 The token of the shared dashboard (required).
+
         Returns:
             Response or an error
         """

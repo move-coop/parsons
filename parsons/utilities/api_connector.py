@@ -123,6 +123,7 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success code to be returned. If not provided, accepts 200, 201, 202, and 204.
+
         Returns:
             A requests response object
         """
@@ -153,6 +154,7 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object or status code
         """
@@ -186,6 +188,7 @@ class APIConnector:
                 The request parameters
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
+
         Returns:
                 A requests response object
         """
@@ -217,6 +220,7 @@ class APIConnector:
                 A JSON object to post
             success_codes: int
                 The expected success codes to be returned. If not provided, accepts 200, 201, and 204.
+
         Returns:
             A requests response object
         """

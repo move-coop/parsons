@@ -1173,6 +1173,7 @@ class Redshift(
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
+
         Returns:
             ``None``
         """

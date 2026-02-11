@@ -40,6 +40,7 @@ class Targets:
         Args:
             target_id : int
                 The target id.
+
         Returns:
             dict
                 The target
@@ -75,6 +76,7 @@ class Targets:
         Args:
             target_id : int
                 The target id the export job is creating for.
+
         Returns:
             dict
                 The target export job ID

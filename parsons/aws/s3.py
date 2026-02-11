@@ -149,6 +149,7 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2>`_
                 for more info.
+
         Returns:
             dict
                 Dict mapping the keys to info about each key. The info includes 'LastModified',
@@ -401,6 +402,7 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
+
         Returns:
             ``None``
         """

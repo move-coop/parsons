@@ -138,6 +138,7 @@ class Airtable:
                 Fields to insert. Must be dictionary with Column names as Key.
             typecast: boolean
                 Automatic data conversion from string values.
+
         Returns:
             Dictionary of inserted row
         """
@@ -157,6 +158,7 @@ class Airtable:
                 Insert a Parsons table or list
             typecast: boolean
                 Automatic data conversion from string values.
+
         Returns:
             List of dictionaries of inserted rows
         """
@@ -184,6 +186,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             Dictionary of updated row
         """
@@ -208,6 +211,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             List of dicts of updated records
         """
@@ -242,6 +246,7 @@ class Airtable:
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
+
         Returns:
             Dictionary containing:
                 - `updated_records`: list of updated record `id`s
@@ -291,6 +296,7 @@ class Airtable:
 
         Args:
             table: A Parsons Table or list containing the record `id`s to delete.
+
         Returns:
             List of dicts with record `id` and `deleted` status
         """

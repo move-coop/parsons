@@ -14,6 +14,7 @@ class Universes:
         Args:
             limit: int
                 The number of universes to return.
+
         Returns:
             parsons.Table
                 A Parsons table of all the data.

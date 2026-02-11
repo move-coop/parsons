@@ -18,6 +18,7 @@ class Locations:
         Args:
             name: str
                 Filter locations by name.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -34,6 +35,7 @@ class Locations:
         Args:
             location_id: int
                 The location id.
+
         Returns:
             dict
         """
@@ -67,6 +69,7 @@ class Locations:
                 Two or three character state or province code (e.g., MN, ON, NSW, etc.).
             zip_code: str
                 ZIP, ZIP+4, Postal Code, Post code, etc.
+
             Returns:
                 int
                     A location id.

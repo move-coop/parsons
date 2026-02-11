@@ -20,6 +20,7 @@ class Controlshift:
         client_secret: str
             The Client Secret for your REST API Application. Not required if
             ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set.
+
     Returns:
         Controlshift Class
     """

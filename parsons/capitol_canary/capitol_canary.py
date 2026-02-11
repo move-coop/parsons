@@ -23,6 +23,7 @@ class CapitolCanary:
         app_key: str
             The CapitolCanary provided application key. Not required if ``CAPITOLCANARY_APP_KEY``
             env variable set.
+
     Returns:
         CapitolCanary Class
     """
@@ -76,6 +77,7 @@ class CapitolCanary:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
+
         Returns:
             A dict of parsons tables:
                 * emails
@@ -155,6 +157,7 @@ class CapitolCanary:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

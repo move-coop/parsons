@@ -37,6 +37,7 @@ class DatabaseCreateStatement:
                 The column to rename.
             index: int
                 (Optional) The index of the column.
+
         Returns:
             str
                 The rename column.
@@ -51,6 +52,7 @@ class DatabaseCreateStatement:
                 The column to rename.
             index: int
                 (Optional) The index of the column.
+
         Returns:
             str
                 The rename column.
@@ -65,6 +67,7 @@ class DatabaseCreateStatement:
                 The string representation if an int type.
             int2: str
                 The string representation if an int type.
+
         Returns:
             str
                 A string representation of the higher of the two int types.
@@ -84,6 +87,7 @@ class DatabaseCreateStatement:
         Args:
             val: any
                 The values to check.
+
         Returns:
             bool
                 Whether or not the value is a valid sql number.
@@ -125,6 +129,7 @@ class DatabaseCreateStatement:
             cmp_type: str
                 The string representation of a type to compare with
                 ``value``'s type.
+
         Returns:
             str
                 The string representation of the higher of the two types.
@@ -230,6 +235,7 @@ class DatabaseCreateStatement:
                 The columns to format.
             kwargs: dicts
                 Keyword arguments to pass to ``format_column``.
+
         Returns:
             list
                 The formatted columns.

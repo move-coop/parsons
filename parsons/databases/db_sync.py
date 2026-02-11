@@ -24,6 +24,7 @@ class DBSync:
         retries: int
             The number of times to retry if there is an error processing a
             chunk of data. The default value is 0.
+
     Returns:
         A DBSync object.
     """
@@ -73,6 +74,7 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
+
         Returns:
             ``None``
         """
@@ -140,6 +142,7 @@ class DBSync:
                 are the same at the end of the sync.
             **kwargs: args
                 Optional copy arguments for destination database.
+
         Returns:
             ``None``
         """
@@ -224,6 +227,7 @@ class DBSync:
                 Column to use to order the data to ensure a stable sort.
             **kwargs: args
                 Optional copy arguments for destination database.
+
         Returns:
             ``None``
         """

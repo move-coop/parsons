@@ -33,6 +33,7 @@ class SFTP:
             Optionally pass a paramiko RSAKey object directly
         timeout: int
             Timeout argument for use when getting files through SFTP.
+
     Returns:
         SFTP Class
     """
@@ -268,6 +269,7 @@ class SFTP:
             local_paths: list
                 A list of paths to which to save the selected files. Defaults to None. If it is not
                 the same length as the files to be fetched, temporary files are used instead.
+
         Returns:
             list
                 Local paths where the files are saved.
@@ -445,6 +447,7 @@ class SFTP:
             pattern: str
                 A regex pattern with which to select full directory paths. Defaults to None, in
                 which case all subdirectories will be selected.
+
         Returns:
             list
                 The subdirectories in `remote_path`.
@@ -464,6 +467,7 @@ class SFTP:
             pattern: str
                 A regex pattern with which to select file names. Defaults to None, in which case
                 all files will be selected.
+
         Returns:
             list
                 The files in `remote_path`.
@@ -501,6 +505,7 @@ class SFTP:
             max_depth: int
                 A limit on how many directories deep to traverse.  The default, 2, will search the
                 contents of `remote_path` and its subdirectories.
+
         Returns:
             tuple
                 A list of directories touched and a list of files.  If the files were downloaded

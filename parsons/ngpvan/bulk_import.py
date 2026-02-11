@@ -36,6 +36,7 @@ class BulkImport:
         Args:
             job_id : int
                 The bulk import job id.
+
         Returns:
             dict
                 The bulk import job
@@ -56,6 +57,7 @@ class BulkImport:
         Args:
             job_id: int
                 The bulk import job id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -205,6 +207,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                 The bulk import job id
@@ -329,6 +332,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                 The bulk import job id
@@ -376,6 +380,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                 The bulk import job id
@@ -444,6 +449,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                 The bulk import job id
@@ -493,6 +499,7 @@ class BulkImport:
             **url_kwargs: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
+
         Returns:
             int
                 The bulk import job id

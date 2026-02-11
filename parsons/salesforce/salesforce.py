@@ -111,6 +111,7 @@ class Salesforce:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+
         Returns:
             list of dicts with Salesforce data
         """
@@ -132,6 +133,7 @@ class Salesforce:
                 A Parsons Table with data for inserting records. Column names must match object
                 field API names, though case and order need not match. Note that custom field
                 names end in `__c`.
+
         Returns:
             list of dicts that have the following data:
             * success: boolean
@@ -159,6 +161,7 @@ class Salesforce:
                 A Parsons Table with data for updating records. Must contain one column named
                 `id`. Column names must match object field API names, though case and order need
                 not match. Note that custom field names end in `__c`.
+
             Returns:
                 list of dicts that have the following data:
                 * success: boolean
@@ -189,6 +192,7 @@ class Salesforce:
             id_col: str
                 The column name in `data_table` that stores the record ID. Required even if all
                 records are new/inserted.
+
             Returns:
                 list of dicts that have the following data:
                 * success: boolean

@@ -43,6 +43,7 @@ class NewmodeV1:
             api_version: str
                 The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
                 env variable.
+
         Returns:
             Newmode class
         """
@@ -67,6 +68,7 @@ class NewmodeV1:
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tools information as table.
         """
@@ -89,6 +91,7 @@ class NewmodeV1:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool information.
         """
@@ -147,6 +150,7 @@ class NewmodeV1:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool action information.
         """
@@ -175,6 +179,7 @@ class NewmodeV1:
                 on the stuff returned by get_action.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Action link (if otl) or sid.
         """
@@ -200,6 +205,7 @@ class NewmodeV1:
                 The id of the target to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Target information.
         """
@@ -241,6 +247,7 @@ class NewmodeV1:
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaigns information as table.
         """
@@ -263,6 +270,7 @@ class NewmodeV1:
                 The id of the campaign to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaign information.
         """
@@ -281,6 +289,7 @@ class NewmodeV1:
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organizations information as table.
         """
@@ -303,6 +312,7 @@ class NewmodeV1:
                 The id of the organization to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organization information.
         """
@@ -321,6 +331,7 @@ class NewmodeV1:
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Services information as table.
         """
@@ -343,6 +354,7 @@ class NewmodeV1:
                 The id of the service to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Service information.
         """
@@ -363,6 +375,7 @@ class NewmodeV1:
                 Tool to return outreaches.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreaches information as table.
         """
@@ -385,6 +398,7 @@ class NewmodeV1:
                 The id of the outreach to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreach information.
         """
@@ -604,6 +618,7 @@ class NewmodeV2:
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
+
         Returns:
             Parsons Table containing campaign data.
         """
@@ -628,6 +643,7 @@ class NewmodeV2:
                 ID of organization
             params: dict
                 Query parameters to include in the request.
+
         Returns:
             List containing all campaign ids.
         """
@@ -713,6 +729,7 @@ class NewmodeV2:
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
+
         Returns:
             Parsons Table containing submit data.
         """
@@ -744,6 +761,7 @@ class NewmodeV2:
         Args:
             params: dict
                 Query parameters to include in the request.
+
         Returns:
             Parsons Table containing submit data.
         """

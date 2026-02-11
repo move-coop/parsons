@@ -16,6 +16,7 @@ class ETL:
         Args:
             n: int
                 The number of rows to return. Defaults to 5.
+
         Returns:
             `Parsons Table`
         """
@@ -229,6 +230,7 @@ class ETL:
         Args:
             column: str
                 The column name.
+
         Returns:
             int
         """
@@ -282,6 +284,7 @@ class ETL:
             remove_source_columns: bool
                 Whether to remove the source columns after the coalesce. If the destination
                 column is also one of the source columns, it will not be removed.
+
         Returns:
             `Parsons Table` and also updates self
         """
@@ -325,6 +328,7 @@ class ETL:
             exact_match: boolean
                 If ``True`` will only map if an exact match. If ``False`` will
                 ignore case, spaces and underscores.
+
         Returns:
             `Parsons Table` and also updates self
 
@@ -606,6 +610,7 @@ class ETL:
                 If `int`: Add to original unless the max added per key is above the given number
                 If `False` (default): Return unpacked rows (with `key` column only) as standalone
                 Removes packed list and dict rows from original either way.
+
         Returns:
             If `expand_original`, original table with packed rows replaced by unpacked rows
             Otherwise, standalone table with key column and unpacked values only
@@ -749,6 +754,7 @@ class ETL:
             prepend_value:
                 Value to prepend new columns if ``prepend=True``. If None, will
                 set to column name.
+
         Returns:
             Parsons Table
                 The new long table
@@ -1107,6 +1113,7 @@ class ETL:
                 function.
             presorted: bool
                 If false, the row will be sorted.
+
         Returns:
             `Parsons Table` and also updates self
 
@@ -1133,6 +1140,7 @@ class ETL:
                 will sort columns from left to right.
             reverse: boolean
                 Sort rows in reverse order.
+
         Returns:
             `Parsons Table` and also updates self
         """
@@ -1200,6 +1208,7 @@ class ETL:
                 The arguements to pass to the petl function.
             **kwargs: Any
                 The keyword arguements to pass to the petl function.
+
         Returns:
             `parsons.Table` or `petl` table
         """
@@ -1294,6 +1303,7 @@ class ETL:
                 keys to deduplicate (and optionally sort) on.
             presorted: bool
                 If false, the row will be sorted.
+
         Returns:
             `Parsons Table` and also updates self
 

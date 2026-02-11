@@ -25,6 +25,7 @@ class Hustle:
         client_secret:
             The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
             variable set.
+
     Returns:
         Hustle Class
     """
@@ -149,6 +150,7 @@ class Hustle:
         Args:
             agent_id: str
                 The agent id.
+
         Returns:
             dict
         """
@@ -182,6 +184,7 @@ class Hustle:
                 Send an invitation to the agent.
             email:
                 The email address of the agent.
+
         Returns:
             dict
         """
@@ -222,6 +225,7 @@ class Hustle:
                 The valid phone number of the agent.
             send_invite: boolean
                 Send an invitation to the agent.
+
         Returns:
             dict
         """
@@ -255,6 +259,7 @@ class Hustle:
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             dict
         """
@@ -316,6 +321,7 @@ class Hustle:
         Args:
             lead_id: str
                 The lead id.
+
         Returns:
             dict
         """
@@ -334,6 +340,7 @@ class Hustle:
                 The organization id.
             group_id: str
                 The group id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -392,6 +399,7 @@ class Hustle:
                 value as the value.
             tag_ids: list
                 A list of tag ids.
+
         Returns:
                 ``None``
         """
@@ -442,6 +450,7 @@ class Hustle:
             group_id:
                 The group id to assign the leads. If ``None``, must be passed as a column
                 value.
+
         Returns:
             A table of created ids with associated lead id.
         """
@@ -545,6 +554,7 @@ class Hustle:
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -561,6 +571,7 @@ class Hustle:
         Args:
             tag_id: str
                 The tag id.
+
         Returns:
             dict
         """
@@ -575,6 +586,7 @@ class Hustle:
         Args:
             organization_id: str
                 The organization id.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -596,6 +608,7 @@ class Hustle:
                 The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.
             agent_visible: bool
                 Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.
+
         Returns:
             dict
                 The newly created custom field

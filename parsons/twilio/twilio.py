@@ -19,6 +19,7 @@ class Twilio:
         auth_token: str
             The Twilio auth token. Not required if ``TWILIO_AUTH_TOKEN`` env variable is
             passed.
+
     Returns:
         Twilio class
     """
@@ -60,6 +61,7 @@ class Twilio:
                 Filter to name of the account
             status: str
                 Filter to an account status of ``active``, ``closed`` or ``suspended``.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -99,6 +101,7 @@ class Twilio:
                 ``yearly``.
             exclude_null: boolean
                 Exclude rows that have no usage.
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -157,6 +160,7 @@ class Twilio:
                 Filter to messages only sent before the specified date (ex. ``2019-01-01``).
             date_sent_after: str
                 Filter to messages only sent after the specified date (ex. ``2019-01-01``).
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.

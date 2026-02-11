@@ -55,6 +55,7 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
+
         Returns:
             A person dict object
         """
@@ -185,6 +186,7 @@ class People:
                 Defaults to ``vanid``.
             match_json: dict
                 A dictionary of values to match against and save.
+
         Returns:
             A person dict
         """
@@ -244,6 +246,7 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
+
         Returns:
             A person dict
         """
@@ -286,6 +289,7 @@ class People:
         Args:
             match_json: dict
                 A dictionary of values to match against and save.
+
         Returns:
             A person dict
         """
@@ -421,6 +425,7 @@ class People:
                 ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,
                 ``districts``, ``election_records``, ``membership_statuses``, ``notes``,
                 ``organization_roles``, ``scores``, ``disclosure_field_values``.
+
         Returns:
             A person dict
         """
@@ -471,6 +476,7 @@ class People:
         Args:
             vanid: str
                 The person's VAN ID.
+
         Returns:
             Success or error.
         """
@@ -510,6 +516,7 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
+
         Returns:
             ``None``
         """
@@ -627,6 +634,7 @@ class People:
                 `Optional`; a valid Campaign ID.
             skip_matching: boolean
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
+
         Returns:
             ``True`` if successful
 
@@ -745,6 +753,7 @@ class People:
                 The VANID of the primary contact record.
             source_vanid: str
                 The VANID of the source contact record.
+
         Returns:
             The VANID of the primary contact record.
         """

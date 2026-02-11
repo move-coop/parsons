@@ -21,6 +21,7 @@ class QuickBooksTime:
             [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa: E501
 
             [QuickBooksTime API Documentation](https://tsheetsteam.github.io/api_docs/#introduction)
+
     """
 
     def __init__(self, token=None):
@@ -127,6 +128,7 @@ class QuickBooksTime:
 
         Returns:
             Parsons Table
+
         """
 
         querystring = {
@@ -225,6 +227,7 @@ class QuickBooksTime:
 
         Returns:
             Parsons Table
+
         """
 
         querystring = {
@@ -334,6 +337,7 @@ class QuickBooksTime:
 
         Returns:
             Parsons Table
+
         """
 
         querystring = {
@@ -441,6 +445,7 @@ class QuickBooksTime:
         Returns:
             Parsons Table
             See Parsons Table for output options.
+
         """
 
         querystring = {
@@ -511,6 +516,7 @@ class QuickBooksTime:
         Returns:
             List of integers of schedules calendar ids.
             Needed for calling the /schedule_events endpoint
+
         """
 
         endpoint = "schedule_calendars"
@@ -631,6 +637,7 @@ class QuickBooksTime:
         Returns:
             Parsons Table
             See Parsons Table for output options.
+
         """
 
         if schedule_calendar_ids is None:
@@ -710,6 +717,7 @@ class QuickBooksTime:
         Returns:
             Parsons Table
             See Parsons Table for output options.
+
         """
 
         endpoint = "geolocations"

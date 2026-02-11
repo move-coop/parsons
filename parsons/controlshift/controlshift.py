@@ -23,6 +23,7 @@ class Controlshift:
 
     Returns:
         Controlshift Class
+
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
@@ -50,6 +51,7 @@ class Controlshift:
 
         Returns:
             Table Class
+
         """
         next_page = 1
         petitions = []

@@ -64,6 +64,7 @@ class S3:
 
     Returns:
         S3 class.
+
     """
 
     def __init__(
@@ -92,6 +93,7 @@ class S3:
 
         Returns:
             list
+
         """
 
         return [bucket.name for bucket in self.s3.buckets.all()]
@@ -106,6 +108,7 @@ class S3:
         Returns:
             boolean
                 ``True`` if the bucket exists and ``False`` if not.
+
         """
 
         try:
@@ -154,6 +157,7 @@ class S3:
             dict
                 Dict mapping the keys to info about each key. The info includes 'LastModified',
                 'Size', and 'Owner'.
+
         """
 
         keys_dict = {}
@@ -232,6 +236,7 @@ class S3:
         Returns:
             boolean
                 ``True`` if key exists and ``False`` if not.
+
         """
 
         key_count = len(self.list_keys(bucket, prefix=key))
@@ -267,6 +272,7 @@ class S3:
                 The name of the bucket to create
         Returns:
             ``None``
+
         """
 
         self.client.create_bucket(Bucket=bucket)
@@ -288,6 +294,7 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS Put Object documentation
                 <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more
                 info.
+
         """
 
         self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
@@ -303,6 +310,7 @@ class S3:
                 The object key
         Returns:
             ``None``
+
         """
 
         self.client.delete_object(Bucket=bucket, Key=key)
@@ -328,6 +336,7 @@ class S3:
         Returns:
             str
                 The path of the new file
+
         """
 
         if not local_path:
@@ -351,6 +360,7 @@ class S3:
         Returns:
             Url:
                 A link to download the object
+
         """
 
         return self.client.generate_presigned_url(
@@ -405,6 +415,7 @@ class S3:
 
         Returns:
             ``None``
+
         """
 
         # If prefix, get all files for the prefix

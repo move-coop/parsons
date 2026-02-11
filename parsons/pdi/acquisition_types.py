@@ -17,6 +17,7 @@ class AcquisitionTypes:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_acqtypes, limit=limit)
 
@@ -72,6 +73,7 @@ class AcquisitionTypes:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_acqtypes}/{id}")
 
@@ -82,6 +84,7 @@ class AcquisitionTypes:
         Args:
             id: str
                 The Acquisition Type id
+
         """
         return self._request(f"{self.url_acqtypes}/{id}", req_type="DELETE")
 

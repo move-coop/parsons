@@ -19,6 +19,7 @@ class CivisClient:
 
     Returns:
         Civis class
+
     """
 
     def __init__(self, db=None, api_key=None, **kwargs):

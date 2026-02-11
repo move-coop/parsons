@@ -40,6 +40,7 @@ class Salesforce:
 
     Returns:
         Salesforce class
+
     """
 
     def __init__(
@@ -89,6 +90,7 @@ class Salesforce:
                 in `__c`
         Returns:
             Ordered Dict of all the object's meta data in Salesforce
+
         """
 
         return getattr(self.client, object).describe()
@@ -101,6 +103,7 @@ class Salesforce:
                 object names end in `__c`
         Returns:
             Dict of all the object's field meta data in Salesforce
+
         """
 
         return json.loads(json.dumps(getattr(self.client, object).describe()["fields"]))
@@ -114,6 +117,7 @@ class Salesforce:
 
         Returns:
             list of dicts with Salesforce data
+
         """
 
         q = self.client.query_all(soql)
@@ -140,6 +144,7 @@ class Salesforce:
             * created: boolean (if new record is created)
             * id: str (id of record created, if successful)
             * errors: list of dicts (with error details)
+
         """
 
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
@@ -168,6 +173,7 @@ class Salesforce:
                 * created: boolean (if new record is created)
                 * id: str (id of record altered, if successful)
                 * errors: list of dicts (with error details)
+
         """
 
         r = getattr(self.client.bulk, object).update(data_table.to_dicts())
@@ -199,6 +205,7 @@ class Salesforce:
                 * created: boolean (if new record is created)
                 * id: str (id of record created or altered, if successful)
                 * errors: list of dicts (with error details)
+
         """
 
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
@@ -227,6 +234,7 @@ class Salesforce:
                 * created: boolean (if new record is created)
                 * id: str (id of record deleted, if successful)
                 * errors: list of dicts (with error details)
+
         """
 
         if hard_delete:
@@ -248,6 +256,7 @@ class Salesforce:
 
         Returns:
             `simple-salesforce Salesforce object`
+
         """
         if not self._client:
             # Create a Salesforce client to use to make bulk calls

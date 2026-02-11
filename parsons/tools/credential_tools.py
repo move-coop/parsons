@@ -25,6 +25,7 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
     Returns:
         dict
             The decoded object.
+
     """
     x = len(PREFIX)
     if credential[:x] != PREFIX:
@@ -58,6 +59,7 @@ def encode_from_json_str(credential):
     Returns:
         str
             The encoded credential.
+
     """
     data = json.loads(credential)
 
@@ -77,6 +79,7 @@ def encode_from_json_file(credential_file):
     Returns:
         str
             The encoded credential.
+
     """
     with Path(credential_file).open(mode="r") as f:
         data = json.load(f)
@@ -97,6 +100,7 @@ def encode_from_env(env_variables):
     Returns:
         str
             The encoded credential.
+
     """
     data = {}
     for var in env_variables:
@@ -118,6 +122,7 @@ def encode_from_dict(credential):
     Returns:
         str
             The encoded credential.
+
     """
     data_str = json.dumps(credential)
     encoded_str = PREFIX + b64encode(bytes(data_str, "utf-8")).decode("utf-8")

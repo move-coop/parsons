@@ -191,6 +191,7 @@ class SmartMatch:
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
                 See :ref:`parsons-table` for output options.
+
         """
 
         # If `input_table` is a Parsons table, convert it to a Petl table.

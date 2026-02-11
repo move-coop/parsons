@@ -46,6 +46,7 @@ class NewmodeV1:
 
         Returns:
             Newmode class
+
         """
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1"
@@ -72,6 +73,7 @@ class NewmodeV1:
 
         Returns:
             Tools information as table.
+
         """
         if params is None:
             params = {}
@@ -96,6 +98,7 @@ class NewmodeV1:
 
         Returns:
             Tool information.
+
         """
         if params is None:
             params = {}
@@ -129,6 +132,7 @@ class NewmodeV1:
 
         Returns:
             Targets information as table.
+
         """
         if params is None:
             params = {}
@@ -157,6 +161,7 @@ class NewmodeV1:
 
         Returns:
             Tool action information.
+
         """
         if params is None:
             params = {}
@@ -187,6 +192,7 @@ class NewmodeV1:
 
         Returns:
             Action link (if otl) or sid.
+
         """
         if params is None:
             params = {}
@@ -214,6 +220,7 @@ class NewmodeV1:
 
         Returns:
             Target information.
+
         """
         if params is None:
             params = {}
@@ -234,6 +241,7 @@ class NewmodeV1:
 
         Returns:
             Target information
+
         """
 
         if params is None:
@@ -257,6 +265,7 @@ class NewmodeV1:
 
         Returns:
             Campaigns information as table.
+
         """
         if params is None:
             params = {}
@@ -281,6 +290,7 @@ class NewmodeV1:
 
         Returns:
             Campaign information.
+
         """
         if params is None:
             params = {}
@@ -301,6 +311,7 @@ class NewmodeV1:
 
         Returns:
             Organizations information as table.
+
         """
         if params is None:
             params = {}
@@ -325,6 +336,7 @@ class NewmodeV1:
 
         Returns:
             Organization information.
+
         """
         if params is None:
             params = {}
@@ -345,6 +357,7 @@ class NewmodeV1:
 
         Returns:
             Services information as table.
+
         """
         if params is None:
             params = {}
@@ -369,6 +382,7 @@ class NewmodeV1:
 
         Returns:
             Service information.
+
         """
         if params is None:
             params = {}
@@ -391,6 +405,7 @@ class NewmodeV1:
 
         Returns:
             Outreaches information as table.
+
         """
         if params is None:
             params = {}
@@ -415,6 +430,7 @@ class NewmodeV1:
 
         Returns:
             Outreach information.
+
         """
         if params is None:
             params = {}
@@ -636,6 +652,7 @@ class NewmodeV2:
 
         Returns:
             Parsons Table containing campaign data.
+
         """
         if params is None:
             params = {}
@@ -662,6 +679,7 @@ class NewmodeV2:
 
         Returns:
             List containing all campaign ids.
+
         """
         if params is None:
             params = {}
@@ -706,6 +724,7 @@ class NewmodeV2:
 
         Returns:
             Parsons Table containing recipient data.
+
         """
         if params is None:
             params = {}
@@ -749,6 +768,7 @@ class NewmodeV2:
 
         Returns:
             Parsons Table containing submit data.
+
         """
 
         if params is None:
@@ -781,6 +801,7 @@ class NewmodeV2:
 
         Returns:
             Parsons Table containing submit data.
+
         """
         if params is None:
             params = {}
@@ -825,6 +846,7 @@ class Newmode:
 
         Returns:
             NewMode Class
+
         """
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):

@@ -101,6 +101,7 @@ class Scytl:
                 The datetime string to be parsed
         Returns:
             datetime | None
+
         """
 
         if input_dt is None:
@@ -124,6 +125,7 @@ class Scytl:
         Returns:
             str
             The version id as a string
+
         """
 
         config_version_url = CURRENT_VERSION_URL_TEMPLATE.format(
@@ -146,6 +148,7 @@ class Scytl:
         Returns:
             bytes
             The unzipped file as bytes
+
         """
 
         with BytesIO() as zipdata:
@@ -175,6 +178,7 @@ class Scytl:
         Returns:
             dict[str, CountyDetails]
             A dictionary mapping county names to their sub-election information
+
         """
 
         county_dict = {}
@@ -225,6 +229,7 @@ class Scytl:
         Returns:
             list[dict]
             The list of election results by precinct and vote method in the file.
+
         """
 
         tree = ET.fromstring(county_data)
@@ -307,6 +312,7 @@ class Scytl:
         Returns:
             list[dict]
             The list of election results by state and vote method in the file.
+
         """
 
         root = ET.fromstring(state_data)
@@ -390,6 +396,7 @@ class Scytl:
         Returns:
             list[dict]
             The list of election results by candidate.
+
         """
 
         summary_csv_zip_url = SUMMARY_CSV_ZIP_URL_TEMPLATE.format(
@@ -453,6 +460,7 @@ class Scytl:
             - candidate_party (many administrators do not use this feature
                 and instead include the party in the candidate name)
             - recorded_votes (votes cast for the candidate)
+
         """
 
         version_num = self._get_version(self.administrator, self.election_id)
@@ -521,6 +529,7 @@ class Scytl:
             - voter_turnout
             - percent_reporting
             - timestamp_last_updated
+
         """
 
         version_num = self._get_version(self.administrator, self.election_id)
@@ -598,6 +607,7 @@ class Scytl:
             - voter_turnout
             - percent_reporting
             - timestamp_last_updated
+
         """
 
         version_num = self._get_version(self.administrator, self.election_id)

@@ -27,6 +27,7 @@ class Copper:
 
     Returns:
         Copper Class
+
     """
 
     def __init__(self, user_email=None, api_key=None):
@@ -128,6 +129,7 @@ class Copper:
                 * people_custom_fields
                 * people_socials
                 * people_websites
+
         """
 
         return self.get_standard_object("people", filters=filters, tidy=tidy)
@@ -153,6 +155,7 @@ class Copper:
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
+
         """
 
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
@@ -173,6 +176,7 @@ class Copper:
         Returns:
             List of dicts of Parsons Tables:
                 * activities
+
         """
 
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
@@ -194,6 +198,7 @@ class Copper:
             List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
+
         """
 
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
@@ -220,6 +225,7 @@ class Copper:
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
+
         """
 
         logger.info("Retrieving custom fields.")
@@ -238,6 +244,7 @@ class Copper:
         Returns:
             List of dicts of Parsons Tables:
                 * activitiy_types
+
         """
 
         logger.info("Retrieving activity types.")
@@ -262,6 +269,7 @@ class Copper:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         response = self.paginate_request("/contact_types/", req_type="GET")

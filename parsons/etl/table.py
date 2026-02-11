@@ -42,6 +42,7 @@ class Table(ETL, ToFrom):
             The original data source from which the data was pulled (optional)
         name: str
             The name of the table (optional)
+
     """
 
     def __init__(
@@ -128,6 +129,7 @@ class Table(ETL, ToFrom):
         Returns:
             int
                 Number of rows in the table
+
         """
         return petl.nrows(self.table)
 
@@ -148,6 +150,7 @@ class Table(ETL, ToFrom):
         Returns:
             list
                 List of the table's column names
+
         """
         return list(petl.header(self.table))
 
@@ -175,6 +178,7 @@ class Table(ETL, ToFrom):
             dict
                 A dictionary of the row with the column as the key and the cell
                 as the value.
+
         """
 
         self._index_count += 1
@@ -201,6 +205,7 @@ class Table(ETL, ToFrom):
         Returns:
             list
                 A list of data in the column.
+
         """
 
         if column_name in self.columns:
@@ -237,6 +242,7 @@ class Table(ETL, ToFrom):
         Returns:
             str
                 Path to the temp file that now contains the table
+
         """
 
         # Load the data in batches, and "pickle" the rows to a temp file.
@@ -261,6 +267,7 @@ class Table(ETL, ToFrom):
 
         Returns:
             bool
+
         """
 
         if not isinstance(self.table, petl.util.base.Table):
@@ -283,6 +290,7 @@ class Table(ETL, ToFrom):
                 The column name
         Returns:
             bool
+
         """
 
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

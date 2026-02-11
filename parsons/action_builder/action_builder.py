@@ -21,6 +21,7 @@ class ActionBuilder:
             Optional. The 36-character "interact ID" of the campaign whose data is to be retrieved
             or edited. Can also be supplied in individual methods in case multiple campaigns need
             to be referenced.
+
     """
 
     def __init__(self, api_token=None, subdomain=None, campaign=None):
@@ -105,6 +106,7 @@ class ActionBuilder:
 
         Returns:
             Parsons Table of full set of tags available in Action Builder.
+
         """
 
         return self._get_all_records(
@@ -123,6 +125,7 @@ class ActionBuilder:
 
         Returns:
             Parsons Table of data found on tag in Action Builder from searching by name.
+
         """
 
         filter = f"name eq '{tag_name}'"
@@ -147,6 +150,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder tag data.
+
         """
 
         campaign = self._campaign_check(campaign)
@@ -188,6 +192,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder entity data.
+
         """
 
         name_keys = ("name", "action_builder:name", "given_name")
@@ -232,6 +237,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder entity data.
+
         """
 
         campaign = self._campaign_check(campaign)
@@ -269,6 +275,7 @@ class ActionBuilder:
 
         Returns:
             Dict with HTTP response.
+
         """
 
         campaign = self._campaign_check(campaign)
@@ -296,6 +303,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder entity data of the entity being tagged.
+
         """
 
         tag_data = [
@@ -347,6 +355,7 @@ class ActionBuilder:
         Returns:
             API response JSON which contains `{'message': 'Tag has been removed from Taggable
             Logbook'}` if successful.
+
         """
 
         if {tag_name, tag_id} == {None}:
@@ -417,6 +426,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder connection data.
+
         """
 
         # Check that there are exactly two identifiers and that campaign is provided first
@@ -478,6 +488,7 @@ class ActionBuilder:
 
         Returns:
             Dict containing Action Builder connection data.
+
         """
 
         # Check that either connection or second entity identifier are provided

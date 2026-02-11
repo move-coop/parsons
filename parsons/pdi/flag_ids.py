@@ -19,6 +19,7 @@ class FlagIDs:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_flag_ids, limit=limit)
 
@@ -32,6 +33,7 @@ class FlagIDs:
         Returns:
             dict
                 FlagID object.
+
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
@@ -55,6 +57,7 @@ class FlagIDs:
         Returns:
             str
                 The identifier for the new flag id.
+
         """
         payload = {
             "flagId": flag_id,
@@ -79,6 +82,7 @@ class FlagIDs:
         Returns:
             bool
                 True if the operation is successful.
+
         """
         self._request(f"{self.url_flag_ids}/{id}", req_type="DELETE")
 
@@ -105,6 +109,7 @@ class FlagIDs:
         Returns:
             str
                 The identifier for the udpated flag id.
+
         """
         payload = {
             "flagId": flag_id,

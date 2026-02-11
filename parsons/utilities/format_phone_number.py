@@ -16,6 +16,7 @@ def format_phone_number(phone_number, country_code="1"):
     Returns:
         str:
             The formatted phone number in E.164 format.
+
     """
     # Remove non-numeric characters and leading zeros
     digits = re.sub(r"[^\d]", "", phone_number.lstrip("0"))

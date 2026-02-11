@@ -32,6 +32,7 @@ class MobileCommons:
             The company id of the MobileCommons organization to connect to. Not required if
             API key is for an account associated with only one MobileCommons
             organization.
+
     """
 
     def __init__(self, api_key=None, company_id=None):
@@ -69,6 +70,7 @@ class MobileCommons:
                 The maximum number of rows to return
         Returns:
             Parsons table with requested data
+
         """
 
         # Create a table to compile results from different pages in
@@ -165,6 +167,7 @@ class MobileCommons:
 
         Args:
             response: requests package response object
+
         """
         if response.status_code != 200:
             error = f"Response Code {str(response.status_code)}"
@@ -185,6 +188,7 @@ class MobileCommons:
                 Parameters to be passed into GET request
         Returns:
             xml response parsed into list or dictionary
+
         """
         response = self.client.request(endpoint, "GET", params=params)
 
@@ -209,6 +213,7 @@ class MobileCommons:
                 Parameters to be passed into GET request
         Returns:
             xml response parsed into list or dictionary
+
         """
 
         response = self.client.request(endpoint, "POST", params=params)
@@ -243,6 +248,7 @@ class MobileCommons:
 
         Returns:
             Parsons table with requested broadcasts
+
         """
 
         params = {
@@ -292,6 +298,7 @@ class MobileCommons:
 
         Returns:
             Parsons table with requested broadcasts
+
         """
 
         params = {
@@ -343,6 +350,7 @@ class MobileCommons:
 
         Returns:
             Parsons table with requested broadcasts
+
         """
 
         custom_cols = "true" if include_custom_columns else "false"
@@ -411,6 +419,7 @@ class MobileCommons:
 
         Returns:
             ID of created/updated  profile
+
         """
 
         params = {

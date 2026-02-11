@@ -21,6 +21,7 @@ class Airtable:
         personal_access_token: str
             The Airtable personal access token. Not required if ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
             env variable set.
+
     """
 
     def __init__(self, base_key, table_name, personal_access_token=None):
@@ -38,6 +39,7 @@ class Airtable:
                 The Airtable record `id`
         Returns:
             A dictionary of the record
+
         """
 
         return self.client.get(record_id)
@@ -97,6 +99,7 @@ class Airtable:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if isinstance(fields, str):
@@ -141,6 +144,7 @@ class Airtable:
 
         Returns:
             Dictionary of inserted row
+
         """
 
         resp = self.client.create(row, typecast=typecast)
@@ -161,6 +165,7 @@ class Airtable:
 
         Returns:
             List of dictionaries of inserted rows
+
         """
 
         if isinstance(table, Table):
@@ -189,6 +194,7 @@ class Airtable:
 
         Returns:
             Dictionary of updated row
+
         """
 
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
@@ -214,6 +220,7 @@ class Airtable:
 
         Returns:
             List of dicts of updated records
+
         """
 
         # the update/upsert API call expects a dict/object shape of:
@@ -252,6 +259,7 @@ class Airtable:
                 - `updated_records`: list of updated record `id`s
                 - `created_records`: list of created records `id`s
                 - `records`: list of records
+
         """
 
         # the update/upsert API call expects a dict/object shape of:
@@ -284,6 +292,7 @@ class Airtable:
                 The Airtable record `id`
         Returns:
             Dictionary of record `id` and `deleted` status
+
         """
 
         resp = self.client.delete(record_id)
@@ -299,6 +308,7 @@ class Airtable:
 
         Returns:
             List of dicts with record `id` and `deleted` status
+
         """
 
         if isinstance(table, Table):

@@ -29,6 +29,7 @@ class PrintedLists:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -55,6 +56,7 @@ class PrintedLists:
                 The printed list number
         Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"printedLists/{printed_list_number}")

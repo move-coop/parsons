@@ -26,6 +26,7 @@ class Empower:
                 The Empower API returns all account data after each call. Setting cache
                 to ``True`` stores the blob and then extracts Parsons tables for each method.
                 Setting cache to ``False`` will download all account data for each method call.
+
     """
 
     def __init__(self, api_key=None, empower_uri=None, cache=True):
@@ -67,6 +68,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["profiles"])
@@ -82,6 +84,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["profiles"]).long_table("eid", "activeCtaIds")
@@ -94,6 +97,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["regions"])
@@ -107,6 +111,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         # unpacks answerIdsByPromptId into standalone rows
@@ -159,6 +164,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return self._split_ctas()["ctas"]
@@ -170,6 +176,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return self._split_ctas()["cta_prompts"]
@@ -181,6 +188,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return self._split_ctas()["cta_prompt_answers"]
@@ -192,6 +200,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["ctas"]).long_table("id", "regionIds")
@@ -204,6 +213,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["ctas"]).long_table("id", "shareables")
@@ -216,6 +226,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.data["ctas"]).long_table("id", "prioritizations")
@@ -228,6 +239,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if self._empty_obj("outreachEntries"):
             logger.info("No Outreach Entries found.")
@@ -250,6 +262,7 @@ class Empower:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table([self.data])

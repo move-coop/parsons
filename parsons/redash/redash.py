@@ -34,6 +34,7 @@ class Redash:
 
     Returns:
         Redash Class
+
     """
 
     def __init__(
@@ -94,6 +95,7 @@ class Redash:
 
         Returns:
             Data source json object
+
         """
         res = self.session.get(f"{self.base_url}/api/data_sources/{data_source_id}")
         self._catch_runtime_error(res)
@@ -123,6 +125,7 @@ class Redash:
 
         Returns:
             ``None``
+
         """
         self._catch_runtime_error(
             self.session.post(
@@ -162,6 +165,7 @@ class Redash:
 
         Returns:
             Table Class
+
         """
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
         params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
@@ -207,6 +211,7 @@ class Redash:
 
         Returns:
             Table Class
+
         """
         query_id = check("REDASH_QUERY_ID", query_id)
         query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
@@ -252,6 +257,7 @@ class Redash:
 
         Returns:
             Table Class
+
         """
         initargs = {
             a: kwargs.get(a)

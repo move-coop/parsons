@@ -131,6 +131,7 @@ class DatabaseConnector(ABC):
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         pass
 
@@ -146,6 +147,7 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+
         """
         pass
 
@@ -185,5 +187,6 @@ class DatabaseConnector(ABC):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         pass

@@ -15,6 +15,7 @@ class Introspection:
             None
         Returns:
             JSON response
+
         """
 
         response = self.connection.get_request("apiKeyProfiles")

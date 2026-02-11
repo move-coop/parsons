@@ -44,6 +44,7 @@ def create_temp_file(suffix=None):
     Returns:
         str
             The path of the temp file
+
     """
     temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
@@ -57,6 +58,7 @@ def create_temp_directory():
     Returns:
         str
             The path of the temp directory
+
     """
     temp_dir = TempDirectory()
     _temp_directories.append(temp_dir)
@@ -75,6 +77,7 @@ def create_temp_file_for_path(path):
     Returns:
         str
             The path of the temp file
+
     """
 
     # Add the appropriate compression suffix to the file, so other libraries that check the
@@ -98,6 +101,7 @@ def close_temp_file(path):
     Returns:
         bool
             Whether the temp file was found and closed
+
     """
 
     for temp_file in _temp_files:
@@ -125,6 +129,7 @@ def cleanup_temp_directory(path):
     Returns:
         bool
             Whether the temp directory was found and closed
+
     """
 
     for temp_dir in _temp_directories:
@@ -149,6 +154,7 @@ def track_temp_file(path):
     Returns:
         str
             The path of the file to start tracking
+
     """
     temp_file = TempFile(path)
     _temp_files.append(temp_file)
@@ -201,6 +207,7 @@ def read_file(path):
     Returns:
         str
             The contents of a files.
+
     """
     compression = compression_type_for_path(path)
 
@@ -268,6 +275,7 @@ def has_data(file_path):
     Returns:
         boolean
             ``True`` if data in the file and ``False`` if not.
+
     """
 
     return Path(file_path).stat().st_size != 0
@@ -283,6 +291,7 @@ def generate_tempfile(suffix=None, create=False):
     `Returns`
         str
             The path of the newly created temp file.
+
     """
     # _get_candidate_names gives us an iterator that will keep trying to generate a random filename.
     # It's not ideal to use a "protected" function from another module, but this function does some
@@ -353,6 +362,7 @@ class TempDirectory:
         Args:
             unlink: function
                 Function to use for removing the file from disk.
+
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:
@@ -383,6 +393,7 @@ class TempFile:
     Args:
         suffix: str
             The suffix to give the file path in order to advertise the file/mime type of the file.
+
     """
 
     def __init__(self, name=None, suffix=None):
@@ -404,6 +415,7 @@ class TempFile:
         Args:
             unlink: function
                 Function to use for removing the file from disk.
+
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
         if self.name and not self.remove_called:

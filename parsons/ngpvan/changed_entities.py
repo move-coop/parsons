@@ -20,6 +20,7 @@ class ChangedEntities:
 
         Returns:
             list
+
         """
 
         r = self.connection.get_request("changedEntityExportJobs/resources")
@@ -35,6 +36,7 @@ class ChangedEntities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
@@ -75,6 +77,7 @@ class ChangedEntities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         json = {

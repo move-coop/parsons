@@ -33,6 +33,7 @@ class AzureBlobStorage:
 
     Returns:
         `AzureBlobStorage`
+
     """
 
     def __init__(
@@ -64,6 +65,7 @@ class AzureBlobStorage:
         Returns:
             list[str]
                 List of container names
+
         """
 
         container_names = [container.name for container in self.client.list_containers()]
@@ -79,6 +81,7 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             bool
+
         """
 
         container_client = self.get_container(container_name)
@@ -99,6 +102,7 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             `ContainerClient`
+
         """
 
         logger.info(f"Returning {container_name} container client")
@@ -123,6 +127,7 @@ class AzureBlobStorage:
 
         Returns:
             `ContainerClient`
+
         """
 
         container_client = self.client.create_container(
@@ -140,6 +145,7 @@ class AzureBlobStorage:
                 The name of the container
         Returns:
             ``None``
+
         """
 
         self.client.delete_container(container_name)
@@ -157,6 +163,7 @@ class AzureBlobStorage:
         Returns:
             list[str]
                 A list of blob names
+
         """
 
         container_client = self.get_container(container_name)
@@ -175,6 +182,7 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             bool
+
         """
 
         blob_client = self.get_blob(container_name, blob_name)
@@ -197,6 +205,7 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             `BlobClient`
+
         """
 
         blob_client = self.client.get_blob_client(container_name, blob_name)
@@ -236,6 +245,7 @@ class AzureBlobStorage:
         Returns:
             str
                 URL with shared access signature for blob
+
         """
 
         if not account_key:
@@ -267,6 +277,7 @@ class AzureBlobStorage:
         Returns:
             tuple[Optional[ContentSettings], dict]
                 Any created settings or ``None`` and the dict with settings keys remvoed
+
         """
 
         kwargs_copy = {**kwargs_dict}
@@ -308,6 +319,7 @@ class AzureBlobStorage:
 
         Returns:
             `BlobClient`
+
         """
 
         blob_client = self.get_blob(container_name, blob_name)
@@ -343,6 +355,7 @@ class AzureBlobStorage:
         Returns:
             str
                 The path of the downloaded file
+
         """
 
         if not local_path:
@@ -368,6 +381,7 @@ class AzureBlobStorage:
                 The blob name
         Returns:
             ``None``
+
         """
 
         blob_client = self.get_blob(container_name, blob_name)
@@ -391,6 +405,7 @@ class AzureBlobStorage:
                 Additional keyword arguments to supply to ``put_blob``
         Returns:
             `BlobClient`
+
         """
 
         if data_type == "csv":

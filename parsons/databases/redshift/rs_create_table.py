@@ -39,6 +39,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         Returns:
             str
                 The rename column.
+
         """
         return f"col_{index}"
 

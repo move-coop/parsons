@@ -23,6 +23,7 @@ class MobilizeAmerica:
 
     Returns:
         MobilizeAmerica Class
+
     """
 
     def __init__(self, api_key=None):
@@ -93,6 +94,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return Table(
@@ -111,6 +113,7 @@ class MobilizeAmerica:
                 ID of the organization to query.
         `Returns`
             Parsons Table
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
@@ -158,6 +161,7 @@ class MobilizeAmerica:
 
         `Returns`
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+
         """
 
         if isinstance(organization_id, (str, int)):
@@ -263,6 +267,7 @@ class MobilizeAmerica:
 
         `Returns`
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+
         """
 
         args = {
@@ -314,6 +319,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if isinstance(organization_id, (str, int)):
@@ -341,6 +347,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if isinstance(organization_id, collections.abc.Iterable):
             data = Table()
@@ -368,6 +375,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"
         args = {"updated_since": date_to_timestamp(updated_since)}

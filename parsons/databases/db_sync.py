@@ -27,6 +27,7 @@ class DBSync:
 
     Returns:
         A DBSync object.
+
     """
 
     def __init__(
@@ -77,6 +78,7 @@ class DBSync:
 
         Returns:
             ``None``
+
         """
 
         # Create the table objects
@@ -145,6 +147,7 @@ class DBSync:
 
         Returns:
             ``None``
+
         """
 
         # Create the table objects
@@ -230,6 +233,7 @@ class DBSync:
 
         Returns:
             ``None``
+
         """
 
         # Create the table objects

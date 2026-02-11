@@ -23,6 +23,7 @@ class NationBuilder:
             slug via a text field in your application.
         access_token: str
             The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
+
     """
 
     def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
@@ -83,6 +84,7 @@ class NationBuilder:
         """
         Returns:
             A Table of all people stored in Nation Builder.
+
         """
         data = []
         original_url = "people"
@@ -131,6 +133,7 @@ class NationBuilder:
                 Docs: https://nationbuilder.com/people_api
         Returns:
             A person object with the updated data.
+
         """
         if person_id is None:
             raise ValueError("person_id can't be None")
@@ -177,6 +180,7 @@ class NationBuilder:
         Returns:
             A tuple of `created` and `person` object with the updated data. If the request fails
             the method will return a tuple of `False` and `None`.
+
         """
 
         _required_keys = [

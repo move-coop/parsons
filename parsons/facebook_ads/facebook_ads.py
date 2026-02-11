@@ -31,6 +31,7 @@ class FacebookAds:
             A Facebook access token. Required if env var FB_ACCESS_TOKEN is not populated.
         ad_account_id: str
             A Facebook ad account ID. Required if env var FB_AD_ACCOUNT_ID isnot populated.
+
     """
 
     # The data columns that are valid for creating a custom audience.
@@ -155,6 +156,7 @@ class FacebookAds:
         Returns:
             Table
                 The prepared table
+
         """
 
         # Copy the table to avoid messing up the source table
@@ -229,6 +231,7 @@ class FacebookAds:
 
         Returns:
             ID of the created audience
+
         """
 
         if not self._is_valid_data_source(data_source):
@@ -251,6 +254,7 @@ class FacebookAds:
         Args:
             audience_id: str
                 The ID of the custom audience to delete.
+
         """
 
         CustomAudience(audience_id).api_delete()

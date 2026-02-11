@@ -17,6 +17,7 @@ class Questions:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_questions, limit=limit)
 
@@ -30,6 +31,7 @@ class Questions:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_questions}/{id}")
 

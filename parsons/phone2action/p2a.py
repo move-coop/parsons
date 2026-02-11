@@ -19,6 +19,7 @@ class Phone2Action:
 
     Returns:
         Phone2Action Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -60,6 +61,7 @@ class Phone2Action:
                 * ids
                 * fields
                 * advocates
+
         """
         return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
@@ -90,6 +92,7 @@ class Phone2Action:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return self.capitol_canary.get_campaigns(
@@ -166,6 +169,7 @@ class Phone2Action:
                 Additional fields on the advocate to update
         Returns:
             The int ID of the created advocate.
+
         """
         return self.capitol_canary.create_advocate(
             campaigns,
@@ -233,6 +237,7 @@ class Phone2Action:
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
+
         """
         return self.capitol_canary.update_advocate(
             advocate_id,

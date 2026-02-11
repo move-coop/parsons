@@ -201,6 +201,7 @@ def distribute_task(
     Returns:
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
+
     """
     if storage not in ("s3", "local"):
         raise DistributeTaskException("storage argument must be s3 or local")

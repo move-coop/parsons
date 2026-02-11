@@ -23,6 +23,7 @@ class BulkImport:
         Returns:
             list
                 A list of resources.
+
         """
 
         r = self.connection.get_request("bulkImportJobs/resources")
@@ -40,6 +41,7 @@ class BulkImport:
         Returns:
             dict
                 The bulk import job
+
         """
 
         r = self.connection.get_request(f"bulkImportJobs/{job_id}")
@@ -61,6 +63,7 @@ class BulkImport:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.get_bulk_import_job(job_id)
@@ -77,6 +80,7 @@ class BulkImport:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
@@ -92,6 +96,7 @@ class BulkImport:
         Returns:
             dict
                 A mapping type json
+
         """
 
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
@@ -110,6 +115,7 @@ class BulkImport:
         Returns:
             dict
                 A mapping type fields json
+
         """
 
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
@@ -211,6 +217,7 @@ class BulkImport:
         Returns:
             int
                 The bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -336,6 +343,7 @@ class BulkImport:
         Returns:
             int
                 The bulk import job id
+
         """
 
         tbl = tbl.map_columns(CONTACTS_COLUMN_MAP, exact_match=False)
@@ -384,6 +392,7 @@ class BulkImport:
         Returns:
             int
                 The bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -453,6 +462,7 @@ class BulkImport:
         Returns:
             int
                 The bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -503,6 +513,7 @@ class BulkImport:
         Returns:
             int
                 The bulk import job id
+
         """
 
         mapping_types = [

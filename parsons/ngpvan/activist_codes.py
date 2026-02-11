@@ -19,6 +19,7 @@ class ActivistCodes:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("activistCodes"))
@@ -36,6 +37,7 @@ class ActivistCodes:
         Returns:
             dict
                 The activist code
+
         """
 
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
@@ -83,6 +85,7 @@ class ActivistCodes:
 
         Returns:
             ``None``
+
         """
 
         return self.toggle_activist_code(
@@ -105,6 +108,7 @@ class ActivistCodes:
                 such as ``dwid``
         Returns:
             ``None``
+
         """
 
         return self.toggle_activist_code(id, activist_code_id, "Remove", id_type=id_type)

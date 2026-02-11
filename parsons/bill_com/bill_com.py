@@ -18,6 +18,7 @@ class BillCom:
             The Bill.com dev key
         api_url:
             The Bill.com end point url
+
     """
 
     def __init__(self, user_name, password, org_id, dev_key, api_url):
@@ -44,6 +45,7 @@ class BillCom:
         Returns:
             A dictionary of the payload to be sent in the request with the
             dev_key and sessionId added.
+
         """
         return {
             "devKey": self.dev_key,
@@ -66,6 +68,7 @@ class BillCom:
 
         Returns:
             A dictionary containing the JSON response from the post request.
+
         """
 
         if action == "Read":
@@ -98,6 +101,7 @@ class BillCom:
 
         Returns:
             A dictionary containing the choosen field from the JSON response from the post request.
+
         """
         r = self._post_request(data, action, object_name)[field]
 
@@ -140,6 +144,7 @@ class BillCom:
 
         Returns:
             A Parsons Table of user information for every user from start_user to max_user.
+
         """
         data = {"start": start_user, "max": max_user, **kwargs}
 
@@ -158,6 +163,7 @@ class BillCom:
         Returns:
             A Parsons Table of customer information for every user from start_customer
             to max_customer.
+
         """
         data = {"start": start_customer, "max": max_customer, **kwargs}
 
@@ -176,6 +182,7 @@ class BillCom:
         Returns:
             A list of dictionaries of invoice information for every invoice from start_invoice
             to max_invoice.
+
         """
         data = {"start": start_invoice, "max": max_invoice, **kwargs}
 
@@ -189,6 +196,7 @@ class BillCom:
 
         Returns:
             A dictionary of the customer's information.
+
         """
         data = {"id": customer_id}
         return self._get_request_response(data, "Read", "Customer")
@@ -201,6 +209,7 @@ class BillCom:
 
         Returns:
             A dictionary of the invoice information.
+
         """
         data = {"id": invoice_id}
         return self._get_request_response(data, "Read", "Invoice")
@@ -243,6 +252,7 @@ class BillCom:
             A dictionary of the customer's information including an id.
             If the customer already exists, this function will not
             create a new id and instead use the existing id.
+
         """
         customer = {"name": customer_name, "email": customer_email, **kwargs}
 
@@ -278,6 +288,7 @@ class BillCom:
 
         Returns:
             A dictionary of the invoice's information including an id.
+
         """
         for invoice_line_item in invoice_line_items:
             if "entity" not in invoice_line_item:
@@ -314,6 +325,7 @@ class BillCom:
 
         Returns:
             A dictionary of the sent invoice.
+
         """
         data = {
             "invoiceId": invoice_id,

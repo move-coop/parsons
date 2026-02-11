@@ -21,6 +21,7 @@ class CustomFields:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {"customFieldsGroupType": field_type.capitalize()}
@@ -41,6 +42,7 @@ class CustomFields:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self.get_custom_fields()
@@ -74,6 +76,7 @@ class CustomFields:
 
         Returns:
             A json.
+
         """
 
         r = self.connection.get_request(f"customFields/{custom_field_id}")

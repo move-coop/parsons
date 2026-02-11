@@ -37,6 +37,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             Required if env variable ``MYSQL_DB`` not populated
         port: int
             Can be set by env variable ``MYSQL_PORT`` or argument.
+
     """
 
     def __init__(self, host=None, username=None, password=None, db=None, port=3306):
@@ -61,6 +62,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         Returns:
             MySQL `connection` object
+
         """
 
         # Create a mysql connection and cursor
@@ -152,6 +154,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         with self.cursor(connection) as cursor:
             # The python connector can only execute a single sql statement, so we will
@@ -225,6 +228,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. defaults to ``True``
+
         """
 
         if tbl.num_rows == 0:
@@ -280,6 +284,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
+
         """
 
         if if_exists not in ["fail", "truncate", "append", "drop"]:
@@ -316,6 +321,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
 
         return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name

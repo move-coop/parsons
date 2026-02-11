@@ -41,6 +41,7 @@ def query_through_ssh(
 
     Returns:
         A list of records resulting from the query or None if something went wrong
+
     """
     output = None
     server = None

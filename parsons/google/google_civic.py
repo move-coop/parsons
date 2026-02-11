@@ -15,6 +15,7 @@ class GoogleCivic:
 
     Returns:
         class
+
     """
 
     def __init__(self, api_key=None):
@@ -40,6 +41,7 @@ class GoogleCivic:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.uri + "elections"
@@ -70,6 +72,7 @@ class GoogleCivic:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self._get_voter_info(election_id, address)
@@ -92,6 +95,7 @@ class GoogleCivic:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         polling_locations = []

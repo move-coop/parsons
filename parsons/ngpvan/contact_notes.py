@@ -22,6 +22,7 @@ class ContactNotes:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
@@ -66,6 +67,7 @@ class ContactNotes:
         Returns:
             int
               The note ID.
+
         """
         note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:

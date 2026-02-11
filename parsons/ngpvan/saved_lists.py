@@ -26,6 +26,7 @@ class SavedLists:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
@@ -42,6 +43,7 @@ class SavedLists:
 
         Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
@@ -59,6 +61,7 @@ class SavedLists:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         ej = ExportJobs(self.connection)
@@ -126,6 +129,7 @@ class SavedLists:
             dict
                 Upload results information included the number of matched and saved
                 records in your list.
+
         """
         rando = str(uuid.uuid1())
         file_name = rando + ".csv"
@@ -222,6 +226,7 @@ class SavedLists:
             dict
                 Upload results information included the number of matched and saved
                 records in your list.
+
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
@@ -290,6 +295,7 @@ class Folders:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("folders"))
@@ -307,6 +313,7 @@ class Folders:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.connection.get_request(f"folders/{folder_id}")
@@ -325,6 +332,7 @@ class ExportJobs:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("exportJobTypes"))
@@ -349,6 +357,7 @@ class ExportJobs:
         Returns:
             dict
                 The export job object
+
         """
 
         json = {
@@ -372,6 +381,7 @@ class ExportJobs:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.connection.get_request(f"exportJobs/{export_job_id}")

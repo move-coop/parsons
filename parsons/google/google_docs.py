@@ -22,6 +22,7 @@ class GoogleDocs:
             by the Google Developer Console, or a path string pointing to credentials
             saved on disk, or a google.oauth2.credentials.Credentials object. Required
             if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+
     """
 
     def __init__(

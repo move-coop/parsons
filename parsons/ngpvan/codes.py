@@ -28,6 +28,7 @@ class Codes:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -53,6 +54,7 @@ class Codes:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         c = self.connection.get_request(f"codes/{code_id}")
@@ -67,6 +69,7 @@ class Codes:
         Returns:
             list
                 A list of code types.
+
         """
 
         lst = self.connection.get_request("codeTypes")
@@ -217,6 +220,7 @@ class Codes:
 
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"codes/{code_id}")
@@ -230,6 +234,7 @@ class Codes:
         Returns:
             list
                 A list of code supported entities.
+
         """
 
         lst = self.connection.get_request("codes/supportedEntities")

@@ -105,6 +105,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
 
     Returns:
         List of instantiated `SchemaField` objects
+
     """
 
     # TODO - Better way to test for this
@@ -148,6 +149,7 @@ class GoogleBigQuery(DatabaseConnector):
             Name of the GCS bucket that will be used for storing data during bulk transfers.
             Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),
             and env variable ``GCS_TEMP_BUCKET`` is not populated.
+
     """
 
     def __init__(
@@ -198,6 +200,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             `google.cloud.bigquery.client.Client`
+
         """
         if not self._client:
             # Create a BigQuery client to use to make the query
@@ -229,6 +232,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             Google BigQuery ``connection`` object
+
         """
         conn = self._dbapi.connect(self.client)
         try:
@@ -284,6 +288,7 @@ class GoogleBigQuery(DatabaseConnector):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         with self.connection() as connection:
@@ -324,6 +329,7 @@ class GoogleBigQuery(DatabaseConnector):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if not commit:
@@ -381,6 +387,7 @@ class GoogleBigQuery(DatabaseConnector):
             `**job_kwargs`: kwargs
                 Other arguments to pass to the underlying get_job
                 call on the BigQuery client.
+
         """
         return self.client.get_job(job_id=job_id, **job_kwargs)
 
@@ -472,6 +479,7 @@ class GoogleBigQuery(DatabaseConnector):
             `**load_kwargs`: kwargs
                 Other arguments to pass to the underlying load_table_from_uri
                 call on the BigQuery client.
+
         """
         self._validate_copy_inputs(
             if_exists=if_exists,
@@ -779,6 +787,7 @@ class GoogleBigQuery(DatabaseConnector):
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
+
         """
 
         # copy from S3 to GCS
@@ -964,6 +973,7 @@ class GoogleBigQuery(DatabaseConnector):
             `**load_kwargs`: kwargs
                 Arguments to pass to the underlying load_table_from_uri call on the BigQuery
                 client.
+
         """
         data_type = "csv"
         tmp_gcs_bucket = (
@@ -1109,6 +1119,7 @@ class GoogleBigQuery(DatabaseConnector):
                 ``ignore`` the operation.
             drop_source_table: boolean
                 Drop the source table
+
         """
         if if_exists not in ["fail", "replace", "ignore"]:
             raise ValueError("Invalid value for `if_exists` argument")
@@ -1158,6 +1169,7 @@ class GoogleBigQuery(DatabaseConnector):
                 arguments to upsert a pre-existing s3 file into the target_table
             `**copy_args`: kwargs
                 See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
+
         """
         if not self.table_exists(target_table):
             logger.info(
@@ -1246,6 +1258,7 @@ class GoogleBigQuery(DatabaseConnector):
         Args:
             table_name: str
                 The name of the table to delete.
+
         """
         table_ref = self.get_table_ref(table_name=table_name)
         self.client.delete_table(table_ref)
@@ -1260,6 +1273,7 @@ class GoogleBigQuery(DatabaseConnector):
         Returns:
             bool
                 True if the table exists in the specified dataset, false otherwise
+
         """
         table_ref = self.get_table_ref(table_name=table_name)
         try:
@@ -1281,6 +1295,7 @@ class GoogleBigQuery(DatabaseConnector):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.debug("Retrieving tables info.")
@@ -1301,6 +1316,7 @@ class GoogleBigQuery(DatabaseConnector):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.debug("Retrieving views info.")
@@ -1330,6 +1346,7 @@ class GoogleBigQuery(DatabaseConnector):
             A dictionary mapping column name to a dictionary with extra info. The
             keys of the dictionary are ordered just liked the columns in the table.
             The extra info is a dict with format
+
         """
 
         base_query = f"""
@@ -1365,6 +1382,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             A list of column names
+
         """
 
         table_ref = self.client.get_table(table=f"{schema}.{table_name}")
@@ -1387,6 +1405,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             Row count of the target table
+
         """
 
         sql = f"SELECT COUNT(*) AS row_count FROM `{schema}.{table_name}`"
@@ -1505,6 +1524,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             A `LoadJobConfig` object
+
         """
 
         if not job_config:
@@ -1738,6 +1758,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             None
+
         """
 
         from google.cloud import bigquery

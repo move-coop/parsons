@@ -14,6 +14,7 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
 
     Returns:
         Unix timestamp (int)
+
     """
 
     parsed_date = parse_date(value)
@@ -52,6 +53,7 @@ def parse_date(value, tzinfo=datetime.timezone.utc):
 
     Returns:
         datetime.datetime or None
+
     """
 
     if not value:

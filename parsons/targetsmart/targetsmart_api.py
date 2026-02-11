@@ -55,6 +55,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
@@ -160,6 +161,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if (latitude is None or longitude is None) and address is None:
@@ -214,6 +216,7 @@ class Person:
 
         Returns:
             See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "person/phone-search"
@@ -277,6 +280,7 @@ class Service:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_type == "zip" and None in [zip5, zip4]:
@@ -362,6 +366,7 @@ class Voter:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "voter/voter-registration-check"

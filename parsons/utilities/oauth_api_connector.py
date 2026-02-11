@@ -33,6 +33,7 @@ class OAuth2APIConnector(APIConnector):
             if the data is nested in the response json
     Returns:
         OAuthAPIConnector class
+
     """
 
     def __init__(
@@ -96,6 +97,7 @@ class OAuth2APIConnector(APIConnector):
 
         Returns:
             requests response
+
         """
         full_url = urllib.parse.urljoin(self.uri, url)
         return self.client.request(

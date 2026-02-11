@@ -72,6 +72,7 @@ class Redshift(
             Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
             to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
+
     """
 
     def __init__(
@@ -129,6 +130,7 @@ class Redshift(
 
         Returns:
             Psycopg2 ``connection`` object
+
         """
 
         # Create a psycopg2 connection and cursor
@@ -218,6 +220,7 @@ class Redshift(
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         # To Do: Have it return an ordered dict to return the
@@ -397,6 +400,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
+
         """
 
         with self.connection() as connection:
@@ -616,6 +620,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
+
         """
 
         # Specify the columns for a copy statement.
@@ -855,6 +860,7 @@ class Redshift(
 
         Returns:
             None
+
         """
         query_end = "cascade" if cascade else ""
         self.unload(
@@ -916,6 +922,7 @@ class Redshift(
 
         Returns:
             ``dict`` of manifest
+
         """
 
         from parsons.aws import S3
@@ -1005,6 +1012,7 @@ class Redshift(
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             **copy_args: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
+
         """
 
         primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
@@ -1176,6 +1184,7 @@ class Redshift(
 
         Returns:
             ``None``
+
         """
 
         # Make the Parsons table column names match valid Redshift names

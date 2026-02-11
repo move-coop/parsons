@@ -55,6 +55,7 @@ class RockTheVote:
 
     Returns:
         RockTheVote class
+
     """
 
     def __init__(self, partner_id=None, partner_api_key=None, testing=False):
@@ -84,6 +85,7 @@ class RockTheVote:
         Returns:
             int
                 The ID of the created report.
+
         """
         report_url = "registrant_reports.json"
         # Create the report for the new data
@@ -156,6 +158,7 @@ class RockTheVote:
         Returns:
             Parsons Table
                 Parsons table with the report data.
+
         """
         logger.info(f"Getting report with id {report_id}...")
         credentials = {
@@ -254,6 +257,7 @@ class RockTheVote:
         Returns:
             Parsons.Table
                 The table with the report data.
+
         """
         report_str = f"{report_type} report" if report_type else "report"
         logger.info(f"Running {report_str} for {self.partner_id} for dates: {since} to {before}...")
@@ -287,6 +291,7 @@ class RockTheVote:
         Returns:
             Parsons.Table
                 A single row table with the response json
+
         """
         requirements_url = "state_requirements.json"
 

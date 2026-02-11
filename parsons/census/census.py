@@ -19,6 +19,7 @@ class Census:
            Args:
                 api_key: string, key for Census API access
                  (optional, can also be pulled from environment variable CENSUS_API_KEY)
+
         """
         self.api_key = check_env.check("CENSUS_API_KEY", api_key)
         self.host = "https://api.census.gov/data"
@@ -43,6 +44,7 @@ class Census:
 
         Return:
                 Parsons table with data
+
         """
         # set up the URL
         g = "?get="

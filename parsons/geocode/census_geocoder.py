@@ -25,6 +25,7 @@ class CensusGeocoder:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`_.
+
     """
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
@@ -45,6 +46,7 @@ class CensusGeocoder:
 
         Returns:
             dict
+
         """
 
         geo = self.cg.onelineaddress(address, returntype=return_type)
@@ -78,6 +80,7 @@ class CensusGeocoder:
 
         Returns:
             dict
+
         """
 
         geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
@@ -106,6 +109,7 @@ class CensusGeocoder:
                 A Parsons table
         Returns:
             A Parsons table
+
         """
 
         logger.info(f"Geocoding {table.num_rows} records.")

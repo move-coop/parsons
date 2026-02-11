@@ -90,6 +90,7 @@ class GoogleCloudStorage:
 
         Returns:
             List of buckets
+
         """
 
         buckets = [b.name for b in self.client.list_buckets()]
@@ -105,6 +106,7 @@ class GoogleCloudStorage:
                 The name of the bucket
         Returns:
             boolean
+
         """
 
         if bucket_name in self.list_buckets():
@@ -123,6 +125,7 @@ class GoogleCloudStorage:
                 The name of bucket
         Returns:
             GoogleCloud Storage bucket
+
         """
 
         if self.client.lookup_bucket(bucket_name):
@@ -143,6 +146,7 @@ class GoogleCloudStorage:
 
         Returns:
             ``None``
+
         """
 
         # TODO: Allow user to set all of the bucket parameters
@@ -162,6 +166,7 @@ class GoogleCloudStorage:
                 Delete blobs in the bucket, if it is not empty
         Returns:
             ``None``
+
         """
 
         bucket = self.get_bucket(bucket_name)
@@ -196,6 +201,7 @@ class GoogleCloudStorage:
                 https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
         Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
+
         """
 
         blobs = self.client.list_blobs(
@@ -219,6 +225,7 @@ class GoogleCloudStorage:
                 The name of the blob
         Returns:
             boolean
+
         """
 
         if blob_name in self.list_blobs(bucket_name):
@@ -239,6 +246,7 @@ class GoogleCloudStorage:
                 A blob name
         Returns:
             A Google Storage blob object
+
         """
 
         bucket = self.get_bucket(bucket_name)
@@ -259,6 +267,7 @@ class GoogleCloudStorage:
                 The local path of the file to upload
         Returns:
             ``None``
+
         """
 
         bucket = self.get_bucket(bucket_name)
@@ -286,6 +295,7 @@ class GoogleCloudStorage:
         Returns:
             str
                 The path of the downloaded file
+
         """
 
         if not local_path:
@@ -312,6 +322,7 @@ class GoogleCloudStorage:
                 The blob name
         Returns:
             ``None``
+
         """
 
         blob = self.get_blob(bucket_name, blob_name)
@@ -344,6 +355,7 @@ class GoogleCloudStorage:
 
         Returns:
             String representation of file URI in GCS
+
         """
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
@@ -394,6 +406,7 @@ class GoogleCloudStorage:
         Returns:
             url:
                 A link to download the object
+
         """
 
         bucket = self.client.bucket(bucket_name)
@@ -434,6 +447,7 @@ class GoogleCloudStorage:
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
+
         """
         if source not in ["gcs", "s3"]:
             raise ValueError(f"Blob transfer only supports gcs and s3 sources [source={source}]")
@@ -554,6 +568,7 @@ class GoogleCloudStorage:
 
         Returns:
             String represetnation of URI
+
         """
         return f"gs://{bucket}/{name}"
 
@@ -567,6 +582,7 @@ class GoogleCloudStorage:
 
         Returns:
             Tuple of strings with bucket_name and blob_name
+
         """
         # TODO: make this more robust with regex?
         remove_protocol = gcs_uri.replace("gs://", "")
@@ -608,6 +624,7 @@ class GoogleCloudStorage:
 
         Returns:
             String representation of decompressed GCS URI
+
         """
 
         compression_params = {

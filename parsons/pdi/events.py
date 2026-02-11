@@ -29,6 +29,7 @@ class Events:
         Returns:
             parsons.Table
                 A Parsons table containing all requested events data.
+
         """
 
         params = {
@@ -50,6 +51,7 @@ class Events:
         Returns:
             parsons.Table
                 A Parsons table containing all requested event invitation data.
+
         """
 
         params = {"expand": expand}
@@ -189,6 +191,7 @@ class Events:
             Returns:
                 dict
                     Response from PDI in dictionary object
+
         """
         event_data = self.create_event(
             calendar_id,
@@ -275,6 +278,7 @@ class Events:
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
 
         event_activity_payload = {
@@ -523,6 +527,7 @@ class Events:
 
         Returns:
             Parsons Table with event activity assignment responses
+
         """
 
         if limit and limit > 2000:
@@ -551,6 +556,7 @@ class Events:
 
         Returns:
             Parsons Table with event activity responses
+
         """
 
         if limit and limit > 2000:
@@ -571,6 +577,7 @@ class Events:
 
         Returns:
             Parsons Table object with id, name, description, and timeZone records
+
         """
 
         if limit and limit > 2000:

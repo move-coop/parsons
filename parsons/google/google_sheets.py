@@ -25,6 +25,7 @@ class GoogleSheets:
         subject: string
             In order to use account impersonation, pass in the email address of the account to be
             impersonated as a string.
+
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):
@@ -74,6 +75,7 @@ class GoogleSheets:
         Returns:
             list
                 A List of worksheets order by their index
+
         """
         worksheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
         return [w.title for w in worksheets]
@@ -91,6 +93,7 @@ class GoogleSheets:
         Returns:
             str
                 The sheet index
+
         """
 
         sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
@@ -113,6 +116,7 @@ class GoogleSheets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
@@ -151,6 +155,7 @@ class GoogleSheets:
                 The email to be sent if notify kwarg set to True.
             with_link: boolean
                 Whether a link is required for this permission.
+
         """
 
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
@@ -175,6 +180,7 @@ class GoogleSheets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
@@ -201,6 +207,7 @@ class GoogleSheets:
         Returns:
             str
                 The spreadsheet ID
+
         """
 
         spreadsheet = self.gspread_client.create(title, folder_id=folder_id)
@@ -223,6 +230,7 @@ class GoogleSheets:
         Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+
         """
         self.gspread_client.del_spreadsheet(spreadsheet_id)
         logger.info(f"Deleted spreadsheet {spreadsheet_id}")
@@ -242,6 +250,7 @@ class GoogleSheets:
         Returns:
             str
                 The sheet index
+
         """
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.add_worksheet(title, rows, cols)
@@ -267,6 +276,7 @@ class GoogleSheets:
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
+
         """
 
         if not table.num_rows:
@@ -327,6 +337,7 @@ class GoogleSheets:
                 Starting row position of pasted data. Counts from 0.
             startcol: int
                 Starting column position of pasted data. Counts from 0.
+
         """
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
@@ -380,6 +391,7 @@ class GoogleSheets:
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
+
         """
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.

@@ -24,6 +24,7 @@ class CrowdTangle:
 
     Returns:
         CrowdTangle Class
+
     """
 
     def __init__(self, api_key=None):
@@ -157,6 +158,7 @@ class CrowdTangle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         args = {
@@ -202,6 +204,7 @@ class CrowdTangle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         args = {
@@ -247,6 +250,7 @@ class CrowdTangle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         args = {

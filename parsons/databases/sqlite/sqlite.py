@@ -92,6 +92,7 @@ class Sqlite(DatabaseConnector):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         # sqlite3 cursor cannot take None for parameters
         if not parameters:
@@ -202,6 +203,7 @@ class Sqlite(DatabaseConnector):
                 then the current dataset. Defaults to ``False``.
             force_python_sdk: bool
                 Use the python SDK to import data to sqlite3, even if the sqlite3 cli utility is available for more efficient loading. Defaults to False.
+
         """
 
         with self.connection() as connection:
@@ -284,6 +286,7 @@ class Sqlite(DatabaseConnector):
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
+
         """
 
         if if_exists not in ["fail", "truncate", "append", "drop"]:
@@ -323,6 +326,7 @@ class Sqlite(DatabaseConnector):
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         # Check in pg tables for the table
         sql = "select name from sqlite_master where type=:type and name = :name"

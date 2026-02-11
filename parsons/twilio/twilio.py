@@ -22,6 +22,7 @@ class Twilio:
 
     Returns:
         Twilio class
+
     """
 
     def __init__(self, account_sid=None, auth_token=None):
@@ -46,6 +47,7 @@ class Twilio:
                 The Twilio account sid
         Returns:
             dict
+
         """
 
         r = self.client.api.accounts(account_sid)
@@ -65,6 +67,7 @@ class Twilio:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.client.api.accounts.list(friendly_name=name, status=status)
@@ -105,6 +108,7 @@ class Twilio:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         # Add populated arguments
@@ -164,6 +168,7 @@ class Twilio:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.client.messages.list(

@@ -22,6 +22,7 @@ class Locations:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("locations", params={"name": name}))
@@ -38,6 +39,7 @@ class Locations:
 
         Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"locations/{location_id}")
@@ -73,6 +75,7 @@ class Locations:
             Returns:
                 int
                     A location id.
+
         """
 
         location = {
@@ -99,6 +102,7 @@ class Locations:
                 The location id
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"locations/{location_id}")

@@ -17,6 +17,7 @@ class Formstack:
             api_token:
                 API token to access the Formstack API. Not required if the
                 ``FORMSTACK_API_TOKEN`` env variable is set.
+
     """
 
     def __init__(self, api_token: str | None = None):
@@ -65,6 +66,7 @@ class Formstack:
         Returns:
             Table Class
                 A table with the returned data.
+
         """
         if params is None:
             params = {}
@@ -92,6 +94,7 @@ class Formstack:
         Returns:
             Table Class
                 A Table with the folders data.
+
         """
         response_data = self.client.get_request("folder")
         logger.debug(response_data)
@@ -128,6 +131,7 @@ class Formstack:
         Returns:
             Table Class
                 A table with the forms data.
+
         """
         params = {}
         if form_name:
@@ -149,6 +153,7 @@ class Formstack:
         Returns:
             Dictionary
                 Submission data.
+
         """
         response_data = self.client.get_request(f"submission/{id}")
         logger.debug(response_data)
@@ -173,6 +178,7 @@ class Formstack:
         Returns:
             Table Class
                 A Table with the submission data for the form.
+
         """
         tbl = self._get_paginated_request(
             f"form/{form_id}/submission", "submissions", query_params, True
@@ -191,6 +197,7 @@ class Formstack:
         Returns:
             Table Class
                 A Table with the fields on the form.
+
         """
         response_data = self.client.get_request(f"form/{form_id}/field")
         logger.debug(response_data)

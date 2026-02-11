@@ -37,6 +37,7 @@ class ZoomV1:
             client_secret: str
                 A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env
                 variable set.
+
         """
         self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
         self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
@@ -75,6 +76,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of API responses
+
         """
 
         logger.warning("This version of the Zoom connector uses a deprecated pagination method.")
@@ -119,6 +121,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table
+
         """
         if version == 2:
             if column in table.columns:
@@ -140,6 +143,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table
+
         """
         if tbl.num_rows == 0:
             return tbl
@@ -179,6 +183,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if status not in ["active", "inactive", "pending"]:
@@ -230,6 +235,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         params: dict[str, str] = {"type": meeting_type}
         if from_date:
@@ -251,6 +257,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"past_meetings/{meeting_uuid}", None)
@@ -267,6 +274,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
@@ -283,6 +291,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"meetings/{meeting_id}/registrants", "registrants")
@@ -299,6 +308,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
@@ -315,6 +325,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
@@ -332,6 +343,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
@@ -348,6 +360,7 @@ class ZoomV1:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"webinars/{webinar_id}/registrants", "registrants")
@@ -368,6 +381,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of all polling responses
+
         """
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
@@ -399,6 +413,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of all polling responses
+
         """
 
         endpoint = f"meetings/{meeting_id}/polls"
@@ -424,6 +439,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of poll results
+
         """
 
         endpoint = f"past_meetings/{meeting_id}/polls"
@@ -454,6 +470,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of all polling responses
+
         """
 
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
@@ -481,6 +498,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of all polling responses
+
         """
 
         endpoint = f"webinars/{webinar_id}/polls"
@@ -506,6 +524,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table of all polling responses
+
         """
 
         endpoint = f"past_webinars/{webinar_id}/polls"
@@ -586,6 +605,7 @@ class ZoomV2(ZoomV1):
 
     Args:
         ZoomV1 (cls): version 1 Zoom connector class
+
     """
 
     def __init__(
@@ -616,6 +636,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if params is None:
@@ -657,6 +678,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
@@ -673,6 +695,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         tbl = self._get_request(f"webinars/{webinar_id}/", "occurrences")
         logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
@@ -688,6 +711,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         tbl = self._get_request(f"past_webinars/{webinar_id}/instances", "webinars")
         tbl.add_column(column="webinar_id", value=webinar_id)
@@ -709,6 +733,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
@@ -725,6 +750,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
@@ -741,6 +767,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
         tbl.add_column(column="meeting_id", value=meeting_id)
@@ -761,6 +788,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
@@ -786,6 +814,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"meetings/{meeting_id}/polls"
@@ -809,6 +838,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"past_meetings/{meeting_id}/polls"
@@ -835,6 +865,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
@@ -860,6 +891,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"webinars/{webinar_id}/polls"
@@ -883,6 +915,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"past_webinars/{webinar_id}/polls"
@@ -906,6 +939,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"report/meetings/{meeting_id}/polls"
@@ -929,6 +963,7 @@ class ZoomV2(ZoomV1):
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         endpoint = f"report/webinars/{webinar_id}/polls"
@@ -966,6 +1001,7 @@ class Zoom:
                 A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env
                 variable set.
             parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
+
         """
         if not parsons_version:
             parsons_version = check_env.check("ZOOM_PARSONS_VERSION", None, optional=True)

@@ -36,6 +36,7 @@ class SFTP:
 
     Returns:
         SFTP Class
+
     """
 
     def __init__(
@@ -72,6 +73,7 @@ class SFTP:
 
         Returns:
             SFTP Connection object
+
         """
 
         transport = paramiko.Transport((self.host, self.port))
@@ -103,6 +105,7 @@ class SFTP:
                 An SFTP connection object
         Returns:
             list of files and subdirectories in the provided directory
+
         """
 
         if connection:
@@ -120,6 +123,7 @@ class SFTP:
                 The remote path of the directory
             connection: obj
                 An SFTP connection object
+
         """
 
         if connection:
@@ -137,6 +141,7 @@ class SFTP:
                 The remote path of the directory
             connection: obj
                 An SFTP connection object
+
         """
 
         if connection:
@@ -173,6 +178,7 @@ class SFTP:
         Returns:
             str
                 The path of the local file
+
         """
 
         if not local_path:
@@ -223,6 +229,7 @@ class SFTP:
 
             export_chunk_size: int
                 Optional. Size in bytes to iteratively export from the remote server.
+
         """
 
         logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
@@ -273,6 +280,7 @@ class SFTP:
         Returns:
             list
                 Local paths where the files are saved.
+
         """
 
         if not (files_to_download or remote):
@@ -331,6 +339,7 @@ class SFTP:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if not file_utilities.valid_table_suffix(remote_path):
@@ -366,6 +375,7 @@ class SFTP:
                 An SFTP connection object
             verbose: bool
                 Log progress every 5MB. Defaults to True.
+
         """
         callback = self._progress if verbose else None
         if connection:
@@ -383,6 +393,7 @@ class SFTP:
                 The remote path of the file
             connection: obj
                 An SFTP connection object
+
         """
 
         if connection:
@@ -404,6 +415,7 @@ class SFTP:
         Returns:
             int
                 The file size in MB.
+
         """
 
         if connection:
@@ -451,6 +463,7 @@ class SFTP:
         Returns:
             list
                 The subdirectories in `remote_path`.
+
         """
         return self._list_contents(remote_path, connection, dir_pattern=pattern)[0]
 
@@ -471,6 +484,7 @@ class SFTP:
         Returns:
             list
                 The files in `remote_path`.
+
         """
         return self._list_contents(remote_path, connection, file_pattern=pattern)[1]
 
@@ -510,6 +524,7 @@ class SFTP:
             tuple
                 A list of directories touched and a list of files.  If the files were downloaded
                 the file list will consist of local paths, if not, remote paths.
+
         """
 
         if max_depth > 3:

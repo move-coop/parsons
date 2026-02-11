@@ -18,6 +18,7 @@ class SupporterGroups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("supporterGroups"))
@@ -34,6 +35,7 @@ class SupporterGroups:
 
         Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
@@ -52,6 +54,7 @@ class SupporterGroups:
         `Returns`
             Parsons Table with the newly createed supporter group id, name
             and description
+
         """
 
         json = {"name": name, "description": description}
@@ -67,6 +70,7 @@ class SupporterGroups:
                 The supporter group id
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
@@ -84,6 +88,7 @@ class SupporterGroups:
                 The vanid of the person to apply
         Returns:
             ``None``
+
         """
 
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
@@ -101,6 +106,7 @@ class SupporterGroups:
                 The vanid of the person to remove
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")

@@ -22,6 +22,7 @@ class Scores:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("scores"))
@@ -37,6 +38,7 @@ class Scores:
                 The score id
         Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"scores/{score_id}")
@@ -58,6 +60,7 @@ class Scores:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -82,6 +85,7 @@ class Scores:
                         The score update id
             Returns:
                 dict
+
         """
 
         r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
@@ -100,6 +104,7 @@ class Scores:
                 One of 'pending approval', 'approved', 'disapproved'
         Returns:
             ``None``
+
         """
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
@@ -177,6 +182,7 @@ class Scores:
 
         .. [1] NGPVAN asks that you load multiple scores in a single call to reduce the load
            on their servers.
+
         """
 
         # Move to cloud storage
@@ -284,6 +290,7 @@ class FileLoadingJobs:
         Returns:
             dict
                 The file load id
+
         """
 
         columns = [{"name": c} for c in columns]
@@ -379,6 +386,7 @@ class FileLoadingJobs:
 
         Returns:
             The file load job id
+
         """
 
         columns = [{"name": c} for c in columns]

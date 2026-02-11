@@ -26,6 +26,7 @@ class Community:
                 variable or use this URI parameter if a different endpoint is necessary.
 
     `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`_
+
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):
@@ -64,6 +65,7 @@ class Community:
 
         Returns:
             Response of GET request; a successful response returns the CSV formatted data
+
         """
 
         logger.info(f"Requesting {filename}")
@@ -94,6 +96,7 @@ class Community:
 
         Returns:
             Contents of the generated contribution CSV as a Parsons table.
+
         """
 
         get_request_response = self.get_request(filename=filename)

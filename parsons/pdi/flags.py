@@ -25,6 +25,7 @@ class Flags:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         try:
             start_date = parse(start_date).date().isoformat()
@@ -73,5 +74,6 @@ class Flags:
         Args:
             id: str
                 The Flag id
+
         """
         return self._request(f"self.url_flags/{id}", req_type="DELETE")

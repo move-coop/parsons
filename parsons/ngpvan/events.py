@@ -46,6 +46,7 @@ class Events:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if expand_fields is None:
@@ -96,6 +97,7 @@ class Events:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if expand_fields is None:
@@ -187,6 +189,7 @@ class Events:
         Returns:
             int
               The event code.
+
         """
 
         if shifts is None:
@@ -237,6 +240,7 @@ class Events:
 
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"events/{event_id}")
@@ -260,6 +264,7 @@ class Events:
         Returns:
             int
               The shift id.
+
         """
 
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
@@ -275,6 +280,7 @@ class Events:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("events/types"))

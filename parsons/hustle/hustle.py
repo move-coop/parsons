@@ -28,6 +28,7 @@ class Hustle:
 
     Returns:
         Hustle Class
+
     """
 
     def __init__(self, client_id: str | None = None, client_secret: str | None = None):
@@ -137,6 +138,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"groups/{group_id}/agents"))
@@ -153,6 +155,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         resp = self._request(f"agents/{agent_id}")
@@ -187,6 +190,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         agent = {
@@ -228,6 +232,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         agent = {"name": name, "fullName": full_name, "sendInvite": send_invite}
@@ -246,6 +251,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request("organizations"))
@@ -262,6 +268,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         resp = self._request(f"organizations/{organization_id}")
@@ -277,6 +284,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/groups"))
@@ -290,6 +298,7 @@ class Hustle:
         Args:
             group_id: str
                 The group id.
+
         """
 
         resp = self._request(f"groups/{group_id}")
@@ -305,6 +314,7 @@ class Hustle:
                 The group id.
             lead_id: str
                 The lead id.
+
         """
 
         resp = self._request(
@@ -324,6 +334,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         resp = self._request(f"leads/{lead_id}")
@@ -344,6 +355,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if organization_id is None and group_id is None:
@@ -402,6 +414,7 @@ class Hustle:
 
         Returns:
                 ``None``
+
         """
 
         lead = {
@@ -453,6 +466,7 @@ class Hustle:
 
         Returns:
             A table of created ids with associated lead id.
+
         """
 
         table.map_columns(LEAD_COLUMN_MAP)
@@ -527,6 +541,7 @@ class Hustle:
                 Tags to apply to lead
         Returns:
             dict
+
         """
 
         lead = {
@@ -558,6 +573,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/tags"))
@@ -574,6 +590,7 @@ class Hustle:
 
         Returns:
             dict
+
         """
 
         resp = self._request(f"tags/{tag_id}")
@@ -590,6 +607,7 @@ class Hustle:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
@@ -612,6 +630,7 @@ class Hustle:
         Returns:
             dict
                 The newly created custom field
+
         """
 
         custom_field: dict[str, str | bool] = {"name": name}

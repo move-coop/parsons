@@ -29,6 +29,7 @@ class Shopify:
 
     Returns:
         Shopify Class
+
     """
 
     def __init__(
@@ -69,6 +70,7 @@ class Shopify:
 
         Returns:
             int
+
         """
         return (
             self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
@@ -91,6 +93,7 @@ class Shopify:
 
         Returns:
             Table Class
+
         """
         orders = []
 
@@ -154,6 +157,7 @@ class Shopify:
 
         Returns:
             str
+
         """
         filters = "limit=250&status=any"
 
@@ -181,6 +185,7 @@ class Shopify:
 
         Returns:
             dict
+
         """
         return (
             self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
@@ -227,6 +232,7 @@ class Shopify:
                 value as value
         Returns:
             Table Class
+
         """
         return cls(subdomain, password, api_key, api_version).get_orders(
             query_date, since_id, completed

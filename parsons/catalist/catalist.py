@@ -92,6 +92,7 @@ class CatalistMatch:
              input_subfolder: str
                  Optional. If specified, the file will be uploaded to a subfolder of the
                  myUploads directory in the SFTP server.
+
         """
         local_path = table.to_csv(temp_file_compression="gzip")
         hashed_name = hash(time.time())
@@ -146,6 +147,7 @@ class CatalistMatch:
                   Optional. Any included values are mapped to every row of the input table.
              wait: int
                   Seconds to poll, defaults to 30.
+
         """
         response = self.upload(
             table=table,
@@ -194,6 +196,7 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
+
         """
 
         self.validate_table(table, template_id)

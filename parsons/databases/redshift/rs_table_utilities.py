@@ -22,6 +22,7 @@ class RedshiftTableUtilities:
         Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)
@@ -72,6 +73,7 @@ class RedshiftTableUtilities:
 
         Returns:
             int
+
         """
 
         count_query = self.query(f"select count(*) from {table_name}")
@@ -90,6 +92,7 @@ class RedshiftTableUtilities:
                 Name of existing schema and table (e.g. ``myschema.oldtable``)
             new_table_name: str
                 New name for table with the schema omitted (e.g. ``newtable``).
+
         """
 
         sql = f"alter table {table_name} rename to {new_table_name}"
@@ -114,6 +117,7 @@ class RedshiftTableUtilities:
 
         Returns:
                 None
+
         """
 
         # To Do: Add the grants
@@ -157,6 +161,7 @@ class RedshiftTableUtilities:
         Returns:
             bool
                 True if the table needs to be created, False otherwise.
+
         """
 
         if if_exists not in ["fail", "truncate", "append", "drop"]:
@@ -200,6 +205,7 @@ class RedshiftTableUtilities:
                 The column to use as the distkey for the table.
             sortkey: str
                 The column to use as the sortkey for the table.
+
         """
         with self.connection() as conn:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
@@ -244,6 +250,7 @@ class RedshiftTableUtilities:
                 or ``truncate`` the table.
             drop_source_table: boolean
                 Drop the source table
+
         """
 
         with self.connection() as conn:
@@ -282,6 +289,7 @@ class RedshiftTableUtilities:
                 Create a view rather than a static table
         Returns:
             None
+
         """
 
         union_type = " UNION ALL" if union_all else " UNION"
@@ -309,6 +317,7 @@ class RedshiftTableUtilities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.info("Retrieving tables info.")
@@ -338,6 +347,7 @@ class RedshiftTableUtilities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.info("Retrieving table statistics.")
@@ -420,6 +430,7 @@ class RedshiftTableUtilities:
                 The table name
         Returns:
             A list of column names.
+
         """
         schema = f'"{schema}"' if not (schema.startswith('"') and schema.endswith('"')) else schema
 
@@ -445,6 +456,7 @@ class RedshiftTableUtilities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.info("Retrieving views info.")
@@ -471,6 +483,7 @@ class RedshiftTableUtilities:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         logger.info("Retrieving running and queued queries.")
@@ -527,6 +540,7 @@ class RedshiftTableUtilities:
                 Schema and table name
             value_column: str
                 The column containing the values
+
         """
 
         return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0]["value"]
@@ -609,6 +623,7 @@ class RedshiftTableUtilities:
 
         Returns:
             str
+
         """
 
         schema, table = self.split_full_table_name(table)
@@ -686,6 +701,7 @@ class RedshiftTableUtilities:
 
         Returns:
             str
+
         """
 
         schema, view = self.split_full_table_name(view)
@@ -757,6 +773,7 @@ class RedshiftTableUtilities:
         Returns:
             tuple
                 A tuple containing (schema, table)
+
         """
         if "." not in full_table_name:
             return "public", full_table_name
@@ -782,5 +799,6 @@ class RedshiftTableUtilities:
         Returns:
             str
                 The combined full table name
+
         """
         return f"{schema}.{table}"

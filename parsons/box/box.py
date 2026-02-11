@@ -56,6 +56,7 @@ class Box:
     calls. This can be slow for long paths or intermediate folders
     that contain many items. If performance is an issue, please use the
     corresponding folder_id/file_id methods for each function.
+
     """
 
     # In what formats can we upload/save Tables to Box? For now csv and JSON.
@@ -81,6 +82,7 @@ class Box:
 
         Returns:
             str: The Box id of the newly-created folder.
+
         """
         if "/" in path:
             parent_folder_path, folder_name = path.rsplit(sep="/", maxsplit=1)
@@ -102,6 +104,7 @@ class Box:
 
         Returns:
             str: The Box id of the newly-created folder.
+
         """
         subfolder = self.client.folder(parent_folder_id).create_subfolder(folder_name)
         return subfolder.id
@@ -112,6 +115,7 @@ class Box:
         Args:
             folder_id: str
                Path to the folder to delete.
+
         """
         folder_id = self.get_item_id(path)
         self.delete_folder_by_id(folder_id=folder_id)
@@ -122,6 +126,7 @@ class Box:
         Args:
             folder_id: str
                The Box id of the folder to delete.
+
         """
         self.client.folder(folder_id=folder_id).delete()
 
@@ -131,6 +136,7 @@ class Box:
         Args:
             path: str
               Path to the file to delete.
+
         """
         file_id = self.get_item_id(path)
         self.delete_file_by_id(file_id=file_id)
@@ -141,6 +147,7 @@ class Box:
         Args:
             file_id: str
               The Box id of the file to delete.
+
         """
         self.client.file(file_id=file_id).delete()
 
@@ -157,6 +164,7 @@ class Box:
 
         Returns: Table
             A Parsons table of items in the folder and their attributes.
+
         """
         folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
@@ -179,6 +187,7 @@ class Box:
                search in the default folder.
         Returns: Table
             A Parsons table of files and their attributes.
+
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
 
@@ -191,6 +200,7 @@ class Box:
                search in the default folder.
         Returns: Table
             A Parsons table of folders and their attributes.
+
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
@@ -207,6 +217,7 @@ class Box:
 
         Returns: BoxFile
             A Box File object
+
         """
         if "/" in path:
             folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
@@ -236,6 +247,7 @@ class Box:
 
         Returns: BoxFile
             A Box File object
+
         """
 
         if format not in self.ALLOWED_FILE_FORMATS:
@@ -276,6 +288,7 @@ class Box:
         Returns:
             str
                 The path of the new file
+
         """
         if not local_path:
             # Temp file will be around as long as enclosing process is running,
@@ -300,6 +313,7 @@ class Box:
 
         Returns: Table
             A Parsons Table.
+
         """
         file_id = self.get_item_id(path)
         return self.get_table_by_file_id(file_id=file_id, format=format)
@@ -315,6 +329,7 @@ class Box:
 
         Returns: Table
             A Parsons Table.
+
         """
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(

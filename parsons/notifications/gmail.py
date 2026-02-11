@@ -21,6 +21,7 @@ class Gmail(SendMail):
         user_id: str
             Optional; Sender email address. Defaults to the special value
             "me" which is used to indicate the authenticated user.
+
     """
 
     def __init__(self, creds_path=None, token_path=None, user_id="me"):
@@ -64,6 +65,7 @@ class Gmail(SendMail):
             dict
                 A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.`
                 for more info.
+
         """
         self.log.info("Sending a message...")
 

@@ -66,6 +66,7 @@ class SendMail(ABC):
 
         Returns:
             An object passable to send_message to send
+
         """
         self.log.info("Creating a simple message...")
 
@@ -93,6 +94,7 @@ class SendMail(ABC):
 
         Returns:
             An object passable to send_message to send
+
         """
         self.log.info("Creating an html message...")
 
@@ -127,6 +129,7 @@ class SendMail(ABC):
 
         Returns:
             An object passable to send_message to send
+
         """
         self.log.info("Creating a message with attachments...")
 
@@ -221,6 +224,7 @@ class SendMail(ABC):
 
         Returns:
             None
+
         """
         self.log.info("Preparing to send an email...")
 

@@ -19,6 +19,7 @@ class Mailchimp:
 
     Returns:
         Mailchimp Class
+
     """
 
     def __init__(self, api_key=None):
@@ -84,6 +85,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -177,6 +179,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -306,6 +309,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -374,6 +378,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -417,6 +422,7 @@ class Mailchimp:
 
         Returns:
             Table Class
+
         """
         params = {
             "fields": fields,

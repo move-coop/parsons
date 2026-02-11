@@ -25,6 +25,7 @@ class Auth0:
 
     Returns:
         Auth0 Class
+
     """
 
     def __init__(self, client_id=None, client_secret=None, domain=None):
@@ -57,6 +58,7 @@ class Auth0:
 
         Returns:
             int
+
         """
         return requests.delete(
             f"{self.base_url}/api/v2/users/{id}", headers=self.headers
@@ -72,6 +74,7 @@ class Auth0:
 
         Returns:
             Table Class
+
         """
         url = f"{self.base_url}/api/v2/users-by-email"
         val = requests.get(url, headers=self.headers, params={"email": email})
@@ -107,6 +110,7 @@ class Auth0:
                 User metadata to set for user
         Returns:
             Requests Response object
+
         """
 
         if user_metadata is None:
@@ -153,6 +157,7 @@ class Auth0:
 
         Returns:
             Requests Response object
+
         """
         payload = json.dumps({"connection": connection, "blocked": True})
         ret = requests.patch(
@@ -174,6 +179,7 @@ class Auth0:
 
         Returns:
             Requests Response object
+
         """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
@@ -233,6 +239,7 @@ class Auth0:
                 Name of auth0 connection
         Returns:
             Connection ID string
+
         """
         url = f"{self.base_url}/api/v2/connections"
 

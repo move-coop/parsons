@@ -41,6 +41,7 @@ class DatabaseCreateStatement:
         Returns:
             str
                 The rename column.
+
         """
         return f"{col}_"
 
@@ -56,6 +57,7 @@ class DatabaseCreateStatement:
         Returns:
             str
                 The rename column.
+
         """
         return f"{col}_{index}"
 
@@ -71,6 +73,7 @@ class DatabaseCreateStatement:
         Returns:
             str
                 A string representation of the higher of the two int types.
+
         """
         WEIGHTS = {
             self.SMALLINT: 100,
@@ -91,6 +94,7 @@ class DatabaseCreateStatement:
         Returns:
             bool
                 Whether or not the value is a valid sql number.
+
         """
         # Python accepts numbers with single-underscore separators such as
         # 100_000 (evals to 100000)
@@ -133,6 +137,7 @@ class DatabaseCreateStatement:
         Returns:
             str
                 The string representation of the higher of the two types.
+
         """
         # Stop if the compare type is already a varchar
         # varchar is the highest data type.
@@ -198,6 +203,7 @@ class DatabaseCreateStatement:
         Returns:
             str
                 The formatted column.
+
         """
         replace_chars = replace_chars or self.REPLACE_CHARS
 
@@ -240,6 +246,7 @@ class DatabaseCreateStatement:
         Returns:
             list
                 The formatted columns.
+
         """
         formatted_cols = []
 

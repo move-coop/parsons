@@ -16,6 +16,7 @@ class Activities:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(self.url_activites, limit=limit)
 
@@ -39,6 +40,7 @@ class Activities:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_activites}/{id}")
 

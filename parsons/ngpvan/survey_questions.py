@@ -33,6 +33,7 @@ class SurveyQuestions:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if statuses is None:
@@ -61,6 +62,7 @@ class SurveyQuestions:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
@@ -102,6 +104,7 @@ class SurveyQuestions:
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
+
         """
 
         response = {

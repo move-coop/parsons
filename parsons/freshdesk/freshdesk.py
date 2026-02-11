@@ -24,6 +24,7 @@ class Freshdesk:
 
     Returns:
         Freshdesk class
+
     """
 
     def __init__(self, domain, api_key):
@@ -65,6 +66,7 @@ class Freshdesk:
         Returns:
             dict
                 The JSON response from the API.
+
         """
         url = self.uri + endpoint
         r = self.client.request(url, "POST", json=data)
@@ -123,6 +125,7 @@ class Freshdesk:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -172,6 +175,7 @@ class Freshdesk:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -201,6 +205,7 @@ class Freshdesk:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._get_request("companies"))
@@ -226,6 +231,7 @@ class Freshdesk:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
@@ -262,6 +268,7 @@ class Freshdesk:
         Returns:
             dict
                 JSON response from the API.
+
         """
         endpoint = "tickets"
         data = {

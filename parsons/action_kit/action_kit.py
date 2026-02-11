@@ -26,6 +26,7 @@ class ActionKit:
         password: str
             The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``
             env variable set.
+
     """
 
     _default_headers = {
@@ -105,6 +106,7 @@ class ActionKit:
 
         Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -118,6 +120,7 @@ class ActionKit:
 
         Returns:
             List of user fields
+
         """
 
         resp = self._base_get(endpoint="user/schema")
@@ -138,6 +141,7 @@ class ActionKit:
 
         Returns:
             User json object
+
         """
 
         return self._base_post(
@@ -161,6 +165,7 @@ class ActionKit:
 
         Returns:
             Phone json object
+
         """
         return self._base_post(
             endpoint="phone",
@@ -179,6 +184,7 @@ class ActionKit:
                 The id of the actionfield to delete
         Returns:
             ``None``
+
         """
 
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
@@ -198,6 +204,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
@@ -218,6 +225,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
@@ -261,6 +269,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The events data.
+
         """
         return self.paginated_get("event", limit=limit, **kwargs)
 
@@ -278,6 +287,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
@@ -298,6 +308,7 @@ class ActionKit:
 
         Returns:
             Event field json object
+
         """
         return self._base_post(
             endpoint="eventfield",
@@ -321,6 +332,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
         resp = self.conn.patch(
             self._base_endpoint("eventfield", eventfield_id),
@@ -346,6 +358,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The blackholed email data.
+
         """
 
         return self.paginated_get("blackholedemail", email=email)
@@ -361,6 +374,7 @@ class ActionKit:
                 Email to blackhole
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -383,6 +397,7 @@ class ActionKit:
 
         Returns:
             API location of anonymized user
+
         """
 
         return self._base_post(
@@ -401,6 +416,7 @@ class ActionKit:
                 The user id of the person to delete
         Returns:
             ``None``
+
         """
 
         resp = self.conn.delete(self._base_endpoint("user", user_id))
@@ -416,6 +432,7 @@ class ActionKit:
 
         Returns:
             Campaign json object
+
         """
 
         return self._base_get(
@@ -431,6 +448,7 @@ class ActionKit:
 
         Returns:
             List of campaign fields
+
         """
 
         resp = self._base_get(endpoint="campaign/schema")
@@ -450,6 +468,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -511,6 +530,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The list of events.
+
         """
         if filters:
             for field, value in filters.items():
@@ -538,6 +558,7 @@ class ActionKit:
 
         Returns:
             Event create page json object
+
         """
 
         return self._base_get(
@@ -553,6 +574,7 @@ class ActionKit:
 
         Returns:
             List of event create page fields
+
         """
 
         resp = self._base_get(endpoint="eventcreatepage/schema")
@@ -576,6 +598,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -597,6 +620,7 @@ class ActionKit:
 
         Returns:
             Event create form json object
+
         """
 
         return self._base_get(
@@ -612,6 +636,7 @@ class ActionKit:
 
         Returns:
             List of event create form fields
+
         """
 
         resp = self._base_get(endpoint="eventcreateform/schema")
@@ -633,6 +658,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -653,6 +679,7 @@ class ActionKit:
 
         Returns:
             Event signup page json object
+
         """
 
         return self._base_get(
@@ -668,6 +695,7 @@ class ActionKit:
 
         Returns:
             List of event signup page fields
+
         """
 
         resp = self._base_get(endpoint="eventsignuppage/schema")
@@ -691,6 +719,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -712,6 +741,7 @@ class ActionKit:
 
         Returns:
             Event signup form json object
+
         """
 
         return self._base_get(
@@ -727,6 +757,7 @@ class ActionKit:
 
         Returns:
             List of event signup form fields
+
         """
 
         resp = self._base_get(endpoint="eventsignupform/schema")
@@ -748,6 +779,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -774,6 +806,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(
@@ -791,6 +824,7 @@ class ActionKit:
 
         Returns:
             Mailer json object
+
         """
 
         return self._base_get(endpoint="mailer", entity_id=entity_id)
@@ -807,6 +841,7 @@ class ActionKit:
 
         Returns:
             URI of new mailer
+
         """
 
         return self._base_post(
@@ -835,6 +870,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
@@ -851,6 +887,7 @@ class ActionKit:
 
         Returns:
             URI to poll for progress
+
         """
 
         return self._base_post(
@@ -868,6 +905,7 @@ class ActionKit:
 
         Returns:
             URI to poll for progress
+
         """
 
         return self._base_post(
@@ -899,6 +937,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The objects data.
+
         """
         # "The maximum number of objects returned per request is 100. Use paging
         # to get more objects."
@@ -956,6 +995,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The objects data.
+
         """
         # "The maximum number of objects returned per request is 100. Use paging
         # to get more objects."
@@ -1000,6 +1040,7 @@ class ActionKit:
 
         Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -1020,6 +1061,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
@@ -1038,6 +1080,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(
@@ -1057,6 +1100,7 @@ class ActionKit:
 
         Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -1075,6 +1119,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
@@ -1095,6 +1140,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(
@@ -1125,6 +1171,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The orders data.
+
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
@@ -1142,6 +1189,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response``
+
         """
 
         resp = self.conn.patch(
@@ -1161,6 +1209,7 @@ class ActionKit:
 
         Returns:
             Page followup json object
+
         """
 
         return self._base_get(
@@ -1176,6 +1225,7 @@ class ActionKit:
 
         Returns:
             List of page followup fields
+
         """
 
         resp = self._base_get(endpoint="pagefollowup/schema")
@@ -1197,6 +1247,7 @@ class ActionKit:
 
         Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -1217,6 +1268,7 @@ class ActionKit:
 
         Returns:
             Survey question json object
+
         """
 
         return self._base_get(
@@ -1241,6 +1293,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(
@@ -1259,6 +1312,7 @@ class ActionKit:
 
         Returns:
             Transaction json object
+
         """
 
         return self._base_post(
@@ -1281,6 +1335,7 @@ class ActionKit:
 
         Returns:
             ``None``
+
         """
 
         resp = self.conn.patch(
@@ -1310,6 +1365,7 @@ class ActionKit:
         Returns:
             Parsons.Table
                 The transactions data.
+
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 
@@ -1332,6 +1388,7 @@ class ActionKit:
         Returns:
             dict
                 The response json
+
         """
 
         if not email or ak_id:
@@ -1359,6 +1416,7 @@ class ActionKit:
 
         Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(
@@ -1405,6 +1463,7 @@ class ActionKit:
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
+
         """
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
@@ -1477,6 +1536,7 @@ class ActionKit:
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
                          progress_url and res for any results
+
         """
 
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
@@ -1541,6 +1601,7 @@ class ActionKit:
                 message: str -- error message
                 upload: str -- upload progress API path e.g. "/rest/v1/upload/123456/"
                 id: int -- upload error record id (different than upload id)
+
         """
         errors = []
         for res in result_array:

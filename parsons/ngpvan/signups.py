@@ -26,6 +26,7 @@ class Signups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if event_id is None and event_type_id is None:
@@ -54,6 +55,7 @@ class Signups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
@@ -70,6 +72,7 @@ class Signups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
@@ -87,6 +90,7 @@ class Signups:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.connection.get_request(f"signups/{event_signup_id}")
@@ -113,6 +117,7 @@ class Signups:
         Returns:
             Int
                 The event signup id
+
         """
 
         signup = {
@@ -153,6 +158,7 @@ class Signups:
                 The location_id to update
         Returns:
             ``None``
+
         """
 
         #  Get the signup object
@@ -179,6 +185,7 @@ class Signups:
                 A valid event signup id
         Returns:
             ``None``
+
         """
 
         r = self.connection.delete_request(f"signups/{event_signup_id}")

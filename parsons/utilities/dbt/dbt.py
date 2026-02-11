@@ -27,6 +27,7 @@ class dbtRunnerParsons:
             dbt_project_directory: pathlib.Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
+
         """
         if isinstance(commands, str):
             commands = [commands]
@@ -107,6 +108,7 @@ def run_dbt_commands(
     ...     dbt_project_directory=Path("/path/to/dbt/project"),
     ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
     ... )
+
     """
     dbt_runner = dbtRunnerParsons(commands, dbt_project_directory)
 

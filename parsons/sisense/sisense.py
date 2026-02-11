@@ -23,6 +23,7 @@ class Sisense:
 
     Returns:
         Sisense class
+
     """
 
     def __init__(self, site_name=None, api_key=None):
@@ -50,6 +51,7 @@ class Sisense:
 
         Returns:
             Response (dict containing the URL) or an error
+
         """
         payload = {"dashboard": dashboard_id, "chart": chart_id, **kwargs}
         return self.api.post_request("shared_dashboard/create", data=json.dumps(payload))
@@ -64,6 +66,7 @@ class Sisense:
 
         Returns:
             Response or an error
+
         """
         payload = {"dashboard": dashboard_id}
         return self.api.post_request("shared_dashboard/list", data=json.dumps(payload))
@@ -83,6 +86,7 @@ class Sisense:
 
         Returns:
             Response or an error
+
         """
         payload = {"token": token}
         return self.api.post_request("shared_dashboard/delete", data=json.dumps(payload))

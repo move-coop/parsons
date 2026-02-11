@@ -58,6 +58,7 @@ class People:
 
         Returns:
             A person dict object
+
         """
 
         logger.info(f"Finding {first_name} {last_name}.")
@@ -99,6 +100,7 @@ class People:
             fields: The fields to return. Leave as default for all available fields
         Returns:
             A person dict object
+
         """
 
         logger.info("Finding a match for json details.")
@@ -153,6 +155,7 @@ class People:
                 5 digit zip code
         Returns:
             A person dict
+
         """
 
         return self._people_search(
@@ -189,6 +192,7 @@ class People:
 
         Returns:
             A person dict
+
         """
 
         return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
@@ -249,6 +253,7 @@ class People:
 
         Returns:
             A person dict
+
         """
 
         return self._people_search(
@@ -292,6 +297,7 @@ class People:
 
         Returns:
             A person dict
+
         """
 
         return self._people_search(match_json=match_json, create=True)
@@ -428,6 +434,7 @@ class People:
 
         Returns:
             A person dict
+
         """
 
         # Change end point based on id type
@@ -479,6 +486,7 @@ class People:
 
         Returns:
             Success or error.
+
         """
         url = f"people/{vanid}"
         r = self.connection.delete_request(url)
@@ -519,6 +527,7 @@ class People:
 
         Returns:
             ``None``
+
         """
 
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
@@ -570,6 +579,7 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         ** NOT IMPLEMENTED **
+
         """
 
         """
@@ -707,6 +717,7 @@ class People:
                 The relationship id indicating the type of relationship
         Returns:
             ``None``
+
         """
 
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
@@ -728,6 +739,7 @@ class People:
                 such as ``dwid``
         Returns:
             ``None``
+
         """
 
         # Set url based on id_type
@@ -756,6 +768,7 @@ class People:
 
         Returns:
             The VANID of the primary contact record.
+
         """
 
         url = f"people/{source_vanid}/mergeInto"

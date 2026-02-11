@@ -21,6 +21,7 @@ class Quickbase:
 
     Returns:
         Quickbase Class
+
     """
 
     def __init__(self, hostname=None, user_token=None):
@@ -47,6 +48,7 @@ class Quickbase:
 
         Returns:
             Table Class
+
         """
         return Table(
             self.client.request(f"{self.api_hostname}/tables?appId={app_id}", "GET").json()
@@ -64,6 +66,7 @@ class Quickbase:
 
         Returns:
             Table Class
+
         """
         req_resp = self.client.request(
             f"{self.api_hostname}/records/query", "POST", json={"from": table_from}

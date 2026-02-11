@@ -26,6 +26,7 @@ class CapitolCanary:
 
     Returns:
         CapitolCanary Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -87,6 +88,7 @@ class CapitolCanary:
                 * ids
                 * fields
                 * advocates
+
         """
 
         # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
@@ -161,6 +163,7 @@ class CapitolCanary:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         args = {
@@ -248,6 +251,7 @@ class CapitolCanary:
                 Additional fields on the advocate to update
         Returns:
             The int ID of the created advocate.
+
         """
 
         # Validate the passed in arguments
@@ -349,6 +353,7 @@ class CapitolCanary:
                 opted out, they cannot be opted back in.
             **kwargs:
                 Additional fields on the advocate to update
+
         """
 
         # Validate the passed in arguments

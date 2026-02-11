@@ -16,6 +16,7 @@ class Locations:
         Returns:
             parsons.Table
                 A Parsons table containing all requested location data.
+
         """
 
         return self._request(self.locations_url, limit=limit)

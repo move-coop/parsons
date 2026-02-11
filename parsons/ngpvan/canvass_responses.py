@@ -18,6 +18,7 @@ class CanvassResponses:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/contactTypes"))
@@ -31,6 +32,7 @@ class CanvassResponses:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/inputTypes"))
@@ -44,6 +46,7 @@ class CanvassResponses:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/resultCodes"))

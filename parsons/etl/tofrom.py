@@ -29,6 +29,7 @@ class ToFrom:
         Returns:
             dataframe
                 Pandas DataFrame object
+
         """
 
         return petl.todataframe(
@@ -81,6 +82,7 @@ class ToFrom:
         Returns:
             str
                 The path of the new file
+
         """
 
         if not local_path:
@@ -180,6 +182,7 @@ class ToFrom:
             +-------+---------+-----+
             | 'Ted' |      23 |  51 |
             +-------+---------+-----+
+
         """
 
         return petl.toavro(
@@ -215,6 +218,7 @@ class ToFrom:
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
                 fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+
         """
 
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)
@@ -263,6 +267,7 @@ class ToFrom:
         Returns:
             str
                 The path of the new file
+
         """
 
         # If a zip archive.
@@ -315,6 +320,7 @@ class ToFrom:
         Returns:
             str
                 The path of the file
+
         """
 
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
@@ -362,6 +368,7 @@ class ToFrom:
         Returns:
             str
                 The path of the archive
+
         """
 
         if not archive_path:
@@ -398,6 +405,7 @@ class ToFrom:
         Returns:
             str
                 The path of the new file
+
         """
 
         if not local_path:
@@ -436,6 +444,7 @@ class ToFrom:
 
         Returns:
             list
+
         """
 
         return list(petl.dicts(self.table))
@@ -480,6 +489,7 @@ class ToFrom:
                 to authenticate stfp connection
             **csvargs: kwargs
                 ``csv_writer`` optional arguments
+
         """
 
         from parsons.sftp import SFTP
@@ -550,6 +560,7 @@ class ToFrom:
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
+
         """
 
         compression = compression or files.compression_type_for_path(key)
@@ -629,6 +640,7 @@ class ToFrom:
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
+
         """
 
         compression = compression or files.compression_type_for_path(blob_name)
@@ -689,6 +701,7 @@ class ToFrom:
 
         Returns:
             ``None``
+
         """
 
         from parsons.databases.redshift import Redshift
@@ -727,6 +740,7 @@ class ToFrom:
 
         Returns:
             ``None``
+
         """
 
         from parsons.databases.postgres import Postgres
@@ -759,6 +773,7 @@ class ToFrom:
 
         Returns:
             ``None``
+
         """
 
         from parsons import GoogleBigQuery as BigQuery
@@ -852,6 +867,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return cls(petl.fromavro(local_path, limit=limit, skips=skips, **avro_args))
@@ -870,6 +886,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
@@ -893,6 +910,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         bytesio = io.BytesIO(str.encode("utf-8"))
@@ -912,6 +930,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return cls(petl.fromcolumns(cols, header=header))
@@ -935,6 +954,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if line_delimited:
@@ -971,6 +991,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         from parsons.databases.redshift import Redshift
@@ -994,6 +1015,7 @@ class ToFrom:
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
+
         """
 
         from parsons.databases.postgres import Postgres
@@ -1030,6 +1052,7 @@ class ToFrom:
                 ``csv_reader`` optional arguments
         Returns:
             `parsons.Table` object
+
         """
 
         from parsons.aws import S3
@@ -1078,6 +1101,7 @@ class ToFrom:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         from parsons import GoogleBigQuery as BigQuery
@@ -1096,6 +1120,7 @@ class ToFrom:
                 A valid Pandas dataframe objectt
             include_index: boolean
                 Include index column
+
         """
 
         return cls(petl.fromdataframe(dataframe, include_index=include_index))

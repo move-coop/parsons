@@ -51,6 +51,7 @@ class Slack:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if types is None:
             types = ["public_channel"]
@@ -88,6 +89,7 @@ class Slack:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if fields is None:
@@ -149,6 +151,7 @@ class Slack:
         Returns:
             `dict`:
                 A response json
+
         """
 
         if "as_user" in kwargs:
@@ -212,6 +215,7 @@ class Slack:
         Returns:
             `dict`:
                 A response json
+
         """
         if filetype is None and "." in filename:
             filetype = filename.split(".")[-1]
@@ -286,6 +290,7 @@ class Slack:
 
         Returns:
             str: Channel ID
+
         """
         # If it's already a channel ID (starts with C, D, or G), return as-is
         if channel and channel[0] in ("C", "D", "G"):

@@ -27,6 +27,7 @@ class Targets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("targets"))
@@ -44,6 +45,7 @@ class Targets:
         Returns:
             dict
                 The target
+
         """
 
         r = self.connection.get_request(f"targets/{target_id}")
@@ -57,6 +59,7 @@ class Targets:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
@@ -80,6 +83,7 @@ class Targets:
         Returns:
             dict
                 The target export job ID
+
         """
         target_export = {"targetId": target_id}
 

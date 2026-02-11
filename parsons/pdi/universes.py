@@ -18,6 +18,7 @@ class Universes:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
 
         return self._request(self.url_universes, limit=limit)
@@ -32,5 +33,6 @@ class Universes:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_universes}/{id}")

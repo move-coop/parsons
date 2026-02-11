@@ -31,6 +31,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         params = {
             "email": email,
@@ -87,6 +88,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         payload = {
             "namePrefix": name_prefix,
@@ -117,6 +119,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         # todo not working quite right
         return self._request(f"{self.url_contacts}/{id}")
@@ -163,6 +166,7 @@ class Contacts:
         Returns:
             parsons.Table
                 A Parsons table of all the data.
+
         """
         payload = {
             "namePrefix": name_prefix,
@@ -252,5 +256,6 @@ class Contacts:
         Args:
             id: str
                 The Question id
+
         """
         return self._request(f"{self.url_contacts}/{id}", req_type="DELETE")

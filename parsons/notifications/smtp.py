@@ -20,6 +20,7 @@ class SMTP(SendMail):
             Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
         close_manually: bool
             When set to True, send_message will not close the connection
+
     """
 
     def __init__(
@@ -57,6 +58,7 @@ class SMTP(SendMail):
                 i.e. the objects created by the create_* instance methods
         Returns:
             dict of refused To addresses (otherwise None)
+
         """
         self.log.info("Sending a message...")
         try:

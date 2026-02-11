@@ -33,6 +33,7 @@ class APIConnector:
             if the data is nested in the response json
     Returns:
         APIConnector class
+
     """
 
     def __init__(self, uri, headers=None, auth=None, pagination_key=None, data_key=None):
@@ -71,6 +72,7 @@ class APIConnector:
 
         Returns:
             requests response
+
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
@@ -95,6 +97,7 @@ class APIConnector:
                 The request parameters
         Returns:
                 A requests response object
+
         """
 
         r = self.request(url, "GET", params=params)
@@ -126,6 +129,7 @@ class APIConnector:
 
         Returns:
             A requests response object
+
         """
 
         if success_codes is None:
@@ -157,6 +161,7 @@ class APIConnector:
 
         Returns:
                 A requests response object or status code
+
         """
 
         if success_codes is None:
@@ -191,6 +196,7 @@ class APIConnector:
 
         Returns:
                 A requests response object
+
         """
 
         if success_codes is None:
@@ -223,6 +229,7 @@ class APIConnector:
 
         Returns:
             A requests response object
+
         """
 
         if success_codes is None:
@@ -247,6 +254,7 @@ class APIConnector:
         Args:
             resp: object
                 A response object
+
         """
 
         if resp.status_code >= 400:
@@ -275,6 +283,7 @@ class APIConnector:
         Returns:
             dict
                 A dictionary of data.
+
         """
 
         # TODO: Some response jsons are enclosed in a list. Need to deal with unpacking and/or
@@ -303,6 +312,7 @@ class APIConnector:
                 A response dictionary
         `Returns:
             boolean
+
         """
 
         if self.pagination_key and self.pagination_key in resp:

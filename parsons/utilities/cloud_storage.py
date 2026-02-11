@@ -31,6 +31,7 @@ def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_stora
 
     Returns:
         ``None``
+
     """
 
     if type.upper() == "S3":

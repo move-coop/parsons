@@ -93,7 +93,7 @@
 | parsons/freshdesk/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/freshdesk/freshdesk.py                            |       66 |        6 |        8 |        3 |     88% |46-50, 73->79, 77 |
 | parsons/geocode/\_\_init\_\_.py                           |        2 |        0 |        0 |        0 |    100% |           |
-| parsons/geocode/census\_geocoder.py                       |       42 |       29 |        8 |        0 |     26% |31, 49-51, 81-83, 109-128, 133-136, 151-156 |
+| parsons/geocode/census\_geocoder.py                       |       42 |       29 |        8 |        0 |     26% |30, 48-50, 80-82, 108-127, 132-135, 150-155 |
 | parsons/github/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/github/github.py                                  |      116 |       30 |       36 |       15 |     69% |33->28, 83, 87, 108-110, 128, 142, 174-176, 196-198, 218, 266->268, 272, 274, 276, 278, 280, 302, 338-344, 366-368, 400->403, 405, 410->415, 421, 423, 452-454 |
 | parsons/google/\_\_init\_\_.py                            |        0 |        0 |        0 |        0 |    100% |           |

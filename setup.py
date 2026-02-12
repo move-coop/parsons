@@ -34,14 +34,14 @@ EXTRA_DEPENDENCIES = {
     "github": ["PyGitHub >= 2"],
     "google": [
         "apiclient >= 1.0.4",
-        "google-api-python-client >= 2.190",
+        "google-api-python-client >= 2.185",
         "google-cloud-bigquery >= 3.38",
-        "google-cloud-storage >= 3.0",
-        "google-cloud-storage-transfer >= 1.12",
+        "google-cloud-storage >= 3.7",
+        "google-cloud-storage-transfer >= 1.18",
         "gspread >= 5",
         "httplib2 >= 0.18",
         "oauth2client >= 4.1.3",
-        "validate-email >= 1",
+        "validate-email >= 1.3",
     ],
     "mysql": [
         "mysql-connector-python >= 8",

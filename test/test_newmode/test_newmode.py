@@ -9,8 +9,8 @@ from oauthlib.oauth2 import TokenExpiredError
 from requests.exceptions import HTTPError
 
 from parsons import Newmode, Table
+from test.conftest import assert_matching_tables
 from test.test_newmode import test_newmode_data
-from test.utils import assert_matching_tables
 
 CLIENT_ID = "fakeClientID"
 CLIENT_SECRET = "fakeClientSecret"

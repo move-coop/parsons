@@ -5,7 +5,7 @@ import requests_mock
 
 from parsons import Table
 from parsons.action_network import ActionNetwork
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestActionNetwork(unittest.TestCase):

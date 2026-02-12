@@ -283,9 +283,9 @@
 </section>
 <section id="useful-tips">
 <h3>Useful Tips<a class="headerlink" href="#useful-tips" title="Link to this heading"></a></h3>
-<p>Parsons has a function <code class="docutils literal notranslate"><span class="pre">assert_matching_tables</span></code> in the <code class="docutils literal notranslate"><span class="pre">parsons.test.utils</span></code> module that can be used to compare two Parsons tables:</p>
+<p>Parsons has a function <code class="docutils literal notranslate"><span class="pre">assert_matching_tables</span></code> in the <code class="docutils literal notranslate"><span class="pre">parsons.test.conftest</span></code> module that can be used to compare two Parsons tables:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">test.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_matching_tables</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">test.conftest</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_matching_tables</span>
 
 <span class="n">a</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>

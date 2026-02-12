@@ -50,8 +50,7 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - run:
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }} |
+      - run: |
           uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
           uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
 
@@ -62,12 +61,10 @@ jobs:
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
 
       - run: pytest
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
-        if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
@@ -90,7 +87,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: 3.14
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -127,7 +124,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: 3.14
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -175,7 +172,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: 3.14
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -258,7 +255,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: 3.13
+          python-version: 3.14
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f

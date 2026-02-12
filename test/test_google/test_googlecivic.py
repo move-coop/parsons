@@ -10,7 +10,7 @@ from googlecivic_responses import (
 )
 
 from parsons import GoogleCivic, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestGoogleCivic(unittest.TestCase):

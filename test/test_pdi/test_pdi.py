@@ -4,7 +4,7 @@ import os
 import pytest
 
 from parsons import PDI
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 
 #

@@ -5,7 +5,7 @@ from unittest.mock import patch
 import requests_mock
 
 from parsons import Census, Table
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 
 class TestCensus(unittest.TestCase):

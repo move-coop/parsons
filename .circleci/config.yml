@@ -35,10 +35,8 @@ jobs:
           # than root. So we need to tell npm where to install stuff.
           command: |
             pip install uv
-            uv venv
-            source .venv/bin/activate
-            uv pip install -r requirements.txt
-            uv pip install -r requirements-dev.txt
+            uv pip install --system .[all]
+            uv pip install --system -r requirements-dev.txt
       - save_cache:
           paths:
             - ./venv
@@ -46,7 +44,6 @@ jobs:
       - run:
           name: Build docs
           command: |
-            source .venv/bin/activate
             cd docs/
             make deploy_docs
             cd ..
@@ -70,10 +67,8 @@ jobs:
             npm set prefix=/home/circleci/npm
             npm install -g --silent gh-pages@2.0.1
             pip install uv
-            uv venv
-            source .venv/bin/activate
-            uv pip install -r requirements.txt
-            uv pip install -r requirements-dev.txt
+            uv pip install --system .[all]
+            uv pip install --system -r requirements-dev.txt
       - save_cache:
           paths:
             - ./venv
@@ -89,7 +84,6 @@ jobs:
           # (This file tell Github Pages that we want to include all files in docs/, including those
           # that start with an underscore like _static/).
           command: |
-            source .venv/bin/activate
             cd docs/
             make deploy_docs
             cd ..

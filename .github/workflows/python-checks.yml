@@ -31,7 +31,6 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
@@ -51,19 +50,10 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - if: matrix.resolution != 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        run: |
+      - run:
+        continue-on-error: ${{ contains(matrix.python-version, '3.14') }} |
           uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
           uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
-
-      - if: matrix.resolution == 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        env:
-            PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: |
-          uv pip install --system -e .[all]
-          uv pip install --system -r requirements-dev.txt
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306

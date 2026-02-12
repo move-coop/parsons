@@ -19,7 +19,7 @@ RUN apt-get install -y google-chrome-stable
 
 # install chromedriver
 RUN apt-get install -yqq unzip
-RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
 # set display port to avoid crash
@@ -31,9 +31,8 @@ ENV DISPLAY=:99
 
 RUN mkdir /src
 
-COPY requirements.txt /src/
 RUN pip install uv
-RUN uv pip install --system -r /src/requirements.txt
+RUN uv pip install --system .[all]
 
 COPY . /src/
 WORKDIR /src

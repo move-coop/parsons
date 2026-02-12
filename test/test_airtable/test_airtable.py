@@ -14,7 +14,7 @@ from airtable_responses import (
 )
 
 from parsons import Airtable, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 os.environ["AIRTABLE_PERSONAL_ACCESS_TOKEN"] = "SOME_TOKEN"
 BASE_KEY = "BASEKEY"

@@ -37,10 +37,9 @@ EXTRA_DEPENDENCIES = {
     "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
     "dbt-postgres": ["dbt-postgres >= 1.5.0"],
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
-    "facebook": ["joblib", "facebook-business"],
+    "facebook": ["facebook-business", "joblib"],
     "geocode": [
-        "requests >= 2.27.0",
-        "requests-toolbelt >= 0.9.0",
+        "censusgeocode",
         "urllib3",
     ],
     "github": ["PyGitHub"],
@@ -62,6 +61,7 @@ EXTRA_DEPENDENCIES = {
     "newmode": ["newmode"],
     "ngpvan": ["suds-py3"],
     "mobilecommons": ["beautifulsoup4", "xmltodict"],
+    "pandas": ["pandas"],
     "postgres": [
         "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
@@ -73,16 +73,16 @@ EXTRA_DEPENDENCIES = {
     ],
     "s3": ["boto3"],
     "salesforce": ["simple-salesforce"],
-    "scytl": ["defusedxml", "pytz"],
+    "scytl": ["defusedxml"],
     "sftp": ["paramiko"],
     "slack": ["slack-sdk"],
     "smtp": ["validate-email"],
-    "targetsmart": ["xmltodict", "defusedxml"],
+    "targetsmart": ["defusedxml", "paramiko", "xmltodict"],
     "twilio": ["twilio"],
     "ssh": [
-        "sshtunnel",
         "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
+        "sshtunnel",
     ],
 }
 

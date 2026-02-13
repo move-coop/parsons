@@ -10,9 +10,8 @@ import petl
 import requests
 
 from parsons.etl.table import Table
+from parsons.targetsmart.targetsmart_smartmatch import SmartMatch
 from parsons.utilities import check_env
-
-from .targetsmart_smartmatch import SmartMatch
 
 URI = "https://api.targetsmart.com/"
 

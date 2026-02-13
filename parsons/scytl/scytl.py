@@ -3,11 +3,11 @@ import zipfile
 from dataclasses import dataclass
 from datetime import datetime
 from io import BytesIO, StringIO
+from zoneinfo import ZoneInfo
 
 import defusedxml.ElementTree as ET
 import requests
 from dateutil.parser import parse as parsedate
-from pytz import timezone
 
 CLARITY_URL = "https://results.enr.clarityelections.com/"
 
@@ -108,7 +108,7 @@ class Scytl:
             return None
 
         temp = parsedate(input_dt, tzinfos=TZ_INFO)
-        temp = temp.astimezone(timezone("UTC"))
+        temp = temp.astimezone(ZoneInfo("UTC"))
 
         return temp
 

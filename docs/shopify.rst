@@ -39,5 +39,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.shopify.shopify::Shopify
+.. autoclass:: parsons.shopify.shopify.Shopify
    :inherited-members:

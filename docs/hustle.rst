@@ -54,6 +54,6 @@ To instantiate the ``Hustle`` class, you can either store your Hustle client ID 
 API
 ***
 
-.. autoclass:: parsons.hustle.hustle::Hustle
+.. autoclass:: parsons.hustle.hustle.Hustle
    :inherited-members:
    :members:

@@ -50,6 +50,6 @@ provided a User API Key when instantiating the class.
 API
 ***
 
-.. autoclass:: parsons.redash.redash::Redash
+.. autoclass:: parsons.redash.redash.Redash
    :inherited-members:
    :members:

@@ -13,6 +13,6 @@ website. For multiple records, it is recommended that you use the :meth:`CensusG
 API
 ***
 
-.. autoclass:: parsons.geocode.census_geocoder::CensusGeocoder
+.. autoclass:: parsons.geocode.census_geocoder.CensusGeocoder
    :inherited-members:
    :members:

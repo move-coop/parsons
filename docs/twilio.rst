@@ -58,5 +58,5 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 API
 ***
 
-.. autoclass:: parsons.twilio.twilio::Twilio
+.. autoclass:: parsons.twilio.twilio.Twilio
    :inherited-members:

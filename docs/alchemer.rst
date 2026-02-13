@@ -31,5 +31,5 @@ respectively) or pass in the tokens arguments.
 API
 ***
 
-.. autoclass:: parsons.alchemer.alchemer::Alchemer
+.. autoclass:: parsons.alchemer.alchemer.Alchemer
    :inherited-members:

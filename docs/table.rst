@@ -364,7 +364,7 @@ Basic Pipelines
 To & From API
 *************
 
-.. autoclass:: parsons.etl.tofrom::ToFrom
+.. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
 
 ******************
@@ -373,12 +373,12 @@ Transformation API
 
 The following methods allow you to manipulate the Parsons table data.
 
-.. autoclass:: parsons.etl.etl::ETL
+.. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
 
 ***************
 Materialize API
 ***************
 
-.. autoclass:: parsons.etl.table::Table
+.. autoclass:: parsons.etl.table.Table
    :members: materialize, materialize_to_file

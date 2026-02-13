@@ -274,5 +274,5 @@ SQL Mirror
 ***
 API
 ***
-.. autoclass:: parsons.action_network.action_network::ActionNetwork
+.. autoclass:: parsons.action_network.action_network.ActionNetwork
    :inherited-members:

@@ -53,5 +53,5 @@ To instantiate the CrowdTangle class,either store your CrowdTangle API as the en
 API
 ***
 
-.. autoclass:: parsons.crowdtangle.crowdtangle::CrowdTangle
+.. autoclass:: parsons.crowdtangle.crowdtangle.CrowdTangle
    :inherited-members:

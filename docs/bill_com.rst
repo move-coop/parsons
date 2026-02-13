@@ -49,5 +49,5 @@ Your Username, Password, Organization ID, and Dev Key must be provided as argume
 API
 ***
 
-.. autoclass:: parsons.bill_com.bill_com::BillCom
+.. autoclass:: parsons.bill_com.bill_com.BillCom
    :inherited-members:

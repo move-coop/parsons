@@ -135,7 +135,7 @@ stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments
 API
 ===
 
-.. autoclass:: parsons.aws.s3::S3
+.. autoclass:: parsons.aws.s3.S3
    :inherited-members:
 
 =====================
@@ -220,7 +220,7 @@ options.
 Core API
 ========
 
-.. autoclass:: parsons.databases.redshift::Redshift
+.. autoclass:: parsons.databases.redshift.Redshift
    :inherited-members:
 
 .. _redshift_table_and_view_api:
@@ -244,5 +244,5 @@ Schema API
 Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.rs_schema::RedshiftSchema
+.. autoclass:: parsons.databases.redshift.rs_schema.RedshiftSchema
    :inherited-members:

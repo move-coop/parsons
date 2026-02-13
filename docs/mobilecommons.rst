@@ -47,5 +47,5 @@ Then you can call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.mobilecommons.mobilecommons::MobileCommons
+.. autoclass:: parsons.mobilecommons.mobilecommons.MobileCommons
    :inherited-members:

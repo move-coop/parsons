@@ -60,5 +60,5 @@ With the class instantiated, you can now call various endpoints.
 API
 ***
 
-.. autoclass:: parsons.github.github::GitHub
+.. autoclass:: parsons.github.github.GitHub
    :inherited-members:

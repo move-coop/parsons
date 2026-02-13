@@ -64,5 +64,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.bloomerang.bloomerang::Bloomerang
+.. autoclass:: parsons.bloomerang.bloomerang.Bloomerang
    :inherited-members:

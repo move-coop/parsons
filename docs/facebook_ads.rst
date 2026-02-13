@@ -59,6 +59,6 @@ You can then use various methods:
 API
 ***
 
-.. autoclass:: parsons.facebook_ads.facebook_ads::FacebookAds
+.. autoclass:: parsons.facebook_ads.facebook_ads.FacebookAds
    :inherited-members:
    :members:

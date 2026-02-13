@@ -45,5 +45,5 @@ You can then call the method:
 API
 ***
 
-.. autoclass:: parsons.turbovote.turbovote::TurboVote
+.. autoclass:: parsons.turbovote.turbovote.TurboVote
    :inherited-members:

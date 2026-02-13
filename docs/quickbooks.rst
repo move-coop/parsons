@@ -39,5 +39,5 @@ This example shows how to get timesheets for a given date range.
 API
 ***
 
-.. autoclass:: parsons.quickbooks.quickbookstime::QuickBooksTime
+.. autoclass:: parsons.quickbooks.quickbookstime.QuickBooksTime
    :inherited-members:

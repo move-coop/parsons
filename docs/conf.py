@@ -52,7 +52,10 @@ extensions = [
 # Sorting of attributes
 autodoc_member_order = "bysource"
 
+# Fixing import errors for packages we no longer use
 autodoc_mock_imports = [
+    "airtable",
+    "pytz",
     "slackclient",
 ]
 

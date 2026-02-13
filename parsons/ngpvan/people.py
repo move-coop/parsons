@@ -95,7 +95,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplefind>`__.
 
         Args:
             match_json: dict
@@ -183,7 +183,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
+            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`__.
 
         Args:
             id: str
@@ -292,7 +292,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`_. `vanId` can
+            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`__. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::
@@ -618,7 +618,7 @@ class People:
         to a person record. This method allows you apply multiple responses (e.g. two survey
         questions) at the same time. It is a low level method that requires that you
         conform to the VAN API `response object
-        format <https://docs.ngpvan.com/reference/canvass-responses>`_.
+        format <https://docs.ngpvan.com/reference/canvass-responses>`__.
 
         Args:
             id: str
@@ -765,7 +765,7 @@ class People:
         and we can't keep both values, such as if the contacts have different
         first names, the primary contact record's data will be retained. For
         more information see the
-        `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`_
+        `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`__
 
         Args:
             primary_vanid: str

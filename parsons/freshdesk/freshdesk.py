@@ -95,7 +95,7 @@ class Freshdesk:
         """
         List tickets.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`__
         for more information.
 
         .. warning::
@@ -153,7 +153,7 @@ class Freshdesk:
         """
         Get contacts.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`__
         for more information.
 
         Args:
@@ -195,7 +195,7 @@ class Freshdesk:
         """
         List companies.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`__
         for more information.
 
         Args:
@@ -216,7 +216,7 @@ class Freshdesk:
         """
         List agents.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`__
         for more information.
 
         Args:

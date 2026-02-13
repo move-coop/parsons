@@ -137,7 +137,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             User json object
@@ -182,6 +182,7 @@ class ActionKit:
         Args:
             actionfield_id: int
                 The id of the actionfield to delete
+
         Returns:
             ``None``
 
@@ -200,7 +201,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``HTTP response from the patch request``
@@ -256,11 +257,11 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
@@ -283,7 +284,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -349,7 +350,7 @@ class ActionKit:
         """
         Get a blackholed email. A blackholed email is an email that has been prevented from
         receiving bulk and transactional emails from ActionKit. `Documentation <https://\
-        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`_.
+        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`__.
 
         Args:
             email: str
@@ -367,11 +368,12 @@ class ActionKit:
         """
         Prevent an email from receiving bulk and transactional emails from ActionKit.
         `Documentation <https://docs.actionkit.com/docs/manual/guide/\
-        mailings_tools.html#blackhole>`_.
+        mailings_tools.html#blackhole>`__.
 
         Args:
             user_id: str
                 Email to blackhole
+
         Returns:
             API location of new resource
 
@@ -393,7 +395,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
-                rest/users.html>`_.
+                rest/users.html>`__.
 
         Returns:
             API location of anonymized user
@@ -414,6 +416,7 @@ class ActionKit:
         Args:
             user_id: int
                 The user id of the person to delete
+
         Returns:
             ``None``
 
@@ -464,7 +467,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -499,7 +502,7 @@ class ActionKit:
             order_by: string
                 Event attribute to order the results by. Defaults to id, which will normally
                 be equivalent to ordering by created_at. See `ActionKit's docs on ordering
-                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`_.
+                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`__.
             ascdesc: string
                 If "asc" (the default), returns events ordered by the attribute specified by
                 the order_by parameter. If "desc", returns events in reverse order.
@@ -509,7 +512,7 @@ class ActionKit:
                 For additional info, visit `Django's docs on field lookups
                 <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_ and
                 `ActionKit's docs on the search API
-                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`__.
 
                 .. code-block:: python
 
@@ -525,7 +528,7 @@ class ActionKit:
             `**kwargs`:
                 A dictionary of other options for filtering. See `ActionKit's docs on the
                 search API
-                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`__.
 
         Returns:
             Parsons.Table
@@ -594,7 +597,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -654,7 +657,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -715,7 +718,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -775,7 +778,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -802,7 +805,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -837,7 +840,7 @@ class ActionKit:
             `**kwargs`:
                 Arguments and fields to pass to the client. A full list can be found in the
                 `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
-                rest/mailer.html>`_.
+                rest/mailer.html>`__.
 
         Returns:
             URI of new mailer
@@ -866,7 +869,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``HTTP response from the patch request``
@@ -924,11 +927,11 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
@@ -986,7 +989,7 @@ class ActionKit:
             `**kwargs`:
                 You can also add expressions to filter the data beyond the limit/threshold values
                 above. For additional info, visit `Django's docs on field lookups
-                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_.
+                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
@@ -1057,7 +1060,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -1136,7 +1139,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -1158,11 +1161,11 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
@@ -1185,7 +1188,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``HTTP response``
@@ -1243,7 +1246,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             API location of new resource
@@ -1289,7 +1292,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -1331,7 +1334,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             ``None``
@@ -1352,11 +1355,11 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
@@ -1383,7 +1386,7 @@ class ActionKit:
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
         Returns:
             dict
@@ -1452,7 +1455,7 @@ class ActionKit:
             autocreate_user_fields: bool
               When True columns starting with "user_" will be uploaded as user fields.
               See the `autocreate_user_fields documentation
-              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
+              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
               When uploading only an email/user_id column and user_ user fields,
               ActionKit has a fast processing path.
@@ -1519,8 +1522,8 @@ class ActionKit:
                 A user_id or email column is required.
             autocreate_user_fields: bool
                 When True columns starting with "user_" will be uploaded as user fields.
-                `ActionKit <https://actionkit.com/>`_.
-                See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
+                `ActionKit <https://actionkit.com/>`__.
+                See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             no_overwrite_on_empty: bool
                 When uploading user data, ActionKit will, by default, take a blank value
                 and overwrite existing data for that user.
@@ -1597,6 +1600,7 @@ class ActionKit:
                 were any errors in the uploads.  If you call collect_upload_errors(result_array)
                 it will iterate across each of the uploads fetching the final result of e.g.
                 /rest/v1/uploaderror?upload=123
+
         Returns:
             [dict]
                 message: str -- error message

@@ -106,7 +106,7 @@ class RedshiftTableUtilities:
         and distkey. **Once run, the source table rows will be empty.** This is
         more efficiant than running ``"create newtable as select * from oldtable"``.
 
-        For more information see: `ALTER TABLE APPEND <https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html>`_
+        For more information see: `ALTER TABLE APPEND <https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html>`__
 
         Args:
             source_table: str
@@ -288,6 +288,7 @@ class RedshiftTableUtilities:
                 duplicate rows.
             view: boolean
                 Create a view rather than a static table
+
         Returns:
             None
 
@@ -315,6 +316,7 @@ class RedshiftTableUtilities:
                 Filter by a schema
             table_name: str
                 Filter by a table name
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -345,6 +347,7 @@ class RedshiftTableUtilities:
                 Filter by a schema
             table_name: str
                 Filter by a table name
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -379,6 +382,7 @@ class RedshiftTableUtilities:
                 The schema name
             table_name: str
                 The table name
+
         Returns:
             A dict mapping column name to a dict with extra info. The keys of the dict are ordered
             just like the columns in the table. The extra info is a dict with format
@@ -429,6 +433,7 @@ class RedshiftTableUtilities:
                 The schema name
             table_name: str
                 The table name
+
         Returns:
             A list of column names.
 
@@ -454,6 +459,7 @@ class RedshiftTableUtilities:
                 Filter by a schema
             view: str
                 Filter by a table name
+
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
@@ -771,6 +777,7 @@ class RedshiftTableUtilities:
         Args:
             full_table_name: str
                 The table name, as "schema.table"
+
         Returns:
             tuple
                 A tuple containing (schema, table)
@@ -797,6 +804,7 @@ class RedshiftTableUtilities:
                 The schema name
             table: str
                 The table name
+
         Returns:
             str
                 The combined full table name

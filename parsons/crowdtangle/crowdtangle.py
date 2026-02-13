@@ -107,7 +107,7 @@ class CrowdTangle:
         """
         Return a set of posts for the given parameters.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Posts>`_
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Posts>`__
         for more information.
 
         .. warning::
@@ -181,7 +181,7 @@ class CrowdTangle:
         """
         Return leaderboard data.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Leaderboard>`_
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Leaderboard>`__
         for more information.
 
         .. warning::
@@ -224,7 +224,7 @@ class CrowdTangle:
         Return up to 100 posts based on a specific link. It is strongly recommended to
         use the ``start_date`` parameter to limit queries to relevant dates.
 
-        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Links>`_
+        See the `API documentation <https://github.com/CrowdTangle/API/wiki/Links>`__
         for more information.
 
         .. warning::

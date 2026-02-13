@@ -1453,7 +1453,7 @@ class ActionKit:
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
             autocreate_user_fields: bool
-              When True columns starting with "user_" will be uploaded as user fields.
+              When True columns starting with ``user_`` will be uploaded as user fields.
               See the `autocreate_user_fields documentation
               <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
@@ -1521,7 +1521,7 @@ class ActionKit:
                 A Table of user data to bulk upload
                 A user_id or email column is required.
             autocreate_user_fields: bool
-                When True columns starting with "user_" will be uploaded as user fields.
+                When True columns starting with ``user_`` will be uploaded as user fields.
                 `ActionKit <https://actionkit.com/>`__.
                 See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             no_overwrite_on_empty: bool

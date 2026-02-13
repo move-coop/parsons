@@ -157,10 +157,10 @@ class Redash:
                 (described https://redash.io/help/user-guide/querying/query-parameters
                 e.g. "{{datelimit}}" in the query),
                 then this is a dict that will pass the parameters in the POST.
-                We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
+                We add the ``p_`` prefix for parameters, so if your query had ?p_datelimit=....
                 in the url, you should just set 'datelimit' in params here.
                 If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
-                the values, then you must include the "p_" prefixes and it should be a single
+                the values, then you must include the ``p_`` prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
 
         Returns:
@@ -252,7 +252,7 @@ class Redash:
             params: dict
                 For refresh queries, if there are parameters in the query,
                 then this is a dict that will pass the parameters in the POST.
-                We add the "p_" prefix for parameters, so if your query had ?p_datelimit=....
+                We add the ``p_`` prefix for parameters, so if your query had ?p_datelimit=....
                 in the url, you should just set 'datelimit' in params here.
 
         Returns:

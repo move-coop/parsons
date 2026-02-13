@@ -24,13 +24,13 @@ class ActBlue:
                 variable set.
             actblue_uri: str
                 The URI to access the CSV API. Not required, default is
-                https://secure.actblue.com/api/v1. You can set an ``ACTBLUE_URI`` env variable or
+                `https://secure.actblue.com/api/v1`. You can set an ``ACTBLUE_URI`` env variable or
                 use this URI parameter if a different endpoint is necessary - for example, when
                 running this code in a test environment where you don't want to hit the actual API.
             max_retries: int
                 The maximum number of times to poll the API for a download URL. Not required, default
                 is None, which means it will poll indefinitely until a download URL is returned.
-                ```ACTBLUE_MAX_RETRIES``` env variable can be set, which will override this parameter.
+                ``ACTBLUE_MAX_RETRIES`` env variable can be set, which will override this parameter.
         For instructions on how to generate a Client UUID and Client Secret set,
         visit https://secure.actblue.com/docs/csv_api#authentication.
 
@@ -67,16 +67,16 @@ class ActBlue:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
-                    'paid_contributions': contains paid, non-refunded contributions to the entity
-                    (campaign or organization) you created the credential for, during the specified
-                    date range.
 
-                    'refunded_contributions': contributions to your entity that were refunded,
-                    during the specified date range.
+                - 'paid_contributions': contains paid, non-refunded contributions to the entity
+                  (campaign or organization) you created the credential for, during the specified
+                  date range.
+                - 'refunded_contributions': contributions to your entity that were refunded,
+                  during the specified date range.
+                - 'managed_form_contributions': contributions made through any form that is
+                   managed by your entity, during the specified date range - including
+                   contributions to other entities via that form if it is a tandem form.
 
-                    'managed_form_contributions': contributions made through any form that is
-                    managed by your entity, during the specified date range - including
-                    contributions to other entities via that form if it is a tandem form.
             date_range_start: str
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
             date_range_end: str
@@ -155,16 +155,16 @@ class ActBlue:
             csv_type: str
                 Type of CSV you are requesting.
                 Options:
-                    'paid_contributions': contains paid, non-refunded contributions to the entity
-                    (campaign or organization) you created the credential for, during the specified
-                    date range.
 
-                    'refunded_contributions': contributions to your entity that were refunded,
-                    during the specified date range.
+                - 'paid_contributions': contains paid, non-refunded contributions to the entity
+                  (campaign or organization) you created the credential for, during the specified
+                  date range.
+                - 'refunded_contributions': contributions to your entity that were refunded,
+                  during the specified date range.
+                - 'managed_form_contributions': contributions made through any form that is
+                   managed by your entity, during the specified date range - including
+                   contributions to other entities via that form if it is a tandem form.
 
-                    'managed_form_contributions': contributions made through any form that is
-                    managed by your entity, during the specified date range - including
-                    contributions to other entities via that form if it is a tandem form.
             date_range_start: str
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
             date_range_end: str
@@ -174,31 +174,107 @@ class ActBlue:
 
         Returns:
             Parsons Table
-                Contents of the generated contribution CSV. List of columns:
+                Contents of the generated contribution CSV.
+                List of columns:
 
-                Receipt ID, Date, Amount, Recurring Total Months, Recurrence Number, Recipient,
-                Fundraising Page, Fundraising Partner, Reference Code 2, Reference Code,
-                Donor First Name, Donor Last Name, Donor Addr1, Donor Addr2, Donor City,
-                Donor State, Donor ZIP, Donor Country, Donor Occupation, Donor Employer,
-                Donor Email, Donor Phone, New Express Signup, Comments, Check Number, Check Date,
-                Employer Addr1, Employer Addr2, Employer City, Employer State, Employer ZIP,
-                Employer Country, Donor ID, Fundraiser ID, Fundraiser Recipient ID,
-                Fundraiser Contact Email, Fundraiser Contact First Name,
-                Fundraiser Contact Last Name, Partner ID, Partner Contact Email,
-                Partner Contact First Name, Partner Contact Last Name, Reserved, Lineitem ID,
-                AB Test Name, AB Variation, Recipient Committee, Recipient ID, Recipient Gov ID,
-                Recipient Election, Reserved, Payment ID, Payment Date, Disbursement ID,
-                Disbursement Date, Recovery ID, Recovery Date, Refund ID, Refund Date,
-                Fee, Recur Weekly, ActBlue Express Lane, Reserved, Card Type, Reserved, Reserved,
-                Reserved, Reserved, Mobile, Recurring Upsell Shown, Recurring Upsell Succeeded,
-                Double Down, Smart Recurring, Monthly Recurring Amount, Apple Pay,
-                Card Replaced by Account Updater, ActBlue Express Donor, Custom Field 1 Label,
-                Custom Field 1 Value, Donor US Passport Number, Text Message Opt In,
-                Gift Identifier, Gift Declined, Shipping Addr1, Shipping City, Shipping State,
-                Shipping Zip, Shipping Country, Weekly Recurring Amount, Smart Boost Amount,
-                Smart Boost Shown, Bump Recurring Seen, Bump Recurring Succeeded,
-                Weekly to Monthly Rollover Date, Weekly Recurring Sunset, Recurring Type,
-                Recurring Pledged, Paypal, Kind, Managed Entity Name, Managed Entity Committee Name
+                - Receipt ID
+                - Date
+                - Amount
+                - Recurring Total Months
+                - Recurrence Number
+                - Recipient
+                - Fundraising Page
+                - Fundraising Partner
+                - Reference Code 2
+                - Reference Code
+                - Donor First Name
+                - Donor Last Name
+                - Donor Addr1
+                - Donor Addr2
+                - Donor City
+                - Donor State
+                - Donor ZIP
+                - Donor Country
+                - Donor Occupation
+                - Donor Employer
+                - Donor Email
+                - Donor Phone
+                - New Express Signup
+                - Comments
+                - Check Number
+                - Check Date
+                - Employer Addr1
+                - Employer Addr2
+                - Employer City
+                - Employer State
+                - Employer ZIP
+                - Employer Country
+                - Donor ID
+                - Fundraiser ID
+                - Fundraiser Recipient ID
+                - Fundraiser Contact Email
+                - Fundraiser Contact First Name
+                - Fundraiser Contact Last Name
+                - Partner ID
+                - Partner Contact Email
+                - Partner Contact First Name
+                - Partner Contact Last Name
+                - Reserved
+                - Lineitem ID
+                - AB Test Name
+                - AB Variation
+                - Recipient Committee
+                - Recipient ID
+                - Recipient Gov ID
+                - Recipient Election
+                - Reserved
+                - Payment ID
+                - Payment Date
+                - Disbursement ID
+                - Disbursement Date
+                - Recovery ID
+                - Recovery Date
+                - Refund ID
+                - Refund Date
+                - Fee
+                - Recur Weekly
+                - ActBlue Express Lane
+                - Reserved
+                - Card Type
+                - Reserved
+                - Mobile
+                - Recurring Upsell Shown
+                - Recurring Upsell Succeeded
+                - Double Down
+                - Smart Recurring
+                - Monthly Recurring Amount
+                - Apple Pay
+                - Card Replaced by Account Updater
+                - ActBlue Express Donor
+                - Custom Field 1 Label
+                - Custom Field 1 Value
+                - Donor US Passport Number
+                - Text Message Opt In
+                - Gift Identifier
+                - Gift Declined
+                - Shipping Addr1
+                - Shipping City
+                - Shipping State
+                - Shipping Zip
+                - Shipping Country
+                - Weekly Recurring Amount
+                - Smart Boost Amount
+                - Smart Boost Shown
+                - Bump Recurring Seen
+                - Bump Recurring Succeeded
+                - Weekly to Monthly Rollover Date
+                - Weekly Recurring Sunset
+                - Recurring Type
+                - Recurring Pledged
+                - Paypal
+                - Kind
+                - Managed Entity Name
+                - Managed Entity Committee Name
 
         """
 

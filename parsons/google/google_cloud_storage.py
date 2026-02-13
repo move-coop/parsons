@@ -427,6 +427,7 @@ class GoogleCloudStorage:
         source_path: str = "",
         aws_access_key_id: str | None = None,
         aws_secret_access_key: str | None = None,
+        delete_objects_unique_in_sink: bool = False,
     ):
         """
         Creates a one-time transfer job from Amazon S3 to Google Cloud
@@ -447,6 +448,9 @@ class GoogleCloudStorage:
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
+            delete_objects_unique_in_sink (bool): Whether objects should be
+                deleted from the source after they are transferred to the sink.
+                Default is false.
 
         """
         if source not in ["gcs", "s3"]:
@@ -494,6 +498,9 @@ class GoogleCloudStorage:
                     "bucket_name": gcs_sink_bucket,
                     "path": destination_path,
                 },
+                "transfer_options": storage_transfer.TransferOptions(
+                    delete_objects_unique_in_sink=delete_objects_unique_in_sink
+                ),
             }
         elif source == "gcs":
             blob_storage = "GCS"
@@ -506,6 +513,9 @@ class GoogleCloudStorage:
                     "bucket_name": gcs_sink_bucket,
                     "path": destination_path,
                 },
+                "transfer_options": storage_transfer.TransferOptions(
+                    delete_objects_unique_in_sink=delete_objects_unique_in_sink
+                ),
             }
 
         create_transfer_job_request = storage_transfer.CreateTransferJobRequest(

@@ -39,8 +39,7 @@ EXTRA_DEPENDENCIES = {
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
     "facebook": ["joblib", "facebook-business"],
     "geocode": [
-        "requests >= 2.27.0",
-        "requests-toolbelt >= 0.9.0",
+        "censusgeocode==0.5.3",
         "urllib3",
     ],
     "github": ["PyGitHub"],

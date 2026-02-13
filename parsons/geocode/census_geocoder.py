@@ -4,7 +4,7 @@ import petl
 
 from parsons import Table
 
-from .vendor import censusgeocode
+from censusgeocode import censusgeocode
 
 logger = logging.getLogger(__name__)
 

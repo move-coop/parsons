@@ -3,6 +3,7 @@ boto3>=1.17.98
 boxsdk==4.1.0
 braintree==4.41.0
 bs4==0.0.2
+censusgeocode==0.5.3
 civis==2.4.3
 curlify==3.0.0
 dbt-core>=1.5.0

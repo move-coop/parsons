@@ -530,7 +530,7 @@ class Redshift(
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
                 ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
                 the table is initially empty. Defaults to ``None``.
-                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`_
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`__
                 for more details.
 
                 .. note::
@@ -543,7 +543,7 @@ class Redshift(
                 ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
                 ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
                 table is initially empty. Defaults to ``None``.
-                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`_
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`__
                 for more details.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be

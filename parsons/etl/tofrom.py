@@ -1096,13 +1096,13 @@ class ToFrom:
             project: str
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
-            TODO - Should users be able to pass in kwargs here? For parameters?
 
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
         """
+        # TODO: Should users be able to pass in kwargs here? For parameters?
 
         from parsons import GoogleBigQuery as BigQuery
 

@@ -210,7 +210,7 @@ class BulkImport:
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 
@@ -337,7 +337,7 @@ class BulkImport:
               The cloud file storage to use to post the file. Currently only ``S3``.
             results_fields: list
               A list of fields to include in the results file.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 
@@ -386,7 +386,7 @@ class BulkImport:
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 
@@ -456,7 +456,7 @@ class BulkImport:
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 
@@ -507,7 +507,7 @@ class BulkImport:
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 

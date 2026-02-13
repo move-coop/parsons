@@ -222,7 +222,7 @@ class ETL:
         Args:
             *column: str
                 A single column or multiple columns passed as a list
-            **kwargs: str, method or variable
+            `**kwargs`: str, method or variable
                 The update function, method, or variable to process the update
         Returns:
             `Parsons Table` and also updates self
@@ -468,7 +468,7 @@ class ETL:
         found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         Args:
-            *args: str, method or variable
+            `*args`: str, method or variable
                 The update function, method, or variable to process the update. Can also
         Returns:
             `Parsons Table` and also updates self
@@ -1235,9 +1235,9 @@ class ETL:
             to_petl: bool
                 If ``True``, returns a petl table, otherwise a ``parsons.Table``.
                 Defaults to ``False``.
-            *args: Any
+            `*args`: Any
                 The arguements to pass to the petl function.
-            **kwargs: Any
+            `**kwargs`: Any
                 The keyword arguements to pass to the petl function.
 
         Returns:

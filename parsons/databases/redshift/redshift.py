@@ -857,7 +857,7 @@ class Redshift(
             cascade: bool
                 whether to drop cascade
 
-            ***unload params
+            `***unload params`:
 
         Returns:
             None
@@ -1011,7 +1011,7 @@ class Redshift(
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
 
         """

@@ -172,7 +172,7 @@ class Scores:
             approve_tolderance: float
                 The deviation from the average scores allowed in order to automatically
                 approve the score. Maximum of .1.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 

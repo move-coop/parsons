@@ -134,7 +134,7 @@ class ActionKit:
         Args:
             email: str
                 Email for the user
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -197,7 +197,7 @@ class ActionKit:
         Args:
             user_id: int
                 The user id of the person to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -219,7 +219,7 @@ class ActionKit:
         Args:
             phone_id: int
                 The phone id of the phone to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/phone/schema/ path on any ActionKit instance.
 
@@ -253,7 +253,7 @@ class ActionKit:
         Args:
             limit: int
                 The number of events to return. If omitted, all events are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -280,7 +280,7 @@ class ActionKit:
         Args:
             event_id: int
                 The event id of the event to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -390,7 +390,7 @@ class ActionKit:
         Args:
             email: str
                 Email of user to delete data
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
                 rest/users.html>`_.
@@ -461,7 +461,7 @@ class ActionKit:
         Args:
             name: str
                 The name of the campaign to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -522,7 +522,7 @@ class ActionKit:
             exclude: dictionary
                 A dictionary for excluding by the attributes of the event or related object.
                 Uses the same format as the filters argument.
-            **kwargs:
+            `**kwargs`:
                 A dictionary of other options for filtering. See `ActionKit's docs on the
                 search API
                 <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
@@ -591,7 +591,7 @@ class ActionKit:
                 The name of the page to create
             title: str
                 The title of the page to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -651,7 +651,7 @@ class ActionKit:
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -712,7 +712,7 @@ class ActionKit:
                 The name of the page to create
             title: str
                 The title of the page to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -772,7 +772,7 @@ class ActionKit:
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -799,7 +799,7 @@ class ActionKit:
                 The id of the event signup to update
             event_signup_dict: dict
                 A dictionary of fields to update for the event signup.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -834,7 +834,7 @@ class ActionKit:
         Create a mailer.
 
         Args:
-            **kwargs:
+            `**kwargs`:
                 Arguments and fields to pass to the client. A full list can be found in the
                 `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
                 rest/mailer.html>`_.
@@ -863,7 +863,7 @@ class ActionKit:
         Args:
             mailing_id: int
                 The id of the mailing to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -921,7 +921,7 @@ class ActionKit:
                 The type of object to search for.
             limit: int
                 The number of objects to return. If omitted, all objects are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -983,7 +983,7 @@ class ActionKit:
             ascdesc: string
                 If "asc" (the default), return all objects below the threshold value.
                 If "desc", return all objects above the threshold value.
-            **kwargs:
+            `**kwargs`:
                 You can also add expressions to filter the data beyond the limit/threshold values
                 above. For additional info, visit `Django's docs on field lookups
                 <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_.
@@ -1054,7 +1054,7 @@ class ActionKit:
         Args:
             order_id: int
                 The id of the order to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1074,7 +1074,7 @@ class ActionKit:
         Args:
             user_detail_id: int
                 The id of the order user detail to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
 
@@ -1133,7 +1133,7 @@ class ActionKit:
         Args:
             orderrecurring_id: int
                 The id of the orderrecurring to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1155,7 +1155,7 @@ class ActionKit:
         Args:
             limit: int
                 The number of orders to return. If omitted, all orders are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1182,7 +1182,7 @@ class ActionKit:
         Args:
             paymenttoken_id: int
                 The id of the payment token to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1240,7 +1240,7 @@ class ActionKit:
                 The signup page to associate the followup page with
             url: str
                 URL of the folloup page
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1286,7 +1286,7 @@ class ActionKit:
                 The id of the survey question to update
             survey_question_dict: dict
                 A dictionary of fields to update for the survey question.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1307,7 +1307,7 @@ class ActionKit:
         Create a transaction.
 
         Args:
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client.
 
         Returns:
@@ -1328,7 +1328,7 @@ class ActionKit:
         Args:
             transaction_id: int
                 The id of the transaction to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1349,7 +1349,7 @@ class ActionKit:
         Args:
             limit: int
                 The number of transactions to return. If omitted, all transactions are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1380,7 +1380,7 @@ class ActionKit:
                 The email address of the user to post the action.
             ak_id:
                 The action kit id of the record.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`_.
@@ -1410,7 +1410,7 @@ class ActionKit:
         Args:
             action_id: int
                 The action id of the import action to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/importaction/schema/ path on any ActionKit instance.
 

@@ -139,7 +139,7 @@ class BillCom:
                 The index of first user to return. Starts from 0 (not 1).
             max_user: str
                 The index of the max user to return
-            **kwargs:
+            `**kwargs`:
                 Any other fields to pass
 
         Returns:
@@ -157,7 +157,7 @@ class BillCom:
                 The index of first customer to return. Starts from 1 (not 0).
             max_customer: str
                 The index of the max customer to return
-            **kwargs:
+            `**kwargs`:
                 Any other fields to pass
 
         Returns:
@@ -176,7 +176,7 @@ class BillCom:
                 The index of first customer to return. Starts from 1 (not 0).
             max_invoice: str
                 The index of the max customer to return
-            **kwargs:
+            `**kwargs`:
                 Any other fields to pass
 
         Returns:
@@ -245,7 +245,7 @@ class BillCom:
             customer_email: str
                 The customer's email
         `Keyword Args:`
-            **kwargs:
+            `**kwargs`:
                 Any other fields to store about the customer.
 
         Returns:
@@ -283,7 +283,7 @@ class BillCom:
             invoice_line_items: list
                 A list of dicts, one for each line item in the invoice.
                 The only required field is "quantity".
-            **kwargs:
+            `**kwargs`:
                 Any other invoice details to pass.
 
         Returns:
@@ -320,7 +320,7 @@ class BillCom:
                 The subject of the email to send to the customer
             message_body:
                 The body of the email to send to the customer
-            **kwargs:
+            `**kwargs`:
                 Any other details for sending the invoice
 
         Returns:

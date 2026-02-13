@@ -240,7 +240,7 @@ class DatabaseCreateStatement:
         Args:
             cols: list
                 The columns to format.
-            kwargs: dicts
+            `**kwargs`: dicts
                 Keyword arguments to pass to ``format_column``.
 
         Returns:

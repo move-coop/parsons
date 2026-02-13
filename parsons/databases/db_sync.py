@@ -73,7 +73,7 @@ class DBSync:
             verify_row_count: bool
                 Whether or not to verify the count of rows in the source and destination table
                 are the same at the end of the sync.
-            **kwargs: args
+            `**kwargs`: args
                 Optional copy arguments for destination database.
 
         Returns:
@@ -142,7 +142,7 @@ class DBSync:
             verify_row_count: bool
                 Whether or not to verify the count of rows in the source and destination table
                 are the same at the end of the sync.
-            **kwargs: args
+            `**kwargs`: args
                 Optional copy arguments for destination database.
 
         Returns:
@@ -228,7 +228,7 @@ class DBSync:
                 Start value to use as a minimum for incremental updates.
             order_by:
                 Column to use to order the data to ensure a stable sort.
-            **kwargs: args
+            `**kwargs`: args
                 Optional copy arguments for destination database.
 
         Returns:

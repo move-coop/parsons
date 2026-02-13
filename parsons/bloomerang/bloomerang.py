@@ -116,7 +116,7 @@ class Bloomerang:
     def create_constituent(self, **kwargs):
         """
         Args:
-            **kwargs:`
+            `**kwargs`:
                 Fields to include, e.g., FirstName = 'Rachel'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`_.
@@ -129,7 +129,7 @@ class Bloomerang:
         Args:
             constituent_id: str or int
                 Constituent ID to update
-            **kwargs:`
+            `**kwargs`:
                 Fields to update, e.g., FirstName = 'RJ'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`_.
@@ -142,6 +142,7 @@ class Bloomerang:
         Args:
             constituent_id: str or int
                 Constituent ID to get fields for
+
         Returns:
             A  JSON of the entry or an error.
 
@@ -194,7 +195,7 @@ class Bloomerang:
     def create_transaction(self, **kwargs):
         """
         Args:
-            **kwargs:`
+            `**kwargs`:
                 Fields to include, e.g., CreditCardType = 'Visa'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`_.
@@ -207,7 +208,7 @@ class Bloomerang:
         Args:
             transaction_id: str or int
                 Transaction ID to update
-            **kwargs:`
+            `**kwargs`:
                 Fields to update, e.g., CreditCardType = 'Visa'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`_.
@@ -220,6 +221,7 @@ class Bloomerang:
         Args:
             transaction_id: str or int
                 Transaction ID to get fields for
+
         Returns:
             A  JSON of the entry or an error.
 
@@ -262,6 +264,7 @@ class Bloomerang:
         Args:
             designation_id: str or int
                 Transaction Designation ID to get fields for
+
         Returns:
             A  JSON of the entry or an error.
 
@@ -295,7 +298,7 @@ class Bloomerang:
     def create_interaction(self, **kwargs):
         """
         Args:
-            **kwargs:`
+            `**kwargs`:
                 Fields to include, e.g., Channel = "Email".
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`_.
@@ -308,7 +311,7 @@ class Bloomerang:
         Args:
             interaction_id: str or int
                 Interaction ID to update
-            **kwargs:`
+            `**kwargs`:
                 Fields to update, e.g., EmailAddress = "user@example.com".
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`_.
@@ -321,6 +324,7 @@ class Bloomerang:
         Args:
             interaction_id: str or int
                 Interaction ID to get fields for
+
         Returns:
             A  JSON of the entry or an error.
 

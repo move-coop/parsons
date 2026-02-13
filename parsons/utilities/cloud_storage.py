@@ -26,7 +26,7 @@ def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_stora
             the **file_storage_args.
         quoting: attr
             The type of quoting to use for the csv.
-        **kwargs: kwargs
+        `**kwargs`: kwargs
                 Optional arguments specific to the file storage.
 
     Returns:

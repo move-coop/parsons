@@ -212,7 +212,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
             destination_table_runs: The name of the table to log run information.
             destination_table_nodes: The name of the table to log node information.
             extra_run_table_fields: A dictionary of additional fields to include in the run table.
-            **copy_kwargs: Additional keyword arguments to pass to the `copy` method.
+            `**copy_kwargs`: Additional keyword arguments to pass to the `copy` method.
 
         """
         self.db_connector = database_connector

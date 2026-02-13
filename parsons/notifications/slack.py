@@ -138,7 +138,7 @@ class Slack:
                 Text of the message to send.
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
-            **kwargs: kwargs
+            `**kwargs`: kwargs
                 as_user: str
                     This is a deprecated argument. Use optional username, icon_url, and icon_emoji
                     args to customize the attributes of the user posting the message.

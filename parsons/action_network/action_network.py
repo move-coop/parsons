@@ -1428,7 +1428,7 @@ class ActionNetwork:
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
-            **kwargs:
+            `**kwargs`:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
 
@@ -1566,7 +1566,7 @@ class ActionNetwork:
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
-            **kwargs:
+            `**kwargs`:
                 Fields to be updated. The possible fields are
 
                 - email_address:

@@ -121,7 +121,7 @@ class SavedLists:
             overwrite: int
                 Replace saved list if already exists. Pass in the list id of the
                 existing list that you would like to overwrite.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 
@@ -218,7 +218,7 @@ class SavedLists:
                 instance of VAN.
             replace: boolean
                 Replace saved list if already exists.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
 

@@ -137,7 +137,7 @@ class ToFrom:
                 'snappy', 'zstandard', 'lz4', 'xz' (if installed)
             compression_level: int, optional
                 sets the level of compression to use with the specified codec (if the codec supports it)
-            avro_args: kwargs
+            `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. [Check the
                 fastavro documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
@@ -214,7 +214,7 @@ class ToFrom:
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
                 when the `schema` argument is not passed. Default is 9.
-            avro_args: kwargs
+            `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
                 fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
@@ -261,7 +261,7 @@ class ToFrom:
             csv_name: str
                 If ``zip`` compression (either specified or inferred), the name of csv file
                 within the archive.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
         Returns:
@@ -314,7 +314,7 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
         Returns:
@@ -362,7 +362,7 @@ class ToFrom:
                 Include header in output
             if_exists: str
                 If archive already exists, one of 'replace' or 'append'
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
         Returns:
@@ -487,7 +487,7 @@ class ToFrom:
             rsa_private_key_file str
                 Absolute path to a private RSA key used
                 to authenticate stfp connection
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
         """
@@ -556,7 +556,7 @@ class ToFrom:
                 Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
                 to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
                 variable even if the ``aws_session_token`` argument was not passed in.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
@@ -636,7 +636,7 @@ class ToFrom:
                 Create a public link to the file
             public_url_expire: 60
                 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
         Returns:
             Public url if specified. If not ``None``.
@@ -696,7 +696,7 @@ class ToFrom:
                 Required if env variable ``REDSHIFT_DB`` not populated
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
 
         Returns:
@@ -735,7 +735,7 @@ class ToFrom:
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Postgres.copy`` for options.
 
         Returns:
@@ -767,7 +767,7 @@ class ToFrom:
             project: str
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
-            **kwargs: kwargs
+            `**kwargs`: kwargs
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
 
@@ -861,7 +861,7 @@ class ToFrom:
                 The maximum number of rows to extract. Default is ``None`` (all rows).
             skips: int, optional
                 The number of rows to skip from the start. Default is 0.
-            **avro_args: kwargs
+            `**avro_args`: kwargs
                 Additional arguments passed to `fastavro.reader`.
 
         Returns:
@@ -881,7 +881,7 @@ class ToFrom:
             local_path: obj
                 A csv formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
             Parsons Table
@@ -905,7 +905,7 @@ class ToFrom:
         Args:
             str: str
                 The string object to convert to a table
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
             Parsons Table
@@ -1048,7 +1048,7 @@ class ToFrom:
                 Required if not included as environmental variable.
             aws_secret_access_key: str
                 Required if not included as environmental variable.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
             `parsons.Table` object

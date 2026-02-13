@@ -20,7 +20,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+            - v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.13-
 
@@ -37,7 +37,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
 
       - run:
           name: Build docs
@@ -56,7 +56,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-
+            - v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.13-
 
@@ -78,7 +78,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
 
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys

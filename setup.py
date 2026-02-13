@@ -20,12 +20,12 @@ EXTRA_DEPENDENCIES = {
     "civis": ["civis >= 2"],
     "dbt-redshift": [
         "dbt-redshift >= 1.5",
-        "dbt-core >= 1.5",
+        "dbt-core >= 1.6.15",
         "lxml >= 6.0.1",
     ],
-    "dbt-bigquery": ["dbt-bigquery >= 1.5", "dbt-core >= 1.5"],
-    "dbt-postgres": ["dbt-postgres >= 1.5", "dbt-core >= 1.5"],
-    "dbt-snowflake": ["dbt-snowflake >= 1.5", "dbt-core >= 1.5"],
+    "dbt-bigquery": ["dbt-bigquery >= 1.5", "dbt-core >= 1.6.15"],
+    "dbt-postgres": ["dbt-postgres >= 1.5", "dbt-core >= 1.6.15"],
+    "dbt-snowflake": ["dbt-snowflake >= 1.5", "dbt-core >= 1.6.15"],
     "facebook": ["joblib >= 1", "facebook-business >= 20"],
     "geocode": [
         "censusgeocode >= 0.5",

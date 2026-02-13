@@ -31,8 +31,8 @@ jobs:
             uv venv
             source .venv/bin/activate
 
-            uv pip install .[all]
             uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
 
       - save_cache:
           paths:
@@ -46,6 +46,9 @@ jobs:
 
             cd docs/
             make deploy_docs
+
+      - store_artifacts:
+          path: /html
 
   docs-build-deploy:
     docker:
@@ -72,8 +75,8 @@ jobs:
             uv venv
             source .venv/bin/activate
 
-            uv pip install .[all]
             uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
 
       - save_cache:
           paths:

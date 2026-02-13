@@ -48,3 +48,5 @@ Quickbase Class
 
 .. autoclass:: parsons.quickbase.quickbase.Quickbase
    :inherited-members:
+   :members:
+   

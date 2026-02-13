@@ -69,6 +69,7 @@ API
 
 .. autoclass:: parsons.notifications.slack.Slack
    :inherited-members:
+   :members:
 
 ==========
 Gmail
@@ -146,7 +147,8 @@ API
 ***
 
 .. autoclass:: parsons.notifications.gmail.Gmail
-  :inherited-members:
+   :inherited-members:
+   :members:
 
 ==========
 SMTP
@@ -225,4 +227,6 @@ API
 ***
 
 .. autoclass:: parsons.notifications.smtp.SMTP
-  :inherited-members:
+   :inherited-members:
+   :members:
+   

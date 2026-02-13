@@ -40,3 +40,5 @@ Controlshift Class
 
 .. autoclass:: parsons.controlshift.controlshift.Controlshift
    :inherited-members:
+   :members:
+   

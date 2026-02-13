@@ -64,3 +64,5 @@ API
 
 .. autoclass:: parsons.copper.copper.Copper
    :inherited-members:
+   :members:
+   

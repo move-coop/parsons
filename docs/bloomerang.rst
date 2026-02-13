@@ -66,3 +66,5 @@ API
 
 .. autoclass:: parsons.bloomerang.bloomerang.Bloomerang
    :inherited-members:
+   :members:
+   

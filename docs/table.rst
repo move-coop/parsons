@@ -366,7 +366,8 @@ To & From API
 
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
-
+   :members:
+   
 ******************
 Transformation API
 ******************
@@ -375,10 +376,12 @@ The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
+   :members:
 
 ***************
 Materialize API
 ***************
 
 .. autoclass:: parsons.etl.table.Table
-   :members: materialize, materialize_to_file
+   :inherited-members:
+   :members:

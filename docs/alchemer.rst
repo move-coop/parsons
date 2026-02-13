@@ -33,3 +33,5 @@ API
 
 .. autoclass:: parsons.alchemer.alchemer.Alchemer
    :inherited-members:
+   :members:
+   

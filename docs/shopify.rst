@@ -41,3 +41,5 @@ API
 
 .. autoclass:: parsons.shopify.shopify.Shopify
    :inherited-members:
+   :members:
+   

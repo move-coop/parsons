@@ -53,3 +53,5 @@ API
 
 .. autoclass:: parsons.zoom.zoom.Zoom
    :inherited-members:
+   :members:
+   

@@ -76,3 +76,5 @@ API
 
 .. autoclass:: parsons.targetsmart.targetsmart_automation.TargetSmartAutomation
    :inherited-members:
+   :members:
+   

@@ -49,3 +49,5 @@ API
 
 .. autoclass:: parsons.mobilecommons.mobilecommons.MobileCommons
    :inherited-members:
+   :members:
+   

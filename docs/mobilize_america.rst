@@ -50,3 +50,5 @@ API
 
 .. autoclass:: parsons.mobilize_america.ma.MobilizeAmerica
    :inherited-members:
+   :members:
+   

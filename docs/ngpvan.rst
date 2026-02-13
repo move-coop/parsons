@@ -328,6 +328,7 @@ People
 
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
+   :members:
 
 ==============
 Activist Codes
@@ -335,6 +336,7 @@ Activist Codes
 
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
+   :members:
 
 ===========
 Bulk Import
@@ -342,6 +344,7 @@ Bulk Import
 
 .. autoclass:: parsons.ngpvan.van.BulkImport
    :inherited-members:
+   :members:
 
 =================
 Canvass Responses
@@ -349,6 +352,7 @@ Canvass Responses
 
 .. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
+   :members:
 
 ================
 Changed Entities
@@ -356,6 +360,7 @@ Changed Entities
 
 .. autoclass:: parsons.ngpvan.van.ChangedEntities
    :inherited-members:
+   :members:
 
 =====
 Codes
@@ -363,6 +368,7 @@ Codes
 
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
+   :members:
 
 =============
 Contact Notes
@@ -370,6 +376,7 @@ Contact Notes
 
 .. autoclass:: parsons.ngpvan.van.ContactNotes
    :inherited-members:
+   :members:
 
 =============
 Custom Fields
@@ -377,6 +384,7 @@ Custom Fields
 
 .. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
+   :members:
 
 =====
 Email
@@ -384,6 +392,7 @@ Email
 
 .. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
+   :members:
 
 ======
 Events
@@ -391,6 +400,7 @@ Events
 
 .. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
+   :members:
 
 ===========
 Export Jobs
@@ -398,6 +408,7 @@ Export Jobs
 
 .. autoclass:: parsons.ngpvan.van.ExportJobs
    :inherited-members:
+   :members:
 
 =================
 File Loading Jobs
@@ -405,6 +416,7 @@ File Loading Jobs
 
 .. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
+   :members:
 
 =======
 Folders
@@ -417,6 +429,7 @@ Folders
 
 .. autoclass:: parsons.ngpvan.van.Folders
    :inherited-members:
+   :members:
 
 =========
 Locations
@@ -424,6 +437,7 @@ Locations
 
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
+   :members:
 
 =============
 Printed Lists
@@ -436,6 +450,7 @@ Printed Lists
 
 .. autoclass:: parsons.ngpvan.van.PrintedLists
    :inherited-members:
+   :members:
 
 ===========
 Saved Lists
@@ -448,6 +463,7 @@ Saved Lists
 
 .. autoclass:: parsons.ngpvan.van.SavedLists
    :inherited-members:
+   :members:
 
 ======
 Scores
@@ -467,6 +483,7 @@ a score slot.
 
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
+   :members:
 
 =======
 Signups
@@ -474,6 +491,7 @@ Signups
 
 .. autoclass:: parsons.ngpvan.van.Signups
    :inherited-members:
+   :members:
 
 ================
 Supporter Groups
@@ -481,6 +499,7 @@ Supporter Groups
 
 .. autoclass:: parsons.ngpvan.van.SupporterGroups
    :inherited-members:
+   :members:
 
 ================
 Survey Questions
@@ -488,6 +507,7 @@ Survey Questions
 
 .. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:
+   :members:
 
 =======
 Targets
@@ -495,3 +515,5 @@ Targets
 
 .. autoclass:: parsons.ngpvan.van.Targets
    :inherited-members:
+   :members:
+   

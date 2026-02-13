@@ -35,3 +35,5 @@ API
 
 .. autoclass:: parsons.yourconnector.yourconnector.YourConnector
    :inherited-members:
+   :members:
+   

@@ -57,3 +57,5 @@ API
 
 .. autoclass:: parsons.formstack.formstack.Formstack
    :inherited-members:
+   :members:
+   

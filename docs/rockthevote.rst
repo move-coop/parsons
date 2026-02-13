@@ -59,3 +59,5 @@ API
 
 .. autoclass:: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:
+   :members:
+   

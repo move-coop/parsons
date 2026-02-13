@@ -52,3 +52,5 @@ API
 
 .. autoclass:: parsons.catalist.catalist.CatalistMatch
    :inherited-members:
+   :members:
+   

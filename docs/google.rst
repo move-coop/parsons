@@ -50,7 +50,7 @@ API
 
 .. autoclass:: parsons.google.google_admin.GoogleAdmin
    :inherited-members:
-
+   :members:
 
 ********
 BigQuery
@@ -141,6 +141,7 @@ API
 
 .. autoclass:: parsons.google.google_bigquery.GoogleBigQuery
    :inherited-members:
+   :members:
 
 *************
 Cloud Storage
@@ -195,6 +196,7 @@ API
 
 .. autoclass:: parsons.google.google_cloud_storage.GoogleCloudStorage
    :inherited-members:
+   :members:
 
 *****
 Civic
@@ -256,6 +258,7 @@ API
 
 .. autoclass:: parsons.google.google_civic.GoogleCivic
    :inherited-members:
+   :members:
 
 *************
 Google Docs
@@ -311,6 +314,7 @@ API
 
 .. autoclass:: parsons.google.google_docs.GoogleDocs
    :inherited-members:
+   :members:
 
 *************
 Google Drive
@@ -361,6 +365,7 @@ API
 
 .. autoclass:: parsons.google.google_drive.GoogleDrive
    :inherited-members:
+   :members:
 
 *************
 Google Sheets
@@ -416,3 +421,5 @@ API
 
 .. autoclass:: parsons.google.google_sheets.GoogleSheets
    :inherited-members:
+   :members:
+   

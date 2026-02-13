@@ -55,6 +55,7 @@ Quick Start
 
 .. autoclass:: parsons.databases.mysql.mysql.MySQL
    :inherited-members:
+   :members:
 
 .. _postgres:
 
@@ -96,7 +97,7 @@ Quick Start
 
 .. autoclass:: parsons.databases.postgres.postgres.Postgres
    :inherited-members:
-
+   :members:
 
 ********
 Redshift
@@ -138,3 +139,5 @@ Quick Start
 
 .. autoclass:: parsons.databases.sqlite.sqlite.Sqlite
    :inherited-members:
+   :members:
+   

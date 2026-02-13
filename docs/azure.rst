@@ -76,3 +76,5 @@ API
 
 .. autoclass:: parsons.azure.azure_blob_storage.AzureBlobStorage
    :inherited-members:
+   :members:
+   

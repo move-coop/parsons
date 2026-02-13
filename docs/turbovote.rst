@@ -47,3 +47,5 @@ API
 
 .. autoclass:: parsons.turbovote.turbovote.TurboVote
    :inherited-members:
+   :members:
+   

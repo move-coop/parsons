@@ -112,3 +112,5 @@ API
 
 .. autoclass:: parsons.box.box.Box
    :inherited-members:
+   :members:
+   

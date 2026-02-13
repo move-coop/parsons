@@ -55,3 +55,5 @@ API
 
 .. autoclass:: parsons.airtable.airtable.Airtable
    :inherited-members:
+   :members:
+   

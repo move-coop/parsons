@@ -41,3 +41,5 @@ API
 
 .. autoclass:: parsons.quickbooks.quickbookstime.QuickBooksTime
    :inherited-members:
+   :members:
+   

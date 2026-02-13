@@ -62,3 +62,5 @@ API
 
 .. autoclass:: parsons.github.github.GitHub
    :inherited-members:
+   :members:
+   

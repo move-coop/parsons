@@ -89,3 +89,5 @@ API
 
 .. autoclass:: parsons.action_builder.action_builder.ActionBuilder
    :inherited-members:
+   :members:
+   

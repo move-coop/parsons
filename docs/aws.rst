@@ -137,6 +137,7 @@ API
 
 .. autoclass:: parsons.aws.s3.S3
    :inherited-members:
+   :members:
 
 =====================
 Temporary Credentials
@@ -222,6 +223,7 @@ Core API
 
 .. autoclass:: parsons.databases.redshift.Redshift
    :inherited-members:
+   :members:
 
 .. _redshift_table_and_view_api:
 
@@ -234,6 +236,7 @@ used SQL queries run against the Redshift database.
 
 .. autoclass:: parsons.databases.redshift.rs_table_utilities::RedshiftTableUtilities
    :inherited-members:
+   :members:
 
 .. _redshift_schema_api:
 
@@ -246,3 +249,5 @@ used SQL queries run against the Redshift database.
 
 .. autoclass:: parsons.databases.redshift.rs_schema.RedshiftSchema
    :inherited-members:
+   :members:
+   

@@ -60,3 +60,5 @@ API
 
 .. autoclass:: parsons.twilio.twilio.Twilio
    :inherited-members:
+   :members:
+   

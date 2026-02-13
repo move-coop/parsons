@@ -51,3 +51,5 @@ API
 
 .. autoclass:: parsons.nation_builder.nation_builder.NationBuilder
    :inherited-members:
+   :members:
+   

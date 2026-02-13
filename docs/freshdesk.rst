@@ -61,3 +61,5 @@ API
 
 .. autoclass:: parsons.freshdesk.freshdesk.Freshdesk
    :inherited-members:
+   :members:
+   

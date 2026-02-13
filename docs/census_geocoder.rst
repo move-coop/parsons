@@ -16,3 +16,4 @@ API
 .. autoclass:: parsons.geocode.census_geocoder.CensusGeocoder
    :inherited-members:
    :members:
+   

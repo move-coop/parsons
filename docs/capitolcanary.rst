@@ -49,3 +49,5 @@ API
 
 .. autoclass:: parsons.capitol_canary.capitol_canary.CapitolCanary
    :inherited-members:
+   :members:
+   

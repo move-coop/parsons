@@ -861,7 +861,7 @@ class ToFrom:
                 The maximum number of rows to extract. Default is ``None`` (all rows).
             skips: int, optional
                 The number of rows to skip from the start. Default is 0.
-            \**avro_args: kwargs
+            **avro_args: kwargs
                 Additional arguments passed to `fastavro.reader`.
 
         Returns:

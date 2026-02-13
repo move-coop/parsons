@@ -191,7 +191,7 @@ class QuickBooksTime:
                 back to it's top level parent in the supplemental_data section of the response.
 
             name: String
-                * will be interpreted as a wild card.
+                ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
 
             type: String
@@ -416,11 +416,11 @@ class QuickBooksTime:
                 'yes', 'no', or 'both'. Default is 'yes'.
 
             first_name: String
-                * will be interpreted as a wild card.
+                ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
 
             last_name: String
-                * will be interpreted as a wild card.
+                ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
 
             modified_before: String

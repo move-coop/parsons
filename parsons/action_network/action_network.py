@@ -17,7 +17,7 @@ class ActionNetwork:
     """
     Args:
         api_token: str
-            The OSDI API token
+            OSDI API token
 
     """
 
@@ -66,17 +66,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
+               Number of entries to return. When None, returns all entries.
+            per_page:
+               Number of entries per page to return. 25 maximum.
+            page:
                Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+               OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                When None, no filter is applied.
 
         Returns:
-            A  JSON with all of the advocacy_campaigns (letters) entries
+            A JSON with all of the advocacy_campaigns (letters) entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/advocacy_campaigns
 
@@ -89,9 +90,11 @@ class ActionNetwork:
         """
         Args:
             advocacy_campaign_id:
-               The unique id of the advocacy_campaign
+               Unique ID of the advocacy_campaign
+
         Returns:
-            A  JSON with advocacy_campaign entry
+            A JSON with advocacy_campaign entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/advocacy_campaigns
 
@@ -103,19 +106,20 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+                Unique ID of the person
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the attendances entries
+            A JSON with all the attendances entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -127,19 +131,20 @@ class ActionNetwork:
     def get_event_attendances(self, event_id, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-            event_id: the unique id of the event
+            event_id: Unique ID of the event
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page
-               The number of entries per page to return. 25 maximum.
-           page
-               Which page of results to return
-           filter
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with the attendances entries related to the event
+            A JSON with the attendances entries related to the event
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -152,11 +157,13 @@ class ActionNetwork:
         """
         Args:
             event_id:
-               The unique id of the event
+                Unique ID of the event
             attendance_id:
-               The unique id of the attendance
+                Unique ID of the attendance
+
         Returns:
-            A  JSON with the attendance entry
+            A JSON with the attendance entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -167,11 +174,13 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+                Unique ID of the person
             attendance_id:
-               The unique id of the attendance
+                Unique ID of the attendance
+
         Returns:
-            A  JSON with the attendance entry
+            A JSON with the attendance entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -181,16 +190,22 @@ class ActionNetwork:
     def create_attendance(self, event_id, payload):
         """
         Args:
-            event_id: the unique id of the event
-            payload: the payload for creating the event attendance
-                {
-                    "_links" : {
-                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+            event_id:
+                Unique ID of the event
+            payload:
+                Payload for creating the event attendance
+
+                .. code-block:: python
+
+                    {
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                        }
                     }
-                }
 
         Returns:
             A JSON response after creating the event attendance
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -201,19 +216,23 @@ class ActionNetwork:
         """
         Args:
             event_id:
-               The unique id of the event
+                Unique ID of the event
             attendance_id:
-               The unique id of the attendance
+                Unique ID of the attendance
             payload:
-               The payload for updating the event attendance
-               {
-                   "identifiers": [
-                       "other-system:230125a"
-                   ]
-               }
+                Payload for updating the event attendance
+
+                .. code-block:: python
+
+                    {
+                        "identifiers": [
+                            "other-system:230125a"
+                        ]
+                    }
 
         Returns:
             A JSON response after updating the event attendance
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/attendances
 
@@ -225,17 +244,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all of the campaigns entries
+            A JSON with all of the campaigns entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/campaigns
 
@@ -248,9 +268,11 @@ class ActionNetwork:
         """
         Args:
             campaign_id:
-               The unique id of the campaign
+               Unique ID of the campaign
+
         Returns:
-            A  JSON with the campaign entry
+            A JSON with the campaign entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/campaigns
 
@@ -262,8 +284,10 @@ class ActionNetwork:
         """
         Args:
             None
+
         Returns:
-            A  JSON with the custom_fields associated with your API key.
+            A JSON with the custom_fields associated with your API key.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/custom_fields
 
@@ -274,9 +298,11 @@ class ActionNetwork:
     def get_donation(self, donation_id):
         """
         Args:
-            donation_id: The unique id of the donation
+            donation_id: Unique ID of the donation
+
         Returns:
-            A  JSON with donation data
+            A JSON with donation data
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
 
@@ -286,18 +312,19 @@ class ActionNetwork:
     def get_donations(self, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-             limit:
-                The number of entries to return. When None, returns all entries.
+            limit:
+                Number of entries to return. When None, returns all entries.
             per_page:
-                The number of entries per page to return. 25 maximum.
+                Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
             filter:
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with all the donations entries
+            A JSON with all the donations entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
 
@@ -311,19 +338,20 @@ class ActionNetwork:
     ):
         """
         Args:
-             fundraising_page_id: The id of the fundraiser
-             limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+            fundraising_page_id: The ID of the fundraiser
+            limit:
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with fundraising_page entry
+            A JSON with fundraising_page entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
 
@@ -345,19 +373,20 @@ class ActionNetwork:
     def get_person_donations(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-             person_id: The id of the person
-             limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+            person_id: The ID of the person
+            limit:
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with all donations related to person
+            A JSON with all donations related to person
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
 
@@ -379,23 +408,27 @@ class ActionNetwork:
     def create_donation(self, fundraising_page_id, donation_payload):
         """
         Args:
-            fundraising_page_id: The id of the fundraising page
-            donation_payload: The payload containing donation details
-                {
-                    "recipients": [
-                        {
-                            "display_name": "Campaign To Elect Tom",
-                            "amount": "3.00"
+            fundraising_page_id: The ID of the fundraising page
+            donation_payload: Payload containing donation details
+
+                .. code-block:: python
+
+                    {
+                        "recipients": [
+                            {
+                                "display_name": "Campaign To Elect Tom",
+                                "amount": "3.00"
+                            }
+                        ],
+                        "created_date": "2013-01-01T00:00:00Z",
+                        "_links" : {
+                            "osdi:person" : { "href" : "link" }
                         }
-                    ],
-                    "created_date": "2013-01-01T00:00:00Z",
-                    "_links" : {
-                        "osdi:person" : { "href" : "link" }
                     }
-                }
 
         Returns:
             A JSON response confirming the creation of the donation
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/donations
 
@@ -409,11 +442,13 @@ class ActionNetwork:
         """
         Args:
             action_type:
-              The action type (petition, events, etc.)
+              Action type (petition, events, etc.)
             action_id:
-              The unique id of the action
+              Unique ID of the action
+
         Returns:
-            A  JSON with the embeds (for you to be able to embed action outside of ActionNetwork).
+            A JSON with the embeds (for you to be able to embed action outside of ActionNetwork).
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/embeds
 
@@ -425,17 +460,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the event_campaigns entries
+            A JSON with all the event_campaigns entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
 
@@ -448,9 +484,11 @@ class ActionNetwork:
         """
         Args:
             event_campaign_id:
-               The unique id of the event_campaign
+                Unique ID of the event_campaign
+
         Returns:
-            A  JSON with event_campaign entry
+            A JSON with event_campaign entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
 
@@ -460,14 +498,18 @@ class ActionNetwork:
     def create_event_campaign(self, payload):
         """
         Args:
-            payload: The payload containing event campaign details
-                {
-                    "title": "My Canvassing Event",
-                    "origin_system": "CanvassingEvents.com"
-                }
+            payload: Payload containing event campaign details
+
+                .. code-block::python
+
+                    {
+                        "title": "My Canvassing Event",
+                        "origin_system": "CanvassingEvents.com"
+                    }
 
         Returns:
             A JSON response confirming the creation of the event campaign
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
 
@@ -478,16 +520,20 @@ class ActionNetwork:
         """
         Args:
             event_campaign_id:
-               The unique id of the event_campaign
+                Unique ID of the event_campaign
             payload:
-               The payload containing event details
-               {
-                   "title": "My Free Event",
-                   "origin_system": "FreeEvents.com"
-               }
+                Payload containing event details
+
+                .. code-block::python
+
+                    {
+                        "title": "My Free Event",
+                        "origin_system": "FreeEvents.com"
+                    }
 
         Returns:
             A JSON response confirming the creation of the event in the event campaign
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
 
@@ -498,15 +544,19 @@ class ActionNetwork:
         """
         Args:
             event_campaign_id:
-               The unique id of the event_campaign
+                Unique ID of the event_campaign
             payload:
-               The payload containing event campaign details
-               {
-                   "description": "This is my new event campaign description"
-               }
+                Payload containing event campaign details
+
+                .. code-block::python
+
+                    {
+                        "description": "This is my new event campaign description"
+                    }
 
         Returns:
-            A JSON response confirming the update of the event campaign
+            A JSON response confirming Update of the event campaign
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/event_campaigns
 
@@ -517,18 +567,19 @@ class ActionNetwork:
     def get_events(self, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-        limit:
-            The number of entries to return. When None, returns all entries.
-        per_page
-            The number of entries per page to return. 25 maximum.
-        page
-            Which page of results to return
-        filter
-            The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-            When None, no filter is applied.
+            limit:
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-             A  JSON with all the events entries
+             A JSON with all the events entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events
 
@@ -540,9 +591,11 @@ class ActionNetwork:
     def get_event(self, event_id):
         """
         Args:
-            event_id: the unique id of the event
+            event_id: Unique ID of the event
+
         Returns:
-            A  JSON with event entry
+            A JSON with event entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events
 
@@ -555,19 +608,20 @@ class ActionNetwork:
         """
         Args:
             event_campaign_id:
-               The unique id of the event_campaign
+               Unique ID of the event_campaign
             limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with all the eventes related to the event_campaign entry
+            A JSON with all the eventes related to the event_campaign entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events
 
@@ -586,7 +640,7 @@ class ActionNetwork:
 
         Args:
             title: str
-                The public title of the event
+                Public title of the event
             start_date: str OR datetime
                 OPTIONAL: The starting date & time. If a string, use format "YYYY-MM-DD HH:MM:SS"
                 (hint: the default format you get when you use `str()` on a datetime)
@@ -609,6 +663,7 @@ class ActionNetwork:
 
         Returns:
             Dict of Action Network Event data.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events
 
@@ -636,16 +691,20 @@ class ActionNetwork:
 
         Args:
             event_id: str
-                The unique id of the event
+                Unique ID of the event
             payload: dict
-                The payload containing event data (see https://actionnetwork.org/docs/v2/events)
-                {
-                    "title": "My Free Event With A New Name",
-                    "description": "This is my free event description"
-                }
+                Payload containing event data (see https://actionnetwork.org/docs/v2/events)
+
+                .. code-block::python
+
+                    {
+                        "title": "My Free Event With A New Name",
+                        "description": "This is my free event description"
+                    }
 
         Returns:
-            A JSON response confirming the update of the event
+            A JSON response confirming Update of the event
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/events
 
@@ -657,17 +716,18 @@ class ActionNetwork:
         """
         Args:
              limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with all the forms entries
+            A JSON with all the forms entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
 
@@ -680,9 +740,11 @@ class ActionNetwork:
         """
         Args:
             form_id:
-               The unique id of the form
+               Unique ID of the form
+
         Returns:
-            A  JSON with form entry
+            A JSON with form entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
 
@@ -695,15 +757,18 @@ class ActionNetwork:
 
         Args:
             payload: dict
-                The payload containing form details
+                Payload containing form details
 
-                {
-                    "title": "My Free Form",
-                    "origin_system": "FreeForms.com"
-                }
+                .. code-block::python
+
+                    {
+                        "title": "My Free Form",
+                        "origin_system": "FreeForms.com"
+                    }
 
         Returns:
             A JSON response confirming the creation of the form
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
 
@@ -716,17 +781,20 @@ class ActionNetwork:
 
         Args:
             form_id:
-                The unique id of the form
+                Unique ID of the form
             payload: dict
-                The payload containing form data (see https://actionnetwork.org/docs/v2/forms)
+                Payload containing form data (see https://actionnetwork.org/docs/v2/forms)
 
-                {
-                    "title": "My Free Form",
-                    "origin_system": "FreeForms.com"
-                }
+                .. code-block::python
+
+                    {
+                        "title": "My Free Form",
+                        "origin_system": "FreeForms.com"
+                    }
 
         Returns:
-            A JSON response confirming the update of the form
+            A JSON response confirming Update of the form
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/forms
 
@@ -737,9 +805,11 @@ class ActionNetwork:
     def get_fundraising_page(self, fundraising_page_id):
         """
         Args:
-            fundraising_page_id: The id of the fundraiser
+            fundraising_page_id: The ID of the fundraiser
+
         Returns:
-            A  JSON with fundraising_page entry
+            A JSON with fundraising_page entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
 
@@ -750,17 +820,18 @@ class ActionNetwork:
         """
         Args:
              limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
-            A  JSON with all the fundraising_pages entries
+            A JSON with all the fundraising_pages entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
 
@@ -778,14 +849,18 @@ class ActionNetwork:
 
         Args:
             payload: dict
-                The payload containing fundraising page details
-                {
-                    "title": "My Free Fundraiser",
-                    "origin_system": "FreeFundraisers.com"
-                }
+                Payload containing fundraising page details
+
+                .. code-block::python
+
+                    {
+                        "title": "My Free Fundraiser",
+                        "origin_system": "FreeFundraisers.com"
+                    }
 
         Returns:
             A JSON response confirming the creation of the fundraising page
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
 
@@ -797,16 +872,20 @@ class ActionNetwork:
         Update a fundraising page in Action Network
 
         Args:
-            fundraising_page_id: The id of the fundraiser
+            fundraising_page_id: The ID of the fundraiser
             payload: dict
-                The payload containing updated fundraising page details
-                {
-                    "title": "My Free Fundraiser",
-                    "origin_system": "FreeFundraisers.com"
-                }
+                Payload containing updated fundraising page details
+
+                .. code-block::python
+
+                    {
+                        "title": "My Free Fundraiser",
+                        "origin_system": "FreeFundraisers.com"
+                    }
 
         Returns:
-            A JSON response confirming the update of the fundraising page
+            A JSON response confirming Update of the fundraising page
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/fundraising_pages
 
@@ -818,19 +897,20 @@ class ActionNetwork:
         """
         Args:
             list_id:
-                The unique id of the list
+                Unique ID of the list
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the list item entries
+            A JSON with all the list item entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/items
 
@@ -842,12 +922,14 @@ class ActionNetwork:
     def get_item(self, list_id, item_id):
         """
         Args:
-           list_id:
-              The unique id of the list
+            list_id:
+                Unique ID of the list
             item_id:
-              The unique id of the item
+                Unique ID of the item
+
         Returns:
-            A  JSON with the item entry
+            A JSON with the item entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/items
 
@@ -859,18 +941,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the list entries
+            A JSON with all the list entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/lists
 
@@ -883,9 +965,11 @@ class ActionNetwork:
         """
         Args:
            list_id:
-              The unique id of the list
+              Unique ID of the list
+
         Returns:
-            A  JSON with the list entry
+            A JSON with the list entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/lists
 
@@ -899,19 +983,20 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-           unpack_statistics:
-               Whether to unpack the statistics dictionary into the table. Default to False.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
+            unpack_statistics:
+                Whether to unpack the statistics dictionary into the table. Default to False.
 
         Returns:
             A Parsons Table with all the messages related entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
 
@@ -928,9 +1013,11 @@ class ActionNetwork:
         """
         Args:
             message_id:
-               The unique id of the message
+               Unique ID of the message
+
         Returns:
-            A  JSON with the signature entry.
+            A JSON with the signature entry.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
 
@@ -943,26 +1030,30 @@ class ActionNetwork:
 
         Args:
             payload: dict
-                The payload containing message details
-                {
-                  "subject": "Stop doing the bad thing",
-                  "body": "<p>The mayor should stop doing the bad thing.</p>",
-                  "from": "Progressive Action Now",
-                  "reply_to": "jane@progressiveactionnow.org",
-                  "targets": [
+                Payload containing message details
+
+                .. code-block::python
+
                     {
-                      "href": "https://actionnetwork.org/api/v2/queries/id"
+                      "subject": "Stop doing the bad thing",
+                      "body": "<p>The mayor should stop doing the bad thing.</p>",
+                      "from": "Progressive Action Now",
+                      "reply_to": "jane@progressiveactionnow.org",
+                      "targets": [
+                        {
+                          "href": "https://actionnetwork.org/api/v2/queries/id"
+                        }
+                      ],
+                      "_links": {
+                        "osdi:wrapper": {
+                          "href": "https://actionnetwork.org/api/v2/wrappers/id"
+                        }
+                      }
                     }
-                  ],
-                  "_links": {
-                    "osdi:wrapper": {
-                      "href": "https://actionnetwork.org/api/v2/wrappers/id"
-                    }
-                  }
-                }
 
         Returns:
             A JSON response confirming the creation of the message
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
 
@@ -975,16 +1066,20 @@ class ActionNetwork:
 
         Args:
             message_id:
-               The unique id of the message
+               Unique ID of the message
             payload: dict
-                The payload containing message details to be updated
-                {
-                    "name": "Stop doing the bad thing email send 1",
-                    "subject": "Please! Stop doing the bad thing"
-                }
+                Payload containing message details to be updated
+
+                .. code-block::python
+
+                    {
+                        "name": "Stop doing the bad thing email send 1",
+                        "subject": "Please! Stop doing the bad thing"
+                    }
 
         Returns:
-            A JSON response confirming the update of the message
+            A JSON response confirming Update of the message
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/messages
 
@@ -997,12 +1092,14 @@ class ActionNetwork:
 
         Args:
             message_id:
-               The unique id of the message
+               Unique ID of the message
             scheduled_start_date:
-                The UTC timestamp to schedule the message at in ISO8601 format.
+                UTC timestamp to schedule the message at in ISO8601 format.
                 e.g. "2015-03-14T12:00:00Z"
+
         Returns:
             A JSON response confirming the scheduling
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/schedule_helper
 
@@ -1018,9 +1115,11 @@ class ActionNetwork:
 
         Args:
             message_id:
-               The unique id of the message
+               Unique ID of the message
+
         Returns:
             A JSON response confirming the message was sent
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/send_helper
 
@@ -1032,8 +1131,10 @@ class ActionNetwork:
         """
         Args:
            None
+
         Returns:
-            A  JSON with the metadata entry
+            A JSON with the metadata entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/metadata
 
@@ -1047,19 +1148,20 @@ class ActionNetwork:
         """
         Args:
             advocacy_campaign_id:
-               The unique id of the advocacy_campaign
+                Unique ID of the advocacy_campaign
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-           A  JSON with all the outreaches entries related to the advocacy_campaign_id
+           A JSON with all the outreaches entries related to the advocacy_campaign_id
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1082,19 +1184,20 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+                Unique ID of the person
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the outreaches entries related to our group
+            A JSON with all the outreaches entries related to our group
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1107,11 +1210,13 @@ class ActionNetwork:
         """
         Args:
             advocacy_campaign_id:
-               The unique id of the campaign
+                Unique ID of the campaign
             outreach_id:
-               The unique id of the outreach
+                Unique ID of the outreach
+
         Returns:
-            A  JSON with the outreach entry
+            A JSON with the outreach entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1124,11 +1229,13 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the campaign
+                Unique ID of the campaign
             outreach_id:
-               The unique id of the outreach
+                Unique ID of the outreach
+
         Returns:
-            A  JSON with the outreach entry
+            A JSON with the outreach entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1141,23 +1248,27 @@ class ActionNetwork:
 
         Args:
             advocacy_campaign_id:
-                The unique id of the campaign
+                Unique ID of the campaign
             payload:
-                The payload containing outreach details
-                {
-                    "targets": [
-                        {
-                            "given_name": "Joe",
-                            "family_name": "Schmoe"
+                Payload containing outreach details
+
+                .. code-block::python
+
+                    {
+                        "targets": [
+                            {
+                                "given_name": "Joe",
+                                "family_name": "Schmoe"
+                            }
+                        ],
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                         }
-                    ],
-                    "_links" : {
-                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
                     }
-                }
 
         Returns:
             A JSON response confirming the creation of the outreach
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1172,17 +1283,21 @@ class ActionNetwork:
 
         Args:
             advocacy_campaign_id:
-                The unique id of the campaign
+                Unique ID of the campaign
             outreach_id:
-                The unique id of the outreach
+                Unique ID of the outreach
             payload:
-                The payload containing outreach details to be updated
-                {
-                    "subject": "Please vote no!"
-                }
+                Payload containing outreach details to be updated
+
+                .. code-block::python
+
+                    {
+                        "subject": "Please vote no!"
+                    }
 
         Returns:
-            A JSON response confirming the update of the outreach
+            A JSON response confirming Update of the outreach
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/outreaches
 
@@ -1197,17 +1312,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-                The number of entries to return. When None, returns all entries.
-            per_page
-                The number of entries per page to return. 25 maximum.
-            page
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
                 Which page of results to return
-            filter
-                The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
 
         Returns:
             A list of JSONs of people stored in Action Network.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/people
 
@@ -1220,11 +1336,12 @@ class ActionNetwork:
         """
         Args:
             person_id:
-                Id of the person.
+                ID of the person.
 
         Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             ``{'error': 'Couldn't find person with id = <id>'}``.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/people
 
@@ -1257,22 +1374,26 @@ class ActionNetwork:
         Args:
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following
+
                     - a string with the person's email
                     - a list of strings with a person's emails
                     - a list of dictionaries with the following fields
+
                         - address (REQUIRED)
-                        - primary (OPTIONAL): Boolean indicating the user's primary email address
+                        - primary (OPTIONAL): Boolean indicating User's primary email address
                         - status (OPTIONAL): can taken on any of these values
+
                             - "subscribed"
                             - "unsubscribed"
                             - "bouncing"
                             - "previous bounce"
                             - "spam complaint"
                             - "previous spam complaint"
+
             given_name:
-                The person's given name
+                Person's given name
             family_name:
-                The person's family name
+                Person's family name
             tags:
                 Optional field. A list of strings of pre-existing tags to be applied to the person.
             languages_spoken:
@@ -1283,16 +1404,20 @@ class ActionNetwork:
                 https://actionnetwork.org/docs/v2/person_signup_helper
             mobile_number:
                 Either email_address or mobile_number are required. Can be any of the following
+
                     - a string with the person's cell phone number
                     - an integer with the person's cell phone number
                     - a list of strings with the person's cell phone numbers
                     - a list of integers with the person's cell phone numbers
                     - a dictionary with the following fields
+
                         - number (REQUIRED)
-                        - primary (OPTIONAL): Boolean indicating the user's primary mobile number
+                        - primary (OPTIONAL): Boolean indicating User's primary mobile number
                         - status (OPTIONAL): can taken on any of these values
+
                             - "subscribed"
                             - "unsubscribed"
+
             mobile_status:
                 None, 'subscribed' or 'unsubscribed'. If included, will update the SMS opt-in
                 status of the phone in ActionNetwork. If not included, won't update the status.
@@ -1306,7 +1431,7 @@ class ActionNetwork:
             **kwargs:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
-        Adds a person to Action Network
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/people
 
@@ -1435,7 +1560,7 @@ class ActionNetwork:
 
         Args:
             entry_id:
-                The person's Action Network id
+                Person's Action Network id
             background_processing: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
@@ -1443,34 +1568,39 @@ class ActionNetwork:
                 https://actionnetwork.org/docs/v2/#background-processing
             **kwargs:
                 Fields to be updated. The possible fields are
-                    email_address:
-                        Can be any of the following
-                            - a string with the person's email
-                            - a dictionary with the following fields
-                                - email_address (REQUIRED)
-                                    - primary (OPTIONAL): Boolean indicating the user's
-                                    primary email address
-                                - status (OPTIONAL): can taken on any of these values
-                                    - "subscribed"
-                                    - "unsubscribed"
-                                    - "bouncing"
-                                    - "previous bounce"
-                                    - "spam complaint"
-                                    - "previous spam complaint"
-                    given_name:
-                        The person's given name
-                    family_name:
-                        The person's family name
-                    languages_spoken:
-                        Optional field. A list of strings of the languages spoken by the person
-                    postal_addresses:
-                        Optional field. A list of dictionaries.
-                        For details, see Action Network's documentation:
-                        https://actionnetwork.org/docs/v2/people#put
-                    custom_fields:
-                        A dictionary of any other fields to store about the person.
-                    Documentation Reference:
-                        https://actionnetwork.org/docs/v2/people
+
+                - email_address:
+                  Can be any of the following:
+
+                    - a string with the person's email
+                    - a dictionary with the following fields
+
+                        - email_address (REQUIRED)
+                        - primary (OPTIONAL): Boolean indicating User's primary email address
+                        - status (OPTIONAL): can taken on any of these values
+
+                            - "subscribed"
+                            - "unsubscribed"
+                            - "bouncing"
+                            - "previous bounce"
+                            - "spam complaint"
+                            - "previous spam complaint"
+
+                - given_name:
+                      Person's given name
+                - family_name:
+                      Person's family name
+                - languages_spoken:
+                      Optional field. A list of strings of the languages spoken by the person
+                - postal_addresses:
+                      Optional field. A list of dictionaries.
+                      For details, see Action Network's documentation:
+                      https://actionnetwork.org/docs/v2/people#put
+                - custom_fields:
+                      A dictionary of any other fields to store about the person.
+
+        Documentation Reference:
+            https://actionnetwork.org/docs/v2/people
 
         """
         data = {**kwargs}
@@ -1490,17 +1620,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all of the petitions entries
+            A JSON with all of the petitions entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
 
@@ -1513,9 +1644,11 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition
+               Unique ID of the petition
+
         Returns:
-            A  JSON with the petition entry
+            A JSON with the petition entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
 
@@ -1528,17 +1661,19 @@ class ActionNetwork:
         """
         Args:
             title:
-               The title of the petition
+                Title of the petition
             description:
-               The description of the petition
+                Description of the petition
             petition_text:
-               The text of the petition
+                Text of the petition
             target:
-               The target of the petition
+                Target of the petition
             background_processing:
-               Whether to process the request in the background
+                Whether to process the request in the background
+
         Returns:
             A JSON with the response from the API
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
 
@@ -1571,19 +1706,21 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition to be updated
+                Unique ID of the petition to be updated
             title:
-               The updated title of the petition
+                Updated title of the petition
             description:
-               The updated description of the petition
+                Updated description of the petition
             petition_text:
-               The updated text of the petition
+                Updated text of the petition
             target:
-               The updated target of the petition
+                Updated target of the petition
             background_processing:
-               Whether to process the request in the background
+                Whether to process the request in the background
+
         Returns:
             A JSON with the response from the API
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/petitions
 
@@ -1609,18 +1746,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the query entries
+            A JSON with all the query entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/queries
 
@@ -1632,10 +1769,12 @@ class ActionNetwork:
     def get_query(self, query_id):
         """
         Args:
-           query_id:
-              The unique id of the query
+            query_id:
+                Unique ID of the query
+
         Returns:
-            A  JSON with the query entry
+            A JSON with the query entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/queries
 
@@ -1647,19 +1786,20 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition
+                Unique ID of the petition
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the signatures related to the petition entry
+            A JSON with all the signatures related to the petition entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1672,20 +1812,20 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+                Unique ID of the person
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the signatures related to the petition entry
+            A JSON with all the signatures related to the petition entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1698,11 +1838,13 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition
+                Unique ID of the petition
             signature_id:
-               The unique id of the signature
+                Unique ID of the signature
+
         Returns:
-            A  JSON with the signature entry
+            A JSON with the signature entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1713,11 +1855,13 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+               Unique ID of the person
             signature_id:
-               The unique id of the signature
+               Unique ID of the signature
+
         Returns:
-            A  JSON with the signature entry
+            A JSON with the signature entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1728,18 +1872,22 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition
+               Unique ID of the petition
             data:
-               The payload for creating the signature
-               {
-                   "comments" : "Stop doing the thing",
-                   "_links" : {
-                       "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+               Payload for creating the signature
+
+                .. code-block:: python
+
+                   {
+                       "comments" : "Stop doing the thing",
+                       "_links" : {
+                           "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                       }
                    }
-               }
 
         Returns:
             A JSON with the created signature entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1750,17 +1898,21 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               The unique id of the petition
+                Unique ID of the petition
             signature_id:
-               The unique id of the signature
+                Unique ID of the signature
             data:
-               The signature payload to update
-               {
-                   "comments": "Some new comments"
-               }
+                Signature payload to update
+
+                .. code-block:: python
+
+                    {
+                        "comments": "Some new comments"
+                    }
 
         Returns:
-            A JSON with the updated signature entry
+            A JSON with Updated signature entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/signatures
 
@@ -1772,19 +1924,20 @@ class ActionNetwork:
         """
         Args:
             form_id:
-               The unique id of the form
+                Unique ID of the form
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the submissions entries related to the form
+            A JSON with all the submissions entries related to the form
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1797,19 +1950,20 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the person
+                Unique ID of the person
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the submissions entries related with our group
+            A JSON with all the submissions entries related with our group
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1822,11 +1976,13 @@ class ActionNetwork:
         """
         Args:
             form_id:
-               The unique id of the form
+                Unique ID of the form
             submission_id:
-               The unique id of the submission
+                Unique ID of the submission
+
         Returns:
-            A  JSON with the submission entry
+            A JSON with the submission entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1837,11 +1993,13 @@ class ActionNetwork:
         """
         Args:
             person_id:
-               The unique id of the submission
+                Unique ID of the submission
             submission_id:
-               The unique id of the submission
+                Unique ID of the submission
+
         Returns:
-            A  JSON with the submission entry
+            A JSON with the submission entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1852,11 +2010,13 @@ class ActionNetwork:
         """
         Args:
             form_id:
-                The unique id of the form
+                Unique ID of the form
             person_id:
-                The unique id of the person
+                Unique ID of the person
+
         Returns:
             A JSON response indicating the success or failure of the submission creation
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1872,19 +2032,23 @@ class ActionNetwork:
         """
         Args:
             form_id:
-                The unique id of the form
+                Unique ID of the form
             submission_id:
-                The unique id of the submission
+                Unique ID of the submission
             data:
-                The payload for updating the submission
-                {
-                    "_links" : {
-                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                Payload for updating the submission
+
+                .. code-block:: python
+
+                    {
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                        }
                     }
-                }
 
         Returns:
-            A JSON with the updated submission entry
+            A JSON with Updated submission entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/submissions
 
@@ -1902,9 +2066,9 @@ class ActionNetwork:
 
         Args:
             limit:
-                The number of entries to return. When None, returns all entries.
+                Number of entries to return. When None, returns all entries.
             per_page:
-                The number of entries per page to return. 25 maximum.
+                Number of entries per page to return. 25 maximum.
 
         Returns:
 
@@ -1917,9 +2081,11 @@ class ActionNetwork:
         """
         Args:
             survey_id:
-                The unique id of the survey
+                Unique ID of the survey
+
         Returns:
             A JSON with the survey entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
 
@@ -1930,25 +2096,33 @@ class ActionNetwork:
         """
         Args:
             data:
-                The payload for creating the survey
-                {
-                    "title": "My Free Survey",
-                    "origin_system": "FreeSurveys.com"
-                }
-                OR
-                The payload for creating the survey with a creator link
-                {
-                    "title": "My Free Survey",
-                    "origin_system": "FreeSurveys.com"
-                        "_links" : {
-                            "osdi:creator" : {
-                            "href" : "https://actionnetwork.org/api/v2/people/[person_id]"
-                            }
+
+                .. code-block:: python
+                   :caption: Payload for creating the survey
+
+                    {
+                        "title": "My Free Survey",
+                        "origin_system": "FreeSurveys.com"
                     }
-                }
+
+                OR
+
+                .. code-block:: python
+                   :caption: Payload for creating the survey with a creator link
+
+                    {
+                        "title": "My Free Survey",
+                        "origin_system": "FreeSurveys.com"
+                            "_links" : {
+                                "osdi:creator" : {
+                                "href" : "https://actionnetwork.org/api/v2/people/[person_id]"
+                                }
+                        }
+                    }
 
         Returns:
             A JSON with the created survey entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
 
@@ -1959,16 +2133,20 @@ class ActionNetwork:
         """
         Args:
             survey_id:
-                The unique id of the survey
+                Unique ID of the survey
             data:
-                The payload for updating the survey
-                {
-                    "title": "My Free Survey",
-                    "origin_system": "FreeSurveys.com",
-                }
+                Payload for updating the survey
+
+                .. code-block:: python
+
+                    {
+                        "title": "My Free Survey",
+                        "origin_system": "FreeSurveys.com",
+                    }
 
         Returns:
-            A JSON with the updated survey entry
+            A JSON with Updated survey entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/surveys
 
@@ -1980,12 +2158,13 @@ class ActionNetwork:
         """
         Args:
             limit:
-                The number of entries to return. When None, returns all entries.
+                Number of entries to return. When None, returns all entries.
             per_page:
                 This is a deprecated argument.
 
         Returns:
             A list of JSONs of tags in Action Network.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
 
@@ -2002,11 +2181,12 @@ class ActionNetwork:
         """
         Args:
             tag_id:
-                Id of the tag.
+                ID of the tag.
 
         Returns:
             A  JSON of the entry. If the entry doesn't exist, Action Network returns
             "{'error': 'Couldn't find tag with id = <id>'}"
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
 
@@ -2015,10 +2195,12 @@ class ActionNetwork:
 
     def add_tag(self, name):
         """
+        Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
+
         Args:
             name:
-                The tag's name. This is the ONLY editable field
-        Adds a tag to Action Network. Once created, tags CANNOT be edited or deleted.
+                Tag's name. This is the ONLY editable field
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/tags
 
@@ -2037,20 +2219,20 @@ class ActionNetwork:
         """
         Args:
             tag_id:
-                The unique id of the tag
+                Unique ID of the tag
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the tagging entries associated with the tag_id
+            A JSON with all the tagging entries associated with the tag_id
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
 
@@ -2063,11 +2245,13 @@ class ActionNetwork:
         """
         Args:
            tag_id:
-              The unique id of the tag
+              Unique ID of the tag
            tagging_id:
-              The unique id of the tagging
+              Unique ID of the tagging
+
         Returns:
-            A  JSON with the tagging entry
+            A JSON with the tagging entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
 
@@ -2078,21 +2262,27 @@ class ActionNetwork:
         """
         Args:
             tag_id:
-                The unique id of the tag
+                Unique ID of the tag
             payload:
-                The payload for creating the tagging
-                {
-                    "_links" : {
-                        "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                Payload for creating the tagging
+
+                .. code-block:: python
+
+                    {
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                        }
                     }
-                }
+
             background_processing: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
+
         Returns:
             A JSON response after creating the tagging
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
 
@@ -2106,16 +2296,18 @@ class ActionNetwork:
         """
         Args:
             tag_id:
-                The unique id of the tag
+                Unique ID of the tag
             tagging_id:
-                The unique id of the tagging to be deleted
+                Unique ID of the tagging to be deleted
             background_processing: bool
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
                 https://actionnetwork.org/docs/v2/#background-processing
+
         Returns:
             A JSON response after deleting the tagging
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/taggings
 
@@ -2130,18 +2322,18 @@ class ActionNetwork:
         """
         Args:
             limit:
-               The number of entries to return. When None, returns all entries.
-           per_page:
-               The number of entries per page to return. 25 maximum.
-           page:
-               Which page of results to return
-           filter:
-               The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
-
+                Number of entries to return. When None, returns all entries.
+            per_page:
+                Number of entries per page to return. 25 maximum.
+            page:
+                Which page of results to return
+            filter:
+                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
+                When None, no filter is applied.
 
         Returns:
-            A  JSON with all the wrapper entries
+            A JSON with all the wrapper entries
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/wrappers
 
@@ -2154,11 +2346,13 @@ class ActionNetwork:
         """
         Args:
            wrapper_id:
-              The unique id of the wrapper
+              Unique ID of the wrapper
            tagging_id:
-              The unique id of the tagging
+              Unique ID of the tagging
+
         Returns:
-            A  JSON with the wrapper entry
+            A JSON with the wrapper entry
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/wrappers
 
@@ -2170,13 +2364,14 @@ class ActionNetwork:
         """
         Args:
             limit: The maximum number of unique ID lists to return.
-            When None, returns all unique ID lists.
-            per_page: The number of unique ID lists to return per page. Default is 25.
+                When None, returns all unique ID lists.
+            per_page: Number of unique ID lists to return per page. Default is 25.
             page: The specific page of unique ID lists to return.
             filter: The filter criteria to apply when retrieving unique ID lists.
 
         Returns:
-            A JSON response with the unique ID lists.
+            A JSON response with Unique ID lists.
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/unique_id_lists
 
@@ -2189,9 +2384,11 @@ class ActionNetwork:
         """
         Args:
             unique_id_list_id:
-                The unique id of the unique ID list
+                Unique ID of Unique ID list
+
         Returns:
-            A JSON response with the unique ID list details
+            A JSON response with Unique ID list details
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/unique_id_lists
 
@@ -2202,11 +2399,13 @@ class ActionNetwork:
         """
         Args:
             list_name:
-                The name for the new list
+                Name for the new list
             unique_ids:
                 An array of unique IDs to upload
+
         Returns:
-            A JSON response with the unique ID list details
+            A JSON response with Unique ID list details
+
         Documentation Reference:
             https://actionnetwork.org/docs/v2/unique_id_lists
 

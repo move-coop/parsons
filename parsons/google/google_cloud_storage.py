@@ -433,6 +433,10 @@ class GoogleCloudStorage:
                 Access key to authenticate storage transfer
             aws_secret_access_key (str):
                 Secret key to authenticate storage transfer
+            delete_objects_unique_in_sink (bool): Whether objects should be 
+                deleted from the source after they are transferred to the sink.
+                Default is false.
+
         """
         if source not in ["gcs", "s3"]:
             raise ValueError(f"Blob transfer only supports gcs and s3 sources [source={source}]")

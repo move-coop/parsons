@@ -538,7 +538,7 @@ class Events:
                 Event activity assignment responses
 
         Documentation Reference:
-            https://api.bluevote.com/docs/index#/EventActivityAssignments
+            `<https://api.bluevote.com/docs/index#/EventActivityAssignments>`__
 
         """
 
@@ -567,7 +567,7 @@ class Events:
                 Event activity responses
 
         Documentation Reference:
-            https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
+            `<https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll>`__
 
         """
 
@@ -590,7 +590,7 @@ class Events:
                 id, name, description, and timeZone records
 
         Documentation Reference:
-            https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
+            `<https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll>`__
 
         """
 

@@ -63,6 +63,7 @@ class Contacts:
     ):
         """
         Create new contact
+
         Args:
             pdiId (string, optional): The pdi identifier. pdiId field is ignored when updating. ,
             namePrefix (string): The name prefix.
@@ -116,6 +117,7 @@ class Contacts:
         Args:
             id: str
                 The Contact id
+
         Returns:
             parsons.Table
                 A Parsons table of all the data.
@@ -143,6 +145,7 @@ class Contacts:
     ):
         """
         Update Contact
+
         Args:
             namePrefix (string): The name prefix.
             firstName (string): The first name.
@@ -195,17 +198,20 @@ class Contacts:
         primary=True,
         extension="",
     ):
-        """Add a phone number to a contact
+        """
+        Add a phone number to a contact
+
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the phone_number to
             phone_number: str
             phone_type: str
-                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other. Defaults to
-                `Mobile`
+                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other.
+                Defaults to `Mobile`
             primary: bool
                 True indicates that this phone number is the contact's primary phone number
             extension: str
+
         Returns:
             dict
                 Response from PDI
@@ -227,13 +233,16 @@ class Contacts:
         return response
 
     def add_email(self, contact_id: int, email: str, primary=True):
-        """Add an email address to a contact
+        """
+        Add an email address to a contact
+
         Args:
             contact_id: int
                 Unique ID of the contact you'd like to apply the email to
             email: str
             primary: bool
                 True indicates that this email address is the contact's primary email
+
         Returns:
             dict
                 Response from PDI

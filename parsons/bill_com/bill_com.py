@@ -224,9 +224,11 @@ class BillCom:
 
         Returns:
             True if either
-                1. customer1 and customer2 have the same id
-                OR
-                2. customer1 has no id and customer1 customer2 have the same email address
+
+            1. customer1 and customer2 have the same id
+            OR
+            2. customer1 has no id and customer1 customer2 have the same email address
+
             False otherwise
 
         """

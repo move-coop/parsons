@@ -86,11 +86,11 @@ class People:
             Person find must include the following minimum combinations to conduct
             a search.
 
-              - first_name, last_name, email
-              - first_name, last_name, phone
-              - first_name, last_name, zip5, date_of_birth
-              - first_name, last_name, street_number, street_name, zip5
-              - email_address
+          - first_name, last_name, email
+          - first_name, last_name, phone
+          - first_name, last_name, zip5, date_of_birth
+          - first_name, last_name, street_number, street_name, zip5
+          - email_address
 
         .. note::
 
@@ -101,6 +101,7 @@ class People:
             match_json: dict
                 A dictionary of values to match against.
             fields: The fields to return. Leave as default for all available fields
+
         Returns:
             A person dict object
 

@@ -146,11 +146,11 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            type: string, can only be 'regular', 'plaintext', 'absplit', 'rss',
-            'variate', or None
+            type: string
+                Can only be 'regular', 'plaintext', 'absplit', 'rss', 'variate', or None
                 The campaign type.
-            status: string, can only be 'save', 'paused', 'schedule',
-            'sending', 'sent', or None
+            status: string
+                Can only be 'save', 'paused', 'schedule', 'sending', 'sent', or None
                 The status of the campaign.
             before_send_time: string
                 Restrict the response to campaigns sent before the set time. We
@@ -253,8 +253,8 @@ class Mailchimp:
                 value is 0.
             email_type: string
                 The email type.
-            status: string, can only be 'subscribed', 'unsubscribed',
-            'cleaned', 'pending', 'transactional', 'archived', or None
+            status: string
+                Can only be 'subscribed', 'unsubscribed', 'cleaned', 'pending', 'transactional', 'archived', or None
                 The subscriber's status.
             since_timestamp_opt: string
                 Restrict results to subscribers who opted-in after the set

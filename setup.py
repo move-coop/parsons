@@ -67,7 +67,7 @@ EXTRA_DEPENDENCIES = {
     "sftp": ["paramiko >= 3"],
     "slack": ["slack-sdk >= 3.26"],
     "smtp": ["validate-email >= 1"],
-    "targetsmart": ["xmltodict >= 1", "defusedxml >= 0.7"],
+    "targetsmart": ["defusedxml >= 0.7", "paramiko >= 3", "xmltodict >= 1"],
     "twilio": ["twilio >= 9"],
     "ssh": [
         "sshtunnel >= 0.4",

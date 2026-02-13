@@ -184,7 +184,7 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
         self.commands = manifests
         log_text = self.format_result()
 
-        # Importing here to avoid needing to make slackclient a dependency for all dbt users
+        # Importing here to avoid needing to make slack-sdk a dependency for all dbt users
         from parsons.notifications.slack import Slack
 
         Slack.message(channel=self.slack_channel, text=log_text, webhook=self.slack_webhook)

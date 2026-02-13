@@ -48,7 +48,7 @@ jobs:
             make deploy_docs
 
       - store_artifacts:
-          path: /html
+          path: docs/html
 
   docs-build-deploy:
     docker:

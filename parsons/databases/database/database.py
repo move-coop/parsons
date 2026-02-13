@@ -120,23 +120,24 @@ class DatabaseCreateStatement:
             return False
 
     def detect_data_type(self, value, cmp_type=None):
-        """Detect the higher of value's type cmp_type.
+        """
+        Detect the higher of value's type cmp_type.
 
         1. check if it's a string
         2. check if it's a number
-          a. check if it's a float
-          b. check if it's an int
+
+            a. check if it's a float
+            b. check if it's an int
 
         Args:
             value: str
                 The value to inspect.
             cmp_type: str
-                The string representation of a type to compare with
-                ``value``'s type.
+                The string representation of a type to compare with the type of ``value``.
 
         Returns:
             str
-                The string representation of the higher of the two types.
+                String representation of the higher of the two types.
 
         """
         # Stop if the compare type is already a varchar

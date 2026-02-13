@@ -48,10 +48,10 @@ class Mailchimp:
         API documentation.
 
         Args:
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -78,9 +78,11 @@ class Mailchimp:
             email: string
                 Restrict results to lists that include a specific subscriber's
                 email address.
-            sort_field: string, can only be 'date_created' or None
+            sort_field: string
+                Can only be 'date_created' or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
         Returns:
@@ -133,10 +135,10 @@ class Mailchimp:
         official API documentation.
 
         Args:
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -172,9 +174,11 @@ class Mailchimp:
                 Retrieve campaigns sent to a particular list member. Member ID
                 is The MD5 hash of the lowercase version of the list member’s
                 email address.
-            sort_field: string, can only be 'create_time', 'send_time', or None
+            sort_field: string
+                Can only be 'create_time', 'send_time', or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
         Returns:
@@ -238,7 +242,7 @@ class Mailchimp:
         Args:
             list_id: string
                 The unique ID of the list to fetch members from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
             exclude_fields: list of fields as strings
@@ -282,21 +286,23 @@ class Mailchimp:
                 return all list members.
             interest_category_id: string
                 The unique id for the interest category.
-            interest_ids: list of strings
+            interest_ids: list[str]
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_match. The value must be a
                 comma separated list of interest ids present for any supplied
                 interest categories.
-            interest_match: string, can only be 'any', 'all', 'none', or None
+            interest_match: string
+                Can only be 'any', 'all', 'none', or None
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_ids. "any" will match a
                 member with any of the interest supplied, "all" will only match
                 members with every interest supplied, and "none" will match
                 members without any of the interest supplied.
-            sort_field: string, can only be 'timestamp_opt',
-            'timestamp_signup', 'last_changed', or None
+            sort_field: string
+                Can only be 'timestamp_opt', 'timestamp_signup', 'last_changed', or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
             since_last_campaign: string
                 Filter subscribers by those
@@ -358,10 +364,10 @@ class Mailchimp:
         Args:
             campaign_id: string
                 The unique ID of the campaign to fetch emails from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -406,10 +412,10 @@ class Mailchimp:
         Args:
             campaign_id: string
                 The unique ID of the campaign to fetch unsubscribes from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int

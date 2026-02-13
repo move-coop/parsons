@@ -15,7 +15,6 @@ class Activities:
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         return self._request(self.url_activites, limit=limit)
@@ -23,9 +22,13 @@ class Activities:
     def create_activity(self, activity_name: str, canvassing_shift: bool):
         """
         Create a New Activity
+
         Args:
-            activity_name str: The activity name
-            canvassing_shift bool: The canvassing shift
+            activity_name: str
+                The activity name
+            canvassing_shift: bool
+                The canvassing shift
+
         """
         payload = {"activityName": activity_name, "canvassingShift": canvassing_shift}
         return self._request(self.url_activites, req_type="POST", post_data=payload)
@@ -37,9 +40,9 @@ class Activities:
         Args:
             id: str
                 The Activity id
+
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         return self._request(f"{self.url_activites}/{id}")
@@ -47,10 +50,15 @@ class Activities:
     def update_activity(self, id: str, activity_name: str, canvassing_shift: str):
         """
         Update an Activity
+
         Args:
-            id: Activity id
-            activity_name str: The activity name
-            canvassing_shift bool: The canvassing shift
+            id: str
+                Activity id
+            activity_name: str
+                The activity name
+            canvassing_shift: bool
+                The canvassing shift
+
         """
         payload = {"activityName": activity_name, "canvassingShift": canvassing_shift}
         return self._request(f"{self.url_activites}/{id}", req_type="PUT", post_data=payload)

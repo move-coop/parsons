@@ -174,7 +174,7 @@ class ActBlue:
                 Any additional arguments will be passed to Table.from_csv as keyword arguments.
 
         Returns:
-            Parsons Table
+            parsons.Table
                 Contents of the generated contribution CSV.
                 List of columns:
 

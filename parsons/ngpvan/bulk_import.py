@@ -231,8 +231,7 @@ class BulkImport:
 
     def bulk_upsert_contacts(self, tbl, url_type, result_fields=None, **url_kwargs):
         """
-        Bulk create or update contact records. Provide a Parsons table of contact data to
-        create or update records.
+        Bulk create or update contact records from a Parsons table.
 
         .. note::
 
@@ -241,94 +240,94 @@ class BulkImport:
               The valid column names also accept permutations with underscores, spaces
               and capitalization (e.g. ``phonenumber`` = ``Phone_Number``).
 
-        **Table Fields**
+            **Table Fields**
 
-        .. list-table::
-            :widths: 500 100 10
-            :header-rows: 1
+            .. list-table::
+                :widths: 500 100 10
+                :header-rows: 1
 
-            * - Column
-              - Valid Column Names
-              - Notes
-            * - VANID
-              - ``vanid``
-              -
-            * - Voter VAN ID
-              - ``votervanid``
-              - The contact's MyVoters VANID
-            * - External ID
-              - ``externalid``, ``id``, ``pk``, ``voterbaseid``
-              - An external id to be stored.
-            * - **PII**
-              -
-              -
-            * - First Name
-              - ``fn``, ``firstname``, ``first``
-              -
-            * - Middle Name
-              - ``mn``, ``middlename``, ``middle``
-              -
-            * - Last Name
-              - ``ln``, ``lastname``, ``last``
-              -
-            * - Date of Birth
-              - ``dob``, ``dateofbirth``, ``birthdate``
-              - An ISO formatted date
-            * - Sex
-              - ``sex``, ``gender``
-              -
-            * - **Physical Address**
-              -
-              -
-            * - Address Line 1
-              - ``addressline1``, ``address1``, ``address``
-              -
-            * - Address Line 2
-              - ``addressline2``, ``address2``
-              -
-            * - Address Line 3
-              - ``addressline3``, ``address3``
-              -
-            * - City
-              - ``city``
-              -
-            * - State Or Province
-              - ``state``, ``st``, ``stateorprovince``
-              -
-            * - Zip or Postal Code
-              - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``
-              -
-            * - Country Code
-              - ``countrycode``, ``country``
-              - A valid two character country code (e.g. ``US``)
-            * - Display As Entered
-              - ``displayasentered``
-              - Required values are ``Y`` and ``N``. Determines if the address is
-                processed through address correction.
-            * - **Phones**
-              -
-              -
-            * - Cell Phone
-              - ``cellphone``, ``cell``
-              -
-            * - Cell Phone Country Code
-              - ``cellcountrycode``, ``cellphonecountrycode``
-              - A valid two digit country code (e.g. ``01``)
-            * - Home Phone
-              - ``homephone``, ``home``, ``phone``
-              -
-            * - Home Phone Country Code
-              - ``homecountrycode``, ``homephonecountrycode``
-              -
-            * - **Email**
-              -
-              -
-            * - Email
-              - ``email``, ``emailaddress``
-              -
-            * - Other Email
-              - ``otheremail``, ``email2``, ``emailaddress2``
-              -
+                * - Column
+                  - Valid Column Names
+                  - Notes
+                * - VANID
+                  - ``vanid``
+                  -
+                * - Voter VAN ID
+                  - ``votervanid``
+                  - The contact's MyVoters VANID
+                * - External ID
+                  - ``externalid``, ``id``, ``pk``, ``voterbaseid``
+                  - An external id to be stored.
+                * - **PII**
+                  -
+                  -
+                * - First Name
+                  - ``fn``, ``firstname``, ``first``
+                  -
+                * - Middle Name
+                  - ``mn``, ``middlename``, ``middle``
+                  -
+                * - Last Name
+                  - ``ln``, ``lastname``, ``last``
+                  -
+                * - Date of Birth
+                  - ``dob``, ``dateofbirth``, ``birthdate``
+                  - An ISO formatted date
+                * - Sex
+                  - ``sex``, ``gender``
+                  -
+                * - **Physical Address**
+                  -
+                  -
+                * - Address Line 1
+                  - ``addressline1``, ``address1``, ``address``
+                  -
+                * - Address Line 2
+                  - ``addressline2``, ``address2``
+                  -
+                * - Address Line 3
+                  - ``addressline3``, ``address3``
+                  -
+                * - City
+                  - ``city``
+                  -
+                * - State Or Province
+                  - ``state``, ``st``, ``stateorprovince``
+                  -
+                * - Zip or Postal Code
+                  - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``
+                  -
+                * - Country Code
+                  - ``countrycode``, ``country``
+                  - A valid two character country code (e.g. ``US``)
+                * - Display As Entered
+                  - ``displayasentered``
+                  - Required values are ``Y`` and ``N``. Determines if the address is
+                    processed through address correction.
+                * - **Phones**
+                  -
+                  -
+                * - Cell Phone
+                  - ``cellphone``, ``cell``
+                  -
+                * - Cell Phone Country Code
+                  - ``cellcountrycode``, ``cellphonecountrycode``
+                  - A valid two digit country code (e.g. ``01``)
+                * - Home Phone
+                  - ``homephone``, ``home``, ``phone``
+                  -
+                * - Home Phone Country Code
+                  - ``homecountrycode``, ``homephonecountrycode``
+                  -
+                * - **Email**
+                  -
+                  -
+                * - Email
+                  - ``email``, ``emailaddress``
+                  -
+                * - Other Email
+                  - ``otheremail``, ``email2``, ``emailaddress2``
+                  -
 
         Args:
             table: Parsons table

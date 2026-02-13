@@ -16,7 +16,6 @@ class AcquisitionTypes:
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         return self._request(self.url_acqtypes, limit=limit)
@@ -30,30 +29,35 @@ class AcquisitionTypes:
     ):
         """
         Create a new Acquisition Type
+
         Args:
-            acquisition_type (string): The acquisition type
-            acquisition_description (string): The acquisition description
-            acquisition_method (string): The acquisition method
-            Options are:
-                "Phone"
-                "Canvass"
-                "Mail"
-                "IVR"
-                "Text Message"
-                "Email"
-                "Event"
-                "Online"
-                "Social"
-                "Site"
-                "Other Method" ,
-            pageDefault (string, optional): The page default.
-                "Lookup" (Lookup Page)
-                "WalkList" (Create Lists & Files - Walk List)
-                "PhoneList" (Create Lists & Files - Phone List)
-                "PhoneBank" (Online Phone Bank)
-                "Canvassing" (Mobile Canvassing Device)
-                "Import" (Imports)
-            }
+            acquisition_type (string):
+                The acquisition type
+            acquisition_description (string):
+                The acquisition description
+            acquisition_method (string):
+                The acquisition method
+                Options are:
+                - "Phone"
+                - "Canvass"
+                - "Mail"
+                - "IVR"
+                - "Text Message"
+                - "Email"
+                - "Event"
+                - "Online"
+                - "Social"
+                - "Site"
+                - "Other Method" ,
+            pageDefault (string, optional):
+                The page default.
+                - "Lookup" (Lookup Page)
+                - "WalkList" (Create Lists & Files - Walk List)
+                - "PhoneList" (Create Lists & Files - Phone List)
+                - "PhoneBank" (Online Phone Bank)
+                - "Canvassing" (Mobile Canvassing Device)
+                - "Import" (Imports)
+
         """
         payload = {
             "acquisitionType": acquisition_type,
@@ -70,9 +74,9 @@ class AcquisitionTypes:
         Args:
             id: str
                 The Acquisition Type id
+
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         return self._request(f"{self.url_acqtypes}/{id}")
@@ -98,30 +102,35 @@ class AcquisitionTypes:
     ):
         """
         Update Acquisition Type
+
         Args:
-            acquisition_type (string): The acquisition type
-            acquisition_description (string): The acquisition description
-            acquisition_method (string): The acquisition method
-            Options are:
-                "Phone"
-                "Canvass"
-                "Mail"
-                "IVR"
-                "Text Message"
-                "Email"
-                "Event"
-                "Online"
-                "Social"
-                "Site"
-                "Other Method" ,
-            pageDefault (string, optional): The page default.
-                "Lookup" (Lookup Page)
-                "WalkList" (Create Lists & Files - Walk List)
-                "PhoneList" (Create Lists & Files - Phone List)
-                "PhoneBank" (Online Phone Bank)
-                "Canvassing" (Mobile Canvassing Device)
-                "Import" (Imports)
-            }
+            acquisition_type (string):
+                The acquisition type
+            acquisition_description (string):
+                The acquisition description
+            acquisition_method (string):
+                The acquisition method
+                Options are:
+                - "Phone"
+                - "Canvass"
+                - "Mail"
+                - "IVR"
+                - "Text Message"
+                - "Email"
+                - "Event"
+                - "Online"
+                - "Social"
+                - "Site"
+                - "Other Method" ,
+            pageDefault (string, optional):
+                The page default.
+                - "Lookup" (Lookup Page)
+                - "WalkList" (Create Lists & Files - Walk List)
+                - "PhoneList" (Create Lists & Files - Phone List)
+                - "PhoneBank" (Online Phone Bank)
+                - "Canvassing" (Mobile Canvassing Device)
+                - "Import" (Imports)
+
         """
         payload = {
             "acquisitionType": acquisition_type,

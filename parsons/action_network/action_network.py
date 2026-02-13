@@ -131,7 +131,8 @@ class ActionNetwork:
     def get_event_attendances(self, event_id, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-            event_id: Unique ID of the event
+            event_id:
+                Unique ID of the event
             limit:
                 Number of entries to return. When None, returns all entries.
             per_page:
@@ -338,7 +339,8 @@ class ActionNetwork:
     ):
         """
         Args:
-            fundraising_page_id: The ID of the fundraiser
+            fundraising_page_id:
+                The ID of the fundraiser
             limit:
                 Number of entries to return. When None, returns all entries.
             per_page:
@@ -373,7 +375,8 @@ class ActionNetwork:
     def get_person_donations(self, person_id, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-            person_id: The ID of the person
+            person_id:
+                The ID of the person
             limit:
                 Number of entries to return. When None, returns all entries.
             per_page:
@@ -408,8 +411,10 @@ class ActionNetwork:
     def create_donation(self, fundraising_page_id, donation_payload):
         """
         Args:
-            fundraising_page_id: The ID of the fundraising page
-            donation_payload: Payload containing donation details
+            fundraising_page_id:
+                The ID of the fundraising page
+            donation_payload:
+                Payload containing donation details
 
                 .. code-block:: python
 
@@ -498,7 +503,8 @@ class ActionNetwork:
     def create_event_campaign(self, payload):
         """
         Args:
-            payload: Payload containing event campaign details
+            payload:
+                Payload containing event campaign details
 
                 .. code-block::python
 
@@ -591,7 +597,8 @@ class ActionNetwork:
     def get_event(self, event_id):
         """
         Args:
-            event_id: Unique ID of the event
+            event_id:
+                Unique ID of the event
 
         Returns:
             A JSON with event entry
@@ -715,7 +722,7 @@ class ActionNetwork:
     def get_forms(self, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-             limit:
+            limit:
                 Number of entries to return. When None, returns all entries.
             per_page:
                 Number of entries per page to return. 25 maximum.
@@ -805,7 +812,8 @@ class ActionNetwork:
     def get_fundraising_page(self, fundraising_page_id):
         """
         Args:
-            fundraising_page_id: The ID of the fundraiser
+            fundraising_page_id:
+                The ID of the fundraiser
 
         Returns:
             A JSON with fundraising_page entry
@@ -819,7 +827,7 @@ class ActionNetwork:
     def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
         """
         Args:
-             limit:
+            limit:
                 Number of entries to return. When None, returns all entries.
             per_page:
                 Number of entries per page to return. 25 maximum.
@@ -872,7 +880,8 @@ class ActionNetwork:
         Update a fundraising page in Action Network
 
         Args:
-            fundraising_page_id: The ID of the fundraiser
+            fundraising_page_id:
+                The ID of the fundraiser
             payload: dict
                 Payload containing updated fundraising page details
 
@@ -1375,20 +1384,20 @@ class ActionNetwork:
             email_address:
                 Either email_address or mobile_number are required. Can be any of the following
 
-                    - a string with the person's email
-                    - a list of strings with a person's emails
-                    - a list of dictionaries with the following fields
+                - a string with the person's email
+                - a list of strings with a person's emails
+                - a list of dictionaries with the following fields
 
-                        - address (REQUIRED)
-                        - primary (OPTIONAL): Boolean indicating User's primary email address
-                        - status (OPTIONAL): can taken on any of these values
+                    - address (REQUIRED)
+                    - primary (OPTIONAL): Boolean indicating User's primary email address
+                    - status (OPTIONAL): can taken on any of these values
 
-                            - "subscribed"
-                            - "unsubscribed"
-                            - "bouncing"
-                            - "previous bounce"
-                            - "spam complaint"
-                            - "previous spam complaint"
+                        - "subscribed"
+                        - "unsubscribed"
+                        - "bouncing"
+                        - "previous bounce"
+                        - "spam complaint"
+                        - "previous spam complaint"
 
             given_name:
                 Person's given name
@@ -1405,18 +1414,18 @@ class ActionNetwork:
             mobile_number:
                 Either email_address or mobile_number are required. Can be any of the following
 
-                    - a string with the person's cell phone number
-                    - an integer with the person's cell phone number
-                    - a list of strings with the person's cell phone numbers
-                    - a list of integers with the person's cell phone numbers
-                    - a dictionary with the following fields
+                - a string with the person's cell phone number
+                - an integer with the person's cell phone number
+                - a list of strings with the person's cell phone numbers
+                - a list of integers with the person's cell phone numbers
+                - a dictionary with the following fields
 
-                        - number (REQUIRED)
-                        - primary (OPTIONAL): Boolean indicating User's primary mobile number
-                        - status (OPTIONAL): can taken on any of these values
+                    - number (REQUIRED)
+                    - primary (OPTIONAL): Boolean indicating User's primary mobile number
+                    - status (OPTIONAL): can taken on any of these values
 
-                            - "subscribed"
-                            - "unsubscribed"
+                        - "subscribed"
+                        - "unsubscribed"
 
             mobile_status:
                 None, 'subscribed' or 'unsubscribed'. If included, will update the SMS opt-in
@@ -2366,9 +2375,12 @@ class ActionNetwork:
             limit:
                 The maximum number of unique ID lists to return.
                 When None, returns all unique ID lists.
-            per_page: Number of unique ID lists to return per page. Default is 25.
-            page: The specific page of unique ID lists to return.
-            filter: The filter criteria to apply when retrieving unique ID lists.
+            per_page:
+                Number of unique ID lists to return per page. Default is 25.
+            page:
+                The specific page of unique ID lists to return.
+            filter:
+                The filter criteria to apply when retrieving unique ID lists.
 
         Returns:
             A JSON response with Unique ID lists.

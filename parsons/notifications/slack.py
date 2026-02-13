@@ -108,6 +108,7 @@ class Slack:
         """
         Send a message to a Slack channel with a webhook instead of an api_key.
         You might not have the full-access API key but still want to notify a channel
+
         Args:
             channel: str
                 The name or id of a `public_channel`, a `private_channel`, or
@@ -119,6 +120,7 @@ class Slack:
                 Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
+
         """
         webhook = check("SLACK_API_WEBHOOK", webhook, optional=True)
         payload = {"channel": channel, "text": text}
@@ -146,7 +148,6 @@ class Slack:
                   more information about legacy authorship
                 - Additional arguments for chat.postMessage API call. See `documentation
                   <https://api.slack.com/methods/chat.postMessage>`__ for more info.
-
 
         Returns:
             `dict`:

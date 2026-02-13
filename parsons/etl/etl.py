@@ -776,7 +776,7 @@ class ETL:
                 set to column name.
 
         Returns:
-            Parsons Table
+            parsons.Table
                 The new long table
 
         """

@@ -19,18 +19,18 @@ class Contacts:
         Get a list of Contacts.
 
         Args:
-            email: str, email address
-            phone: str, phone number
-            first_name: str, first name
-            last_name: str, last name
-            zip code: str, zip code
-            search_by_email: bool, whether to search using email address
+            email: str
+            phone: str
+            first_name: str
+            last_name: str
+            zip code: str
+            search_by_email: bool
+                whether to search using email address
             limit: int
-                The number of contacts to return.
+                The number of contacts to return
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         params = {
@@ -65,30 +65,30 @@ class Contacts:
         Create new contact
 
         Args:
-            pdiId (string, optional): The pdi identifier. pdiId field is ignored when updating. ,
-            namePrefix (string): The name prefix.
-            firstName (string): The first name.
-            middleName (string): The middle name.
-            lastName (string): The last name.
-            nameSuffix (string): The name suffix.
-            nickname (string): The nickname.
-            occupation (string): The occupation.
-            employer (string): The employer.
-            volunteerStatus (string): The volunteer status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            dateOfBirth (string, optional): The date of birth.
-            Format allowed: yyyy-MM-dd ,
-            gender (string, optional): The gender.
-            emailAddress (string, optional): The email.
-            Options are: "F", "M", "U"
+            pdiId (string, optional):
+                pdiId field is ignored when updating
+            namePrefix (string):
+            firstName (string):
+            middleName (string):
+            lastName (string):
+            nameSuffix (string):
+            nickname (string):
+            occupation (string):
+            employer (string):
+            volunteerStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            donorStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            memberStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            dateOfBirth (string, optional):
+                Format allowed: yyyy-MM-dd
+            gender (string, optional):
+            emailAddress (string, optional):
+                Options are: "F", "M", "U"
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         payload = {
@@ -120,7 +120,6 @@ class Contacts:
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         # todo not working quite right
@@ -147,28 +146,27 @@ class Contacts:
         Update Contact
 
         Args:
-            namePrefix (string): The name prefix.
-            firstName (string): The first name.
-            middleName (string): The middle name.
-            lastName (string): The last name.
-            nameSuffix (string): The name suffix.
-            nickname (string): The nickname.
-            occupation (string): The occupation.
-            employer (string): The employer.
-            volunteerStatus (string): The volunteer status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            donorStatus (string): The donor status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            memberStatus (string): The member status.
-            Options are: "Prospect", "Active", "Inactive", "None", "" ,
-            dateOfBirth (string, optional): The date of birth.
-            Format allowed: yyyy-MM-dd ,
-            gender (string, optional): The gender.
-            Options are: "F", "M", "U"
+            namePrefix (string):
+            firstName (string):
+            middleName (string):
+            lastName (string):
+            nameSuffix (string):
+            nickname (string):
+            occupation (string):
+            employer (string):
+            volunteerStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            donorStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            memberStatus (string):
+                Options are: "Prospect", "Active", "Inactive", "None", ""
+            dateOfBirth (string, optional):
+                Format allowed: yyyy-MM-dd
+            gender (string, optional):
+                Options are: "F", "M", "U"
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         payload = {
@@ -215,6 +213,7 @@ class Contacts:
         Returns:
             dict
                 Response from PDI
+
         """
 
         payload = {
@@ -246,6 +245,7 @@ class Contacts:
         Returns:
             dict
                 Response from PDI
+
         """
 
         payload = {"emailAddress": email, "isPrimary": primary}

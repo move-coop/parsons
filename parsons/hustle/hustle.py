@@ -459,7 +459,7 @@ class Hustle:
 
         Args:
             table: Parsons table
-                A Parsons table containing leads
+                Leads
             group_id:
                 The group id to assign the leads. If ``None``, must be passed as a column
                 value.

@@ -62,6 +62,21 @@ class Sqlite(DatabaseConnector):
             cur.close()
 
     def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
+        """
+        Execute a query against the database, using the existing connection within the Sqlite object.
+        Will return ``None`` if the query returns zero rows.
+
+        Args:
+            sql: str
+                A valid SQL statement
+            parameters: list
+                A list of python variables to be converted into SQL values in your query
+
+        Returns:
+            parsons.Table
+                See :ref:`parsons-table` for output options.
+
+        """
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -90,7 +105,7 @@ class Sqlite(DatabaseConnector):
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
+            parsons.Table
                 See :ref:`parsons-table` for output options.
 
         """

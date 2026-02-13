@@ -15,7 +15,7 @@ class Locations:
 
         Returns:
             parsons.Table
-                A Parsons table containing all requested location data.
+                All requested location data.
 
         """
 
@@ -23,14 +23,17 @@ class Locations:
 
     def create_location(self, address: str, name: str):
         """Create a new PDI address
+
         Args:
             address: str
                A full address including street number, city, state, and zip.
             name: str
                 The name of the location. E.g. "The Overlook Hotel"
+
         Returns:
             dict
                 Response from PDI in dictionary object
+
         """
 
         payload = {"locationName": name, "locationAddress": address}

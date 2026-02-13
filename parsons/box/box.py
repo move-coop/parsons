@@ -162,8 +162,9 @@ class Box:
                Optionally which type of items should be returned, typically either
                `file` or `folder`. If omitted, all items will be returned.
 
-        Returns: Table
-            A Parsons table of items in the folder and their attributes.
+        Returns:
+            Table
+                Items in the folder and their attributes.
 
         """
         folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
@@ -183,10 +184,12 @@ class Box:
 
         Args:
             folder_id: str
-               The Box id of the folder in which to search. If omitted,
-               search in the default folder.
-        Returns: Table
-            A Parsons table of files and their attributes.
+               The Box id of the folder in which to search.
+                If omitted, search in the default folder.
+
+        Returns:
+            Table
+                Files and their attributes
 
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
@@ -198,8 +201,10 @@ class Box:
             folder_id: str
                The Box id of the folder in which to search. If omitted,
                search in the default folder.
-        Returns: Table
-            A Parsons table of folders and their attributes.
+
+        Returns:
+            Table
+                Folders and their attributes.
 
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
@@ -311,8 +316,8 @@ class Box:
             format: str
                  Format in which Table has been saved; for now, only 'csv' or 'json'.
 
-        Returns: Table
-            A Parsons Table.
+        Returns:
+            parsons.Table
 
         """
         file_id = self.get_item_id(path)
@@ -327,8 +332,8 @@ class Box:
             format: str
                  Format in which Table has been saved; for now, only 'csv' or 'json'.
 
-        Returns: Table
-            A Parsons Table.
+        Returns:
+            parsons.Table
 
         """
         if format not in self.ALLOWED_FILE_FORMATS:
@@ -367,8 +372,8 @@ class Box:
                  What to use as the base folder for the path. By default, use
                  the default folder.
 
-        Returns: Table
-            A Parsons Table.
+        Returns:
+            parsons.Table
 
         """
         try:

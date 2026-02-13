@@ -143,7 +143,8 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            A Parsons Table of user information for every user from start_user to max_user.
+            parsons.Table
+                User information for every user from start_user to max_user
 
         """
         data = {"start": start_user, "max": max_user, **kwargs}
@@ -161,8 +162,8 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            A Parsons Table of customer information for every user from start_customer
-            to max_customer.
+            parsons.Table
+                Customer information for every user from start_customer to max_customer
 
         """
         data = {"start": start_customer, "max": max_customer, **kwargs}

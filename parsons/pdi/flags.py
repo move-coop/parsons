@@ -24,7 +24,6 @@ class Flags:
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         try:
@@ -42,17 +41,24 @@ class Flags:
 
     def create_flags(self, flag_list: list):
         """
-        Save a list of flags, each flag must look like the dictionary below
-        [
-            {
-                "pdiId": "string",
-                "flagEntryDate": An end date formatted like yyyy-MM-dd.,
-                "acquisitionTypeId": "string",
-                "flagId": "string",
-                "questionId": "string",
-                "contactId": "string"
-            }
-        ]
+        Save a list of flags.
+
+        Args:
+            flag_list: list[dict]
+
+            .. code-block:: python
+
+                [
+                    {
+                        "pdiId": "string",
+                        "flagEntryDate": "An end date formatted like yyyy-MM-dd.",
+                        "acquisitionTypeId": "string",
+                        "flagId": "string",
+                        "questionId": "string",
+                        "contactId": "string"
+                    }
+                ]
+
         """
         if "pdiId" not in list(flag_list[0].keys()):
             raise ValueError("missing required key")

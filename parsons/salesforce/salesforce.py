@@ -221,15 +221,17 @@ class Salesforce:
 
         Args:
             object: str
-                The API name of the type of record to delete. Note that custom object names end
-                in `__c`
+                The API name of the type of record to delete.
+                Note that custom object names end in `__c`
             id_table: obj
-                A Parsons Table of record IDs to delete. Note that 'Id' is the default Salesforce
-                record ID field name.
+                Parsons Table of record IDs to delete.
+                Note that 'Id' is the default Salesforce record ID field name.
             hard_delete: boolean
                 If true, will permanently delete record instead of moving it to trash
-            Returns:
-                list of dicts that have the following data:
+
+        Returns:
+            list[dict]
+                Each list has the following data:
                 * success: boolean
                 * created: boolean (if new record is created)
                 * id: str (id of record deleted, if successful)

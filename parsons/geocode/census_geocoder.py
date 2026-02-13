@@ -21,13 +21,9 @@ class CensusGeocoder:
         benchmark: str
             The US Census benchmark file to utilize. By default the current benchmark is used,
             but other options can found `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`__.
-
-        Returns:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
-
-        Returns:
 
     """
 

@@ -18,7 +18,6 @@ class FlagIDs:
 
         Returns:
             parsons.Table
-                A Parsons table of all the data.
 
         """
         return self._request(self.url_flag_ids, limit=limit)

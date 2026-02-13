@@ -1453,16 +1453,16 @@ class ActionKit:
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
             autocreate_user_fields: bool
-              When True columns starting with ``user_`` will be uploaded as user fields.
-              See the `autocreate_user_fields documentation
-              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
+                When True columns starting with ``user_`` will be uploaded as user fields.
+                See the `autocreate_user_fields documentation
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
-              When uploading only an email/user_id column and user_ user fields,
-              ActionKit has a fast processing path.
-              This doesn't work, if you upload a zipped csv though.
+                When uploading only an email/user_id column and user_ user fields,
+                ActionKit has a fast processing path.
+                This doesn't work, if you upload a zipped csv though.
 
         Returns:
-            dict
+            dict[str, bool | str | requests.Response]
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
@@ -1517,7 +1517,7 @@ class ActionKit:
         Args:
             import_page: str
                 The page to post the action. The page short name.
-            table: Table Class
+            table: parsons.Table
                 A Table of user data to bulk upload
                 A user_id or email column is required.
             autocreate_user_fields: bool
@@ -1536,10 +1536,10 @@ class ActionKit:
                 which, if blank, should not be overwritten.
 
         Returns:
-            dict
+            dict[str, bool | list[dict]]
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
-                         progress_url and res for any results
+                progress_url and res for any results
 
         """
 

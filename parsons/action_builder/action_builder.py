@@ -92,6 +92,7 @@ class ActionBuilder:
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """
         Retrieve all tags (i.e. custom field values) within provided limit and filters
+
         Args:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
@@ -116,6 +117,7 @@ class ActionBuilder:
     def get_tag_by_name(self, tag_name, campaign=None):
         """
         Convenience method to retrieve data on a single tag by its name/value
+
         Args:
             tag_name: str
                 The value of the tag to search for.

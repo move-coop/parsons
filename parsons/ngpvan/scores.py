@@ -81,10 +81,11 @@ class Scores:
         Get a score update object
 
         Args:
-                score_update_id : int
-                        The score update id
-            Returns:
-                dict
+            score_update_id : int
+                The score update id
+
+        Returns:
+            dict
 
         """
 

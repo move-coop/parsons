@@ -23,7 +23,7 @@ class Contacts:
             phone: str
             first_name: str
             last_name: str
-            zip code: str
+            zip_code: str
             search_by_email: bool
                 whether to search using email address
             limit: int
@@ -65,27 +65,27 @@ class Contacts:
         Create new contact
 
         Args:
-            pdiId (string, optional):
-                pdiId field is ignored when updating
-            namePrefix (string):
-            firstName (string):
-            middleName (string):
-            lastName (string):
-            nameSuffix (string):
-            nickname (string):
-            occupation (string):
-            employer (string):
-            volunteerStatus (string):
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            donorStatus (string):
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            memberStatus (string):
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            dateOfBirth (string, optional):
-                Format allowed: yyyy-MM-dd
-            gender (string, optional):
-            emailAddress (string, optional):
-                Options are: "F", "M", "U"
+            name_prefix: string
+            first_name: string
+            last_name: string
+            middle_name: string
+            name_suffix: string
+            nickname: string
+            occupation: string
+            employer: string
+            volunteer_status: string
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            donor_status: string
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            member_status: string
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            date_of_birth: string, optional
+                Format allowed yyyy-MM-dd
+            gender: string, optional
+                Options are "F", "M", "U"
+            email: string, optional
+            pdi_id: string, optional
+                ignored when updating
 
         Returns:
             parsons.Table
@@ -146,23 +146,23 @@ class Contacts:
         Update Contact
 
         Args:
-            namePrefix (string):
-            firstName (string):
-            middleName (string):
-            lastName (string):
-            nameSuffix (string):
-            nickname (string):
-            occupation (string):
-            employer (string):
-            volunteerStatus (string):
+            namePrefix: string
+            firstName: string
+            middleName: string
+            lastName: string
+            nameSuffix: string
+            nickname: string
+            occupation: string
+            employer: string
+            volunteerStatus: string
                 Options are: "Prospect", "Active", "Inactive", "None", ""
-            donorStatus (string):
+            donorStatus: string
                 Options are: "Prospect", "Active", "Inactive", "None", ""
-            memberStatus (string):
+            memberStatus: string
                 Options are: "Prospect", "Active", "Inactive", "None", ""
-            dateOfBirth (string, optional):
+            dateOfBirth: string, optional
                 Format allowed: yyyy-MM-dd
-            gender (string, optional):
+            gender: string, optional
                 Options are: "F", "M", "U"
 
         Returns:
@@ -201,13 +201,12 @@ class Contacts:
 
         Args:
             contact_id: int
-                Unique ID of the contact you'd like to apply the phone_number to
             phone_number: str
             phone_type: str
-                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other.
+                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other`.
                 Defaults to `Mobile`
             primary: bool
-                True indicates that this phone number is the contact's primary phone number
+                Whether this is the contact's primary phone number
             extension: str
 
         Returns:
@@ -237,10 +236,9 @@ class Contacts:
 
         Args:
             contact_id: int
-                Unique ID of the contact you'd like to apply the email to
             email: str
             primary: bool
-                True indicates that this email address is the contact's primary email
+                Whether this is the contact's primary email
 
         Returns:
             dict

@@ -100,7 +100,6 @@ class People:
         Args:
             match_json: dict
                 A dictionary of values to match against.
-            fields: The fields to return. Leave as default for all available fields
 
         Returns:
             A person dict object

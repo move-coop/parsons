@@ -12,6 +12,7 @@ supports fetching, creating, and updating records of campaigns, events, mailers,
 Bulk upload of new users and user updates is also supported.
 
 .. note::
+
   Authentication
     ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
     Clients with an ActionKit account can obtain the domain, username, and password needed

@@ -9,6 +9,7 @@ The ``Redash`` class allows you to interact with a `Redash server <https://redas
 query results as a Parsons Table.
 
 .. note::
+
   Authentication
     The `Redash API <https://redash.io/help/user-guide/integrations-and-api/api>`_ has two types of API keys:
     *User API keys* which are found on user profile pages, and *Query API keys* which are found on query pages. The

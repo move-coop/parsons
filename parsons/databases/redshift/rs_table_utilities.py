@@ -84,6 +84,7 @@ class RedshiftTableUtilities:
         Rename an existing table.
 
         .. note::
+
             You cannot move schemas when renaming a table. Instead, utilize
             the :meth:`table_duplicate()`. method.
 

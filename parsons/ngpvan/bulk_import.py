@@ -235,6 +235,7 @@ class BulkImport:
         create or update records.
 
         .. note::
+
             * The first column of the table must be VANID.
             * The other columns can be a combination of the columns listed below.
               The valid column names also accept permutations with underscores, spaces

@@ -18,6 +18,7 @@ Facebook's advertising and Pages systems are massive. Check out the overviews fo
 * `Facebook Marketing API <https://developers.facebook.com/docs/marketing-api>`_
 
 .. note::
+
   Authentication
     Before using ``FacebookAds``, you'll need the following:
     * A FB application, specifically the app ID and secret. See `<https://developers.facebook.com>`_ to find your app details or create a new app. Note that a Facebook app isn't necessarily visible to anyone but you: it's just needed to interact with the Facebook API.

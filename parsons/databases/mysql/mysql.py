@@ -209,6 +209,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Copy a :ref:`parsons-table` to the database.
 
         .. note::
+
             This method utilizes extended inserts rather `LOAD DATA INFILE` since
             many MySQL Database configurations do not allow data files to be
             loaded. It results in a minor performance hit compared to `LOAD DATA`.

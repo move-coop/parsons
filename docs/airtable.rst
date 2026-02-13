@@ -9,6 +9,7 @@ The Airtable class allows you to interact with an `Airtable <https://airtable.co
 you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`_.
 
 .. note::
+
    Finding The Base Key
     The easiest place to find the ``base_key`` for the base that you wish to interact with is via the Airtable API documentation.
     * Go to the `Airtable API Base List <https://airtable.com/api>`_ and select the base.

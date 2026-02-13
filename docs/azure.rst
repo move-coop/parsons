@@ -11,6 +11,7 @@ arbitrary files referred to as 'blobs'. This Parsons integration currently only 
 `block blobs, not page or append blobs <https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs>`_.
 
 .. note::
+
   Authentication
     This connector requires authentication credentials for an Azure Blob Storage storage account. The
     ``azure-storage-blob`` library is used for this connector, and examples of how to create and use

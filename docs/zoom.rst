@@ -10,6 +10,7 @@ fetching users, fetching meetings, fetching metadata for past meetings, and fetc
 participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`_.
 
 .. note::
+
   Authentication
     The ``Zoom`` class uses server-to-server `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
     to authenticate queries to the Zoom API. You must create a server-to-server application at

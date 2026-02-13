@@ -26,8 +26,10 @@ Authentication
 Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials. You will need an API key to use the ``TargetSmartAPI`` class.
 
 .. note::
+
   Endpoint Access
-    Access to endpoints is individually provisioned. If you encounter errors accessing an endpoint, please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`_ to verify that your API key has been provisioned access.
+    Access to endpoints is individually provisioned.
+    If you encounter errors accessing an endpoint, please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`_ to verify that your API key has been provisioned access.
 
 
 Data Enrichment

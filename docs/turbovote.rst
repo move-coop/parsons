@@ -10,6 +10,7 @@ tool. This class contains a single method which allows you to export your users
 (aka signups).
 
 .. note::
+
   Authentication
     TurboVote requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
     Clients with a TurboVote account must pass their username, password, and subdomain.

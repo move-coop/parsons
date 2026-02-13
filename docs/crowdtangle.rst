@@ -10,14 +10,19 @@ This Parsons integration with the `CrowdTangle API <https://github.com/CrowdTang
 and leaderboard data.
 
 .. note::
+
   Authentication
     An API Token is required to access the API. Assuming you have access to the CrowdTangle API, you can find the API
     Token in your dashboard under *Settings > API Access*. Contact your CrowdTangle representative for access.
+
+.. note::
 
   Rate Limits
     The CrowdTangle API has strict rate limits that vary depending on the endpoint. In the ``CrowdTangle`` class, method
     docstrings indicate the rate limit for the relevant endpoint. For more information on rate limits and best practices
     for meeting them, check the `API documentation <https://help.crowdtangle.com/en/articles/1189612-crowdtangle-api>`_.
+
+.. note::
 
   Performance
     CrowdTangle queries are expensive because they search and score billions of posts. Calls should be made from your

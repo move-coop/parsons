@@ -11,9 +11,10 @@ organizations, services, and outreaches. There are also methods for looking up t
 ``tool_id``. Most methods return either individual items as dictionaries or lists of items as Parsons ``Table`` objects.
 
 .. note::
-  Authentication
-    To use the class, you need to provide a New/Mode username and password. For more information,
-    see `The New/Mode API is Here <https://blog.newmode.net/new-modes-api-is-here-4c4b70c6fce6>`_.
+
+   Authentication
+      To use the class, you need to provide a New/Mode username and password. For more information,
+      see `The New/Mode API is Here <https://blog.newmode.net/new-modes-api-is-here-4c4b70c6fce6>`_.
 
 ***********
 Quick Start

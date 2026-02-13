@@ -9,6 +9,7 @@ Connects to the `Census API <https://www.census.gov/data/developers/guidance/api
 It has been tested with the ACS and Economic Survey endpoints.
 
 .. note::
+
   Authentication
     The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`_ (click on the box that says "Request a KEY")
 

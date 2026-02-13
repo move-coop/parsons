@@ -214,6 +214,7 @@ class MobilizeAmerica:
         and events of other organizations promoted by this specified organization.
 
         .. note::
+
             API Key Required
 
         Args:
@@ -337,6 +338,7 @@ class MobilizeAmerica:
         Fetch all people (volunteers) who are affiliated with an organization(s).
 
         .. note::
+
             API Key Required
 
         Args:
@@ -365,6 +367,7 @@ class MobilizeAmerica:
         were for events owned by the organization.
 
         .. note::
+
             API Key Required
 
         Args:

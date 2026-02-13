@@ -26,6 +26,7 @@ class People:
         Find a person record.
 
         .. note::
+
             Person find must include the following minimum combinations to conduct
             a search.
 
@@ -81,6 +82,7 @@ class People:
         Find a person record based on json data.
 
         .. note::
+
             Person find must include the following minimum combinations to conduct
             a search.
 
@@ -91,6 +93,7 @@ class People:
               - email_address
 
         .. note::
+
             A full list of possible values for the json, and its structure can be found
             `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
 
@@ -178,6 +181,7 @@ class People:
         Update a person record based on a provided ID within the match_json dict.
 
         .. note::
+
             A full list of possible values for the json, and its structure can be found
             `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
 
@@ -214,6 +218,7 @@ class People:
         Create or update a person record.
 
         .. note::
+
             Person find must include the following minimum combinations.
 
               - first_name, last_name, email
@@ -275,6 +280,7 @@ class People:
         Create or update a person record.
 
         .. note::
+
             Person find must include the following minimum combinations.
 
               - first_name, last_name, email
@@ -284,6 +290,7 @@ class People:
               - email_address
 
         .. note::
+
             A full list of possible values for the json, and its structure can be found
             `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`_. `vanId` can
             be passed to ensure the correct record is updated.

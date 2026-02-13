@@ -534,6 +534,7 @@ class Redshift(
                 for more details.
 
                 .. note::
+
                     If STATUPDATE is used, the current user must be either the table owner or a
                     superuser.
 

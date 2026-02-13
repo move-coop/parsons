@@ -15,6 +15,7 @@ Overview
 For more information, see `Bill.com developer docs <https://developer.bill.com/hc/en-us/categories/360002253732>`_
 
 .. note::
+
   Authentication
     To instantiate the ``BillCom`` class, you must provide the username and password you used to sign
     up for Bill.com, and the Organization ID and Dev Key you received when API access was granted.

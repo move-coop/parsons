@@ -9,9 +9,11 @@ Overview
 class allows users to retrieve surveys and survey results.
 
 .. note::
+
     Alchemer was formerly known as SurveyGizmo.
 
 .. note::
+
   Authentication
     To use the class, you need to provide an Alchemer API token and API token secret. For more information,
     see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`_.

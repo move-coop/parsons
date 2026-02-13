@@ -10,13 +10,13 @@ is recommended that you reference their `API documentation <https://docs.ngpvan.
 additional details and information.
 
 .. note::
+
    API Keys
       - API Keys are specific to each committee and state.
       - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
         if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app
         support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
         <parsons@movementcooperative.org>.
-
 
 .. warning::
    VANIDs
@@ -411,6 +411,7 @@ Folders
 =======
 
 .. note::
+
    A folder must be shared with the user associated with your API key to
    be listed.
 
@@ -429,6 +430,7 @@ Printed Lists
 =============
 
 .. note::
+
    A printed list must be shared with the user associated with your API key to
    be listed.
 
@@ -440,6 +442,7 @@ Saved Lists
 ===========
 
 .. note::
+
    A saved list must be shared with the user associated with your API key to
    be listed.
 
@@ -454,6 +457,7 @@ Prior to loading a score for the first time, you must contact VAN support to req
 a score slot.
 
 .. note::
+
   Score Auto Approval
     Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
     method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of

@@ -9,6 +9,7 @@ Overview
 and activity data. This Parsons class provides methods for extracting people, companies and actions.
 
 .. note::
+
     Getting Your API Key
         - Sign into Copper
         - Click on ``Settings`` (gear icon) and then ``API Keys``

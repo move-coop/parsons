@@ -450,8 +450,7 @@ class Hustle:
             * - last_name
               - ``last_name``, ``last``, ``ln``, ``lastname``
             * - phone_number
-               - ``phone_number``, ``phone``, ``cell``, ``phonenumber``, ``cell_phone``
-                ``cellphone``
+              - ``phone_number``, ``phone``, ``cell``, ``phonenumber``, ``cell_phone``, ``cellphone``
             * - email
               - ``email``, ``email_address``, ``emailaddress``
             * - follow_up

@@ -49,5 +49,5 @@ The above example shows how to create a Parsons table with all people registered
 API
 ***
 
-.. autoclass:: parsons.NationBuilder
+.. autoclass:: parsons.nation_builder.nation_builder::NationBuilder
    :inherited-members:

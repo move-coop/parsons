@@ -55,5 +55,5 @@ environment variable or pass it in as an argument.
 API
 ***
 
-.. autoclass:: parsons.formstack.Formstack
+.. autoclass:: parsons.formstack.formstack::Formstack
    :inherited-members:

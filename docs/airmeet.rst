@@ -60,5 +60,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.Airmeet
+.. autoclass:: parsons.airmeet.airmeet::Airmeet
    :inherited-members:

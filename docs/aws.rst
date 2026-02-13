@@ -72,10 +72,9 @@ A minimalistic example Lambda handler might look something like this:
 API
 ===
 
-.. autofunction:: parsons.aws.distribute_task
+.. autofunction:: parsons.aws.lambda_distribute.distribute_task
 
-.. autofunction:: parsons.aws.event_command
-
+.. autofunction:: parsons.aws.aws_async.event_command
 
 ***
 S3
@@ -136,7 +135,7 @@ stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments
 API
 ===
 
-.. autoclass:: parsons.S3
+.. autoclass:: parsons.aws.s3::S3
    :inherited-members:
 
 =====================
@@ -221,25 +220,8 @@ options.
 Core API
 ========
 
-.. autoclass:: parsons.Redshift
-
-.. autofunction:: parsons.Redshift.connection
-
-.. autofunction:: parsons.Redshift.query
-
-.. autofunction:: parsons.Redshift.query_with_connection
-
-.. autofunction:: parsons.Redshift.copy
-
-.. autofunction:: parsons.Redshift.copy_s3
-
-.. autofunction:: parsons.Redshift.unload
-
-.. autofunction:: parsons.Redshift.upsert
-
-.. autofunction:: parsons.Redshift.generate_manifest
-
-.. autofunction:: parsons.Redshift.alter_table_column_type
+.. autoclass:: parsons.databases.redshift::Redshift
+   :inherited-members:
 
 .. _redshift_table_and_view_api:
 
@@ -250,7 +232,7 @@ Table and View API
 Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.redshift.RedshiftTableUtilities
+.. autoclass:: parsons.databases.redshift.rs_table_utilities::RedshiftTableUtilities
    :inherited-members:
 
 .. _redshift_schema_api:
@@ -262,5 +244,5 @@ Schema API
 Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.redshift.RedshiftSchema
+.. autoclass:: parsons.databases.redshift.rs_schema::RedshiftSchema
    :inherited-members:

@@ -51,5 +51,5 @@ or pass them in as arguments.
 API
 ***
 
-.. autoclass:: parsons.Zoom
+.. autoclass:: parsons.zoom.zoom::Zoom
    :inherited-members:

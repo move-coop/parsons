@@ -56,5 +56,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.Sisense
+.. autoclass:: parsons.sisense.sisense::Sisense
    :inherited-members:

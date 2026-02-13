@@ -49,5 +49,5 @@ addition to 'paid_contributions', the other options for ``csv_type`` are 'refund
 API
 ***
 
-.. autoclass:: parsons.ActBlue
+.. autoclass:: parsons.actblue.actblue::ActBlue
    :inherited-members:

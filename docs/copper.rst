@@ -62,5 +62,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.Copper
+.. autoclass:: parsons.copper.copper::Copper
    :inherited-members:

@@ -326,84 +326,84 @@ API
 People
 ======
 
-.. autoclass:: parsons.ngpvan.van.People
+.. autoclass:: parsons.ngpvan.van::People
    :inherited-members:
 
 ==============
 Activist Codes
 ==============
 
-.. autoclass:: parsons.ngpvan.van.ActivistCodes
+.. autoclass:: parsons.ngpvan.van::ActivistCodes
    :inherited-members:
 
 ===========
 Bulk Import
 ===========
 
-.. autoclass:: parsons.ngpvan.van.BulkImport
+.. autoclass:: parsons.ngpvan.van::BulkImport
    :inherited-members:
 
 =================
 Canvass Responses
 =================
 
-.. autoclass:: parsons.ngpvan.van.CanvassResponses
+.. autoclass:: parsons.ngpvan.van::CanvassResponses
    :inherited-members:
 
 ================
 Changed Entities
 ================
 
-.. autoclass:: parsons.ngpvan.van.ChangedEntities
+.. autoclass:: parsons.ngpvan.van::ChangedEntities
    :inherited-members:
 
 =====
 Codes
 =====
 
-.. autoclass:: parsons.ngpvan.van.Codes
+.. autoclass:: parsons.ngpvan.van::Codes
    :inherited-members:
 
 =============
 Contact Notes
 =============
 
-.. autoclass:: parsons.ngpvan.van.ContactNotes
+.. autoclass:: parsons.ngpvan.van::ContactNotes
    :inherited-members:
 
 =============
 Custom Fields
 =============
 
-.. autoclass:: parsons.ngpvan.van.CustomFields
+.. autoclass:: parsons.ngpvan.van::CustomFields
    :inherited-members:
 
 =====
 Email
 =====
 
-.. autoclass:: parsons.ngpvan.van.Email
+.. autoclass:: parsons.ngpvan.van::Email
    :inherited-members:
 
 ======
 Events
 ======
 
-.. autoclass:: parsons.ngpvan.van.Events
+.. autoclass:: parsons.ngpvan.van::Events
    :inherited-members:
 
 ===========
 Export Jobs
 ===========
 
-.. autoclass:: parsons.ngpvan.van.ExportJobs
+.. autoclass:: parsons.ngpvan.van::ExportJobs
    :inherited-members:
 
 =================
 File Loading Jobs
 =================
 
-.. autoclass:: parsons.ngpvan.van.FileLoadingJobs
+.. autoclass:: parsons.ngpvan.van::FileLoadingJobs
    :inherited-members:
 
 =======
@@ -415,14 +415,14 @@ Folders
    A folder must be shared with the user associated with your API key to
    be listed.
 
-.. autoclass:: parsons.ngpvan.van.Folders
+.. autoclass:: parsons.ngpvan.van::Folders
    :inherited-members:
 
 =========
 Locations
 =========
 
-.. autoclass:: parsons.ngpvan.van.Locations
+.. autoclass:: parsons.ngpvan.van::Locations
    :inherited-members:
 
 =============
@@ -434,7 +434,7 @@ Printed Lists
    A printed list must be shared with the user associated with your API key to
    be listed.
 
-.. autoclass:: parsons.ngpvan.van.PrintedLists
+.. autoclass:: parsons.ngpvan.van::PrintedLists
    :inherited-members:
 
 ===========
@@ -446,7 +446,7 @@ Saved Lists
    A saved list must be shared with the user associated with your API key to
    be listed.
 
-.. autoclass:: parsons.ngpvan.van.SavedLists
+.. autoclass:: parsons.ngpvan.van::SavedLists
    :inherited-members:
 
 ======
@@ -465,33 +465,33 @@ a score slot.
     to API keys with permission to automatically approve scores.
 
 
-.. autoclass:: parsons.ngpvan.van.Scores
+.. autoclass:: parsons.ngpvan.van::Scores
    :inherited-members:
 
 =======
 Signups
 =======
 
-.. autoclass:: parsons.ngpvan.van.Signups
+.. autoclass:: parsons.ngpvan.van::Signups
    :inherited-members:
 
 ================
 Supporter Groups
 ================
 
-.. autoclass:: parsons.ngpvan.van.SupporterGroups
+.. autoclass:: parsons.ngpvan.van::SupporterGroups
    :inherited-members:
 
 ================
 Survey Questions
 ================
 
-.. autoclass:: parsons.ngpvan.van.SurveyQuestions
+.. autoclass:: parsons.ngpvan.van::SurveyQuestions
    :inherited-members:
 
 =======
 Targets
 =======
 
-.. autoclass:: parsons.ngpvan.van.Targets
+.. autoclass:: parsons.ngpvan.van::Targets
    :inherited-members:

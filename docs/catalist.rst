@@ -50,5 +50,5 @@ You can then load a CSV as a Parsons table and submit it for matching, then save
 API
 ***
 
-.. autoclass:: parsons.CatalistMatch
+.. autoclass:: parsons.catalist.catalist::CatalistMatch
    :inherited-members:

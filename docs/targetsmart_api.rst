@@ -72,5 +72,5 @@ You can then call various methods that correspond to TargetSmart endpoints:
 API
 ===
 
-.. autoclass:: parsons.TargetSmartAPI
+.. autoclass:: parsons.targetsmart.targetsmart_api::TargetSmartAPI
    :inherited-members:

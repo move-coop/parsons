@@ -74,5 +74,5 @@ and ``AZURE_ACCOUNT_URL``, respectively) or pass them in as arguments:
 API
 ***
 
-.. autoclass:: parsons.AzureBlobStorage
+.. autoclass:: parsons.azure.azure_blob_storage::AzureBlobStorage
    :inherited-members:

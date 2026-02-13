@@ -48,7 +48,7 @@ You can then get information about groups and members using instance methods:
 API
 ===
 
-.. autoclass:: parsons.google.google_admin.GoogleAdmin
+.. autoclass:: parsons.google.google_admin::GoogleAdmin
    :inherited-members:
 
 
@@ -138,11 +138,9 @@ We can now upload/query data.
 ===
 API
 ===
-.. autoclass:: parsons.google.google_bigquery.GoogleBigQuery
+
+.. autoclass:: parsons.google.google_bigquery::GoogleBigQuery
    :inherited-members:
-
-
-
 
 *************
 Cloud Storage
@@ -195,7 +193,7 @@ the available blobs.
 API
 ===
 
-.. autoclass:: parsons.google.google_cloud_storage.GoogleCloudStorage
+.. autoclass:: parsons.google.google_cloud_storage::GoogleCloudStorage
    :inherited-members:
 
 *****
@@ -212,7 +210,6 @@ use Google Civic, you must enable this specific end point.
 
 The Google Civic API utilizes the `Voting Information Project <https://www.votinginfoproject.org/>`_ to collect
 key civic information such as personalized ballots and polling location information.
-
 
 ==========
 Quickstart
@@ -257,7 +254,7 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass:: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic::GoogleCivic
    :inherited-members:
 
 *************
@@ -312,7 +309,7 @@ You can then use the client to interact with Google Docs:
 API
 ===
 
-.. autoclass:: parsons.google.google_docs.GoogleDocs
+.. autoclass:: parsons.google.google_docs::GoogleDocs
    :inherited-members:
 
 *************
@@ -362,9 +359,8 @@ You can then perform a variety of functions in Drive over API.
 API
 ===
 
-.. autoclass:: parsons.google.google_drive.GoogleDrive
+.. autoclass:: parsons.google.google_drive::GoogleDrive
    :inherited-members:
-
 
 *************
 Google Sheets
@@ -418,5 +414,5 @@ You may also want to share the document with your service or user account.
 API
 ===
 
-.. autoclass:: parsons.google.google_sheets.GoogleSheets
+.. autoclass:: parsons.google.google_sheets::GoogleSheets
    :inherited-members:

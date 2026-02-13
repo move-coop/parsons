@@ -39,5 +39,5 @@ variables (``CONTROLSHIFT_HOSTNAME``, ``CONTROLSHIFT_CLIENT_ID``, and ``CONTROLS
 Controlshift Class
 ******************
 
-.. autoclass:: parsons.Controlshift
+.. autoclass:: parsons.controlshift.controlshift::Controlshift
     :inherited-members:

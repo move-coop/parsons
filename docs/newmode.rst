@@ -44,5 +44,5 @@ respectively) or pass in your username and password as arguments:
 API
 ***
 
-.. autoclass:: parsons.Newmode
+.. autoclass:: parsons.newmode.newmode::Newmode
     :inherited-members:

@@ -87,5 +87,5 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass:: parsons.ActionBuilder
+.. autoclass:: parsons.action_builder.action_builder::ActionBuilder
    :inherited-members:

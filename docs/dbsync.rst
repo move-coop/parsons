@@ -49,5 +49,5 @@ distinct primary keys.
 API
 ===
 
-.. autoclass:: parsons.DBSync
+.. autoclass:: parsons.databases.db_sync::DBSync
    :inherited-members:

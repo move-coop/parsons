@@ -66,9 +66,9 @@ You can then send messages:
 ***
 API
 ***
-.. autoclass:: parsons.Slack
-   :inherited-members:
 
+.. autoclass:: parsons.notifications.slack::Slack
+   :inherited-members:
 
 ==========
 Gmail
@@ -144,7 +144,8 @@ more details.
 ***
 API
 ***
-.. autoclass:: parsons.Gmail
+
+.. autoclass:: parsons.notifications.gmail::Gmail
   :inherited-members:
 
 ==========
@@ -222,5 +223,6 @@ attachments.
 ***
 API
 ***
-.. autoclass:: parsons.SMTP
+
+.. autoclass:: parsons.notifications.smtp::SMTP
   :inherited-members:

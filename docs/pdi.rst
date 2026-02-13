@@ -46,5 +46,5 @@ and API token as environmental variables (``PDI_USERNAME``, ``PDI_PASSWORD``, an
 PDI Class
 *********
 
-.. autoclass:: parsons.PDI
+.. autoclass:: parsons.pdi.pdi::PDI
     :inherited-members:

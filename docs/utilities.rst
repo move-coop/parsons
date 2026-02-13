@@ -77,5 +77,7 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
 dbt Utilities
 =============
 
-.. autoclass:: parsons.utilities.dbt.dbt
+.. autoclass:: parsons.utilities.dbt.dbt::dbtRunnerParsons
    :inherited-members:
+
+.. autofunction:: parsons.utilities.dbt.dbt.run_dbt_commands

@@ -4,7 +4,7 @@ from pathlib import Path
 import requests_mock
 
 from parsons import TurboVote
-from test.utils import validate_list
+from test.conftest import validate_list
 
 _dir = Path(__file__).parent
 

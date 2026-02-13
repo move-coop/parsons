@@ -10,7 +10,7 @@ import pytest
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
 from parsons import Box, Table
-from test.utils import mark_live_test
+from test.conftest import mark_live_test
 
 """Prior to running, you should ensure that the relevant environment
 variables have been set, e.g. via

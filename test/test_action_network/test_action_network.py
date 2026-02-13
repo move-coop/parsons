@@ -5,7 +5,7 @@ import requests_mock
 
 from parsons import Table
 from parsons.action_network import ActionNetwork
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestActionNetwork(unittest.TestCase):
@@ -3006,6 +3006,348 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
 
+        # Surveys
+        self.fake_surveys = {
+            "total_pages": 7,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 162,
+            "_links": {
+                "next": {"href": "https://actionnetwork.org/api/v2/surveys?page=2"},
+                "self": {"href": "https://actionnetwork.org/api/v2/surveys"},
+                "action_network:surveys": [
+                    {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                    {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                    # truncated for brevity
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "action_network:surveys": [
+                    {
+                        "identifiers": ["action_network:123"],
+                        "origin_system": "Action Network",
+                        "created_date": "2014-03-24T18:03:45Z",
+                        "modified_date": "2014-03-25T15:00:22Z",
+                        "title": "Tell us about yourself!",
+                        "description": "<p>Tell us a bit more about yourself.</p>",
+                        "call_to_action": "Let us know",
+                        "browser_url": "https://actionnetwork.org/surveys/my-survey",
+                        "featured_image_url": "https://actionnetwork.org/images/my-image.jpg",
+                        "total_responses": 2354,
+                        "action_network:hidden": False,
+                        "_embedded": {
+                            "osdi:creator": {
+                                "given_name": "John",
+                                "family_name": "Doe",
+                                "identifiers": ["action_network:123"],
+                                "created_date": "2014-03-24T18:03:45Z",
+                                "modified_date": "2014-03-25T15:00:22Z",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "jdoe@mail.com",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "phone_numbers": [
+                                    {
+                                        "primary": True,
+                                        "number": "12021234444",
+                                        "number_type": "Mobile",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "postal_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address_lines": ["1600 Pennsylvania Ave."],
+                                        "locality": "Washington",
+                                        "region": "DC",
+                                        "postal_code": "20009",
+                                        "country": "US",
+                                        "language": "en",
+                                        "location": {
+                                            "latitude": 35.919,
+                                            "longitude": -72.0379,
+                                            "accuracy": "Approximate",
+                                        },
+                                    }
+                                ],
+                                "languages_spoken": ["en"],
+                                "_links": {
+                                    "self": {"href": f"{self.api_url}/api/v2/people/123"},
+                                    "osdi:attendances": {
+                                        "href": f"{self.api_url}/api/v2/people/123/attendances"
+                                    },
+                                    "osdi:signatures": {
+                                        "href": f"{self.api_url}/api/v2/people/123/signatures"
+                                    },
+                                    "osdi:submissions": {
+                                        "href": f"{self.api_url}/api/v2/people/123/submissions"
+                                    },
+                                    "osdi:donations": {
+                                        "href": f"{self.api_url}/api/v2/people/123/donations"
+                                    },
+                                    "osdi:outreaches": {
+                                        "href": f"{self.api_url}/api/v2/people/123/outreaches"
+                                    },
+                                    "osdi:taggings": {
+                                        "href": f"{self.api_url}/api/v2/people/123/taggings"
+                                    },
+                                    "action_network:responses": {
+                                        "href": f"{self.api_url}/api/v2/people/123/responses"
+                                    },
+                                },
+                            }
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/api/v2/surveys/123"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "action_network:record_response_helper": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "osdi:creator": {"href": f"{self.api_url}/api/v2/people/123"},
+                            "action_network:embed": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/embed"
+                            },
+                        },
+                    },
+                    {
+                        "identifiers": ["action_network:123", "foreign_system:1"],
+                        "origin_system": "Another System",
+                        "created_date": "2014-03-14T15:21:05Z",
+                        "modified_date": "2014-03-17T19:56:11Z",
+                        "title": "Volunteer survey",
+                        "total_responses": 123,
+                        "action_network:hidden": False,
+                        "_embedded": {
+                            "osdi:creator": {
+                                "given_name": "John",
+                                "family_name": "Doe",
+                                "identifiers": ["action_network:123"],
+                                "created_date": "2014-03-24T18:03:45Z",
+                                "modified_date": "2014-03-25T15:00:22Z",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "jdoe@mail.com",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "phone_numbers": [
+                                    {
+                                        "primary": True,
+                                        "number": "12021234444",
+                                        "number_type": "Mobile",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "postal_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address_lines": ["1600 Pennsylvania Ave."],
+                                        "locality": "Washington",
+                                        "region": "DC",
+                                        "postal_code": "20009",
+                                        "country": "US",
+                                        "language": "en",
+                                        "location": {
+                                            "latitude": 35.919,
+                                            "longitude": -72.0379,
+                                            "accuracy": "Approximate",
+                                        },
+                                    }
+                                ],
+                                "languages_spoken": ["en"],
+                                "_links": {
+                                    "self": {"href": f"{self.api_url}/api/v2/people/123"},
+                                    "osdi:attendances": {
+                                        "href": f"{self.api_url}/api/v2/people/123/attendances"
+                                    },
+                                    "osdi:signatures": {
+                                        "href": f"{self.api_url}/api/v2/people/123/signatures"
+                                    },
+                                    "osdi:submissions": {
+                                        "href": f"{self.api_url}/api/v2/people/123/submissions"
+                                    },
+                                    "osdi:donations": {
+                                        "href": f"{self.api_url}/api/v2/people/123/donations"
+                                    },
+                                    "osdi:outreaches": {
+                                        "href": f"{self.api_url}/api/v2/people/123/outreaches"
+                                    },
+                                    "osdi:taggings": {
+                                        "href": f"{self.api_url}/api/v2/people/123/taggings"
+                                    },
+                                    "action_network:responses": {
+                                        "href": f"{self.api_url}/api/v2/people/123/responses"
+                                    },
+                                },
+                            }
+                        },
+                        "action_network:sponsor": {
+                            "title": "Progressive Action Now",
+                            "url": f"{self.api_url}/groups/progressive-action-now",
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/api/v2/surveys/123"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "action_network:record_response_helper": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/respnoses"
+                            },
+                            "osdi:creator": {"href": f"{self.api_url}/api/v2/people/123"},
+                            "action_network:embed": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/embed"
+                            },
+                        },
+                    },
+                    # truncated for brevity
+                ]
+            },
+        }
+
+        self.fake_survey = {
+            "identifiers": ["action_network:123"],
+            "origin_system": "Action Network",
+            "created_date": "2014-03-24T18:03:45Z",
+            "modified_date": "2014-03-25T15:00:22Z",
+            "title": "Tell us about yourself",
+            "description": "<p>Tell us a bit more about yourself.</p>",
+            "call_to_action": "Let us know",
+            "browser_url": "https://actionnetwork.org/surveys/tell-us-about-yourself",
+            "featured_image_url": "https://actionnetwork.org/images/tell-us-about-yourself.jpg",
+            "total_responses": 2354,
+            "action_network:hidden": False,
+            "_embedded": {
+                "osdi:creator": {
+                    "given_name": "John",
+                    "family_name": "Doe",
+                    "identifiers": ["action_network:123"],
+                    "origin_system": "Action Network",
+                    "created_date": "2014-03-24T18:03:45Z",
+                    "modified_date": "2014-03-25T15:00:22Z",
+                    "email_addresses": [
+                        {"primary": True, "address": "jdoe@mail.com", "status": "subscribed"}
+                    ],
+                    "phone_numbers": [
+                        {
+                            "primary": True,
+                            "number": "12021234444",
+                            "number_type": "Mobile",
+                            "status": "subscribed",
+                        }
+                    ],
+                    "postal_addresses": [
+                        {
+                            "primary": True,
+                            "address_lines": ["1600 Pennsylvania Ave."],
+                            "locality": "Washington",
+                            "region": "DC",
+                            "postal_code": "20009",
+                            "country": "US",
+                            "language": "en",
+                            "location": {
+                                "latitude": 35.919,
+                                "longitude": -72.0379,
+                                "accuracy": "Approximate",
+                            },
+                        }
+                    ],
+                    "languages_spoken": ["en"],
+                    "_links": {
+                        "self": {"href": "https://actionnetwork.org/api/v2/people/123"},
+                        "osdi:attendances": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/attendances"
+                        },
+                        "osdi:signatures": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/signatures"
+                        },
+                        "osdi:submissions": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/submissions"
+                        },
+                        "osdi:donations": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/donations"
+                        },
+                        "osdi:outreaches": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/outreaches"
+                        },
+                        "osdi:taggings": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/taggings"
+                        },
+                        "action_network:responses": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/responses"
+                        },
+                        "curies": [
+                            {
+                                "name": "osdi",
+                                "href": "https://actionnetwork.org/docs/v2/{rel}",
+                                "templated": True,
+                            },
+                            {
+                                "name": "action_network",
+                                "href": "https://actionnetwork.org/docs/v2/{rel}",
+                                "templated": True,
+                            },
+                        ],
+                    },
+                }
+            },
+            "_links": {
+                "self": {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                "action_network:responses": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/responses"
+                },
+                "action_network:record_response_helper": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/responses"
+                },
+                "osdi:creator": {"href": "https://actionnetwork.org/api/v2/people/123"},
+                "action_network:embed": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/embed"
+                },
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+        }
+
+        self.fake_survey_with_creator_payload = {
+            "title": "My Free Survey",
+            "origin_system": "FreeSurveys.com",
+            "_links": {
+                "osdi:creator": {"href": "https://actionnetwork.org/api/v2/people/1234567890"}
+            },
+        }
+
+        self.fake_survey_payload = {
+            "title": "My Free Survey",
+            "origin_system": "FreeSurveys.com",
+        }
+
         # Tags
         self.fake_tags = {
             "total_pages": 10,
@@ -4231,6 +4573,46 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.update_submission("123", "123", {"identifiers": ["other-system:230125s"]}),
             self.fake_submission,
+        )
+
+    # Surveys
+    @requests_mock.Mocker()
+    def test_get_surveys(self, m):
+        m.get(
+            f"{self.api_url}/surveys?page=1&per_page=25",
+            text=json.dumps(self.fake_surveys),
+        )
+        m.get(
+            f"{self.api_url}/surveys?page=2&per_page=25",
+            text=json.dumps({"_embedded": {"action_network:surveys": []}}),
+        )
+        assert_matching_tables(
+            self.an.get_surveys(),
+            Table(self.fake_surveys["_embedded"]["action_network:surveys"]),
+        )
+
+    @requests_mock.Mocker()
+    def test_get_survey(self, m):
+        m.get(f"{self.api_url}/surveys/123", text=json.dumps(self.fake_survey))
+        assert_matching_tables(
+            self.an.get_survey("123"),
+            self.fake_survey,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_survey(self, m):
+        m.post(f"{self.api_url}/surveys", text=json.dumps(self.fake_survey_payload))
+        assert_matching_tables(
+            self.an.create_survey(self.fake_survey_payload),
+            self.fake_survey_payload,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_survey(self, m):
+        m.post(f"{self.api_url}/surveys/123", text=json.dumps(self.fake_survey_payload))
+        assert_matching_tables(
+            self.an.update_survey("123", self.fake_survey_payload),
+            self.fake_survey_payload,
         )
 
     # Tags

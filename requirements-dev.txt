@@ -1,6 +1,6 @@
 # Testing Requirements
 bandit[sarif]==1.8.6
-coverage==7.10.7
+coverage==7.13.3
 pre-commit==4.3.0
 pytest-cov==7.0.0
 pytest-datadir==1.8.0
@@ -13,9 +13,9 @@ testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
 
 # Build and publish requirements
-twine==6.2.0
-build
-
+build>=1.4.0
+setuptools>=80.10.2
+twine>=6.2.0
 
 # Docs Requirements
 myst-parser==4.0.1

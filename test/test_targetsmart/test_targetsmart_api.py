@@ -4,6 +4,7 @@ import pytest
 import requests_mock
 
 from parsons import Table, TargetSmartAPI
+from test.conftest import validate_list
 from test.responses.ts_responses import (
     address_response,
     district_expected,
@@ -14,7 +15,6 @@ from test.responses.ts_responses import (
     radius_response,
     zip_expected,
 )
-from test.utils import validate_list
 
 output_list = [
     {

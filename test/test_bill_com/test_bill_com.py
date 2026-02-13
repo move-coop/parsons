@@ -4,7 +4,7 @@ import unittest
 import requests_mock
 
 from parsons import BillCom, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
 class TestBillCom(unittest.TestCase):

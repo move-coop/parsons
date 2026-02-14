@@ -21,6 +21,7 @@ twine>=6.2.0
 # Docs Requirements
 furo~=2025.12.19
 myst-parser~=4.0.1
+packaging~=26.0
 Sphinx~=7.4.7;python_version<'3.11'
 Sphinx~=8.2.3;python_version>='3.11'
 sphinx-multiversion~=0.2.4

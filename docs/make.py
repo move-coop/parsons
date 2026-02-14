@@ -6,6 +6,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from packaging import version
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 SPHINXBUILD = "sphinx-build"
 SOURCEDIR = ROOT_DIR / "docs"
@@ -37,12 +39,37 @@ def run_command(command: list[str | Path], cwd: Path = ROOT_DIR) -> subprocess.C
         sys.exit(e.returncode)
 
 
+def reuse_builds_old_versions():
+    """Remove folders not starting with 'v' or with a version >= v5.0.0."""
+    if not HTMLDIR.exists():
+        return
+
+    generate_after = version.parse("5.0.0")
+
+    for item in HTMLDIR.iterdir():
+        if not item.is_dir():
+            continue
+
+        if not item.name.startswith("v"):
+            logger.info("Removing non-version folder: %s", item.name)
+            shutil.rmtree(item)
+            continue
+
+        try:
+            item_ver = version.parse(item.name.lstrip("v"))
+            if item_ver >= generate_after:
+                logger.info("Removing build files for version: %s", item.name)
+                shutil.rmtree(item)
+        except version.InvalidVersion:
+            logger.warning("Skipping invalid version format: %s", item.name)
+            shutil.rmtree(item)
+
+
 def build_docs():
     """Build multi-version sphinx documentation."""
     check_dependencies()
 
-    if HTMLDIR.exists():
-        shutil.rmtree(HTMLDIR)
+    reuse_builds_old_versions()
 
     git_base = ["git", "-C", str(ROOT_DIR)]
 

@@ -47,7 +47,7 @@ jobs:
 
       - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
-          path: docs/_build/.doctrees
+          path: docs/html
           key: sphinx-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements-dev.txt') }}
 
       - run: make build_docs

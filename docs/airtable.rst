@@ -34,7 +34,6 @@ as an argument. You also need to pass in the base key and table name.
    # Second approach: Pass personal access token, base key and table name as arguments.
    at = Airtable(base_key, 'table01', personal_access_token='MYFAKETOKEN')
 
-
 You can then call various endpoints:
 
 .. code-block:: python

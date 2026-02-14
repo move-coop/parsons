@@ -1457,7 +1457,7 @@ class ActionKit:
                 See the `autocreate_user_fields documentation
                 <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
-                When uploading only an email/user_id column and user_ user fields,
+                When uploading only an email/user_id column and ``user_`` user fields,
                 ActionKit has a fast processing path.
                 This doesn't work, if you upload a zipped csv though.
 
@@ -1506,7 +1506,7 @@ class ActionKit:
         See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
         Be careful that blank values in columns will overwrite existing data.
 
-        Tables with only an identifying column (user_id/email) and user_ user fields
+        Tables with only an identifying column (user_id/email) and ``user_`` user fields
         will be fast-processed -- this is useful for setting/updating user fields.
 
         .. note::

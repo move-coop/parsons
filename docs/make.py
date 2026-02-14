@@ -63,7 +63,7 @@ def build_docs():
     logger.info("Building multiversion documentation...")
     run_command(["sphinx-multiversion", str(SOURCEDIR), str(HTMLDIR)])
 
-    redirect_src = ROOT_DIR / "index-redirect.html"
+    redirect_src = SOURCEDIR / "index-redirect.html"
     if redirect_src.exists():
         shutil.copy2(redirect_src, HTMLDIR / "index.html")
         logger.info("Static redirect applied to root index.")

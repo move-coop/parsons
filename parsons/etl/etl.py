@@ -1136,27 +1136,28 @@ class ETL:
         .. code-block:: python
 
             ddl = rs.query(sql_to_get_table_ddl)
-            ddl.table
 
-        +--------------+--------------+----------------------------------------------------+
-        | schemaname   | tablename    | ddl                                                |
-        +==============+==============+====================================================+
-        | 'db_scratch' | 'state_fips' | '--DROP TABLE db_scratch.state_fips;'              |
-        +--------------+--------------+----------------------------------------------------+
-        | 'db_scratch' | 'state_fips' | 'CREATE TABLE IF NOT EXISTS db_scratch.state_fips' |
-        +--------------+--------------+----------------------------------------------------+
-        | 'db_scratch' | 'state_fips' | '('                                                |
-        +--------------+--------------+----------------------------------------------------+
-        | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'              |
-        +--------------+--------------+----------------------------------------------------+
-        | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'            |
-        +--------------+--------------+----------------------------------------------------+
+        .. table:: ddl.table
+
+            +--------------+--------------+----------------------------------------------------+
+            | schemaname   | tablename    | ddl                                                |
+            +==============+==============+====================================================+
+            | 'db_scratch' | 'state_fips' | '--DROP TABLE db_scratch.state_fips;'              |
+            +--------------+--------------+----------------------------------------------------+
+            | 'db_scratch' | 'state_fips' | 'CREATE TABLE IF NOT EXISTS db_scratch.state_fips' |
+            +--------------+--------------+----------------------------------------------------+
+            | 'db_scratch' | 'state_fips' | '('                                                |
+            +--------------+--------------+----------------------------------------------------+
+            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |
+            +--------------+--------------+----------------------------------------------------+
+            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |
+            +--------------+--------------+----------------------------------------------------+
 
         .. code-block:: python
 
             reducer_fn = lambda columns, rows: [
                 f"{columns[0]}.{columns[1]}",
-                r"\n".join([row[2] for row in rows])
+                r"\\n".join([row[2] for row in rows])
             ]
             ddl.reduce_rows(
                 ['schemaname', 'tablename'],
@@ -1165,30 +1166,35 @@ class ETL:
                 presorted=True
             )
 
-        +-------------------------+-----------------------------------------------------------------------+
-        | tablename               | ddl                                                                   |
-        +=========================+=======================================================================+
-        | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS     |
-        |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t |
-        |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW      |
-        |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name             |
-        |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE       |
-        |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                         |
-        +-------------------------+-----------------------------------------------------------------------+
+        .. table:: ddl.table
+
+            +-------------------------+-----------------------------------------------------------------------+
+            | tablename               | ddl                                                                   |
+            +=========================+=======================================================================+
+            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |
+            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |
+            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |
+            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |
+            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
+            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |
+            +-------------------------+-----------------------------------------------------------------------+
 
         Args:
             columns (list):
                 The column(s) by which to group the rows.
-            reduce_func (fun):
-                The function by which to reduce the rows. Should take the 2
-                arguments, the columns list and the rows list and return a list.
-                `reducer(columns: list, rows: list) -> list;`
+            reduce_func (function):
+                The function by which to reduce the rows.
+                Should take the 2 arguments, the columns list
+                and the rows list and return a list.
+                ``reducer(columns: list, rows: list) -> list;``
             headers (list):
-                The list of headers for modified table. The length of `headers`
-                should match the length of the list returned by the reduce
-                function.
+                The list of headers for modified table.
+                The length of `headers` should match the length of the
+                list returned by the reduce function.
             presorted (bool):
                 If false, the row will be sorted.
+            `**kwargs`:
+                Extra options to pass to petl.rowreduce
 
         Returns:
             parsons.Table

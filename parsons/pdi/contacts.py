@@ -146,16 +146,11 @@ class Contacts:
             nickname (str):
             occupation (str):
             employer (str):
-            volunteer_status (str):
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            donor_status (str):
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            member_status (str):
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            date_of_birth (str, optional):
-                Format must be yyyy-MM-dd
-            gender (str, optional):
-                Options are "F", "M", "U"
+            volunteer_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
+            donor_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
+            member_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
+            date_of_birth (str, optional): Format must be yyyy-MM-dd
+            gender (str, optional): Options are "F", "M", "U"
 
         Returns:
             parsons.Table:
@@ -195,10 +190,8 @@ class Contacts:
         Args:
             contact_id (int):
             phone_number (str):
-            phone_type (str): Options are "Home", "Work", "Direct", "Mobile", "Fax", and "Other".
-                Defaults to "Mobile".
-            primary (bool): Whether this is the contact's primary phone number.
-                Defaults to True.
+            phone_type (str): Options are "Home", "Work", "Direct", "Mobile", "Fax", and "Other". Defaults to "Mobile".
+            primary (bool): Whether this is the contact's primary phone number. Defaults to True.
             extension (str): Defaults to "".
 
         Returns:

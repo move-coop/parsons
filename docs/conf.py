@@ -43,6 +43,7 @@ html_sidebars = {
     ]
 }
 
+
 # -- Sphinx-Multiversion Logic -----------------------------------------------
 def get_git_tags() -> list[str]:
     try:

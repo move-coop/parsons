@@ -44,7 +44,7 @@ class Events:
                 ``onlineForms``.
 
         Returns:
-            Parsons Table
+            parsons.Table
                 See :ref:`parsons-table` for output options.
 
         """
@@ -93,9 +93,10 @@ class Events:
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
-                ``ticketCategories``, ``voterRegistrationBatches`.`
+                ``ticketCategories``, ``voterRegistrationBatches``.
+
         Returns:
-            Parsons Table
+            parsons.Table
                 See :ref:`parsons-table` for output options.
 
         """
@@ -186,6 +187,7 @@ class Events:
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
+
         Returns:
             int
               The event code.
@@ -278,7 +280,7 @@ class Events:
         Get event types.
 
         Returns:
-            Parsons Table
+            parsons.Table
                 See :ref:`parsons-table` for output options.
 
         """

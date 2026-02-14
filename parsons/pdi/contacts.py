@@ -19,15 +19,13 @@ class Contacts:
         Get a list of Contacts.
 
         Args:
-            email: str
-            phone: str
-            first_name: str
-            last_name: str
-            zip_code: str
-            search_by_email: bool
-                whether to search using email address
-            limit: int
-                The number of contacts to return
+            email (str):
+            phone (str):
+            first_name (str):
+            last_name (str):
+            zip_code (str):
+            search_by_email (bool): whether to search using email address
+            limit (int): The number of contacts to return
 
         Returns:
             parsons.Table
@@ -65,30 +63,24 @@ class Contacts:
         Create new contact
 
         Args:
-            name_prefix: string
-            first_name: string
-            last_name: string
-            middle_name: string
-            name_suffix: string
-            nickname: string
-            occupation: string
-            employer: string
-            volunteer_status: string
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            donor_status: string
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            member_status: string
-                Options are "Prospect", "Active", "Inactive", "None", ""
-            date_of_birth: string, optional
-                Format allowed yyyy-MM-dd
-            gender: string, optional
-                Options are "F", "M", "U"
-            email: string, optional
-            pdi_id: string, optional
-                ignored when updating
+            name_prefix (str): Prefix for the name.
+            first_name (str): The contact's first name.
+            last_name (str): The contact's last name.
+            middle_name (str): The contact's middle name.
+            name_suffix (str): Suffix for the name.
+            nickname (str): The contact's nickname.
+            occupation (str): The contact's occupation.
+            employer (str): The contact's employer.
+            volunteer_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
+            donor_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
+            member_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
+            date_of_birth (str, optional): Format allowed yyyy-MM-dd.
+            gender (str, optional): Options are "F", "M", or "U".
+            email (str, optional): The contact's email.
+            pdi_id (str, optional): Ignored when updating.
 
         Returns:
-            parsons.Table
+            parsons.Table: A Table containing the response data.
 
         """
         payload = {
@@ -146,27 +138,28 @@ class Contacts:
         Update Contact
 
         Args:
-            namePrefix: string
-            firstName: string
-            middleName: string
-            lastName: string
-            nameSuffix: string
-            nickname: string
-            occupation: string
-            employer: string
-            volunteerStatus: string
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            donorStatus: string
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            memberStatus: string
-                Options are: "Prospect", "Active", "Inactive", "None", ""
-            dateOfBirth: string, optional
-                Format allowed: yyyy-MM-dd
-            gender: string, optional
-                Options are: "F", "M", "U"
+            name_prefix (str):
+            first_name (str):
+            middle_name (str):
+            last_name (str):
+            name_suffix (str):
+            nickname (str):
+            occupation (str):
+            employer (str):
+            volunteer_status (str):
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            donor_status (str):
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            member_status (str):
+                Options are "Prospect", "Active", "Inactive", "None", ""
+            date_of_birth (str, optional):
+                Format must be yyyy-MM-dd
+            gender (str, optional):
+                Options are "F", "M", "U"
 
         Returns:
-            parsons.Table
+            parsons.Table:
+                See :ref:`parsons-table` for output options
 
         """
         payload = {
@@ -192,22 +185,21 @@ class Contacts:
         self,
         contact_id: int,
         phone_number: str,
-        phone_type="Mobile",
-        primary=True,
-        extension="",
+        phone_type: str = "Mobile",
+        primary: bool = True,
+        extension: str = "",
     ):
         """
-        Add a phone number to a contact
+        Add a phone number to a contact.
 
         Args:
-            contact_id: int
-            phone_number: str
-            phone_type: str
-                Options are `Home`, `Work`, `Direct`, `Mobile`, `Fax`, and `Other`.
-                Defaults to `Mobile`
-            primary: bool
-                Whether this is the contact's primary phone number
-            extension: str
+            contact_id (int):
+            phone_number (str):
+            phone_type (str): Options are "Home", "Work", "Direct", "Mobile", "Fax", and "Other".
+                Defaults to "Mobile".
+            primary (bool): Whether this is the contact's primary phone number.
+                Defaults to True.
+            extension (str): Defaults to "".
 
         Returns:
             dict
@@ -230,19 +222,17 @@ class Contacts:
 
         return response
 
-    def add_email(self, contact_id: int, email: str, primary=True):
+    def add_email(self, contact_id: int, email: str, primary: bool = True):
         """
-        Add an email address to a contact
+        Add an email address to a contact.
 
         Args:
-            contact_id: int
-            email: str
-            primary: bool
-                Whether this is the contact's primary email
+            contact_id (int): The ID of the contact.
+            email (str): The email address to add.
+            primary (bool): Whether this is the contact's primary email.
 
         Returns:
-            dict
-                Response from PDI
+            dict: Response from PDI
 
         """
 

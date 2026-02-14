@@ -9,7 +9,7 @@ class ETL:
     def __init__(self):
         pass
 
-    def head(self, n=5):
+    def head(self, n: int = 5):
         """
         Return the first n rows of the table
 
@@ -26,16 +26,17 @@ class ETL:
 
         return self
 
-    def tail(self, n=5):
+    def tail(self, n: int = 5):
         """
-        Return the last n rows of the table. Defaults to 5.
+        Return the last n rows of the table
 
         Args:
-            n: int
-                The number of rows to return
+            n: int, optional
+                The number of rows to return.
+                Defaults to 5.
 
         Returns:
-            `Parsons Table`
+            parsons.Table
 
         """
 
@@ -43,22 +44,25 @@ class ETL:
 
         return self
 
-    def add_column(self, column, value=None, index=None, if_exists="fail"):
+    def add_column(self, column, value=None, index=None, if_exists: str = "fail"):
         """
         Add a column to your table
 
         Args:
             column: str
                 Name of column to add
-            value:
+            value: optional
                 A fixed or calculated value
-            index: int
+            index: int, optional
                 The position of the new column in the table
             if_exists: str (options: 'fail', 'replace')
                 If set `replace`, this function will call `fill_column`
                 if the column already exists, rather than raising a `ValueError`
+                Defaults to "fail".
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -78,10 +82,12 @@ class ETL:
         Remove a column from your table
 
         Args:
-            *columns: str
+            `*columns`: str
                 Column names
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -99,7 +105,8 @@ class ETL:
             new_column_name: str
                 The new column name
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -124,7 +131,8 @@ class ETL:
                 'old_name2': 'new_name2'}
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -149,8 +157,10 @@ class ETL:
                 The column to fill
             fill_value:
                 A fixed or calculated value
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -172,8 +182,10 @@ class ETL:
                 The column to fill
             fill_value:
                 A fixed or calculated value
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -204,8 +216,10 @@ class ETL:
                 The column name to move
             index:
                 The new index for the column
+
         Returns:
-            `Parsons Table` and also updates existing object.
+            parsons.Table
+                Also updates self
 
         """
 
@@ -220,12 +234,14 @@ class ETL:
         method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`_.
 
         Args:
-            *column: str
+            `*column`: str
                 A single column or multiple columns passed as a list
             `**kwargs`: str, method or variable
                 The update function, method, or variable to process the update
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -233,7 +249,7 @@ class ETL:
 
         return self
 
-    def get_column_max_width(self, column):
+    def get_column_max_width(self, column: str):
         """
         Return the maximum width of the column.
 
@@ -260,7 +276,8 @@ class ETL:
         Parsons table to string (e.g. for comparison)
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -298,7 +315,8 @@ class ETL:
                 column is also one of the source columns, it will not be removed.
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -335,22 +353,13 @@ class ETL:
         is helpful when your input table might have multiple and unknown column
         names.
 
-        Args:
-            column_map: dict
-                A dictionary of columns and possible values that map to it
-            exact_match: boolean
-                If ``True`` will only map if an exact match. If ``False`` will
-                ignore case, spaces and underscores.
-
-        Returns:
-            `Parsons Table` and also updates self
-
         .. code-block:: python
 
             tbl = [
                 {'fn': 'Jane'},
                 {'lastname': 'Doe'},
-                {'dob': '1980-01-01'}]
+                {'dob': '1980-01-01'}
+            ]
 
             column_map = {
                 'first_name': ['fn', 'first', 'firstname'],
@@ -361,6 +370,17 @@ class ETL:
             tbl.map_columns(column_map)
             print (tbl)
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
+
+        Args:
+            column_map: dict
+                A dictionary of columns and possible values that map to it
+            exact_match: boolean
+                If ``True`` will only map if an exact match. If ``False`` will
+                ignore case, spaces and underscores.
+
+        Returns:
+            parsons.Table
+                Also updates self
 
         """
 
@@ -383,13 +403,6 @@ class ETL:
         value will be preferenced. This method is helpful when your input table might
         have multiple and unknown column names.
 
-        Args:
-            column_map: dict
-                A dictionary of columns and possible values that map to it
-
-        Returns:
-            `Parsons Table` and also updates self
-
         .. code-block:: python
 
             tbl = [
@@ -409,6 +422,14 @@ class ETL:
 
             print (tbl)
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
+
+        Args:
+            column_map: dict
+                A dictionary of columns and possible values that map to it
+
+        Returns:
+            parsons.Table
+                Also updates self
 
         """
 
@@ -437,6 +458,7 @@ class ETL:
         Args:
             column: str
                 Name of the column to analyze
+
         Returns:
             list
                 A list of Python types
@@ -452,8 +474,9 @@ class ETL:
         Returns:
             list
                 A list of dicts
+
         Returns:
-            list
+            list[dict]
                 A list of dicts, each containing a column 'name' and a 'type' list
 
         """
@@ -469,9 +492,11 @@ class ETL:
 
         Args:
             `*args`: str, method or variable
-                The update function, method, or variable to process the update. Can also
+                The update function, method, or variable to process the update.
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -541,25 +566,27 @@ class ETL:
         max_columns=None,
     ):
         """
-        Unpack list values from one column into separate columns. Numbers the
-        columns.
+        Unpack list values from one column into separate columns.
+        Numbers the columns.
 
         .. code-block:: python
 
-          # Begin with a list in column
-          json = [{'id': '5421',
-                   'name': 'Jane Green',
-                   'phones': ['512-699-3334', '512-222-5478']
-                  }
-                 ]
+            # Begin with a list in column
+            json = [
+                {
+                    'id': '5421',
+                    'name': 'Jane Green',
+                    'phones': ['512-699-3334', '512-222-5478']
+                }
+            ]
 
-          tbl = Table(json)
-          print (tbl)
-          >>> {'id': '5421', 'name': 'Jane Green', 'phones': ['512-699-3334', '512-222-5478']}
+            tbl = Table(json)
+            print (tbl)
+            >>> {'id': '5421', 'name': 'Jane Green', 'phones': ['512-699-3334', '512-222-5478']}
 
-          tbl.unpack_list('phones', replace=True)
-          print (tbl)
-          >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'}
+            tbl.unpack_list('phones', replace=True)
+            print (tbl)
+            >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'}
 
         Args:
             column: str
@@ -574,6 +601,7 @@ class ETL:
                 Return new table or replace existing
             max_columns: int
                 The maximum number of columns to unpack
+
         Returns:
             None
 
@@ -631,8 +659,9 @@ class ETL:
                 Removes packed list and dict rows from original either way.
 
         Returns:
-            If `expand_original`, original table with packed rows replaced by unpacked rows
-            Otherwise, standalone table with key column and unpacked values only
+            parsons.Table
+                If `expand_original`, original table with packed rows replaced by unpacked rows.
+                Otherwise, standalone table with key column and unpacked values only
 
         """
 
@@ -810,10 +839,12 @@ class ETL:
         Return a table of selection of columns
 
         Args:
-            *columns: str
+            `*columns`: str
                 Columns in the parsons table
+
         Returns:
-            A new parsons table containing the selected columnns
+            parsons.Table
+                Selected columnns
 
         """
 
@@ -830,10 +861,14 @@ class ETL:
 
         .. code-block:: python
 
-            tbl = Table([['foo', 'bar', 'baz'],
-                         ['c', 4, 9.3],
-                         ['a', 2, 88.2],
-                         ['b', 1, 23.3],])
+            tbl = Table(
+                [
+                    ['foo', 'bar', 'baz'],
+                    ['c', 4, 9.3],
+                    ['a', 2, 88.2],
+                    ['b', 1, 23.3]
+                ]
+            )
 
             # You can structure the filter in multiple wayss
 
@@ -848,7 +883,8 @@ class ETL:
             >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         Args:
-            *filters: function or str
+            `*filters`: function or str
+
         Returns:
             A new parsons table containing the selected rows
 
@@ -869,6 +905,7 @@ class ETL:
                 The column or columns to analyze
             null_value: int or float or str
                 The null value
+
         Returns:
             ``None``
 
@@ -899,10 +936,11 @@ class ETL:
         different tables.
 
         Args:
-            tables: Parsons Table or list
+            tables: parsons.Table or list
                 A single table, or a list of tables
             missing: bool
                 The value to use when padding missing values
+
         Returns:
             ``None``
 
@@ -923,10 +961,11 @@ class ETL:
         ``missing`` keyword argument.
 
         Args:
-            tables: Parsons Table or list
+            tables: parsons.Table or list
                 A single table, or a list of tables
             missing: bool
                 The value to use when padding missing values
+
         Returns:
             ``None``
 
@@ -946,8 +985,9 @@ class ETL:
         Args:
             rows: int
                 The number of rows of each new Parsons table
+
         Returns:
-            List of Parsons tables
+            list[parsons.Table]
 
         """
 
@@ -958,10 +998,13 @@ class ETL:
         ]
 
     @staticmethod
-    def get_normalized_column_name(column_name):
+    def get_normalized_column_name(column_name: str) -> str:
         """
         Returns a column name with whitespace removed, non-alphanumeric characters removed, and
         everything lowercased.
+
+        Args:
+            column_name: str
 
         Returns:
             str
@@ -1000,7 +1043,8 @@ class ETL:
                 value of None), 'ignore' them, or 'fail' (raising an error).
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -1083,68 +1127,72 @@ class ETL:
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
-        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`_.
-
         For example, the output from the query to get a table's definition is
         returned as one component per row. The `reduce_rows` method can be used
         to reduce all those to a single row containg the entire query.
 
+        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`__.
+
         .. code-block:: python
 
-            >>> ddl = rs.query(sql_to_get_table_ddl)
-            >>> ddl.table
+            ddl = rs.query(sql_to_get_table_ddl)
+            ddl.table
 
-            +--------------+--------------+----------------------------------------------------+
-            | schemaname   | tablename    | ddl                                                |
-            +==============+==============+====================================================+
-            | 'db_scratch' | 'state_fips' | '--DROP TABLE db_scratch.state_fips;'              |
-            +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | 'CREATE TABLE IF NOT EXISTS db_scratch.state_fips' |
-            +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '('                                                |
-            +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |
-            +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |
-            +--------------+--------------+----------------------------------------------------+
+        +--------------+--------------+----------------------------------------------------+
+        | schemaname   | tablename    | ddl                                                |
+        +==============+==============+====================================================+
+        | 'db_scratch' | 'state_fips' | '--DROP TABLE db_scratch.state_fips;'              |
+        +--------------+--------------+----------------------------------------------------+
+        | 'db_scratch' | 'state_fips' | 'CREATE TABLE IF NOT EXISTS db_scratch.state_fips' |
+        +--------------+--------------+----------------------------------------------------+
+        | 'db_scratch' | 'state_fips' | '('                                                |
+        +--------------+--------------+----------------------------------------------------+
+        | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'              |
+        +--------------+--------------+----------------------------------------------------+
+        | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'            |
+        +--------------+--------------+----------------------------------------------------+
 
-            >>> reducer_fn = lambda columns, rows: [
-            ...     f"{columns[0]}.{columns[1]}",
-            ...     r"\n".join([row[2] for row in rows])]
-            >>> ddl.reduce_rows(
-            ...     ['schemaname', 'tablename'],
-            ...     reducer_fn,
-            ...     ['tablename', 'ddl'],
-            ...     presorted=True)
-            >>> ddl.table
+        .. code-block:: python
 
-            +-------------------------+-----------------------------------------------------------------------+
-            | tablename               | ddl                                                                   |
-            +=========================+=======================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |
-            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |
-            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |
-            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |
-            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
-            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |
-            +-------------------------+-----------------------------------------------------------------------+
+            reducer_fn = lambda columns, rows: [
+                f"{columns[0]}.{columns[1]}",
+                r"\n".join([row[2] for row in rows])
+            ]
+            ddl.reduce_rows(
+                ['schemaname', 'tablename'],
+                reducer_fn,
+                ['tablename', 'ddl'],
+                presorted=True
+            )
+
+        +-------------------------+-----------------------------------------------------------------------+
+        | tablename               | ddl                                                                   |
+        +=========================+=======================================================================+
+        | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS     |
+        |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t |
+        |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW      |
+        |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name             |
+        |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE       |
+        |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                         |
+        +-------------------------+-----------------------------------------------------------------------+
 
         Args:
-            columns: list
+            columns (list):
                 The column(s) by which to group the rows.
-            reduce_func: fun
+            reduce_func (fun):
                 The function by which to reduce the rows. Should take the 2
                 arguments, the columns list and the rows list and return a list.
                 `reducer(columns: list, rows: list) -> list;`
-            headers: list
+            headers (list):
                 The list of headers for modified table. The length of `headers`
                 should match the length of the list returned by the reduce
                 function.
-            presorted: bool
+            presorted (bool):
                 If false, the row will be sorted.
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 
@@ -1186,8 +1234,10 @@ class ETL:
         Args:
             new_header: list
                 List of new header column names
+
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
         self.table = petl.setheader(self.table, new_header)
@@ -1203,20 +1253,20 @@ class ETL:
 
         .. code-block:: python
 
-            >>> # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments
-            >>> tbl = Table([
-            ...     ['col1', 'col2'],
-            ...     ['# this is a comment row'],
-            ...     ['a', 1],
-            ...     ['#this is another comment', 'this is also ignored'],
-            ...     ['b', 2]
-            ... ])
-            >>> tbl.use_petl('skipcomments', '#', update_table=True)
+            # https://petl.readthedocs.io/en/v1.6.0/transform.html#petl.transform.basics.skipcomments
+            tbl = Table(
+                [
+                    ['col1', 'col2'],
+                    ['# this is a comment row'],
+                    ['a', 1],
+                    ['#this is another comment', 'this is also ignored'],
+                    ['b', 2]
+                ]
+            )
+            tbl.use_petl('skipcomments', '#', update_table=True)
 
-            {'col1': 'a', 'col2': 1}
-            {'col1': 'b', 'col2': 2}
-
-            >>> tbl.table
+            >>> {'col1': 'a', 'col2': 1}
+            >>> {'col1': 'b', 'col2': 2}
 
             +------+------+
             | col1 | col2 |
@@ -1269,8 +1319,8 @@ class ETL:
 
         .. code-block:: python
 
-            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]])
-            >>> tbl.table
+            tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]])
+
             +---+---+
             | a | b |
             +===+===+
@@ -1283,9 +1333,9 @@ class ETL:
             | 2 | 3 |
             +---+---+
 
-            >>> tbl.deduplicate('a')
-            >>> # removes all subsequent rows with {'a': 1}
-            >>> tbl.table
+            tbl.deduplicate('a')
+            # removes all subsequent rows with {'a': 1}
+
             +---+---+
             | a | b |
             +===+===+
@@ -1294,11 +1344,11 @@ class ETL:
             | 2 | 3 |
             +---+---+
 
-            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
-            >>> tbl.deduplicate(['a', 'b'])
-            >>> # sorted on both ('a', 'b') so (1, 2) was placed before (1, 3)
-            >>> # did not remove second instance of {'a': 1} or {'b': 3}
-            >>> tbl.table
+            tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            tbl.deduplicate(['a', 'b'])
+            # sorted on both ('a', 'b') so (1, 2) was placed before (1, 3)
+            # did not remove second instance of {'a': 1} or {'b': 3}
+
             +---+---+
             | a | b |
             +===+===+
@@ -1309,21 +1359,20 @@ class ETL:
             | 2 | 3 |
             +---+---+
 
+             tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+             tbl.deduplicate('a').deduplicate('b')
+             # can chain method to sort/dedupe on 'a', then sort/dedupe on 'b'
 
-            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
-            >>> tbl.deduplicate('a').deduplicate('b')
-            >>> # can chain method to sort/dedupe on 'a', then sort/dedupe on 'b'
-            >>> tbl.table
             +---+---+
             | a | b |
             +===+===+
             | 1 | 3 |
             +---+---+
 
-            >>> tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
-            >>> tbl.deduplicate('b').deduplicate('a')
-            >>> # Order DOES matter when deduping on one column at a time
-            >>> tbl.table
+            tbl = Table([['a', 'b'], [1, 3], [1, 2], [1, 2], [2, 3]]) # reset
+            tbl.deduplicate('b').deduplicate('a')
+            # Order DOES matter when deduping on one column at a time
+
             +---+---+
             | a | b |
             +===+===+
@@ -1337,7 +1386,8 @@ class ETL:
                 If false, the row will be sorted.
 
         Returns:
-            `Parsons Table` and also updates self
+            parsons.Table
+                Also updates self
 
         """
 

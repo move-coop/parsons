@@ -156,12 +156,9 @@ class ActionKit:
         Add a phone number to a user.
 
         Args:
-            user_id: string
-                The id of the user.
-            phone_type: string
-                The type of the phone (e.g., "Home").
-            phone: string
-                The phone number.
+            user_id (str): The id of the user
+            phone_type (str): The type of the phone (e.g. "Home")
+            phone (str): The phone number
 
         Returns:
             Phone json object

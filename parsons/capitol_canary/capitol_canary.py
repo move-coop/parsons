@@ -252,7 +252,8 @@ class CapitolCanary:
                 Additional fields on the advocate to update
 
         Returns:
-            The int ID of the created advocate.
+            int
+                ID of the created advocate
 
         """
 

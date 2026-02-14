@@ -36,7 +36,7 @@ class BulkImport:
 
         Args:
             job_id : int
-                The bulk import job id.
+                Bulk import job id.
 
         Returns:
             dict
@@ -58,7 +58,7 @@ class BulkImport:
 
         Args:
             job_id: int
-                The bulk import job id.
+                Bulk import job id.
 
         Returns:
             Parsons Table
@@ -216,7 +216,7 @@ class BulkImport:
 
         Returns:
             int
-                The bulk import job id
+                Bulk import job id
 
         """
 
@@ -342,7 +342,7 @@ class BulkImport:
 
         Returns:
             int
-                The bulk import job id
+                Bulk import job id
 
         """
 
@@ -391,7 +391,7 @@ class BulkImport:
 
         Returns:
             int
-                The bulk import job id
+                Bulk import job id
 
         """
 
@@ -461,7 +461,7 @@ class BulkImport:
 
         Returns:
             int
-                The bulk import job id
+                Bulk import job id
 
         """
 
@@ -491,7 +491,7 @@ class BulkImport:
             * - ``vanid``
               - Yes
               - A valid VANID primary key
-            * - ***``CF{CustomFieldID}``
+            * - ``CF{CustomFieldID}``
               - Yes
               - At least one custom field column to be loaded associated with the provided
                 custom_field_group_id. The column name should be a valid Custom Field ID
@@ -512,7 +512,7 @@ class BulkImport:
 
         Returns:
             int
-                The bulk import job id
+                Bulk import job id
 
         """
 

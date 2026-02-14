@@ -157,24 +157,16 @@ class Freshdesk:
         for more information.
 
         Args:
-            email: str
-                Filter by email address.
-            mobile: str
-                Filter by mobile phone number.
-            phone: str
-                Filter by phone number.
-            company_id: int
-                Filter by company ID.
-            state: str
-                Filter by state.
-            updated_since: str
-                Earliest date to include in results.
-            expand_custom_fields: boolean
-                Expand nested custom fields to their own columns.
+            email (str): Filter by email address.
+            mobile (str): Filter by mobile phone number.
+            phone (str): Filter by phone number.
+            company_id (int): Filter by company ID.
+            state (str): Filter by state.
+            updated_since (str): Earliest date to include in results.
+            expand_custom_fields (bool): Expand nested custom fields to their own columns.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            parsons.Table: See :ref:`parsons-table` for output options.
 
         """
 

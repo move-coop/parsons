@@ -499,14 +499,15 @@ class Scytl:
                 If this is False, the connector will check to see if the current version
                 matches the previously fetched version of the results.
                 If the version has not been changed, no results will be fetched or returned.
-                Default: false
+                Default is false
 
         Returns:
             list[dict]
                 The list should contain entries for each candidate in each office,
                 per vote method and per county.
 
-                If fetching for a state, results will look like:
+                If fetching for a state, results will look like this.
+
                 - state
                 - county_name
                 - office
@@ -514,7 +515,7 @@ class Scytl:
                 - reg_voters
                 - precincts_reporting
                 - total_precincts
-                - vote_method (note: some administrators choose to differentiate
+                - vote_method (note, some administrators choose to differentiate
                   results by vote method, while others do not)
                 - candidate_name
                 - candidate_party (many administrators do not use this
@@ -523,7 +524,7 @@ class Scytl:
                   with this vote method in this county)
                 - timestamp_last_updated
 
-                If fetching for a county, results will look like:
+                If fetching for a county, results will look like this.
 
                 - state
                 - county_name
@@ -531,7 +532,7 @@ class Scytl:
                 - office
                 - ballots_cast
                 - reg_voters
-                - vote_method (note: some administrators choose to
+                - vote_method (note, some administrators choose to
                   differentiate results by vote method, while others do not)
                 - candidate_name
                 - candidate_party (many administrators do not use this

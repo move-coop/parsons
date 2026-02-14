@@ -143,7 +143,8 @@ class Airtable:
                 Automatic data conversion from string values.
 
         Returns:
-            Dictionary of inserted row
+            dict
+                Inserted row
 
         """
 
@@ -164,7 +165,8 @@ class Airtable:
                 Automatic data conversion from string values.
 
         Returns:
-            List of dictionaries of inserted rows
+            list[dict]
+                Inserted rows
 
         """
 
@@ -177,8 +179,9 @@ class Airtable:
 
     def update_record(self, record_id, fields, typecast=False, replace=False):
         """
-        Updates a record by its record `id`. Only Fields passed are updated, the rest are left as
-        is.
+        Updates a record by its record `id`.
+
+        Only Fields passed are updated, the rest are left as-is.
 
         Args:
             record_id: str
@@ -193,7 +196,8 @@ class Airtable:
                 will bet set to null.
 
         Returns:
-            Dictionary of updated row
+            dict
+                Updated row
 
         """
 
@@ -219,7 +223,8 @@ class Airtable:
                 will bet set to null.
 
         Returns:
-            List of dicts of updated records
+            list[dict]
+                Updated records
 
         """
 
@@ -241,12 +246,12 @@ class Airtable:
         so the order of the columns is irrelevant.
 
         Args:
-            table: A Parsons Table or list of dicts
-                Parsons table or list with records to upsert. Records must contain the record
+            table: Table | list[dict]
+                Records to upsert. Records must contain the record
                 `id` column or the column(s) defined in `key_fields`.
-            key_fields: list of str
-              List of field names that Airtable should use to match records in the input
-              with existing records.
+            key_fields: list[str]
+                Field names that Airtable should use to match records in the input
+                with existing records.
             typecast: boolean
                 Automatic data conversion from string values.
             replace: boolean
@@ -255,10 +260,10 @@ class Airtable:
                 will bet set to null.
 
         Returns:
-            Dictionary containing:
-                - `updated_records`: list of updated record `id`s
-                - `created_records`: list of created records `id`s
-                - `records`: list of records
+            dict[str, list]
+                - `updated_records`, a list of each updated record `id`
+                - `created_records`, a list of each created records `id`
+                - `records`, a list of records
 
         """
 
@@ -291,7 +296,8 @@ class Airtable:
             record_id: str
                 The Airtable record `id`
         Returns:
-            Dictionary of record `id` and `deleted` status
+            dict
+                Record `id` and `deleted` status
 
         """
 
@@ -304,10 +310,12 @@ class Airtable:
         Delete multiple records from an Airtable.
 
         Args:
-            table: A Parsons Table or list containing the record `id`s to delete.
+            table: Table | list[dict]
+                A Parsons Table or list containing each record `id` to delete.
 
         Returns:
-            List of dicts with record `id` and `deleted` status
+            list[dict]
+                Containing record `id` and `deleted` status
 
         """
 

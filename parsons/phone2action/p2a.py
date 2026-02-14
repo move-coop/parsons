@@ -165,7 +165,7 @@ class Phone2Action:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
         Returns:
             The int ID of the created advocate.
@@ -235,7 +235,7 @@ class Phone2Action:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
 
         """

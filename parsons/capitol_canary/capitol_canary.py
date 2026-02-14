@@ -80,7 +80,8 @@ class CapitolCanary:
                 page.
 
         Returns:
-            A dict of parsons tables:
+            dict[Table]
+
                 * emails
                 * phones
                 * memberships
@@ -247,8 +248,9 @@ class CapitolCanary:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
+
         Returns:
             The int ID of the created advocate.
 
@@ -351,7 +353,7 @@ class CapitolCanary:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
 
         """

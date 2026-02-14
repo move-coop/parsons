@@ -71,7 +71,7 @@ class Airmeet:
                 API call. For details, see `Airmeet's Event Details API
                 documentation
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
-            **kwargs:
+            `**kwargs`:
                 Additional parameters to include in the request.
 
         Returns:

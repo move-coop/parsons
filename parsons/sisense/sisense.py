@@ -46,7 +46,7 @@ class Sisense:
                 The ID of the dashboard (required).
             chart_id: str or int
                 The ID of the chart. Only required for publishing individual charts.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments.
 
         Returns:

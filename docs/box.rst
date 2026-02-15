@@ -20,8 +20,6 @@ This class requires credentials in the form three strings to be either passed in
 .. code-block:: bash
 
   # Note: these are fake keys, provided as examples.
-  export BOX_CLIENT_ID=dp4rqi0cz5qckz361fziavdtdwxz
-  export BOX_CLIENT_SECRET=4KHMDLVy89TeuUpSRa4CN5o35u9h
   export BOX_ACCESS_TOKEN=7B39m3ozIGyTcazbWRbi5F2SSZ5J
 
 *NOTE*: Most functions in this class exist both in 'path'-based form and 'folder_id'/'file_id'-based form. The path-based forms rely on the `get_item_id()` method, which navigates through subfolders with sequential API calls. This can be slow and computationally expensive if the path in question is long, or intermediate folders contain many items. If efficiency is paramount, consider using the "by_id" methods of each function.
@@ -36,9 +34,7 @@ This class requires credentials in the form three strings to be either passed in
    box = Box()
 
    # Second approach: Pass API credentials as arguments
-   box = Box(client_id='dp4rqi0cz5qckz361fziavdtdwxz',
-             client_secret='4KHMDLVy89TeuUpSRa4CN5o35u9h',
-             access_token='7B39m3ozIGyTcazbWRbi5F2SSZ5J'):
+   box = Box(access_token='7B39m3ozIGyTcazbWRbi5F2SSZ5J'):
 
 **Create a subfolder and upload a Parsons table to it**
 

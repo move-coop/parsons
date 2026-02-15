@@ -9,11 +9,10 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 1. Set up Box account.
 2. Go to Developer console (https://app.box.com/developers/console).
 3. Either select an existing app or create a new one. To create a new one:
-  - Select "New App" > "Custom App" > "OAuth 2.0 with JWT".
-4. View your app and select "Configuration" in the left menu.
-5. Scroll down to get the client id & secret, and just above it
-   select OAuth2.0 with JWT (Server Authentication) and
-   generate a developer token, aka "access token".
+  - Select "New App" > Choose an App Name > Select "Server Auth - JWT" for App Type.
+4. View your app and select "Configuration" in the top menu.
+5. Scroll down to select OAuth 2.0 with JSON Web Tokens (Server Authentication) and
+   generate a Developer Token, aka "access token".
 
 """
 
@@ -21,7 +20,7 @@ import logging
 import tempfile
 from pathlib import Path
 
-import boxsdk
+import box_sdk_gen
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
@@ -36,12 +35,6 @@ class Box:
     """Box is a file storage provider.
 
     `Args:`
-        client_id: str
-            Box client (account) id -- probably a 16-char alphanumeric.
-            Not required if ``BOX_CLIENT_ID`` env variable is set.
-        client_secret: str
-            Box private key -- probably a 32-char alphanumeric.
-            Not required if ``BOX_CLIENT_SECRET`` env variable is set.
         access_token: str
             Box developer access token -- probably a 32-char alphanumeric.
             Note that this is only valid for developer use only, and should not
@@ -60,15 +53,10 @@ class Box:
     # In what formats can we upload/save Tables to Box? For now csv and JSON.
     ALLOWED_FILE_FORMATS = ["csv", "json"]
 
-    def __init__(self, client_id=None, client_secret=None, access_token=None):
-        client_id = check_env("BOX_CLIENT_ID", client_id)
-        client_secret = check_env("BOX_CLIENT_SECRET", client_secret)
+    def __init__(self, access_token=None):
         access_token = check_env("BOX_ACCESS_TOKEN", access_token)
-
-        oauth = boxsdk.OAuth2(
-            client_id=client_id, client_secret=client_secret, access_token=access_token
-        )
-        self.client = boxsdk.Client(oauth)
+        oauth = box_sdk_gen.BoxDeveloperTokenAuth(token=access_token)
+        self.client = box_sdk_gen.BoxClient(auth=oauth)
 
     def create_folder(self, path) -> str:
         """Create a Box folder.
@@ -102,7 +90,7 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
-        subfolder = self.client.folder(parent_folder_id).create_subfolder(folder_name)
+        subfolder = self.client.folder.create_folder(folder_name, parent=parent_folder_id)
         return subfolder.id
 
     def delete_folder(self, path) -> None:
@@ -122,7 +110,7 @@ class Box:
             folder_id: str
                The Box id of the folder to delete.
         """
-        self.client.folder(folder_id=folder_id).delete()
+        self.client.folder.delete_folder_by_id(folder_id=folder_id)
 
     def delete_file(self, path) -> None:
         """Delete a Box file.
@@ -193,7 +181,7 @@ class Box:
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
-    def upload_table(self, table, path="", format="csv") -> boxsdk.object.file.File:
+    def upload_table(self, table, path="", format="csv") -> box_sdk_gen.schemas.file.File:
         """Save the passed table to Box.
 
         `Args`:
@@ -204,8 +192,8 @@ class Box:
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: BoxFile
-            A Box File object
+        `Returns`: FileFull
+            A Box File Full object
         """
         if "/" in path:
             folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
@@ -220,7 +208,7 @@ class Box:
 
     def upload_table_to_folder_id(
         self, table, file_name, folder_id=DEFAULT_FOLDER_ID, format="csv"
-    ) -> boxsdk.object.file.File:
+    ) -> box_sdk_gen.schemas.file.File:
         """Save the passed table to Box.
 
         `Args`:
@@ -233,8 +221,8 @@ class Box:
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: BoxFile
-            A Box File object
+        `Returns`: FileFull
+            A Box File Full object
         """
 
         if format not in self.ALLOWED_FILE_FORMATS:
@@ -255,9 +243,11 @@ class Box:
                     f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
-            new_file = self.client.folder(folder_id).upload(
-                file_path=temp_file_path, file_name=file_name
-            )
+            file_size = Path(temp_file_path).stat().st_size
+
+            with Path(temp_file_path).open(mode="wb") as output_file:
+                new_file = self.client.chunked_upload.upload_big_file(file=output_file,file_name=file_name,file_size=file_size, parent_folder_id=folder_id)
+
         return new_file
 
     def download_file(self, path: str, local_path: str = None) -> str:
@@ -284,7 +274,7 @@ class Box:
         file_id = self.get_item_id(path)
 
         with Path(local_path).open(mode="wb") as output_file:
-            self.client.file(file_id).download_to(output_file)
+            self.client.download.download_file_to_output_stream(file_id=file_id, output_stream=output_file)
 
         return local_path
 
@@ -324,7 +314,7 @@ class Box:
         # which we need, because the Table we return will continue to use it.
         output_file_name = create_temp_file()
         with Path(output_file_name).open(mode="wb") as output_file:
-            self.client.file(file_id).download_to(output_file)
+            self.client.download.download_file_to_output_stream(file_id=file_id, output_stream=output_file)
 
         if format == "csv":
             return Table.from_csv(output_file_name)
@@ -371,7 +361,7 @@ class Box:
             # current element. If we're at initial, non-recursed call, base_folder
             # will be default folder.
             item_id = None
-            for item in self.client.folder(folder_id=base_folder_id).get_items():
+            for item in self.client.folder().get_folder_items(folder_id=base_folder_id):
                 if item.name == this_element:
                     item_id = item.id
                     break

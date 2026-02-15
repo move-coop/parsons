@@ -16,8 +16,6 @@ from test.conftest import mark_live_test
 variables have been set, e.g. via
 
 # Note: these are fake keys, provided as examples.
-export BOX_CLIENT_ID=txqedp4rqi0cz5qckz361fziavdtdwxz
-export BOX_CLIENT_SECRET=bk264KHMDLVy89TeuUpSRa4CN5o35u9h
 export BOX_ACCESS_TOKEN=boK97B39m3ozIGyTcazbWRbi5F2SSZ5J
 """
 TEST_CLIENT_ID = os.getenv("BOX_CLIENT_ID")

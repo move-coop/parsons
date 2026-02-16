@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+docs/_build
 develop-eggs/
 dist/
 downloads/
@@ -129,3 +130,6 @@ docs/dirhtml
 
 # bin files
 bin/
+
+# uv
+uv.lock

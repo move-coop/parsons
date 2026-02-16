@@ -18,9 +18,16 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 
 import logging
 import tempfile
+from io import BufferedReader
 from pathlib import Path
 
-import box_sdk_gen
+from box_sdk_gen import BoxClient, BoxDeveloperTokenAuth
+from box_sdk_gen.managers.folders import CreateFolderParent
+from box_sdk_gen.managers.uploads import (
+    UploadFileAttributesParentField,
+    UploadWithPreflightCheckAttributes,
+)
+from box_sdk_gen.schemas.file import File
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
@@ -55,8 +62,8 @@ class Box:
 
     def __init__(self, access_token=None):
         access_token = check_env("BOX_ACCESS_TOKEN", access_token)
-        oauth = box_sdk_gen.BoxDeveloperTokenAuth(token=access_token)
-        self.client = box_sdk_gen.BoxClient(auth=oauth)
+        oauth = BoxDeveloperTokenAuth(token=access_token)
+        self.client = BoxClient(auth=oauth)
 
     def create_folder(self, path) -> str:
         """Create a Box folder.
@@ -71,6 +78,9 @@ class Box:
         """
         if "/" in path:
             parent_folder_path, folder_name = path.rsplit(sep="/", maxsplit=1)
+            parent_folder_id = self.get_item_id(path=parent_folder_path)
+        elif "\\" in path:
+            parent_folder_path, folder_name = path.rsplit(sep="\\", maxsplit=1)
             parent_folder_id = self.get_item_id(path=parent_folder_path)
         else:
             folder_name = path
@@ -90,7 +100,8 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
-        subfolder = self.client.folder.create_folder(folder_name, parent=parent_folder_id)
+        parent = CreateFolderParent(id=parent_folder_id)
+        subfolder = self.client.folders.create_folder(name=folder_name, parent=parent)
         return subfolder.id
 
     def delete_folder(self, path) -> None:
@@ -110,7 +121,7 @@ class Box:
             folder_id: str
                The Box id of the folder to delete.
         """
-        self.client.folder.delete_folder_by_id(folder_id=folder_id)
+        self.client.folders.delete_folder_by_id(folder_id=folder_id, recursive=True)
 
     def delete_file(self, path) -> None:
         """Delete a Box file.
@@ -129,7 +140,7 @@ class Box:
             file_id: str
               The Box id of the file to delete.
         """
-        self.client.file(file_id=file_id).delete()
+        self.client.files.delete_file_by_id(file_id=file_id)
 
     def list(self, path="", item_type=None) -> Table:
         """Return a Table of Box files and/or folders found at a path.
@@ -149,12 +160,12 @@ class Box:
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
 
     def list_items_by_id(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
-        url = "https://api.box.com/2.0/folders/" + folder_id
-        json_response = self.client.make_request("GET", url)
-
-        items = Table(json_response.json()["item_collection"]["entries"])
+        folder_items = self.client.folders.get_folder_items(folder_id)
         if item_type:
-            items = items.select_rows(lambda row: row.type == item_type)
+            items = Table([vars(x) for x in folder_items.entries if x.type == item_type])
+        else:
+            items = Table([vars(x) for x in folder_items.entries])
+
         return items
 
     def list_files_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
@@ -181,7 +192,7 @@ class Box:
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
-    def upload_table(self, table, path="", format="csv") -> box_sdk_gen.schemas.file.File:
+    def upload_table(self, table, path="", format="csv") -> File:
         """Save the passed table to Box.
 
         `Args`:
@@ -198,6 +209,9 @@ class Box:
         if "/" in path:
             folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
             folder_id = self.get_item_id(path=folder_path)
+        elif "\\" in path:
+            folder_path, file_name = path.rsplit(sep="\\", maxsplit=1)
+            folder_id = self.get_item_id(path=folder_path)
         else:  # pragma: no cover
             file_name = path
             folder_id = DEFAULT_FOLDER_ID
@@ -208,7 +222,7 @@ class Box:
 
     def upload_table_to_folder_id(
         self, table, file_name, folder_id=DEFAULT_FOLDER_ID, format="csv"
-    ) -> box_sdk_gen.schemas.file.File:
+    ) -> File:
         """Save the passed table to Box.
 
         `Args`:
@@ -243,10 +257,30 @@ class Box:
                     f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
-            file_size = Path(temp_file_path).stat().st_size
-
-            with Path(temp_file_path).open(mode="wb") as output_file:
-                new_file = self.client.chunked_upload.upload_big_file(file=output_file,file_name=file_name,file_size=file_size, parent_folder_id=folder_id)
+            # Utilize chunked uploads depending on file size as suggested
+            # by Box documentation. Files over 50MB should use chunked uploads.
+            table_file = Path(temp_file_path)
+            file_size = table_file.stat().st_size
+            with BufferedReader(table_file.open(mode="rb")) as upload_file:
+                if file_size > 50000000:
+                    new_file = self.client.chunked_uploads.upload_big_file(
+                        file=upload_file,
+                        file_name=file_name,
+                        file_size=file_size,
+                        parent_folder_id=folder_id,
+                    )
+                else:
+                    file_parent = UploadFileAttributesParentField(id=folder_id)
+                    file_attributes = UploadWithPreflightCheckAttributes(
+                        name=file_name, parent=file_parent, size=file_size
+                    )
+                    uploaded_files = self.client.uploads.upload_with_preflight_check(
+                        attributes=file_attributes, file=upload_file
+                    )
+                    if uploaded_files.total_count > 0:
+                        new_file = uploaded_files.entries[0]
+                    else:
+                        raise SystemError("Did not receive file upload list from upload response")
 
         return new_file
 
@@ -274,7 +308,9 @@ class Box:
         file_id = self.get_item_id(path)
 
         with Path(local_path).open(mode="wb") as output_file:
-            self.client.download.download_file_to_output_stream(file_id=file_id, output_stream=output_file)
+            self.client.downloads.download_file_to_output_stream(
+                file_id=file_id, output_stream=output_file
+            )
 
         return local_path
 
@@ -314,7 +350,9 @@ class Box:
         # which we need, because the Table we return will continue to use it.
         output_file_name = create_temp_file()
         with Path(output_file_name).open(mode="wb") as output_file:
-            self.client.download.download_file_to_output_stream(file_id=file_id, output_stream=output_file)
+            self.client.downloads.download_file_to_output_stream(
+                file_id=file_id, output_stream=output_file
+            )
 
         if format == "csv":
             return Table.from_csv(output_file_name)
@@ -352,7 +390,10 @@ class Box:
                 this_element, path = path.split(sep="/", maxsplit=1)
                 if path == "":
                     raise ValueError('Illegal trailing "/" in file path')
-
+            elif "\\" in path:
+                this_element, path = path.split(sep="\\", maxsplit=1)
+                if path == "":
+                    raise ValueError('Illegal trailing "\\" in file path')
             else:
                 this_element = path
                 path = ""
@@ -361,7 +402,7 @@ class Box:
             # current element. If we're at initial, non-recursed call, base_folder
             # will be default folder.
             item_id = None
-            for item in self.client.folder().get_folder_items(folder_id=base_folder_id):
+            for item in self.client.folders.get_folder_items(folder_id=base_folder_id).entries:
                 if item.name == this_element:
                     item_id = item.id
                     break

@@ -7,7 +7,7 @@ import warnings
 from pathlib import Path
 
 import pytest
-from boxsdk.exception import BoxAPIException, BoxOAuthException
+from box_sdk_gen.box.errors import BoxAPIError, BoxSDKError
 
 from parsons import Box, Table
 from test.conftest import mark_live_test
@@ -263,11 +263,11 @@ class TestBoxStorage(unittest.TestCase):
             box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
 
         # Upload to non-existent folder
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
+        with pytest.raises(BoxAPIError):
             box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
 
         # Download a non-existent file
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
+        with pytest.raises(BoxAPIError):
             box.get_table_by_file_id(nonexistent_id, format="json")
 
         # Create folder in non-existent parent
@@ -275,10 +275,10 @@ class TestBoxStorage(unittest.TestCase):
             box.create_folder("nonexistent_path/path")
 
         # Create folder in non-existent parent
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
+        with pytest.raises(BoxAPIError):
             box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
 
         # Try using bad credentials
         box = Box(access_token="5345345345")
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxOAuthException):
+        with pytest.raises(BoxSDKError):
             box.list_files_by_id()

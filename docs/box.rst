@@ -9,13 +9,13 @@ Overview
 
 .. note::
   Authentication
-    This connector requires authentication credentials for a Box business-level account. Information on setting up those credentials can be found at the `Box Custom App Quick Start page <https://developer.box.com/guides/applications/custom-apps/oauth2-setup/>`_.
+    This connector requires authentication credentials for a Box individual-level account. Information on setting up credentials can be found at the `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_.
 
 **********
 Quickstart
 **********
 
-This class requires credentials in the form three strings to be either passed into the constructor or made available as environment variables:
+This class requires credentials in the form of a string to be either passed into the constructor or made available as an environment variable:
 
 .. code-block:: bash
 

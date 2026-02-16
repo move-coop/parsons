@@ -132,9 +132,54 @@ class TestBoxStorage(unittest.TestCase):
         assert folder_list["name"] == ["temp_folder2"]
 
     def test_upload_file(self) -> None:
-        # Count on environment variables being set
-        box = Box()
+        def test_upload_file_from_table(self, table) -> str:
+            # Count on environment variables being set
+            box = Box()
+            base_file_name = generate_random_string(24)
 
+            box_file = box.upload_table_to_folder_id(
+                table, base_file_name, folder_id=self.temp_folder_id
+            )
+
+            new_table = box.get_table_by_file_id(box_file.id)
+
+            # Check that what we saved is equal to what we got back
+            assert str(table) == str(new_table)
+
+            # Check that things also work in JSON
+            box_file = box.upload_table_to_folder_id(
+                table, f"{base_file_name}_json", folder_id=self.temp_folder_id, format="json"
+            )
+
+            new_table = box.get_table_by_file_id(box_file.id, format="json")
+
+            # Check that what we saved is equal to what we got back
+            assert str(table) == str(new_table)
+
+            # Now check the same thing with paths instead of file_id
+            path_filename = f"path_{base_file_name}"
+            box_file = box.upload_table(table, f"{self.temp_folder_name}/{path_filename}")
+            new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
+
+            # Check that what we saved is equal to what we got back
+            assert str(table) == str(new_table)
+
+            # Now check the same thing with a file uploaded with Box.upload_file()
+            uploaded_file = Path(table.to_csv())
+            path_filename = Path(self.temp_folder_name) / f"upload_file_{base_file_name}"
+            box_file = box.upload_file(file=str(uploaded_file), path=str(path_filename))
+            new_table = box.get_table(path=str(path_filename))
+
+            # Check that what we saved is equal to what we got back
+            assert str(table) == str(new_table)
+
+            # Check that we throw an exception with bad formats
+            with pytest.raises(ValueError):  # noqa: PT011
+                box.upload_table_to_folder_id(table, base_file_name, format="illegal_format")
+            with pytest.raises(ValueError):  # noqa: PT011
+                box.get_table_by_file_id(box_file.id, format="illegal_format")
+
+        # Test using a small table.
         table = Table(
             [
                 ["phone_number", "last_name", "first_name"],
@@ -142,35 +187,12 @@ class TestBoxStorage(unittest.TestCase):
                 ["5126993336", "Obama", "Barack"],
             ]
         )
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers", folder_id=self.temp_folder_id
-        )
 
-        new_table = box.get_table_by_file_id(box_file.id)
+        test_upload_file_from_table(self, table)
 
-        # Check that what we saved is equal to what we got back
-        assert str(table) == str(new_table)
-
-        # Check that things also work in JSON
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers_json", folder_id=self.temp_folder_id, format="json"
-        )
-
-        new_table = box.get_table_by_file_id(box_file.id, format="json")
-
-        # Check that what we saved is equal to what we got back
-        assert str(table) == str(new_table)
-
-        # Now check the same thing with paths instead of file_id
-        path_filename = "path_phone_numbers"
-        box_file = box.upload_table(table, f"{self.temp_folder_name}/{path_filename}")
-        new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
-
-        # Check that we throw an exception with bad formats
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.upload_table_to_folder_id(table, "phone_numbers", format="illegal_format")
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_table_by_file_id(box_file.id, format="illegal_format")
+        # Now do the same with a large table (>50MB).
+        table = Table([{"first": "Bob", "last": "Smith"} for x in range(5000000)])
+        test_upload_file_from_table(self, table)
 
     def test_download_file(self) -> None:
         box = Box()
@@ -188,6 +210,12 @@ class TestBoxStorage(unittest.TestCase):
         box.upload_table(table, str(path_filename))
 
         downloaded_file = Path(box.download_file(str(path_filename)))
+
+        assert uploaded_file.read_text() == downloaded_file.read_text()
+
+        downloaded_file = Path(
+            box.download_file(str(path_filename), local_path=str(downloaded_file))
+        )
 
         assert uploaded_file.read_text() == downloaded_file.read_text()
 
@@ -228,6 +256,11 @@ class TestBoxStorage(unittest.TestCase):
 
         # Trailing "/"
         file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
+        with pytest.raises(ValueError):  # noqa: PT011
+            box.get_item_id(path=file_path)
+
+        # Trailing "\\"
+        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers\\"
         with pytest.raises(ValueError):  # noqa: PT011
             box.get_item_id(path=file_path)
 

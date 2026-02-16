@@ -9,7 +9,7 @@ Overview
 
 .. note::
   Authentication
-    This connector requires authentication credentials for a Box individual-level account. Information on setting up credentials can be found at the `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_.
+    This connector requires authentication credentials for a Box account. Information on setting up credentials can be found at the `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_.
 
 **********
 Quickstart

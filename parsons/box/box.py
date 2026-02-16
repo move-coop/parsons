@@ -18,7 +18,6 @@ https://developer.box.com/guides/applications/custom-apps/oauth2-setup/
 
 import logging
 import tempfile
-from io import BufferedReader
 from pathlib import Path
 
 from box_sdk_gen import BoxClient, BoxDeveloperTokenAuth
@@ -60,12 +59,12 @@ class Box:
     # In what formats can we upload/save Tables to Box? For now csv and JSON.
     ALLOWED_FILE_FORMATS = ["csv", "json"]
 
-    def __init__(self, access_token=None):
+    def __init__(self, access_token: str = None):
         access_token = check_env("BOX_ACCESS_TOKEN", access_token)
         oauth = BoxDeveloperTokenAuth(token=access_token)
         self.client = BoxClient(auth=oauth)
 
-    def create_folder(self, path) -> str:
+    def create_folder(self, path: str) -> str:
         """Create a Box folder.
 
         `Args`:
@@ -79,15 +78,14 @@ class Box:
         if "/" in path:
             parent_folder_path, folder_name = path.rsplit(sep="/", maxsplit=1)
             parent_folder_id = self.get_item_id(path=parent_folder_path)
-        elif "\\" in path:
-            parent_folder_path, folder_name = path.rsplit(sep="\\", maxsplit=1)
-            parent_folder_id = self.get_item_id(path=parent_folder_path)
         else:
             folder_name = path
             parent_folder_id = DEFAULT_FOLDER_ID
         return self.create_folder_by_id(folder_name, parent_folder_id=parent_folder_id)
 
-    def create_folder_by_id(self, folder_name, parent_folder_id=DEFAULT_FOLDER_ID) -> str:
+    def create_folder_by_id(
+        self, folder_name: str, parent_folder_id: str = DEFAULT_FOLDER_ID
+    ) -> str:
         """Create a Box folder.
 
         `Args`:
@@ -104,7 +102,7 @@ class Box:
         subfolder = self.client.folders.create_folder(name=folder_name, parent=parent)
         return subfolder.id
 
-    def delete_folder(self, path) -> None:
+    def delete_folder(self, path: str) -> None:
         """Delete a Box folder.
 
         `Args`:
@@ -114,7 +112,7 @@ class Box:
         folder_id = self.get_item_id(path)
         self.delete_folder_by_id(folder_id=folder_id)
 
-    def delete_folder_by_id(self, folder_id) -> None:
+    def delete_folder_by_id(self, folder_id: str) -> None:
         """Delete a Box folder.
 
         `Args`:
@@ -123,7 +121,7 @@ class Box:
         """
         self.client.folders.delete_folder_by_id(folder_id=folder_id, recursive=True)
 
-    def delete_file(self, path) -> None:
+    def delete_file(self, path: str) -> None:
         """Delete a Box file.
 
         `Args`:
@@ -133,7 +131,7 @@ class Box:
         file_id = self.get_item_id(path)
         self.delete_file_by_id(file_id=file_id)
 
-    def delete_file_by_id(self, file_id) -> None:
+    def delete_file_by_id(self, file_id: str) -> None:
         """Delete a Box file.
 
         `Args`:
@@ -142,7 +140,7 @@ class Box:
         """
         self.client.files.delete_file_by_id(file_id=file_id)
 
-    def list(self, path="", item_type=None) -> Table:
+    def list(self, path: str = "", item_type: str = None) -> Table:
         """Return a Table of Box files and/or folders found at a path.
 
         `Args`:
@@ -159,7 +157,19 @@ class Box:
         folder_id = self.get_item_id(path) if path else DEFAULT_FOLDER_ID
         return self.list_items_by_id(folder_id=folder_id, item_type=item_type)
 
-    def list_items_by_id(self, folder_id=DEFAULT_FOLDER_ID, item_type=None) -> Table:
+    def list_items_by_id(self, folder_id: str = DEFAULT_FOLDER_ID, item_type: str = None) -> Table:
+        """Return a Table of Box files and/or folders found in a folder.
+
+        `Args`:
+            folder_id: str
+              The Box id of the folder to list items for.
+            item_type: str
+               Optionally which type of items should be returned, typically either
+               `file` or `folder`. If omitted, all items will be returned.
+
+        `Returns`: Table
+            A Parsons table of items in the folder and their attributes.
+        """
         folder_items = self.client.folders.get_folder_items(folder_id)
         if item_type:
             items = Table([vars(x) for x in folder_items.entries if x.type == item_type])
@@ -168,7 +178,7 @@ class Box:
 
         return items
 
-    def list_files_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+    def list_files_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
         """List all Box files in a folder.
 
         `Args`:
@@ -180,7 +190,7 @@ class Box:
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
 
-    def list_folders_by_id(self, folder_id=DEFAULT_FOLDER_ID) -> Table:
+    def list_folders_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
         """List all Box folders.
 
         `Args`:
@@ -192,7 +202,7 @@ class Box:
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
-    def upload_table(self, table, path="", format="csv") -> File:
+    def upload_table(self, table: Table, path: str = "", format: str = "csv") -> File:
         """Save the passed table to Box.
 
         `Args`:
@@ -203,14 +213,14 @@ class Box:
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: FileFull
-            A Box File Full object
+        `Returns`: File
+            A Box File object
         """
+        if "\\" in path:  # pragma: no cover
+            path = path.replace("\\", "/")
+
         if "/" in path:
             folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
-            folder_id = self.get_item_id(path=folder_path)
-        elif "\\" in path:
-            folder_path, file_name = path.rsplit(sep="\\", maxsplit=1)
             folder_id = self.get_item_id(path=folder_path)
         else:  # pragma: no cover
             file_name = path
@@ -221,7 +231,7 @@ class Box:
         )
 
     def upload_table_to_folder_id(
-        self, table, file_name, folder_id=DEFAULT_FOLDER_ID, format="csv"
+        self, table: Table, file_name: str, folder_id: str = DEFAULT_FOLDER_ID, format: str = "csv"
     ) -> File:
         """Save the passed table to Box.
 
@@ -235,8 +245,8 @@ class Box:
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: FileFull
-            A Box File Full object
+        `Returns`: File
+            A Box File object
         """
 
         if format not in self.ALLOWED_FILE_FORMATS:
@@ -257,30 +267,79 @@ class Box:
                     f'Got (theoretically) impossible format option "{format}"'
                 )  # pragma: no cover
 
-            # Utilize chunked uploads depending on file size as suggested
-            # by Box documentation. Files over 50MB should use chunked uploads.
-            table_file = Path(temp_file_path)
-            file_size = table_file.stat().st_size
-            with BufferedReader(table_file.open(mode="rb")) as upload_file:
-                if file_size > 50000000:
-                    new_file = self.client.chunked_uploads.upload_big_file(
-                        file=upload_file,
-                        file_name=file_name,
-                        file_size=file_size,
-                        parent_folder_id=folder_id,
-                    )
+            new_file = self.upload_file_to_folder_id(
+                file=temp_file_path, file_name=file_name, folder_id=folder_id
+            )
+
+        return new_file
+
+    def upload_file(self, file: str, path: str = "") -> File:
+        """Save the passed file to Box.
+
+        `Args`:
+            file: str
+               The local file to be saved to Box.
+            path: str
+               Optionally, file path to filename where table should be saved.
+
+        `Returns`: File
+            A Box File object
+        """
+        if "\\" in path:  # pragma: no cover
+            path = path.replace("\\", "/")
+
+        if "/" in path:
+            folder_path, file_name = path.rsplit(sep="/", maxsplit=1)
+            folder_id = self.get_item_id(path=folder_path)
+        else:  # pragma: no cover
+            file_name = path
+            folder_id = DEFAULT_FOLDER_ID
+
+        return self.upload_file_to_folder_id(file=file, file_name=file_name, folder_id=folder_id)
+
+    def upload_file_to_folder_id(
+        self, file: str, file_name: str, folder_id: str = DEFAULT_FOLDER_ID
+    ) -> File:
+        """Save the passed file to Box.
+
+        `Args`:
+            file: str
+               The local file to be saved to Box.
+            file_name: str
+               The filename under which it should be saved in Box.
+            folder_id: str
+               Optionally, the id of the subfolder in which it should be saved.
+
+        `Returns`: File
+            A Box File object
+        """
+
+        # Utilize chunked uploads depending on file size as suggested
+        # by Box documentation. Files over 50MB should use chunked uploads.
+        table_file = Path(file)
+        file_size = table_file.stat().st_size
+        with table_file.open(mode="rb") as upload_file:
+            if file_size > 50000000:
+                new_file = self.client.chunked_uploads.upload_big_file(
+                    file=upload_file,
+                    file_name=file_name,
+                    file_size=file_size,
+                    parent_folder_id=folder_id,
+                )
+            else:
+                file_parent = UploadFileAttributesParentField(id=folder_id)
+                file_attributes = UploadWithPreflightCheckAttributes(
+                    name=file_name, parent=file_parent, size=file_size
+                )
+                uploaded_files = self.client.uploads.upload_with_preflight_check(
+                    attributes=file_attributes, file=upload_file
+                )
+                if uploaded_files.total_count > 0:
+                    new_file = uploaded_files.entries[0]
                 else:
-                    file_parent = UploadFileAttributesParentField(id=folder_id)
-                    file_attributes = UploadWithPreflightCheckAttributes(
-                        name=file_name, parent=file_parent, size=file_size
-                    )
-                    uploaded_files = self.client.uploads.upload_with_preflight_check(
-                        attributes=file_attributes, file=upload_file
-                    )
-                    if uploaded_files.total_count > 0:
-                        new_file = uploaded_files.entries[0]
-                    else:
-                        raise SystemError("Did not receive file upload list from upload response")
+                    raise SystemError(
+                        "Did not receive file upload list from upload response"
+                    )  # pragma: no cover
 
         return new_file
 
@@ -314,7 +373,7 @@ class Box:
 
         return local_path
 
-    def get_table(self, path, format="csv") -> Table:
+    def get_table(self, path: str, format: str = "csv") -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
 
         `Args`:
@@ -329,7 +388,7 @@ class Box:
         file_id = self.get_item_id(path)
         return self.get_table_by_file_id(file_id=file_id, format=format)
 
-    def get_table_by_file_id(self, file_id, format="csv") -> Table:
+    def get_table_by_file_id(self, file_id: str, format: str = "csv") -> Table:
         """Get a table that has been saved to Box in csv or JSON format.
 
         `Args`:
@@ -363,7 +422,7 @@ class Box:
                 f'Got (theoretically) impossible format option "{format}"'
             )  # pragma: no cover
 
-    def get_item_id(self, path, base_folder_id=DEFAULT_FOLDER_ID) -> str:
+    def get_item_id(self, path: str, base_folder_id: str = DEFAULT_FOLDER_ID) -> str:
         """Given a path-like object, try to return the id for the file or
         folder at the end of the path.
 
@@ -384,16 +443,15 @@ class Box:
 
         """
         try:
+            if "\\" in path:  # pragma: no cover
+                path = path.replace("\\", "/")
+
             # Grab the leftmost element in the path - this is what we're
             # looking for in this folder.
             if "/" in path:
                 this_element, path = path.split(sep="/", maxsplit=1)
                 if path == "":
                     raise ValueError('Illegal trailing "/" in file path')
-            elif "\\" in path:
-                this_element, path = path.split(sep="\\", maxsplit=1)
-                if path == "":
-                    raise ValueError('Illegal trailing "\\" in file path')
             else:
                 this_element = path
                 path = ""

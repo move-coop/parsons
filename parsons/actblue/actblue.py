@@ -65,9 +65,10 @@ class ActBlue:
         self,
         csv_type: Literal[
             "paid_contributions", "refunded_contributions", "managed_form_contributions"
-        ] = None,
-        date_range_start: str = None,
-        date_range_end: str = None,
+        ]
+        | None = None,
+        date_range_start: str | None = None,
+        date_range_end: str | None = None,
     ) -> Response:
         """
         POST request to ActBlue API to begin generating the CSV.

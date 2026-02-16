@@ -84,7 +84,7 @@ class CivisClient:
         table,
         max_errors=None,
         existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
-        diststyle: Literal["even", "all", "key"] = None,
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,

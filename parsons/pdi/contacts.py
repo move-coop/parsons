@@ -10,13 +10,13 @@ class Contacts:
 
     def get_contacts(
         self,
-        email: str = None,
-        phone: str = None,
-        first_name: str = None,
-        last_name: str = None,
-        zip_code: str = None,
+        email: str | None = None,
+        phone: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        zip_code: str | None = None,
         search_by_email: bool = False,
-        limit: int = None,
+        limit: int | None = None,
     ):
         """
         Get a list of Contacts.
@@ -57,7 +57,7 @@ class Contacts:
         donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender: Literal["F", "M", "U"] = None,
+        gender: Literal["F", "M", "U"] | None = None,
         email="",
         pdi_id=None,
     ):
@@ -137,7 +137,7 @@ class Contacts:
         donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender: Literal["F", "M", "U"] = None,
+        gender: Literal["F", "M", "U"] | None = None,
     ):
         """
         Update Contact

@@ -38,8 +38,8 @@ class Mailchimp:
         before_campaign_last_sent=None,
         since_campaign_last_sent=None,
         email=None,
-        sort_field: Literal["date_created"] = None,
-        sort_dir: Literal["ASC", "DESC"] = None,
+        sort_field: Literal["date_created"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
     ):
         """
         Get a table of lists under the account based on query parameters. Note
@@ -113,8 +113,8 @@ class Mailchimp:
         exclude_fields=None,
         count=None,
         offset=None,
-        type: Literal["regular", "plaintext", "absplit", "rss", "variate"] = None,
-        status: Literal["save", "paused", "schedule", "sending", "sent"] = None,
+        type: Literal["regular", "plaintext", "absplit", "rss", "variate"] | None = None,
+        status: Literal["save", "paused", "schedule", "sending", "sent"] | None = None,
         before_send_time=None,
         since_send_time=None,
         before_create_time=None,
@@ -122,8 +122,8 @@ class Mailchimp:
         list_id=None,
         folder_id=None,
         member_id=None,
-        sort_field: Literal["create_time", "send_time"] = None,
-        sort_dir: Literal["ASC", "DESC"] = None,
+        sort_field: Literal["create_time", "send_time"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
     ):
         """
         Get a table of campaigns under the account based on query parameters.
@@ -214,7 +214,8 @@ class Mailchimp:
         email_type=None,
         status: Literal[
             "subscribed", "unsubscribed", "cleaned", "pending", "transactional", "archived"
-        ] = None,
+        ]
+        | None = None,
         since_timestamp_opt=None,
         before_timestamp_opt=None,
         since_last_changed=None,
@@ -223,9 +224,9 @@ class Mailchimp:
         vip_only=False,
         interest_category_id=None,
         interest_ids=None,
-        interest_match: Literal["any", "all", "none"] = None,
-        sort_field: Literal["timestamp_opt", "timestamp_signup", "last_changed"] = None,
-        sort_dir: Literal["ASC", "DESC"] = None,
+        interest_match: Literal["any", "all", "none"] | None = None,
+        sort_field: Literal["timestamp_opt", "timestamp_signup", "last_changed"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
         since_last_campaign=None,
         unsubscribed_since=None,
     ):

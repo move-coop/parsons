@@ -59,7 +59,11 @@ class CapitolCanary:
         return json
 
     def get_advocates(
-        self, state=None, campaign_id=None, updated_since: str | int | datetime = None, page=None
+        self,
+        state=None,
+        campaign_id=None,
+        updated_since: str | int | datetime | None = None,
+        page=None,
     ):
         """
         Return advocates (person records).

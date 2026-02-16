@@ -1169,7 +1169,8 @@ class ActionNetwork:
                     "previous spam complaint",
                 ],
             ]
-        ] = None,
+        ]
+        | None = None,
         given_name=None,
         family_name=None,
         tags=None,
@@ -1180,10 +1181,10 @@ class ActionNetwork:
         | list[str | int]
         | list[
             dict[
-                Literal["address", "primary", "status"],
-                str | Literal["subscribed", "unsubscribed"],
+                Literal["address", "primary", "status"], str | Literal["subscribed", "unsubscribed"]
             ]
-        ] = None,
+        ]
+        | None = None,
         mobile_status: Literal["subscribed", "unsubscribed", None] = None,
         background_processing=False,
         **kwargs,

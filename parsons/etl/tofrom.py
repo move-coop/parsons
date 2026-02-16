@@ -781,7 +781,7 @@ class ToFrom:
         db=None,
         max_errors=None,
         existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
-        diststyle: Literal["even", "all", "key"] = None,
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,
@@ -1062,7 +1062,7 @@ class ToFrom:
         return cls(petl.cat(*tbls))
 
     @classmethod
-    def from_bigquery(cls, sql: str, app_creds: str = None, project: str = None):
+    def from_bigquery(cls, sql: str, app_creds: str | None = None, project: str | None = None):
         """
         Create a ``parsons table`` from a BigQuery statement.
 

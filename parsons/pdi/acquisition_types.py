@@ -10,7 +10,7 @@ class AcquisitionTypes:
 
         super().__init__()
 
-    def get_acquisition_types(self, limit: int = None):
+    def get_acquisition_types(self, limit: int | None = None):
         """Get a list of Acquisition Types.
         `Args:`
             limit: int
@@ -41,7 +41,8 @@ class AcquisitionTypes:
         ],
         page_default: Literal[
             "Lookup", "WalkList", "PhoneList", "PhoneBank", "Canvassing", "Import"
-        ] = None,
+        ]
+        | None = None,
     ):
         """
         Create a new Acquisition Type
@@ -119,7 +120,8 @@ class AcquisitionTypes:
         ],
         page_default: Literal[
             "Lookup", "WalkList", "PhoneList", "PhoneBank", "Canvassing", "Import"
-        ] = None,
+        ]
+        | None = None,
     ):
         """
         Update Acquisition Type

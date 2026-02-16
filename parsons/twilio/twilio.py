@@ -77,8 +77,8 @@ class Twilio:
         category=None,
         start_date=None,
         end_date=None,
-        time_period: Literal["today", "yesterday", "this_month", "last_month"] = None,
-        group_by: Literal["daily", "monthly", "yearly"] = None,
+        time_period: Literal["today", "yesterday", "this_month", "last_month"] | None = None,
+        group_by: Literal["daily", "monthly", "yearly"] | None = None,
         exclude_null=False,
     ):
         """

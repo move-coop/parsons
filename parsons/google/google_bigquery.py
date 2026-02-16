@@ -156,7 +156,7 @@ class GoogleBigQuery(DatabaseConnector):
         app_creds: str | dict | Credentials | None = None,
         project=None,
         location=None,
-        client_options: dict = None,
+        client_options: dict | None = None,
         tmp_gcs_bucket: str | None = None,
     ):
         if client_options is None:
@@ -1650,7 +1650,7 @@ class GoogleBigQuery(DatabaseConnector):
         location: str = "US",
         destination_file_format: str = "CSV",
         field_delimiter: str = ",",
-        compression: str = None,
+        compression: str | None = None,
         job_config: ExtractJobConfig = None,
         wait_for_job_to_complete: bool = True,
         **export_kwargs,

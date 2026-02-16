@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from requests.auth import HTTPBasicAuth
 
@@ -57,7 +58,9 @@ class CapitolCanary:
 
         return json
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
+    def get_advocates(
+        self, state=None, campaign_id=None, updated_since: str | int | datetime = None, page=None
+    ):
         """
         Return advocates (person records).
 

@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 # import pkgutil
 
@@ -139,7 +140,9 @@ class RedshiftTableUtilities:
 
         logger.info(f"{source_table} data moved from {new_table}  .")
 
-    def _create_table_precheck(self, connection, table_name, if_exists):
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """
         Helper to determine what to do when you need a table that may already exist.
 
@@ -179,7 +182,12 @@ class RedshiftTableUtilities:
         return False
 
     def populate_table_from_query(
-        self, query, destination_table, if_exists="fail", distkey=None, sortkey=None
+        self,
+        query,
+        destination_table,
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
+        distkey=None,
+        sortkey=None,
     ):
         """
         Populate a Redshift table with the results of a SQL query, creating the table if it
@@ -222,7 +230,7 @@ class RedshiftTableUtilities:
         source_table,
         destination_table,
         where_clause="",
-        if_exists="fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         drop_source_table=False,
     ):
         """

@@ -1,3 +1,6 @@
+from typing import Literal
+
+
 class Contacts:
     """A class to access the contacts PDI API endpoint."""
 
@@ -50,11 +53,11 @@ class Contacts:
         nickname="",
         occupation="",
         employer="",
-        volunteer_status="",
-        donor_status="",
-        member_status="",
+        volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender=None,
+        gender: Literal["F", "M", "U"] = None,
         email="",
         pdi_id=None,
     ):
@@ -130,11 +133,11 @@ class Contacts:
         nickname="",
         occupation="",
         employer="",
-        volunteer_status="",
-        donor_status="",
-        member_status="",
+        volunteer_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        donor_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
+        member_status: Literal["Prospect", "Active", "Inactive", "None", ""] = "",
         date_of_birth=None,
-        gender="U",
+        gender: Literal["F", "M", "U"] = None,
     ):
         """
         Update Contact
@@ -185,7 +188,7 @@ class Contacts:
         self,
         contact_id: int,
         phone_number: str,
-        phone_type="Mobile",
+        phone_type: Literal["Home", "Work", "Direct", "Mobile", "Fax", "Other"] = "Mobile",
         primary=True,
         extension="",
     ):

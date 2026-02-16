@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from suds.client import Client
 
@@ -12,7 +13,12 @@ SOAP_URI = "https://api.securevan.com/Services/V3/ListService.asmx?WSDL"
 
 
 class VANConnector:
-    def __init__(self, api_key=None, auth_name="default", db=None):
+    def __init__(
+        self,
+        api_key=None,
+        auth_name="default",
+        db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] = None,
+    ):
         self.api_key = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
@@ -21,8 +27,8 @@ class VANConnector:
             self.db_code = 1
         else:
             raise KeyError(
-                "Invalid database type specified. Pick one of:"
-                " MyVoters, MyCampaign, MyMembers, EveryAction."
+                "Invalid database type specified. Pick one of: "
+                "MyVoters, MyCampaign, MyMembers, EveryAction."
             )
 
         self.uri = URI

@@ -6,6 +6,7 @@ import random
 import uuid
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
 import google
 import petl
@@ -388,9 +389,9 @@ class GoogleBigQuery(DatabaseConnector):
         self,
         gcs_blob_uri: str,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["append", "drop", "truncate", "fail"] = "fail",
         max_errors: int = 0,
-        data_type: str = "csv",
+        data_type: Literal["csv", "json"] = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
         nullas: str | None = None,
@@ -571,9 +572,9 @@ class GoogleBigQuery(DatabaseConnector):
         self,
         gcs_blob_uri: str,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["append", "drop", "truncate", "fail"] = "fail",
         max_errors: int = 0,
-        data_type: str = "csv",
+        data_type: Literal["csv", "json"] = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
         nullas: str | None = None,
@@ -709,9 +710,9 @@ class GoogleBigQuery(DatabaseConnector):
         table_name,
         bucket,
         key,
-        if_exists: str = "fail",
+        if_exists: Literal["append", "drop", "truncate", "fail"] = "fail",
         max_errors: int = 0,
-        data_type: str = "csv",
+        data_type: Literal["csv", "json"] = "csv",
         csv_delimiter: str = ",",
         ignoreheader: int = 1,
         nullas: str | None = None,
@@ -816,7 +817,7 @@ class GoogleBigQuery(DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["append", "drop", "truncate", "fail"] = "fail",
         max_errors: int = 0,
         job_config: LoadJobConfig | None = None,
         template_table: str | None = None,
@@ -906,7 +907,7 @@ class GoogleBigQuery(DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["append", "drop", "truncate", "fail"] = "fail",
         max_errors: int = 0,
         tmp_gcs_bucket: str | None = None,
         temp_blob_name: str | None = None,
@@ -1399,7 +1400,7 @@ class GoogleBigQuery(DatabaseConnector):
         self,
         job_config: LoadJobConfig,
         destination_table_name: str,
-        if_exists: str,
+        if_exists: Literal["append", "drop", "truncate", "fail"],
         parsons_table: Table | None = None,
         custom_schema: list | None = None,
         template_table: str | None = None,
@@ -1474,9 +1475,9 @@ class GoogleBigQuery(DatabaseConnector):
     def _process_job_config(
         self,
         destination_table_name: str,
-        if_exists: str,
+        if_exists: Literal["append", "drop", "truncate", "fail"],
         max_errors: int,
-        data_type: str,
+        data_type: Literal["csv", "json"],
         csv_delimiter: str | None = ",",
         ignoreheader: int | None = 1,
         nullas: str | None = None,
@@ -1592,7 +1593,12 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
-    def _validate_copy_inputs(self, if_exists: str, data_type: str, accepted_data_types: list[str]):
+    def _validate_copy_inputs(
+        self,
+        if_exists: Literal["append", "drop", "truncate", "fail"],
+        data_type: Literal["csv", "json"],
+        accepted_data_types: list[str],
+    ):
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError(
                 f"Unexpected value for if_exists: {if_exists}, must be one of "

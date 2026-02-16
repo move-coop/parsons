@@ -1,10 +1,13 @@
 import zipfile
 from pathlib import Path
+from typing import Literal
 
 from parsons.utilities.files import create_temp_directory
 
 
-def create_archive(archive_path, file_path, file_name=None, if_exists="replace"):
+def create_archive(
+    archive_path, file_path, file_name=None, if_exists: Literal["replace", "append"] = "replace"
+):
     """
     Create and fill an archive.
 

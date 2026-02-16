@@ -1154,13 +1154,36 @@ class ActionNetwork:
 
     def upsert_person(
         self,
-        email_address: str | list[str] | list[dict[str, str]] = None,
+        email_address: str
+        | list[str]
+        | list[
+            dict[
+                Literal["address", "primary", "status"],
+                str
+                | Literal[
+                    "subscribed",
+                    "unsubscribed",
+                    "bouncing",
+                    "previous bounce",
+                    "spam complaint",
+                    "previous spam complaint",
+                ],
+            ]
+        ] = None,
         given_name=None,
         family_name=None,
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number=None,
+        mobile_number: str
+        | int
+        | list[str | int]
+        | list[
+            dict[
+                Literal["address", "primary", "status"],
+                str | Literal["subscribed", "unsubscribed"],
+            ]
+        ] = None,
         mobile_status: Literal["subscribed", "unsubscribed", None] = None,
         background_processing=False,
         **kwargs,

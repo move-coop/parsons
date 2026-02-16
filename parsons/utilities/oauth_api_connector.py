@@ -1,4 +1,5 @@
 import urllib.parse
+from typing import Literal
 
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -75,7 +76,14 @@ class OAuth2APIConnector(APIConnector):
             auto_refresh_kwargs=authorization_kwargs,
         )
 
-    def request(self, url, req_type, json=None, data=None, params=None):
+    def request(
+        self,
+        url,
+        req_type: Literal["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        json=None,
+        data=None,
+        params=None,
+    ):
         """
         Base request using requests libary.
 

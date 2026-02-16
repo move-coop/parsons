@@ -2,6 +2,7 @@ import gzip
 import io
 import json
 from pathlib import Path
+from typing import Literal
 
 import petl
 
@@ -99,7 +100,13 @@ class ToFrom:
         return local_path
 
     def to_avro(
-        self, target, schema=None, sample=9, codec="deflate", compression_level=None, **avro_args
+        self,
+        target,
+        schema=None,
+        sample=9,
+        codec: Literal["null", "deflate", "bzip2", "snappy", "zstandard", "lz4", "xz"] = "deflate",
+        compression_level=None,
+        **avro_args,
     ):
         """
         Outputs table to an Avro file.
@@ -325,7 +332,7 @@ class ToFrom:
         encoding=None,
         errors="strict",
         write_header=True,
-        if_exists="replace",
+        if_exists: Literal["replace", "append"] = "replace",
         **csvargs,
     ):
         r"""
@@ -773,8 +780,8 @@ class ToFrom:
         api_key=None,
         db=None,
         max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
+        existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
+        diststyle: Literal["even", "all", "key"] = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,

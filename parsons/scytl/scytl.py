@@ -548,7 +548,7 @@ class Scytl:
         return parsed_data
 
     def get_detailed_results_for_participating_counties(
-        self, county_names: list[str] = None, force_update=False
+        self, county_names: list[str] | None = None, force_update=False
     ) -> tuple[list[str], list[dict]]:
         """
         Fetch the latest detailed results for the given election for all participating counties

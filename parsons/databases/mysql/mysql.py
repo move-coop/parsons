@@ -3,6 +3,7 @@ import os
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
 import mysql.connector as mysql
 import petl
@@ -198,7 +199,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         chunk_size: int = 1000,
         strict_length: bool = True,
     ):
@@ -264,7 +265,9 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         return sql
 
-    def _create_table_precheck(self, connection, table_name, if_exists):
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """
         Helper to determine what to do when you need a table that may already exist.
 

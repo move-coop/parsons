@@ -1154,14 +1154,21 @@ class ActionNetwork:
 
     def upsert_person(
         self,
-        email_address: str | list[str] | list[dict[str, str]] = None,
+        email_address: str
+        | list[str]
+        | list[dict[Literal["address", "primary", "status"], str | bool]]
+        | None = None,
         given_name=None,
         family_name=None,
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number=None,
-        mobile_status: Literal["subscribed", "unsubscribed", None] = None,
+        mobile_number: str
+        | int
+        | list[str | int]
+        | list[dict[Literal["address", "primary", "status"], str | bool]]
+        | None = None,
+        mobile_status: Literal["subscribed", "unsubscribed"] | None = None,
         background_processing=False,
         **kwargs,
     ):
@@ -1231,14 +1238,14 @@ class ActionNetwork:
         `Documentation Reference`:
             https://actionnetwork.org/docs/v2/people
         """
-        email_addresses_field = None
+        email_addresses_field: list[dict] | None = None
         if isinstance(email_address, str):
             email_addresses_field = [{"address": email_address}]
         elif isinstance(email_address, list):
             if isinstance(email_address[0], str):
                 email_addresses_field = [{"address": email} for email in email_address]
                 email_addresses_field[0]["primary"] = True
-            if isinstance(email_address[0], dict):
+            elif isinstance(email_address[0], dict):
                 email_addresses_field = email_address
         else:
             raise ValueError(
@@ -1246,7 +1253,7 @@ class ActionNetwork:
                 "expected str or list."
             )
 
-        mobile_numbers_field = None
+        mobile_numbers_field: list[dict] | None = None
         if isinstance(mobile_number, str):
             mobile_numbers_field = [{"number": re.sub("[^0-9]", "", mobile_number)}]
         elif isinstance(mobile_number, int):
@@ -1321,14 +1328,21 @@ class ActionNetwork:
 
     def add_person(
         self,
-        email_address=None,
+        email_address: str
+        | list[str]
+        | list[dict[Literal["address", "primary", "status"], str | bool]]
+        | None = None,
         given_name=None,
         family_name=None,
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number=None,
-        mobile_status="subscribed",
+        mobile_number: str
+        | int
+        | list[str | int]
+        | list[dict[Literal["address", "primary", "status"], str | bool]]
+        | None = None,
+        mobile_status: Literal["subscribed", "unsubscribed"] | None = "subscribed",
         **kwargs,
     ):
         """

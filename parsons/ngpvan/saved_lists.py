@@ -2,6 +2,7 @@
 
 import logging
 import uuid
+from typing import Literal
 
 from suds.client import Client
 
@@ -82,7 +83,7 @@ class SavedLists:
         callback_url,
         columns,
         id_column,
-        delimiter="csv",
+        delimiter: Literal["csv", "tab", "pipe"] = "csv",
         header=True,
         quotes=True,
         overwrite=None,

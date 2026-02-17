@@ -41,9 +41,9 @@ class Questions:
         type: str,
         category: str,
         answer_options: list,
-        question_label: str = None,
-        question_description: str = None,
-        candidate_issue_id: str = None,
+        question_label: str | None = None,
+        question_description: str | None = None,
+        candidate_issue_id: str | None = None,
         default: bool = True,
         *args,
     ):

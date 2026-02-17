@@ -2,6 +2,7 @@ import collections
 import copy
 import logging
 import os
+from typing import Literal
 
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.customaudience import CustomAudience
@@ -214,7 +215,14 @@ class FacebookAds:
         ]
         return data_source in valid_sources
 
-    def create_custom_audience(self, name, data_source, description=None):
+    def create_custom_audience(
+        self,
+        name,
+        data_source: Literal[
+            "USER_PROVIDED_ONLY", "PARTNER_PROVIDED_ONLY", "BOTH_USER_AND_PARTNER_PROVIDED"
+        ],
+        description=None,
+    ):
         """
         Creates a FB custom audience.
 

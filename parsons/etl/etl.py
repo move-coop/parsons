@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 import petl
 
@@ -641,7 +642,7 @@ class ETL:
         else:
             return tbl
 
-    def unpack_nested_columns_as_rows(self, column, key="id", expand_original=False):
+    def unpack_nested_columns_as_rows(self, column, key="id", expand_original: bool | int = False):
         """
         Unpack list or dict values from one column into separate rows.
         Not recommended for JSON columns (i.e. lists of dicts), but can handle columns
@@ -1019,8 +1020,8 @@ class ETL:
         self,
         desired_columns,
         fuzzy_match=True,
-        if_extra_columns="remove",
-        if_missing_columns="add",
+        if_extra_columns: Literal["remove", "ignore", "fail"] = "remove",
+        if_missing_columns: Literal["add", "ignore", "fail"] = "add",
     ):
         """
         Changes the column names and ordering in this Table to match a list of desired column

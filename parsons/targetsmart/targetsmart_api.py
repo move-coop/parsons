@@ -5,6 +5,7 @@ https://docs.targetsmart.com/developers/tsapis/v2/index.html
 """
 
 import logging
+from typing import Literal
 
 import petl
 import requests
@@ -38,7 +39,21 @@ class Person:
     def __init__(self):
         return None
 
-    def data_enhance(self, search_id, search_id_type="voterbase", state=None):
+    def data_enhance(
+        self,
+        search_id: Literal[
+            "voterbase",
+            "exacttrack",
+            "phone",
+            "email",
+            "smartvan",
+            "votebuilder",
+            "voter",
+            "household",
+        ],
+        search_id_type="voterbase",
+        state=None,
+    ):
         """
         Searches for a record based on an id or phone or email address
 
@@ -92,9 +107,9 @@ class Person:
         longitude=None,
         address=None,
         radius_size=10,
-        radius_unit="miles",
+        radius_unit: Literal["meters", "feet", "miles", "kilometers"] = "miles",
         max_results=10,
-        gender="a",
+        gender: Literal["m", "f", "u", "a"] = "a",
         age_min=None,
         age_max=None,
         composite_score_min=1,
@@ -102,7 +117,7 @@ class Person:
         last_name_exact=True,
         last_name_is_prefix=False,
         last_name_prefix_length=10,
-        address_type="reg",
+        address_type: Literal["reg", "tsmart"] = "reg",
     ):
         """
         Search for a person based on a specified radius
@@ -231,7 +246,7 @@ class Service:
 
     def district(
         self,
-        search_type="zip",
+        search_type: Literal["zip", "address", "point"] = "zip",
         address=None,
         zip5=None,
         zip4=None,

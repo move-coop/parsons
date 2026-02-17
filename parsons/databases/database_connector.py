@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Literal
 
 from parsons.etl.table import Table
 
@@ -136,7 +137,9 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def copy(self, tbl: Table, table_name: str, if_exists: str):
+    def copy(
+        self, tbl: Table, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """Copy a :ref:`parsons-table` to the database.
 
         Args:

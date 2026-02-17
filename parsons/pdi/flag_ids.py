@@ -1,3 +1,6 @@
+from typing import Literal
+
+
 class FlagIDs:
     """A class to access the FlagIDs PDI API endpoint."""
 
@@ -36,7 +39,43 @@ class FlagIDs:
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
-    def create_flag_id(self, flag_id, is_default, flag_description=None, compile=None):
+    def create_flag_id(
+        self,
+        flag_id: Literal[
+            "AMM",
+            "BNH",
+            "BNM",
+            "DEAD",
+            "DNC",
+            "DNR",
+            "ENDR",
+            "GTD",
+            "HH",
+            "L2VT",
+            "LBO",
+            "LM",
+            "LO",
+            "LS",
+            "LSD",
+            "LSR",
+            "MAYBE",
+            "MOV",
+            "NAH",
+            "NO",
+            "REF",
+            "SO",
+            "SS",
+            "SUP",
+            "U",
+            "UL2VT",
+            "VL2VT",
+            "VOL",
+            "VTD",
+        ],
+        is_default,
+        flag_description=None,
+        compile=None,
+    ):
         """Save a new flag id.
 
         Args:
@@ -87,7 +126,44 @@ class FlagIDs:
 
         return True
 
-    def update_flag_id(self, id, flag_id, is_default, flag_description=None, compile=None):
+    def update_flag_id(
+        self,
+        id,
+        flag_id: Literal[
+            "AMM",
+            "BNH",
+            "BNM",
+            "DEAD",
+            "DNC",
+            "DNR",
+            "ENDR",
+            "GTD",
+            "HH",
+            "L2VT",
+            "LBO",
+            "LM",
+            "LO",
+            "LS",
+            "LSD",
+            "LSR",
+            "MAYBE",
+            "MOV",
+            "NAH",
+            "NO",
+            "REF",
+            "SO",
+            "SS",
+            "SUP",
+            "U",
+            "UL2VT",
+            "VL2VT",
+            "VOL",
+            "VTD",
+        ],
+        is_default,
+        flag_description=None,
+        compile=None,
+    ):
         """Update a flag id.
 
         Args:

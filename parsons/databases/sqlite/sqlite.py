@@ -196,7 +196,7 @@ class Sqlite(DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
         force_python_sdk: bool = False,
     ):
@@ -285,7 +285,9 @@ class Sqlite(DatabaseConnector):
         if resp.returncode:
             raise RuntimeError(resp.stdout.decode())
 
-    def _create_table_precheck(self, connection, table_name, if_exists) -> bool:
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ) -> bool:
         """
         Helper to determine what to do when you need a table that may already exist.
 

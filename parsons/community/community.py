@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -46,7 +47,19 @@ class Community:
             headers=self.headers,
         )
 
-    def get_request(self, filename):
+    def get_request(
+        self,
+        filename: Literal[
+            "campaigns",
+            "outbound_message_type_usage",
+            "campaign_links",
+            "members",
+            "member_state_changes",
+            "custom_member_data",
+            "communities",
+            "member_communities",
+        ],
+    ):
         """
         GET request to Community.com API to get the CSV data.
 
@@ -77,7 +90,19 @@ class Community:
         response = self.client.get_request(url=url, return_format="content")
         return response
 
-    def get_data_export(self, filename):
+    def get_data_export(
+        self,
+        filename: Literal[
+            "campaigns",
+            "outbound_message_type_usage",
+            "campaign_links",
+            "members",
+            "member_state_changes",
+            "custom_member_data",
+            "communities",
+            "member_communities",
+        ],
+    ):
         """
         Get specified data from Community.com API as Parsons table.
 

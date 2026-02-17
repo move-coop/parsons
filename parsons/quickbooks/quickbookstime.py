@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -86,7 +87,7 @@ class QuickBooksTime:
         name=None,
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):
@@ -157,12 +158,12 @@ class QuickBooksTime:
         ids=None,
         parent_ids=None,
         name=None,
-        type=None,
-        active=None,
+        type: Literal["regular", "pto", "paid_break", "unpaid_break", "all"] | None = None,
+        active: Literal["yes", "no", "both"] | None = None,
         customfields=None,
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):
@@ -265,7 +266,7 @@ class QuickBooksTime:
         jobcode_type=None,
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
         start_date="1900-01-01",
@@ -380,7 +381,7 @@ class QuickBooksTime:
         last_name=None,
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):
@@ -480,7 +481,7 @@ class QuickBooksTime:
         ids=None,
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):
@@ -549,13 +550,13 @@ class QuickBooksTime:
         jobcode_ids=None,
         start="1970-01-01T00:00:00+00:00",
         end=None,
-        active_users=None,
+        active_users: Literal[0, -1, 1] = 1,
         active=None,
-        draft=None,
-        team_events=None,
+        draft: Literal["yes", "no", "both"] = "no",
+        team_events: Literal["base", "instance"] = "instance",
         modified_before=None,
         modified_since=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):
@@ -679,7 +680,7 @@ class QuickBooksTime:
         modified_since=None,
         user_ids=None,
         group_ids=None,
-        supplemental_data=None,
+        supplemental_data: Literal["yes", "no"] = "yes",
         limit=None,
         page=1,
     ):

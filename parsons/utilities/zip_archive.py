@@ -1,10 +1,13 @@
 import zipfile
 from pathlib import Path
+from typing import Literal
 
 from parsons.utilities.files import create_temp_directory
 
 
-def create_archive(archive_path, file_path, file_name=None, if_exists="replace"):
+def create_archive(
+    archive_path, file_path, file_name=None, if_exists: Literal["replace", "append"] = "replace"
+):
     """
     Create and fill an archive.
 
@@ -22,7 +25,7 @@ def create_archive(archive_path, file_path, file_name=None, if_exists="replace")
 
     """
 
-    write_type = "a" if if_exists == "append" else "w"
+    write_type: Literal["r", "w", "x", "a"] = "a" if if_exists == "append" else "w"
 
     if not file_name:
         file_name = file_path.split("/")[-1]

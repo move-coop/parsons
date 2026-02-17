@@ -1,4 +1,5 @@
 import json
+from typing import Literal
 
 import requests
 
@@ -53,7 +54,12 @@ class BillCom:
             "data": json.dumps(data),
         }
 
-    def _post_request(self, data, action, object_name):
+    def _post_request(
+        self,
+        data,
+        action: Literal["List", "Read", "Create", "Send"],
+        object_name: Literal["User", "Customer", "Invoice"],
+    ):
         """
         Args:
             data: dict
@@ -84,7 +90,13 @@ class BillCom:
         response = requests.post(url=url, data=payload, headers=self.headers)
         return response.json()
 
-    def _get_request_response(self, data, action, object_name, field="response_data"):
+    def _get_request_response(
+        self,
+        data,
+        action: Literal["List", "Read", "Create", "Send"],
+        object_name: Literal["User", "Customer", "Invoice"],
+        field="response_data",
+    ):
         """
         Args:
             data: dict

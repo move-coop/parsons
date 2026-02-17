@@ -1,3 +1,5 @@
+from typing import Literal
+
 import civis
 
 from parsons.etl.table import Table
@@ -83,8 +85,8 @@ class CivisClient:
         table_obj,
         table,
         max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
+        existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,

@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons.etl.table import Table
 
@@ -48,7 +49,7 @@ class DBSync:
         self,
         source_table,
         destination_table,
-        if_exists="drop",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "drop",
         order_by=None,
         verify_row_count=True,
         **kwargs,

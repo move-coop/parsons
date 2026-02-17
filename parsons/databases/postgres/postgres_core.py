@@ -2,6 +2,7 @@ import logging
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
 import petl
 import psycopg2
@@ -168,7 +169,9 @@ class PostgresCore(PostgresCreateStatement):
                 logger.debug(f"Query returned {final_tbl.num_rows} rows.")
                 return final_tbl
 
-    def _create_table_precheck(self, connection, table_name, if_exists):
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """
         Helper to determine what to do when you need a table that may already exist.
 

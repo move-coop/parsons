@@ -1,3 +1,6 @@
+from typing import Literal
+
+
 class AcquisitionTypes:
     """A class to access the Acquisition Types PDI API endpoint."""
 
@@ -7,7 +10,7 @@ class AcquisitionTypes:
 
         super().__init__()
 
-    def get_acquisition_types(self, limit: int = None):
+    def get_acquisition_types(self, limit: int | None = None):
         """Get a list of Acquisition Types.
 
         Args:
@@ -24,8 +27,23 @@ class AcquisitionTypes:
         self,
         acquisition_type: str,
         acquisition_description: str,
-        acquisition_method: str,
-        page_default: str = None,
+        acquisition_method: Literal[
+            "Phone",
+            "Canvass",
+            "Mail",
+            "IVR",
+            "Text Message",
+            "Email",
+            "Event",
+            "Online",
+            "Social",
+            "Site",
+            "Other Method",
+        ],
+        page_default: Literal[
+            "Lookup", "WalkList", "PhoneList", "PhoneBank", "Canvassing", "Import"
+        ]
+        | None = None,
     ):
         """
         Create a new Acquisition Type
@@ -97,8 +115,23 @@ class AcquisitionTypes:
         id: str,
         acquisition_type: str,
         acquisition_description: str,
-        acquisition_method: str,
-        page_default: str = None,
+        acquisition_method: Literal[
+            "Phone",
+            "Canvass",
+            "Mail",
+            "IVR",
+            "Text Message",
+            "Email",
+            "Event",
+            "Online",
+            "Social",
+            "Site",
+            "Other Method",
+        ],
+        page_default: Literal[
+            "Lookup", "WalkList", "PhoneList", "PhoneBank", "Canvassing", "Import"
+        ]
+        | None = None,
     ):
         """
         Update Acquisition Type

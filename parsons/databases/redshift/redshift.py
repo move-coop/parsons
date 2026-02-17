@@ -6,6 +6,7 @@ import pickle
 import random
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
 import petl
 import psycopg2
@@ -275,7 +276,7 @@ class Redshift(
         data_type="csv",
         csv_delimiter=",",
         compression=None,
-        if_exists="fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         max_errors=0,
         distkey=None,
         sortkey=None,
@@ -475,7 +476,7 @@ class Redshift(
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         max_errors: int = 0,
         distkey: str | None = None,
         sortkey: str | None = None,
@@ -707,7 +708,7 @@ class Redshift(
         manifest=True,
         header=True,
         delimiter="|",
-        compression="gzip",
+        compression: Literal["gzip", "bzip2", "None"] = "gzip",
         add_quotes=True,
         null_as=None,
         escape=True,

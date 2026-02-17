@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons.etl.table import Table
 
@@ -9,7 +10,7 @@ class CustomFields:
     def __init__(self, van_connection):
         self.connection = van_connection
 
-    def get_custom_fields(self, field_type="contacts"):
+    def get_custom_fields(self, field_type: Literal["contacts", "contributions"] = "contacts"):
         """
         Get custom fields.
 
@@ -30,7 +31,9 @@ class CustomFields:
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def get_custom_fields_values(self, field_type="contacts"):
+    def get_custom_fields_values(
+        self, field_type: Literal["contacts", "contributions"] = "contacts"
+    ):
         """
         Get custom field values as a long table.
 

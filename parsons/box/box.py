@@ -75,6 +75,9 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
+        if "\\" in path:  # pragma: no cover
+            path = path.replace("\\", "/")
+
         if "/" in path:
             parent_folder_path, folder_name = path.rsplit(sep="/", maxsplit=1)
             parent_folder_id = self.get_item_id(path=parent_folder_path)

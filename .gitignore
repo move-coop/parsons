@@ -9,7 +9,6 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
-docs/_build
 develop-eggs/
 dist/
 downloads/
@@ -124,6 +123,7 @@ doctrees/
 bill_com_credentials.*
 *.ipynb
 
+docs/_build
 docs/html
 docs/dirhtml
 *.sw*

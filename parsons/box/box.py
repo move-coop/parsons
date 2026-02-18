@@ -75,7 +75,7 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
-        if "\\" in path:  # pragma: no cover
+        if "\\" in path:
             path = path.replace("\\", "/")
 
         if "/" in path:
@@ -219,7 +219,7 @@ class Box:
         `Returns`: File
             A Box File object
         """
-        if "\\" in path:  # pragma: no cover
+        if "\\" in path:
             path = path.replace("\\", "/")
 
         if "/" in path:
@@ -288,7 +288,7 @@ class Box:
         `Returns`: File
             A Box File object
         """
-        if "\\" in path:  # pragma: no cover
+        if "\\" in path:
             path = path.replace("\\", "/")
 
         if "/" in path:

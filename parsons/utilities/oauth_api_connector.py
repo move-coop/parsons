@@ -1,4 +1,5 @@
 import urllib.parse
+from typing import Literal
 
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -75,7 +76,14 @@ class OAuth2APIConnector(APIConnector):
             auto_refresh_kwargs=authorization_kwargs,
         )
 
-    def request(self, url, req_type, json=None, data=None, params=None):
+    def request(
+        self,
+        url,
+        req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        json=None,
+        data=None,
+        params=None,
+    ):
         """
         Base request using requests libary.
 
@@ -85,7 +93,7 @@ class OAuth2APIConnector(APIConnector):
                 the ``uri`` of the ``OAuthAPIConnector`; if ``url`` is an absolute URL, it will
                 be used as is.
             req_type: str
-                The request type. One of GET, POST, PATCH, DELETE, OPTIONS
+                The request type. One of GET, POST, PUT, PATCH, DELETE, OPTIONS
             json: dict
                 The payload of the request object. By using json, it will automatically
                 serialize the dictionary

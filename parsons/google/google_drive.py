@@ -2,6 +2,7 @@ import logging
 import tempfile
 import uuid
 from pathlib import Path
+from typing import Literal
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -239,8 +240,15 @@ class GoogleDrive:
         self,
         file_id: str,
         email_addresses: list[str] | None = None,
-        role: str = "reader",
-        type: str = "user",
+        role: Literal[
+            "owner",
+            "organizer",
+            "fileOrganizer",
+            "writer",
+            "commenter",
+            "reader",
+        ] = "reader",
+        type: Literal["user", "group", "domain", "anyone"] = "user",
     ) -> list[dict]:
         """
         `Args:`

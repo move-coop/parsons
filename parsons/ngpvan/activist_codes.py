@@ -1,6 +1,7 @@
 """NGPVAN Activist Code Endpoints"""
 
 import logging
+from typing import Literal
 
 from parsons.etl.table import Table
 from parsons.ngpvan.utilities import action_parse
@@ -42,7 +43,12 @@ class ActivistCodes:
         return r
 
     def toggle_activist_code(
-        self, id, activist_code_id, action, id_type="vanid", omit_contact=True
+        self,
+        id,
+        activist_code_id,
+        action: Literal["Apply", "Remove"],
+        id_type="vanid",
+        omit_contact=True,
     ):
         # Internal method to apply/remove activist codes. Was previously a public method,
         # but for the sake of simplicity, breaking out into two public  methods.

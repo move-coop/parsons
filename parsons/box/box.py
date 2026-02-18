@@ -343,7 +343,7 @@ class Box:
 
         return new_file
 
-    def download_file(self, path: str, local_path: str = None) -> str:
+    def download_file(self, path: str, local_path: str | None = None) -> str:
         """Download a Box object to a local file.
 
         `Args`:

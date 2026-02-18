@@ -61,7 +61,7 @@ class NewmodeV1:
 
         return table
 
-    def get_tools(self, params: dict[str, Any] = None) -> Table:
+    def get_tools(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing tools.
         Args:
@@ -654,7 +654,7 @@ class NewmodeV2:
         postal_code: str | None = None,
         region: str | None = None,
         params: dict[str, Any] | None = None,
-        retries: int = None,
+        retries: int | None = None,
     ) -> Table:
         """
         Retrieve a specific recipient by ID

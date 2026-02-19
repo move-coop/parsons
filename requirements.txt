@@ -13,7 +13,7 @@ fastavro==1.10.0
 google-api-core==2.28.1
 google-api-python-client==2.187.0
 google-auth==2.40.3
-google-cloud-bigquery==3.40.0
+google-cloud-bigquery==3.40.1
 google-cloud-storage-transfer==1.18.0
 google-cloud-storage==3.7.0
 grpcio==1.76.0

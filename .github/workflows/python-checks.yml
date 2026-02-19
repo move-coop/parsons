@@ -32,7 +32,6 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
@@ -52,19 +51,9 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - if: matrix.resolution != 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        run: |
+      - run: |
           uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
           uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
-
-      - if: matrix.resolution == 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        env:
-            PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: |
-          uv pip install --system -r requirements-dev.txt
-          uv pip install --system -e .[all]
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -73,12 +62,10 @@ jobs:
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
 
       - run: pytest
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
-        if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
@@ -199,7 +186,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -236,7 +223,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -284,7 +271,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
@@ -293,7 +280,7 @@ jobs:
 
       - id: run-bandit-sarif
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*' --format 'sarif' --output 'results.sarif'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
       - uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
@@ -303,7 +290,7 @@ jobs:
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
         run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*'
+          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons'
 
   coverage:
     runs-on: ubuntu-latest
@@ -370,7 +357,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.13'
+          python-version: '3.14'
           cache: pip
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f

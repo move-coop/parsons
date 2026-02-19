@@ -1,8 +1,3 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-
 version: 2
 
 workflows:
@@ -16,52 +11,58 @@ workflows:
               only: main
 
 jobs:
-
-  # Documentation CI
   docs-build:
     docker:
       - image: cimg/python:3.13
+
     steps:
       - checkout
-      # Download and cache dependencies
+
       - restore_cache:
           keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+            - v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.13-
+
       - run:
           name: Install dependencies
-          # Note that we the circleci node image installs stuff with a user "circleci", rather
-          # than root. So we need to tell npm where to install stuff.
           command: |
             pip install uv
             uv venv
             source .venv/bin/activate
-            uv pip install -r requirements.txt
+
             uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
+
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
+
       - run:
           name: Build docs
           command: |
             source .venv/bin/activate
+
             cd docs/
             make deploy_docs
-            cd ..
+
+      - store_artifacts:
+          path: docs/html
 
   docs-build-deploy:
     docker:
       - image: cimg/python:3.13-node
+
     steps:
       - checkout
-      # Download and cache dependencies
+
       - restore_cache:
           keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-
+            - v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.13-
+
       - run:
           name: Install dependencies
           # Note that we the circleci node image installs stuff with a user "circleci", rather
@@ -69,20 +70,25 @@ jobs:
           command: |
             npm set prefix=/home/circleci/npm
             npm install -g --silent gh-pages@2.0.1
+
             pip install uv
             uv venv
             source .venv/bin/activate
-            uv pip install -r requirements.txt
+
             uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
+
       - save_cache:
           paths:
             - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+          key: v2-dependencies-python3.13-{{ checksum "setup.py" }}-{{ checksum "requirements-dev.txt" }}
+
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
           fingerprints:
             - '9a:ec:4d:2b:c3:45:b2:f5:55:ca:0b:2b:36:e2:7f:df'
+
       - run:
           name: Build and deploy docs
           # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.
@@ -90,8 +96,10 @@ jobs:
           # that start with an underscore like _static/).
           command: |
             source .venv/bin/activate
+
             cd docs/
             make deploy_docs
+
             cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"

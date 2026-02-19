@@ -1,120 +1,86 @@
-"""
-Determine dependencies to install as part of the parsons package.
-
-This file is required by our "friendly dependencies" feature.
-If PARSONS_LIMITED_DEPENDENCIES environment variable is set, only core set of dependencies is installed by default.
-Dependencies used by specific parsons connectors are made available via extras packages. In addition,
-dependencies are installed with as few version limitations as possible to maximise compatibility for advanced users.
-
-Due to isolated environments described in PEP 517, which are used when installing published source packages,
-this envionment variable and partial installation via extras only works when installing from local source code.
-
-See https://www.parsonsproject.org/pub/friendly-dependencies.
-"""
-
-import os
-from pathlib import Path
+"""Determine dependencies to install as part of the parsons package."""
 
 from setuptools import setup
 
 CORE_DEPENDENCIES = [
-    "petl",
-    "python-dateutil",
-    "requests",
-    "requests-oauthlib",
-    "simplejson",
+    "petl >= 1.7.17",
+    "python-dateutil >= 2",
+    "requests >= 2",
+    "requests-oauthlib >= 1",
+    "simplejson >= 3.18",
 ]
 EXTRA_DEPENDENCIES = {
-    "airtable": ["pyairtable"],
-    "alchemer": ["surveygizmo"],
-    "avro": ["fastavro"],
-    "azure": ["azure-storage-blob"],
-    "box": ["boxsdk >= 4.1.0, != 4.4.0, < 10", "requests-toolbelt >= 1.0.0"],
-    "braintree": ["braintree"],
-    "catalist": ["paramiko"],
-    "civis": ["civis"],
-    "dbt-redshift": ["dbt-redshift >= 1.5.0"],
-    "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
-    "dbt-postgres": ["dbt-postgres >= 1.5.0"],
-    "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
-    "facebook": ["facebook-business", "joblib"],
-    "geocode": [
-        "censusgeocode",
-        "urllib3",
+    "airtable": ["pyairtable >= 3"],
+    "alchemer": ["surveygizmo >= 1"],
+    "avro": ["fastavro >= 1.12"],
+    "azure": ["azure-storage-blob >= 12"],
+    "box": ["boxsdk >= 4, != 4.4.0, < 10", "requests-toolbelt >= 1"],
+    "braintree": ["braintree >= 4"],
+    "catalist": ["paramiko >= 3"],
+    "civis": ["civis >= 2"],
+    "dbt-redshift": [
+        "dbt-redshift >= 1.5",
+        "dbt-core >= 1.6.15",
+        "lxml >= 6.0.1",
     ],
-    "github": ["PyGitHub"],
+    "dbt-bigquery": ["dbt-bigquery >= 1.5", "dbt-core >= 1.6.15"],
+    "dbt-postgres": ["dbt-postgres >= 1.5", "dbt-core >= 1.6.15"],
+    "dbt-snowflake": ["dbt-snowflake >= 1.5", "dbt-core >= 1.6.15"],
+    "facebook": ["joblib >= 1", "facebook-business >= 20"],
+    "geocode": [
+        "censusgeocode >= 0.5",
+        "urllib3 >= 2.6.3",
+    ],
+    "github": ["PyGitHub >= 2"],
     "google": [
-        "apiclient",
-        "google-api-python-client",
-        "google-cloud-bigquery",
-        "google-cloud-storage",
-        "google-cloud-storage-transfer",
-        "gspread",
-        "httplib2",
-        "oauth2client",
-        "validate-email",
+        "apiclient >= 1.0.4",
+        "google-api-python-client >= 2.150",
+        "google-cloud-bigquery >= 3.35",
+        "google-cloud-storage >= 3.1",
+        "google-cloud-storage-transfer >= 1.12",
+        "gspread >= 4",
+        "httplib2 >= 0.15",
+        "oauth2client >= 4",
+        "protobuf >= 6",
+        "validate-email >= 1",
     ],
     "mysql": [
-        "mysql-connector-python",
-        "sqlalchemy >= 1.4.22",
+        "mysql-connector-python >= 7",
+        "sqlalchemy >= 1.4",
     ],
-    "newmode": ["newmode"],
-    "ngpvan": ["suds-py3"],
-    "mobilecommons": ["beautifulsoup4", "xmltodict"],
-    "pandas": ["pandas"],
+    "newmode": ["newmode >= 0.1.6"],
+    "ngpvan": ["suds-py3 >= 1.4"],
+    "mobilecommons": ["beautifulsoup4 >= 4", "xmltodict >= 1"],
+    "pandas": ["pandas >= 2.3.3"],
     "postgres": [
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
     ],
     "redshift": [
-        "boto3",
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
+        "boto3 >= 1",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
     ],
-    "s3": ["boto3"],
-    "salesforce": ["simple-salesforce"],
-    "scytl": ["defusedxml"],
-    "sftp": ["paramiko"],
-    "slack": ["slack-sdk"],
-    "smtp": ["validate-email"],
-    "targetsmart": ["defusedxml", "paramiko", "xmltodict"],
-    "twilio": ["twilio"],
+    "s3": ["boto3 >= 1"],
+    "salesforce": ["simple-salesforce >= 1"],
+    "scytl": ["defusedxml >= 0.7"],
+    "sftp": ["paramiko >= 3"],
+    "slack": ["slack-sdk >= 3.26"],
+    "smtp": ["validate-email >= 1"],
+    "targetsmart": ["defusedxml >= 0.7", "paramiko >= 3", "xmltodict >= 1"],
+    "twilio": ["twilio >= 9"],
     "ssh": [
-        "psycopg2-binary >= 2.0.0",
-        "sqlalchemy >= 1.4.22",
-        "sshtunnel",
+        "sshtunnel >= 0.4",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
     ],
 }
 
 
-def get_install_requires(*, limited: bool = False) -> list[str]:
+def get_extras_require() -> dict[str, list[str]]:
     """
-    Get the list of install requirements.
-
-    Args:
-    limited:
-        If True, return only core dependencies defined in CORE_DEPENDENCIES.
-        If False, return all dependencies from requirements.txt
+    Get the extras_require dictionary, with added "all" extra that contains the values of all other extras.
     """
-    if not limited:
-        requirements_txt_path = Path(__file__).parent / "requirements.txt"
-        return requirements_txt_path.read_text().strip().split("\n")
-
-    return CORE_DEPENDENCIES
-
-
-def get_extras_require(*, limited: bool = False) -> dict[str, list[str]]:
-    """
-    Get the extras_require dictionary.
-
-    Args:
-    limited:
-        If True, return extras as defined in EXTRA_DEPENDENCIES.
-        If False, return empty dict for forward-compatibility.
-    """
-    if not limited:
-        return {"all": []}
-
     extras_require = EXTRA_DEPENDENCIES
     extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
 
@@ -122,10 +88,7 @@ def get_extras_require(*, limited: bool = False) -> dict[str, list[str]]:
 
 
 if __name__ == "__main__":
-    limited_deps_env = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
-    use_limited = limited_deps_env.strip().upper() in ("1", "YES", "TRUE", "ON")
-
     setup(
-        install_requires=get_install_requires(limited=use_limited),
-        extras_require=get_extras_require(limited=use_limited),
+        install_requires=CORE_DEPENDENCIES,
+        extras_require=get_extras_require(),
     )

@@ -181,8 +181,8 @@ class FacebookAds:
 
         for fb_key, orig_cols in fb_keys_to_orig_cols.items():
             value_fn = (
-                lambda bound_cols: lambda row: FacebookAds._get_first_non_empty_value_from_dict(
-                    row, bound_cols
+                lambda bound_cols: (
+                    lambda row: FacebookAds._get_first_non_empty_value_from_dict(row, bound_cols)
                 )
             )(orig_cols)
 

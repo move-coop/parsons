@@ -106,66 +106,6 @@ In your scripts that use Parsons, if you want to override the default Parsons lo
    # parsons_logger.addHandler(...)
    # parsons_logger.setFormatter(...)
 
-Integrating Parsons
-===================
-
-A primary goal of Parsons is to make installing and use as easy as possible. Many of the patterns
-and examples that we document are meant to show how easy it can be to use Parsons, but sometimes
-these patterns trade immediate accessibility against ease of integration.
-
-In environments where Parsons is not the primary application, or in scenarios where Parsons must
-run with limited resources, we recommend users install only the dependencies they need at loose
-version constraints. To do this, simply set two environment variables before installing Parsons
-and keep one while running:
-
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons
-```
-
-```
-export PARSONS_LIMITED_DEPENDENCIES=true
-python myparsons_script.py
-```
-
-`PIP_NO_BINARY` tells pip to use the source distribution of Parsons, which then allows
-`PARSONS_LIMITED_DEPENDENCIES` to dynamically limit to the bare minimum dependencies needed to
-run Parsons.  Users may also install extra dependencies appropriate to their environment, e.g.
-
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons[google]
-```
-
-or
-
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons[google,ngpvan]
-```
-
-
-*** Don't import from the root Parsons package ***
-
-Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
-
-.. code-block:: python
-
-   from parsons import Table
-
-In order to support this pattern, Parsons imports all of its classes into the root `parsons`
-package. Due to how Python loads modules and packages, importing even one Parsons class results
-in ALL of them being loaded. The `PARSONS_LIMITED_DEPENDENCIES` variable tells Parsons to skip
-this; it will not import all of its classes into the root `parsons` package. Setting this
-environment variable means you will **NOT** be able to import using the `from parsons import X`
-pattern. Instead, you will need to import directly from the package where a class is defined
-(e.g. `from parsons.etl import Table`). Using this method, you may see as much as an 8x
-decrease in memory usage for Parsons!
-
-
 Indices and tables
 ==================
 

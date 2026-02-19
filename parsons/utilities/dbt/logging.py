@@ -5,6 +5,7 @@ import logging
 import time
 import uuid
 from abc import ABC, abstractmethod
+from typing import Any, Literal
 
 from dbt.artifacts.schemas.results import NodeStatus
 from rich.console import Console
@@ -233,7 +234,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
                 }
             )
             node_row["status"] = str(result.status)
-            node_info = {
+            node_info: dict[Literal["database", "schema", "name", "path", "node"], Any] = {
                 key: value
                 for key, value in result.node.__dict__.items()
                 if key in ("database", "schema", "name", "path")

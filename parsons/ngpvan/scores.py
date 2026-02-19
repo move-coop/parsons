@@ -2,6 +2,7 @@
 
 import logging
 import uuid
+from typing import Literal
 
 import petl
 
@@ -87,7 +88,9 @@ class Scores:
         logger.info(f"Returning score update {score_update_id}.")
         return r
 
-    def update_score_status(self, score_update_id, status):
+    def update_score_status(
+        self, score_update_id, status: Literal["pending approval", "approved", "disapproved"]
+    ):
         """
         Change the status of a score update object. This end point is used to
         approve a score loading job.
@@ -237,7 +240,7 @@ class FileLoadingJobs:
         id_type,
         score_id,
         score_column,
-        delimiter="csv",
+        delimiter: Literal["csv", "tab", "pipe"] = "csv",
         header=True,
         quotes=True,
         description=None,
@@ -332,7 +335,7 @@ class FileLoadingJobs:
         id_column,
         id_type,
         score_map,
-        delimiter="csv",
+        delimiter: Literal["csv", "tab", "pipe"] = "csv",
         header=True,
         quotes=True,
         description=None,

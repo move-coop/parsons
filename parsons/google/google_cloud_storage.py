@@ -5,6 +5,7 @@ import time
 import uuid
 import zipfile
 from pathlib import Path
+from typing import Literal
 
 import google
 import petl
@@ -321,7 +322,7 @@ class GoogleCloudStorage:
         table,
         bucket_name,
         blob_name,
-        data_type="csv",
+        data_type: Literal["csv", "json"] = "csv",
         default_acl=None,
         timeout: int = 60,
     ):
@@ -588,7 +589,7 @@ class GoogleCloudStorage:
         self,
         bucket_name: str,
         blob_name: str,
-        compression_type: str = "gzip",
+        compression_type: Literal["zip", "gzip"] = "gzip",
         new_filename: str | None = None,
         new_file_extension: str | None = None,
     ) -> str:

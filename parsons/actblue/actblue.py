@@ -1,5 +1,8 @@
 import logging
 import time
+from typing import Literal
+
+from requests import Response
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -58,7 +61,15 @@ class ActBlue:
         self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
         self.max_retries = int(self.max_retries) if self.max_retries else None
 
-    def post_request(self, csv_type=None, date_range_start=None, date_range_end=None):
+    def post_request(
+        self,
+        csv_type: Literal[
+            "paid_contributions", "refunded_contributions", "managed_form_contributions"
+        ]
+        | None = None,
+        date_range_start: str | None = None,
+        date_range_end: str | None = None,
+    ) -> Response:
         """
         POST request to ActBlue API to begin generating the CSV.
 
@@ -143,7 +154,15 @@ class ActBlue:
         logger.info("Beginning conversion to Parsons Table.")
         return download_url
 
-    def get_contributions(self, csv_type, date_range_start, date_range_end, **csvargs):
+    def get_contributions(
+        self,
+        csv_type: Literal[
+            "paid_contributions", "refunded_contributions", "managed_form_contributions"
+        ],
+        date_range_start: str,
+        date_range_end: str,
+        **csvargs,
+    ) -> Table:
         """
         Get specified contribution data from CSV API as Parsons table.
 

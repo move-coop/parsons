@@ -1,10 +1,17 @@
 import logging
 import os
 from pathlib import Path
+from typing import Literal
 from urllib.parse import urlparse
 
 from azure.core.exceptions import ResourceNotFoundError
-from azure.storage.blob import BlobServiceClient, ContentSettings, generate_blob_sas
+from azure.storage.blob import (
+    BlobSasPermissions,
+    BlobServiceClient,
+    ContentSettings,
+    PublicAccess,
+    generate_blob_sas,
+)
 
 from parsons.utilities import check_env, files
 
@@ -103,7 +110,13 @@ class AzureBlobStorage:
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
-    def create_container(self, container_name, metadata=None, public_access=None, **kwargs):
+    def create_container(
+        self,
+        container_name,
+        metadata=None,
+        public_access: PublicAccess | Literal["container", "blob"] = None,
+        **kwargs,
+    ):
         """
         Create a container
 
@@ -206,7 +219,7 @@ class AzureBlobStorage:
         container_name,
         blob_name,
         account_key=None,
-        permission=None,
+        permission: BlobSasPermissions | Literal["r", "a", "c", "w", "d"] = None,
         expiry=None,
         start=None,
     ):
@@ -369,7 +382,9 @@ class AzureBlobStorage:
         blob_client.delete_blob()
         logger.info(f"{blob_name} blob in {container_name} container deleted.")
 
-    def upload_table(self, table, container_name, blob_name, data_type="csv", **kwargs):
+    def upload_table(
+        self, table, container_name, blob_name, data_type: Literal["csv", "json"] = "csv", **kwargs
+    ):
         """
         Load the data from a Parsons table into a blob.
 

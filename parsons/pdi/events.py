@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +66,7 @@ class Events:
         end_datetime: str,
         description=None,
         all_day=False,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         host_phone=None,
         host_email=None,
@@ -142,7 +143,7 @@ class Events:
         end_datetime: str,
         description=None,
         all_day=False,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         host_phone=None,
         host_email=None,
@@ -238,7 +239,7 @@ class Events:
         start_datetime: str,
         end_datetime: str,
         description=None,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         signup_goal=None,
     ):
@@ -302,7 +303,9 @@ class Events:
         self,
         event_id: str,
         contact_id: str,
-        status: str,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ],
         attended: bool,
         confirmed=False,
         specific_occurrence_start=None,
@@ -351,7 +354,9 @@ class Events:
         invitation_id: str,
         event_id: str,
         contact_id: str,
-        status=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
         attended=None,
         confirmed=None,
         specific_occurrence_start=None,
@@ -401,7 +406,9 @@ class Events:
         self,
         eventactivityid: str,
         contact_id: str,
-        status: str,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ],
         completed: bool,
         confirmed=False,
         specific_occurrence_start=None,
@@ -449,7 +456,9 @@ class Events:
         activityassignementid: str,
         eventactivityid: str,
         contact_id: str,
-        status=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
         completed=None,
         confirmed=None,
         specific_occurrence_start=None,

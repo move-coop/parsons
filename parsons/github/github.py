@@ -1,6 +1,7 @@
 import logging
 from functools import partial, wraps
 from pathlib import Path
+from typing import Literal
 
 import petl
 import requests
@@ -220,13 +221,13 @@ class GitHub:
     def list_repo_issues(
         self,
         repo_name,
-        state="open",
+        state: Literal["open", "closed", "all"] = "open",
         assignee=None,
         creator=None,
         mentioned=None,
         labels=None,
-        sort="created",
-        direction="desc",
+        sort: Literal["created", "updated", "comments"] = "created",
+        direction: Literal["asc", "desc"] = "desc",
         since=None,
         page=None,
         page_size=100,
@@ -304,10 +305,10 @@ class GitHub:
     def list_repo_pull_requests(
         self,
         repo_name,
-        state="open",
+        state: Literal["open", "closed", "all"] = "open",
         base=None,
-        sort="created",
-        direction="desc",
+        sort: Literal["created", "updated", "popularity"] = "created",
+        direction: Literal["asc", "desc"] = "desc",
         page=None,
         page_size=100,
     ):

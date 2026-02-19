@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons.utilities import json_format
 
@@ -113,7 +114,7 @@ class People:
         date_of_birth=None,
         email=None,
         phone=None,
-        phone_type=None,
+        phone_type: Literal["H", "W", "C", "M", "F"] | None = None,
         street_number=None,
         street_name=None,
         zip=None,
@@ -198,7 +199,7 @@ class People:
         date_of_birth=None,
         email: str | list[dict[str, str | bool]] | None = None,
         phone=None,
-        phone_type=None,
+        phone_type: Literal["H", "W", "C", "M", "F"] | None = None,
         street_number=None,
         street_name=None,
         zip=None,
@@ -530,7 +531,7 @@ class People:
         self,
         id,
         volunteer_activity_id,
-        action,
+        action: Literal["apply", "remove"],
         id_type="vanid",
         result_code_id=None,
         contact_type_id=None,

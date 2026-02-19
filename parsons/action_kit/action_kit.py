@@ -3,6 +3,7 @@ import logging
 import math
 import time
 from pathlib import Path
+from typing import Literal
 
 import requests
 
@@ -450,7 +451,7 @@ class ActionKit:
         campaign_id,
         limit=None,
         order_by="id",
-        ascdesc="asc",
+        ascdesc: Literal["asc", "desc"] = "asc",
         filters=None,
         exclude=None,
         **kwargs,
@@ -893,7 +894,7 @@ class ActionKit:
         limit=None,
         threshold_field=None,
         threshold_value=None,
-        ascdesc="asc",
+        ascdesc: Literal["asc", "desc"] = "asc",
         **kwargs,
     ):
         """Get multiple objects of a given type, stopping based on the value of a field.

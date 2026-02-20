@@ -35,283 +35,346 @@ class TestBoxStorage(unittest.TestCase):
 
         # Create a client that we'll use to manipulate things behind the scenes
         self.client = Box()
+
         # Create test folder that we'll use for all our manipulations
         self.temp_folder_name = generate_random_string(24)
         logging.info(f"Creating temp folder {self.temp_folder_name}")
         self.temp_folder_id = self.client.create_folder(self.temp_folder_name)
 
+        # Create a small test table we can reuse
+        self.test_table = Table(
+            [
+                ["phone_number", "last_name", "first_name"],
+                ["4435705355", "Warren", "Elizabeth"],
+                ["5126993336", "Obama", "Barack"],
+            ]
+        )
+        self.test_table_csv = Path(self.test_table.to_csv())
+
     def tearDown(self) -> None:
         logging.info(f"Deleting temp folder {self.temp_folder_name}")
         self.client.delete_folder_by_id(self.temp_folder_id)
+        Path.unlink(self.test_table_csv)
 
-    def test_list_files_by_id(self) -> None:
-        # Count on environment variables being set
-        box = Box()
+    def test_create_folder(self) -> None:
+        new_test_folder = generate_random_string(24)
+        new_test_folder_id = self.client.create_folder(new_test_folder)
+        assert new_test_folder_id is not None
+        self.client.delete_folder_by_id(new_test_folder_id)
 
-        subfolder = box.create_folder_by_id(
-            folder_name="id_subfolder", parent_folder_id=self.temp_folder_id
+    def test_create_folder_with_forward_slash(self) -> None:
+        new_test_folder = self.temp_folder_name + "/" + generate_random_string(24)
+        new_test_folder_id = self.client.create_folder(new_test_folder)
+        assert new_test_folder_id is not None
+        self.client.delete_folder_by_id(new_test_folder_id)
+
+    def test_create_folder_with_backward_slash(self) -> None:
+        new_test_folder = self.temp_folder_name + "\\" + generate_random_string(24)
+        new_test_folder_id = self.client.create_folder(new_test_folder)
+        assert new_test_folder_id is not None
+        self.client.delete_folder_by_id(new_test_folder_id)
+
+    def test_delete_folder(self) -> None:
+        new_test_folder = generate_random_string(24)
+        new_test_folder_id = self.client.create_folder(new_test_folder)
+        assert new_test_folder_id is not None
+        self.client.delete_folder(new_test_folder)
+
+    def test_delete_folder_with_slash(self) -> None:
+        new_test_folder = self.temp_folder_name + "/" + generate_random_string(24)
+        new_test_folder_id = self.client.create_folder(new_test_folder)
+        assert new_test_folder_id is not None
+        self.client.delete_folder(new_test_folder)
+
+    def test_upload_table(self) -> None:
+        new_test_file_name = generate_random_string(24)
+        new_test_file = self.client.upload_table(self.test_table, path=new_test_file_name)
+        assert new_test_file is not None
+        self.client.delete_file_by_id(new_test_file.id)
+
+    def test_upload_table_with_slash(self) -> None:
+        new_test_file_name = generate_random_string(24)
+        new_test_path = self.temp_folder_name + "/" + new_test_file_name
+        new_test_file = self.client.upload_table(self.test_table, path=new_test_path)
+        assert new_test_file is not None
+
+    def test_upload_table_with_format_json(self) -> None:
+        new_test_file_name = generate_random_string(24)
+        self.temp_folder_name + "/" + new_test_file_name
+        new_test_file = self.client.upload_table(
+            self.test_table, path=new_test_file_name, format="json"
         )
-
-        # Create a couple of files in the temp folder
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-
-        box.upload_table_to_folder_id(table, "temp1", folder_id=subfolder)
-        box.upload_table_to_folder_id(table, "temp2", folder_id=subfolder)
-        box.create_folder_by_id(folder_name="temp_folder1", parent_folder_id=subfolder)
-        box.create_folder_by_id(folder_name="temp_folder2", parent_folder_id=subfolder)
-
-        file_list = box.list_files_by_id(folder_id=subfolder)
-        assert file_list["name"] == ["temp1", "temp2"]
-
-        # Check that if we delete a file, it's no longer there
-        for box_file in file_list:
-            if box_file["name"] == "temp1":
-                box.delete_file_by_id(box_file["id"])
-                break
-        file_list = box.list_files_by_id(folder_id=subfolder)
-        assert file_list["name"] == ["temp2"]
-
-        folder_list = box.list_folders_by_id(folder_id=subfolder)["name"]
-        assert folder_list == ["temp_folder1", "temp_folder2"]
-
-    def test_list_files_by_path(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
-        # Make sure our test folder is in the right place
-        found_default = False
-        for item in box.list():
-            if item["name"] == self.temp_folder_name:
-                found_default = True
-                break
-        assert found_default, (
-            f"Failed to find test folder f{self.temp_folder_name} in default Box folder"
-        )
-
-        subfolder_name = "path_subfolder"
-        subfolder_path = f"{self.temp_folder_name}/{subfolder_name}"
-        box.create_folder(path=subfolder_path)
-
-        # Create a couple of files in the temp folder
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-
-        box.upload_table(table, f"{subfolder_path}/temp1")
-        box.upload_table(table, f"{subfolder_path}/temp2")
-        box.create_folder(f"{subfolder_path}/temp_folder1")
-        box.create_folder(f"{subfolder_path}/temp_folder2")
-
-        file_list = box.list(path=subfolder_path, item_type="file")
-        assert file_list["name"] == ["temp1", "temp2"]
-
-        # Check that if we delete a file, it's no longer there
-        for box_file in file_list:
-            if box_file["name"] == "temp1":
-                box.delete_file(path=f"{subfolder_path}/temp1")
-                break
-        file_list = box.list(path=subfolder_path, item_type="file")
-        assert file_list["name"] == ["temp2"]
-
-        folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert folder_list["name"] == ["temp_folder1", "temp_folder2"]
-
-        # Make sure we can delete by path
-        box.delete_folder(f"{subfolder_path}/temp_folder1")
-        folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert folder_list["name"] == ["temp_folder2"]
+        assert new_test_file is not None
+        self.client.delete_file_by_id(new_test_file.id)
 
     def test_upload_file(self) -> None:
-        def test_upload_file_from_table(self, table) -> str:
-            # Count on environment variables being set
-            box = Box()
-            base_file_name = generate_random_string(24)
+        new_test_file = self.client.upload_file(self.test_table_csv)
+        assert new_test_file is not None
+        self.client.delete_file_by_id(new_test_file.id)
 
-            box_file = box.upload_table_to_folder_id(
-                table, base_file_name, folder_id=self.temp_folder_id
+    def test_upload_file_with_slash(self) -> None:
+        new_test_file_name = generate_random_string(24)
+        new_test_path = self.temp_folder_name + "/" + new_test_file_name
+        new_test_file = self.client.upload_file(self.test_table_csv, path=new_test_path)
+        assert new_test_file is not None
+
+    def test_delete_file(self) -> None:
+        new_test_file_name = generate_random_string(24)
+        new_test_file = self.client.upload_table(self.test_table, path=new_test_file_name)
+        assert new_test_file is not None
+        self.client.delete_file(new_test_file_name)
+
+    def test_list(self) -> None:
+        file_dict = {}
+        file_dict["test_file_1"] = self.temp_folder_name + "/test_list_file_1"
+        file_dict["test_file_2"] = self.temp_folder_name + "/test_list_file_2"
+        file_dict["test_file_3"] = self.temp_folder_name + "/test_list_file_3"
+        file_dict["test_file_id_1"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_1"]
+        ).id
+        file_dict["test_file_id_2"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_2"]
+        ).id
+        file_dict["test_file_id_3"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_3"]
+        ).id
+        assert file_dict["test_file_id_1"] is not None
+        assert file_dict["test_file_id_2"] is not None
+        assert file_dict["test_file_id_3"] is not None
+        items = self.client.list(self.temp_folder_name)
+
+        for item in items:
+            if item["id"] == file_dict["test_file_id_1"]:
+                file_dict["test_file_found_1"] = True
+            elif item["id"] == file_dict["test_file_id_2"]:
+                file_dict["test_file_found_2"] = True
+            elif item["id"] == file_dict["test_file_id_3"]:
+                file_dict["test_file_found_3"] = True
+
+            if (
+                "test_file_found_1" in file_dict
+                and "test_file_found_2" in file_dict
+                and "test_file_found_3" in file_dict
+            ):
+                break
+
+        assert "test_file_found_1" in file_dict
+        assert "test_file_found_2" in file_dict
+        assert "test_file_found_3" in file_dict
+
+    def test_list_default_folder_id(self) -> None:
+        items = self.client.list()
+        assert self.temp_folder_id in items["id"]
+
+    def test_list_files(self) -> None:
+        file_dict = {}
+        file_dict["test_file_1"] = self.temp_folder_name + "/test_list_file_1"
+        file_dict["test_file_2"] = self.temp_folder_name + "/test_list_file_2"
+        file_dict["test_file_3"] = self.temp_folder_name + "/test_list_file_3"
+        file_dict["test_file_id_1"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_1"]
+        ).id
+        file_dict["test_file_id_2"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_2"]
+        ).id
+        file_dict["test_file_id_3"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_3"]
+        ).id
+        assert file_dict["test_file_id_1"] is not None
+        assert file_dict["test_file_id_2"] is not None
+        assert file_dict["test_file_id_3"] is not None
+        items = self.client.list(self.temp_folder_name, item_type="file")
+
+        for item in items:
+            if item["id"] == file_dict["test_file_id_1"]:
+                file_dict["test_file_found_1"] = True
+            elif item["id"] == file_dict["test_file_id_2"]:
+                file_dict["test_file_found_2"] = True
+            elif item["id"] == file_dict["test_file_id_3"]:
+                file_dict["test_file_found_3"] = True
+
+            if (
+                "test_file_found_1" in file_dict
+                and "test_file_found_2" in file_dict
+                and "test_file_found_3" in file_dict
+            ):
+                break
+
+        assert "test_file_found_1" in file_dict
+        assert "test_file_found_2" in file_dict
+        assert "test_file_found_3" in file_dict
+
+    def test_list_folders(self) -> None:
+        file_dict = {}
+        file_dict["test_folder_1"] = self.temp_folder_name + "/test_list_folder_1"
+        file_dict["test_folder_2"] = self.temp_folder_name + "/test_list_folder_2"
+        file_dict["test_folder_3"] = self.temp_folder_name + "/test_list_folder_3"
+        file_dict["test_folder_id_1"] = self.client.create_folder(file_dict["test_folder_1"])
+        file_dict["test_folder_id_2"] = self.client.create_folder(file_dict["test_folder_2"])
+        file_dict["test_folder_id_3"] = self.client.create_folder(file_dict["test_folder_3"])
+        assert file_dict["test_folder_id_1"] is not None
+        assert file_dict["test_folder_id_2"] is not None
+        assert file_dict["test_folder_id_3"] is not None
+        items = self.client.list(self.temp_folder_name, item_type="folder")
+
+        for item in items:
+            if item["id"] == file_dict["test_folder_id_1"]:
+                file_dict["test_folder_found_1"] = True
+            elif item["id"] == file_dict["test_folder_id_2"]:
+                file_dict["test_folder_found_2"] = True
+            elif item["id"] == file_dict["test_folder_id_3"]:
+                file_dict["test_folder_found_3"] = True
+
+            if (
+                "test_folder_found_1" in file_dict
+                and "test_folder_found_2" in file_dict
+                and "test_folder_found_3" in file_dict
+            ):
+                break
+
+        assert "test_folder_found_1" in file_dict
+        assert "test_folder_found_2" in file_dict
+        assert "test_folder_found_3" in file_dict
+
+    def test_list_files_by_id(self) -> None:
+        file_dict = {}
+        file_dict["test_file_1"] = self.temp_folder_name + "/test_list_file_1"
+        file_dict["test_file_2"] = self.temp_folder_name + "/test_list_file_2"
+        file_dict["test_file_3"] = self.temp_folder_name + "/test_list_file_3"
+        file_dict["test_file_id_1"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_1"]
+        ).id
+        file_dict["test_file_id_2"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_2"]
+        ).id
+        file_dict["test_file_id_3"] = self.client.upload_table(
+            self.test_table, path=file_dict["test_file_3"]
+        ).id
+        assert file_dict["test_file_id_1"] is not None
+        assert file_dict["test_file_id_2"] is not None
+        assert file_dict["test_file_id_3"] is not None
+        items = self.client.list_files_by_id(self.temp_folder_id)
+
+        for item in items:
+            if item["id"] == file_dict["test_file_id_1"]:
+                file_dict["test_file_found_1"] = True
+            elif item["id"] == file_dict["test_file_id_2"]:
+                file_dict["test_file_found_2"] = True
+            elif item["id"] == file_dict["test_file_id_3"]:
+                file_dict["test_file_found_3"] = True
+
+            if (
+                "test_file_found_1" in file_dict
+                and "test_file_found_2" in file_dict
+                and "test_file_found_3" in file_dict
+            ):
+                break
+
+        assert "test_file_found_1" in file_dict
+        assert "test_file_found_2" in file_dict
+        assert "test_file_found_3" in file_dict
+
+    def test_list_files_by_id_default_folder_id(self) -> None:
+        test_table_name = generate_random_string(24)
+        test_table_id = self.client.upload_table(self.test_table, test_table_name).id
+        items = self.client.list_files_by_id()
+        assert test_table_id in items["id"]
+        self.client.delete_file_by_id(test_table_id)
+
+    def test_list_folders_by_id(self) -> None:
+        file_dict = {}
+        file_dict["test_folder_1"] = self.temp_folder_name + "/test_list_folder_1"
+        file_dict["test_folder_2"] = self.temp_folder_name + "/test_list_folder_2"
+        file_dict["test_folder_3"] = self.temp_folder_name + "/test_list_folder_3"
+        file_dict["test_folder_id_1"] = self.client.create_folder(file_dict["test_folder_1"])
+        file_dict["test_folder_id_2"] = self.client.create_folder(file_dict["test_folder_2"])
+        file_dict["test_folder_id_3"] = self.client.create_folder(file_dict["test_folder_3"])
+        assert file_dict["test_folder_id_1"] is not None
+        assert file_dict["test_folder_id_2"] is not None
+        assert file_dict["test_folder_id_3"] is not None
+        items = self.client.list_folders_by_id(self.temp_folder_id)
+
+        for item in items:
+            if item["id"] == file_dict["test_folder_id_1"]:
+                file_dict["test_folder_found_1"] = True
+            elif item["id"] == file_dict["test_folder_id_2"]:
+                file_dict["test_folder_found_2"] = True
+            elif item["id"] == file_dict["test_folder_id_3"]:
+                file_dict["test_folder_found_3"] = True
+
+            if (
+                "test_folder_found_1" in file_dict
+                and "test_folder_found_2" in file_dict
+                and "test_folder_found_3" in file_dict
+            ):
+                break
+
+        assert "test_folder_found_1" in file_dict
+        assert "test_folder_found_2" in file_dict
+        assert "test_folder_found_3" in file_dict
+
+    def test_list_folders_by_id_default_folder_id(self) -> None:
+        items = self.client.list_folders_by_id()
+        assert self.temp_folder_id in items["id"]
+
+    def test_upload_file_to_folder_id_no_file_name(self):
+        test_file_id = self.client.upload_file_to_folder_id(self.test_table_csv, folder_id="0")
+        items = self.client.list()
+        self.client.delete_file_by_id(test_file_id)
+        assert test_file_id in items["id"]
+
+    def test_upload_file_to_folder_id_no_folder_id(self):
+        test_file_name = generate_random_string(24)
+        test_file_id = self.client.upload_file_to_folder_id(self.test_table_csv, test_file_name)
+        items = self.client.list()
+        self.client.delete_file_by_id(test_file_id)
+        assert test_file_id in items["id"]
+
+    def test_download_file(self):
+        test_file_name = self.temp_folder_path + "/" + generate_random_string(24)
+        test_file_id = self.client.upload_table(self.test_table, path=test_file_name).id
+        local_file = str(self.client.download_file().absolute())
+        self.client.delete_file_by_id(test_file_id)
+        downloaded_table = Table.from_csv(local_file)
+        assert str(downloaded_table) == str(self.test_table)
+
+    def test_error_bad_format_upload(self) -> None:
+        with pytest.raises(ValueError, match="Format argument must be in one of"):
+            self.client.upload_table_to_folder_id(
+                self.test_table, "test_error_bad_format", format="bad_format"
             )
 
-            new_table = box.get_table_by_file_id(box_file.id)
-
-            # Check that what we saved is equal to what we got back
-            assert str(table) == str(new_table)
-
-            # Check that things also work in JSON
-            box_file = box.upload_table_to_folder_id(
-                table, f"{base_file_name}_json", folder_id=self.temp_folder_id, format="json"
-            )
-
-            new_table = box.get_table_by_file_id(box_file.id, format="json")
-
-            # Check that what we saved is equal to what we got back
-            assert str(table) == str(new_table)
-
-            # Now check the same thing with paths instead of file_id
-            path_filename = f"path_{base_file_name}"
-            box_file = box.upload_table(table, f"{self.temp_folder_name}/{path_filename}")
-            new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
-
-            # Check that what we saved is equal to what we got back
-            assert str(table) == str(new_table)
-
-            # Now check the same thing with a file uploaded with Box.upload_file()
-            uploaded_file = Path(table.to_csv())
-            path_filename = Path(self.temp_folder_name) / f"upload_file_{base_file_name}"
-            box_file = box.upload_file(file=str(uploaded_file), path=str(path_filename))
-            new_table = box.get_table(path=str(path_filename))
-
-            # Check that what we saved is equal to what we got back
-            assert str(table) == str(new_table)
-
-            # Check that we throw an exception with bad formats
-            with pytest.raises(ValueError):  # noqa: PT011
-                box.upload_table_to_folder_id(table, base_file_name, format="illegal_format")
-            with pytest.raises(ValueError):  # noqa: PT011
-                box.get_table_by_file_id(box_file.id, format="illegal_format")
-
-        # Test using a small table.
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-
-        test_upload_file_from_table(self, table)
-
-        # Now do the same with a large table (>50MB).
-        table = Table([{"first": "Bob", "last": "Smith"} for x in range(5000000)])
-        test_upload_file_from_table(self, table)
-
-    def test_download_file(self) -> None:
-        box = Box()
-
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-        uploaded_file = Path(table.to_csv())
-
-        path_filename = Path(self.temp_folder_name) / "my_path"
-        box.upload_table(table, str(path_filename))
-
-        downloaded_file = Path(box.download_file(str(path_filename)))
-
-        assert uploaded_file.read_text() == downloaded_file.read_text()
-
-        downloaded_file = Path(
-            box.download_file(str(path_filename), local_path=str(downloaded_file))
-        )
-
-        assert uploaded_file.read_text() == downloaded_file.read_text()
-
-    def test_get_item_id(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
-        # Create a subfolder in which we'll do this test
-        sub_sub_folder_name = "item_subfolder"
-        sub_sub_folder_id = box.create_folder_by_id(
-            folder_name=sub_sub_folder_name, parent_folder_id=self.temp_folder_id
-        )
-
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-        box_file = box.upload_table_to_folder_id(
-            table, "file_in_subfolder", folder_id=self.temp_folder_id
-        )
-
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers", folder_id=sub_sub_folder_id
-        )
-
-        # Now try getting various ids
-        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers"
-        assert box_file.id == box.get_item_id(path=file_path)
-
-        file_path = f"{self.temp_folder_name}/item_subfolder"
-        assert sub_sub_folder_id == box.get_item_id(path=file_path)
-
-        file_path = self.temp_folder_name
-        assert self.temp_folder_id == box.get_item_id(path=file_path)
-
-        # Trailing "/"
-        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-        # Trailing "\\"
-        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers\\"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-        # Nonexistent file
-        file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-        # File (rather than folder) in middle of path
-        file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-    def test_errors(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
+    def test_error_bad_format_get(self) -> None:
         nonexistent_id = "9999999"
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
+        with pytest.raises(ValueError, match="Format argument must be in one of"):
+            self.client.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
 
-        # Upload a bad format
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.upload_table_to_folder_id(table, "temp1", format="bad_format")
+    def test_error_nonexistent_id_upload(self) -> None:
+        nonexistent_id = "9999999"
+        with pytest.raises(BoxAPIError, match="Message: 404 Not Found"):
+            self.client.upload_table_to_folder_id(
+                self.test_table, "test_error_nonexistent_id_upload", folder_id=nonexistent_id
+            )
 
-        # Download a bad format
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
+    def test_error_nonexistent_id_get(self) -> None:
+        nonexistent_id = "9999999"
+        with pytest.raises(BoxAPIError, match="Message: 404 Could not find the specified resource"):
+            self.client.get_table_by_file_id(nonexistent_id, format="json")
 
-        # Upload to non-existent folder
-        with pytest.raises(BoxAPIError):
-            box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
+    def test_error_nonexistent_path_create(self) -> None:
+        with pytest.raises(ValueError, match="No file or folder named"):
+            self.client.create_folder("nonexistent_path/path")
 
-        # Download a non-existent file
-        with pytest.raises(BoxAPIError):
-            box.get_table_by_file_id(nonexistent_id, format="json")
+    def test_error_nonexistent_id_create(self) -> None:
+        nonexistent_id = "9999999"
+        with pytest.raises(BoxAPIError, match="Message: 404 Not Found"):
+            self.client.create_folder_by_id(
+                folder_name="subfolder", parent_folder_id=nonexistent_id
+            )
 
-        # Create folder in non-existent parent
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.create_folder("nonexistent_path/path")
-
-        # Create folder in non-existent parent
-        with pytest.raises(BoxAPIError):
-            box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
-
-        # Try using bad credentials
+    def test_error_bad_credentials(self) -> None:
         box = Box(access_token="5345345345")
-        with pytest.raises(BoxSDKError):
+        with pytest.raises(
+            BoxSDKError, match="Developer token has expired. Please provide a new one."
+        ):
             box.list_files_by_id()

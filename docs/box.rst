@@ -9,7 +9,7 @@ Overview
 
 .. note::
   Authentication
-    This connector requires authentication credentials for a Box account. Information on setting up credentials can be found at the `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_.
+    This connector requires authentication credentials for a Box account. Information on setting up credentials can be found at the `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_. On the Configuration tab, check enable "Write all files and folders stored in Box" under Application Scopes, and save, prior to generating a token. If you fail to do so, the token will not have the correct scope.
 
 **********
 Quickstart

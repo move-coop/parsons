@@ -9,6 +9,7 @@ Overview
 This connector allows you to load data from the Formstack API.
 
 .. note::
+
   Authentication
     Formstack uses OAuth2 user access tokens to handle authentication. *"Access tokens are tied to a
     Formstack user and follow Formstack (in-app) user permissions."* You can acquire an OAuth2 token
@@ -54,5 +55,7 @@ environment variable or pass it in as an argument.
 API
 ***
 
-.. autoclass :: parsons.formstack.Formstack
+.. autoclass:: parsons.formstack.formstack.Formstack
    :inherited-members:
+   :members:
+   

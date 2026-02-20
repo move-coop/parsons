@@ -17,7 +17,7 @@ class SurveyQuestions:
         """
         Get survey questions.
 
-        `Args:`
+        Args:
             statuses: list
                 Filter to a list of statuses of survey questions. One or more of ``Active``,
                 ``Archived``, and ``Inactive``.
@@ -29,9 +29,11 @@ class SurveyQuestions:
                 Filter to survey questions with script questions that contain the given input.
             cycle: str
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if statuses is None:
@@ -53,12 +55,14 @@ class SurveyQuestions:
         """
         Get a survey question.
 
-        `Args:`
+        Args:
             survey_question_id: int
                 The survey question id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
@@ -79,7 +83,7 @@ class SurveyQuestions:
         """
         Apply a single survey response to a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             survey_question_id: int
@@ -100,6 +104,7 @@ class SurveyQuestions:
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
+
         """
 
         response = {

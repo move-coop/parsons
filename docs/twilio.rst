@@ -11,6 +11,7 @@ functions. This Parsons integration provides methods for fetching messages, acco
 account usage data.
 
 .. note::
+
   Authentication
     Twilio requires an account SID and an authorization token, which can be found in the `Admin Console <https://www.twilio.com/login?g=%2Fconsole%3F&t=2b1c98334b25c1a785ef15b6556396290e3c704a9b57fc40687cbccd79c46a8c>`_.
 
@@ -29,7 +30,7 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 ``TWILIO_AUTH_TOKEN``, respectively) or pass them in as arguments:
 
 .. code-block:: python
-	
+
    from parsons import Twilio
 
    # First approach: Use API credentials via environmental variables
@@ -47,14 +48,17 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
    # Get usage for a specific resource
    twilio.get_account_usage(category='sms-inbound')
 
-	# Get messages from a specific day
-	twilio.get_messages(date_sent='10-01-2019')
+   # Get messages from a specific day
+   twilio.get_messages(date_sent='10-01-2019')
 
-	# Get messages sent to a specific phone number
-	twilio.get_messages(to='9995675309')
+   # Get messages sent to a specific phone number
+   twilio.get_messages(to='9995675309')
 
 ***
 API
 ***
-.. autoclass :: parsons.Twilio
+
+.. autoclass:: parsons.twilio.twilio.Twilio
    :inherited-members:
+   :members:
+   

@@ -9,6 +9,7 @@ The ``Redash`` class allows you to interact with a `Redash server <https://redas
 query results as a Parsons Table.
 
 .. note::
+
   Authentication
     The `Redash API <https://redash.io/help/user-guide/integrations-and-api/api>`_ has two types of API keys:
     *User API keys* which are found on user profile pages, and *Query API keys* which are found on query pages. The
@@ -25,6 +26,7 @@ For fresh queries, a User API Key is also required, and can be specified with ei
 ``REDASH_USER_API_KEY`` or a keyword argument.
 
 .. code-block:: python
+
    from parsons import Redash
 
    # Instantiate class with the base URL and User API key as keyword arguments
@@ -40,6 +42,7 @@ Note that if you specify a Query API Key when loading a table, the method will f
 provided a User API Key when instantiating the class.
 
 .. code-block:: python
+
    # Pass a Query API Key to fetch cached results
    redash.load_to_table(query_api_key='my_query_api_key', query_id=1001)
 
@@ -47,6 +50,7 @@ provided a User API Key when instantiating the class.
 API
 ***
 
-.. autoclass :: parsons.redash.Redash
+.. autoclass:: parsons.redash.redash.Redash
    :inherited-members:
    :members:
+   

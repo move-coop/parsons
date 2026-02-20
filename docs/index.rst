@@ -44,7 +44,6 @@ We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker
 QuickStart
 ==========
 
-
 .. code-block:: python
 
   # VAN - Download activist codes to a CSV
@@ -118,35 +117,34 @@ run with limited resources, we recommend users install only the dependencies the
 version constraints. To do this, simply set two environment variables before installing Parsons
 and keep one while running:
 
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons
-```
+.. code-block:: bash
 
-```
-export PARSONS_LIMITED_DEPENDENCIES=true
-python myparsons_script.py
-```
+   export PIP_NO_BINARY=parsons
+   export PARSONS_LIMITED_DEPENDENCIES=true
+   pip install parsons
+
+.. code-block:: bash
+
+   export PARSONS_LIMITED_DEPENDENCIES=true
+   python myparsons_script.py
 
 `PIP_NO_BINARY` tells pip to use the source distribution of Parsons, which then allows
 `PARSONS_LIMITED_DEPENDENCIES` to dynamically limit to the bare minimum dependencies needed to
 run Parsons.  Users may also install extra dependencies appropriate to their environment, e.g.
 
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons[google]
-```
+.. code-block:: bash
+
+   export PIP_NO_BINARY=parsons
+   export PARSONS_LIMITED_DEPENDENCIES=true
+   pip install parsons[google]
 
 or
 
-```
-export PIP_NO_BINARY=parsons
-export PARSONS_LIMITED_DEPENDENCIES=true
-pip install parsons[google,ngpvan]
-```
+.. code-block:: bash
 
+   export PIP_NO_BINARY=parsons
+   export PARSONS_LIMITED_DEPENDENCIES=true
+   pip install parsons[google,ngpvan]
 
 *** Don't import from the root Parsons package ***
 
@@ -164,7 +162,6 @@ environment variable means you will **NOT** be able to import using the `from pa
 pattern. Instead, you will need to import directly from the package where a class is defined
 (e.g. `from parsons.etl import Table`). Using this method, you may see as much as an 8x
 decrease in memory usage for Parsons!
-
 
 Indices and tables
 ==================
@@ -193,6 +190,7 @@ Indices and tables
    box
    braintree
    capitolcanary
+   catalist
    census
    civis
    controlshift
@@ -263,6 +261,7 @@ Indices and tables
    use_cases/contribute_use_cases
    use_cases/civis_job_status_slack_alert
    use_cases/mysql_to_googlesheets
+   use_cases/opt_outs_to_everyaction
 
 .. toctree::
    :maxdepth: 1

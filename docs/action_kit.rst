@@ -12,6 +12,7 @@ supports fetching, creating, and updating records of campaigns, events, mailers,
 Bulk upload of new users and user updates is also supported.
 
 .. note::
+
   Authentication
     ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
     Clients with an ActionKit account can obtain the domain, username, and password needed
@@ -57,5 +58,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.ActionKit
+.. autoclass:: parsons.action_kit.action_kit.ActionKit
    :inherited-members:
+   :members:
+   

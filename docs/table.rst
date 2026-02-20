@@ -3,7 +3,6 @@
 Parsons Table
 =============
 
-
 ********
 Overview
 ********
@@ -194,7 +193,6 @@ of commonly used methods. The full list can be found in the API section.
     * - :py:meth:`~parsons.etl.etl.ETL.map_columns`
       - Standardizes column names based on multiple possible values
 
-
 **Row Transformations**
 
 .. list-table::
@@ -231,7 +229,6 @@ of commonly used methods. The full list can be found in the API section.
       - Take a column with nested data and create a new long table
     * - :py:meth:`~parsons.etl.etl.ETL.unpack_nested_columns_as_rows`
       - Unpack list or dict values from one column into separate rows
-
 
 ======================
 Parsons Table Indexing
@@ -366,19 +363,25 @@ Basic Pipelines
 *************
 To & From API
 *************
+
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
-
+   :members:
+   
 ******************
 Transformation API
 ******************
+
 The following methods allow you to manipulate the Parsons table data.
 
 .. autoclass:: parsons.etl.etl.ETL
    :inherited-members:
+   :members:
 
-*********
+***************
 Materialize API
-*********
+***************
+
 .. autoclass:: parsons.etl.table.Table
-   :members: materialize, materialize_to_file
+   :inherited-members:
+   :members:

@@ -1,6 +1,6 @@
-===============
+=======================
 Opt-outs to EveryAction
-===============
+=======================
 
 As carriers tighten restrictions on peer-to-peer texting through 10DLC rules, it becomes more and more crucial for organizations to avoid texting people who have opted out of their communications. This is a challenge for organizations who pull outreach lists from EveryAction or VAN but run their actual texting program in another tool because their opt-outs are tracked in a different system from the one where they pull their lists. A number of commonly used texting tools have integrations with EveryAction and VAN but they don't always sync opt-out dispositions back into EveryAction/VAN.
 

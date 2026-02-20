@@ -14,7 +14,7 @@ class TurboVote:
     """
     Instantiate the TurboVote class
 
-    `Args:`
+    Args:
         username: str
             A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
             env variable set.
@@ -24,8 +24,10 @@ class TurboVote:
         subdomain: str
             Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-    `Returns:`
+
+    Returns:
         class
+
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
@@ -49,9 +51,10 @@ class TurboVote:
         """
         Get users.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.uri + f"partners/{self.subdomain}.turbovote.org/users"

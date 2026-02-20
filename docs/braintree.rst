@@ -15,6 +15,7 @@ this Parsons integration focuses on the record searching aspects. Specifically, 
 methods for fetching disputes and transactions.
 
 .. note::
+
   Authentication
     Braintree authentication requires a Merchant ID, Public Key, and Private Key. These can be obtained by logging
     in to the Braintree `Control Panel <https://www.braintreegateway.com/login?_ga=1.85874009.1956923370.1599919088>`_,
@@ -55,5 +56,8 @@ as arguments:
 ***
 API
 ***
-.. autoclass :: parsons.braintree.Braintree
+
+.. autoclass:: parsons.braintree.braintree.Braintree
    :inherited-members:
+   :members:
+   

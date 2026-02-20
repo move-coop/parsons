@@ -1,5 +1,5 @@
 Bloomerang
-=========
+==========
 
 ********
 Overview
@@ -10,6 +10,7 @@ the private `Bloomerang REST API <https://bloomerang.co/features/integrations/ap
 supports fetching, creating, and updating records of constituents, donations, and interactions.
 
 .. note::
+
   Authentication
     Authentication credentials can be created by Bloomerang database Administrator User.
     There are two authentication options for the private REST API, both of which are
@@ -43,7 +44,6 @@ approach) or pass in your API Key / OAuth2 credentials as arguments:
    # Third approach: Pass OAuth2 client_id and client_secret as arguments
    bloomerang = Bloomerang(client_id='my_client_id', client_secret='my_client_secret')
 
-
 You can then call various endpoints:
 
 .. code-block:: python
@@ -64,5 +64,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Bloomerang
+.. autoclass:: parsons.bloomerang.bloomerang.Bloomerang
    :inherited-members:
+   :members:
+   

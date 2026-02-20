@@ -12,6 +12,7 @@ This Parsons connector provides methods to fetch lists of acquisition types, fla
 questions, universes, and flags given start and end dates.
 
 .. note::
+
   Authentication
     A user name, password, and API token are required to instantiate the ``PDI`` class.
     To obtain log in credentials, request a PDI API account from ``support@politicaldata.com``.
@@ -41,9 +42,11 @@ and API token as environmental variables (``PDI_USERNAME``, ``PDI_PASSWORD``, an
    # Get all flags since the beginning of 2020
    pdi.get_flags(start_date='2020-01-01')
 
-**************
+*********
 PDI Class
-**************
+*********
 
-.. autoclass :: parsons.PDI
-    :inherited-members:
+.. autoclass:: parsons.pdi.pdi.PDI
+   :inherited-members:
+   :members:
+   

@@ -43,8 +43,10 @@ class NewmodeV1:
             api_version: str
                 The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
                 env variable.
+
         Returns:
             Newmode class
+
         """
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1"
@@ -64,11 +66,14 @@ class NewmodeV1:
     def get_tools(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing tools.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tools information as table.
+
         """
         if params is None:
             params = {}
@@ -84,13 +89,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool information.
+
         """
         if params is None:
             params = {}
@@ -121,8 +129,10 @@ class NewmodeV1:
                 matched for those coordinates.
                 - Search term: For your csv tools, this will return targets
                 matched by given valid search term.
+
         Returns:
             Targets information as table.
+
         """
         if params is None:
             params = {}
@@ -142,13 +152,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get the action information for a given tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool action information.
+
         """
         if params is None:
             params = {}
@@ -167,6 +180,7 @@ class NewmodeV1:
     ) -> str | int | None:
         """
         Run specific action with given payload.
+
         Args:
             tool_id:
                 The id of the tool to run.
@@ -175,8 +189,10 @@ class NewmodeV1:
                 on the stuff returned by get_action.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Action link (if otl) or sid.
+
         """
         if params is None:
             params = {}
@@ -195,13 +211,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific target.
+
         Args:
             target_id:
                 The id of the target to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Target information.
+
         """
         if params is None:
             params = {}
@@ -222,6 +241,7 @@ class NewmodeV1:
 
         Returns:
             Target information
+
         """
 
         if params is None:
@@ -238,11 +258,14 @@ class NewmodeV1:
     def get_campaigns(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing campaigns.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaigns information as table.
+
         """
         if params is None:
             params = {}
@@ -258,13 +281,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific campaign.
+
         Args:
             campaign_id:
                 The id of the campaign to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaign information.
+
         """
         if params is None:
             params = {}
@@ -278,11 +304,14 @@ class NewmodeV1:
     def get_organizations(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing organizations.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organizations information as table.
+
         """
         if params is None:
             params = {}
@@ -298,13 +327,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific organization.
+
         Args:
             organization_id:
                 The id of the organization to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organization information.
+
         """
         if params is None:
             params = {}
@@ -318,11 +350,14 @@ class NewmodeV1:
     def get_services(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing services.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Services information as table.
+
         """
         if params is None:
             params = {}
@@ -338,13 +373,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific service.
+
         Args:
             service_id:
                 The id of the service to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Service information.
+
         """
         if params is None:
             params = {}
@@ -358,13 +396,16 @@ class NewmodeV1:
     def get_outreaches(self, tool_id: int | str, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing outreaches for a given tool.
+
         Args:
             tool_id:
                 Tool to return outreaches.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreaches information as table.
+
         """
         if params is None:
             params = {}
@@ -380,13 +421,16 @@ class NewmodeV1:
     ) -> dict[str, Any] | None:
         """
         Get specific outreach.
+
         Args:
             outreach_id:
                 The id of the outreach to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreach information.
+
         """
         if params is None:
             params = {}
@@ -408,7 +452,7 @@ class NewmodeV2:
     ):
         """
         Instantiate Class
-        `Args`:
+        Args:
             client_id: str
                 The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
                 env variable set.
@@ -599,13 +643,16 @@ class NewmodeV2:
         Retrieve a specific campaign by ID.
 
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing campaign data.
+
         """
         if params is None:
             params = {}
@@ -623,13 +670,16 @@ class NewmodeV2:
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+
+        Args:
             organization_id: str
                 ID of organization
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             List containing all campaign ids.
+
         """
         if params is None:
             params = {}
@@ -658,7 +708,7 @@ class NewmodeV2:
     ) -> Table:
         """
         Retrieve a specific recipient by ID
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             street_address: str
@@ -671,8 +721,10 @@ class NewmodeV2:
                 Region (i.e. state/province abbreviation) of recipient
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing recipient data.
+
         """
         if params is None:
             params = {}
@@ -708,13 +760,15 @@ class NewmodeV2:
         sends an email or triggers a phone call
         depending on your campaign type
 
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing submit data.
+
         """
 
         if params is None:
@@ -741,11 +795,13 @@ class NewmodeV2:
         for a specified campaign using a range of filters
         that include campaign id, data range and submission status
 
-        `Args:`
+        Args:
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing submit data.
+
         """
         if params is None:
             params = {}
@@ -772,7 +828,7 @@ class Newmode:
         """
         Create and return Newmode instance based on chosen version (V1 or V2)
 
-        `Args`:
+        Args:
             api_user: str
                 The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
                 passed. Needed for V1.
@@ -790,6 +846,7 @@ class Newmode:
 
         Returns:
             NewMode Class
+
         """
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):

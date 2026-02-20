@@ -39,7 +39,7 @@ EXTRA_DEPENDENCIES = {
     "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
     "facebook": ["facebook-business", "joblib"],
     "geocode": [
-        "censusgeocode",
+        "censusgeocode==0.5.3",
         "urllib3",
     ],
     "github": ["PyGitHub"],
@@ -95,6 +95,7 @@ def get_install_requires(*, limited: bool = False) -> list[str]:
     limited:
         If True, return only core dependencies defined in CORE_DEPENDENCIES.
         If False, return all dependencies from requirements.txt
+
     """
     if not limited:
         requirements_txt_path = Path(__file__).parent / "requirements.txt"
@@ -111,6 +112,7 @@ def get_extras_require(*, limited: bool = False) -> dict[str, list[str]]:
     limited:
         If True, return extras as defined in EXTRA_DEPENDENCIES.
         If False, return empty dict for forward-compatibility.
+
     """
     if not limited:
         return {"all": []}

@@ -24,9 +24,10 @@ class Targets:
         """
         Get targets.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("targets"))
@@ -37,12 +38,14 @@ class Targets:
         """
         Get a single target.
 
-        `Args:`
+        Args:
             target_id : int
                 The target id.
-        `Returns:`
+
+        Returns:
             dict
                 The target
+
         """
 
         r = self.connection.get_request(f"targets/{target_id}")
@@ -53,9 +56,10 @@ class Targets:
         """
         Get specific target export job id's status.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
@@ -72,12 +76,14 @@ class Targets:
         """
         Create new target export job
 
-        `Args:`
+        Args:
             target_id : int
                 The target id the export job is creating for.
-        `Returns:`
+
+        Returns:
             dict
                 The target export job ID
+
         """
         target_export = {"targetId": target_id}
 

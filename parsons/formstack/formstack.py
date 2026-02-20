@@ -13,10 +13,11 @@ class Formstack:
     """
     Instantiate Formstack class.
 
-       `Args:`
+    Args:
             api_token:
                 API token to access the Formstack API. Not required if the
                 ``FORMSTACK_API_TOKEN`` env variable is set.
+
     """
 
     def __init__(self, api_token: str | None = None):
@@ -47,7 +48,7 @@ class Formstack:
             udated the methods in this class as needed when/if Formstack changes pagination on
             their API.
 
-        `Args:`
+        Args:
             url: string
                 Relative URL (from the Formstack base URL) to make the request.
 
@@ -62,9 +63,10 @@ class Formstack:
                 In rare cases the API will return more pages than `parsons.Table` is able to handle.
                 Pass `True` to enable a workaround for these endpoints.
 
-        `Returns:`
+        Returns:
             Table Class
                 A table with the returned data.
+
         """
         if params is None:
             params = {}
@@ -89,9 +91,10 @@ class Formstack:
         """
         Get all folders on your account and their subfolders.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the folders data.
+
         """
         response_data = self.client.get_request("folder")
         logger.debug(response_data)
@@ -119,15 +122,16 @@ class Formstack:
         """
         Get all forms on your account.
 
-        `Args:`
+        Args:
             form_name: string, optional
                 Search by form name.
             folder_id: int, optional
                 Return forms in the specified folder.
 
-        `Returns:`
+        Returns:
             Table Class
                 A table with the forms data.
+
         """
         params = {}
         if form_name:
@@ -142,13 +146,14 @@ class Formstack:
         """
         Get the details of the specified submission.
 
-        `Args:`
+        Args:
             id: int
                 ID for the submission to retrieve.
 
-        `Returns:`
+        Returns:
             Dictionary
                 Submission data.
+
         """
         response_data = self.client.get_request(f"submission/{id}")
         logger.debug(response_data)
@@ -164,15 +169,16 @@ class Formstack:
         For more useful options, such as how to filter the responses by date,
         check the Formstack documentation.
 
-        `Args:`
+        Args:
             form_id: int
                 The form ID for the form of the submissions.
             query_params: kwargs
                 Query arguments to pass to the form/submissions endpoint.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the submission data for the form.
+
         """
         tbl = self._get_paginated_request(
             f"form/{form_id}/submission", "submissions", query_params, True
@@ -184,13 +190,14 @@ class Formstack:
         """
         Get all fields for the specified form.
 
-        `Args:`
+        Args:
             form_id: int
                 The form ID for the form of the submissions.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the fields on the form.
+
         """
         response_data = self.client.get_request(f"form/{form_id}/field")
         logger.debug(response_data)

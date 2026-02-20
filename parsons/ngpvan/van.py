@@ -52,13 +52,14 @@ class VAN(
     """
     Returns the VAN class
 
-    `Args:`
+    Args:
         api_key : str
             A valid api key Not required if ``VAN_API_KEY`` env variable set.
         db: str
             One of ``MyVoters``, ``MyMembers``, ``MyCampaign``, or ``EveryAction``
-    `Returns:`
+    Returns:
         VAN object
+
     """
 
     def __init__(

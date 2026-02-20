@@ -13,6 +13,7 @@ This Parsons integration with the `Sisense REST API v1.0 <https://sisense.dev/re
 fetching, posting, and deleting shared dashboards.
 
 .. note::
+
   Authentication
     Your site name and an authentication token are required to use the ``Sisense`` class. To obtain a token, log in to
     the Sisense Web Application and follow the instructions in the `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`_.
@@ -55,5 +56,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Sisense
+.. autoclass:: parsons.sisense.sisense.Sisense
    :inherited-members:
+   :members:
+   

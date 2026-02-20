@@ -10,6 +10,7 @@ fetching events ("Airmeets"), sessions, participants, and other event data via t
 `Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
 
 .. note::
+
   Authentication
     You must create an Access Key and Secret Key via the Airmeet website. These are used by the ``Airmeet`` class to fetch
     an access token which is used for subsequent interactions with the API. There are three region-based API endpoints; see
@@ -59,5 +60,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Airmeet
+.. autoclass:: parsons.airmeet.airmeet.Airmeet
    :inherited-members:
+   :members:
+   

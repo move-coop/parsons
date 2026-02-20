@@ -11,10 +11,11 @@ class Introspection:
         """
         Get API key profiles.
 
-        `Args:`
+        Args:
             None
-        `Returns:`
+        Returns:
             JSON response
+
         """
 
         response = self.connection.get_request("apiKeyProfiles")

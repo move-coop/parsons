@@ -7,7 +7,7 @@ from parsons.utilities.check_env import check
 class SMTP(SendMail):
     """Create a SMTP object, for sending emails.
 
-    `Args:`
+    Args:
         host: str
             The host of the SMTP server
         port: int
@@ -20,6 +20,7 @@ class SMTP(SendMail):
             Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
         close_manually: bool
             When set to True, send_message will not close the connection
+
     """
 
     def __init__(
@@ -52,11 +53,12 @@ class SMTP(SendMail):
     def _send_message(self, message):
         """Send an email message.
 
-        `Args:`
+        Args:
             message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
                 i.e. the objects created by the create_* instance methods
-        `Returns:`
+        Returns:
             dict of refused To addresses (otherwise None)
+
         """
         self.log.info("Sending a message...")
         try:

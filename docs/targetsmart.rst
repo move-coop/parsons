@@ -25,6 +25,7 @@ Automation Workflows.
 * :doc:`Interacting with TargetSmart Automation Workflows <../targetsmart_automation_workflows>`
 
 .. note::
+
   **TargetSmart Developer API versus Automation**
 
     Unless TargetSmart has provided a custom workflow solution for you, you can

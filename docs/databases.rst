@@ -53,8 +53,9 @@ Quick Start
    mysql.copy(tbl, 'my_schema.winning_formula')
 
 
-.. autoclass:: parsons.MySQL
+.. autoclass:: parsons.databases.mysql.mysql.MySQL
    :inherited-members:
+   :members:
 
 .. _postgres:
 
@@ -94,9 +95,9 @@ Quick Start
    tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
    pg.copy(tbl, 'my_schema.winning_formula')
 
-.. autoclass:: parsons.Postgres
+.. autoclass:: parsons.databases.postgres.postgres.Postgres
    :inherited-members:
-
+   :members:
 
 ********
 Redshift
@@ -136,5 +137,7 @@ Quick Start
    tbl = Table.from_csv('my_file.csv') # Load from a CSV or other source.
    sqlite.copy(tbl, 'my_destination_table')
 
-.. autoclass:: parsons.Sqlite
+.. autoclass:: parsons.databases.sqlite.sqlite.Sqlite
    :inherited-members:
+   :members:
+   

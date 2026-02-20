@@ -19,7 +19,7 @@ class dbtRunnerParsons:
     ) -> None:
         """Initialize dbtRunner with commands and a working directory.
 
-        `Args:`
+        Args:
             commands: Union[str, list[str]]
                 A single dbt command string or a list of dbt command
                 strings.
@@ -27,6 +27,7 @@ class dbtRunnerParsons:
             dbt_project_directory: pathlib.Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
+
         """
         if isinstance(commands, str):
             commands = [commands]
@@ -71,42 +72,43 @@ def run_dbt_commands(
     dbt_project_directory: pathlib.Path,
     loggers: list[dbtLogger | type[dbtLogger]] | None = None,
 ) -> list[Manifest]:
-    """Executes dbt commands within a directory, optionally logs results.
-
-    Parameters:
-    -----------
-    commands : Union[str, list[str]]
-        A single dbt command as a string or a list of dbt commands to
-        be executed.
-
-    dbt_project_directory : pathlib.Path
-        The path to the dbt project directory where the commands will
-        be executed.
-
-    loggers : Optional[list[Union[dbtLogger, Type[dbtLogger]]]], default=None
-        A list of logger instances or logger classes. If classes are
-        provided, they will be instantiated.  Each logger should have
-        a `send` method that takes the dbt command results as an
-        argument.
-
-    Returns:
-    --------
-    list[Manifest]
-        A list of result objects from the executed dbt commands.
+    """
+    Executes dbt commands within a directory, optionally logs results.
 
     Example:
-    --------
-    >>> from pathlib import Path
-    >>> from parsons.utilities.dbt import (
-    ...     run_dbt_commands,
-    ...     dbtLoggerSlack,
-    ...     dbtLoggerPython
-    ... )
-    >>> results = run_dbt_commands(
-    ...     commands=["dbt run", "dbt test"],
-    ...     dbt_project_directory=Path("/path/to/dbt/project"),
-    ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
-    ... )
+
+        .. code-block:: python
+
+            from pathlib import Path
+            from parsons.utilities.dbt import (
+                run_dbt_commands,
+                dbtLoggerSlack,
+                dbtLoggerPython
+            )
+
+            results = run_dbt_commands(
+                commands=["dbt run", "dbt test"],
+                dbt_project_directory=Path("/path/to/dbt/project"),
+                loggers=[dbtLoggerPython, dbtLoggerSlack]
+            )
+
+    Args:
+        commands: str | list[str]
+            A single dbt command as a string or a list of dbt commands to
+            be executed.
+        dbt_project_directory: pathlib.Path
+            The path to the dbt project directory where the commands will
+            be executed.
+        loggers: Optional[list[dbtLogger | Type[dbtLogger]]], default=None
+            A list of logger instances or logger classes. If classes are
+            provided, they will be instantiated.  Each logger should have
+            a `send` method that takes the dbt command results as an
+            argument.
+
+    Returns:
+        list[Manifest]
+            A list of result objects from the executed dbt commands.
+
     """
     dbt_runner = dbtRunnerParsons(commands, dbt_project_directory)
 

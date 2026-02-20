@@ -8,6 +8,7 @@ Overview
 `Box <https://box.com>`_ is a commercial file sharing service similar to Dropbox and Google Drive. The current Parsons API supports listing files and folders, creating and deleting folders, and uploading/downloading Parsons tables as either CSV or JSON files.
 
 .. note::
+
   Authentication
     This connector requires authentication credentials for a Box business-level account. Information on setting up those credentials can be found at the `Box Custom App Quick Start page <https://developer.box.com/guides/applications/custom-apps/oauth2-setup/>`_.
 
@@ -109,5 +110,7 @@ This class requires credentials in the form three strings to be either passed in
 API
 ***
 
-.. autoclass:: parsons.Box
+.. autoclass:: parsons.box.box.Box
    :inherited-members:
+   :members:
+   

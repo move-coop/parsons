@@ -17,6 +17,7 @@ notifications through Slack. It is recommended that you reference the
 information.
 
 .. note::
+
    API Tokens
       - Slack API Tokens are required to use this module. To obtain an API
         Token, `create a Slack App <https://api.slack.com/apps>`_ associated
@@ -31,7 +32,7 @@ information.
       - Slack has rate limits on all its endpoints.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart
@@ -65,9 +66,10 @@ You can then send messages:
 ***
 API
 ***
-.. autoclass:: parsons.Slack
-   :inherited-members:
 
+.. autoclass:: parsons.notifications.slack.Slack
+   :inherited-members:
+   :members:
 
 ==========
 Gmail
@@ -80,10 +82,11 @@ Overview
 
 The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
-`Gmail API documentation <https://developers.google.com/gmail/api/>`_ for 
+`Gmail API documentation <https://developers.google.com/gmail/api/>`_ for
 additional details and information.
 
 .. note::
+
   Credentials and token
      - Credentials are required to use the class
      - You will need to pass in the path to the credentials and to where a
@@ -91,11 +94,12 @@ additional details and information.
        the Google Developer Console (look for the “Gmail API”).
 
 .. note::
+
   6MB Attachment Size Limit
      - Currently there is a limit of 6MB when sending attachments.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart
@@ -141,8 +145,10 @@ more details.
 ***
 API
 ***
-.. autoclass:: parsons.Gmail
-  :inherited-members:
+
+.. autoclass:: parsons.notifications.gmail.Gmail
+   :inherited-members:
+   :members:
 
 ==========
 SMTP
@@ -157,12 +163,13 @@ The SMTP module enables the sending of email through a generic SMTP server. If y
 than Gmail this is likely the best way to send emails with Parsons.
 
 .. note::
+
   Credentials
      - Credentials are required to use the class. You'll need to provide a valid username and password for
        the SMTP server you are using.
 
 .. toctree::
-	:maxdepth: 1
+    :maxdepth: 1
 
 **********
 QuickStart
@@ -183,6 +190,7 @@ To initialize the SMTP class you will need to tell it how to connect to the SMTP
  )
 
 .. note::
+
   Environment Variables
     - Instead of passing in values to initialize an instance of the SMTP class, you can set environment
       variables to hold the values. The names of the environment variables are the names of the arguments
@@ -217,8 +225,8 @@ attachments.
 ***
 API
 ***
-.. autoclass:: parsons.SMTP
-  :inherited-members:
 
-
-
+.. autoclass:: parsons.notifications.smtp.SMTP
+   :inherited-members:
+   :members:
+   

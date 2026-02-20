@@ -52,6 +52,13 @@ extensions = [
 # Sorting of attributes
 autodoc_member_order = "bysource"
 
+# Fixing import errors for packages we no longer use
+autodoc_mock_imports = [
+    "airtable",
+    "pytz",
+    "slackclient",
+]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 

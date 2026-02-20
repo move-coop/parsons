@@ -9,6 +9,7 @@ Overview
 Rock the Vote's `Rocky API <https://rock-the-vote.github.io/Voter-Registration-Tool-API-Docs/>`_.
 
 .. note::
+
   Authentication
     In order to authenticate with the API, users must specify the ID and API key of the RTV partner organization for the data.
 
@@ -56,5 +57,7 @@ data.
 API
 ***
 
-.. autoclass :: parsons.rockthevote.rtv.RockTheVote
+.. autoclass:: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:
+   :members:
+   

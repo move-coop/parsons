@@ -72,10 +72,9 @@ A minimalistic example Lambda handler might look something like this:
 API
 ===
 
-.. autofunction:: parsons.aws.distribute_task
+.. autofunction:: parsons.aws.lambda_distribute.distribute_task
 
-.. autofunction:: parsons.aws.event_command
-
+.. autofunction:: parsons.aws.aws_async.event_command
 
 ***
 S3
@@ -92,6 +91,7 @@ to store and access data objects. It is a wrapper around the AWS SDK `boto3 <htt
 It provides methods to upload and download files from S3 as well as manipulate buckets.
 
 .. note::
+
   Authentication
     Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`_ .
     Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class.
@@ -135,16 +135,17 @@ stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments
 API
 ===
 
-.. autoclass:: parsons.S3
+.. autoclass:: parsons.aws.s3.S3
    :inherited-members:
+   :members:
 
 =====================
 Temporary Credentials
 =====================
 
 The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
-For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data. 
-When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for 
+For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
+When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
 them to be accepted. The ``S3`` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
 
 .. code-block:: python
@@ -177,8 +178,9 @@ In addition to the core API integration provided by the ``Redshift`` class, Pars
 managing schemas and tables. See :ref:`redshift_table_and_view_api` and :ref:`redshift_schema_api` for more information.
 
 .. note::
+
    S3 Credentials
-      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3()`
+      Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3`
       methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
       Redshift. See the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_
       for more information about AWS Redshift authorization.
@@ -219,25 +221,9 @@ options.
 Core API
 ========
 
-.. autoclass:: parsons.Redshift
-
-.. autofunction:: parsons.Redshift.connection
-
-.. autofunction:: parsons.Redshift.query
-
-.. autofunction:: parsons.Redshift.query_with_connection
-
-.. autofunction:: parsons.Redshift.copy
-
-.. autofunction:: parsons.Redshift.copy_s3
-
-.. autofunction:: parsons.Redshift.unload
-
-.. autofunction:: parsons.Redshift.upsert
-
-.. autofunction:: parsons.Redshift.generate_manifest
-
-.. autofunction:: parsons.Redshift.alter_table_column_type
+.. autoclass:: parsons.databases.redshift.Redshift
+   :inherited-members:
+   :members:
 
 .. _redshift_table_and_view_api:
 
@@ -248,8 +234,9 @@ Table and View API
 Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.redshift.RedshiftTableUtilities
+.. autoclass:: parsons.databases.redshift.rs_table_utilities::RedshiftTableUtilities
    :inherited-members:
+   :members:
 
 .. _redshift_schema_api:
 
@@ -260,5 +247,7 @@ Schema API
 Schema utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.redshift.RedshiftSchema
+.. autoclass:: parsons.databases.redshift.rs_schema.RedshiftSchema
    :inherited-members:
+   :members:
+   

@@ -14,6 +14,7 @@ This connector provides methods to download the latest election results from the
 Because this connector is can be useful for live reporting, it also contains a polling feature. As long as the class is instantiated, it will only fetch results that are new since the previous fetch of that method. To skip this feature, set force_update to true on any of the fetch methods.
 
 .. note::
+
   Authentication
     All endpoints for Scytl are public, and do not need authentication.
 
@@ -35,9 +36,11 @@ To get these details, go to the website for the given election, and look in the 
    scy.get_detailed_results()
 
 
-**************
+***********
 Scytl Class
-**************
+***********
 
-.. autoclass :: parsons.Scytl
-    :inherited-members:
+.. autoclass:: parsons.scytl.scytl.Scytl
+   :inherited-members:
+   :members:
+   

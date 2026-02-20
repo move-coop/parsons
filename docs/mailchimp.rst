@@ -13,10 +13,11 @@ This Parsons integration focuses on accessing information about previous email c
 fetching campaigns, members, emails, and unsubscribes.
 
 .. note::
-  Authentication
-    Mailchimp requires an API key, which can be obtained from the 'API Keys' section of your Mailchimp
-    account, assuming you have Manager privileges. For more information about Mailchimp authentication, see
-    the Mailchimp help page about `API Keys <https://mailchimp.com/help/about-api-keys/>`_.
+
+   Authentication
+      Mailchimp requires an API key, which can be obtained from the 'API Keys' section of your Mailchimp
+      account, assuming you have Manager privileges. For more information about Mailchimp authentication, see
+      the Mailchimp help page about `API Keys <https://mailchimp.com/help/about-api-keys/>`_.
 
 ***********
 Quick Start
@@ -47,5 +48,8 @@ as an environmental variable (``MAILCHIMP_API_KEY``) or pass it as an argument.
 ***
 API
 ***
-.. autoclass :: parsons.mailchimp.Mailchimp
+
+.. autoclass:: parsons.mailchimp.mailchimp.Mailchimp
    :inherited-members:
+   :members:
+   

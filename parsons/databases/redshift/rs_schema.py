@@ -9,7 +9,7 @@ class RedshiftSchema:
         Creates a Redshift schema (if it doesn't already exist), and grants usage permissions to
         a Redshift group (if specified).
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             group: str
@@ -18,6 +18,7 @@ class RedshiftSchema:
                 The type of permissions to grant. Supports `select`, `all`, etc. (For
                 full list, see the
                 `Redshift GRANT docs <https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html>`_)
+
         """
 
         if not self.schema_exists(schema):
@@ -28,7 +29,7 @@ class RedshiftSchema:
         """
         Grants a Redshift group permissions to all tables within an existing schema.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             group: str
@@ -37,6 +38,7 @@ class RedshiftSchema:
                 The type of permissions to grant. Supports `select`, `all`, etc. (For
                 full list, see the
                 `Redshift GRANT docs <https://docs.aws.amazon.com/redshift/latest/dg/r_GRANT.html>`_)
+
         """
 
         sql = f"""

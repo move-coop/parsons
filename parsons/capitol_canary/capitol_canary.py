@@ -17,15 +17,17 @@ class CapitolCanary:
     """
     Instantiate CapitolCanary Class
 
-    `Args:`
+    Args:
         app_id: str
             The CapitolCanary provided application id. Not required if ``CAPITOLCANARY_APP_ID``
             env variable set.
         app_key: str
             The CapitolCanary provided application key. Not required if ``CAPITOLCANARY_APP_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         CapitolCanary Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -71,7 +73,7 @@ class CapitolCanary:
         If no page is specified, the method will automatically paginate through the available
         advocates.
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state
                 or territory e.g., "CA" "NY" or "DC"
@@ -83,8 +85,10 @@ class CapitolCanary:
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
-        `Returns:`
-            A dict of parsons tables:
+
+        Returns:
+            dict[Table]
+
                 * emails
                 * phones
                 * memberships
@@ -92,6 +96,7 @@ class CapitolCanary:
                 * ids
                 * fields
                 * advocates
+
         """
 
         # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
@@ -150,7 +155,7 @@ class CapitolCanary:
         """
         Returns a list of campaigns
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
             zip: int
@@ -162,9 +167,11 @@ class CapitolCanary:
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
-        `Returns:`
-            Parsons Table
+
+        Returns:
+            parsons.Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         args = {
@@ -210,7 +217,7 @@ class CapitolCanary:
         For a complete list of fields that can be updated, see
         `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
             first_name: str
@@ -248,10 +255,13 @@ class CapitolCanary:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
-        `Returns:`
-            The int ID of the created advocate.
+
+        Returns:
+            int
+                ID of the created advocate
+
         """
 
         # Validate the passed in arguments
@@ -327,7 +337,7 @@ class CapitolCanary:
         For a complete list of fields that can be updated, see
         `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             advocate_id: integer
                 The ID of the advocate being updates
             campaigns: list
@@ -351,8 +361,9 @@ class CapitolCanary:
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
+
         """
 
         # Validate the passed in arguments

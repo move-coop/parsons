@@ -9,6 +9,7 @@ pytest-xdist==3.8.0
 pytest==8.4.2
 requests-mock==1.12.1
 ruff==0.13.0
+sphinx-lint==1.0.2
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
 
@@ -18,9 +19,10 @@ setuptools>=80.10.2
 twine>=6.2.0
 
 # Docs Requirements
-myst-parser==4.0.1
-sphinxcontrib-googleanalytics==0.5
-sphinx-multiversion==0.2.4
-sphinx-rtd-theme==3.0.2
-Sphinx==7.4.7;python_version<'3.11'
-Sphinx==8.2.3;python_version>='3.11'
+furo~=2025.12.19
+myst-parser~=4.0.1
+packaging~=26.0
+Sphinx~=7.4.7;python_version<'3.11'
+Sphinx~=8.2.3;python_version>='3.11'
+sphinx-multiversion~=0.2.4
+sphinxcontrib-googleanalytics~=0.5

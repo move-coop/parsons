@@ -54,17 +54,24 @@ jobs:
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        run: |
-          uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
-          uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test-coverage
+          --all-extras
+          --resolution ${{ matrix.resolution }}
 
       - if: matrix.resolution == 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: |
-          uv pip install --system -r requirements-dev.txt
-          uv pip install --system -e .[all]
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test-coverage
+          --all-extras
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -72,10 +79,10 @@ jobs:
           path: .pytest_cache
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
 
-      - run: pytest
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        env:
+      - env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
+        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
+        run: uv run pytest
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ !contains(matrix.python-version, '3.14') }}
@@ -104,19 +111,24 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: '3.13'
           cache: pip
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group ci
+          --all-extras
 
       - name: get-extras
         id: get-extras
         env:
           PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
-          python -c "
+          uv run - "
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path
@@ -168,11 +180,15 @@ jobs:
 
       - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
 
-      - run: uv pip install --system -r requirements-dev.txt
-
-      - run: uv pip install --system .[${{ matrix.extra }}]
-        env:
+      - env:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test
+          --extra ${{ matrix.extra }}
+          --resolution ${{ matrix.resolution }}
 
       - id: cache-pytest
         uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
@@ -180,7 +196,7 @@ jobs:
           path: .pytest_cache
           key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
 
-      - run: pytest test/test_${{ matrix.extra }}
+      - run: uv run pytest test/test_${{ matrix.extra }}
 
   ruff-format:
     runs-on: ubuntu-latest
@@ -204,7 +220,11 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group lint
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -213,7 +233,11 @@ jobs:
           key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff
-        run: ruff format --diff .
+        run: >-
+          uv run
+          ruff format
+          --diff
+          .
 
   ruff-check:
     runs-on: ubuntu-latest
@@ -241,7 +265,11 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group lint
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -250,8 +278,12 @@ jobs:
           key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
-        run: |
-          ruff check --output-format=sarif -o results.sarif .
+        run: >-
+          uv run
+          ruff check
+          --output-format=sarif
+          -o results.sarif
+          .
 
       - uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
@@ -260,8 +292,11 @@ jobs:
 
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
-        run: |
-          ruff check --output-format=github .
+        run: >-
+          uv run
+          ruff check
+          --output-format=github
+          .
 
   bandit:
     runs-on: ubuntu-latest
@@ -289,11 +324,22 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group security
 
       - id: run-bandit-sarif
-        run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*' --format 'sarif' --output 'results.sarif'
+        run: >-
+          uv run
+          bandit
+          --confidence-level 'medium'
+          --severity-level 'medium'
+          --recursive 'parsons'
+          --exclude '**/vendor/*'
+          --format 'sarif'
+          --output 'results.sarif'
 
       - uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
@@ -302,8 +348,13 @@ jobs:
 
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
-        run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --exclude '**/vendor/*'
+        run: >-
+          uv run
+          bandit
+          --confidence-level 'medium'
+          --severity-level 'medium'
+          --recursive 'parsons'
+          --exclude '**/vendor/*'
 
   coverage:
     runs-on: ubuntu-latest
@@ -375,7 +426,11 @@ jobs:
 
       - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
 
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group pre-commit
 
       - id: cache-pre-commit
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -383,8 +438,9 @@ jobs:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
 
-      - run: |
-          pre-commit install
-          pre-commit run --all-files
-        env:
+      - env:
           PRE_COMMIT_HOME: .pre-commit-cache
+        run: >-
+          uv run
+          pre-commit run
+          --all-files

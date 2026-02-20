@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+from typing import Literal
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -57,7 +58,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
     ):
         """

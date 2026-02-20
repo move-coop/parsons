@@ -1,3 +1,5 @@
+from typing import Literal
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -112,7 +114,10 @@ class Airmeet:
         return self._get_all_pages(url="airmeets", page_size=500)
 
     def fetch_airmeet_participants(
-        self, airmeet_id, sorting_key="registrationDate", sorting_direction="DESC"
+        self,
+        airmeet_id,
+        sorting_key: Literal["name", "email", "registrationDate"] = "registrationDate",
+        sorting_direction: Literal["ASC", "DESC"] = "DESC",
     ) -> Table:
         """
         Get all participants (registrations) for a specific Airmeet, handling

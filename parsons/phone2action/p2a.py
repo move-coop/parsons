@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from parsons.capitol_canary import CapitolCanary
 
@@ -30,7 +31,13 @@ class Phone2Action:
         except AttributeError as e:
             raise AttributeError(f"{type(self).__name__} object has no attribute {name}") from e
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
+    def get_advocates(
+        self,
+        state=None,
+        campaign_id=None,
+        updated_since: str | int | datetime | None = None,
+        page=None,
+    ):
         """
         Return advocates (person records).
 

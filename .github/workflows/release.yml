@@ -27,7 +27,7 @@ jobs:
           cache: pip
 
       - name: Install uv
-        uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+        uses: install-pinned/uv@c57eeccb84c14c060f224d6b4dcef7b645f05277
 
       - name: Install parsons
         run: >-

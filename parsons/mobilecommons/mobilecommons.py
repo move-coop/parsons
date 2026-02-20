@@ -265,10 +265,10 @@ class MobileCommons:
     def get_campaign_subscribers(
         self,
         campaign_id: int,
-        first_date: str = None,
-        last_date: str = None,
-        opt_in_path_id: int = None,
-        limit: int = None,
+        first_date: str | None = None,
+        last_date: str | None = None,
+        opt_in_path_id: int | None = None,
+        limit: int | None = None,
     ):
         """
         A function for getting subscribers of a specified campaign
@@ -312,12 +312,12 @@ class MobileCommons:
 
     def get_profiles(
         self,
-        phones: list = None,
-        first_date: str = None,
-        last_date: str = None,
+        phones: list | None = None,
+        first_date: str | None = None,
+        last_date: str | None = None,
         include_custom_columns: bool = False,
         include_subscriptions: bool = False,
-        limit: int = None,
+        limit: int | None = None,
     ):
         """
         A function for getting profiles, which are MobileCommons people records

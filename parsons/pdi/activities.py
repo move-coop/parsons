@@ -6,7 +6,7 @@ class Activities:
         self.url_activites = self.base_url + activites_endpoint
         super().__init__()
 
-    def get_activities(self, limit: int = None):
+    def get_activities(self, limit: int | None = None):
         """Get a list of Activities.
         `Args:`
             limit: int

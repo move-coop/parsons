@@ -34,10 +34,10 @@ jobs:
       - run:
           name: Install parsons
           command: |
-            uv sync \\
-              --upgrade \\
-              --no-default-groups \\
-              --group docs \\
+            uv sync \
+              --upgrade \
+              --no-default-groups \
+              --group docs \
               --all-extras
 
       - save_cache:
@@ -48,9 +48,9 @@ jobs:
       - run:
           name: Build docs
           command: |
-            uv sync \\
-              --no-default-groups \\
-              --group docs \\
+            uv sync \
+              --no-default-groups \
+              --group docs \
               --all-extras
 
             cd docs/
@@ -77,10 +77,10 @@ jobs:
             npm set prefix=/home/circleci/npm
             npm install -g --silent gh-pages@2.0.1
 
-            uv sync \\
-              --upgrade \\
-              --no-default-groups \\
-              --group docs \\
+            uv sync \
+              --upgrade \
+              --no-default-groups \
+              --group docs \
               --all-extras
 
       - save_cache:
@@ -100,9 +100,9 @@ jobs:
           # (This file tell Github Pages that we want to include all files in docs/, including those
           # that start with an underscore like _static/).
           command: |
-            uv sync \\
-              --no-default-groups \\
-              --group docs \\
+            uv sync \
+              --no-default-groups \
+              --group docs \
               --all-extras
 
             cd docs/

@@ -54,7 +54,7 @@ jobs:
               --all-extras
 
             cd docs/
-            make deploy_docs
+            uv run make deploy_docs
 
   docs-build-deploy:
     docker:
@@ -106,7 +106,7 @@ jobs:
               --all-extras
 
             cd docs/
-            make deploy_docs
+            uv venv make deploy_docs
 
             cd ..
 

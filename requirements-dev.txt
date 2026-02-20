@@ -12,11 +12,6 @@ ruff==0.13.0
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
 
-# Build and publish requirements
-build>=1.4.0
-setuptools>=80.10.2
-twine>=6.2.0
-
 # Docs Requirements
 myst-parser==4.0.1
 sphinxcontrib-googleanalytics==0.5

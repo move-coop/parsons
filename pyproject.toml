@@ -1,5 +1,9 @@
 [build-system]
-requires = [ "setuptools" ]
+requires = [
+    "build>=1.4.0",
+    "setuptools>=80.10.2",
+    "twine>=6.2.0",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -38,6 +42,51 @@ issues = "https://github.com/move-coop/parsons/issues"
 github = "https://github.com/move-coop/parsons"
 repository = "https://github.com/move-coop/parsons.git"
 
+[dependency-groups]
+dev = [
+    {include-group = "docs"},
+    {include-group = "lint"},
+    {include-group = "pre-commit"},
+    {include-group = "security"},
+    {include-group = "test-coverage"},
+]
+ci = [
+    "build>=1.4.0",
+]
+docs = [
+    "myst-parser==4.0.1",
+    "sphinxcontrib-googleanalytics==0.5",
+    "sphinx-multiversion==0.2.4",
+    "sphinx-rtd-theme==3.0.2",
+    "Sphinx==7.4.7;python_version<'3.11'",
+    "Sphinx==8.2.3;python_version>='3.11'",
+]
+lint = [
+    "ruff==0.13.0",
+]
+pre-commit = [
+    "pre-commit==4.3.0",
+]
+security = [
+    "bandit[sarif]==1.8.6",
+]
+test-coverage = [
+    "coverage==7.13.3",
+    "pytest-cov==7.0.0",
+    {include-group = "test"},
+]
+test = [
+    "pytest==8.4.2",
+    "pytest-datadir==1.8.0",
+    "pytest-mock==3.15.1",
+    "pytest-xdist==3.8.0",
+    "requests-mock==1.12.1",
+    "testfixtures==8.3.0;python_version<'3.11'",
+    "testfixtures==9.1.0;python_version>='3.11'",
+]
+
+[tool]
+
 [tool.setuptools]
 packages = ["parsons"]
 
@@ -74,16 +123,10 @@ exclude = [
     "venv",
     "**/vendor/*",
 ]
-
-# Default line length is 88
-# Changed to 100 to match previous pyproject black config
 line-length = 100
 indent-width = 4
 
 [tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
 select = [
     "B", # flake8-bugbear (B)
     "E", # pycodestyle errors (E)
@@ -113,36 +156,15 @@ ignore = [
     "PTH207", # glob (PTH207)
     "PTH208", # os-listdir (PTH208)
 ]
-
-# Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
 
 [tool.ruff.format]
-# Like Black, use double quotes for strings.
 quote-style = "double"
-
-# Like Black, indent with spaces, rather than tabs.
 indent-style = "space"
-
-# Like Black, respect magic trailing commas.
 skip-magic-trailing-comma = false
-
-# Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
-
-# Enable auto-formatting of code examples in docstrings. Markdown,
-# reStructuredText code/literal blocks and doctests are all supported.
-#
-# This is currently disabled by default, but it is planned for this
-# to be opt-out in the future.
 docstring-code-format = false
-
-# Set the line length limit used when formatting code snippets in
-# docstrings.
-#
-# This only has an effect when the `docstring-code-format` setting is
-# enabled.
 docstring-code-line-length = "dynamic"
 
 [tool.pytest.ini_options]

@@ -52,17 +52,11 @@ def temp_box_test_folder_id(box_client, temp_box_test_folder):
     return temp_folder_id
 
 
-@pytest.fixture
-def temp_box_test_file(box_client, rand_str, small_box_table, temp_box_test_folder):
+@pytest.fixture(params=["csv", "json"])
+def temp_box_test_file(request, box_client, rand_str, small_box_table, temp_box_test_folder):
+    table_format = request.param
     temp_file = temp_box_test_folder + "/" + rand_str()
-    temp_file_id = box_client.upload_table(small_box_table, temp_file)
+    temp_file_id = box_client.upload_table(small_box_table, temp_file, format=table_format)
     yield temp_file
     box_client.delete_file_by_id(temp_file_id)
 
-
-@pytest.fixture
-def temp_box_test_file_json(box_client, rand_str, small_box_table, temp_box_test_folder):
-    temp_file = temp_box_test_folder + "/" + rand_str()
-    temp_file_id = box_client.upload_table(small_box_table, temp_file, format="json")
-    yield temp_file
-    box_client.delete_file_by_id(temp_file_id)

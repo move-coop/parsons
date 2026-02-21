@@ -6,10 +6,6 @@ import pytest
 from parsons import Box, Table
 
 
-def generate_random_string():
-    return "".join(random.choice(ascii_letters) for i in range(24))
-
-
 @pytest.fixture(scope="module")
 def box_client():
     return Box()
@@ -17,7 +13,7 @@ def box_client():
 
 @pytest.fixture(scope="module")
 def rand_str():
-    return generate_random_string
+    return lambda: "".join(random.choice(ascii_letters) for i in range(24))
 
 
 @pytest.fixture(scope="module")

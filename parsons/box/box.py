@@ -222,7 +222,7 @@ class Box:
 
         return items
 
-    def list_files_by_id(self, folder_id: str | None = None) -> Table:
+    def list_files_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
         """List all Box files in a folder.
 
         `Args`:
@@ -232,10 +232,9 @@ class Box:
         `Returns`: Table
             A Parsons table of files and their attributes.
         """
-        use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
-        return self.list_items_by_id(folder_id=use_folder_id, item_type="file")
+        return self.list_items_by_id(folder_id=folder_id, item_type="file")
 
-    def list_folders_by_id(self, folder_id: str | None = None) -> Table:
+    def list_folders_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
         """List all Box folders.
 
         `Args`:
@@ -245,8 +244,7 @@ class Box:
         `Returns`: Table
             A Parsons table of folders and their attributes.
         """
-        use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
-        return self.list_items_by_id(folder_id=use_folder_id, item_type="folder")
+        return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
     def upload_table(self, table: Table, path: str, format: Literal["csv", "json"] = "csv") -> str:
         """Save the passed table to Box.
@@ -272,7 +270,7 @@ class Box:
         self,
         table: Table,
         file_name: str,
-        folder_id: str | None = None,
+        folder_id: str = DEFAULT_FOLDER_ID,
         format: Literal["csv", "json"] = "csv",
     ) -> str:
         """Save the passed table to Box.
@@ -290,8 +288,6 @@ class Box:
         `Returns`: str
             The uploaded Box File object's id.
         """
-        use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
-
         if format not in self.ALLOWED_FILE_FORMATS:
             raise ValueError(
                 f'Format argument must be in one of {self.ALLOWED_FILE_FORMATS}; found "{format}"'
@@ -311,7 +307,7 @@ class Box:
                 )  # pragma: no cover
 
             new_file = self.upload_file_to_folder_id(
-                file=Path(temp_file_path), file_name=file_name, folder_id=use_folder_id
+                file=Path(temp_file_path), file_name=file_name, folder_id=folder_id
             )
 
         return new_file
@@ -337,7 +333,7 @@ class Box:
         return self.upload_file_to_folder_id(file=file, file_name=file_name, folder_id=folder_id)
 
     def upload_file_to_folder_id(
-        self, file: Path, file_name: str | None = None, folder_id: str | None = None
+        self, file: Path, file_name: str | None = None, folder_id: str = DEFAULT_FOLDER_ID
     ) -> str:
         """Save the passed file to Box.
 
@@ -353,7 +349,6 @@ class Box:
             The uploaded Box File object's id.
         """
         use_file_name = file.name if file_name is None else file_name
-        use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
 
         # Utilize chunked uploads depending on file size as suggested
         # by Box documentation. Files over 50MB should use chunked uploads.
@@ -364,10 +359,10 @@ class Box:
                     file=upload_file,
                     file_name=use_file_name,
                     file_size=file_size,
-                    parent_folder_id=use_folder_id,
+                    parent_folder_id=folder_id,
                 )
             else:
-                file_parent = UploadFileAttributesParentField(id=use_folder_id)
+                file_parent = UploadFileAttributesParentField(id=folder_id)
                 file_attributes = UploadWithPreflightCheckAttributes(
                     name=use_file_name, parent=file_parent, size=file_size
                 )

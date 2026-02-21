@@ -27,7 +27,6 @@ from box_sdk_gen.managers.uploads import (
     UploadFileAttributesParentField,
     UploadWithPreflightCheckAttributes,
 )
-from box_sdk_gen.schemas.file import File
 
 from parsons.etl.table import Table
 from parsons.utilities.check_env import check as check_env
@@ -120,7 +119,9 @@ class Box:
         folder_parent_name, folder_name, folder_id = self.__getPathFromString(path)
         return self.create_folder_by_id(folder_name, parent_folder_id=folder_id)
 
-    def create_folder_by_id(self, folder_name: str, parent_folder_id: str | None = None) -> str:
+    def create_folder_by_id(
+        self, folder_name: str, parent_folder_id: str = DEFAULT_FOLDER_ID
+    ) -> str:
         """Create a Box folder.
 
         `Args`:
@@ -133,8 +134,7 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
-        use_parent_folder_id = DEFAULT_FOLDER_ID if parent_folder_id is None else parent_folder_id
-        parent = CreateFolderParent(id=use_parent_folder_id)
+        parent = CreateFolderParent(id=parent_folder_id)
         subfolder = self.client.folders.create_folder(name=folder_name, parent=parent)
         return subfolder.id
 
@@ -248,7 +248,7 @@ class Box:
         use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
         return self.list_items_by_id(folder_id=use_folder_id, item_type="folder")
 
-    def upload_table(self, table: Table, path: str, format: Literal["csv", "json"] = "csv") -> File:
+    def upload_table(self, table: Table, path: str, format: Literal["csv", "json"] = "csv") -> str:
         """Save the passed table to Box.
 
         `Args`:
@@ -258,7 +258,7 @@ class Box:
                Box path str where table should be saved. Any back
                slashes will be treated as forward slashes.
             format: str
-               For now, only 'csv' and 'json'; format in which to save table.
+               For now, only 'csv' and 'json'; format in which to save table. Defaults to 'csv'.
 
         `Returns`: str
             The uploaded Box File object's id.
@@ -285,7 +285,7 @@ class Box:
             folder_id: str
                Optionally, the id of the subfolder in which it should be saved.
             format: str
-               For now, only 'csv' and 'json'; format in which to save table.
+               For now, only 'csv' and 'json'; format in which to save table. Defaults to 'csv'.
 
         `Returns`: str
             The uploaded Box File object's id.
@@ -421,7 +421,7 @@ class Box:
                 The slash-separated Box path str to the file containing the table. Any back
                 slashes will be treated as forward slashes.
             format: str
-                 Format in which Table has been saved; for now, only 'csv' or 'json'.
+                 Format in which Table has been saved; for now, only 'csv' or 'json'. Defaults to 'csv'.
 
         `Returns`: Table
             A Parsons Table.
@@ -463,7 +463,7 @@ class Box:
                 f'Got (theoretically) impossible format option "{format}"'
             )  # pragma: no cover
 
-    def get_item_id(self, path: str, base_folder_id: str | None = DEFAULT_FOLDER_ID) -> str:
+    def get_item_id(self, path: str, base_folder_id: str = DEFAULT_FOLDER_ID) -> str:
         """Given a Box path str, try to return the id for the file or
         folder at the end of the str.
 
@@ -485,7 +485,6 @@ class Box:
 
         """
         try:
-            use_base_folder_id = DEFAULT_FOLDER_ID if base_folder_id is None else base_folder_id
             use_path = self.__replace_backslashes(path)
 
             if "/" in use_path:
@@ -500,7 +499,7 @@ class Box:
             # current element. If we're at initial, non-recursed call, base_folder
             # will be default folder.
             item_id = None
-            for item in self.client.folders.get_folder_items(folder_id=use_base_folder_id).entries:
+            for item in self.client.folders.get_folder_items(folder_id=base_folder_id).entries:
                 if item.name == this_element:
                     item_id = item.id
                     break
@@ -523,7 +522,7 @@ class Box:
         # to attach it to the error message. If caught at some inner level of the
         # recursion, just pass it on up.
         except ValueError as e:
-            if use_base_folder_id == DEFAULT_FOLDER_ID:
+            if base_folder_id == DEFAULT_FOLDER_ID:
                 raise ValueError(f'{e}: "{use_path}"') from e
             else:
                 raise

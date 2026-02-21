@@ -1,6 +1,6 @@
 azure-storage-blob==12.27.1
 boto3>=1.17.98
-boxsdk==4.3.0
+boxsdk>=10.4.0
 braintree==4.41.0
 bs4==0.0.2
 censusgeocode~=0.5.3

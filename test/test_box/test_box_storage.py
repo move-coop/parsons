@@ -1,13 +1,7 @@
-import logging
 import os
-import random
-import string
-import unittest
-import warnings
-from pathlib import Path
 
 import pytest
-from boxsdk.exception import BoxAPIException, BoxOAuthException
+from box_sdk_gen.box.errors import BoxAPIError, BoxSDKError
 
 from parsons import Box, Table
 from test.conftest import mark_live_test
@@ -16,271 +10,440 @@ from test.conftest import mark_live_test
 variables have been set, e.g. via
 
 # Note: these are fake keys, provided as examples.
-export BOX_CLIENT_ID=txqedp4rqi0cz5qckz361fziavdtdwxz
-export BOX_CLIENT_SECRET=bk264KHMDLVy89TeuUpSRa4CN5o35u9h
 export BOX_ACCESS_TOKEN=boK97B39m3ozIGyTcazbWRbi5F2SSZ5J
 """
-TEST_CLIENT_ID = os.getenv("BOX_CLIENT_ID")
-TEST_BOX_CLIENT_SECRET = os.getenv("BOX_CLIENT_SECRET")
 TEST_ACCESS_TOKEN = os.getenv("BOX_ACCESS_TOKEN")
 
 
-def generate_random_string(length):
-    """Utility to generate random alpha string for file/folder names"""
-    return "".join(random.choice(string.ascii_letters) for i in range(length))
+@mark_live_test
+def test_box_create_folder(box_client, rand_str) -> None:
+    new_test_folder = rand_str()
+    new_test_folder_id = box_client.create_folder(new_test_folder)
+    assert new_test_folder_id is not None
+    box_client.delete_folder_by_id(new_test_folder_id)
 
 
 @mark_live_test
-class TestBoxStorage(unittest.TestCase):
-    def setUp(self) -> None:
-        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
+def test_box_create_folder_with_forward_slash(box_client, rand_str, temp_box_test_folder) -> None:
+    new_test_folder = temp_box_test_folder + "/" + rand_str()
+    new_test_folder_id = box_client.create_folder(new_test_folder)
+    assert new_test_folder_id is not None
+    box_client.delete_folder_by_id(new_test_folder_id)
 
-        # Create a client that we'll use to manipulate things behind the scenes
-        self.client = Box()
-        # Create test folder that we'll use for all our manipulations
-        self.temp_folder_name = generate_random_string(24)
-        logging.info(f"Creating temp folder {self.temp_folder_name}")
-        self.temp_folder_id = self.client.create_folder(self.temp_folder_name)
 
-    def tearDown(self) -> None:
-        logging.info(f"Deleting temp folder {self.temp_folder_name}")
-        self.client.delete_folder_by_id(self.temp_folder_id)
+@mark_live_test
+def test_box_create_folder_with_backward_slash(box_client, rand_str, temp_box_test_folder) -> None:
+    new_test_folder = temp_box_test_folder + "\\" + rand_str()
+    new_test_folder_id = box_client.create_folder(new_test_folder)
+    assert new_test_folder_id is not None
+    box_client.delete_folder_by_id(new_test_folder_id)
 
-    def test_list_files_by_id(self) -> None:
-        # Count on environment variables being set
-        box = Box()
 
-        subfolder = box.create_folder_by_id(
-            folder_name="id_subfolder", parent_folder_id=self.temp_folder_id
+@mark_live_test
+def test_box_delete_folder(box_client, rand_str) -> None:
+    new_test_folder = rand_str()
+    new_test_folder_id = box_client.create_folder(new_test_folder)
+    assert new_test_folder_id is not None
+    box_client.delete_folder(new_test_folder)
+
+
+@mark_live_test
+def test_box_delete_folder_with_slash(box_client, rand_str, temp_box_test_folder) -> None:
+    new_test_folder = temp_box_test_folder + "/" + rand_str()
+    new_test_folder_id = box_client.create_folder(new_test_folder)
+    assert new_test_folder_id is not None
+    box_client.delete_folder(new_test_folder)
+
+
+@mark_live_test
+def test_box_upload_table(box_client, rand_str, small_box_table) -> None:
+    new_test_file_name = rand_str()
+    new_test_file = box_client.upload_table(small_box_table, path=new_test_file_name)
+    assert new_test_file is not None
+    box_client.delete_file_by_id(new_test_file)
+
+
+@mark_live_test
+def test_box_upload_table_big(box_client, rand_str, big_box_table) -> None:
+    new_test_file_name = rand_str()
+    new_test_file = box_client.upload_table(big_box_table, path=new_test_file_name)
+    assert new_test_file is not None
+    box_client.delete_file_by_id(new_test_file)
+
+
+@mark_live_test
+def test_box_upload_table_with_slash(
+    box_client, rand_str, small_box_table, temp_box_test_folder
+) -> None:
+    new_test_file_name = rand_str()
+    new_test_path = temp_box_test_folder + "/" + new_test_file_name
+    new_test_file = box_client.upload_table(small_box_table, path=new_test_path)
+    assert new_test_file is not None
+
+
+@mark_live_test
+def test_box_upload_table_with_format_json(box_client, rand_str, small_box_table) -> None:
+    new_test_file_name = rand_str()
+    new_test_file = box_client.upload_table(small_box_table, path=new_test_file_name, format="json")
+    assert new_test_file is not None
+    box_client.delete_file_by_id(new_test_file)
+
+
+@mark_live_test
+def test_box_upload_file(box_client, small_box_table_csv) -> None:
+    new_test_file = box_client.upload_file(small_box_table_csv)
+    assert new_test_file is not None
+    box_client.delete_file_by_id(new_test_file)
+
+
+@mark_live_test
+def test_box_upload_file_with_slash(
+    box_client, rand_str, small_box_table_csv, temp_box_test_folder
+) -> None:
+    new_test_file_name = rand_str()
+    new_test_path = temp_box_test_folder + "/" + new_test_file_name
+    new_test_file = box_client.upload_file(small_box_table_csv, path=new_test_path)
+    assert new_test_file is not None
+
+
+@mark_live_test
+def test_box_delete_file(box_client, rand_str, small_box_table) -> None:
+    new_test_file_name = rand_str()
+    new_test_file = box_client.upload_table(small_box_table, path=new_test_file_name)
+    assert new_test_file is not None
+    box_client.delete_file(new_test_file_name)
+
+
+@mark_live_test
+def test_box_list(box_client, small_box_table, temp_box_test_folder) -> None:
+    file_dict = {}
+    file_dict["test_file_1"] = temp_box_test_folder + "/test_list_file_1"
+    file_dict["test_file_2"] = temp_box_test_folder + "/test_list_file_2"
+    file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
+    file_dict["test_file_id_1"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_1"]
+    )
+    file_dict["test_file_id_2"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_2"]
+    )
+    file_dict["test_file_id_3"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_3"]
+    )
+    assert file_dict["test_file_id_1"] is not None
+    assert file_dict["test_file_id_2"] is not None
+    assert file_dict["test_file_id_3"] is not None
+    items = box_client.list(temp_box_test_folder)
+
+    for item in items:
+        if item["id"] == file_dict["test_file_id_1"]:
+            file_dict["test_file_found_1"] = True
+        elif item["id"] == file_dict["test_file_id_2"]:
+            file_dict["test_file_found_2"] = True
+        elif item["id"] == file_dict["test_file_id_3"]:
+            file_dict["test_file_found_3"] = True
+
+        if (
+            "test_file_found_1" in file_dict
+            and "test_file_found_2" in file_dict
+            and "test_file_found_3" in file_dict
+        ):
+            break
+
+    assert "test_file_found_1" in file_dict
+    assert "test_file_found_2" in file_dict
+    assert "test_file_found_3" in file_dict
+
+
+@mark_live_test
+def test_box_list_default_folder_id(box_client, temp_box_test_folder_id) -> None:
+    items = box_client.list()
+    assert temp_box_test_folder_id in items["id"]
+
+
+@mark_live_test
+def test_box_list_files(box_client, small_box_table, temp_box_test_folder) -> None:
+    file_dict = {}
+    file_dict["test_file_1"] = temp_box_test_folder + "/test_list_file_1"
+    file_dict["test_file_2"] = temp_box_test_folder + "/test_list_file_2"
+    file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
+    file_dict["test_file_id_1"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_1"]
+    )
+    file_dict["test_file_id_2"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_2"]
+    )
+    file_dict["test_file_id_3"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_3"]
+    )
+    assert file_dict["test_file_id_1"] is not None
+    assert file_dict["test_file_id_2"] is not None
+    assert file_dict["test_file_id_3"] is not None
+    items = box_client.list(temp_box_test_folder, item_type="file")
+
+    for item in items:
+        if item["id"] == file_dict["test_file_id_1"]:
+            file_dict["test_file_found_1"] = True
+        elif item["id"] == file_dict["test_file_id_2"]:
+            file_dict["test_file_found_2"] = True
+        elif item["id"] == file_dict["test_file_id_3"]:
+            file_dict["test_file_found_3"] = True
+
+        if (
+            "test_file_found_1" in file_dict
+            and "test_file_found_2" in file_dict
+            and "test_file_found_3" in file_dict
+        ):
+            break
+
+    assert "test_file_found_1" in file_dict
+    assert "test_file_found_2" in file_dict
+    assert "test_file_found_3" in file_dict
+
+
+@mark_live_test
+def test_box_list_folders(box_client, temp_box_test_folder) -> None:
+    file_dict = {}
+    file_dict["test_folder_1"] = temp_box_test_folder + "/test_list_folder_1"
+    file_dict["test_folder_2"] = temp_box_test_folder + "/test_list_folder_2"
+    file_dict["test_folder_3"] = temp_box_test_folder + "/test_list_folder_3"
+    file_dict["test_folder_id_1"] = box_client.create_folder(file_dict["test_folder_1"])
+    file_dict["test_folder_id_2"] = box_client.create_folder(file_dict["test_folder_2"])
+    file_dict["test_folder_id_3"] = box_client.create_folder(file_dict["test_folder_3"])
+    assert file_dict["test_folder_id_1"] is not None
+    assert file_dict["test_folder_id_2"] is not None
+    assert file_dict["test_folder_id_3"] is not None
+    items = box_client.list(temp_box_test_folder, item_type="folder")
+
+    for item in items:
+        if item["id"] == file_dict["test_folder_id_1"]:
+            file_dict["test_folder_found_1"] = True
+        elif item["id"] == file_dict["test_folder_id_2"]:
+            file_dict["test_folder_found_2"] = True
+        elif item["id"] == file_dict["test_folder_id_3"]:
+            file_dict["test_folder_found_3"] = True
+
+        if (
+            "test_folder_found_1" in file_dict
+            and "test_folder_found_2" in file_dict
+            and "test_folder_found_3" in file_dict
+        ):
+            break
+
+    assert "test_folder_found_1" in file_dict
+    assert "test_folder_found_2" in file_dict
+    assert "test_folder_found_3" in file_dict
+
+
+@mark_live_test
+def test_box_list_files_by_id(
+    box_client, small_box_table, temp_box_test_folder, temp_box_test_folder_id
+) -> None:
+    file_dict = {}
+    file_dict["test_file_1"] = temp_box_test_folder + "/test_list_file_1"
+    file_dict["test_file_2"] = temp_box_test_folder + "/test_list_file_2"
+    file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
+    file_dict["test_file_id_1"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_1"]
+    )
+    file_dict["test_file_id_2"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_2"]
+    )
+    file_dict["test_file_id_3"] = box_client.upload_table(
+        small_box_table, path=file_dict["test_file_3"]
+    )
+    assert file_dict["test_file_id_1"] is not None
+    assert file_dict["test_file_id_2"] is not None
+    assert file_dict["test_file_id_3"] is not None
+    items = box_client.list_files_by_id(temp_box_test_folder_id)
+
+    for item in items:
+        if item["id"] == file_dict["test_file_id_1"]:
+            file_dict["test_file_found_1"] = True
+        elif item["id"] == file_dict["test_file_id_2"]:
+            file_dict["test_file_found_2"] = True
+        elif item["id"] == file_dict["test_file_id_3"]:
+            file_dict["test_file_found_3"] = True
+
+        if (
+            "test_file_found_1" in file_dict
+            and "test_file_found_2" in file_dict
+            and "test_file_found_3" in file_dict
+        ):
+            break
+
+    assert "test_file_found_1" in file_dict
+    assert "test_file_found_2" in file_dict
+    assert "test_file_found_3" in file_dict
+
+
+@mark_live_test
+def test_box_list_files_by_id_default_folder_id(box_client, rand_str, small_box_table) -> None:
+    test_table_name = rand_str()
+    test_table_id = box_client.upload_table(small_box_table, test_table_name)
+    items = box_client.list_files_by_id()
+    assert test_table_id in items["id"]
+    box_client.delete_file_by_id(test_table_id)
+
+
+@mark_live_test
+def test_box_list_folders_by_id(box_client, temp_box_test_folder, temp_box_test_folder_id) -> None:
+    file_dict = {}
+    file_dict["test_folder_1"] = temp_box_test_folder + "/test_list_folder_1"
+    file_dict["test_folder_2"] = temp_box_test_folder + "/test_list_folder_2"
+    file_dict["test_folder_3"] = temp_box_test_folder + "/test_list_folder_3"
+    file_dict["test_folder_id_1"] = box_client.create_folder(file_dict["test_folder_1"])
+    file_dict["test_folder_id_2"] = box_client.create_folder(file_dict["test_folder_2"])
+    file_dict["test_folder_id_3"] = box_client.create_folder(file_dict["test_folder_3"])
+    assert file_dict["test_folder_id_1"] is not None
+    assert file_dict["test_folder_id_2"] is not None
+    assert file_dict["test_folder_id_3"] is not None
+    items = box_client.list_folders_by_id(temp_box_test_folder_id)
+
+    for item in items:
+        if item["id"] == file_dict["test_folder_id_1"]:
+            file_dict["test_folder_found_1"] = True
+        elif item["id"] == file_dict["test_folder_id_2"]:
+            file_dict["test_folder_found_2"] = True
+        elif item["id"] == file_dict["test_folder_id_3"]:
+            file_dict["test_folder_found_3"] = True
+
+        if (
+            "test_folder_found_1" in file_dict
+            and "test_folder_found_2" in file_dict
+            and "test_folder_found_3" in file_dict
+        ):
+            break
+
+    assert "test_folder_found_1" in file_dict
+    assert "test_folder_found_2" in file_dict
+    assert "test_folder_found_3" in file_dict
+
+
+@mark_live_test
+def test_box_list_folders_by_id_default_folder_id(box_client, temp_box_test_folder_id) -> None:
+    items = box_client.list_folders_by_id()
+    assert temp_box_test_folder_id in items["id"]
+
+
+@mark_live_test
+def test_box_upload_file_to_folder_id_no_file_name(box_client, small_box_table_csv):
+    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, folder_id="0")
+    items = box_client.list()
+    box_client.delete_file_by_id(test_file_id)
+    assert test_file_id in items["id"]
+
+
+@mark_live_test
+def test_box_upload_file_to_folder_id_no_folder_id(box_client, rand_str, small_box_table_csv):
+    test_file_name = rand_str()
+    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, test_file_name)
+    items = box_client.list()
+    box_client.delete_file_by_id(test_file_id)
+    assert test_file_id in items["id"]
+
+
+@mark_live_test
+def test_box_download_file(box_client, rand_str, small_box_table, temp_box_test_folder):
+    test_file_name = temp_box_test_folder + "/" + rand_str()
+    test_file_id = box_client.upload_table(small_box_table, path=test_file_name)
+    local_file = str(box_client.download_file(test_file_name).absolute())
+    box_client.delete_file_by_id(test_file_id)
+    downloaded_table = Table.from_csv(local_file)
+    assert str(downloaded_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_download_file_with_local_path(
+    box_client, rand_str, small_box_table, temp_test_folder, temp_box_test_folder
+):
+    test_file_name = temp_box_test_folder + "/" + rand_str()
+    test_file_id = box_client.upload_table(small_box_table, path=test_file_name)
+    local_path = temp_test_folder / rand_str()
+    local_file = box_client.download_file(test_file_name, local_path=local_path)
+    box_client.delete_file_by_id(test_file_id)
+    downloaded_table = Table.from_csv(str(local_file))
+    assert str(downloaded_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_get_table(box_client, small_box_table, temp_box_test_file):
+    local_table = box_client.get_table(temp_box_test_file)
+    assert str(local_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_get_table_json(box_client, small_box_table, temp_box_test_file_json):
+    local_table = box_client.get_table(temp_box_test_file_json, format="json")
+    assert str(local_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_error_get_item_id_trailing_backslash(box_client, temp_box_test_folder):
+    test_path = temp_box_test_folder + "\\"
+    with pytest.raises(ValueError, match='Illegal trailing "/" in file path'):
+        box_client.get_item_id(test_path)
+
+
+@mark_live_test
+def test_box_error_get_item_id_trailing_forwardslash(box_client, temp_box_test_folder):
+    test_path = temp_box_test_folder + "/"
+    with pytest.raises(ValueError, match='Illegal trailing "/" in file path'):
+        box_client.get_item_id(test_path)
+
+
+@mark_live_test
+def test_box_error_get_item_id_bad_folder(box_client, rand_str, temp_box_test_file):
+    test_path = temp_box_test_file + "/" + rand_str()
+    with pytest.raises(ValueError, match="Invalid folder"):
+        box_client.get_item_id(test_path)
+
+
+@mark_live_test
+def test_box_error_bad_format_upload(box_client, small_box_table) -> None:
+    with pytest.raises(ValueError, match="Format argument must be in one of"):
+        box_client.upload_table_to_folder_id(
+            small_box_table, "test_error_bad_format", format="bad_format"
         )
 
-        # Create a couple of files in the temp folder
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
+
+@mark_live_test
+def test_box_error_bad_format_get(box_client) -> None:
+    nonexistent_id = "9999999"
+    with pytest.raises(ValueError, match="Format argument must be in one of"):
+        box_client.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
+
+
+@mark_live_test
+def test_box_error_nonexistent_id_upload(box_client, small_box_table) -> None:
+    nonexistent_id = "9999999"
+    with pytest.raises(BoxAPIError, match="Message: 404 Not Found"):
+        box_client.upload_table_to_folder_id(
+            small_box_table, "test_error_nonexistent_id_upload", folder_id=nonexistent_id
         )
 
-        box.upload_table_to_folder_id(table, "temp1", folder_id=subfolder)
-        box.upload_table_to_folder_id(table, "temp2", folder_id=subfolder)
-        box.create_folder_by_id(folder_name="temp_folder1", parent_folder_id=subfolder)
-        box.create_folder_by_id(folder_name="temp_folder2", parent_folder_id=subfolder)
 
-        file_list = box.list_files_by_id(folder_id=subfolder)
-        assert file_list["name"] == ["temp1", "temp2"]
+@mark_live_test
+def test_box_error_nonexistent_id_get(box_client) -> None:
+    nonexistent_id = "9999999"
+    with pytest.raises(BoxAPIError, match="Message: 404 Could not find the specified resource"):
+        box_client.get_table_by_file_id(nonexistent_id, format="json")
 
-        # Check that if we delete a file, it's no longer there
-        for box_file in file_list:
-            if box_file["name"] == "temp1":
-                box.delete_file_by_id(box_file["id"])
-                break
-        file_list = box.list_files_by_id(folder_id=subfolder)
-        assert file_list["name"] == ["temp2"]
 
-        folder_list = box.list_folders_by_id(folder_id=subfolder)["name"]
-        assert folder_list == ["temp_folder1", "temp_folder2"]
+@mark_live_test
+def test_box_error_nonexistent_path_create(box_client) -> None:
+    with pytest.raises(ValueError, match="No file or folder named"):
+        box_client.create_folder("nonexistent_path/path")
 
-    def test_list_files_by_path(self) -> None:
-        # Count on environment variables being set
-        box = Box()
 
-        # Make sure our test folder is in the right place
-        found_default = False
-        for item in box.list():
-            if item["name"] == self.temp_folder_name:
-                found_default = True
-                break
-        assert found_default, (
-            f"Failed to find test folder f{self.temp_folder_name} in default Box folder"
-        )
+@mark_live_test
+def test_box_error_nonexistent_id_create(box_client) -> None:
+    nonexistent_id = "9999999"
+    with pytest.raises(BoxAPIError, match="Message: 404 Not Found"):
+        box_client.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
 
-        subfolder_name = "path_subfolder"
-        subfolder_path = f"{self.temp_folder_name}/{subfolder_name}"
-        box.create_folder(path=subfolder_path)
 
-        # Create a couple of files in the temp folder
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-
-        box.upload_table(table, f"{subfolder_path}/temp1")
-        box.upload_table(table, f"{subfolder_path}/temp2")
-        box.create_folder(f"{subfolder_path}/temp_folder1")
-        box.create_folder(f"{subfolder_path}/temp_folder2")
-
-        file_list = box.list(path=subfolder_path, item_type="file")
-        assert file_list["name"] == ["temp1", "temp2"]
-
-        # Check that if we delete a file, it's no longer there
-        for box_file in file_list:
-            if box_file["name"] == "temp1":
-                box.delete_file(path=f"{subfolder_path}/temp1")
-                break
-        file_list = box.list(path=subfolder_path, item_type="file")
-        assert file_list["name"] == ["temp2"]
-
-        folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert folder_list["name"] == ["temp_folder1", "temp_folder2"]
-
-        # Make sure we can delete by path
-        box.delete_folder(f"{subfolder_path}/temp_folder1")
-        folder_list = box.list(path=subfolder_path, item_type="folder")
-        assert folder_list["name"] == ["temp_folder2"]
-
-    def test_upload_file(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers", folder_id=self.temp_folder_id
-        )
-
-        new_table = box.get_table_by_file_id(box_file.id)
-
-        # Check that what we saved is equal to what we got back
-        assert str(table) == str(new_table)
-
-        # Check that things also work in JSON
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers_json", folder_id=self.temp_folder_id, format="json"
-        )
-
-        new_table = box.get_table_by_file_id(box_file.id, format="json")
-
-        # Check that what we saved is equal to what we got back
-        assert str(table) == str(new_table)
-
-        # Now check the same thing with paths instead of file_id
-        path_filename = "path_phone_numbers"
-        box_file = box.upload_table(table, f"{self.temp_folder_name}/{path_filename}")
-        new_table = box.get_table(path=f"{self.temp_folder_name}/{path_filename}")
-
-        # Check that we throw an exception with bad formats
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.upload_table_to_folder_id(table, "phone_numbers", format="illegal_format")
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_table_by_file_id(box_file.id, format="illegal_format")
-
-    def test_download_file(self) -> None:
-        box = Box()
-
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-        uploaded_file = Path(table.to_csv())
-
-        path_filename = Path(self.temp_folder_name) / "my_path"
-        box.upload_table(table, str(path_filename))
-
-        downloaded_file = Path(box.download_file(str(path_filename)))
-
-        assert uploaded_file.read_text() == downloaded_file.read_text()
-
-    def test_get_item_id(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
-        # Create a subfolder in which we'll do this test
-        sub_sub_folder_name = "item_subfolder"
-        sub_sub_folder_id = box.create_folder_by_id(
-            folder_name=sub_sub_folder_name, parent_folder_id=self.temp_folder_id
-        )
-
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-        box_file = box.upload_table_to_folder_id(
-            table, "file_in_subfolder", folder_id=self.temp_folder_id
-        )
-
-        box_file = box.upload_table_to_folder_id(
-            table, "phone_numbers", folder_id=sub_sub_folder_id
-        )
-
-        # Now try getting various ids
-        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers"
-        assert box_file.id == box.get_item_id(path=file_path)
-
-        file_path = f"{self.temp_folder_name}/item_subfolder"
-        assert sub_sub_folder_id == box.get_item_id(path=file_path)
-
-        file_path = self.temp_folder_name
-        assert self.temp_folder_id == box.get_item_id(path=file_path)
-
-        # Trailing "/"
-        file_path = f"{self.temp_folder_name}/item_subfolder/phone_numbers/"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-        # Nonexistent file
-        file_path = f"{self.temp_folder_name}/item_subfolder/nonexistent/phone_numbers"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-        # File (rather than folder) in middle of path
-        file_path = f"{self.temp_folder_name}/file_in_subfolder/phone_numbers"
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_item_id(path=file_path)
-
-    def test_errors(self) -> None:
-        # Count on environment variables being set
-        box = Box()
-
-        nonexistent_id = "9999999"
-        table = Table(
-            [
-                ["phone_number", "last_name", "first_name"],
-                ["4435705355", "Warren", "Elizabeth"],
-                ["5126993336", "Obama", "Barack"],
-            ]
-        )
-
-        # Upload a bad format
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.upload_table_to_folder_id(table, "temp1", format="bad_format")
-
-        # Download a bad format
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.get_table_by_file_id(file_id=nonexistent_id, format="bad_format")
-
-        # Upload to non-existent folder
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
-            box.upload_table_to_folder_id(table, "temp1", folder_id=nonexistent_id)
-
-        # Download a non-existent file
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
-            box.get_table_by_file_id(nonexistent_id, format="json")
-
-        # Create folder in non-existent parent
-        with pytest.raises(ValueError):  # noqa: PT011
-            box.create_folder("nonexistent_path/path")
-
-        # Create folder in non-existent parent
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxAPIException):
-            box.create_folder_by_id(folder_name="subfolder", parent_folder_id=nonexistent_id)
-
-        # Try using bad credentials
-        box = Box(access_token="5345345345")
-        with self.assertLogs(level=logging.WARNING), pytest.raises(BoxOAuthException):
-            box.list_files_by_id()
+@mark_live_test
+def test_box_error_bad_credentials(box_client) -> None:
+    box = Box(access_token="5345345345")
+    with pytest.raises(BoxSDKError, match="Developer token has expired. Please provide a new one."):
+        box.list_files_by_id()

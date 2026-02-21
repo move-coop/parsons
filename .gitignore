@@ -123,9 +123,13 @@ doctrees/
 bill_com_credentials.*
 *.ipynb
 
+docs/_build
 docs/html
 docs/dirhtml
 *.sw*
 
 # bin files
 bin/
+
+# uv
+uv.lock

@@ -22,7 +22,7 @@ This class requires credentials in the form of a string to be either passed into
   # Note: these are fake keys, provided as examples.
   export BOX_ACCESS_TOKEN=7B39m3ozIGyTcazbWRbi5F2SSZ5J
 
-*NOTE*: Most functions in this class exist both in 'path'-based form and 'folder_id'/'file_id'-based form. The path-based forms rely on the `get_item_id()` method, which navigates through subfolders with sequential API calls. This can be slow and computationally expensive if the path in question is long, or intermediate folders contain many items. If efficiency is paramount, consider using the "by_id" methods of each function.
+*NOTE*: Most functions in this class exist both in 'path'-based form and 'folder_id'/'file_id'-based form. The path-based forms rely on the `get_item_id()` method, which navigates through subfolders with sequential API calls. This can be slow and computationally expensive if the Box path string in question is long, or intermediate folders contain many items. If efficiency is paramount, consider using the "by_id" methods of each function.
 
 **Instantiate class**
 
@@ -62,7 +62,7 @@ This class requires credentials in the form of a string to be either passed into
   # List default folder
   default_folder_list = box.list()
 
-  # Subfolder list - by path
+  # Subfolder list - by Box path str
   subfolder_list = box.list('My Folder/My Subfolder')
 
   subfolder_file_list = box.list(path='My Folder/My Subfolder',
@@ -73,7 +73,7 @@ This class requires credentials in the form of a string to be either passed into
   subfolder_folder_list = box.list_folders_by_id(folder_id='533944')
   all_items = box.list_items_by_id(folder_id='533944')
 
-**Retrieve folder/file ids from path names**
+**Retrieve folder/file ids from Box path str names**
 
 .. code-block:: python
 
@@ -83,7 +83,7 @@ This class requires credentials in the form of a string to be either passed into
   # Download a table using file id
   downloaded_table = box.get_table_by_file_id(file_id=box_file.id)
 
-**Get an item id from path**
+**Get an item id from a Box path str**
 
 .. code-block:: python
 

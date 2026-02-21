@@ -70,10 +70,10 @@ class Box:
 
         `Args`:
             path: str
-               Path that may need slashes replaced.
+               Box path str that may need slashes replaced.
 
         `Returns`:
-            str: A string for a path with back slashes replaced by forward slashes.
+            str: A string for a Box path str with back slashes replaced by forward slashes.
         """
         if path is not None and "\\" in path:
             new_path = path.replace("\\", "/")
@@ -86,7 +86,7 @@ class Box:
 
         `Args`:
             path: str
-               A path in Box.
+               A Box path str.
 
         `Returns`:
             (str, str, str): The item parent, item name, and item id for the path.
@@ -110,7 +110,7 @@ class Box:
 
         `Args`:
             path: str
-               Path to the folder to be created. If no slashes are present,
+               Box path str to the folder to be created. If no slashes are present,
                path will be name of folder created in the default folder. Any
                back slashes will be treated as forward slashes.
 
@@ -120,9 +120,7 @@ class Box:
         folder_parent_name, folder_name, folder_id = self.__getPathFromString(path)
         return self.create_folder_by_id(folder_name, parent_folder_id=folder_id)
 
-    def create_folder_by_id(
-        self, folder_name: str, parent_folder_id: str = DEFAULT_FOLDER_ID
-    ) -> str:
+    def create_folder_by_id(self, folder_name: str, parent_folder_id: str | None = None) -> str:
         """Create a Box folder.
 
         `Args`:
@@ -135,7 +133,8 @@ class Box:
         `Returns`:
             str: The Box id of the newly-created folder.
         """
-        parent = CreateFolderParent(id=parent_folder_id)
+        use_parent_folder_id = DEFAULT_FOLDER_ID if parent_folder_id is None else parent_folder_id
+        parent = CreateFolderParent(id=use_parent_folder_id)
         subfolder = self.client.folders.create_folder(name=folder_name, parent=parent)
         return subfolder.id
 
@@ -144,7 +143,7 @@ class Box:
 
         `Args`:
             folder_id: str
-               Path to the folder to delete. Any back slashes will be treated
+               Box path str to the folder to delete. Any back slashes will be treated
                as forward slashes.
         """
         new_path = self.__replace_backslashes(path)
@@ -165,7 +164,7 @@ class Box:
 
         `Args`:
             path: str
-              Path to the file to delete. Any back slashes will be treated as
+              Box path str to the file to delete. Any back slashes will be treated as
               forward slashes.
         """
         file_id = self.get_item_id(path)
@@ -187,7 +186,7 @@ class Box:
 
         `Args`:
             path:str
-               If specified, the slash-separated path of the folder to be listed.
+               If specified, Box path str of the folder to be listed.
                If omitted, the default folder will be used.
             item_type: str
                Optionally which type of items should be returned, typically either
@@ -256,13 +255,13 @@ class Box:
             table:Table
                The Parsons table to be saved.
             path: str
-               File path to filename where table should be saved. Any back
+               Box path str where table should be saved. Any back
                slashes will be treated as forward slashes.
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: File
-            A Box File object
+        `Returns`: str
+            The uploaded Box File object's id.
         """
         folder_parent_name, table_name, folder_id = self.__getPathFromString(path)
         return self.upload_table_to_folder_id(
@@ -275,7 +274,7 @@ class Box:
         file_name: str,
         folder_id: str | None = None,
         format: Literal["csv", "json"] = "csv",
-    ) -> File:
+    ) -> str:
         """Save the passed table to Box.
 
         `Args`:
@@ -288,8 +287,8 @@ class Box:
             format: str
                For now, only 'csv' and 'json'; format in which to save table.
 
-        `Returns`: File
-            A Box File object
+        `Returns`: str
+            The uploaded Box File object's id.
         """
         use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
 
@@ -317,18 +316,18 @@ class Box:
 
         return new_file
 
-    def upload_file(self, file: Path, path: str | None = None) -> File:
+    def upload_file(self, file: Path, path: str | None = None) -> str:
         """Save the passed file to Box.
 
         `Args`:
             file: Path
                The local file to be saved to Box.
             path: str
-               Optionally, file path to filename where table should be saved. Any back
+               Optionally, Box path str where table should be saved. Any back
                slashes will be treated as forward slashes.
 
-        `Returns`: File
-            A Box File object
+        `Returns`: str
+            The uploaded Box File object's id.
         """
         if path is not None:
             _, file_name, folder_id = self.__getPathFromString(path)
@@ -339,7 +338,7 @@ class Box:
 
     def upload_file_to_folder_id(
         self, file: Path, file_name: str | None = None, folder_id: str | None = None
-    ) -> File:
+    ) -> str:
         """Save the passed file to Box.
 
         `Args`:
@@ -350,8 +349,8 @@ class Box:
             folder_id: str
                Optionally, the id of the subfolder in which it should be saved.
 
-        `Returns`: File
-            A Box File object
+        `Returns`: str
+            The uploaded Box File object's id.
         """
         use_file_name = file.name if file_name is None else file_name
         use_folder_id = DEFAULT_FOLDER_ID if folder_id is None else folder_id
@@ -382,14 +381,14 @@ class Box:
                         "Did not receive file upload list from upload response"
                     )  # pragma: no cover
 
-        return new_file
+        return new_file.id
 
     def download_file(self, path: str, local_path: Path | None = None) -> Path:
         """Download a Box object to a local file.
 
         `Args`:
             path: str
-                The slash-separated path to the file in Box. Any back slashes will be
+                The Box path str. Any back slashes will be
                 treated as forward slashes.
             local_path: Path
                 The local path where the file will be downloaded. If not
@@ -398,14 +397,13 @@ class Box:
                 running.
 
         `Returns:`
-            str
-                The absolute path of the new file
+            Path
+                The Path of the new file
         """
-        if local_path is None:
-            # Temp file will be around as long as enclosing process is running,
-            # which we need, because the Table we return will continue to use it.
-            use_local_path = Path(create_temp_file_for_path(path))
 
+        # Temp file will be around as long as enclosing process is running,
+        # which we need, because the Table we return will continue to use it.
+        use_local_path = Path(create_temp_file_for_path(path)) if local_path is None else local_path
         file_id = self.get_item_id(path)
 
         with use_local_path.open(mode="wb") as output_file:
@@ -420,7 +418,7 @@ class Box:
 
         `Args`:
             path: str
-                The slash-separated path to the file containing the table. Any back
+                The slash-separated Box path str to the file containing the table. Any back
                 slashes will be treated as forward slashes.
             format: str
                  Format in which Table has been saved; for now, only 'csv' or 'json'.
@@ -466,8 +464,8 @@ class Box:
             )  # pragma: no cover
 
     def get_item_id(self, path: str, base_folder_id: str | None = DEFAULT_FOLDER_ID) -> str:
-        """Given a path-like object, try to return the id for the file or
-        folder at the end of the path.
+        """Given a Box path str, try to return the id for the file or
+        folder at the end of the str.
 
         *NOTE*: This method makes one API call for each level in
         `path`, so can be slow for long paths or intermediate folders
@@ -475,27 +473,28 @@ class Box:
 
         `Args`:
             path: str
-                A slash-separated path from the base folder to the file or
+                A slash-separated Box path str from the base folder to the file or
                 folder in question. Any back slashes will be treated as forward
                 slashes.
             base_folder_id: str
                  What to use as the base folder for the path. By default, use
                  the default folder.
 
-        `Returns`: Table
-            A Parsons Table.
+        `Returns`: str
+            A Box File object's id.
 
         """
         try:
-            if "/" in path:
-                this_element, use_path = path.split(sep="/", maxsplit=1)
-                if path == "":
+            use_base_folder_id = DEFAULT_FOLDER_ID if base_folder_id is None else base_folder_id
+            use_path = self.__replace_backslashes(path)
+
+            if "/" in use_path:
+                this_element, use_path = use_path.split(sep="/", maxsplit=1)
+                if use_path == "":
                     raise ValueError('Illegal trailing "/" in file path')
             else:
-                this_element = path
+                this_element = use_path
                 use_path = ""
-
-            use_base_folder_id = DEFAULT_FOLDER_ID if base_folder_id is None else base_folder_id
 
             # Look in our current base_folder for an item whose name matches the
             # current element. If we're at initial, non-recursed call, base_folder

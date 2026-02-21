@@ -10,17 +10,17 @@ def generate_random_string():
     return "".join(random.choice(ascii_letters) for i in range(24))
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def box_client():
     return Box()
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def rand_str():
     return generate_random_string
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def small_box_table():
     return Table([{"first": "Bob", "last": "Smith"}])
 
@@ -57,8 +57,16 @@ def temp_box_test_folder_id(box_client, temp_box_test_folder):
 
 
 @pytest.fixture
-def temp_box_test_file(box_client, rand_str, small_box_table):
-    temp_file = rand_str()
+def temp_box_test_file(box_client, rand_str, small_box_table, temp_box_test_folder):
+    temp_file = temp_box_test_folder + "/" + rand_str()
     temp_file_id = box_client.upload_table(small_box_table, temp_file)
     yield temp_file
-    box_client.delete_folder_by_id(temp_file_id)
+    box_client.delete_file_by_id(temp_file_id)
+
+
+@pytest.fixture
+def temp_box_test_file_json(box_client, rand_str, small_box_table, temp_box_test_folder):
+    temp_file = temp_box_test_folder + "/" + rand_str()
+    temp_file_id = box_client.upload_table(small_box_table, temp_file, format="json")
+    yield temp_file
+    box_client.delete_file_by_id(temp_file_id)

@@ -60,7 +60,15 @@ def test_box_upload_table(box_client, rand_str, small_box_table) -> None:
     new_test_file_name = rand_str()
     new_test_file = box_client.upload_table(small_box_table, path=new_test_file_name)
     assert new_test_file is not None
-    box_client.delete_file_by_id(new_test_file.id)
+    box_client.delete_file_by_id(new_test_file)
+
+
+@mark_live_test
+def test_box_upload_table_big(box_client, rand_str, big_box_table) -> None:
+    new_test_file_name = rand_str()
+    new_test_file = box_client.upload_table(big_box_table, path=new_test_file_name)
+    assert new_test_file is not None
+    box_client.delete_file_by_id(new_test_file)
 
 
 @mark_live_test
@@ -78,14 +86,14 @@ def test_box_upload_table_with_format_json(box_client, rand_str, small_box_table
     new_test_file_name = rand_str()
     new_test_file = box_client.upload_table(small_box_table, path=new_test_file_name, format="json")
     assert new_test_file is not None
-    box_client.delete_file_by_id(new_test_file.id)
+    box_client.delete_file_by_id(new_test_file)
 
 
 @mark_live_test
 def test_box_upload_file(box_client, small_box_table_csv) -> None:
     new_test_file = box_client.upload_file(small_box_table_csv)
     assert new_test_file is not None
-    box_client.delete_file_by_id(new_test_file.id)
+    box_client.delete_file_by_id(new_test_file)
 
 
 @mark_live_test
@@ -114,13 +122,13 @@ def test_box_list(box_client, small_box_table, temp_box_test_folder) -> None:
     file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
     file_dict["test_file_id_1"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_1"]
-    ).id
+    )
     file_dict["test_file_id_2"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_2"]
-    ).id
+    )
     file_dict["test_file_id_3"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_3"]
-    ).id
+    )
     assert file_dict["test_file_id_1"] is not None
     assert file_dict["test_file_id_2"] is not None
     assert file_dict["test_file_id_3"] is not None
@@ -160,13 +168,13 @@ def test_box_list_files(box_client, small_box_table, temp_box_test_folder) -> No
     file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
     file_dict["test_file_id_1"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_1"]
-    ).id
+    )
     file_dict["test_file_id_2"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_2"]
-    ).id
+    )
     file_dict["test_file_id_3"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_3"]
-    ).id
+    )
     assert file_dict["test_file_id_1"] is not None
     assert file_dict["test_file_id_2"] is not None
     assert file_dict["test_file_id_3"] is not None
@@ -236,13 +244,13 @@ def test_box_list_files_by_id(
     file_dict["test_file_3"] = temp_box_test_folder + "/test_list_file_3"
     file_dict["test_file_id_1"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_1"]
-    ).id
+    )
     file_dict["test_file_id_2"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_2"]
-    ).id
+    )
     file_dict["test_file_id_3"] = box_client.upload_table(
         small_box_table, path=file_dict["test_file_3"]
-    ).id
+    )
     assert file_dict["test_file_id_1"] is not None
     assert file_dict["test_file_id_2"] is not None
     assert file_dict["test_file_id_3"] is not None
@@ -271,7 +279,7 @@ def test_box_list_files_by_id(
 @mark_live_test
 def test_box_list_files_by_id_default_folder_id(box_client, rand_str, small_box_table) -> None:
     test_table_name = rand_str()
-    test_table_id = box_client.upload_table(small_box_table, test_table_name).id
+    test_table_id = box_client.upload_table(small_box_table, test_table_name)
     items = box_client.list_files_by_id()
     assert test_table_id in items["id"]
     box_client.delete_file_by_id(test_table_id)
@@ -319,7 +327,7 @@ def test_box_list_folders_by_id_default_folder_id(box_client, temp_box_test_fold
 
 @mark_live_test
 def test_box_upload_file_to_folder_id_no_file_name(box_client, small_box_table_csv):
-    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, folder_id="0").id
+    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, folder_id="0")
     items = box_client.list()
     box_client.delete_file_by_id(test_file_id)
     assert test_file_id in items["id"]
@@ -328,7 +336,7 @@ def test_box_upload_file_to_folder_id_no_file_name(box_client, small_box_table_c
 @mark_live_test
 def test_box_upload_file_to_folder_id_no_folder_id(box_client, rand_str, small_box_table_csv):
     test_file_name = rand_str()
-    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, test_file_name).id
+    test_file_id = box_client.upload_file_to_folder_id(small_box_table_csv, test_file_name)
     items = box_client.list()
     box_client.delete_file_by_id(test_file_id)
     assert test_file_id in items["id"]
@@ -337,7 +345,7 @@ def test_box_upload_file_to_folder_id_no_folder_id(box_client, rand_str, small_b
 @mark_live_test
 def test_box_download_file(box_client, rand_str, small_box_table, temp_box_test_folder):
     test_file_name = temp_box_test_folder + "/" + rand_str()
-    test_file_id = box_client.upload_table(small_box_table, path=test_file_name).id
+    test_file_id = box_client.upload_table(small_box_table, path=test_file_name)
     local_file = str(box_client.download_file(test_file_name).absolute())
     box_client.delete_file_by_id(test_file_id)
     downloaded_table = Table.from_csv(local_file)
@@ -345,9 +353,49 @@ def test_box_download_file(box_client, rand_str, small_box_table, temp_box_test_
 
 
 @mark_live_test
+def test_box_download_file_with_local_path(
+    box_client, rand_str, small_box_table, temp_test_folder, temp_box_test_folder
+):
+    test_file_name = temp_box_test_folder + "/" + rand_str()
+    test_file_id = box_client.upload_table(small_box_table, path=test_file_name)
+    local_path = temp_test_folder / rand_str()
+    local_file = box_client.download_file(test_file_name, local_path=local_path)
+    box_client.delete_file_by_id(test_file_id)
+    downloaded_table = Table.from_csv(str(local_file))
+    assert str(downloaded_table) == str(small_box_table)
+
+
+@mark_live_test
 def test_box_get_table(box_client, small_box_table, temp_box_test_file):
     local_table = box_client.get_table(temp_box_test_file)
     assert str(local_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_get_table_json(box_client, small_box_table, temp_box_test_file_json):
+    local_table = box_client.get_table(temp_box_test_file_json, format="json")
+    assert str(local_table) == str(small_box_table)
+
+
+@mark_live_test
+def test_box_error_get_item_id_trailing_backslash(box_client, temp_box_test_folder):
+    test_path = temp_box_test_folder + "\\"
+    with pytest.raises(ValueError, match='Illegal trailing "/" in file path'):
+        box_client.get_item_id(test_path)
+
+
+@mark_live_test
+def test_box_error_get_item_id_trailing_forwardslash(box_client, temp_box_test_folder):
+    test_path = temp_box_test_folder + "/"
+    with pytest.raises(ValueError, match='Illegal trailing "/" in file path'):
+        box_client.get_item_id(test_path)
+
+
+@mark_live_test
+def test_box_error_get_item_id_bad_folder(box_client, rand_str, temp_box_test_file):
+    test_path = temp_box_test_file + "/" + rand_str()
+    with pytest.raises(ValueError, match="Invalid folder"):
+        box_client.get_item_id(test_path)
 
 
 @mark_live_test

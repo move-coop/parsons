@@ -81,7 +81,7 @@ This class requires credentials in the form of a string to be either passed into
   downloaded_table = box.get_table(path='My Folder/My Subfolder/My Parsons Table')
 
   # Download a table using file id
-  downloaded_table = box.get_table_by_file_id(file_id=box_file.id)
+  downloaded_table = box.get_table_by_file_id(file_id=box_file_id)
 
 **Get an item id from a Box path str**
 

@@ -105,5 +105,5 @@ This class requires credentials in the form of a string to be either passed into
 API
 ***
 
-.. autoclass:: parsons.Box
+.. autoclass:: parsons.box.box.Box
    :inherited-members:

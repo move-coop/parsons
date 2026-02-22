@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 import yaml
+from dbt.artifacts.schemas.results import NodeResult
 
 from parsons.utilities.dbt.dbt import run_dbt_commands
 from parsons.utilities.dbt.logging import dbtLogger
@@ -151,6 +152,17 @@ def test_run_dbt_commands_e2e(
 
     assert len(results) == 1
     assert results[0].overall_status == "success"
+
+    target_dir = project_dir / "target"
+    assert (target_dir / "manifest.json").exists()
+    assert (target_dir / "run_results.json").exists()
+
+    model_names = [r.node.name for r in results[0].results]
+    assert "dummy_model" in model_names
+
+    for result in results[0].results:
+        assert isinstance(result, NodeResult)
+        assert result.status == "success", f"Model {result.node.name} failed with {result.message}"
 
 
 def test_logger_integration(dbt_env_factory: Callable[[str], tuple[Path, Path]], mocker) -> None:

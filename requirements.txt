@@ -6,7 +6,7 @@ bs4==0.0.2
 censusgeocode~=0.5.3
 civis==2.7.1
 curlify==3.0.0
-dbt-core>=1.5.0
+dbt-core>=1.8.0
 defusedxml>=0.7.1, <=0.8.0
 facebook-business==24.0.1
 fastavro==1.12.1

@@ -742,6 +742,13 @@ class TestTableTransformations:
     def test_concat(self, tbl):
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
+        tbl1.concat(tbl2)
+
+        expected_tbl = Table(petl.cat(tbl.table, tbl2.table))
+        assert_matching_tables(expected_tbl, tbl1)
+
+        tbl1 = tbl.select_rows(lambda x: x)
+        tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         tbl3 = Table([{"first": "Lucy", "last": "Peterson"}])
         tbl1.concat(tbl2, tbl3)
 

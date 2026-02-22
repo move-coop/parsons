@@ -16,6 +16,7 @@ class dbtRunnerParsons:
         self,
         commands: str | list[str],
         dbt_project_directory: pathlib.Path,
+        dbt_profile_directory: pathlib.Path | None = None,
     ) -> None:
         """Initialize dbtRunner with commands and a working directory.
 
@@ -27,11 +28,14 @@ class dbtRunnerParsons:
             dbt_project_directory: pathlib.Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
+            dbt_profile_directory: pathlib.Path, optional
+                The path to find the dbt profile
         """
         if isinstance(commands, str):
             commands = [commands]
         self.commands = commands
         self.dbt_project_directory = dbt_project_directory
+        self.dbt_profile_directory = dbt_profile_directory
 
     def run(self) -> list[Manifest]:
         """Executes dbt commands one by one, returns all results."""
@@ -55,6 +59,8 @@ class dbtRunnerParsons:
         # create CLI args as a list of strings
         cli_args = command.split(" ")
         cli_args.extend(["--project-dir", str(self.dbt_project_directory)])
+        if self.dbt_profile_directory:
+            cli_args.extend(["--profiles-dir", str(self.dbt_profile_directory)])
 
         # run the command
         result: dbtRunnerResult = dbt.invoke(cli_args)
@@ -69,6 +75,7 @@ class dbtRunnerParsons:
 def run_dbt_commands(
     commands: str | list[str],
     dbt_project_directory: pathlib.Path,
+    dbt_profile_directory: pathlib.Path | None = None,
     loggers: list[dbtLogger | type[dbtLogger]] | None = None,
 ) -> list[Manifest]:
     """Executes dbt commands within a directory, optionally logs results.
@@ -82,6 +89,9 @@ def run_dbt_commands(
     dbt_project_directory : pathlib.Path
         The path to the dbt project directory where the commands will
         be executed.
+
+    dbt_profile_directory: pathlib.Path, optional
+        The path to find the dbt profile
 
     loggers : Optional[list[Union[dbtLogger, Type[dbtLogger]]]], default=None
         A list of logger instances or logger classes. If classes are
@@ -108,7 +118,11 @@ def run_dbt_commands(
     ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
     ... )
     """
-    dbt_runner = dbtRunnerParsons(commands, dbt_project_directory)
+    dbt_runner = dbtRunnerParsons(
+        commands=commands,
+        dbt_project_directory=dbt_project_directory,
+        dbt_profile_directory=dbt_profile_directory,
+    )
 
     dbt_command_results = dbt_runner.run()
 

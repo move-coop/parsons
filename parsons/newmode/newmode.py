@@ -44,9 +44,6 @@ class NewmodeV1:
                 The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
                 env variable.
 
-        Returns:
-            Newmode class
-
         """
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1"

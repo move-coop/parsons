@@ -71,7 +71,7 @@ class SFTP:
         """
         Create an SFTP connection.
 
-        Returns:
+        Yields:
             SFTP Connection object
 
         """

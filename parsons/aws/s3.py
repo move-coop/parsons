@@ -270,8 +270,6 @@ class S3:
         Args:
             bucket: str
                 The name of the bucket to create
-        Returns:
-            ``None``
 
         """
 
@@ -308,8 +306,6 @@ class S3:
                 The bucket name
             key: str
                 The object key
-        Returns:
-            ``None``
 
         """
 
@@ -412,9 +408,6 @@ class S3:
                 Additional arguments for the S3 API call. See `AWS download_file docs
                 <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
                 for more info.
-
-        Returns:
-            ``None``
 
         """
 

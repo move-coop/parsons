@@ -181,9 +181,6 @@ class ActionKit:
             actionfield_id: int
                 The id of the actionfield to delete
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
@@ -284,9 +281,6 @@ class ActionKit:
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
@@ -328,9 +322,6 @@ class ActionKit:
                 The name of the event field.
             value: string
                 The value of the event field.
-
-        Returns:
-            ``None``
 
         """
         resp = self.conn.patch(
@@ -414,9 +405,6 @@ class ActionKit:
         Args:
             user_id: int
                 The user id of the person to delete
-
-        Returns:
-            ``None``
 
         """
 
@@ -805,9 +793,6 @@ class ActionKit:
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.patch(
@@ -1060,9 +1045,6 @@ class ActionKit:
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
@@ -1118,9 +1100,6 @@ class ActionKit:
             recurring_id: int
                 The id of the recurring order to update (NOT the order_id)
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
@@ -1138,9 +1117,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
 
@@ -1292,9 +1268,6 @@ class ActionKit:
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
 
-        Returns:
-            ``None``
-
         """
 
         resp = self.conn.patch(
@@ -1333,9 +1306,6 @@ class ActionKit:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
                 manual/api/rest/actionprocessing.html>`__.
-
-        Returns:
-            ``None``
 
         """
 

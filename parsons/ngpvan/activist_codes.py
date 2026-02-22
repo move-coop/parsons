@@ -89,9 +89,6 @@ class ActivistCodes:
                 If set to false the contact history will be updated with a contact
                 attempt.
 
-        Returns:
-            ``None``
-
         """
 
         return self.toggle_activist_code(
@@ -107,13 +104,9 @@ class ActivistCodes:
                 A valid person id
             activist_code_id: int
                 A valid activist code id
-            action: str
-                Either 'apply' or 'remove'
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-        Returns:
-            ``None``
 
         """
 

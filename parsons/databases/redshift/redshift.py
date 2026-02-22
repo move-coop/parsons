@@ -129,7 +129,7 @@ class Redshift(
         any context manager):
         ``with rs.connection() as conn:``
 
-        Returns:
+        Yields:
             Psycopg2 ``connection`` object
 
         """
@@ -860,9 +860,6 @@ class Redshift(
 
             `***unload params`:
 
-        Returns:
-            None
-
         """
         query_end = "cascade" if cascade else ""
         self.unload(
@@ -1183,9 +1180,6 @@ class Redshift(
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
-
-        Returns:
-            ``None``
 
         """
 

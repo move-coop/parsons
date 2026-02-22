@@ -156,8 +156,6 @@ class AzureBlobStorage:
         Args:
             container_name: str
                 The name of the container
-        Returns:
-            ``None``
 
         """
 
@@ -173,6 +171,7 @@ class AzureBlobStorage:
                 The name of the container
             name_starts_with: Optional[str]
                 A prefix to filter blob names
+
         Returns:
             list[str]
                 A list of blob names
@@ -392,8 +391,6 @@ class AzureBlobStorage:
                 The container name
             blob_name: str
                 The blob name
-        Returns:
-            ``None``
 
         """
 

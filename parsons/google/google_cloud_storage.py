@@ -145,9 +145,6 @@ class GoogleCloudStorage:
             bucket_name: str
                 A globally unique name for the bucket.
 
-        Returns:
-            ``None``
-
         """
 
         # TODO: Allow user to set all of the bucket parameters
@@ -165,8 +162,6 @@ class GoogleCloudStorage:
                 The name of the bucket
             delete_blobs: boolean
                 Delete blobs in the bucket, if it is not empty
-        Returns:
-            ``None``
 
         """
 
@@ -266,8 +261,6 @@ class GoogleCloudStorage:
                 The name of blob to be stored in the bucket
             local_path: str
                 The local path of the file to upload
-        Returns:
-            ``None``
 
         """
 
@@ -321,8 +314,6 @@ class GoogleCloudStorage:
                 The bucket name
             blob_name: str
                 The blob name
-        Returns:
-            ``None``
 
         """
 

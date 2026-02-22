@@ -32,7 +32,7 @@ class PostgresCore(PostgresCreateStatement):
         any context manager):
         ``with pg.connection() as conn:``
 
-        Returns:
+        Yields:
             Psycopg2 `connection` object
 
         """

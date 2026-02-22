@@ -112,7 +112,7 @@ class Redash:
                 Name of data source.
             type: str
                 Type of data source.
-            dbname: str
+            dbName: str
                 Database name of data source.
             host: str
                 Host of data source.
@@ -122,9 +122,6 @@ class Redash:
                 Port of data source.
             user: str
                 Username of data source.
-
-        Returns:
-            ``None``
 
         """
         self._catch_runtime_error(

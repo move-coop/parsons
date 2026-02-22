@@ -706,9 +706,6 @@ class ToFrom:
             `**copy_args`: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
 
-        Returns:
-            ``None``
-
         """
 
         from parsons.databases.redshift import Redshift
@@ -745,9 +742,6 @@ class ToFrom:
             `**copy_args`: kwargs
                 See :func:`~parsons.databases.Postgres.copy`` for options.
 
-        Returns:
-            ``None``
-
         """
 
         from parsons.databases.postgres import Postgres
@@ -777,9 +771,6 @@ class ToFrom:
             `**kwargs`: kwargs
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
-
-        Returns:
-            ``None``
 
         """
 

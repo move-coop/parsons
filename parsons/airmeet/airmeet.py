@@ -41,9 +41,6 @@ class Airmeet:
             airmeet_secret_key: string
                 The Airmeet API secret key.
 
-        Returns:
-            ``None``
-
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
         self.client = APIConnector(self.uri)
@@ -75,9 +72,6 @@ class Airmeet:
                 <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
             `**kwargs`:
                 Additional parameters to include in the request.
-
-        Returns:
-            ``None``
 
         """
         results = []

@@ -240,9 +240,6 @@ class Events:
             event_id: int
                 The event id.
 
-        Returns:
-            ``None``
-
         """
 
         r = self.connection.delete_request(f"events/{event_id}")

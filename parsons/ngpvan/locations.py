@@ -100,8 +100,6 @@ class Locations:
         Args:
             location_id: int
                 The location id
-        Returns:
-            ``None``
 
         """
 

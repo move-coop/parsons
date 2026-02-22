@@ -77,9 +77,6 @@ class DBSync:
             `**kwargs`: args
                 Optional copy arguments for destination database.
 
-        Returns:
-            ``None``
-
         """
 
         # Create the table objects
@@ -145,9 +142,6 @@ class DBSync:
                 are the same at the end of the sync.
             `**kwargs`: args
                 Optional copy arguments for destination database.
-
-        Returns:
-            ``None``
 
         """
 
@@ -231,9 +225,6 @@ class DBSync:
                 Column to use to order the data to ensure a stable sort.
             `**kwargs`: args
                 Optional copy arguments for destination database.
-
-        Returns:
-            ``None``
 
         """
 

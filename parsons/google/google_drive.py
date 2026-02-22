@@ -313,8 +313,6 @@ class GoogleDrive:
                 this is the ID of the object you are hoping to share
             new_owner_email: str
                 the email address of the intended new owner
-        Returns:
-            None
 
         """
         permissions = self.client.permissions().list(fileId=file_id).execute()

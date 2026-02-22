@@ -222,9 +222,6 @@ class SendMail(ABC):
             files: str or list
                 The path to the file(s) to be attached.
 
-        Returns:
-            None
-
         """
         self.log.info("Preparing to send an email...")
 

@@ -533,9 +533,6 @@ class People:
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
 
-        Returns:
-            ``None``
-
         """
 
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
@@ -723,8 +720,6 @@ class People:
                 The vanid of the secondary individual; the spoke
             relationship_id : int
                 The relationship id indicating the type of relationship
-        Returns:
-            ``None``
 
         """
 
@@ -745,8 +740,6 @@ class People:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-        Returns:
-            ``None``
 
         """
 

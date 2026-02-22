@@ -61,7 +61,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         any context manager):
         ``with mysql.connection() as conn:``
 
-        Returns:
+        Yields:
             MySQL `connection` object
 
         """

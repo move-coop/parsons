@@ -106,8 +106,6 @@ class Scores:
                 The score update id
             status: str
                 One of 'pending approval', 'approved', 'disapproved'
-        Returns:
-            ``None``
 
         """
 

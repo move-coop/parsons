@@ -603,9 +603,6 @@ class ETL:
             max_columns: int
                 The maximum number of columns to unpack
 
-        Returns:
-            None
-
         """
 
         # Convert all column values to list to avoid unpack errors
@@ -902,13 +899,10 @@ class ETL:
         of the passed columns.
 
         Args:
-            column: str or list
+            columns: str or list
                 The column or columns to analyze
             null_value: int or float or str
                 The null value
-
-        Returns:
-            ``None``
 
         """
         if isinstance(columns, str):
@@ -942,9 +936,6 @@ class ETL:
             missing: bool
                 The value to use when padding missing values
 
-        Returns:
-            ``None``
-
         """
 
         if type(tables) not in [list, tuple]:
@@ -966,9 +957,6 @@ class ETL:
                 A single table, or a list of tables
             missing: bool
                 The value to use when padding missing values
-
-        Returns:
-            ``None``
 
         """
 

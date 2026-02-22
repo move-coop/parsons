@@ -231,7 +231,7 @@ class GoogleBigQuery(DatabaseConnector):
         any context manager):
         ``with bq.connection() as conn:``
 
-        Returns:
+        Yields:
             Google BigQuery ``connection`` object
 
         """
@@ -1762,9 +1762,6 @@ class GoogleBigQuery(DatabaseConnector):
                 Action if dataset doesn't exist {'fail','create'}
             if_table_exists: str
                 Action if table exists {'fail', 'overwrite'}
-
-        Returns:
-            None
 
         """
 

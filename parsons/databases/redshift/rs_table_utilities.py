@@ -114,11 +114,8 @@ class RedshiftTableUtilities:
                 Name of existing schema and table (e.g. ``my_schema.old_table``)
             new_table: str
                 New name of schema and table (e.g. ``my_schema.newtable``)
-            drop_original: boolean
+            drop_source_table: boolean
                 Drop the source table.
-
-        Returns:
-                None
 
         """
 
@@ -296,9 +293,6 @@ class RedshiftTableUtilities:
                 duplicate rows.
             view: boolean
                 Create a view rather than a static table
-
-        Returns:
-            None
 
         """
 

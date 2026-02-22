@@ -59,8 +59,14 @@ class Alchemy:
         table_object.metadata.create_all(self.generate_engine())
 
     @staticmethod
-    def split_table_name(full_table_name):
-        """Utility method to parse the schema and table name."""
+    def split_table_name(full_table_name: str) -> tuple[str, str] | None:
+        """
+        Parse the schema and table name.
+
+        Returns:
+            tuple[str, str]
+
+        """
 
         if "." not in full_table_name:
             return "public", full_table_name

@@ -156,8 +156,6 @@ class Signups:
                 The status_id to update
             location_id: int
                 The location_id to update
-        Returns:
-            ``None``
 
         """
 
@@ -183,8 +181,6 @@ class Signups:
         Args:
             event_signup_id: int
                 A valid event signup id
-        Returns:
-            ``None``
 
         """
 

@@ -68,8 +68,6 @@ class SupporterGroups:
         Args:
             supporter_group_id: int
                 The supporter group id
-        Returns:
-            ``None``
 
         """
 
@@ -86,8 +84,6 @@ class SupporterGroups:
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
-        Returns:
-            ``None``
 
         """
 
@@ -104,8 +100,6 @@ class SupporterGroups:
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
-        Returns:
-            ``None``
 
         """
 

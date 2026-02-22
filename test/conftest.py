@@ -73,6 +73,12 @@ def tbl(sample_data):
 
 @pytest.fixture
 def tmp_folder():
-    """Creates and cleans up a temporary folder"""
+    """
+    Create and clean up a temporary folder.
+
+    Yields:
+        str: path to generated temporary directory
+
+    """
     with TemporaryDirectory() as folder:
         yield folder

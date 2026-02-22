@@ -725,6 +725,13 @@ class TestTableTransformations:
     def test_stack(self, tbl):
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
+        tbl1.stack(tbl2)
+
+        expected_tbl = Table(petl.stack(tbl.table, tbl2.table))
+        assert_matching_tables(expected_tbl, tbl1)
+
+        tbl1 = tbl.select_rows(lambda x: x)
+        tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         # Different column names shouldn't matter for stack()
         tbl3 = Table([{"f": "Lucy", "l": "Peterson"}])
         tbl1.stack(tbl2, tbl3)

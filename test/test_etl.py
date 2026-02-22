@@ -933,7 +933,7 @@ class TestTableTransformations:
 
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table
-        with pytest.raises(AttributeError):
+        with pytest.raises(AttributeError, match="type object 'Table' has no attribute 'skipcomments'"):
             Table.skipcomments  # noqa: B018
 
         tbl = Table(

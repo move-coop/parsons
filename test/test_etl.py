@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import petl
 import pytest
@@ -345,21 +346,29 @@ class TestColumnOperations:
         tbl.fill_column("c", value)
         assert list(tbl.table["c"]) == expected
 
-    def test_fillna_column(self):
+    @pytest.mark.parametrize(
+        ("column_name", "fill_value", "expected"),
+        [
+            ("b", "string-value", ["string-value", 5, 8, "string-value", 14]),
+            ("c", 0, [3, 0, 9, 0, 15]),
+            ("c", lambda r: r["a"] + r["b"], [3, 9, 9, None, 15]),
+        ],
+        ids=["string", "integer", "callable"],
+    )
+    def test_fillna_column(self, column_name: str, fill_value: Any, expected: list[Any]):
         # Test that None values in the column are filled
 
         lst = [
-            {"a": 1, "b": 2, "c": 3},
+            {"a": 1, "b": None, "c": 3},
             {"a": 4, "b": 5, "c": None},
             {"a": 7, "b": 8, "c": 9},
-            {"a": 10, "b": 11, "c": None},
+            {"a": 10, "b": None, "c": None},
             {"a": 13, "b": 14, "c": 15},
         ]
 
-        # Fixed Value only
         tbl = Table(lst)
-        tbl.fillna_column("c", 0)
-        assert list(tbl.table["c"]) == [3, 0, 9, 0, 15]
+        tbl.fillna_column(column_name=column_name, fill_value=fill_value)
+        assert list(tbl.table[column_name]) == expected
 
     def test_move_column(self, tbl):
         # Test moving a column from end to front

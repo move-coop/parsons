@@ -113,10 +113,10 @@ def run_dbt_commands(
     dbt_command_results = dbt_runner.run()
 
     if loggers:
-        for logger in loggers:
-            if not isinstance(logger, dbtLogger):
+        for dbt_logger in loggers:
+            if not isinstance(dbt_logger, dbtLogger):
                 # Instantiate logger if not already instantiated
-                logger = logger()
-            logger.send(dbt_command_results)
+                dbt_logger = dbt_logger()
+            dbt_logger.send(dbt_command_results)
 
     return dbt_command_results

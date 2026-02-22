@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 import pytest
 from dbt.artifacts.resources.types import NodeType
+from dbt.contracts.graph.manifest import Manifest as dbtManifest
 from dbt.contracts.graph.manifest import ManifestMetadata
 from dbt.contracts.results import (
     ExecutionResult,
@@ -20,12 +21,8 @@ from parsons.utilities.dbt.models import Manifest
 
 
 @pytest.fixture
-def build_manifest(dbt_node_factory, mock_manifest_data: Callable[..., ExecutionResult]):
-    """
-    Fixture helper to build a Parsons Manifest wrapper.
-
-    Note: 'dbt_manifest' in the Parsons wrapper constructor actually expects a dbt ExecutionResult object.
-    """
+def build_manifest(dbt_node_factory, mock_manifest_data: Callable[..., dbtManifest]):
+    """Fixture helper to build a Parsons Manifest wrapper."""
 
     def _maker(status=NodeStatus.Success, elapsed=10.0, cmd="run"):
         node = dbt_node_factory(status=status)

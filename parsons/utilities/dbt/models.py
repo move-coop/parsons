@@ -3,13 +3,14 @@
 import collections
 
 from dbt.artifacts.resources.types import NodeType
+from dbt.contracts.graph.manifest import Manifest as dbtManifest
 from dbt.contracts.results import ExecutionResult, NodeResult, NodeStatus, SourceFreshnessResult
 
 
-class Manifest:
+class Manifest(ExecutionResult):
     """A wrapper for dbt execution results."""
 
-    def __init__(self, command: str, dbt_manifest: ExecutionResult) -> None:
+    def __init__(self, command: str, dbt_manifest: dbtManifest) -> None:
         self.command = command
         self.dbt_manifest = dbt_manifest
 
@@ -26,11 +27,12 @@ class Manifest:
             raise AttributeError(error_msg) from e
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
-        """Subset of results based on filter."""
+        """Subset of NodeResults based on filter."""
         filtered_results = [
             result
-            for result in self.dbt_manifest
-            if all(str(getattr(result, key)) == value for key, value in kwargs.items())
+            for result in self.results
+            if isinstance(result, NodeResult)
+            and all(str(getattr(result, key)) == value for key, value in kwargs.items())
         ]
         return filtered_results
 
@@ -70,22 +72,22 @@ class Manifest:
     def skips(self) -> list[NodeResult]:
         """Returns skipped model builds but not skipped tests."""
         return [
-            node
-            for node in self.filter_results(status=NodeStatus.Skipped)
-            if getattr(node.node, "resource_type", None) == NodeType.Model
+            result
+            for result in self.filter_results(status=NodeStatus.Skipped)
+            if getattr(result.node, "resource_type", None) == NodeType.Model
         ]
 
     @property
     def summary(self) -> collections.Counter:
         """Aggregates all node outcomes into a count of status strings."""
-        result = collections.Counter([str(i.status) for i in self.dbt_manifest])
+        result = collections.Counter([str(i.status) for i in self.results])
         return result
 
     @property
     def total_gb_processed(self) -> float:
         """Total GB processed by full dbt command run."""
         result = (
-            sum([node.adapter_response.get("bytes_processed", 0) for node in self.dbt_manifest])
+            sum([node.adapter_response.get("bytes_processed", 0) for node in self.results])
             / 1000000000
         )
         return result
@@ -93,9 +95,7 @@ class Manifest:
     @property
     def total_slot_hours(self) -> float:
         """Total slot hours used by full dbt command run."""
-        result = (
-            sum([node.adapter_response.get("slot_ms", 0) for node in self.dbt_manifest]) / 3600000
-        )
+        result = sum([node.adapter_response.get("slot_ms", 0) for node in self.results]) / 3600000
         return result
 
 

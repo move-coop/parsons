@@ -908,6 +908,19 @@ class TestTableTransformations:
         input_tbl.map_columns(column_map, exact_match=exact_match)
         assert_matching_tables(input_tbl, expected_tbl)
 
+    def test_map_and_coalesce_columns(self):
+        input_tbl = Table([["fn", "ln", "mi"], ["J", "B", "H"]])
+        expected_tbl = Table([["first_name", "last_name", "middle_name"], ["J", "B", "H"]])
+
+        column_map = {
+            "first_name": ["fn", "first"],
+            "last_name": ["last", "ln"],
+            "middle_name": ["mi"],
+        }
+
+        input_tbl.map_and_coalesce_columns(column_map=column_map)
+        assert_matching_tables(input_tbl, expected_tbl)
+
     @pytest.mark.parametrize(
         ("sort_column", "reverse", "expected_first"),
         [
@@ -947,7 +960,9 @@ class TestTableTransformations:
 
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table
-        with pytest.raises(AttributeError, match="type object 'Table' has no attribute 'skipcomments'"):
+        with pytest.raises(
+            AttributeError, match="type object 'Table' has no attribute 'skipcomments'"
+        ):
             Table.skipcomments  # noqa: B018
 
         tbl = Table(

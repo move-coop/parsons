@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            uv venv
+            uv venv --allow-existing
             source .venv/bin/activate
 
             uv pip install -r requirements-dev.txt

@@ -386,12 +386,9 @@ class ETL:
         """
 
         for key, value in column_map.items():
-            coalesce_list = value
             # if the column in the mapping dict isn't actually in the table,
             # remove it from the list of columns to coalesce
-            for item in coalesce_list:
-                if item not in self.columns:
-                    coalesce_list.remove(item)
+            coalesce_list = [item for item in value if item in self.columns]
             # if the key from the mapping dict already exists in the table,
             # rename it so it can be coalesced with other possible columns
             if key in self.columns:

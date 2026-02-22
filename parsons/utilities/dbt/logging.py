@@ -140,7 +140,7 @@ class dbtLoggerMarkdown(dbtLogger):
         now = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
         full_log_message += f"*dbt run {status} - {now}*"
 
-        total_duration = sum([command.elapsed_time for command in self.commands])
+        total_duration = sum(command.elapsed_time for command in self.commands)
         duration_time_str = human_readable_duration(total_duration)
         full_log_message += f"\n*Duration:* {duration_time_str}\n\n"
 

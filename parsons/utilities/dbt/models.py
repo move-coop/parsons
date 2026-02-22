@@ -63,7 +63,7 @@ class Manifest:
     def total_gb_processed(self) -> float:
         """Total GB processed by full dbt command run."""
         result = (
-            sum([node.adapter_response.get("bytes_processed", 0) for node in self.dbt_manifest])
+            sum(node.adapter_response.get("bytes_processed", 0) for node in self.dbt_manifest)
             / 1000000000
         )
         return result
@@ -72,7 +72,7 @@ class Manifest:
     def total_slot_hours(self) -> float:
         """Total slot hours used by full dbt command run."""
         result = (
-            sum([node.adapter_response.get("slot_ms", 0) for node in self.dbt_manifest]) / 3600000
+            sum(node.adapter_response.get("slot_ms", 0) for node in self.dbt_manifest) / 3600000
         )
         return result
 

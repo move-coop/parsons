@@ -243,7 +243,7 @@ class Sqlite(DatabaseConnector):
             for chunked_tbl in chunked_tbls:
                 cursor.executemany(
                     insert_sql,
-                    tuple([tuple(row.values()) for row in chunked_tbl]),
+                    tuple(tuple(row.values()) for row in chunked_tbl),
                 )
 
     def _cli_command(self, command: str) -> None:

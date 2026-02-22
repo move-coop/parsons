@@ -380,20 +380,33 @@ class TestColumnOperations:
         tbl.convert_column("first", "upper")
         assert tbl[0] == {"first": "BOB", "last": "Smith"}
 
-    def test_convert_columns_to_str(self):
-        # Test that all columns are string
-        mixed_raw = [
-            {"col1": 1, "col2": 2, "col3": 3},
-            {"col1": "one", "col2": 2, "col3": [3, "three", 3.0]},
-            {"col1": {"one": 1, "two": 2.0}, "col2": None, "col3": "three"},
-        ]
-        tbl = Table(mixed_raw)
-        tbl.convert_columns_to_str()
+    @pytest.mark.parametrize(
+        ("data", "expected_cols"),
+        [
+            ([], []),
+            (
+                [
+                    {"col1": 1, "col2": "a"},
+                    {"col1": "one", "col2": None},
+                    {"col1": [1, 2], "col2": 3.0},
+                ],
+                ["col1", "col2"],
+            ),
+            ([{"col1": "hello", "col2": "world"}], ["col1", "col2"]),
+        ],
+    )
+    def test_convert_columns_to_str(self, data: list[str | dict | int], expected_cols: list[str]):
+        """Test that all columns are string"""
+        tbl = Table(data)
+        result = tbl.convert_columns_to_str()
+        assert isinstance(result, Table)
 
-        cols = tbl.get_columns_type_stats()
-        type_set = {i for x in cols for i in x["type"]}
-        assert "str" in type_set
-        assert len(type_set) == 1
+        if tbl.num_rows > 0:
+            cols_stats = tbl.get_columns_type_stats()
+            for col in cols_stats:
+                assert col["type"] == ["str"], f"Column {col['name']} was not converted to str"
+        else:
+            assert tbl.num_rows == 0
 
     def test_convert_table(self, tbl):
         # Test that the table updates

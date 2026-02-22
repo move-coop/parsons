@@ -69,10 +69,3 @@ def sample_data():
 def tbl(sample_data):
     """Creates a Table from sample data"""
     return Table(sample_data["lst_dicts"])
-
-
-@pytest.fixture
-def tmp_folder():
-    """Creates and cleans up a temporary folder"""
-    with TemporaryDirectory() as folder:
-        yield folder

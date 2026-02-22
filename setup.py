@@ -33,6 +33,7 @@ EXTRA_DEPENDENCIES = {
     "braintree": ["braintree"],
     "catalist": ["paramiko"],
     "civis": ["civis"],
+    "dbt-duckdb": ["dbt-duckdb >= 1.8.0", "dbt-core>=1.8.0"],
     "dbt-redshift": ["dbt-redshift >= 1.8.0", "dbt-core>=1.8.0"],
     "dbt-bigquery": ["dbt-bigquery >= 1.8.0", "dbt-core>=1.8.0"],
     "dbt-postgres": ["dbt-postgres >= 1.8.0", "dbt-core>=1.8.0"],

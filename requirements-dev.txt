@@ -11,7 +11,7 @@ requests-mock==1.12.1
 ruff==0.13.0
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
-dbt-duckdb>=1.5.0
+dbt-duckdb>=1.8.0
 
 # Build and publish requirements
 build>=1.4.0

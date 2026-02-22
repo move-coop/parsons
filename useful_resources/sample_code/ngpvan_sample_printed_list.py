@@ -26,11 +26,14 @@ from parsons import VAN, GoogleSheets, Table
 def get_info_from_van(van_folder):
     """
     Creates dataframe of relavent turf information in given folder
+
     Args:
         van_folder: str
             The name of the folder in NGP VAN where printed lists are stored
+
     Returns:
         dataframe
+
     """
     # Instantiate class
     van = VAN(db="MyVoters")

@@ -121,8 +121,6 @@ class Bloomerang:
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`__.
 
-        Returns:
-
         """
         return self._base_create("constituent", **kwargs)
 
@@ -135,8 +133,6 @@ class Bloomerang:
                 Fields to update, e.g., FirstName = 'RJ'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`__.
-
-        Returns:
 
         """
         return self._base_update("constituent", entity_id=constituent_id, **kwargs)
@@ -204,8 +200,6 @@ class Bloomerang:
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`__.
 
-        Returns:
-
         """
         return self._base_create("transaction", **kwargs)
 
@@ -218,8 +212,6 @@ class Bloomerang:
                 Fields to update, e.g., CreditCardType = 'Visa'.
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`__.
-
-        Returns:
 
         """
         return self._base_update("transaction", entity_id=transaction_id, **kwargs)
@@ -311,8 +303,6 @@ class Bloomerang:
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`__.
 
-        Returns:
-
         """
         return self._base_create("interaction", **kwargs)
 
@@ -325,8 +315,6 @@ class Bloomerang:
                 Fields to update, e.g., EmailAddress = "user@example.com".
 
                 See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`__.
-
-        Returns:
 
         """
         return self._base_update("interaction", entity_id=interaction_id, **kwargs)

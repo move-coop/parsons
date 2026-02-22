@@ -344,7 +344,8 @@ class CatalistMatch:
 
         Result will be a Table with all the original columns along with columns 'DWID',
         'CONFIDENCE', 'ZIP9', and 'STATE'. The original column headers will be prepended
-        with 'COL#-'."""
+        with 'COL#-'.
+        """
         # Validate that the job is complete
         response = self.status(str(id))
         status = response["process"]["processState"]

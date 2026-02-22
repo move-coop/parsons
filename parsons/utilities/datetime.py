@@ -29,9 +29,7 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
 
 
 def convert_unix_to_readable(ts):
-    """
-    Converts UNIX timestamps to readable timestamps.
-    """
+    """Converts UNIX timestamps to readable timestamps."""
 
     ts = datetime.utcfromtimestamp(int(ts) / 1000)
     ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")

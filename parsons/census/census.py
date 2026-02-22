@@ -8,9 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class Census:
-    """
-    Class that creates a connector to the Census Bureau API
-    """
+    """Class that creates a connector to the Census Bureau API"""
 
     def __init__(self, api_key=None):
         """

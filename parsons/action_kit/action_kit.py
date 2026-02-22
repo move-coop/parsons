@@ -851,7 +851,7 @@ class ActionKit:
 
     def copy_mailer(self, mailer_id):
         """
-        copy a mailer
+        Copy a mailer
         returns new copy of mailer which should be updatable.
         """
         resp = self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")

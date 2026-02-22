@@ -28,9 +28,7 @@ class SqliteTable(BaseTable):
     sql_placeholder = "?"
 
     def truncate(self) -> None:
-        """
-        Truncate the table.
-        """
+        """Truncate the table."""
         self.db.query(f"delete from {self.table}")
         logger.info(f"{self.table} truncated.")
 

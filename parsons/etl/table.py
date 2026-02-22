@@ -20,7 +20,8 @@ class _EmptyDefault(Enum):
     This is used because Table(None) should not be allowed, but we
     need a default argument that isn't the mutable []
 
-    See https://stackoverflow.com/a/76606310 for discussion."""
+    See https://stackoverflow.com/a/76606310 for discussion.
+    """
 
     token = 0
 
@@ -117,9 +118,7 @@ class Table(ETL, ToFrom):
         return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
-        """
-        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
-        """
+        """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
 
         return self.table._repr_html_()
 

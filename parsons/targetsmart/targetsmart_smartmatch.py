@@ -92,9 +92,7 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor

@@ -1458,7 +1458,8 @@ class GoogleBigQuery(DatabaseConnector):
         """BigQuery schema generation based on contents of Parsons table.
 
         Not usually necessary to use this. BigQuery is able to
-        natively autodetect schema formats."""
+        natively autodetect schema formats.
+        """
         stats = tbl.get_columns_type_stats()
         fields = []
         for stat in stats:
@@ -1827,15 +1828,11 @@ class BigQueryTable(BaseTable):
     """BigQuery table object."""
 
     def drop(self, cascade=False):
-        """
-        Drop the table.
-        """
+        """Drop the table."""
 
         self.db.delete_table(self.table)
 
     def truncate(self):
-        """
-        Truncate the table.
-        """
+        """Truncate the table."""
 
         self.db.query(f"TRUNCATE TABLE {self.table}")

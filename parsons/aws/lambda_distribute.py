@@ -47,9 +47,7 @@ class S3Storage:
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
     def get_range(self, bucket, key, rangestart, rangeend):
-        """
-        Gets an explicit byte-range of an S3 file
-        """
+        """Gets an explicit byte-range of an S3 file"""
         # bytes is INCLUSIVE for the rangeend parameter, unlike python
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1

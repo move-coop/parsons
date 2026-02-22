@@ -251,9 +251,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 self.query_with_connection(sql, connection, commit=False)
 
     def _insert_statement(self, tbl, table_name):
-        """
-        Convert the table data into a string for bulk importing.
-        """
+        """Convert the table data into a string for bulk importing."""
 
         # Single column tables
         if len(tbl.columns) == 1:

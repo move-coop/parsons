@@ -147,7 +147,6 @@ def track_temp_file(path):
     """
     Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
 
-
     Args:
         path: str
             The path of the file to start tracking

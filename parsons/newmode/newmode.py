@@ -563,9 +563,7 @@ class NewmodeV2:
         override_api_version: str | None = None,
         retries: int = 2,
     ) -> list[dict[str, Any]]:
-        """
-        Wrapper method to handle pagination for API requests.
-        """
+        """Wrapper method to handle pagination for API requests."""
         if params is None:
             params = {}
         results = []

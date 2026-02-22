@@ -330,9 +330,7 @@ class APIConnector:
             return False
 
     def json_check(self, resp):
-        """
-        Check to see if a response has a json included in it.
-        """
+        """Check to see if a response has a json included in it."""
 
         try:
             resp.json()

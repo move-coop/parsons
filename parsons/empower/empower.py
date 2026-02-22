@@ -43,9 +43,7 @@ class Empower:
         self.data = self._get_data(cache)
 
     def _get_data(self, cache):
-        """
-        Gets fresh data from Empower API based on cache setting.
-        """
+        """Gets fresh data from Empower API based on cache setting."""
         if not cache or self.data is None:
             r = self.client.get_request(self.empower_uri)
             logger.info("Empower data downloaded.")
@@ -55,9 +53,7 @@ class Empower:
             return self.data
 
     def _empty_obj(self, obj_name):
-        """
-        Determine if a dict object is empty.
-        """
+        """Determine if a dict object is empty."""
 
         return len(self.data[obj_name]) == 0
 
@@ -128,9 +124,7 @@ class Empower:
         return tbl
 
     def _split_ctas(self):
-        """
-        Internal method to split CTA objects into tables.
-        """
+        """Internal method to split CTA objects into tables."""
 
         ctas = Table(self.data["ctas"])
         for col in [

@@ -163,7 +163,8 @@ def encode_from_dict(credential):
 )
 @click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress the output."))
 def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
-    """A command line tool to encode and decode credentials.
+    r"""
+    A command line tool to encode and decode credentials.
 
     Use this tool when the credentials for a service are split into multiple
     parts, and you'd rather deal with them as one variable. For example, to
@@ -178,17 +179,22 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
     space, the names of the environment variables to encode.
 
     Encoding examples:
-    \b
-    # Encoding a json string. Note: this assumes the output of json.dumps(str).
-    `python env_tools.py -e '{"key": "val", "key2": "val2"}'`
 
-    \b
-    # Encoding a json file.
-    `python env_tools.py -e -f /path/to/credentials.json`
+    ... code-block:: bash
+        :caption: Encoding a json string. Note: this assumes the output of json.dumps(str).
 
-    \b
-    # Encoding a list currenct environment variables.
-    `python env_tools.py -e env_var1,env_var2,env_ var3`
+        python env_tools.py -e '{"key": "val", "key2": "val2"}'
+
+    ... code-block:: bash
+        :caption: Encoding a json file.
+
+        python env_tools.py -e -f /path/to/credentials.json
+
+    ... code-block:: bash
+        :caption: Encoding a list currenct environment variables.
+
+        python env_tools.py -e env_var1,env_var2,env_ var3
+
     """
     if fn == "encode":
         if is_file:

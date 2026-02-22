@@ -2093,8 +2093,6 @@ class ActionNetwork:
             per_page:
                 Number of entries per page to return. 25 maximum.
 
-        Returns:
-
         """
         if page:
             return self._get_page("surveys", page, per_page, filter)

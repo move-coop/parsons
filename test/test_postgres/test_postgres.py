@@ -142,7 +142,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
         # Assert that an error is raised by an empty table
         empty_table = Table([["Col_1", "Col_2"]])
-        with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):  # noqa: PT011
+        with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):
             self.pg.create_statement(empty_table, "tmc.test")
 
 

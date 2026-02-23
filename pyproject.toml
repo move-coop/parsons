@@ -101,6 +101,7 @@ select = [
     "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
     "PT", # flake8-pytest-style (PT)
+    "RUF100", # unused-noqa
 ]
 ignore = [
     "E501", # line-too-long (E501)

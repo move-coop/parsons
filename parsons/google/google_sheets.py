@@ -57,7 +57,7 @@ class GoogleSheets:
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
                 return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
-            except Exception as e:  # noqa: E722
+            except Exception as e:
                 raise ValueError(f"Couldn't find worksheet {worksheet}") from e
 
         else:

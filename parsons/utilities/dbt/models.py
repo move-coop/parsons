@@ -56,7 +56,7 @@ class Manifest:
     @property
     def summary(self) -> collections.Counter:
         """Counts of pass, warn, fail, error & skip."""
-        result = collections.Counter([str(i.status) for i in self.dbt_manifest])
+        result = collections.Counter(str(i.status) for i in self.dbt_manifest)
         return result
 
     @property

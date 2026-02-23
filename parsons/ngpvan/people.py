@@ -460,7 +460,7 @@ class People:
         if self.connection.db_code == 0:
             expand_fields = [v for v in expand_fields if v not in NOT_IN_MYVOTERS]
 
-        expand_fields = ",".join([json_format.arg_format(f) for f in expand_fields])
+        expand_fields = ",".join(json_format.arg_format(f) for f in expand_fields)
 
         logger.info(f"Getting person with {id_type or 'vanid'} of {id} at url {url}")
         return self.connection.get_request(url, params={"$expand": expand_fields})

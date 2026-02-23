@@ -1128,7 +1128,7 @@ class Redshift(
                 logger.info(f"{target_table} vacuumed.")
 
     def drop_dependencies_for_cols(self, schema, table, cols):
-        fmt_cols = ", ".join([f"'{c}'" for c in cols])
+        fmt_cols = ", ".join(f"'{c}'" for c in cols)
         sql_depend = f"""
             select
                 distinct dependent_ns.nspname||'.'||dependent_view.relname as table_name
@@ -1157,7 +1157,7 @@ class Redshift(
             tbl = self.query_with_connection(sql_depend, connection)
             dropped_views = [row["table_name"] for row in tbl]
             if dropped_views:
-                sql_drop = "\n".join([f"drop view {view} CASCADE;" for view in dropped_views])
+                sql_drop = "\n".join(f"drop view {view} CASCADE;" for view in dropped_views)
                 tbl = self.query_with_connection(sql_drop, connection)
                 logger.info(f"Dropped the following views: {dropped_views}")
 

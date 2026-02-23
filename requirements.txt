@@ -18,7 +18,7 @@ google-cloud-storage-transfer==1.18.0
 google-cloud-storage==3.7.0
 grpcio==1.76.0
 gspread==6.2.1
-httplib2==0.30.0
+httplib2==0.31.2
 joblib==1.5.3
 mysql-connector-python==9.4.0
 newmode==0.1.6

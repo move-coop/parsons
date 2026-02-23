@@ -1,3 +1,4 @@
+import itertools
 import logging
 from functools import partial, wraps
 from pathlib import Path
@@ -105,14 +106,14 @@ class GitHub:
                 Table object created from the raw data of the list
         """
 
-        if page is not None:
-            page_start = (page - 1) * page_size
-            page_end = page_start + page_size
-            list_pages = paginated_list[page_start:page_end]
-        else:
-            list_pages = paginated_list
+        stream = (item._rawData for item in paginated_list)
 
-        return Table([list_item._rawData for list_item in list_pages])
+        if page is not None:
+            start = (page - 1) * page_size
+            stop = start + page_size
+            stream = itertools.islice(stream, start, stop)
+
+        return Table(list(stream))
 
     def get_user(self, username):
         """Loads a GitHub user by username

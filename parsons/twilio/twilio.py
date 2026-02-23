@@ -29,8 +29,9 @@ class Twilio:
         self.auth_token = check_env.check("TWILIO_AUTH_TOKEN", auth_token)
         self.client = Client(self.account_sid, self.auth_token)
 
-    def _table_convert(self, obj):
-        tbl = Table([x.__dict__["_properties"] for x in obj])
+    @staticmethod
+    def _table_convert(obj):
+        tbl = Table([x._properties for x in obj])
 
         if "subresource_uris" in tbl.columns and "uri" in tbl.columns:
             tbl.remove_column("subresource_uris", "uri")

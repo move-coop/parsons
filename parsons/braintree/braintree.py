@@ -1,3 +1,4 @@
+import itertools
 import logging
 
 import braintree
@@ -320,7 +321,7 @@ class Braintree:
             f"Braintree subscriptions search resulted in subscriptions count of {query_count}"
         )
         if just_ids:
-            return Table([("id",)] + [[item_id] for item_id in collection.ids])
+            return Table(list(itertools.chain([["id"]], ([i] for i in collection.ids))))
 
         # Iterating on collection.items triggers web requests in batches of 50 records
         # This can be frustratingly slow :-(
@@ -397,15 +398,20 @@ class Braintree:
         query_count = len(collection.ids)
         logger.info(f"Braintree transactions resulted in transaction count of {query_count}")
         if just_ids:
-            return Table([("id",)] + [[item_id] for item_id in collection.ids])
+            return Table(list(itertools.chain([["id"]], ([i] for i in collection.ids))))
 
         # Iterating on collection.items triggers web requests in batches of 50 records
         # This can be frustratingly slow :-(
         # Also note: Braintree will push you to their new GraphQL API,
-        #   but it, too, paginates with a max of 50 records
+        # but it, too, paginates with a max of 50 records
         logger.debug("Braintree transactions iterating to build transaction table")
         return Table(
-            [self._transaction_header()] + [self._transaction_to_row(r) for r in collection.items]
+            list(
+                itertools.chain(
+                    [self._transaction_header()],
+                    (self._transaction_to_row(r) for r in collection.items),
+                )
+            )
         )
 
     def _dispute_header(self):

@@ -42,6 +42,17 @@ class Manifest:
                 f"'{type(self).__name__}' object has no attribute '{key}'"
             ) from None
 
+    def __dir__(self) -> list[str]:
+        """Merge Manifest attributes with public RunExecutionResult and ManifestMetadata attributes."""
+        attrs = set(super().__dir__())
+        res = self.__dict__.get("run_execution_result")
+        if res:
+            attrs.update(attr for attr in dir(res) if not attr.startswith("_"))
+            metadata = getattr(res, "metadata", None)
+            if metadata:
+                attrs.update(attr for attr in dir(metadata) if not attr.startswith("_"))
+        return sorted(attrs)
+
     def filter_results(self, **kwargs) -> list[NodeResult]:
         """Subset of NodeResults based on filter."""
         filtered_results = [

@@ -3,16 +3,22 @@
 import collections
 
 from dbt.artifacts.resources.types import NodeType
-from dbt.contracts.graph.manifest import Manifest as dbtManifest
-from dbt.contracts.results import ExecutionResult, NodeResult, NodeStatus, SourceFreshnessResult
+from dbt.artifacts.schemas.run import RunExecutionResult
+from dbt.contracts.results import NodeResult, NodeStatus, SourceFreshnessResult
 
 
-class Manifest(ExecutionResult):
+class Manifest:
     """A wrapper for dbt execution results."""
 
-    def __init__(self, command: str, dbt_manifest: dbtManifest) -> None:
+    def __init__(
+        self,
+        command: str,
+        run_execution_result: RunExecutionResult,
+        *,
+        dbt_manifest: RunExecutionResult | None = None,
+    ) -> None:
         self.command = command
-        self.dbt_manifest = dbt_manifest
+        self.dbt_manifest = run_execution_result
 
     def __getattr__(self, key: str):
         """Proxies attribute access to the underlying dbt_manifest or its metadata."""

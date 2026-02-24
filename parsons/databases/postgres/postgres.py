@@ -34,11 +34,11 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 
     def __init__(
         self,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        host: Optional[str] = None,
-        db: Optional[str] = None,
-        port: Optional[int] = None,
+        username: str | None = None,
+        password: str | None = None,
+        host: str | None = None,
+        db: str | None = None,
+        port: int | None = None,
         timeout: int = 10,
     ) -> None:
         super().__init__()

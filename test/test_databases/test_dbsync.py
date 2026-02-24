@@ -10,7 +10,6 @@ from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.sqlite import Sqlite
 from test.conftest import assert_matching_tables, mark_live_test
 from test.test_databases.fakes import FakeDatabase
-from test.utils import assert_matching_tables
 
 _dir = Path(__file__).parent
 

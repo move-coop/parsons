@@ -14,7 +14,7 @@ class Manifest:
     def __init__(
         self,
         command: str,
-        run_execution_result: RunExecutionResult,
+        run_execution_result: RunExecutionResult | None = None,
         *,
         dbt_manifest: RunExecutionResult | None = None,
     ) -> None:

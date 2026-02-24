@@ -11,6 +11,13 @@ def postgres_container():
     Sets environment variables so that parsons.Postgres(port=None)
     connects to this container automatically.
     """
+    try:
+        import docker
+
+        docker.from_env().ping()
+    except Exception as e:
+        pytest.skip(f"Docker not available: {e}")
+
     container = PostgresContainer("postgres:9.5")
     try:
         container.start()

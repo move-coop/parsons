@@ -192,9 +192,7 @@ class TestSqliteDBSync(TestDBSync):
         self.destination_db = self.db(tempfile.mkstemp()[1])
 
 
-# These tests interact directly with the Postgres database. In order to run, set the
-# env to LIVE_TEST='TRUE'.
-@mark_live_test
+@pytest.mark.usefixtures("postgres_container")
 class TestPostgresDBSync(TestDBSync):
     db = Postgres
     setup_sql = f"""
@@ -206,8 +204,6 @@ class TestPostgresDBSync(TestDBSync):
     """
 
 
-# These tests interact directly with the Postgres database. In order to run, set the
-# env to LIVE_TEST='TRUE'.
 @mark_live_test
 class TestRedshiftDBSync(TestPostgresDBSync):
     db = Redshift

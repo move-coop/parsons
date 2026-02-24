@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from pathlib import Path
 
 import pytest
@@ -7,11 +6,6 @@ from dbt.artifacts.schemas.results import NodeResult
 
 from parsons.utilities.dbt.dbt import run_dbt_commands
 from parsons.utilities.dbt.logging import dbtLogger
-
-# Base dbt profile configurations
-CONNECTOR_CONFIGS = {
-    "duckdb": {"type": "duckdb", "path": "{project_dir}/test.duckdb"},
-}
 
 
 def write_yaml(path: Path, data: dict) -> None:
@@ -23,20 +17,19 @@ def write_yaml(path: Path, data: dict) -> None:
         data: The dictionary content to serialize into YAML.
 
     """
-    with path.open("w") as f:
-        yaml.dump(data, f)
+    path.write_text(yaml.dump(data))
 
 
-def resolve_config(config: dict, project_dir: Path) -> dict:
+def resolve_config(config: dict[str, str | dict], project_dir: Path) -> dict[str, str]:
     """
     Recursively replace placeholders in the config dictionary.
 
     Scan the dictionary for string values and apply `.format()` using
-    available context (e.g., project_dir). Allows connector-specific
+    available context (e.g., project_dir). Allows adapter-specific
     paths to be relative to the temporary test environment.
 
     Args:
-        config: The raw connector configuration dictionary.
+        config: The raw adapter configuration dictionary.
         project_dir: The Path object to inject into placeholders.
 
     Returns:
@@ -54,25 +47,22 @@ def resolve_config(config: dict, project_dir: Path) -> dict:
     return resolved
 
 
-def setup_dbt_files(proj_dir: Path, prof_dir: Path, connector_type: str) -> None:
+def setup_dbt_files(proj_dir: Path, prof_dir: Path, adapter_type: str, adapter_path: str) -> None:
     """
     Initialize a minimal dbt project structure on the filesystem.
 
     Creates the `dbt_project.yml`, `profiles.yml`, and a dummy model file
     required to execute dbt commands. The profile is dynamically generated
-    based on the provided connector type.
+    based on the provided adapter type.
 
     Args:
         proj_dir: Path to the dbt project root directory.
         prof_dir: Path to the directory where profiles.yml should reside.
-        connector_type: The key for the desired connector in CONNECTOR_CONFIGS.
-
-    Raises:
-        KeyError: If connector_type does not exist in CONNECTOR_CONFIGS.
+        adapter_type: The name of the desired adapter.
+        adapter_path: The path for the desired adapter.
 
     """
-    raw_config = CONNECTOR_CONFIGS[connector_type]
-    target_config = resolve_config(raw_config, proj_dir)
+    target_config = resolve_config({"type": adapter_type, "path": adapter_path}, proj_dir)
 
     write_yaml(
         proj_dir / "dbt_project.yml",
@@ -100,51 +90,40 @@ def setup_dbt_files(proj_dir: Path, prof_dir: Path, connector_type: str) -> None
     (models_dir / "dummy_model.sql").write_text("SELECT 1 as id")
 
 
-@pytest.fixture
-def dbt_env_factory(tmp_path: Path) -> Callable[[str], tuple[Path, Path]]:
+@pytest.fixture(
+    params=[
+        {"type": "duckdb", "path": "{project_dir}/test.duckdb"},
+    ],
+    ids=[
+        "duckdb",
+    ],
+)
+def dbt_env(request, tmp_path: Path) -> tuple[Path, Path]:
+    """Parameterized fixture that sets up a dbt environment for each adapter."""
+    config = request.param
+    adapter_type = config["type"]
+    adapter_path = config["path"]
+
+    # Unique directories per adapter to avoid collision
+    proj_dir = tmp_path / f"project_{adapter_type}"
+    prof_dir = tmp_path / f"profiles_{adapter_type}"
+    proj_dir.mkdir(parents=True)
+    prof_dir.mkdir(parents=True)
+
+    setup_dbt_files(proj_dir, prof_dir, adapter_type, adapter_path)
+
+    return proj_dir, prof_dir
+
+
+def test_run_dbt_commands_e2e(dbt_env: tuple[Path, Path]) -> None:
     """
-    Lazily initialize a dbt project for a specific adapter
-    (e.g., Redshift, Postgres) within a unique temporary directory.
+    Verify that dbt commands execute successfully across different database adapters.
 
     Args:
-        tmp_path: Built-in pytest fixture for temporary directory management.
-
-    Returns:
-        Callable[[str], tuple[Path, Path]]:
-            Take a connector_type string and return a tuple of
-            (project_directory, profile_directory).
+        dbt_env: The factory fixture to generate the project files.
 
     """
-
-    def _setup(connector_type: str) -> tuple[Path, Path]:
-        """
-        Take a connector_type string and return a tuple of
-        (project_directory, profile_directory).
-        """
-        proj_dir = tmp_path / f"project_{connector_type}"
-        prof_dir = tmp_path / f"profiles_{connector_type}"
-        proj_dir.mkdir(parents=True)
-        prof_dir.mkdir(parents=True)
-
-        setup_dbt_files(proj_dir, prof_dir, connector_type)
-        return proj_dir, prof_dir
-
-    return _setup
-
-
-@pytest.mark.parametrize("connector", ["duckdb"])
-def test_run_dbt_commands_e2e(
-    connector: str, dbt_env_factory: Callable[[str], tuple[Path, Path]]
-) -> None:
-    """
-    Verify that dbt commands execute successfully across different database connectors.
-
-    Args:
-        connector: The database adapter to test (parameterized).
-        dbt_env_factory: The factory fixture to generate the project files.
-
-    """
-    project_dir, profile_dir = dbt_env_factory(connector)
+    project_dir, profile_dir = dbt_env
 
     results = run_dbt_commands(
         commands=["run"], dbt_project_directory=project_dir, dbt_profile_directory=profile_dir
@@ -165,17 +144,16 @@ def test_run_dbt_commands_e2e(
         assert result.status == "success", f"Model {result.node.name} failed with {result.message}"
 
 
-def test_logger_integration(dbt_env_factory: Callable[[str], tuple[Path, Path]], mocker) -> None:
+def test_logger_integration(dbt_env: tuple[Path, Path], mocker) -> None:
     """
     Tests that the dbtLogger correctly captures and sends events during command execution.
 
     Args:
-        dbt_env_factory: The factory fixture to generate the project files.
+        dbt_env: The factory fixture to generate the project files.
         mocker: The pytest-mock fixture for spying on the logger.
 
     """
-    # Initialize a default environment (using duckdb for speed)
-    project_dir, profile_dir = dbt_env_factory("duckdb")
+    project_dir, profile_dir = dbt_env
     mock_logger = mocker.Mock(spec=dbtLogger)
 
     run_dbt_commands(

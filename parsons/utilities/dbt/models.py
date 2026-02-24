@@ -20,7 +20,6 @@ class Manifest:
     ) -> None:
         self.command = command
         self.run_execution_result = run_execution_result
-
         if self.run_execution_result is None and dbt_manifest is not None:
             self.run_execution_result = dbt_manifest
             warnings.warn(
@@ -28,7 +27,6 @@ class Manifest:
                 category=DeprecationWarning,
                 stacklevel=2,
             )
-
         if self.run_execution_result is None:
             raise Exception("missing run_execution_result")
 
@@ -37,7 +35,6 @@ class Manifest:
         metadata = getattr(res, "metadata", None)
         if metadata is not None and hasattr(metadata, key):
             return getattr(metadata, key)
-
         try:
             return getattr(res, key)
         except AttributeError:
@@ -63,10 +60,10 @@ class Manifest:
             category=DeprecationWarning,
             stacklevel=2,
         )
-
         return self.run_execution_result
 
-    def overall_status(self) -> str:
+    @property
+    def overall_status(self) -> NodeStatus:
         """
         Determine the overall state of the command.
 
@@ -76,13 +73,10 @@ class Manifest:
             return NodeStatus.Error
         if self.warnings:
             return NodeStatus.Warn
-
-        has_success = (
-            self.summary.get(NodeStatus.Success, 0) > 0 or self.summary.get(NodeStatus.Pass, 0) > 0
-        )
+        success_keys = (NodeStatus.Success, NodeStatus.Pass)
+        has_success = any(self.summary.get(k, 0) > 0 for k in success_keys)
         if self.skips and not has_success:
             return NodeStatus.Skipped
-
         return NodeStatus.Success
 
     @property
@@ -109,23 +103,20 @@ class Manifest:
     @property
     def summary(self) -> collections.Counter:
         """Aggregates all node outcomes into a count of status strings."""
-        result = collections.Counter([str(i.status) for i in self.results])
-        return result
+        return collections.Counter([NodeStatus(i.status) for i in self.results])
 
     @property
     def total_gb_processed(self) -> float:
         """Total GB processed by full dbt command run."""
-        result = (
+        return (
             sum([node.adapter_response.get("bytes_processed", 0) for node in self.results])
             / 1000000000
         )
-        return result
 
     @property
     def total_slot_hours(self) -> float:
         """Total slot hours used by full dbt command run."""
-        result = sum([node.adapter_response.get("slot_ms", 0) for node in self.results]) / 3600000
-        return result
+        return sum([node.adapter_response.get("slot_ms", 0) for node in self.results]) / 3600000
 
 
 class EnhancedNodeResult(NodeResult):
@@ -137,5 +128,4 @@ class EnhancedNodeResult(NodeResult):
             result = f"No new records for {int(self.age / 86400)} days, {self.status} after {time_config.count} {time_config.period}s."
         else:
             result = self.message
-
         return result

@@ -1,6 +1,7 @@
 """Pydantic data models for use with dbt utilities."""
 
 import collections
+import warnings
 
 from dbt.artifacts.resources.types import NodeType
 from dbt.artifacts.schemas.run import RunExecutionResult
@@ -18,19 +19,31 @@ class Manifest:
         dbt_manifest: RunExecutionResult | None = None,
     ) -> None:
         self.command = command
-        self.dbt_manifest = run_execution_result
+        self.run_execution_result = run_execution_result
+
+        if self.run_execution_result is None and dbt_manifest is not None:
+            self.run_execution_result = dbt_manifest
+            warnings.warn(
+                "dbt_manifest keyword is deprecated, use run_execution_result instead.",
+                category=DeprecationWarning,
+                stacklevel=2,
+            )
+
+        if self.run_execution_result is None:
+            raise Exception("missing run_execution_result")
 
     def __getattr__(self, key: str):
-        """Proxies attribute access to the underlying dbt_manifest or its metadata."""
-        metadata = getattr(self.dbt_manifest, "metadata", None)
-        if metadata is not None and key in getattr(metadata, "__dict__", {}):
+        res = self.__dict__.get("run_execution_result")
+        metadata = getattr(res, "metadata", None)
+        if metadata is not None and hasattr(metadata, key):
             return getattr(metadata, key)
 
         try:
-            return getattr(self.dbt_manifest, key)
-        except AttributeError as e:
-            error_msg = f"'{type(self).__name__}' object has no attribute '{key}'"
-            raise AttributeError(error_msg) from e
+            return getattr(res, key)
+        except AttributeError:
+            raise AttributeError(
+                f"'{type(self).__name__}' object has no attribute '{key}'"
+            ) from None
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
         """Subset of NodeResults based on filter."""
@@ -43,6 +56,16 @@ class Manifest:
         return filtered_results
 
     @property
+    def dbt_manifest(self) -> RunExecutionResult:
+        """Legacy proxy to new attribute."""
+        warnings.warn(
+            "dbt_manifest attribute is deprecated, use run_execution_result instead.",
+            category=DeprecationWarning,
+            stacklevel=2,
+        )
+
+        return self.run_execution_result
+
     def overall_status(self) -> str:
         """
         Determine the overall state of the command.

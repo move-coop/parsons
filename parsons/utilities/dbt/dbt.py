@@ -1,7 +1,7 @@
 """Core methods for running dbt commands."""
 
 import logging
-import pathlib
+from pathlib import Path
 
 from dbt.cli.main import dbtRunner, dbtRunnerResult
 
@@ -15,21 +15,22 @@ class dbtRunnerParsons:
     def __init__(
         self,
         commands: str | list[str],
-        dbt_project_directory: pathlib.Path,
-        dbt_profile_directory: pathlib.Path | None = None,
+        dbt_project_directory: Path,
+        dbt_profile_directory: Path | None = None,
     ) -> None:
         """Initialize dbtRunner with commands and a working directory.
 
-        `Args:`
+        Args:
             commands: Union[str, list[str]]
                 A single dbt command string or a list of dbt command
                 strings.
                 e.g. ["seed", "build -s models/staging", "test"]
-            dbt_project_directory: pathlib.Path
+            dbt_project_directory: Path
                 The path to find the dbt project, as a working
                 directory for dbt commands to run
-            dbt_profile_directory: pathlib.Path, optional
+            dbt_profile_directory: Path, optional
                 The path to find the dbt profile
+
         """
         if isinstance(commands, str):
             commands = [commands]
@@ -43,7 +44,7 @@ class dbtRunnerParsons:
 
         for command in self.commands:
             result = self.execute_dbt_command(command)
-            if result.dbt_manifest:
+            if result.run_execution_result:
                 results.append(result)
 
         return results
@@ -64,59 +65,53 @@ class dbtRunnerParsons:
 
         # run the command
         result: dbtRunnerResult = dbt.invoke(cli_args)
-        manifest = Manifest(command=command, dbt_manifest=result.result)
-
         if result.exception:
             raise result.exception
 
-        return manifest
+        return Manifest(command=command, run_execution_result=result.result)
 
 
 def run_dbt_commands(
     commands: str | list[str],
-    dbt_project_directory: pathlib.Path,
-    dbt_profile_directory: pathlib.Path | None = None,
+    dbt_project_directory: Path,
+    dbt_profile_directory: Path | None = None,
     loggers: list[dbtLogger | type[dbtLogger]] | None = None,
 ) -> list[Manifest]:
     """Executes dbt commands within a directory, optionally logs results.
 
-    Parameters:
-    -----------
-    commands : Union[str, list[str]]
-        A single dbt command as a string or a list of dbt commands to
-        be executed.
+    .. code-block:: python
 
-    dbt_project_directory : pathlib.Path
-        The path to the dbt project directory where the commands will
-        be executed.
+        from pathlib import Path
+        from parsons.utilities.dbt import (
+            run_dbt_commands,
+            dbtLoggerSlack,
+            dbtLoggerPython
+        )
+        results = run_dbt_commands(
+            commands=["dbt run", "dbt test"],
+            dbt_project_directory=Path("/path/to/dbt/project"),
+            loggers=[dbtLoggerPython, dbtLoggerSlack]
+        )
 
-    dbt_profile_directory: pathlib.Path, optional
-        The path to find the dbt profile
-
-    loggers : Optional[list[Union[dbtLogger, Type[dbtLogger]]]], default=None
-        A list of logger instances or logger classes. If classes are
-        provided, they will be instantiated.  Each logger should have
-        a `send` method that takes the dbt command results as an
-        argument.
+    Args:
+        commands : Union[str, list[str]]
+            A single dbt command as a string or a list of dbt commands to
+            be executed.
+        dbt_project_directory : Path
+            The path to the dbt project directory where the commands will
+            be executed.
+        dbt_profile_directory: Path, optional
+            The path to find the dbt profile
+        loggers : Optional[list[Union[dbtLogger, Type[dbtLogger]]]], default=None
+            A list of logger instances or logger classes. If classes are
+            provided, they will be instantiated.  Each logger should have
+            a `send` method that takes the dbt command results as an
+            argument.
 
     Returns:
-    --------
-    list[Manifest]
-        A list of result objects from the executed dbt commands.
+        list[Manifest]
+            A list of result objects from the executed dbt commands.
 
-    Example:
-    --------
-    >>> from pathlib import Path
-    >>> from parsons.utilities.dbt import (
-    ...     run_dbt_commands,
-    ...     dbtLoggerSlack,
-    ...     dbtLoggerPython
-    ... )
-    >>> results = run_dbt_commands(
-    ...     commands=["dbt run", "dbt test"],
-    ...     dbt_project_directory=Path("/path/to/dbt/project"),
-    ...     loggers=[dbtLoggerPython, dbtLoggerSlack]
-    ... )
     """
     dbt_runner = dbtRunnerParsons(
         commands=commands,

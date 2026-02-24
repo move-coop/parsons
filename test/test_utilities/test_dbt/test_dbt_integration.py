@@ -20,10 +20,10 @@ class TestDbtCoreAPICompatibility:
         ],
     )
     def test_dbt_core_attribute_presence(
-        self, dbt_node_factory, mock_manifest_data, obj_type, attr_name
+        self, dbt_node_factory, run_execution_result_factory, obj_type, attr_name
     ):
         """Verify that dbt-core objects maintain the attributes Parsons depends on."""
-        target = dbt_node_factory() if obj_type == "node" else mock_manifest_data(results=[])
+        target = dbt_node_factory() if obj_type == "node" else run_execution_result_factory()
         assert hasattr(target, attr_name), f"{obj_type.capitalize()}Result missing '{attr_name}'"
 
     @pytest.mark.parametrize(
@@ -42,7 +42,7 @@ class TestDbtCoreAPICompatibility:
 class TestManifestDbtCoreIntegration:
     """Test suite for Manifest wrapper integration with concrete dbt-core objects."""
 
-    def test_manifest_e2e_processing(self, dbt_node_factory, mock_manifest_data):
+    def test_manifest_e2e_processing(self, dbt_node_factory, run_execution_result_factory):
         """Verify Manifest extracts and computes data correctly from real dbt-core structures."""
         nodes = [
             dbt_node_factory(status=NodeStatus.Success, bytes_processed=2 * 10**9),
@@ -53,18 +53,20 @@ class TestManifestDbtCoreIntegration:
                 status=NodeStatus.Skipped, name="skipped_test", resource_type=NodeType.Test
             ),
         ]
-        dbt_obj = mock_manifest_data(results=nodes)
-        manifest = Manifest(command="run", dbt_manifest=dbt_obj)
+        dbt_obj = run_execution_result_factory(nodes)
+        manifest = Manifest(command="run", run_execution_result=dbt_obj)
 
         assert manifest.total_gb_processed == 2.0
         assert manifest.summary[NodeStatus.Success] == 1
+
         assert len(manifest.skips) == 1
         assert manifest.skips[0].node.name == "skipped_model"
+        assert manifest.skips[0].node.resource_type == NodeType.Model
 
-    def test_manifest_metadata_proxy(self, mock_manifest_data):
+    def test_manifest_metadata_proxy(self, run_execution_result_factory):
         """Verify __getattr__ correctly proxies to concrete ManifestMetadata."""
-        dbt_obj = mock_manifest_data(results=[])
-        manifest = Manifest(command="run", dbt_manifest=dbt_obj)
+        dbt_obj = run_execution_result_factory()
+        manifest = Manifest(command="run", run_execution_result=dbt_obj)
 
         assert manifest.project_id == "parsons_project"
         assert hasattr(manifest, "generated_at")

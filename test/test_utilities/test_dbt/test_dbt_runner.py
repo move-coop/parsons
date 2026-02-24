@@ -1,12 +1,10 @@
-"""
-Tests for the dbtRunnerParsons wrapper class.
+from collections.abc import Callable
+from pathlib import Path
+from unittest.mock import MagicMock, patch
 
-Tests the core functionality of the dbtRunnerParsons wrapper,
-focusing on command execution, argument parsing, and integration
-with the dbt-core Python API.
-"""
-
-from unittest.mock import Mock, patch
+import pytest
+from dbt.artifacts.schemas.run import RunExecutionResult
+from dbt.cli.exceptions import DbtInternalException
 
 from parsons.utilities.dbt.dbt import dbtRunnerParsons
 
@@ -14,57 +12,67 @@ from parsons.utilities.dbt.dbt import dbtRunnerParsons
 class TestDbtRunnerParsons:
     """Test suite for the dbtRunnerParsons wrapper class."""
 
-    @patch("parsons.utilities.dbt.dbt.dbtRunner")
-    def test_execute_dbt_command_strips_dbt_prefix(self, mock_runner_class, tmp_path):
-        """
-        Verify that execute_dbt_command removes 'dbt' prefix from CLI commands.
-
-        The dbt Python API expects command arguments without the 'dbt' prefix
-        (e.g., ['run'] instead of ['dbt', 'run']). This test ensures the wrapper
-        properly strips the prefix when present.
-        """
+    @pytest.mark.parametrize(
+        ("input_cmd", "expected_cmd_start", "first_injected_flag"),
+        [
+            ("dbt run", "run", 1),
+            ("run", "run", 1),
+            ("dbt test --select model_a", "test", 3),
+        ],
+    )
+    @patch("parsons.utilities.dbt.dbt.dbtRunner", autospec=True)
+    def test_execute_dbt_command_args_construction(
+        self,
+        mock_runner_class,
+        tmp_path: Path,
+        input_cmd: str,
+        expected_cmd_start: str,
+        first_injected_flag: int,
+        run_execution_result_factory: Callable[..., RunExecutionResult],
+    ):
+        """Verify CLI string is correctly tokenized and flags are injected."""
+        # Setup the mock dbtRunner.invoke return value
         mock_runner_inst = mock_runner_class.return_value
-        mock_runner_inst.invoke.return_value = Mock(result=Mock(), exception=None)
 
-        runner = dbtRunnerParsons(commands="dbt run", dbt_project_directory=tmp_path)
-        runner.execute_dbt_command("dbt run")
+        # We use our factory to create a REAL RunExecutionResult
+        # because the Manifest class expects it.
+        mock_execution_data = run_execution_result_factory()
+        mock_runner_inst.invoke.return_value = MagicMock(result=mock_execution_data, exception=None)
 
-        args = mock_runner_inst.invoke.call_args[0][0]
-        assert "dbt" not in args, "Command should not contain 'dbt' prefix"
-        assert "run" in args, "Command should contain 'run' argument"
+        profile_path = Path("/path/to/profiles")
 
-    @patch("parsons.utilities.dbt.dbt.dbtRunner")
-    def test_execute_dbt_command_adds_project_directory(self, mock_runner_class, tmp_path):
-        """
-        Verify that execute_dbt_command injects --project-dir argument.
+        runner = dbtRunnerParsons(
+            commands=input_cmd,
+            dbt_project_directory=tmp_path,
+            dbt_profile_directory=profile_path,
+        )
 
-        The wrapper should automatically add the --project-dir flag with the
-        configured directory path to every command execution.
-        """
+        manifest = runner.execute_dbt_command(input_cmd)
+
+        actual_args = mock_runner_inst.invoke.call_args[0][0]
+
+        # Assertions for prefix removal and command
+        assert "dbt" not in actual_args
+        assert actual_args[0] == expected_cmd_start
+
+        # Assertions for injected flags
+        assert actual_args[first_injected_flag] == "--project-dir"
+        assert actual_args[first_injected_flag + 1] is str(tmp_path)
+        assert actual_args[first_injected_flag + 2] == "--profiles-dir"
+        assert actual_args[first_injected_flag + 3] is str(profile_path)
+
+        # Verify Manifest was created correctly
+        assert manifest.run_execution_result == mock_execution_data
+
+    @patch("parsons.utilities.dbt.dbt.dbtRunner", autospec=True)
+    def test_execute_dbt_command_raises_exception(self, mock_runner_class, tmp_path: Path):
+        """Verify that dbtRunnerResult.exception is raised if it exists."""
         mock_runner_inst = mock_runner_class.return_value
-        mock_runner_inst.invoke.return_value = Mock(result=Mock(), exception=None)
+        mock_runner_inst.invoke.return_value = MagicMock(
+            result=None, exception=DbtInternalException("dbt profile not found")
+        )
 
         runner = dbtRunnerParsons(commands="run", dbt_project_directory=tmp_path)
-        runner.execute_dbt_command("run")
 
-        args = mock_runner_inst.invoke.call_args[0][0]
-        assert "--project-dir" in args, "Command should include --project-dir flag"
-        assert str(tmp_path) in args, "Command should include project directory path"
-
-    @patch("parsons.utilities.dbt.dbt.dbtRunner")
-    def test_execute_dbt_command_handles_commands_without_prefix(self, mock_runner_class, tmp_path):
-        """
-        Verify that commands without 'dbt' prefix are handled correctly.
-
-        Users may provide commands with or without the 'dbt' prefix. This test
-        ensures both formats work correctly.
-        """
-        mock_runner_inst = mock_runner_class.return_value
-        mock_runner_inst.invoke.return_value = Mock(result=Mock(), exception=None)
-
-        runner = dbtRunnerParsons(commands="run", dbt_project_directory=tmp_path)
-        runner.execute_dbt_command("run")
-
-        args = mock_runner_inst.invoke.call_args[0][0]
-        assert "run" in args, "Command should contain 'run' argument"
-        assert args.count("run") == 1, "Command should only contain 'run' once"
+        with pytest.raises(DbtInternalException, match="dbt profile not found"):
+            runner.execute_dbt_command("run")

@@ -45,7 +45,7 @@ class TestGoogleSheets(unittest.TestCase):
     def test_read_nonexistent_worksheet(self):
         bogus_title = "abc123"
         with pytest.raises(gspread.exceptions.APIError, match="Couldn't find worksheet"):
-            self.google_sheets.get_worksheet(bogus_title)
+            self.google_sheets.read_sheet(bogus_title)
 
     def test_create_spreadsheet(self):
         # Created as part of setUp

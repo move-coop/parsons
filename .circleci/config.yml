@@ -86,4 +86,4 @@ jobs:
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
 
-            npx gh-pages@2.0.1 --dist docs/html --message "[skip ci] Updates" --dotfiles
+            npx gh-pages@6.3.0 --dist docs/html --message "[skip ci] Updates" --dotfiles

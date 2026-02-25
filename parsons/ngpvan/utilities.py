@@ -13,9 +13,7 @@ def action_parse(action):
 
 
 def list_to_string(string_arg):
-    """
-    Some methods arguments parsing of a list to a string.
-    """
+    """Some methods arguments parsing of a list to a string."""
 
     if string_arg:
         return ".".join(string_arg)

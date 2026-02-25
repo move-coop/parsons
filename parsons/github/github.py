@@ -74,6 +74,7 @@ class GitHub:
         access_token: Optional[str]
             Access token to use for credentials. Can be set with ``GITHUB_ACCESS_TOKEN`` environment
             variable.
+
     """
 
     def __init__(self, username=None, password=None, access_token=None):
@@ -104,6 +105,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table object created from the raw data of the list
+
         """
 
         stream = (item._rawData for item in paginated_list)
@@ -125,6 +127,7 @@ class GitHub:
         Returns:
             dict
                 User information
+
         """
 
         return self.client.get_user(username).raw_data
@@ -139,6 +142,7 @@ class GitHub:
         Returns:
             dict
                 Organization information
+
         """
 
         return self.client.get_organization(organization_name).raw_data
@@ -153,6 +157,7 @@ class GitHub:
         Returns:
             dict
                 Repo information
+
         """
 
         return self.client.get_repo(repo_name).raw_data
@@ -171,6 +176,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table with page of user repos
+
         """
 
         logger.info(f"Listing page {page} of repos for user {username}")
@@ -193,6 +199,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table with page of organization repos
+
         """
 
         logger.info(f"Listing page {page} of repos for organization {organization_name}")
@@ -215,6 +222,7 @@ class GitHub:
         Returns:
             dict
                 Issue information
+
         """
 
         return self.client.get_repo(repo_name).get_issue(number=issue_number).raw_data
@@ -263,6 +271,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table with page of repo issues
+
         """
 
         if labels is None:
@@ -299,6 +308,7 @@ class GitHub:
         Returns:
             dict
                 Pull request information
+
         """
 
         return self.client.get_repo(repo_name).get_pull(pull_request_number).raw_data
@@ -335,6 +345,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table with page of repo pull requests
+
         """
 
         logger.info(f"Listing page {page} of pull requests for repo {repo_name}")
@@ -363,6 +374,7 @@ class GitHub:
         Returns:
             ``Table``
                 Table with page of repo contributors
+
         """
 
         logger.info(f"Listing page {page} of contributors for repo {repo_name}")
@@ -397,6 +409,7 @@ class GitHub:
         Returns:
             str
                 File path of downloaded file
+
         """
 
         if not local_path:
@@ -450,6 +463,7 @@ class GitHub:
         Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         downloaded_file = self.download_file(repo_name, path, branch, local_path)
 

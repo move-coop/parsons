@@ -16,7 +16,8 @@ class ParsonsBraintreeError(Exception):
 class Braintree:
     """
     Braintree is a payment processor.
-    `Args:`
+
+    Args:
         merchant_id: str
             Braintree merchant id -- probably a 16-char alphanumeric.
             Not required if ``BRAINTREE_MERCHANT_ID`` env variable is set.
@@ -32,8 +33,10 @@ class Braintree:
         production: bool
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
-    `Returns:`
+
+    Returns:
         Braintree class
+
     """
 
     query_types = {
@@ -206,7 +209,7 @@ class Braintree:
         There are three ways to pass query arguments: Pass a start_date and end_date
         together for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             start_date: date or str
                 Start date of the dispute range. Requires `end_date` arg. e.g. '2020-11-03'
             end_date: date or str
@@ -219,17 +222,18 @@ class Braintree:
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
-                    .. highlight:: python
+
                     .. code-block:: python
 
-                      # The start_date/end_date arguments are the same as
-                      {"effective_date": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                        # The start_date/end_date arguments are the same as
+                        {"effective_date": {"between": [start_date, end_date]}}
+                        # some other examples
+                        {"merchant_account_id": {"in_list": [123, 456]}}
+                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "dispute",
@@ -266,7 +270,7 @@ class Braintree:
         Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             start_date: date or str
                 Start date of the subscription range. Requires `end_date` arg.
                 e.g. '2020-11-03'
@@ -281,14 +285,15 @@ class Braintree:
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
-                    .. highlight:: python
+
                     .. code-block:: python
 
-                      # The start_date/end_date arguments are the same as
-                      {"created_at": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                        # The start_date/end_date arguments are the same as
+                        {"created_at": {"between": [start_date, end_date]}}
+                        # some other examples
+                        {"merchant_account_id": {"in_list": [123, 456]}}
+                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+
             include_transactions: bool
                 If this is true, include the full collection of transaction objects.
                 Otherwise, just return a list of transaction IDs.
@@ -302,8 +307,10 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
-        `Returns:`
+
+        Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "subscription",
@@ -348,7 +355,7 @@ class Braintree:
         Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
-        `Args:`
+        Args:
             disbursement_start_date: date or str
                 Start date of the disbursement range. Requires `disbursement_end_date` arg.
                 e.g. '2020-11-03'
@@ -363,14 +370,15 @@ class Braintree:
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
-                    .. highlight:: python
+
                     .. code-block:: python
 
-                      # The disbursement_start_date/disbursement_end_date arguments are the same as
-                      {"disbursement_date": {"between": [start_date, end_date]}}
-                      # some other examples
-                      {"merchant_account_id": {"in_list": [123, 456]}}
-                      {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                        # The disbursement_start_date/disbursement_end_date arguments are the same as
+                        {"disbursement_date": {"between": [start_date, end_date]}}
+                        # some other examples
+                        {"merchant_account_id": {"in_list": [123, 456]}}
+                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+
             just_ids: bool
                 While querying a list of transaction ids is a single, fast query to Braintree's API,
                 getting all data for each transaction is force-paginated at 50-records per request.
@@ -381,8 +389,10 @@ class Braintree:
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
-        `Returns:`
+
+        Returns:
             Table Class
+
         """
         collection = self._get_collection(
             "transaction",
@@ -515,6 +525,7 @@ class Braintree:
         disbursement_date={'between': ['2020-03-20', '2020-03-27']}
         merchant_account_id={'in_list': [123, 456]}
         created_at={'greater_than_or_equal': '2020-03-10'}
+
         """
         queries = []
         for node, filters in queryparams.items():

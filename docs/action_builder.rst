@@ -1,5 +1,5 @@
 Action Builder
-==========
+==============
 
 ********
 Overview
@@ -12,14 +12,15 @@ create custom record types. For more information, see
 `Action Builder developer docs <https://www.actionbuilder.org/docs/v1/index.html>`_
 
 .. note::
+
   Custom Fields/Tags
-  	Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
-  	means that, with a couple exceptions such as date, values must be created ahead of time to be
-  	applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
-  	differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
-  	``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
-  	``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
-  	applied on Connections as well as on Entities.
+    Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
+    means that, with a couple exceptions such as date, values must be created ahead of time to be
+    applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
+    differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
+    ``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
+    ``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
+    applied on Connections as well as on Entities.
 
 ***********
 Quick Start
@@ -42,47 +43,51 @@ may be passed to individual methods, instead.
    bldr = ActionBuilder(api_token='MY_API_TOKEN', subdomain='yourorgsubdomain')
 
    # Third approach: Include campaign argument
-	bldr = ActionBuilder(
-		api_token = 'MY_API_TOKEN',
-		subdomain = 'yourorgsubdomain',
-		campaign = 'your-desired-campaign-id'
-	)   
+    bldr = ActionBuilder(
+        api_token = 'MY_API_TOKEN',
+        subdomain = 'yourorgsubdomain',
+        campaign = 'your-desired-campaign-id'
+    )
 
 You can then call various endpoints:
 
 .. code-block:: python
-	# Assuming instantiation with campaign provided
 
-	# List all tags stored in the provided Action Builder campaign
-	all_tags = bldr.get_campaign_tags()
+    # Assuming instantiation with campaign provided
 
-	# Add a new tag value to the options available for the the field
-	bldr.insert_new_tag(
-		tag_name = 'Mom's Phone', # This is new
-		tag_field = 'Favorite Toy', # This would already exist, created in the UI
-		tag_section = 'Preferences' # This would already exist, created in the UI
-	)
+    # List all tags stored in the provided Action Builder campaign
+    all_tags = bldr.get_campaign_tags()
 
-	# Add a person record to the provided Action Builder campaign
-	bldr.upsert_entity(
-		entity_type = 'Person',
-		data = {"person": {"given_name": "Rory"}}
-	)
+    # Add a new tag value to the options available for the the field
+    bldr.insert_new_tag(
+        tag_name = 'Mom's Phone', # This is new
+        tag_field = 'Favorite Toy', # This would already exist, created in the UI
+        tag_section = 'Preferences' # This would already exist, created in the UI
+    )
 
-	# Connect two records and apply some tags to the Connection
-	tag_data = { # All of the values below must already have been created
-		"action_builder:name": "Friend of the Family",
-		"action_builder:field": "Relationship",
-		"action_builder:section": "People to People Info"
-	}
-	
-	bldr.upsert_connection(
-		["entity-interact-id-1", "entity-interact-id-2"], # Any two entity IDs
-		tag_data = tag_data
-	)
+    # Add a person record to the provided Action Builder campaign
+    bldr.upsert_entity(
+        entity_type = 'Person',
+        data = {"person": {"given_name": "Rory"}}
+    )
+
+    # Connect two records and apply some tags to the Connection
+    tag_data = { # All of the values below must already have been created
+        "action_builder:name": "Friend of the Family",
+        "action_builder:field": "Relationship",
+        "action_builder:section": "People to People Info"
+    }
+
+    bldr.upsert_connection(
+        ["entity-interact-id-1", "entity-interact-id-2"], # Any two entity IDs
+        tag_data = tag_data
+    )
 
 ***
 API
 ***
-.. autoclass :: parsons.ActionBuilder
+
+.. autoclass:: parsons.action_builder.action_builder.ActionBuilder
    :inherited-members:
+   :members:
+   

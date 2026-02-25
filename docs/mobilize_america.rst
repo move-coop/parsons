@@ -10,10 +10,11 @@ This class provides several methods for fetching organizations, people, and even
 `API <https://github.com/mobilizeamerica/api#mobilizeamerica-api>`_, which is currently in alpha development.
 
 .. note::
-   Authentication
-    Some methods in the ``MobilizeAmerica`` class require an API Key furnished by Mobilize America (private methods),
-    while others do not (public methods). Each method in this class contains a note indicating whether it is public
-    or private. For more information, see the `API documentation <https://github.com/mobilizeamerica/api#authentication>`_.
+
+    Authentication
+      Some methods in the ``MobilizeAmerica`` class require an API Key furnished by Mobilize America (private methods),
+      while others do not (public methods). Each method in this class contains a note indicating whether it is public
+      or private. For more information, see the `API documentation <https://github.com/mobilizeamerica/api#authentication>`_.
 
 **********
 Quickstart
@@ -47,5 +48,7 @@ variable ``MOBILIZE_AMERICA_API_KEY`` or by passing an ``api_key`` argument as s
 API
 ***
 
-.. autoclass :: parsons.MobilizeAmerica
+.. autoclass:: parsons.mobilize_america.ma.MobilizeAmerica
    :inherited-members:
+   :members:
+   

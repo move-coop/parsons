@@ -18,8 +18,9 @@ class ChangedEntities:
         """
         Get changed entity resources available to the API user.
 
-        `Returns:`
+        Returns:
             list
+
         """
 
         r = self.connection.get_request("changedEntityExportJobs/resources")
@@ -30,11 +31,12 @@ class ChangedEntities:
         """
         Get export fields avaliable for each changed entity resource.
 
-        `Args:`
+        Args:
             resource_type: str
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
@@ -53,7 +55,7 @@ class ChangedEntities:
         """
         Get modified records for VAN from up to 90 days in the past.
 
-        `Args:`
+        Args:
             resource_type: str
                 The type of resource to export. Use the :py:meth:`~parsons.ngpvan.changed_entities.ChangedEntities.get_changed_entity_resources`
                 to get a list of potential entities.
@@ -72,9 +74,10 @@ class ChangedEntities:
             custom_fields: list
                 A list of ids of custom fields to include in the export.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         json = {

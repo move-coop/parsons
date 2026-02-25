@@ -34,5 +34,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Auth0
+.. autoclass:: parsons.auth0.auth0.Auth0
    :inherited-members:
+   :members:
+   

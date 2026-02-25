@@ -92,9 +92,7 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor
@@ -161,7 +159,7 @@ class SmartMatch:
         from this location. You may delete this data when it is no longer
         needed.
 
-        `Args:`
+        Args:
             input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
             disable_automatic_matchback_id_creation: bool
@@ -184,13 +182,14 @@ class SmartMatch:
                 Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
-        `Returns:`
+        Returns:
             Parsons Table
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
                 See :ref:`parsons-table` for output options.
+
         """
 
         # If `input_table` is a Parsons table, convert it to a Petl table.

@@ -83,6 +83,23 @@ jobs:
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
 
-            touch docs/html/.nojekyll
+            npm set prefix=/home/circleci/npm
+            export PATH=/home/circleci/npm/bin:$PATH
 
-            npx gh-pages@6.3.0 --dist docs/html --message "[skip ci] Updates" --dotfiles
+            OPTIONS=(
+              "--dist" "docs/html"
+              "--message" "[skip ci] Updates"
+              "--dotfiles"
+              "--nojekyll"
+            )
+            if [ "$CIRCLE_BRANCH" != "main" ]; then
+              echo "Verifying gh-pages execution without publishing."
+
+              FAKE_REMOTE="/tmp/fake-remote"
+              mkdir -p "$FAKE_REMOTE"
+              git init --bare "$FAKE_REMOTE"
+              npx gh-pages@6.3.0 "${OPTIONS[@]}" --repo "$FAKE_REMOTE"
+            else
+              echo "Publishing with gh-pages."
+              npx gh-pages@6.3.0 "${OPTIONS[@]}"
+            fi

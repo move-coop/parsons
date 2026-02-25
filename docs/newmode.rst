@@ -45,6 +45,12 @@ API
 ***
 
 .. autoclass:: parsons.newmode.newmode.Newmode
-   :inherited-members:
    :members:
-   
+
+.. autoclass:: parsons.newmode.newmode.NewmodeV2
+   :members:
+   :inherited-members:
+
+.. autoclass:: parsons.newmode.newmode.NewmodeV1
+   :members:
+   :inherited-members:

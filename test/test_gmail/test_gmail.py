@@ -539,7 +539,3 @@ class TestGmail(unittest.TestCase):
                     self.gmail._validate_email_string(e["email"])
 
     # TODO test sending emails
-
-
-if __name__ == "__main__":
-    unittest.main()

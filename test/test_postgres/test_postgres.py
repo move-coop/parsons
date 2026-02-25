@@ -242,7 +242,3 @@ class TestPostgresDB(unittest.TestCase):
         self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
         out_tbl = self.tbl.from_postgres(f"SELECT * FROM {self.temp_schema}.test_copy")
         assert_matching_tables(out_tbl, tbl)
-
-
-if __name__ == "__main__":
-    unittest.main()

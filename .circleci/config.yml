@@ -8,9 +8,6 @@ workflows:
       - docs-build-deploy:
           requires:
             - docs-build
-          filters:
-            branches:
-              only: main
 
 jobs:
   docs-build:

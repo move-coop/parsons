@@ -11,6 +11,7 @@ requests-mock==1.12.1
 ruff==0.13.0
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
+dbt-duckdb>=1.8.0
 
 # Build and publish requirements
 build>=1.4.0
@@ -21,6 +22,6 @@ twine>=6.2.0
 myst-parser==4.0.1
 sphinxcontrib-googleanalytics==0.5
 sphinx-multiversion==0.2.4
-sphinx-rtd-theme==3.0.2
+sphinx-rtd-theme==3.1.0
 Sphinx==7.4.7;python_version<'3.11'
 Sphinx==8.2.3;python_version>='3.11'

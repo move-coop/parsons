@@ -194,10 +194,10 @@
 | parsons/utilities/cloud\_storage.py                       |       10 |        7 |        6 |        0 |     19% |     35-48 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |24, 35-37, 66 |
 | parsons/utilities/dbt.py                                  |        0 |        0 |        0 |        0 |    100% |           |
-| parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        3 |        0 |        0 |      0% |     46-54 |
-| parsons/utilities/dbt/dbt.py                              |       39 |       39 |       16 |        0 |      0% |     3-122 |
-| parsons/utilities/dbt/logging.py                          |      145 |      145 |       32 |        0 |      0% |     3-290 |
-| parsons/utilities/dbt/models.py                           |       49 |       49 |        6 |        0 |      0% |      3-90 |
+| parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        0 |        0 |        0 |    100% |           |
+| parsons/utilities/dbt/dbt.py                              |       41 |        1 |       18 |        2 |     95% |47->45, 128 |
+| parsons/utilities/dbt/logging.py                          |      138 |       61 |       28 |        4 |     55% |28, 30, 32, 33->36, 46, 50, 63-64, 148-153, 158-164, 173-174, 177-183, 210-214, 218-255, 259-268, 271-282 |
+| parsons/utilities/dbt/models.py                           |       79 |       16 |       18 |        3 |     76% |24-25, 31, 47-54, 69-74, 137-139 |
 | parsons/utilities/files.py                                |      121 |       22 |       32 |        8 |     80% |110, 137, 152-154, 166, 181, 189, 203-210, 250, 253, 300, 306-318 |
 | parsons/utilities/format\_phone\_number.py                |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/json\_format.py                         |       24 |        0 |       14 |        1 |     97% |  45->exit |
@@ -207,7 +207,7 @@
 | parsons/utilities/zip\_archive.py                         |       17 |        1 |        2 |        1 |     89% |        30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      290 |       91 |       58 |       19 |     67% |97->exit, 103-105, 124-127, 145, 188, 236-244, 258-260, 323->325, 381-382, 392, 412-413, 437-438, 469-470, 496-497, 521-522, 539-540, 557-558, 627->629, 629->632, 639, 643-645, 648, 668-670, 704, 720-722, 736-738, 772-775, 778, 797-800, 803, 820-823, 826, 846-849, 852, 871-874, 877, 894-897, 900, 917-920, 923, 940-943, 946 |
-| **TOTAL**                                                 | **10742** | **3151** | **3018** |  **563** | **67%** |           |
+| **TOTAL**                                                 | **10767** | **2993** | **3028** |  **572** | **68%** |           |
 
 
 ## Setup coverage badge

@@ -77,4 +77,3 @@ API
 .. autoclass:: parsons.census.census.Census
    :inherited-members:
    :members:
-   

@@ -52,4 +52,3 @@ API
 .. autoclass:: parsons.mailchimp.mailchimp.Mailchimp
    :inherited-members:
    :members:
-   

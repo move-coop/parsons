@@ -229,4 +229,3 @@ API
 .. autoclass:: parsons.notifications.smtp.SMTP
    :inherited-members:
    :members:
-   

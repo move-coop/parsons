@@ -62,4 +62,3 @@ API
 .. autoclass:: parsons.facebook_ads.facebook_ads.FacebookAds
    :inherited-members:
    :members:
-   

@@ -8,7 +8,13 @@ import requests_mock
 
 @pytest.fixture(autouse=True)
 def mock_requests() -> Generator[MagicMock, None, None]:
-    """Replace requests in api_connector with a mock client"""
+    """
+    Replace requests in api_connector with a mock client.
+
+    Yields:
+        Generator[MagicMock, None, None]
+
+    """
     with requests_mock.Mocker() as mocker:
         mocker.post(requests_mock.ANY, json={"test": True})
         mocker.post(

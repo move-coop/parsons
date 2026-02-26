@@ -15,26 +15,27 @@ class FlagIDs:
     def get_flag_ids(self, limit=None):
         """Get a list of flag ids.
 
-        `Args:`
+        Args:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
-                A Parsons table of all the data.
+
         """
         return self._request(self.url_flag_ids, limit=limit)
 
     def get_flag_id(self, id):
         """Get a specified flag id.
 
-        `Args:`
+        Args:
             id: str
                 The flag id identifier.
 
-        `Returns:`
+        Returns:
             dict
                 FlagID object.
+
         """
         return self._request(f"{self.url_flag_ids}/{id}")
 
@@ -77,7 +78,7 @@ class FlagIDs:
     ):
         """Save a new flag id.
 
-        `Args:`
+        Args:
             flag_id: str
                 The flag id type. One of: "AMM", "BNH", "BNM", "DEAD", "DNC",
                 "DNR", "ENDR", "GTD", "HH", "L2VT", "LBO", "LM", "LO", "LS",
@@ -91,9 +92,10 @@ class FlagIDs:
                  (Optional) The compile.
 
 
-        `Returns:`
+        Returns:
             str
                 The identifier for the new flag id.
+
         """
         payload = {
             "flagId": flag_id,
@@ -111,13 +113,14 @@ class FlagIDs:
         NOTE: The function returns True (even if the id doesn't exist) unless
         there is an error.
 
-        `Args:`
+        Args:
             id: str
                 The flag id identifier.
 
-        `Returns:`
+        Returns:
             bool
                 True if the operation is successful.
+
         """
         self._request(f"{self.url_flag_ids}/{id}", req_type="DELETE")
 
@@ -163,7 +166,7 @@ class FlagIDs:
     ):
         """Update a flag id.
 
-        `Args:`
+        Args:
             id: str
                 The flag id identifier.
             flag_id: str
@@ -178,9 +181,10 @@ class FlagIDs:
             compile: str
                  (Optional) The compile.
 
-        `Returns:`
+        Returns:
             str
                 The identifier for the udpated flag id.
+
         """
         payload = {
             "flagId": flag_id,

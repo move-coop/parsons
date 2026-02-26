@@ -11,7 +11,7 @@ PREFIX = "PRSNSENV"
 def decode_credential(credential, save_path=None, export=True, echo=False):
     """Decode an encoded credential to a Python object.
 
-    `Args:`
+    Args:
         credential: str
             An encoded credential.
         save_path: str
@@ -21,9 +21,11 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
             Defaults to true.
         echo: bool
             A flag for whether to print the decoded object. Defaults to False.
-    `Returns:`
+
+    Returns:
         dict
             The decoded object.
+
     """
     x = len(PREFIX)
     if credential[:x] != PREFIX:
@@ -50,12 +52,14 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
 def encode_from_json_str(credential):
     """Encode credential(s) from a json string.
 
-    `Args:`
+    Args:
         credential: str
             The credential json string to be encoded.
-    `Returns:`
+
+    Returns:
         str
             The encoded credential.
+
     """
     data = json.loads(credential)
 
@@ -68,12 +72,14 @@ def encode_from_json_str(credential):
 def encode_from_json_file(credential_file):
     """Encode credential(s) from a json file.
 
-    `Args:`
+    Args:
         credential_file: str
             The path to the json file with the credential to be encoded.
-    `Returns:`
+
+    Returns:
         str
             The encoded credential.
+
     """
     with Path(credential_file).open(mode="r") as f:
         data = json.load(f)
@@ -87,12 +93,14 @@ def encode_from_json_file(credential_file):
 def encode_from_env(env_variables):
     """Encode credential(s) from the current environment.
 
-    `Args:`
+    Args:
         env_variables: list
             The list of credentials from the environment to be encoded.
-    `Returns:`
+
+    Returns:
         str
             The encoded credential.
+
     """
     data = {}
     for var in env_variables:
@@ -107,12 +115,14 @@ def encode_from_env(env_variables):
 def encode_from_dict(credential):
     """Encode credential(s) from a dictionary.
 
-    `Args:`
+    Args:
         credential: dict
             The list of credentials from the environment to be encoded.
-    `Returns:`
+
+    Returns:
         str
             The encoded credential.
+
     """
     data_str = json.dumps(credential)
     encoded_str = PREFIX + b64encode(bytes(data_str, "utf-8")).decode("utf-8")
@@ -153,7 +163,8 @@ def encode_from_dict(credential):
 )
 @click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress the output."))
 def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
-    """A command line tool to encode and decode credentials.
+    r"""
+    A command line tool to encode and decode credentials.
 
     Use this tool when the credentials for a service are split into multiple
     parts, and you'd rather deal with them as one variable. For example, to
@@ -168,17 +179,22 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
     space, the names of the environment variables to encode.
 
     Encoding examples:
-    \b
-    # Encoding a json string. Note: this assumes the output of json.dumps(str).
-    `python env_tools.py -e '{"key": "val", "key2": "val2"}'`
 
-    \b
-    # Encoding a json file.
-    `python env_tools.py -e -f /path/to/credentials.json`
+    ... code-block:: bash
+        :caption: Encoding a json string. Note: this assumes the output of json.dumps(str).
 
-    \b
-    # Encoding a list currenct environment variables.
-    `python env_tools.py -e env_var1,env_var2,env_ var3`
+        python env_tools.py -e '{"key": "val", "key2": "val2"}'
+
+    ... code-block:: bash
+        :caption: Encoding a json file.
+
+        python env_tools.py -e -f /path/to/credentials.json
+
+    ... code-block:: bash
+        :caption: Encoding a list currenct environment variables.
+
+        python env_tools.py -e env_var1,env_var2,env_ var3
+
     """
     if fn == "encode":
         if is_file:

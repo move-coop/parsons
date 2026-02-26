@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import petl
 import pytest
@@ -345,21 +346,29 @@ class TestColumnOperations:
         tbl.fill_column("c", value)
         assert list(tbl.table["c"]) == expected
 
-    def test_fillna_column(self):
+    @pytest.mark.parametrize(
+        ("column_name", "fill_value", "expected"),
+        [
+            ("b", "string-value", ["string-value", 5, 8, "string-value", 14]),
+            ("c", 0, [3, 0, 9, 0, 15]),
+            ("c", lambda r: r["a"] + r["b"], [3, 9, 9, None, 15]),
+        ],
+        ids=["string", "integer", "callable"],
+    )
+    def test_fillna_column(self, column_name: str, fill_value: Any, expected: list[Any]):
         # Test that None values in the column are filled
 
         lst = [
-            {"a": 1, "b": 2, "c": 3},
+            {"a": 1, "b": None, "c": 3},
             {"a": 4, "b": 5, "c": None},
             {"a": 7, "b": 8, "c": 9},
-            {"a": 10, "b": 11, "c": None},
+            {"a": 10, "b": None, "c": None},
             {"a": 13, "b": 14, "c": 15},
         ]
 
-        # Fixed Value only
         tbl = Table(lst)
-        tbl.fillna_column("c", 0)
-        assert list(tbl.table["c"]) == [3, 0, 9, 0, 15]
+        tbl.fillna_column(column_name=column_name, fill_value=fill_value)
+        assert list(tbl.table[column_name]) == expected
 
     def test_move_column(self, tbl):
         # Test moving a column from end to front
@@ -371,20 +380,33 @@ class TestColumnOperations:
         tbl.convert_column("first", "upper")
         assert tbl[0] == {"first": "BOB", "last": "Smith"}
 
-    def test_convert_columns_to_str(self):
-        # Test that all columns are string
-        mixed_raw = [
-            {"col1": 1, "col2": 2, "col3": 3},
-            {"col1": "one", "col2": 2, "col3": [3, "three", 3.0]},
-            {"col1": {"one": 1, "two": 2.0}, "col2": None, "col3": "three"},
-        ]
-        tbl = Table(mixed_raw)
-        tbl.convert_columns_to_str()
+    @pytest.mark.parametrize(
+        ("data", "expected_cols"),
+        [
+            ([], []),
+            (
+                [
+                    {"col1": 1, "col2": "a"},
+                    {"col1": "one", "col2": None},
+                    {"col1": [1, 2], "col2": 3.0},
+                ],
+                ["col1", "col2"],
+            ),
+            ([{"col1": "hello", "col2": "world"}], ["col1", "col2"]),
+        ],
+    )
+    def test_convert_columns_to_str(self, data: list[str | dict | int], expected_cols: list[str]):
+        """Test that all columns are string"""
+        tbl = Table(data)
+        result = tbl.convert_columns_to_str()
+        assert isinstance(result, Table)
 
-        cols = tbl.get_columns_type_stats()
-        type_set = {i for x in cols for i in x["type"]}
-        assert "str" in type_set
-        assert len(type_set) == 1
+        if tbl.num_rows > 0:
+            cols_stats = tbl.get_columns_type_stats()
+            for col in cols_stats:
+                assert col["type"] == ["str"], f"Column {col['name']} was not converted to str"
+        else:
+            assert tbl.num_rows == 0
 
     def test_convert_table(self, tbl):
         # Test that the table updates
@@ -725,6 +747,13 @@ class TestTableTransformations:
     def test_stack(self, tbl):
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
+        tbl1.stack(tbl2)
+
+        expected_tbl = Table(petl.stack(tbl.table, tbl2.table))
+        assert_matching_tables(expected_tbl, tbl1)
+
+        tbl1 = tbl.select_rows(lambda x: x)
+        tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         # Different column names shouldn't matter for stack()
         tbl3 = Table([{"f": "Lucy", "l": "Peterson"}])
         tbl1.stack(tbl2, tbl3)
@@ -733,6 +762,13 @@ class TestTableTransformations:
         assert_matching_tables(expected_tbl, tbl1)
 
     def test_concat(self, tbl):
+        tbl1 = tbl.select_rows(lambda x: x)
+        tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
+        tbl1.concat(tbl2)
+
+        expected_tbl = Table(petl.cat(tbl.table, tbl2.table))
+        assert_matching_tables(expected_tbl, tbl1)
+
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         tbl3 = Table([{"first": "Lucy", "last": "Peterson"}])
@@ -894,6 +930,19 @@ class TestTableTransformations:
         input_tbl.map_columns(column_map, exact_match=exact_match)
         assert_matching_tables(input_tbl, expected_tbl)
 
+    def test_map_and_coalesce_columns(self):
+        input_tbl = Table([["fn", "ln", "mi"], ["J", "B", "H"]])
+        expected_tbl = Table([["first_name", "last_name", "middle_name"], ["J", "B", "H"]])
+
+        column_map = {
+            "first_name": ["fn", "first"],
+            "last_name": ["last", "ln"],
+            "middle_name": ["mi"],
+        }
+
+        input_tbl.map_and_coalesce_columns(column_map=column_map)
+        assert_matching_tables(input_tbl, expected_tbl)
+
     @pytest.mark.parametrize(
         ("sort_column", "reverse", "expected_first"),
         [
@@ -933,7 +982,9 @@ class TestTableTransformations:
 
     def test_use_petl(self):
         # confirm that this method doesn't exist for parsons.Table
-        with pytest.raises(AttributeError):
+        with pytest.raises(
+            AttributeError, match="type object 'Table' has no attribute 'skipcomments'"
+        ):
             Table.skipcomments  # noqa: B018
 
         tbl = Table(

@@ -20,9 +20,10 @@ class BulkImport:
         the types of bulk imports that you can run. These might include
         ``Contacts``, ``ActivistCodes``, ``ContactsActivistCodes`` and others.
 
-        `Returns:`
+        Returns:
             list
                 A list of resources.
+
         """
 
         r = self.connection.get_request("bulkImportJobs/resources")
@@ -33,12 +34,14 @@ class BulkImport:
         """
         Get a bulk import job status.
 
-        `Args:`
+        Args:
             job_id : int
-                The bulk import job id.
-        `Returns:`
+                Bulk import job id.
+
+        Returns:
             dict
                 The bulk import job
+
         """
 
         r = self.connection.get_request(f"bulkImportJobs/{job_id}")
@@ -53,12 +56,14 @@ class BulkImport:
         If the job results have not been generated, either due to an error in the
         process or the fact the job is still processing, it will return ``None``.
 
-        `Args:`
+        Args:
             job_id: int
-                The bulk import job id.
-        `Returns:`
+                Bulk import job id.
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.get_bulk_import_job(job_id)
@@ -72,9 +77,10 @@ class BulkImport:
         """
         Get bulk import mapping types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
@@ -85,11 +91,12 @@ class BulkImport:
         """
         Get a single bulk import mapping type.
 
-        `Args:`
+        Args:
             type_name: str
-        `Returns`:
+        Returns:
             dict
                 A mapping type json
+
         """
 
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
@@ -100,14 +107,15 @@ class BulkImport:
         """
         Get data about a field in a mapping type.
 
-        `Args:`
+        Args:
             type_name: str
                 The mapping type name
             field_name: str
                 The field name
-        `Returns:`
+        Returns:
             dict
                 A mapping type fields json
+
         """
 
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
@@ -196,18 +204,20 @@ class BulkImport:
               - No
               - The method of contact.
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
-                The bulk import job id
+                Bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -221,117 +231,119 @@ class BulkImport:
 
     def bulk_upsert_contacts(self, tbl, url_type, result_fields=None, **url_kwargs):
         """
-        Bulk create or update contact records. Provide a Parsons table of contact data to
-        create or update records.
+        Bulk create or update contact records from a Parsons table.
 
         .. note::
+
             * The first column of the table must be VANID.
             * The other columns can be a combination of the columns listed below.
               The valid column names also accept permutations with underscores, spaces
               and capitalization (e.g. ``phonenumber`` = ``Phone_Number``).
 
-        **Table Fields**
+            **Table Fields**
 
-        .. list-table::
-            :widths: 500 100 10
-            :header-rows: 1
+            .. list-table::
+                :widths: 500 100 10
+                :header-rows: 1
 
-            * - Column
-              - Valid Column Names
-              - Notes
-            * - VANID
-              - ``vanid``
-              -
-            * - Voter VAN ID
-              - ``votervanid``
-              - The contact's MyVoters VANID
-            * - External ID
-              - ``externalid``, ``id``, ``pk``, ``voterbaseid``
-              - An external id to be stored.
-            * - **PII**
-              -
-              -
-            * - First Name
-              - ``fn``, ``firstname``, ``first``
-              -
-            * - Middle Name
-              - ``mn``, ``middlename``, ``middle``
-              -
-            * - Last Name
-              - ``ln``, ``lastname``, ``last``
-              -
-            * - Date of Birth
-              - ``dob``, ``dateofbirth``, ``birthdate``
-              - An ISO formatted date
-            * - Sex
-              - ``sex``, ``gender``
-              -
-            * - **Physical Address**
-              -
-              -
-            * - Address Line 1
-              - ``addressline1``, ``address1``, ``address``
-              -
-            * - Address Line 2
-              - ``addressline2``, ``address2``
-              -
-            * - Address Line 3
-              - ``addressline3``, ``address3``
-              -
-            * - City
-              - ``city``
-              -
-            * - State Or Province
-              - ``state``, ``st``, ``stateorprovince``
-              -
-            * - Zip or Postal Code
-              - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``
-              -
-            * - Country Code
-              - ``countrycode``, ``country``
-              - A valid two character country code (e.g. ``US``)
-            * - Display As Entered
-              - ``displayasentered``
-              - Required values are ``Y`` and ``N``. Determines if the address is
-                processed through address correction.
-            * - **Phones**
-              -
-              -
-            * - Cell Phone
-              - ``cellphone``, ``cell``
-              -
-            * - Cell Phone Country Code
-              - ``cellcountrycode``, ``cellphonecountrycode``
-              - A valid two digit country code (e.g. ``01``)
-            * - Home Phone
-              - ``homephone``, ``home``, ``phone``
-              -
-            * - Home Phone Country Code
-              - ``homecountrycode``, ``homephonecountrycode``
-              -
-            * - **Email**
-              -
-              -
-            * - Email
-              - ``email``, ``emailaddress``
-              -
-            * - Other Email
-              - ``otheremail``, ``email2``, ``emailaddress2``
-              -
+                * - Column
+                  - Valid Column Names
+                  - Notes
+                * - VANID
+                  - ``vanid``
+                  -
+                * - Voter VAN ID
+                  - ``votervanid``
+                  - The contact's MyVoters VANID
+                * - External ID
+                  - ``externalid``, ``id``, ``pk``, ``voterbaseid``
+                  - An external id to be stored.
+                * - **PII**
+                  -
+                  -
+                * - First Name
+                  - ``fn``, ``firstname``, ``first``
+                  -
+                * - Middle Name
+                  - ``mn``, ``middlename``, ``middle``
+                  -
+                * - Last Name
+                  - ``ln``, ``lastname``, ``last``
+                  -
+                * - Date of Birth
+                  - ``dob``, ``dateofbirth``, ``birthdate``
+                  - An ISO formatted date
+                * - Sex
+                  - ``sex``, ``gender``
+                  -
+                * - **Physical Address**
+                  -
+                  -
+                * - Address Line 1
+                  - ``addressline1``, ``address1``, ``address``
+                  -
+                * - Address Line 2
+                  - ``addressline2``, ``address2``
+                  -
+                * - Address Line 3
+                  - ``addressline3``, ``address3``
+                  -
+                * - City
+                  - ``city``
+                  -
+                * - State Or Province
+                  - ``state``, ``st``, ``stateorprovince``
+                  -
+                * - Zip or Postal Code
+                  - ``ziporpostal``, ``postal``, ``postalcode``, ``zip``, ``zipcode``
+                  -
+                * - Country Code
+                  - ``countrycode``, ``country``
+                  - A valid two character country code (e.g. ``US``)
+                * - Display As Entered
+                  - ``displayasentered``
+                  - Required values are ``Y`` and ``N``. Determines if the address is
+                    processed through address correction.
+                * - **Phones**
+                  -
+                  -
+                * - Cell Phone
+                  - ``cellphone``, ``cell``
+                  -
+                * - Cell Phone Country Code
+                  - ``cellcountrycode``, ``cellphonecountrycode``
+                  - A valid two digit country code (e.g. ``01``)
+                * - Home Phone
+                  - ``homephone``, ``home``, ``phone``
+                  -
+                * - Home Phone Country Code
+                  - ``homecountrycode``, ``homephonecountrycode``
+                  -
+                * - **Email**
+                  -
+                  -
+                * - Email
+                  - ``email``, ``emailaddress``
+                  -
+                * - Other Email
+                  - ``otheremail``, ``email2``, ``emailaddress2``
+                  -
 
-        `Args:`
+        Args:
             table: Parsons table
               A Parsons table.
             url_type: str
               The cloud file storage to use to post the file. Currently only ``S3``.
             results_fields: list
               A list of fields to include in the results file.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
-                The bulk import job id
+                Bulk import job id
+
         """
 
         tbl = tbl.map_columns(CONTACTS_COLUMN_MAP, exact_match=False)
@@ -367,18 +379,20 @@ class BulkImport:
               - Yes
               - A valid suppression id
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
-                The bulk import job id
+                Bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -435,18 +449,20 @@ class BulkImport:
               - No
               - The Contact Address ID of the address that was canvassed
 
-        `Args:`
+        Args:
             table: Parsons table
                 A Parsons table.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
-                The bulk import job id
+                Bulk import job id
+
         """
 
         return self.post_bulk_import(
@@ -475,13 +491,13 @@ class BulkImport:
             * - ``vanid``
               - Yes
               - A valid VANID primary key
-            * - ***``CF{CustomFieldID}``
+            * - ``CF{CustomFieldID}``
               - Yes
               - At least one custom field column to be loaded associated with the provided
                 custom_field_group_id. The column name should be a valid Custom Field ID
                 prefixed with ``CF``, i.e. CF123.
 
-        `Args:`
+        Args:
             custom_field_group_id: int
                 Valid Custom Contact Field Group ID; must be the parent of
                 the provided Custom Field IDs in the file.
@@ -490,12 +506,14 @@ class BulkImport:
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
                 See :ref:`Cloud Storage <cloud-storage>` for more details.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
-                The bulk import job id
+                Bulk import job id
+
         """
 
         mapping_types = [

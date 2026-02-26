@@ -8,6 +8,7 @@ Overview
 `Shopify <https://www.shopify.com/>`_ is an e-commerce platform for online stores. This Parsons integration with the `Shopify REST API <https://shopify.dev/api/admin/rest/reference>`_ supports fetching records of orders.
 
 .. note::
+
   Authentication
     Shopify supports different types of authentication methods for different types of apps, which are documented `here <https://shopify.dev/apps/auth>`_.
 
@@ -38,5 +39,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Shopify
+.. autoclass:: parsons.shopify.Shopify
    :inherited-members:
+   :members:
+   

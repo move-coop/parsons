@@ -16,6 +16,7 @@ to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`_. Th
 - Download files and tables
 
 .. note::
+
    API Credentials
       - If you have a GitHub account you can use your normal username and password to authenticate with the API.
       - You can also use `a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
@@ -58,5 +59,8 @@ With the class instantiated, you can now call various endpoints.
 ***
 API
 ***
-.. autoclass:: parsons.GitHub
+
+.. autoclass:: parsons.github.github.GitHub
    :inherited-members:
+   :members:
+   

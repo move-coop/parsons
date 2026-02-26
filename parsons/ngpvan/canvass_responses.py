@@ -15,9 +15,10 @@ class CanvassResponses:
         """
         Get canvass response contact types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/contactTypes"))
@@ -28,9 +29,10 @@ class CanvassResponses:
         """
         Get canvass response input types.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/inputTypes"))
@@ -41,9 +43,10 @@ class CanvassResponses:
         """
         Get canvass response result codes.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("canvassResponses/resultCodes"))

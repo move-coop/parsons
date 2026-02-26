@@ -1,0 +1,1544 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L2YB7WHTRG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L2YB7WHTRG');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ActionKit &mdash; Parsons  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Action Builder" href="action_builder.html" />
+    <link rel="prev" title="ActBlue" href="actblue.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Parsons
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="actblue.html">ActBlue</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ActionKit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit"><code class="docutils literal notranslate"><span class="pre">ActionKit</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_user_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_user_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.add_phone"><code class="docutils literal notranslate"><span class="pre">ActionKit.add_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.delete_actionfield"><code class="docutils literal notranslate"><span class="pre">ActionKit.delete_actionfield()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_phone"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_phone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_events"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_event"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_field"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_event_field"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_event_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_blackholed_email"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_blackholed_email()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.blackhole_email"><code class="docutils literal notranslate"><span class="pre">ActionKit.blackhole_email()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.delete_user_data"><code class="docutils literal notranslate"><span class="pre">ActionKit.delete_user_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.delete_user"><code class="docutils literal notranslate"><span class="pre">ActionKit.delete_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_campaign"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_campaign_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_campaign_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_campaign"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.search_events_in_campaign"><code class="docutils literal notranslate"><span class="pre">ActionKit.search_events_in_campaign()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_page_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_page_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_create_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_form_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_create_form_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_create_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_page_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_page_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_page"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_page()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_form_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_event_signup_form_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_form"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_event_signup"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_event_signup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.copy_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.copy_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_mailing"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_mailing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.rebuild_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.rebuild_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.queue_mailer"><code class="docutils literal notranslate"><span class="pre">ActionKit.queue_mailer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.paginated_get"><code class="docutils literal notranslate"><span class="pre">ActionKit.paginated_get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.paginated_get_custom_limit"><code class="docutils literal notranslate"><span class="pre">ActionKit.paginated_get_custom_limit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_order"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_order"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_order_user_detail"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_order_user_detail()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_orderrecurring"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_orderrecurring()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.cancel_orderrecurring"><code class="docutils literal notranslate"><span class="pre">ActionKit.cancel_orderrecurring()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_orderrecurring"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_orderrecurring()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_orders"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_orders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_paymenttoken"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_paymenttoken()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_page_followup"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_page_followup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_page_followup_fields"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_page_followup_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_page_followup"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_page_followup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_survey_question"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_survey_question()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_survey_question"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_survey_question()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_transaction"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_transaction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_transaction"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_transaction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.get_transactions"><code class="docutils literal notranslate"><span class="pre">ActionKit.get_transactions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_generic_action"><code class="docutils literal notranslate"><span class="pre">ActionKit.create_generic_action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.update_import_action"><code class="docutils literal notranslate"><span class="pre">ActionKit.update_import_action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.bulk_upload_csv"><code class="docutils literal notranslate"><span class="pre">ActionKit.bulk_upload_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.bulk_upload_table"><code class="docutils literal notranslate"><span class="pre">ActionKit.bulk_upload_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.collect_upload_errors"><code class="docutils literal notranslate"><span class="pre">ActionKit.collect_upload_errors()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="action_builder.html">Action Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="action_network.html">Action Network</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airmeet.html">Airmeet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="airtable.html">Airtable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alchemer.html">Alchemer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth0.html">Auth0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">Amazon Web Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="azure.html">Azure: Blob Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bill_com.html">Bill.com</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bloomerang.html">Bloomerang</a></li>
+<li class="toctree-l1"><a class="reference internal" href="box.html">Box</a></li>
+<li class="toctree-l1"><a class="reference internal" href="braintree.html">Braintree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capitolcanary.html">CapitolCanary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="catalist.html">Catalist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="census.html">Census</a></li>
+<li class="toctree-l1"><a class="reference internal" href="civis.html">Civis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlshift.html">Controlshift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copper.html">Copper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="crowdtangle.html">CrowdTangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="donorbox.html">Donorbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="empower.html">Empower</a></li>
+<li class="toctree-l1"><a class="reference internal" href="facebook_ads.html">FacebookAds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formstack.html">Formstack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="freshdesk.html">Freshdesk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="google.html">Google</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hustle.html">Hustle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mailchimp.html">Mailchimp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilecommons.html">MobileCommons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobilize_america.html">Mobilize America</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nation_builder.html">NationBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmode.html">New/Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ngpvan.html">NGPVAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="p2a.html">Phone2Action</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdi.html">PDI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbase.html">Quickbase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickbooks.html">Quickbooks Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="redash.html">Redash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rockthevote.html">Rock the Vote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="salesforce.html">Salesforce</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scytl.html">Scytl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sftp.html">SFTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shopify.html">Shopify</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sisense.html">Sisense</a></li>
+<li class="toctree-l1"><a class="reference internal" href="targetsmart.html">TargetSmart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="turbovote.html">TurboVote</a></li>
+<li class="toctree-l1"><a class="reference internal" href="twilio.html">Twilio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zoom.html">Zoom</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Enhancements</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="census_geocoder.html">US Census Geocoder</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dbsync.html">Database Sync</a></li>
+<li class="toctree-l1"><a class="reference internal" href="table.html">Parsons Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_a_connector.html">How to Build a Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="write_tests.html">How to Write Tests for Parsons Connectors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use Cases and Sample Scripts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/contribute_use_cases.html">How to Contribute a Use Case &amp; Sample Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/civis_job_status_slack_alert.html">Civis Job Status Slack Alert</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/mysql_to_googlesheets.html">MySQL to Google Sheets Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases/opt_outs_to_everyaction.html">Opt-outs to EveryAction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Training Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/getting_set_up.html">Getting Set Up With Parsons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training_guides/etl_best_practices.html">Introduction to ETL Best Practices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Parsons</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ActionKit</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/action_kit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="actionkit">
+<h1>ActionKit<a class="headerlink" href="#actionkit" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://actionkit.com/">ActionKit</a> is a platform for advocacy, fundraising, and
+get-out-the-vote. This Parsons integration with the
+<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html">ActionKit REST API</a>
+supports fetching, creating, and updating records of campaigns, events, mailers, orders, survey questions, transactions, and users.
+Bulk upload of new users and user updates is also supported.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Authentication</dt><dd><p>ActionKit requires <a class="reference external" href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Auth</a>.
+Clients with an ActionKit account can obtain the domain, username, and password needed
+to access the ActionKit API. See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication">ActionKit REST API Authentication</a>
+documentation for more information on obtaining ActionKit API credentials.</p>
+</dd>
+</dl>
+</div>
+</section>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h2>
+<p>To instantiate the ActionKit class, you can either store your ActionKit API
+domain, username, and password as environmental variables (<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_DOMAIN</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code>, and <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_PASSWORD</span></code>, respectively) or pass in your
+domain, username, and password as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">parsons</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionKit</span>
+
+<span class="c1"># First approach: Use API credentials via environmental variables</span>
+<span class="n">ak</span> <span class="o">=</span> <span class="n">ActionKit</span><span class="p">()</span>
+
+<span class="c1"># Second approach: Pass API credentials as arguments</span>
+<span class="n">ak</span> <span class="o">=</span> <span class="n">ActionKit</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="s1">&#39;myorg.actionkit.com&#39;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="s1">&#39;my_name&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then call various endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new user</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;john@email&#39;</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;Boston&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fetch user fields</span>
+<span class="n">user_fields</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+
+<span class="c1"># Update user fields</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">update_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;New York&#39;</span><span class="p">)</span>
+
+<span class="c1"># Delete user</span>
+<span class="n">ak</span><span class="o">.</span><span class="n">delete_user</span><span class="p">(</span><span class="n">user_id</span><span class="o">=</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">parsons.action_kit.action_kit.</span></span><span class="sig-name descname"><span class="pre">ActionKit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit" title="Link to this definition"></a></dt>
+<dd><p>Instantiate the ActionKit class</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>domain: str</dt><dd><p>The ActionKit domain (e.g. <code class="docutils literal notranslate"><span class="pre">myorg.actionkit.com</span></code>) Not required if
+<code class="docutils literal notranslate"><span class="pre">ACTION_KIT_DOMAIN</span></code> env variable set.</p>
+</dd>
+<dt>username: str</dt><dd><p>The authorized ActionKit username. Not required if <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_USERNAME</span></code> env
+variable set.</p>
+</dd>
+<dt>password: str</dt><dd><p>The authorized ActionKit user password. Not required if <code class="docutils literal notranslate"><span class="pre">ACTION_KIT_PASSWORD</span></code>
+env variable set.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_user">
+<span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_user" title="Link to this definition"></a></dt>
+<dd><p>Get a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>user_id: int</dt><dd><p>The user id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>User json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_user_fields">
+<span class="sig-name descname"><span class="pre">get_user_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_user_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_user_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid user fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_user" title="parsons.action_kit.action_kit.ActionKit.create_user"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_user()</span></code></a> method.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of user fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_user">
+<span class="sig-name descname"><span class="pre">create_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_user" title="Link to this definition"></a></dt>
+<dd><p>Create a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>email: str</dt><dd><p>Email for the user</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>User json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.add_phone">
+<span class="sig-name descname"><span class="pre">add_phone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phone</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.add_phone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.add_phone" title="Link to this definition"></a></dt>
+<dd><p>Add a phone number to a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>user_id (str): The id of the user
+phone_type (str): The type of the phone (e.g. “Home”)
+phone (str): The phone number</p>
+</dd>
+<dt>Returns:</dt><dd><p>Phone json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.delete_actionfield">
+<span class="sig-name descname"><span class="pre">delete_actionfield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actionfield_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.delete_actionfield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.delete_actionfield" title="Link to this definition"></a></dt>
+<dd><p>Delete an actionfield.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>actionfield_id: int</dt><dd><p>The id of the actionfield to delete</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_user">
+<span class="sig-name descname"><span class="pre">update_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_user" title="Link to this definition"></a></dt>
+<dd><p>Update a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>user_id: int</dt><dd><p>The user id of the person to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">patch</span> <span class="pre">request</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_phone">
+<span class="sig-name descname"><span class="pre">update_phone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phone_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_phone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_phone" title="Link to this definition"></a></dt>
+<dd><p>Update a phone record.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>phone_id: int</dt><dd><p>The phone id of the phone to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+at the /rest/v1/phone/schema/ path on any ActionKit instance.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">patch</span> <span class="pre">request</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event">
+<span class="sig-name descname"><span class="pre">get_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event" title="Link to this definition"></a></dt>
+<dd><p>Get an event.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_id: int</dt><dd><p>The id for the event.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict</dt><dd><p>Event json object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_events">
+<span class="sig-name descname"><span class="pre">get_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_events" title="Link to this definition"></a></dt>
+<dd><p>Get multiple events.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>limit: int</dt><dd><p>The number of events to return. If omitted, all events are returned.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+<p>Additionally, expressions to filter the data can also be provided. For addition
+info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span><span class="n">name__contains</span><span class="o">=</span><span class="s2">&quot;FirstName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The events data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_event">
+<span class="sig-name descname"><span class="pre">update_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_event" title="Link to this definition"></a></dt>
+<dd><p>Update an event.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_id: int</dt><dd><p>The event id of the event to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_event_field">
+<span class="sig-name descname"><span class="pre">create_event_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_event_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_event_field" title="Link to this definition"></a></dt>
+<dd><p>Create an event field (custom field on an event). Note that if an event
+field with this name already exists, this will add a second record.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_id: int</dt><dd><p>The id for the event.</p>
+</dd>
+<dt>name: string</dt><dd><p>The name of the event field.</p>
+</dd>
+<dt>value: string</dt><dd><p>The value of the event field.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Event field json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_event_field">
+<span class="sig-name descname"><span class="pre">update_event_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eventfield_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_event_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_event_field" title="Link to this definition"></a></dt>
+<dd><p>Update an event field.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>eventfield_id: int</dt><dd><p>The id of the event field to update.</p>
+</dd>
+<dt>name: string</dt><dd><p>The name of the event field.</p>
+</dd>
+<dt>value: string</dt><dd><p>The value of the event field.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_blackholed_email">
+<span class="sig-name descname"><span class="pre">get_blackholed_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_blackholed_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_blackholed_email" title="Link to this definition"></a></dt>
+<dd><p>Get a blackholed email. A blackholed email is an email that has been prevented from
+receiving bulk and transactional emails from ActionKit. <a class="reference external" href="https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole">Documentation</a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>email: str</dt><dd><p>Blackholed email of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The blackholed email data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.blackhole_email">
+<span class="sig-name descname"><span class="pre">blackhole_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.blackhole_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.blackhole_email" title="Link to this definition"></a></dt>
+<dd><p>Prevent an email from receiving bulk and transactional emails from ActionKit.
+<a class="reference external" href="https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole">Documentation</a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>user_id: str</dt><dd><p>Email to blackhole</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.delete_user_data">
+<span class="sig-name descname"><span class="pre">delete_user_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.delete_user_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.delete_user_data" title="Link to this definition"></a></dt>
+<dd><p>Delete user data.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>email: str</dt><dd><p>Email of user to delete data</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://docs.actionkit.com/docs/manual/api/rest/users.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of anonymized user</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.delete_user">
+<span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.delete_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.delete_user" title="Link to this definition"></a></dt>
+<dd><p>Delete a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>user_id: int</dt><dd><p>The user id of the person to delete</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_campaign">
+<span class="sig-name descname"><span class="pre">get_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_campaign" title="Link to this definition"></a></dt>
+<dd><p>Get a campaign.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>campaign_id: int</dt><dd><p>The campaign id of the record.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Campaign json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_campaign_fields">
+<span class="sig-name descname"><span class="pre">get_campaign_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_campaign_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_campaign_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid campaign fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_campaign" title="parsons.action_kit.action_kit.ActionKit.create_campaign"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_campaign()</span></code></a> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.update_campaign()</span></code> methods.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of campaign fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_campaign">
+<span class="sig-name descname"><span class="pre">create_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_campaign" title="Link to this definition"></a></dt>
+<dd><p>Create a campaign.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>name: str</dt><dd><p>The name of the campaign to create</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.search_events_in_campaign">
+<span class="sig-name descname"><span class="pre">search_events_in_campaign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascdesc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'asc'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'desc'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'asc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.search_events_in_campaign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.search_events_in_campaign" title="Link to this definition"></a></dt>
+<dd><p>Get events in a campaign, with optional search filters.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>campaign_id: int</dt><dd><p>The id of the event campaign.</p>
+</dd>
+<dt>limit: int</dt><dd><p>The maximum number of objects to return.</p>
+</dd>
+<dt>order_by: string</dt><dd><p>Event attribute to order the results by. Defaults to id, which will normally
+be equivalent to ordering by created_at. See <a class="reference external" href="https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering">ActionKit’s docs on ordering</a>.</p>
+</dd>
+<dt>ascdesc: string</dt><dd><p>If “asc” (the default), returns events ordered by the attribute specified by
+the order_by parameter. If “desc”, returns events in reverse order.</p>
+</dd>
+<dt>filters: dictionary</dt><dd><p>A dictionary for filtering by the attributes of the event or related object.
+Not all attributes are available for filtering, but an eventfield will work.
+For additional info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a> and
+<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html">ActionKit’s docs on the search API</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Example Event Title&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;field__name&quot;</span><span class="p">:</span> <span class="s2">&quot;example_event_field_name&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;field__value&quot;</span><span class="p">:</span> <span class="s2">&quot;Example event field value&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd>
+<dt>exclude: dictionary</dt><dd><p>A dictionary for excluding by the attributes of the event or related object.
+Uses the same format as the filters argument.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>A dictionary of other options for filtering. See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html">ActionKit’s docs on the
+search API</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The list of events.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_create_page">
+<span class="sig-name descname"><span class="pre">get_event_create_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_create_page_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_create_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_page" title="Link to this definition"></a></dt>
+<dd><p>Get a event create page.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_create_page_id: int</dt><dd><p>The event create page id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Event create page json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_create_page_fields">
+<span class="sig-name descname"><span class="pre">get_event_create_page_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_create_page_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_page_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of event create page fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_page" title="parsons.action_kit.action_kit.ActionKit.create_event_create_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_event_create_page()</span></code></a>.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of event create page fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_event_create_page">
+<span class="sig-name descname"><span class="pre">create_event_create_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_event_create_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_page" title="Link to this definition"></a></dt>
+<dd><p>Add an event page to a campaign.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>campaign_id: int</dt><dd><p>The campaign to assoicate page with</p>
+</dd>
+<dt>name: str</dt><dd><p>The name of the page to create</p>
+</dd>
+<dt>title: str</dt><dd><p>The title of the page to create</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_create_form">
+<span class="sig-name descname"><span class="pre">get_event_create_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_create_form_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_create_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_form" title="Link to this definition"></a></dt>
+<dd><p>Get a event create form.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_create_form_id: int</dt><dd><p>The event create form id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Event create form json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_create_form_fields">
+<span class="sig-name descname"><span class="pre">get_event_create_form_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_create_form_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_create_form_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid event create form fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_form" title="parsons.action_kit.action_kit.ActionKit.create_event_create_form"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_event_create_form()</span></code></a> method.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of event create form fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_event_create_form">
+<span class="sig-name descname"><span class="pre">create_event_create_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thank_you_text</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_event_create_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_event_create_form" title="Link to this definition"></a></dt>
+<dd><p>Create a event create form.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>page_id: int</dt><dd><p>The page to associate the form with</p>
+</dd>
+<dt>thank_you_text: str</dt><dd><p>Free form thank you text</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_signup_page">
+<span class="sig-name descname"><span class="pre">get_event_signup_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_signup_page_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_signup_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_page" title="Link to this definition"></a></dt>
+<dd><p>Get event signup page.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_signup_page_id: int</dt><dd><p>The event signup page id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Event signup page json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_signup_page_fields">
+<span class="sig-name descname"><span class="pre">get_event_signup_page_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_signup_page_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_page_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid event signup page fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_page" title="parsons.action_kit.action_kit.ActionKit.create_event_signup_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_page()</span></code></a> method.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of event signup page fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_event_signup_page">
+<span class="sig-name descname"><span class="pre">create_event_signup_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">campaign_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_event_signup_page"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_page" title="Link to this definition"></a></dt>
+<dd><p>Add an event signup page to a campaign.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>campaign_id: int</dt><dd><p>The campaign to assoicate page with</p>
+</dd>
+<dt>name: str</dt><dd><p>The name of the page to create</p>
+</dd>
+<dt>title: str</dt><dd><p>The title of the page to create</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_signup_form">
+<span class="sig-name descname"><span class="pre">get_event_signup_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_signup_form_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_signup_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_form" title="Link to this definition"></a></dt>
+<dd><p>Get a user.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_signup_form_id: str</dt><dd><p>The event signup form id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Event signup form json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_event_signup_form_fields">
+<span class="sig-name descname"><span class="pre">get_event_signup_form_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_event_signup_form_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_event_signup_form_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid event signup form fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_form" title="parsons.action_kit.action_kit.ActionKit.create_event_signup_form"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_event_signup_form()</span></code></a> method.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of event signup form fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_event_signup_form">
+<span class="sig-name descname"><span class="pre">create_event_signup_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thank_you_text</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_event_signup_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_event_signup_form" title="Link to this definition"></a></dt>
+<dd><p>Create a event signup form.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>page_id: int</dt><dd><p>The page to associate the form with</p>
+</dd>
+<dt>thank_you_text: str</dt><dd><p>Free form thank you text</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_event_signup">
+<span class="sig-name descname"><span class="pre">update_event_signup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_signup_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_event_signup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_event_signup" title="Link to this definition"></a></dt>
+<dd><p>Update an event signup.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>event_signup_id: int</dt><dd><p>The id of the event signup to update</p>
+</dd>
+<dt>event_signup_dict: dict</dt><dd><p>A dictionary of fields to update for the event signup.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_mailer">
+<span class="sig-name descname"><span class="pre">get_mailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_mailer" title="Link to this definition"></a></dt>
+<dd><p>Get a mailer.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>entity_id: int</dt><dd><p>The entity id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Mailer json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_mailer">
+<span class="sig-name descname"><span class="pre">create_mailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_mailer" title="Link to this definition"></a></dt>
+<dd><p>Create a mailer.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt><cite>**kwargs</cite>:</dt><dd><p>Arguments and fields to pass to the client. A full list can be found in the
+<a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>URI of new mailer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.copy_mailer">
+<span class="sig-name descname"><span class="pre">copy_mailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mailer_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.copy_mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.copy_mailer" title="Link to this definition"></a></dt>
+<dd><p>Copy a mailer
+returns new copy of mailer which should be updatable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_mailing">
+<span class="sig-name descname"><span class="pre">update_mailing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mailer_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_mailing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_mailing" title="Link to this definition"></a></dt>
+<dd><p>Update a mailing.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>mailing_id: int</dt><dd><p>The id of the mailing to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">patch</span> <span class="pre">request</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.rebuild_mailer">
+<span class="sig-name descname"><span class="pre">rebuild_mailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mailing_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.rebuild_mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.rebuild_mailer" title="Link to this definition"></a></dt>
+<dd><p>Rebuild a mailer.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>mailing_id: int</dt><dd><p>Id of the mailer.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>URI to poll for progress</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.queue_mailer">
+<span class="sig-name descname"><span class="pre">queue_mailer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mailing_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.queue_mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.queue_mailer" title="Link to this definition"></a></dt>
+<dd><p>Queue a mailer.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>mailing_id: int</dt><dd><p>Id of the mailer.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>URI to poll for progress</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.paginated_get">
+<span class="sig-name descname"><span class="pre">paginated_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.paginated_get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.paginated_get" title="Link to this definition"></a></dt>
+<dd><p>Get multiple objects of a given type.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>object_type: string</dt><dd><p>The type of object to search for.</p>
+</dd>
+<dt>limit: int</dt><dd><p>The number of objects to return. If omitted, all objects are returned.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+<p>Additionally, expressions to filter the data can also be provided. For addition
+info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="n">name__contains</span><span class="o">=</span><span class="s2">&quot;FirstName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The objects data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.paginated_get_custom_limit">
+<span class="sig-name descname"><span class="pre">paginated_get_custom_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascdesc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'asc'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'desc'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'asc'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.paginated_get_custom_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.paginated_get_custom_limit" title="Link to this definition"></a></dt>
+<dd><p>Get multiple objects of a given type, stopping based on the value of a field.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>object_type: string</dt><dd><p>The type of object to search for.</p>
+</dd>
+<dt>limit: int</dt><dd><p>The maximum number of objects to return. Even if the threshold
+value is not reached, if the limit is set, then at most this many
+objects will be returned.</p>
+</dd>
+<dt>threshold_field: string</dt><dd><p>The field used to determine when to stop.
+Must be one of the options for ordering by.</p>
+</dd>
+<dt>threshold_value: string</dt><dd><p>The value of the field to stop at.</p>
+</dd>
+<dt>ascdesc: string</dt><dd><p>If “asc” (the default), return all objects below the threshold value.
+If “desc”, return all objects above the threshold value.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>You can also add expressions to filter the data beyond the limit/threshold values
+above. For additional info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">paginated_get</span><span class="p">(</span><span class="n">name__contains</span><span class="o">=</span><span class="s2">&quot;FirstName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The objects data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_order">
+<span class="sig-name descname"><span class="pre">get_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_order" title="Link to this definition"></a></dt>
+<dd><p>Get an order.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>order_id: int</dt><dd><p>The order id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>User json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_order">
+<span class="sig-name descname"><span class="pre">update_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_order" title="Link to this definition"></a></dt>
+<dd><p>Update an order.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>order_id: int</dt><dd><p>The id of the order to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_order_user_detail">
+<span class="sig-name descname"><span class="pre">update_order_user_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_detail_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_order_user_detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_order_user_detail" title="Link to this definition"></a></dt>
+<dd><p>Update an order user detail.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>user_detail_id: int</dt><dd><p>The id of the order user detail to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">patch</span> <span class="pre">request</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_orderrecurring">
+<span class="sig-name descname"><span class="pre">get_orderrecurring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderrecurring_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_orderrecurring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_orderrecurring" title="Link to this definition"></a></dt>
+<dd><p>Get an orderrecurring.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>orderrecurring_id: int</dt><dd><p>The orderrecurring id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>User json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.cancel_orderrecurring">
+<span class="sig-name descname"><span class="pre">cancel_orderrecurring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recurring_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.cancel_orderrecurring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.cancel_orderrecurring" title="Link to this definition"></a></dt>
+<dd><p>Cancel a recurring order.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>recurring_id: int</dt><dd><p>The id of the recurring order to update (NOT the order_id)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_orderrecurring">
+<span class="sig-name descname"><span class="pre">update_orderrecurring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orderrecurring_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_orderrecurring"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_orderrecurring" title="Link to this definition"></a></dt>
+<dd><p>Update a recurring order.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>orderrecurring_id: int</dt><dd><p>The id of the orderrecurring to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_orders">
+<span class="sig-name descname"><span class="pre">get_orders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_orders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_orders" title="Link to this definition"></a></dt>
+<dd><p>Get multiple orders.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>limit: int</dt><dd><p>The number of orders to return. If omitted, all orders are returned.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+<p>Additionally, expressions to filter the data can also be provided. For addition
+info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">get_orders</span><span class="p">(</span><span class="n">import_id</span><span class="o">=</span><span class="s2">&quot;my-import-123&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The orders data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_paymenttoken">
+<span class="sig-name descname"><span class="pre">update_paymenttoken</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paymenttoken_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_paymenttoken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_paymenttoken" title="Link to this definition"></a></dt>
+<dd><p>Update a saved payment token.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>paymenttoken_id: int</dt><dd><p>The id of the payment token to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_page_followup">
+<span class="sig-name descname"><span class="pre">get_page_followup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page_followup_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_page_followup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_page_followup" title="Link to this definition"></a></dt>
+<dd><p>Get a page followup.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>page_followup_id: int</dt><dd><p>The user id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Page followup json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_page_followup_fields">
+<span class="sig-name descname"><span class="pre">get_page_followup_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_page_followup_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_page_followup_fields" title="Link to this definition"></a></dt>
+<dd><p>Get list of valid page followup fields that can be passed with the
+<a class="reference internal" href="#parsons.action_kit.action_kit.ActionKit.create_page_followup" title="parsons.action_kit.action_kit.ActionKit.create_page_followup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ActionKit.create_page_followup()</span></code></a> method.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>List of page followup fields</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_page_followup">
+<span class="sig-name descname"><span class="pre">create_page_followup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signup_page_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_page_followup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_page_followup" title="Link to this definition"></a></dt>
+<dd><p>Add a page followup.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>signup_page_id: int</dt><dd><p>The signup page to associate the followup page with</p>
+</dd>
+<dt>url: str</dt><dd><p>URL of the folloup page</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>API location of new resource</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_survey_question">
+<span class="sig-name descname"><span class="pre">get_survey_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">survey_question_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_survey_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_survey_question" title="Link to this definition"></a></dt>
+<dd><p>Get a survey question.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>survey_question_id: int</dt><dd><p>The survey question id of the record to get.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Survey question json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_survey_question">
+<span class="sig-name descname"><span class="pre">update_survey_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">survey_question_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_survey_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_survey_question" title="Link to this definition"></a></dt>
+<dd><p>Update a survey question.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>survey_question_id: int</dt><dd><p>The id of the survey question to update</p>
+</dd>
+<dt>survey_question_dict: dict</dt><dd><p>A dictionary of fields to update for the survey question.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_transaction">
+<span class="sig-name descname"><span class="pre">create_transaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_transaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_transaction" title="Link to this definition"></a></dt>
+<dd><p>Create a transaction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Transaction json object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_transaction">
+<span class="sig-name descname"><span class="pre">update_transaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transaction_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_transaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_transaction" title="Link to this definition"></a></dt>
+<dd><p>Update a transaction.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>transaction_id: int</dt><dd><p>The id of the transaction to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.get_transactions">
+<span class="sig-name descname"><span class="pre">get_transactions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.get_transactions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.get_transactions" title="Link to this definition"></a></dt>
+<dd><p>Get multiple transactions.</p>
+<dl>
+<dt>Args:</dt><dd><dl>
+<dt>limit: int</dt><dd><p>The number of transactions to return. If omitted, all transactions are returned.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+<p>Additionally, expressions to filter the data can also be provided. For addition
+info, visit <a class="reference external" href="https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups">Django’s docs on field lookups</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ak</span><span class="o">.</span><span class="n">get_transactions</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s2">&quot;order-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>Parsons.Table</dt><dd><p>The transactions data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.create_generic_action">
+<span class="sig-name descname"><span class="pre">create_generic_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">page</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ak_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.create_generic_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.create_generic_action" title="Link to this definition"></a></dt>
+<dd><p>Post a generic action. One of <code class="docutils literal notranslate"><span class="pre">ak_id</span></code> or <code class="docutils literal notranslate"><span class="pre">email</span></code> is a required argument.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>page:</dt><dd><p>The page to post the action. The page short name.</p>
+</dd>
+<dt>email:</dt><dd><p>The email address of the user to post the action.</p>
+</dd>
+<dt>ak_id:</dt><dd><p>The action kit id of the record.</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+in the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html">ActionKit API Documentation</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict</dt><dd><p>The response json</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.update_import_action">
+<span class="sig-name descname"><span class="pre">update_import_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.update_import_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.update_import_action" title="Link to this definition"></a></dt>
+<dd><p>Update an import action.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>action_id: int</dt><dd><p>The action id of the import action to update</p>
+</dd>
+<dt><cite>**kwargs</cite>:</dt><dd><p>Optional arguments and fields to pass to the client. A full list can be found
+at the /rest/v1/importaction/schema/ path on any ActionKit instance.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">response</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">patch</span> <span class="pre">request</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.bulk_upload_csv">
+<span class="sig-name descname"><span class="pre">bulk_upload_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csv_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">import_page</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autocreate_user_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_fields_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.bulk_upload_csv" title="Link to this definition"></a></dt>
+<dd><p>Bulk upload a csv file of new users or user updates.
+If you are uploading a table object, use bulk_upload_table instead.
+See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
+Be careful that blank values in columns will overwrite existing data.</p>
+<p>If you get a 500 error, try sending a much smaller file (say, one row),
+which is more likely to return the proper 400 with a useful error message</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>import_page: str</dt><dd><p>The page to post the action. The page short name.</p>
+</dd>
+<dt>csv_file: str or buffer</dt><dd><p>The csv (optionally zip’d) file path or a file buffer object
+A user_id or email column is required.
+ActionKit rejects files that are larger than 128M</p>
+</dd>
+<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with <code class="docutils literal notranslate"><span class="pre">user_</span></code> will be uploaded as user fields.
+See the <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">autocreate_user_fields documentation</a>.</p>
+</dd>
+<dt>user_fields_only: bool</dt><dd><p>When uploading only an email/user_id column and <code class="docutils literal notranslate"><span class="pre">user_</span></code> user fields,
+ActionKit has a fast processing path.
+This doesn’t work, if you upload a zipped csv though.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict[str, bool | str | requests.Response]</dt><dd><p>success: whether upload was successful
+progress_url: an API URL to get progress on upload processing
+res: requests http response object</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.bulk_upload_table">
+<span class="sig-name descname"><span class="pre">bulk_upload_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">import_page</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autocreate_user_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_overwrite_on_empty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_only_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.bulk_upload_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.bulk_upload_table" title="Link to this definition"></a></dt>
+<dd><p>Bulk upload a table of new users or user updates.
+See <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html">ActionKit User Upload Documentation</a>
+Be careful that blank values in columns will overwrite existing data.</p>
+<p>Tables with only an identifying column (user_id/email) and <code class="docutils literal notranslate"><span class="pre">user_</span></code> user fields
+will be fast-processed – this is useful for setting/updating user fields.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you get a 500 error, try sending a much smaller file (say, one row),
+which is more likely to return the proper 400 with a useful error message</p>
+</div>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>import_page: str</dt><dd><p>The page to post the action. The page short name.</p>
+</dd>
+<dt>table: parsons.Table</dt><dd><p>A Table of user data to bulk upload
+A user_id or email column is required.</p>
+</dd>
+<dt>autocreate_user_fields: bool</dt><dd><p>When True columns starting with <code class="docutils literal notranslate"><span class="pre">user_</span></code> will be uploaded as user fields.
+<a class="reference external" href="https://actionkit.com/">ActionKit</a>.
+See the autocreate_user_fields <a class="reference external" href="https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request">documentation</a>.</p>
+</dd>
+<dt>no_overwrite_on_empty: bool</dt><dd><p>When uploading user data, ActionKit will, by default, take a blank value
+and overwrite existing data for that user.
+This can be undesirable, if the goal is to only send updates.
+Setting this to True will divide up the table into multiple upload
+batches, changing the columns uploaded based on permutations of
+empty columns.</p>
+</dd>
+<dt>set_only_columns: list</dt><dd><p>This is similar to no_overwrite_on_empty but restricts to a specific set of columns
+which, if blank, should not be overwritten.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>dict[str, bool | list[dict]]</dt><dd><p>success: bool – whether upload was successful (individual rows may not have been)
+results: [dict] – This is a list of the full results.
+progress_url and res for any results</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="parsons.action_kit.action_kit.ActionKit.collect_upload_errors">
+<span class="sig-name descname"><span class="pre">collect_upload_errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/parsons/action_kit/action_kit.html#ActionKit.collect_upload_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#parsons.action_kit.action_kit.ActionKit.collect_upload_errors" title="Link to this definition"></a></dt>
+<dd><p>Collect any upload errors as a list of objects from bulk_upload_table ‘results’ key value.
+This waits for uploads to complete, so it may take some time if you uploaded a large file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>result_array: list</dt><dd><p>After receiving a dict back from bulk_upload_table you may want to see if there
+were any errors in the uploads.  If you call collect_upload_errors(result_array)
+it will iterate across each of the uploads fetching the final result of e.g.
+/rest/v1/uploaderror?upload=123</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>[dict]</dt><dd><p>message: str – error message
+upload: str – upload progress API path e.g. “/rest/v1/upload/123456/”
+id: int – upload error record id (different than upload id)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="actblue.html" class="btn btn-neutral float-left" title="ActBlue" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="action_builder.html" class="btn btn-neutral float-right" title="Action Builder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Movement Cooperative.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Most Common</dt>
+        <!-- Show latest & stable first -->
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                  <dd><a href="action_kit.html">latest</a></dd>
+            
+        
+            
+                  <dd><a href="../stable/action_kit.html">stable</a></dd>
+            
+        
+
+        <dt>By Version Number</dt>
+        <!-- Show other versions -->
+        
+            
+                  <dd><a href="../v0.14.0/action_kit.html">v0.14.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.15.0/action_kit.html">v0.15.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.16.0/action_kit.html">v0.16.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.17.0/action_kit.html">v0.17.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.0/action_kit.html">v0.18.0</a></dd>
+            
+        
+            
+                  <dd><a href="../v0.18.1/action_kit.html">v0.18.1</a></dd>
+            
+        
+            
+        
+            
+        
+
+      </dl>
+    </div>
+  </div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

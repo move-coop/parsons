@@ -5,45 +5,45 @@
     <total-items type="integer">2</total-items>
     <dispute>
        <id>abcd1234abcd1234</id>
-       <global-id>abcd1234abcd1234abcd1234abcd1234</global-id> 
-       <amount>66.90</amount> 
-       <amount-disputed>66.90</amount-disputed> 
-       <amount-won>0.00</amount-won> 
-       <case-number>CB123456789</case-number> 
-       <created-at type="dateTime">2019-12-30T11:51:48Z</created-at> 
-       <currency-iso-code>USD</currency-iso-code> 
-       <date-opened type="date">2019-12-30</date-opened> 
+       <global-id>abcd1234abcd1234abcd1234abcd1234</global-id>
+       <amount>66.90</amount>
+       <amount-disputed>66.90</amount-disputed>
+       <amount-won>0.00</amount-won>
+       <case-number>CB123456789</case-number>
+       <created-at type="dateTime">2019-12-30T11:51:48Z</created-at>
+       <currency-iso-code>USD</currency-iso-code>
+       <date-opened type="date">2019-12-30</date-opened>
        <date-won nil="true"/>
-       <processor-comments nil="true"/> 
-       <kind>chargeback</kind> 
-       <merchant-account-id>ExampleOrg_instant</merchant-account-id> 
-       <reason>transaction_amount_differs</reason> 
-       <reason-code>1250</reason-code> 
-       <reason-description>Incorrect Amount</reason-description> 
-       <received-date type="date">2019-12-30</received-date> 
-       <reference-number>98273489237483749834</reference-number> 
-       <reply-by-date type="date">2020-01-07</reply-by-date> 
-       <processor-reply-by-date type="date">2020-01-10</processor-reply-by-date> 
-       <response-deadline type="dateTime">2020-01-06T05:59:59Z</response-deadline> 
-       <status>lost</status> 
-       <updated-at type="dateTime">2020-03-07T06:20:53Z</updated-at> 
+       <processor-comments nil="true"/>
+       <kind>chargeback</kind>
+       <merchant-account-id>ExampleOrg_instant</merchant-account-id>
+       <reason>transaction_amount_differs</reason>
+       <reason-code>1250</reason-code>
+       <reason-description>Incorrect Amount</reason-description>
+       <received-date type="date">2019-12-30</received-date>
+       <reference-number>98273489237483749834</reference-number>
+       <reply-by-date type="date">2020-01-07</reply-by-date>
+       <processor-reply-by-date type="date">2020-01-10</processor-reply-by-date>
+       <response-deadline type="dateTime">2020-01-06T05:59:59Z</response-deadline>
+       <status>lost</status>
+       <updated-at type="dateTime">2020-03-07T06:20:53Z</updated-at>
        <original-dispute-id nil="true"/>
-       <evidence type="array"/> 
+       <evidence type="array"/>
        <status-history type="array">
          <status-history>
            <disbursement-date nil="true"/>
-           <effective-date type="date">2020-03-07</effective-date> 
-           <status>lost</status> 
-           <timestamp type="dateTime">2020-03-07T06:20:53Z</timestamp> 
-         </status-history> 
+           <effective-date type="date">2020-03-07</effective-date>
+           <status>lost</status>
+           <timestamp type="dateTime">2020-03-07T06:20:53Z</timestamp>
+         </status-history>
          <status-history>
            <disbursement-date nil="true"/>
-           <effective-date type="date">2020-01-07</effective-date> 
-           <status>expired</status> 
-           <timestamp type="dateTime">2020-01-07T06:13:59Z</timestamp> 
-         </status-history> 
+           <effective-date type="date">2020-01-07</effective-date>
+           <status>expired</status>
+           <timestamp type="dateTime">2020-01-07T06:13:59Z</timestamp>
+         </status-history>
          <status-history>
-           <disbursement-date type="date">2019-12-30</disbursement-date> 
+           <disbursement-date type="date">2019-12-30</disbursement-date>
            <effective-date type="date">2019-12-30</effective-date>
            <status>open</status>
            <timestamp type="dateTime">2019-12-30T11:51:51Z</timestamp>
@@ -51,70 +51,70 @@
        </status-history>
        <transaction>
          <id>d9f876fg</id>
-         <global-id>hj4h545h4h54h5h45j43h5xxx</global-id> 
-         <amount>86.90</amount> 
-         <created-at>2019-12-21T17:55:08Z</created-at> 
+         <global-id>hj4h545h4h54h5h45j43h5xxx</global-id>
+         <amount>86.90</amount>
+         <created-at>2019-12-21T17:55:08Z</created-at>
          <order-id nil="true"/>
-         <purchase-order-number nil="true"/> 
-         <payment-instrument-subtype>Visa</payment-instrument-subtype>    
-       </transaction>  
-    </dispute>  
+         <purchase-order-number nil="true"/>
+         <payment-instrument-subtype>Visa</payment-instrument-subtype>
+       </transaction>
+    </dispute>
 
 
     <dispute>
-         <id>ghjk6789ghjk6789</id> 
-         <global-id>ghjk6789ghjk6789ghjk6789ghjk6789</global-id> 
-          <amount>10.00</amount> 
-          <amount-disputed>10.00</amount-disputed> 
-          <amount-won>0.00</amount-won> 
-          <case-number>CB987654321</case-number> 
-          <created-at type="dateTime">2019-12-30T10:55:47Z</created-at> 
-          <currency-iso-code>USD</currency-iso-code> 
-          <date-opened type="date">2019-12-30</date-opened> 
+         <id>ghjk6789ghjk6789</id>
+         <global-id>ghjk6789ghjk6789ghjk6789ghjk6789</global-id>
+          <amount>10.00</amount>
+          <amount-disputed>10.00</amount-disputed>
+          <amount-won>0.00</amount-won>
+          <case-number>CB987654321</case-number>
+          <created-at type="dateTime">2019-12-30T10:55:47Z</created-at>
+          <currency-iso-code>USD</currency-iso-code>
+          <date-opened type="date">2019-12-30</date-opened>
           <date-won nil="true"/>
-          <processor-comments nil="true"/> 
-          <kind>chargeback</kind> 
-          <merchant-account-id>ExampleOrg2</merchant-account-id> 
-          <reason>fraud</reason> 
-          <reason-code>1040</reason-code> 
-          <reason-description>Fraud - Card Absent Environment</reason-description> 
-          <received-date type="date">2019-12-30</received-date> 
-          <reference-number>109827349827348927384</reference-number> 
-          <reply-by-date type="date">2020-01-07</reply-by-date> 
-          <processor-reply-by-date type="date">2020-01-10</processor-reply-by-date> 
-          <response-deadline type="dateTime">2020-01-06T05:59:59Z</response-deadline> 
-          <status>lost</status> 
-          <updated-at type="dateTime">2020-03-07T06:20:53Z</updated-at> 
+          <processor-comments nil="true"/>
+          <kind>chargeback</kind>
+          <merchant-account-id>ExampleOrg2</merchant-account-id>
+          <reason>fraud</reason>
+          <reason-code>1040</reason-code>
+          <reason-description>Fraud - Card Absent Environment</reason-description>
+          <received-date type="date">2019-12-30</received-date>
+          <reference-number>109827349827348927384</reference-number>
+          <reply-by-date type="date">2020-01-07</reply-by-date>
+          <processor-reply-by-date type="date">2020-01-10</processor-reply-by-date>
+          <response-deadline type="dateTime">2020-01-06T05:59:59Z</response-deadline>
+          <status>lost</status>
+          <updated-at type="dateTime">2020-03-07T06:20:53Z</updated-at>
           <original-dispute-id nil="true"/>
-          <evidence type="array"/> 
+          <evidence type="array"/>
           <status-history type="array">
             <status-history>
               <disbursement-date nil="true"/>
-              <effective-date type="date">2020-03-07</effective-date> 
-              <status>lost</status> 
-              <timestamp type="dateTime">2020-03-07T06:20:53Z</timestamp>      
+              <effective-date type="date">2020-03-07</effective-date>
+              <status>lost</status>
+              <timestamp type="dateTime">2020-03-07T06:20:53Z</timestamp>
             </status-history>
             <status-history>
               <disbursement-date nil="true"/>
-              <effective-date type="date">2020-01-07</effective-date> 
-              <status>expired</status> 
-              <timestamp type="dateTime">2020-01-07T06:13:59Z</timestamp> 
-            </status-history> 
+              <effective-date type="date">2020-01-07</effective-date>
+              <status>expired</status>
+              <timestamp type="dateTime">2020-01-07T06:13:59Z</timestamp>
+            </status-history>
             <status-history>
-              <disbursement-date type="date">2019-12-30</disbursement-date> 
-              <effective-date type="date">2019-12-30</effective-date> 
-              <status>open</status> 
-              <timestamp type="dateTime">2019-12-30T10:55:49Z</timestamp> 
-            </status-history> 
-          </status-history> 
-          <transaction>     
-            <id>98df87fg</id> 
-            <global-id>hj4h545h4h54h5h45j43h5</global-id> 
-            <amount>10.00</amount> 
-            <created-at>2019-12-17T10:15:50Z</created-at> 
+              <disbursement-date type="date">2019-12-30</disbursement-date>
+              <effective-date type="date">2019-12-30</effective-date>
+              <status>open</status>
+              <timestamp type="dateTime">2019-12-30T10:55:49Z</timestamp>
+            </status-history>
+          </status-history>
+          <transaction>
+            <id>98df87fg</id>
+            <global-id>hj4h545h4h54h5h45j43h5</global-id>
+            <amount>10.00</amount>
+            <created-at>2019-12-17T10:15:50Z</created-at>
             <order-id nil="true"/>
-            <purchase-order-number nil="true"/> 
-            <payment-instrument-subtype>Visa</payment-instrument-subtype> 
-          </transaction> 
+            <purchase-order-number nil="true"/>
+            <payment-instrument-subtype>Visa</payment-instrument-subtype>
+          </transaction>
        </dispute>
   </disputes>

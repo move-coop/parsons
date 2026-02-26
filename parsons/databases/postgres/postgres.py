@@ -30,6 +30,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             Required if env variable ``PGPORT`` not populated.
         timeout: int
             Seconds to timeout if connection not established.
+
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
@@ -64,7 +65,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        `Args:`
+        Args:
             tbl: parsons.Table
                 A Parsons table object
             table_name: str
@@ -77,6 +78,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. Defaults to ``False``.
+
         """
 
         with self.connection() as connection:

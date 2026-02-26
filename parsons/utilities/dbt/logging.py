@@ -177,7 +177,7 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
         self.commands = manifests
         log_text = self.format_result()
 
-        # Importing here to avoid needing to make slackclient a dependency for all dbt users
+        # Importing here to avoid needing to make slack-sdk a dependency for all dbt users
         from parsons.notifications.slack import Slack
 
         Slack.message(channel=self.slack_channel, text=log_text, webhook=self.slack_webhook)
@@ -205,7 +205,8 @@ class dbtLoggerDatabase(dbtLogger, ABC):
             destination_table_runs: The name of the table to log run information.
             destination_table_nodes: The name of the table to log node information.
             extra_run_table_fields: A dictionary of additional fields to include in the run table.
-            **copy_kwargs: Additional keyword arguments to pass to the `copy` method.
+            `**copy_kwargs`: Additional keyword arguments to pass to the `copy` method.
+
         """
         self.db_connector = database_connector
         self.destination_table_runs = destination_table_runs

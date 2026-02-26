@@ -116,6 +116,8 @@ jobs:
 
       - run:
           name: Deploy docs
+          environment:
+            CACHE_DIR: /home/circleci/gh-pages-cache
           command: |
             OPTIONS=(
               "--dist" "docs/html"

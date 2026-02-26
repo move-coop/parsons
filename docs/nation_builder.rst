@@ -8,8 +8,9 @@ Overview
 The NationBuilder class allows you to interact with the NationBuilder API. Users of this Parsons integration can download a full list of people, update and upsert people.
 
 .. note::
-  Authentication
-    In order to use this class you need your nation slug and access token. To get your access token login to your nation and navigate to ``Settings > Developer > API Token`` and create a new token. You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`_.
+
+   Authentication
+      In order to use this class you need your nation slug and access token. To get your access token login to your nation and navigate to ``Settings > Developer > API Token`` and create a new token. You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`_.
 
 ==========
 Quickstart
@@ -48,5 +49,7 @@ The above example shows how to create a Parsons table with all people registered
 API
 ***
 
-.. autoclass :: parsons.NationBuilder
+.. autoclass:: parsons.nation_builder.nation_builder.NationBuilder
    :inherited-members:
+   :members:
+   

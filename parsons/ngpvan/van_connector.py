@@ -50,9 +50,7 @@ class VANConnector:
 
     @property
     def api_key_profile(self):
-        """
-        Returns the API key profile with includes permissions and other metadata.
-        """
+        """Returns the API key profile with includes permissions and other metadata."""
 
         return self.get_request("apiKeyProfiles")[0]
 
@@ -71,9 +69,7 @@ class VANConnector:
         return self._soap_client
 
     def soap_client_db(self):
-        """
-        Parse the REST database name to the accepted SOAP format
-        """
+        """Parse the REST database name to the accepted SOAP format"""
 
         if self.db == "MyVoters":
             return "MyVoterFile"

@@ -17,7 +17,7 @@ class ActionKit:
     """
     Instantiate the ActionKit class
 
-    `Args:`
+    Args:
         domain: str
             The ActionKit domain (e.g. ``myorg.actionkit.com``) Not required if
             ``ACTION_KIT_DOMAIN`` env variable set.
@@ -27,6 +27,7 @@ class ActionKit:
         password: str
             The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``
             env variable set.
+
     """
 
     _default_headers = {
@@ -100,11 +101,13 @@ class ActionKit:
         """
         Get a user.
 
-        `Args:`
+        Args:
             user_id: int
                 The user id of the record to get.
-        `Returns`:
+
+        Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -116,8 +119,9 @@ class ActionKit:
         Get list of valid user fields that can be passed with the
         :meth:`ActionKit.create_user` method.
 
-        `Returns`:
+        Returns:
             List of user fields
+
         """
 
         resp = self._base_get(endpoint="user/schema")
@@ -128,15 +132,17 @@ class ActionKit:
         """
         Create a user.
 
-        `Args:`
+        Args:
             email: str
                 Email for the user
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             User json object
+
         """
 
         return self._base_post(
@@ -150,15 +156,14 @@ class ActionKit:
         """
         Add a phone number to a user.
 
-        `Args:`
-            user_id: string
-                The id of the user.
-            phone_type: string
-                The type of the phone (e.g., "Home").
-            phone: string
-                The phone number.
-        `Returns:`
+        Args:
+            user_id (str): The id of the user
+            phone_type (str): The type of the phone (e.g. "Home")
+            phone (str): The phone number
+
+        Returns:
             Phone json object
+
         """
         return self._base_post(
             endpoint="phone",
@@ -172,11 +177,10 @@ class ActionKit:
         """
         Delete an actionfield.
 
-        `Args:`
+        Args:
             actionfield_id: int
                 The id of the actionfield to delete
-        `Returns:`
-            ``None``
+
         """
 
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
@@ -186,15 +190,17 @@ class ActionKit:
         """
         Update a user.
 
-        `Args:`
+        Args:
             user_id: int
                 The user id of the person to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
@@ -206,14 +212,16 @@ class ActionKit:
         """
         Update a phone record.
 
-        `Args:`
+        Args:
             phone_id: int
                 The phone id of the phone to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/phone/schema/ path on any ActionKit instance.
-        `Returns:`
+
+        Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
@@ -224,10 +232,11 @@ class ActionKit:
     def get_event(self, event_id):
         """Get an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The id for the event.
-        `Returns:`
+
+        Returns:
             dict
                 Event json object.
 
@@ -237,24 +246,26 @@ class ActionKit:
     def get_events(self, limit=None, **kwargs):
         """Get multiple events.
 
-        `Args:`
+        Args:
             limit: int
                 The number of events to return. If omitted, all events are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
                     ak.get_events(name__contains="FirstName")
-        `Returns:`
+
+        Returns:
             Parsons.Table
                 The events data.
+
         """
         return self.paginated_get("event", limit=limit, **kwargs)
 
@@ -262,15 +273,14 @@ class ActionKit:
         """
         Update an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id of the event to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
@@ -281,15 +291,17 @@ class ActionKit:
         Create an event field (custom field on an event). Note that if an event
         field with this name already exists, this will add a second record.
 
-        `Args:`
+        Args:
             event_id: int
                 The id for the event.
             name: string
                 The name of the event field.
             value: string
                 The value of the event field.
-        `Returns:`
+
+        Returns:
             Event field json object
+
         """
         return self._base_post(
             endpoint="eventfield",
@@ -303,15 +315,14 @@ class ActionKit:
         """
         Update an event field.
 
-        `Args:`
+        Args:
             eventfield_id: int
                 The id of the event field to update.
             name: string
                 The name of the event field.
             value: string
                 The value of the event field.
-        `Returns:`
-            ``None``
+
         """
         resp = self.conn.patch(
             self._base_endpoint("eventfield", eventfield_id),
@@ -328,14 +339,16 @@ class ActionKit:
         """
         Get a blackholed email. A blackholed email is an email that has been prevented from
         receiving bulk and transactional emails from ActionKit. `Documentation <https://\
-        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`_.
+        docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole>`__.
 
-        `Args:`
+        Args:
             email: str
                 Blackholed email of the record to get.
-        `Returns`:
+
+        Returns:
             Parsons.Table
                 The blackholed email data.
+
         """
 
         return self.paginated_get("blackholedemail", email=email)
@@ -344,13 +357,15 @@ class ActionKit:
         """
         Prevent an email from receiving bulk and transactional emails from ActionKit.
         `Documentation <https://docs.actionkit.com/docs/manual/guide/\
-        mailings_tools.html#blackhole>`_.
+        mailings_tools.html#blackhole>`__.
 
-        `Args:`
+        Args:
             user_id: str
                 Email to blackhole
-        `Returns:`
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -363,15 +378,17 @@ class ActionKit:
         """
         Delete user data.
 
-        `Args:`
+        Args:
             email: str
                 Email of user to delete data
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://docs.actionkit.com/docs/manual/api/\
-                rest/users.html>`_.
-        `Returns:`
+                rest/users.html>`__.
+
+        Returns:
             API location of anonymized user
+
         """
 
         return self._base_post(
@@ -385,11 +402,10 @@ class ActionKit:
         """
         Delete a user.
 
-        `Args:`
+        Args:
             user_id: int
                 The user id of the person to delete
-        `Returns:`
-            ``None``
+
         """
 
         resp = self.conn.delete(self._base_endpoint("user", user_id))
@@ -399,11 +415,13 @@ class ActionKit:
         """
         Get a campaign.
 
-        `Args:`
+        Args:
             campaign_id: int
                 The campaign id of the record.
-        `Returns`:
+
+        Returns:
             Campaign json object
+
         """
 
         return self._base_get(
@@ -417,8 +435,9 @@ class ActionKit:
         Get list of valid campaign fields that can be passed with the
         :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.
 
-        `Returns`:
+        Returns:
             List of campaign fields
+
         """
 
         resp = self._base_get(endpoint="campaign/schema")
@@ -428,15 +447,17 @@ class ActionKit:
         """
         Create a campaign.
 
-        `Args:`
+        Args:
             name: str
                 The name of the campaign to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns`:
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -459,7 +480,7 @@ class ActionKit:
         """
         Get events in a campaign, with optional search filters.
 
-        `Args:`
+        Args:
             campaign_id: int
                 The id of the event campaign.
             limit: int
@@ -467,7 +488,7 @@ class ActionKit:
             order_by: string
                 Event attribute to order the results by. Defaults to id, which will normally
                 be equivalent to ordering by created_at. See `ActionKit's docs on ordering
-                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`_.
+                <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`__.
             ascdesc: string
                 If "asc" (the default), returns events ordered by the attribute specified by
                 the order_by parameter. If "desc", returns events in reverse order.
@@ -477,7 +498,7 @@ class ActionKit:
                 For additional info, visit `Django's docs on field lookups
                 <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_ and
                 `ActionKit's docs on the search API
-                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`__.
 
                 .. code-block:: python
 
@@ -486,16 +507,19 @@ class ActionKit:
                         "field__name": "example_event_field_name",
                         "field__value": "Example event field value",
                     }
+
             exclude: dictionary
                 A dictionary for excluding by the attributes of the event or related object.
                 Uses the same format as the filters argument.
-            **kwargs:
+            `**kwargs`:
                 A dictionary of other options for filtering. See `ActionKit's docs on the
                 search API
-                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`_.
-        `Returns:`
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`__.
+
+        Returns:
             Parsons.Table
                 The list of events.
+
         """
         if filters:
             for field, value in filters.items():
@@ -517,11 +541,13 @@ class ActionKit:
         """
         Get a event create page.
 
-        `Args:`
+        Args:
             event_create_page_id: int
                 The event create page id of the record to get.
-        `Returns`:
+
+        Returns:
             Event create page json object
+
         """
 
         return self._base_get(
@@ -535,8 +561,9 @@ class ActionKit:
         Get list of event create page fields that can be passed with the
         :meth:`ActionKit.create_event_create_page`.
 
-        `Returns`:
+        Returns:
             List of event create page fields
+
         """
 
         resp = self._base_get(endpoint="eventcreatepage/schema")
@@ -546,19 +573,21 @@ class ActionKit:
         """
         Add an event page to a campaign.
 
-        `Args:`
+        Args:
             campaign_id: int
                 The campaign to assoicate page with
             name: str
                 The name of the page to create
             title: str
                 The title of the page to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns`:
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -574,11 +603,13 @@ class ActionKit:
         """
         Get a event create form.
 
-        `Args:`
+        Args:
             event_create_form_id: int
                 The event create form id of the record to get.
-        `Returns`:
+
+        Returns:
             Event create form json object
+
         """
 
         return self._base_get(
@@ -592,8 +623,9 @@ class ActionKit:
         Get list of valid event create form fields that can be passed with the
         :meth:`ActionKit.create_event_create_form` method.
 
-        `Returns`:
+        Returns:
             List of event create form fields
+
         """
 
         resp = self._base_get(endpoint="eventcreateform/schema")
@@ -603,17 +635,19 @@ class ActionKit:
         """
         Create a event create form.
 
-        `Args:`
+        Args:
             page_id: int
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -628,11 +662,13 @@ class ActionKit:
         """
         Get event signup page.
 
-        `Args:`
+        Args:
             event_signup_page_id: int
                 The event signup page id of the record to get.
-        `Returns`:
+
+        Returns:
             Event signup page json object
+
         """
 
         return self._base_get(
@@ -646,8 +682,9 @@ class ActionKit:
         Get list of valid event signup page fields that can be passed with the
         :meth:`ActionKit.create_event_signup_page` method.
 
-        `Returns`:
+        Returns:
             List of event signup page fields
+
         """
 
         resp = self._base_get(endpoint="eventsignuppage/schema")
@@ -657,19 +694,21 @@ class ActionKit:
         """
         Add an event signup page to a campaign.
 
-        `Args:`
+        Args:
             campaign_id: int
                 The campaign to assoicate page with
             name: str
                 The name of the page to create
             title: str
                 The title of the page to create
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns`:
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -685,11 +724,13 @@ class ActionKit:
         """
         Get a user.
 
-        `Args:`
+        Args:
             event_signup_form_id: str
                 The event signup form id of the record to get.
-        `Returns`:
+
+        Returns:
             Event signup form json object
+
         """
 
         return self._base_get(
@@ -703,8 +744,9 @@ class ActionKit:
         Get list of valid event signup form fields that can be passed with the
         :meth:`ActionKit.create_event_signup_form` method.
 
-        `Returns`:
+        Returns:
             List of event signup form fields
+
         """
 
         resp = self._base_get(endpoint="eventsignupform/schema")
@@ -714,17 +756,19 @@ class ActionKit:
         """
         Create a event signup form.
 
-        `Args:`
+        Args:
             page_id: int
                 The page to associate the form with
             thank_you_text: str
                 Free form thank you text
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -739,17 +783,16 @@ class ActionKit:
         """
         Update an event signup.
 
-        `Args:`
+        Args:
             event_signup_id: int
                 The id of the event signup to update
             event_signup_dict: dict
                 A dictionary of fields to update for the event signup.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(
@@ -761,11 +804,13 @@ class ActionKit:
         """
         Get a mailer.
 
-        `Args:`
+        Args:
             entity_id: int
                 The entity id of the record to get.
-        `Returns`:
+
+        Returns:
             Mailer json object
+
         """
 
         return self._base_get(endpoint="mailer", entity_id=entity_id)
@@ -774,13 +819,15 @@ class ActionKit:
         """
         Create a mailer.
 
-        `Args:`
-            **kwargs:
+        Args:
+            `**kwargs`:
                 Arguments and fields to pass to the client. A full list can be found in the
                 `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/manual/api/\
-                rest/mailer.html>`_.
-        `Returns:`
+                rest/mailer.html>`__.
+
+        Returns:
             URI of new mailer
+
         """
 
         return self._base_post(
@@ -789,7 +836,7 @@ class ActionKit:
 
     def copy_mailer(self, mailer_id):
         """
-        copy a mailer
+        Copy a mailer
         returns new copy of mailer which should be updatable.
         """
         resp = self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")
@@ -799,15 +846,17 @@ class ActionKit:
         """
         Update a mailing.
 
-        `Args:`
+        Args:
             mailing_id: int
                 The id of the mailing to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
@@ -818,11 +867,13 @@ class ActionKit:
         """
         Rebuild a mailer.
 
-        `Args:`
+        Args:
             mailing_id: int
                 Id of the mailer.
-        `Returns:`
+
+        Returns:
             URI to poll for progress
+
         """
 
         return self._base_post(
@@ -834,11 +885,13 @@ class ActionKit:
         """
         Queue a mailer.
 
-        `Args:`
+        Args:
             mailing_id: int
                 Id of the mailer.
-        `Returns:`
+
+        Returns:
             URI to poll for progress
+
         """
 
         return self._base_post(
@@ -849,26 +902,28 @@ class ActionKit:
     def paginated_get(self, object_type, limit=None, **kwargs):
         """Get multiple objects of a given type.
 
-        `Args:`
+        Args:
             object_type: string
                 The type of object to search for.
             limit: int
                 The number of objects to return. If omitted, all objects are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
                     ak.paginated_get(name__contains="FirstName")
-        `Returns:`
+
+        Returns:
             Parsons.Table
                 The objects data.
+
         """
         # "The maximum number of objects returned per request is 100. Use paging
         # to get more objects."
@@ -899,7 +954,7 @@ class ActionKit:
     ):
         """Get multiple objects of a given type, stopping based on the value of a field.
 
-        `Args:`
+        Args:
             object_type: string
                 The type of object to search for.
             limit: int
@@ -914,17 +969,19 @@ class ActionKit:
             ascdesc: string
                 If "asc" (the default), return all objects below the threshold value.
                 If "desc", return all objects above the threshold value.
-            **kwargs:
+            `**kwargs`:
                 You can also add expressions to filter the data beyond the limit/threshold values
                 above. For additional info, visit `Django's docs on field lookups
-                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`_.
+                <https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
                     ak.paginated_get(name__contains="FirstName")
-        `Returns:`
+
+        Returns:
             Parsons.Table
                 The objects data.
+
         """
         # "The maximum number of objects returned per request is 100. Use paging
         # to get more objects."
@@ -963,11 +1020,13 @@ class ActionKit:
         """
         Get an order.
 
-        `Args:`
+        Args:
             order_id: int
                 The order id of the record to get.
-        `Returns`:
+
+        Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -978,15 +1037,14 @@ class ActionKit:
         """
         Update an order.
 
-        `Args:`
+        Args:
             order_id: int
                 The id of the order to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
@@ -996,14 +1054,16 @@ class ActionKit:
         """
         Update an order user detail.
 
-        `Args:`
+        Args:
             user_detail_id: int
                 The id of the order user detail to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
-        `Returns:`
+
+        Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(
@@ -1017,11 +1077,13 @@ class ActionKit:
         """
         Get an orderrecurring.
 
-        `Args:`
+        Args:
             orderrecurring_id: int
                 The orderrecurring id of the record to get.
-        `Returns`:
+
+        Returns:
             User json object
+
         """
 
         return self._base_get(
@@ -1034,11 +1096,10 @@ class ActionKit:
         """
         Cancel a recurring order.
 
-        `Args:`
+        Args:
             recurring_id: int
                 The id of the recurring order to update (NOT the order_id)
-        `Returns:`
-            ``None``
+
         """
 
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
@@ -1049,15 +1110,14 @@ class ActionKit:
         """
         Update a recurring order.
 
-        `Args:`
+        Args:
             orderrecurring_id: int
                 The id of the orderrecurring to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(
@@ -1069,24 +1129,26 @@ class ActionKit:
     def get_orders(self, limit=None, **kwargs):
         """Get multiple orders.
 
-        `Args:`
+        Args:
             limit: int
                 The number of orders to return. If omitted, all orders are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
                     ak.get_orders(import_id="my-import-123")
-        `Returns:`
+
+        Returns:
             Parsons.Table
                 The orders data.
+
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
@@ -1094,15 +1156,17 @@ class ActionKit:
         """
         Update a saved payment token.
 
-        `Args:`
+        Args:
             paymenttoken_id: int
                 The id of the payment token to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             ``HTTP response``
+
         """
 
         resp = self.conn.patch(
@@ -1116,11 +1180,13 @@ class ActionKit:
         """
         Get a page followup.
 
-        `Args:`
+        Args:
             page_followup_id: int
                 The user id of the record to get.
-        `Returns`:
+
+        Returns:
             Page followup json object
+
         """
 
         return self._base_get(
@@ -1134,8 +1200,9 @@ class ActionKit:
         Get list of valid page followup fields that can be passed with the
         :meth:`ActionKit.create_page_followup` method.
 
-        `Returns`:
+        Returns:
             List of page followup fields
+
         """
 
         resp = self._base_get(endpoint="pagefollowup/schema")
@@ -1145,17 +1212,19 @@ class ActionKit:
         """
         Add a page followup.
 
-        `Args:`
+        Args:
             signup_page_id: int
                 The signup page to associate the followup page with
             url: str
                 URL of the folloup page
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns`:
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             API location of new resource
+
         """
 
         return self._base_post(
@@ -1170,11 +1239,13 @@ class ActionKit:
         """
         Get a survey question.
 
-        `Args:`
+        Args:
             survey_question_id: int
                 The survey question id of the record to get.
-        `Returns`:
+
+        Returns:
             Survey question json object
+
         """
 
         return self._base_get(
@@ -1187,17 +1258,16 @@ class ActionKit:
         """
         Update a survey question.
 
-        `Args:`
+        Args:
             survey_question_id: int
                 The id of the survey question to update
             survey_question_dict: dict
                 A dictionary of fields to update for the survey question.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(
@@ -1210,11 +1280,13 @@ class ActionKit:
         """
         Create a transaction.
 
-        `Args:`
-            **kwargs:
+        Args:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client.
-        `Returns:`
+
+        Returns:
             Transaction json object
+
         """
 
         return self._base_post(
@@ -1227,15 +1299,14 @@ class ActionKit:
         """
         Update a transaction.
 
-        `Args:`
+        Args:
             transaction_id: int
                 The id of the transaction to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns:`
-            ``None``
+                manual/api/rest/actionprocessing.html>`__.
+
         """
 
         resp = self.conn.patch(
@@ -1246,24 +1317,26 @@ class ActionKit:
     def get_transactions(self, limit=None, **kwargs):
         """Get multiple transactions.
 
-        `Args:`
+        Args:
             limit: int
                 The number of transactions to return. If omitted, all transactions are returned.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
+                manual/api/rest/actionprocessing.html>`__.
 
                 Additionally, expressions to filter the data can also be provided. For addition
                 info, visit `Django's docs on field lookups <https://docs.djangoproject.com/\
-                en/3.1/topics/db/queries/#field-lookups>`_.
+                en/3.1/topics/db/queries/#field-lookups>`__.
 
                 .. code-block:: python
 
                     ak.get_transactions(order="order-1")
-        `Returns:`
+
+        Returns:
             Parsons.Table
                 The transactions data.
+
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 
@@ -1271,20 +1344,22 @@ class ActionKit:
         """
         Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
 
-        `Args:`
+        Args:
             page:
                 The page to post the action. The page short name.
             email:
                 The email address of the user to post the action.
             ak_id:
                 The action kit id of the record.
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 in the `ActionKit API Documentation <https://roboticdogs.actionkit.com/docs/\
-                manual/api/rest/actionprocessing.html>`_.
-        `Returns`:
+                manual/api/rest/actionprocessing.html>`__.
+
+        Returns:
             dict
                 The response json
+
         """
 
         if not email or ak_id:
@@ -1303,14 +1378,16 @@ class ActionKit:
         """
         Update an import action.
 
-        `Args:`
+        Args:
             action_id: int
                 The action id of the import action to update
-            **kwargs:
+            `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/importaction/schema/ path on any ActionKit instance.
-        `Returns:`
+
+        Returns:
             ``HTTP response from the patch request``
+
         """
 
         resp = self.conn.patch(
@@ -1336,7 +1413,7 @@ class ActionKit:
         If you get a 500 error, try sending a much smaller file (say, one row),
         which is more likely to return the proper 400 with a useful error message
 
-        `Args:`
+        Args:
             import_page: str
                 The page to post the action. The page short name.
             csv_file: str or buffer
@@ -1344,18 +1421,20 @@ class ActionKit:
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
             autocreate_user_fields: bool
-              When True columns starting with "user_" will be uploaded as user fields.
-              See the `autocreate_user_fields documentation
-              <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
+                When True columns starting with ``user_`` will be uploaded as user fields.
+                See the `autocreate_user_fields documentation
+                <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             user_fields_only: bool
-              When uploading only an email/user_id column and user_ user fields,
-              ActionKit has a fast processing path.
-              This doesn't work, if you upload a zipped csv though.
-        `Returns`:
-            dict
+                When uploading only an email/user_id column and ``user_`` user fields,
+                ActionKit has a fast processing path.
+                This doesn't work, if you upload a zipped csv though.
+
+        Returns:
+            dict[str, bool | str | requests.Response]
                 success: whether upload was successful
                 progress_url: an API URL to get progress on upload processing
                 res: requests http response object
+
         """
 
         # self.conn defaults to JSON, but this has to be form/multi-part....
@@ -1395,23 +1474,24 @@ class ActionKit:
         See `ActionKit User Upload Documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html>`_
         Be careful that blank values in columns will overwrite existing data.
 
-        Tables with only an identifying column (user_id/email) and user_ user fields
+        Tables with only an identifying column (user_id/email) and ``user_`` user fields
         will be fast-processed -- this is useful for setting/updating user fields.
 
         .. note::
+
             If you get a 500 error, try sending a much smaller file (say, one row),
             which is more likely to return the proper 400 with a useful error message
 
-        `Args:`
+        Args:
             import_page: str
                 The page to post the action. The page short name.
-            table: Table Class
+            table: parsons.Table
                 A Table of user data to bulk upload
                 A user_id or email column is required.
             autocreate_user_fields: bool
-                When True columns starting with "user_" will be uploaded as user fields.
-                `ActionKit <https://actionkit.com/>`_.
-                See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`_.
+                When True columns starting with ``user_`` will be uploaded as user fields.
+                `ActionKit <https://actionkit.com/>`__.
+                See the autocreate_user_fields `documentation <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
             no_overwrite_on_empty: bool
                 When uploading user data, ActionKit will, by default, take a blank value
                 and overwrite existing data for that user.
@@ -1422,11 +1502,13 @@ class ActionKit:
             set_only_columns: list
                 This is similar to no_overwrite_on_empty but restricts to a specific set of columns
                 which, if blank, should not be overwritten.
-        `Returns`:
-            dict
+
+        Returns:
+            dict[str, bool | list[dict]]
                 success: bool -- whether upload was successful (individual rows may not have been)
                 results: [dict] -- This is a list of the full results.
-                         progress_url and res for any results
+                progress_url and res for any results
+
         """
 
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
@@ -1479,17 +1561,20 @@ class ActionKit:
         """
         Collect any upload errors as a list of objects from bulk_upload_table 'results' key value.
         This waits for uploads to complete, so it may take some time if you uploaded a large file.
-        `Args:`
+
+        Args:
             result_array: list
                 After receiving a dict back from bulk_upload_table you may want to see if there
                 were any errors in the uploads.  If you call collect_upload_errors(result_array)
                 it will iterate across each of the uploads fetching the final result of e.g.
                 /rest/v1/uploaderror?upload=123
-        `Returns`:
+
+        Returns:
             [dict]
                 message: str -- error message
                 upload: str -- upload progress API path e.g. "/rest/v1/upload/123456/"
                 id: int -- upload error record id (different than upload id)
+
         """
         errors = []
         for res in result_array:

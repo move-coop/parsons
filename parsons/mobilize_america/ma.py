@@ -21,8 +21,9 @@ class MobilizeAmerica:
     api_key: str
         An api key issued by Mobilize America. This is required to access some private methods.
 
-    `Returns:`
+    Returns:
         MobilizeAmerica Class
+
     """
 
     def __init__(self, api_key=None):
@@ -87,12 +88,13 @@ class MobilizeAmerica:
         """
         Return all active organizations on the platform.
 
-        `Args:`
+        Args:
             updated_since: str
                 Filter to organizations updated since given date (ISO Date)
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return Table(
@@ -106,11 +108,12 @@ class MobilizeAmerica:
         """
         Return all organizations promoted by the given organization.
 
-        `Args:`
+        Args:
             organization_id: int
                 ID of the organization to query.
         `Returns`
             Parsons Table
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
@@ -127,7 +130,7 @@ class MobilizeAmerica:
         """
         Fetch all public events on the platform.
 
-        `Args:`
+        Args:
             organization_id: list or int
                 Filter events by a single or multiple organization ids
             updated_since: str
@@ -158,6 +161,7 @@ class MobilizeAmerica:
 
         `Returns`
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+
         """
 
         if isinstance(organization_id, (str, int)):
@@ -210,9 +214,10 @@ class MobilizeAmerica:
         and events of other organizations promoted by this specified organization.
 
         .. note::
+
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: int or str
                 Organization ID for the organization.
             updated_since: str
@@ -263,6 +268,7 @@ class MobilizeAmerica:
 
         `Returns`
             :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+
         """
 
         args = {
@@ -306,7 +312,7 @@ class MobilizeAmerica:
         """
         Fetch deleted public events on the platform.
 
-        `Args:`
+        Args:
             organization_id: list or int
                 Filter events by a single or multiple organization ids
             updated_since: str
@@ -314,6 +320,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if isinstance(organization_id, (str, int)):
@@ -331,9 +338,10 @@ class MobilizeAmerica:
         Fetch all people (volunteers) who are affiliated with an organization(s).
 
         .. note::
+
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: Iterable or int
                 Request people associated with a single or multiple organization ids
             updated_since: str
@@ -341,6 +349,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         if isinstance(organization_id, collections.abc.Iterable):
             data = Table()
@@ -358,9 +367,10 @@ class MobilizeAmerica:
         were for events owned by the organization.
 
         .. note::
+
             API Key Required
 
-        `Args:`
+        Args:
             organization_id: int
                 Filter attendances by an organization id
             updated_since: str
@@ -368,6 +378,7 @@ class MobilizeAmerica:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"
         args = {"updated_since": date_to_timestamp(updated_since)}

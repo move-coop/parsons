@@ -1,9 +1,4 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-
-version: 2
+version: 2.1
 
 workflows:
   version: 2
@@ -11,89 +6,84 @@ workflows:
     jobs:
       - docs-build
       - docs-build-deploy:
+          requires:
+            - docs-build
           filters:
             branches:
               only: main
 
 jobs:
-
-  # Documentation CI
   docs-build:
     docker:
       - image: cimg/python:3.13
+
     steps:
       - checkout
-      # Download and cache dependencies
+
       - restore_cache:
           keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}-{{ checksum "setup.py" }}
             # fallback to using the latest cache if no exact match is found
             - v2-dependencies-python3.13-
+
       - run:
           name: Install dependencies
-          # Note that we the circleci node image installs stuff with a user "circleci", rather
-          # than root. So we need to tell npm where to install stuff.
           command: |
-            pip install uv
-            uv venv
+            uv venv --allow-existing
             source .venv/bin/activate
-            uv pip install -r requirements.txt
+
             uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
+
       - save_cache:
           paths:
-            - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+            - ./.venv
+          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-{{ checksum "requirements.txt" }}-{{ checksum "setup.py" }}
+
       - run:
           name: Build docs
           command: |
             source .venv/bin/activate
+
             cd docs/
             make deploy_docs
-            cd ..
+
+      - store_artifacts:
+          path: docs/html
+      
+      - persist_to_workspace:
+          root: .
+          paths:
+            - docs/html
 
   docs-build-deploy:
     docker:
-      - image: cimg/python:3.13-node
+      - image: cimg/node:current
+
     steps:
       - checkout
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}-
-            # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-python3.13-
+
+      - attach_workspace:
+          at: .
+
       - run:
-          name: Install dependencies
-          # Note that we the circleci node image installs stuff with a user "circleci", rather
-          # than root. So we need to tell npm where to install stuff.
+          name: Validate build artifacts
           command: |
-            npm set prefix=/home/circleci/npm
-            npm install -g --silent gh-pages@2.0.1
-            pip install uv
-            uv venv
-            source .venv/bin/activate
-            uv pip install -r requirements.txt
-            uv pip install -r requirements-dev.txt
-      - save_cache:
-          paths:
-            - ./venv
-          key: v2-dependencies-python3.13-{{ checksum "requirements-dev.txt" }}
+            if [ ! -f docs/html/index.html ]; then
+              echo "Error: docs/html/index.html not found! Build might have failed."
+              exit 1
+            fi
+
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
           fingerprints:
             - '9a:ec:4d:2b:c3:45:b2:f5:55:ca:0b:2b:36:e2:7f:df'
+
       - run:
-          name: Build and deploy docs
-          # When running gh-pages, we specify to include dotfiles, so we pick up the .nojerkyll file.
-          # (This file tell Github Pages that we want to include all files in docs/, including those
-          # that start with an underscore like _static/).
+          name: Deploy docs
           command: |
-            source .venv/bin/activate
-            cd docs/
-            make deploy_docs
-            cd ..
             git config user.email "ci-build@movementcooperative.org"
             git config user.name "ci-build"
-            export PATH=/home/circleci/npm/bin:$PATH
-            gh-pages --dotfiles --message "[skip ci] Updates" --dist docs
+
+            npx gh-pages@2.0.1 --dist docs/html --message "[skip ci] Updates" --dotfiles

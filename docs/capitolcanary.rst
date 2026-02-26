@@ -9,8 +9,9 @@ Overview
 allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`_.
 
 .. note::
+
   Authentication
-  	You will need to email CapitolCanary to request credentials to access the API. The credentials consist of an app ID and an app key.
+   You will need to email CapitolCanary to request credentials to access the API. The credentials consist of an app ID and an app key.
 
 ***********
 Quick Start
@@ -46,5 +47,7 @@ To instantiate the ``CapitolCanary`` class, you can either pass in the app ID an
 API
 ***
 
-.. autoclass :: parsons.CapitolCanary
+.. autoclass:: parsons.capitol_canary.capitol_canary.CapitolCanary
    :inherited-members:
+   :members:
+   

@@ -9,9 +9,7 @@ specific to each flavor of SQL database.
 
 
 class BaseTable:
-    """
-    Base Table class object.
-    """
+    """Base Table class object."""
 
     sql_placeholder: str = "%s"
 
@@ -22,16 +20,12 @@ class BaseTable:
 
     @property
     def num_rows(self):
-        """
-        Get the number of rows in the table.
-        """
+        """Get the number of rows in the table."""
 
         return self.db.query(f"SELECT COUNT(*) FROM {self.table}").first
 
     def max_primary_key(self, primary_key):
-        """
-        Get the maximum primary key in the table.
-        """
+        """Get the maximum primary key in the table."""
 
         return self.db.query(
             f"""
@@ -43,9 +37,7 @@ class BaseTable:
         ).first
 
     def distinct_primary_key(self, primary_key):
-        """
-        Check if the passed primary key column is distinct.
-        """
+        """Check if the passed primary key column is distinct."""
 
         sql = f"""
                SELECT
@@ -57,9 +49,7 @@ class BaseTable:
 
     @property
     def columns(self):
-        """
-        Return a list of columns in the table.
-        """
+        """Return a list of columns in the table."""
 
         if not self._columns:
             sql = f"SELECT * FROM {self.table} LIMIT 1"
@@ -69,16 +59,12 @@ class BaseTable:
 
     @property
     def exists(self):
-        """
-        Check if table exists.
-        """
+        """Check if table exists."""
 
         return self.db.table_exists(self.table)
 
     def get_rows(self, offset=0, chunk_size=None, order_by=None):
-        """
-        Get rows from a table.
-        """
+        """Get rows from a table."""
 
         sql = f"SELECT * FROM {self.table}"
 
@@ -145,9 +131,7 @@ class BaseTable:
         return self.db.query(sql, parameters)
 
     def drop(self, cascade=False):
-        """
-        Drop the table.
-        """
+        """Drop the table."""
 
         sql = f"DROP TABLE {self.table}"
         if cascade:
@@ -157,9 +141,7 @@ class BaseTable:
         logger.info(f"{self.table} dropped.")
 
     def truncate(self):
-        """
-        Truncate the table.
-        """
+        """Truncate the table."""
 
         self.db.query(f"TRUNCATE TABLE {self.table}")
         logger.info(f"{self.table} truncated.")

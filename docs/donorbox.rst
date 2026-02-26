@@ -11,7 +11,8 @@ recurring donations. This Parsons class provides methods for extracting donors, 
 The documentation for the underlying Donorbox API can be found `here <https://github.com/donorbox/donorbox-api>`_.
 
 .. note::
-    To authenticate, go to your account on donorbox.org and select the "API & Zapier Integration" option 
+
+    To authenticate, go to your account on donorbox.org and select the "API & Zapier Integration" option
     under Add-ons. Enable the add-on. (Note that currently Donorbox charges to enable this feature.)
     Once the add-on is enabled, hit the "Set new API key" button and copy the generated key.
 
@@ -19,7 +20,7 @@ The documentation for the underlying Donorbox API can be found `here <https://gi
 Quickstart
 **********
 
-To instantiate the Donorbox class, you can either store the Donorbox accont email and 
+To instantiate the Donorbox class, you can either store the Donorbox accont email and
 API key as environmental variables (``DONORBOX_ACCOUNT_EMAIL``, ``DONORBOX_API_KEY``)
 or pass them in as arguments:
 
@@ -54,7 +55,7 @@ You can then call various endpoints:
     donors = donorbox.get_donors()                                          # get all donors
     donors = donorbox.get_donors(email="example@example.org")               # get donors by email
     donors = donorbox.get_donors(page=1, per_page=10)                       # use pagination
-    
+
     # Get plans
 
     plans = donorbox.get_plans()                                            # get all plans
@@ -65,6 +66,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Donorbox
+.. autoclass:: parsons.donorbox.donorbox.Donorbox
    :inherited-members:
-
+   :members:
+   

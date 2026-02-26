@@ -20,12 +20,13 @@ class GoogleDrive:
     """
     A connector for Google Drive
 
-    `Args:`
+    Args:
         app_creds: dict | str | Credentials
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
             saved on disk, or a google.oauth2.credentials.Credentials object. Required
             if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+
     """
 
     def __init__(
@@ -198,15 +199,17 @@ class GoogleDrive:
         """
         Copy a file within Google Drive.
 
-        `Args:`
+        Args:
             file_id: str
                 The ID of the file to copy
             destination_folder_id: str
                 The ID of the destination folder. If not provided, copies to the same parent folder.
             new_name: str
                 The name for the copied file. If not provided, Drive will use "Copy of [original name]".
-        `Returns:`
+
+        Returns:
             str: The ID of the newly created copy
+
         """
         body = {}
         if new_name:
@@ -219,11 +222,12 @@ class GoogleDrive:
 
     def get_permissions(self, file_id: str) -> dict:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
-        `Returns:`
+        Returns:
             permission dict
+
         """
 
         p = self.client.permissions().list(fileId=file_id).execute()
@@ -251,7 +255,7 @@ class GoogleDrive:
         type: Literal["user", "group", "domain", "anyone"] = "user",
     ) -> list[dict]:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
             email_addresses: list
@@ -263,8 +267,9 @@ class GoogleDrive:
                 https://developers.google.com/drive/api/guides/ref-roles
             type: str
                 Options are -- user, group, domain, anyone
-        `Returns:`
+        Returns:
             List of permission objects
+
         """
         if role not in [
             "owner",
@@ -303,13 +308,12 @@ class GoogleDrive:
 
     def transfer_ownership(self, file_id: str, new_owner_email: str) -> None:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
             new_owner_email: str
                 the email address of the intended new owner
-        `Returns:`
-            None
+
         """
         permissions = self.client.permissions().list(fileId=file_id).execute()
 

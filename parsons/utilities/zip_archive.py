@@ -1,14 +1,17 @@
 import zipfile
 from pathlib import Path
+from typing import Literal
 
 from parsons.utilities.files import create_temp_directory
 
 
-def create_archive(archive_path, file_path, file_name=None, if_exists="replace"):
+def create_archive(
+    archive_path, file_path, file_name=None, if_exists: Literal["replace", "append"] = "replace"
+):
     """
     Create and fill an archive.
 
-    `Args:`
+    Args:
         archive_path: str
             The file name of zip archive
         file_path: str
@@ -17,11 +20,12 @@ def create_archive(archive_path, file_path, file_name=None, if_exists="replace")
             The name of the file in the archive
         if_exists: str
             If archive already exists, one of 'replace' or 'append'
-    `Returns:`
+    Returns:
         Zip archive path
+
     """
 
-    write_type = "a" if if_exists == "append" else "w"
+    write_type: Literal["r", "w", "x", "a"] = "a" if if_exists == "append" else "w"
 
     if not file_name:
         file_name = file_path.split("/")[-1]
@@ -37,13 +41,14 @@ def unzip_archive(archive_path, destination=None):
     Unzip an archive. Only returns the path of the first
     file in the archive.
 
-    `Args:`
+    Args:
         archive_path: str
             Path to the ZIP archive
         destination: str
             `Optional`; path to unzip the archive into; if not specified, the
-    `Returns:`
+    Returns:
         Extracted file path.
+
     """
     destination = destination or create_temp_directory()
 

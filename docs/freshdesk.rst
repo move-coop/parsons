@@ -11,15 +11,18 @@ provides methods to fetch tickets, contacts, companies, and agents. Results are 
 as Parsons Tables.
 
 .. note::
-  Authentication
-    To use the ``Freshdesk`` class, you must provide the subdomain of your Freshdesk account and an API Key,
-    which can be found by logging into Freshdesk and following the instructions in the
-    `API documentation <https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key>`_.
 
-  Rate Limits
-    Rate limits depend on your Freshdesk plan, so be sure to check the API documentation for your
-    `rate limits <https://developers.freshdesk.com/api/#ratelimit>`_ and follow the
-    `best practices guide <https://developers.freshdesk.com/api/#best_practices>`_ to avoid exceeding them.
+   Authentication
+      To use the ``Freshdesk`` class, you must provide the subdomain of your Freshdesk account and an API Key,
+      which can be found by logging into Freshdesk and following the instructions in the
+      `API documentation <https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key>`_.
+
+.. note::
+
+   Rate Limits
+      Rate limits depend on your Freshdesk plan, so be sure to check the API documentation for your
+      `rate limits <https://developers.freshdesk.com/api/#ratelimit>`_ and follow the
+      `best practices guide <https://developers.freshdesk.com/api/#best_practices>`_ to avoid exceeding them.
 
 **********
 Quickstart
@@ -56,5 +59,7 @@ You can then call various endpoints:
 API
 ***
 
-.. autoclass :: parsons.Freshdesk
+.. autoclass:: parsons.freshdesk.freshdesk.Freshdesk
    :inherited-members:
+   :members:
+   

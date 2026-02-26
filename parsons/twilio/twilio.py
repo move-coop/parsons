@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from twilio.rest import Client
 
@@ -12,15 +13,17 @@ class Twilio:
     """
     Instantiate the Twilio class
 
-    `Args:`
+    Args:
         account_sid: str
             The Twilio account sid. Not required if ``TWILIO_ACCOUNT_SID`` env variable is
             passed.
         auth_token: str
             The Twilio auth token. Not required if ``TWILIO_AUTH_TOKEN`` env variable is
             passed.
-    `Returns`:
+
+    Returns:
         Twilio class
+
     """
 
     def __init__(self, account_sid=None, auth_token=None):
@@ -40,11 +43,12 @@ class Twilio:
         """
         Get Twilio account
 
-        `Args:`
+        Args:
             account_sid: str
                 The Twilio account sid
-        `Returns:`
+        Returns:
             dict
+
         """
 
         r = self.client.api.accounts(account_sid)
@@ -55,14 +59,16 @@ class Twilio:
         """
         Get Twilio accounts including subaccounts.
 
-        `Args:`
+        Args:
             name: str
                 Filter to name of the account
             status: str
                 Filter to an account status of ``active``, ``closed`` or ``suspended``.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.client.api.accounts.list(friendly_name=name, status=status)
@@ -76,14 +82,14 @@ class Twilio:
         category=None,
         start_date=None,
         end_date=None,
-        time_period=None,
-        group_by=None,
+        time_period: Literal["today", "yesterday", "this_month", "last_month"] | None = None,
+        group_by: Literal["daily", "monthly", "yearly"] | None = None,
         exclude_null=False,
     ):
         """
         Get Twilio account usage.
 
-        `Args:`
+        Args:
             category: str
                 Filter to a specific type of usage category. The list of possibilities can be found
                 `here <https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&code-language=Python&code-sdk-version=5.x#usage-all-categories>`_.
@@ -99,9 +105,11 @@ class Twilio:
                 ``yearly``.
             exclude_null: boolean
                 Exclude rows that have no usage.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         # Add populated arguments
@@ -146,10 +154,10 @@ class Twilio:
         """
         Get Twilio messages.
 
-        `Args:`
+        Args:
             to: str
                 Filter to messages only sent to the specified phone number.
-            from_: str
+            `from_`: str
                 Filter to messages only sent from the specified phone number.
             date_sent: str
                 Filter to messages only sent on the specified date (ex. ``2019-01-01``).
@@ -157,9 +165,11 @@ class Twilio:
                 Filter to messages only sent before the specified date (ex. ``2019-01-01``).
             date_sent_after: str
                 Filter to messages only sent after the specified date (ex. ``2019-01-01``).
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         r = self.client.messages.list(

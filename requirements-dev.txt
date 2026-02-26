@@ -12,6 +12,7 @@ ruff==0.13.0
 sphinx-lint==1.0.2
 testfixtures==8.3.0;python_version<'3.11'
 testfixtures==9.1.0;python_version>='3.11'
+dbt-duckdb>=1.8.0
 
 # Build and publish requirements
 build>=1.4.0

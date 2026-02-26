@@ -39,7 +39,7 @@ We decorate ``test_get_campaigns`` with the ``requests_mock.Mocker`` class, whic
 
 To configure our mock API, we can make use of the ``get``, ``post``, ``patch``, ``put``, and ``delete`` methods on the mock object ``m``. These methods mirror the calls we expect our Connector to make to the API. The methods on the mock object correspond to the HTTP method that we are expecting our Connector class to call with, and the first argument to the mock method is the URL that we expect our Connector to call. We can then provide a ``json`` argument to the mock method to provide a canned response that the mock HTTP server should return.
 
-Below, we will use the ``get`` method to tell the mock HTTP server that we expect a call to the ``campaigns`` endpoint of our API, and that the mock HTTP server should return our ``test_campaigns` canned response.
+Below, we will use the ``get`` method to tell the mock HTTP server that we expect a call to the ``campaigns`` endpoint of our API, and that the mock HTTP server should return our ``test_campaigns`` canned response.
 
 .. code-block:: python
 

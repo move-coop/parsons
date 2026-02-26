@@ -8,15 +8,16 @@ class Questions:
         super().__init__()
 
     def get_questions(self, limit=None):
-        """Get a list of Questions.
+        """
+        Get a list of Questions.
 
-        `Args:`
+        Args:
             limit: int
                 Specify limit to return.
 
-        `Returns:`
+        Returns:
             parsons.Table
-                A Parsons table of all the data.
+
         """
         return self._request(self.url_questions, limit=limit)
 
@@ -24,12 +25,13 @@ class Questions:
         """
         Get a Question by id.
 
-        `Args:`
+        Args:
             id: str
                 The Question id
-        `Returns:`
+
+        Returns:
             parsons.Table
-                A Parsons table of all the data.
+
         """
         return self._request(f"{self.url_questions}/{id}")
 
@@ -39,21 +41,37 @@ class Questions:
         type: str,
         category: str,
         answer_options: list,
-        question_label: str = None,
-        question_description: str = None,
-        candidate_issue_id: str = None,
+        question_label: str | None = None,
+        question_description: str | None = None,
+        candidate_issue_id: str | None = None,
         default: bool = True,
         *args,
     ):
         """
-        answer_options:[
-                {
-                "id": "string",
-                "flagId": "string",
-                "displayDescription": "string",
-                "displayCode": "string"
-                }
-            ]
+        Create a new question.
+
+        Args:
+            question (str):
+            type (str):
+            category (str):
+            answer_options (list[dict[str, str]):
+
+                .. code-block:: python
+
+                    [
+                        {
+                        "id": "string",
+                        "flagId": "string",
+                        "displayDescription": "string",
+                        "displayCode": "string"
+                        }
+                    ]
+
+            question_label (str, optional):
+            question_description (str, optional):
+            candidate_issue_id (str, optional):
+            default (bool, optional): Defaults to `True`
+
         """
         payload = {
             "question": question,

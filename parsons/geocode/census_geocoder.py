@@ -17,13 +17,14 @@ class CensusGeocoder:
     """
     Instantiate the CensusGecoder Class
 
-    `Args:`
+    Args:
         benchmark: str
             The US Census benchmark file to utilize. By default the current benchmark is used,
-            but other options can found `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`_.
+            but other options can found `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`__.
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
-            other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`_.
+            other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+
     """
 
     def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
@@ -35,14 +36,16 @@ class CensusGeocoder:
         geocode as well as other census block data. If the service is unable to geocode the address
         it will return an empty list.
 
-        `Args:`
+        Args:
             address: str
                 A valid US address
             return_type: str
                 ``geographies`` will return information about the Census geographies
                 while ``locations`` will information about the address.
-        `Returns`:
+
+        Returns:
             dict
+
         """
 
         geo = self.cg.onelineaddress(address, returntype=return_type)
@@ -61,7 +64,7 @@ class CensusGeocoder:
         Geocode an address by specifying address fields. Returns the geocode as well as other
         census block data.
 
-        `Args:`
+        Args:
             address_line: str
                 A valid address line
             city: str
@@ -73,8 +76,10 @@ class CensusGeocoder:
             return_type: str
                 ``geographies`` will return information about the Census geographies
                 while ``locations`` will information about the address.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
@@ -98,11 +103,12 @@ class CensusGeocoder:
             * - state
             * - zip
 
-        `Args:`
+        Args:
             table: Parsons Table
                 A Parsons table
-        `Returns:`
+        Returns:
             A Parsons table
+
         """
 
         logger.info(f"Geocoding {table.num_rows} records.")
@@ -143,7 +149,7 @@ class CensusGeocoder:
                 A valid latitude in the United States
             longitude: int
                 A valid longitude in the United States
-        `Returns:`
+        Returns:
            dict
         """
 

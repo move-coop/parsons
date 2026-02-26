@@ -712,7 +712,7 @@ class TestGoogleBigQueryCopyBetweenProjects(TestCase):
         # create and set up logger
         logger = logging.getLogger()
 
-        ## now test with table copy error
+        # now test with table copy error
         logger.error(
             f"BigQuery copy failed, Table {self.destination_table} exists and if_table_exists set to {self.if_table_exists}"
         )

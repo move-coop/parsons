@@ -11,6 +11,7 @@ to interact with the Civis Platform. It supports executing Civis SQL queries and
 Redshift cluster.
 
 .. note::
+
   Authentication
     The ``CivisClient`` class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
     Civis and follow the instructions for `Creating an API Key <https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key>`_.
@@ -23,6 +24,7 @@ To instantiate the ``CivisClient`` class, you can either store your database ide
 environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python
+
    from parsons import CivisClient
 
    # First approach: Authorize with environmental variables
@@ -38,6 +40,7 @@ environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them 
 API
 ***
 
-.. autoclass :: parsons.CivisClient
+.. autoclass:: parsons.civis.civisclient.CivisClient
    :inherited-members:
    :members:
+   

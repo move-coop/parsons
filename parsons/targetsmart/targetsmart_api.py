@@ -5,6 +5,7 @@ https://docs.targetsmart.com/developers/tsapis/v2/index.html
 """
 
 import logging
+from typing import Literal
 
 import petl
 import requests
@@ -38,11 +39,25 @@ class Person:
     def __init__(self):
         return None
 
-    def data_enhance(self, search_id, search_id_type="voterbase", state=None):
+    def data_enhance(
+        self,
+        search_id: Literal[
+            "voterbase",
+            "exacttrack",
+            "phone",
+            "email",
+            "smartvan",
+            "votebuilder",
+            "voter",
+            "household",
+        ],
+        search_id_type="voterbase",
+        state=None,
+    ):
         """
         Searches for a record based on an id or phone or email address
 
-        `Args:`
+        Args:
             search_id: str
                 The primary key or email address or phone number
             search_id_type: str
@@ -54,6 +69,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
@@ -91,9 +107,9 @@ class Person:
         longitude=None,
         address=None,
         radius_size=10,
-        radius_unit="miles",
+        radius_unit: Literal["meters", "feet", "miles", "kilometers"] = "miles",
         max_results=10,
-        gender="a",
+        gender: Literal["m", "f", "u", "a"] = "a",
         age_min=None,
         age_max=None,
         composite_score_min=1,
@@ -101,12 +117,12 @@ class Person:
         last_name_exact=True,
         last_name_is_prefix=False,
         last_name_prefix_length=10,
-        address_type="reg",
+        address_type: Literal["reg", "tsmart"] = "reg",
     ):
         """
         Search for a person based on a specified radius
 
-        `Args`:
+        Args:
             first_name: str
                 One or more alpha characters. Required
             last_name: str
@@ -159,6 +175,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if (latitude is None or longitude is None) and address is None:
@@ -206,12 +223,14 @@ class Person:
         Match based on a list of 500 phones numbers. Table
         can contain up to 500 phone numbers to match
 
-        `Args:`
+        Args:
             table: parsons table
                 See :ref:`parsons-table`. One row per phone number,
                 up to 500 phone numbers.
-        `Returns:`
+
+        Returns:
             See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "person/phone-search"
@@ -227,7 +246,7 @@ class Service:
 
     def district(
         self,
-        search_type="zip",
+        search_type: Literal["zip", "address", "point"] = "zip",
         address=None,
         zip5=None,
         zip4=None,
@@ -256,7 +275,7 @@ class Service:
               - ``point``
               - ``latitude``, ``longitude``
 
-        `Args`:
+        Args:
             search_type: str
                 The type of district search to perform. One of ``zip``, ``address``
                 or ``point``.
@@ -272,9 +291,10 @@ class Service:
                 Valid latitude floating point
             longitude: float or str
                 Valid longitude floating point
-        `Returns`:
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_type == "zip" and None in [zip5, zip4]:
@@ -331,7 +351,7 @@ class Voter:
 
         A search must include the at minimum first name, last name and state.
 
-        `Args:`
+        Args:
             first_name: str
                 Required; One or more alpha characters. Trailing wildcard allowed
             last_name: str
@@ -360,6 +380,7 @@ class Voter:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "voter/voter-registration-check"

@@ -6,6 +6,7 @@ import pickle
 import random
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Literal
 
 import petl
 import psycopg2
@@ -72,6 +73,7 @@ class Redshift(
             Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
             to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
+
     """
 
     def __init__(
@@ -127,8 +129,9 @@ class Redshift(
         any context manager):
         ``with rs.connection() as conn:``
 
-        `Returns:`
+        Yields:
             Psycopg2 ``connection`` object
+
         """
 
         # Create a psycopg2 connection and cursor
@@ -182,13 +185,13 @@ class Redshift(
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
 
@@ -203,7 +206,7 @@ class Redshift(
         Useful for batching queries together. Will return ``None`` if the query
         returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -215,9 +218,10 @@ class Redshift(
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         # To Do: Have it return an ordered dict to return the
@@ -272,7 +276,7 @@ class Redshift(
         data_type="csv",
         csv_delimiter=",",
         compression=None,
-        if_exists="fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         max_errors=0,
         distkey=None,
         sortkey=None,
@@ -302,7 +306,7 @@ class Redshift(
         """
         Copy a file from s3 to Redshift.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (``tmc.cool_table``) to point the file.
             bucket: str
@@ -397,6 +401,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
+
         """
 
         with self.connection() as connection:
@@ -471,7 +476,7 @@ class Redshift(
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         max_errors: int = 0,
         distkey: str | None = None,
         sortkey: str | None = None,
@@ -503,7 +508,7 @@ class Redshift(
         """
         Copy a :ref:`parsons-table` to Redshift.
 
-        `Args:`
+        Args:
             tbl: obj
                 A Parsons Table.
             table_name: str
@@ -526,10 +531,11 @@ class Redshift(
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
                 ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
                 the table is initially empty. Defaults to ``None``.
-                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`_
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-statupdate>`__
                 for more details.
 
                 .. note::
+
                     If STATUPDATE is used, the current user must be either the table owner or a
                     superuser.
 
@@ -538,7 +544,7 @@ class Redshift(
                 ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
                 ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
                 table is initially empty. Defaults to ``None``.
-                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`_
+                See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`__
                 for more details.
             acceptanydate: boolean
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
@@ -616,6 +622,7 @@ class Redshift(
         `Returns`
             Parsons Table or ``None``
                 See :ref:`parsons-table` for output options.
+
         """
 
         # Specify the columns for a copy statement.
@@ -701,7 +708,7 @@ class Redshift(
         manifest=True,
         header=True,
         delimiter="|",
-        compression="gzip",
+        compression: Literal["gzip", "bzip2", "None"] = "gzip",
         add_quotes=True,
         null_as=None,
         escape=True,
@@ -851,10 +858,8 @@ class Redshift(
             cascade: bool
                 whether to drop cascade
 
-            ***unload params
+            `***unload params`:
 
-        Returns:
-            None
         """
         query_end = "cascade" if cascade else ""
         self.unload(
@@ -896,7 +901,7 @@ class Redshift(
         AWS keys are not required if ``AWS_ACCESS_KEY_ID`` and
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.
 
-        `Args:`
+        Args:
 
             buckets: list or str
                 A list of buckets or single bucket from which to generate manifest
@@ -914,8 +919,9 @@ class Redshift(
             manifest_key: str
                 Optional key name for S3 bucket to write file
 
-        `Returns:`
+        Returns:
             ``dict`` of manifest
+
         """
 
         from parsons.aws import S3
@@ -975,7 +981,7 @@ class Redshift(
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
-        `Args:`
+        Args:
             table_obj: obj
                 A Parsons table object
             target_table: str
@@ -1003,8 +1009,9 @@ class Redshift(
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Redshift.copy` for options.
+
         """
 
         primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
@@ -1168,13 +1175,12 @@ class Redshift(
         of a Parsons table. The columns are matched by column name and not their
         index.
 
-        `Args:`
+        Args:
             tbl: obj
                 A Parsons table
             table_name:
                 The target table name (e.g. ``my_schema.my_table``)
-        `Returns:`
-            ``None``
+
         """
 
         # Make the Parsons table column names match valid Redshift names

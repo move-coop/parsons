@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -13,7 +14,7 @@ class Community:
     """
     Instantiate class.
 
-       `Args:`
+    Args:
             community_client_id: str
                 The Community provided Client ID. Not required if ``COMMUNITY_CLIENT_ID`` env
                 variable set.
@@ -26,6 +27,7 @@ class Community:
                 variable or use this URI parameter if a different endpoint is necessary.
 
     `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`_
+
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):
@@ -45,11 +47,23 @@ class Community:
             headers=self.headers,
         )
 
-    def get_request(self, filename):
+    def get_request(
+        self,
+        filename: Literal[
+            "campaigns",
+            "outbound_message_type_usage",
+            "campaign_links",
+            "members",
+            "member_state_changes",
+            "custom_member_data",
+            "communities",
+            "member_communities",
+        ],
+    ):
         """
         GET request to Community.com API to get the CSV data.
 
-        `Args:`
+        Args:
             filename: str
                 Data filename you are requesting.
                 Options:
@@ -62,8 +76,9 @@ class Community:
                     'communities': Communities data
                     'member_communities': Member Communities data
 
-        `Returns:`
+        Returns:
             Response of GET request; a successful response returns the CSV formatted data
+
         """
 
         logger.info(f"Requesting {filename}")
@@ -75,11 +90,23 @@ class Community:
         response = self.client.get_request(url=url, return_format="content")
         return response
 
-    def get_data_export(self, filename):
+    def get_data_export(
+        self,
+        filename: Literal[
+            "campaigns",
+            "outbound_message_type_usage",
+            "campaign_links",
+            "members",
+            "member_state_changes",
+            "custom_member_data",
+            "communities",
+            "member_communities",
+        ],
+    ):
         """
         Get specified data from Community.com API as Parsons table.
 
-        `Args:`
+        Args:
             filename: str
                 Data filename you are requesting.
                 Options:
@@ -92,8 +119,9 @@ class Community:
                     'communities': Communities data
                     'member_communities': Member Communities data
 
-        `Returns:`
+        Returns:
             Contents of the generated contribution CSV as a Parsons table.
+
         """
 
         get_request_response = self.get_request(filename=filename)

@@ -2,6 +2,7 @@ import gzip
 import io
 import json
 from pathlib import Path
+from typing import Literal
 
 import petl
 
@@ -13,7 +14,7 @@ class ToFrom:
         """
         Outputs table as a Pandas Dataframe
 
-        `Args:`
+        Args:
             index: str, list
                 Field of array to use as the index, alternately a specific set
                 of input labels to use
@@ -25,9 +26,11 @@ class ToFrom:
                 columns. Otherwise this argument indicates the order of the
                 columns in the result (any names not found in the data will
                 become all-NA columns)
-        `Returns:`
+
+        Returns:
             dataframe
                 Pandas DataFrame object
+
         """
 
         return petl.todataframe(
@@ -56,7 +59,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the html locally. If not specified, a temporary file will be
                 created and returned, and that file will be removed automatically when the script
@@ -76,9 +79,11 @@ class ToFrom:
                 Styles to be applied to the table cells.
             truncate: int
                 Length of cell data.
-        `Returns:`
+
+        Returns:
             str
                 The path of the new file
+
         """
 
         if not local_path:
@@ -99,7 +104,13 @@ class ToFrom:
         return local_path
 
     def to_avro(
-        self, target, schema=None, sample=9, codec="deflate", compression_level=None, **avro_args
+        self,
+        target,
+        schema=None,
+        sample=9,
+        codec: Literal["null", "deflate", "bzip2", "snappy", "zstandard", "lz4", "xz"] = "deflate",
+        compression_level=None,
+        **avro_args,
     ):
         """
         Outputs table to an Avro file.
@@ -115,7 +126,7 @@ class ToFrom:
         Avro is a data serialization framework that is generally is faster
         and safer than text formats like Json, XML or CSV.
 
-        `Args:`
+        Args:
             target: str
                 the file path for creating the avro file.
                 Note that if a file already exists at the given location, it will be
@@ -133,7 +144,7 @@ class ToFrom:
                 'snappy', 'zstandard', 'lz4', 'xz' (if installed)
             compression_level: int, optional
                 sets the level of compression to use with the specified codec (if the codec supports it)
-            avro_args: kwargs
+            `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. [Check the
                 fastavro documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
@@ -178,6 +189,7 @@ class ToFrom:
             +-------+---------+-----+
             | 'Ted' |      23 |  51 |
             +-------+---------+-----+
+
         """
 
         return petl.toavro(
@@ -199,7 +211,7 @@ class ToFrom:
         This method assume that each column has values with the same type
         for all rows of the source `table`.
 
-        `Args:`
+        Args:
             target: str
                 the file path for creating the avro file.
             schema: dict
@@ -209,10 +221,11 @@ class ToFrom:
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
                 when the `schema` argument is not passed. Default is 9.
-            avro_args: kwargs
+            `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
                 fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+
         """
 
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)
@@ -236,7 +249,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the csv locally. If it ends in ".gz" or ".zip", the file will be
                 compressed. If not specified, a temporary file will be created and returned,
@@ -255,12 +268,13 @@ class ToFrom:
             csv_name: str
                 If ``zip`` compression (either specified or inferred), the name of csv file
                 within the archive.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the new file
+
         """
 
         # If a zip archive.
@@ -298,7 +312,7 @@ class ToFrom:
         are passed to ``csv.writer()``. So, e.g., to override the delimiter
         from the default CSV dialect, provide the delimiter keyword argument.
 
-        `Args:`
+        Args:
             local_path: str
                 The local path of an existing CSV file. If it ends in ".gz", the file will
                 be compressed.
@@ -307,12 +321,13 @@ class ToFrom:
                 <https://docs.python.org/2/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the file
+
         """
 
         petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
@@ -325,7 +340,7 @@ class ToFrom:
         encoding=None,
         errors="strict",
         write_header=True,
-        if_exists="replace",
+        if_exists: Literal["replace", "append"] = "replace",
         **csvargs,
     ):
         r"""
@@ -337,7 +352,7 @@ class ToFrom:
         .. warning::
                 If a file already exists in the archive, it will be overwritten.
 
-        `Args:`
+        Args:
             archive_path: str
                 The path to zip achive. If not specified, a temporary file will be created and
                 returned, and that file will be removed automatically when the script is done
@@ -354,12 +369,13 @@ class ToFrom:
                 Include header in output
             if_exists: str
                 If archive already exists, one of 'replace' or 'append'
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
 
-        `Returns:`
+        Returns:
             str
                 The path of the archive
+
         """
 
         if not archive_path:
@@ -380,7 +396,7 @@ class ToFrom:
                 If a file already exists at the given location, it will be
                 overwritten.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to write the JSON locally. If it ends in ".gz", it will be
                 compressed first. If not specified, a temporary file will be created and returned,
@@ -393,9 +409,10 @@ class ToFrom:
                 Whether the file will be line-delimited JSON (with a row on each line), or a proper
                 JSON file.
 
-        `Returns:`
+        Returns:
             str
                 The path of the new file
+
         """
 
         if not local_path:
@@ -432,8 +449,9 @@ class ToFrom:
         """
         Output table as a list of dicts.
 
-        `Returns:`
+        Returns:
             list
+
         """
 
         return list(petl.dicts(self.table))
@@ -455,7 +473,7 @@ class ToFrom:
         r"""
         Writes the table to a CSV file on a remote SFTP server
 
-        `Args:`
+        Args:
             remote_path: str
                 The remote path of the file. If it ends in '.gz', the file will be compressed.
             host: str
@@ -476,8 +494,9 @@ class ToFrom:
             rsa_private_key_file str
                 Absolute path to a private RSA key used
                 to authenticate stfp connection
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
+
         """
 
         from parsons.sftp import SFTP
@@ -514,7 +533,7 @@ class ToFrom:
         r"""
         Writes the table to an s3 object as a CSV
 
-        `Args:`
+        Args:
             bucket: str
                 The s3 bucket to upload to
             key: str
@@ -544,10 +563,11 @@ class ToFrom:
                 Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
                 to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
                 variable even if the ``aws_session_token`` argument was not passed in.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
-        `Returns:`
+        Returns:
             Public url if specified. If not ``None``.
+
         """
 
         compression = compression or files.compression_type_for_path(key)
@@ -597,7 +617,7 @@ class ToFrom:
         r"""
         Writes the table to a Google Cloud Storage blob as a CSV.
 
-        `Args:`
+        Args:
             bucket_name: str
                 The bucket to upload to
             blob_name: str
@@ -623,10 +643,11 @@ class ToFrom:
                 Create a public link to the file
             public_url_expire: 60
                 The time, in minutes, until the url expires if ``public_url`` set to ``True``.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_writer`` optional arguments
-        `Returns:`
+        Returns:
             Public url if specified. If not ``None``.
+
         """
 
         compression = compression or files.compression_type_for_path(blob_name)
@@ -682,11 +703,9 @@ class ToFrom:
                 Required if env variable ``REDSHIFT_DB`` not populated
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Redshift.copy`` for options.
 
-        Returns:
-            ``None``
         """
 
         from parsons.databases.redshift import Redshift
@@ -720,11 +739,9 @@ class ToFrom:
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
-            **copy_args: kwargs
+            `**copy_args`: kwargs
                 See :func:`~parsons.databases.Postgres.copy`` for options.
 
-        Returns:
-            ``None``
         """
 
         from parsons.databases.postgres import Postgres
@@ -742,7 +759,7 @@ class ToFrom:
         """
         Write a table to BigQuery
 
-        `Args`:
+        Args:
             table_name: str
                 Table name to write to in BigQuery; this should be in `schema.table` format
             app_creds: str
@@ -751,12 +768,10 @@ class ToFrom:
             project: str
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
-            **kwargs: kwargs
+            `**kwargs`: kwargs
                 Additional keyword arguments passed into the `.copy()` function (`if_exists`,
                 `max_errors`, etc.)
 
-        `Returns`:
-            ``None``
         """
 
         from parsons import GoogleBigQuery as BigQuery
@@ -773,8 +788,8 @@ class ToFrom:
         api_key=None,
         db=None,
         max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
+        existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,
@@ -837,19 +852,20 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from an Avro file.
 
-        `Args:`
+        Args:
             local_path: str
                 The path to the Avro file.
             limit: int, optional
                 The maximum number of rows to extract. Default is ``None`` (all rows).
             skips: int, optional
                 The number of rows to skip from the start. Default is 0.
-            \**avro_args: kwargs
+            `**avro_args`: kwargs
                 Additional arguments passed to `fastavro.reader`.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return cls(petl.fromavro(local_path, limit=limit, skips=skips, **avro_args))
@@ -859,15 +875,16 @@ class ToFrom:
         r"""
         Create a ``parsons table`` object from a CSV file
 
-        `Args:`
+        Args:
             local_path: obj
                 A csv formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
@@ -883,14 +900,15 @@ class ToFrom:
         """
         Create a ``parsons table`` object from a string representing a CSV.
 
-        `Args:`
+        Args:
             str: str
                 The string object to convert to a table
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         bytesio = io.BytesIO(str.encode("utf-8"))
@@ -902,14 +920,15 @@ class ToFrom:
         """
         Create a ``parsons table`` from a list of lists organized as columns
 
-        `Args:`
+        Args:
             cols: list
                 A list of lists organized as columns
             header: list
                 List of column names. If not specified, will use dummy column names
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         return cls(petl.fromcolumns(cols, header=header))
@@ -919,7 +938,7 @@ class ToFrom:
         """
         Create a ``parsons table`` from a json file
 
-        `Args:`
+        Args:
             local_path: list
                 A JSON formatted local path, url or ftp. If this is a
                 file path that ends in ".gz", the file will be decompressed first.
@@ -929,9 +948,11 @@ class ToFrom:
             line_delimited: bool
                 Whether the file is line-delimited JSON (with a row on each line), or a proper
                 JSON file.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if line_delimited:
@@ -951,7 +972,7 @@ class ToFrom:
 
         To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             username: str
@@ -965,9 +986,10 @@ class ToFrom:
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         from parsons.databases.redshift import Redshift
@@ -991,6 +1013,7 @@ class ToFrom:
                 Required if env variable ``PGDATABASE`` not populated
             port: int
                 Required if env variable ``PGPORT`` not populated.
+
         """
 
         from parsons.databases.postgres import Postgres
@@ -1011,7 +1034,7 @@ class ToFrom:
         r"""
         Create a ``parsons table`` from a key in an S3 bucket.
 
-        `Args:`
+        Args:
             bucket: str
                 The S3 bucket.
             key: str
@@ -1023,10 +1046,11 @@ class ToFrom:
                 Required if not included as environmental variable.
             aws_secret_access_key: str
                 Required if not included as environmental variable.
-            **csvargs: kwargs
+            `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
-        `Returns:`
+        Returns:
             `parsons.Table` object
+
         """
 
         from parsons.aws import S3
@@ -1055,13 +1079,13 @@ class ToFrom:
         return cls(petl.cat(*tbls))
 
     @classmethod
-    def from_bigquery(cls, sql: str, app_creds: str = None, project: str = None):
+    def from_bigquery(cls, sql: str, app_creds: str | None = None, project: str | None = None):
         """
         Create a ``parsons table`` from a BigQuery statement.
 
         To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
 
-        `Args`:
+        Args:
             sql: str
                 A valid SQL statement
             app_creds: str
@@ -1070,12 +1094,13 @@ class ToFrom:
             project: str
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
-            TODO - Should users be able to pass in kwargs here? For parameters?
 
-        `Returns`:
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
+        # TODO: Should users be able to pass in kwargs here? For parameters?
 
         from parsons import GoogleBigQuery as BigQuery
 
@@ -1088,11 +1113,12 @@ class ToFrom:
         """
         Create a ``parsons table`` from a Pandas dataframe.
 
-        `Args:`
+        Args:
             dataframe: dataframe
                 A valid Pandas dataframe objectt
             include_index: boolean
                 Include index column
+
         """
 
         return cls(petl.fromdataframe(dataframe, include_index=include_index))

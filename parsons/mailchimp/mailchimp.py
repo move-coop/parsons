@@ -1,5 +1,6 @@
 import logging
 import re
+from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -12,12 +13,14 @@ class Mailchimp:
     """
     Instantiate Mailchimp Class
 
-    `Args:`
+    Args:
         api_key:
             The Mailchimp-provided application key. Not required if
             ``MAILCHIMP_API_KEY`` env variable set.
-    `Returns:`
+
+    Returns:
         Mailchimp Class
+
     """
 
     def __init__(self, api_key=None):
@@ -37,19 +40,19 @@ class Mailchimp:
         before_campaign_last_sent=None,
         since_campaign_last_sent=None,
         email=None,
-        sort_field=None,
-        sort_dir=None,
+        sort_field: Literal["date_created"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
     ):
         """
         Get a table of lists under the account based on query parameters. Note
         that argument descriptions here are sourced from Mailchimp's official
         API documentation.
 
-        `Args:`
-            fields: list of strings
+        Args:
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -76,13 +79,16 @@ class Mailchimp:
             email: string
                 Restrict results to lists that include a specific subscriber's
                 email address.
-            sort_field: string, can only be 'date_created' or None
+            sort_field: string
+                Can only be 'date_created' or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -112,8 +118,8 @@ class Mailchimp:
         exclude_fields=None,
         count=None,
         offset=None,
-        type=None,
-        status=None,
+        type: Literal["regular", "plaintext", "absplit", "rss", "variate"] | None = None,
+        status: Literal["save", "paused", "schedule", "sending", "sent"] | None = None,
         before_send_time=None,
         since_send_time=None,
         before_create_time=None,
@@ -121,19 +127,19 @@ class Mailchimp:
         list_id=None,
         folder_id=None,
         member_id=None,
-        sort_field=None,
-        sort_dir=None,
+        sort_field: Literal["create_time", "send_time"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
     ):
         """
         Get a table of campaigns under the account based on query parameters.
         Note that argument descriptions here are sourced from Mailchimp's
         official API documentation.
 
-        `Args:`
-            fields: list of strings
+        Args:
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -143,11 +149,11 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            type: string, can only be 'regular', 'plaintext', 'absplit', 'rss',
-            'variate', or None
+            type: string
+                Can only be 'regular', 'plaintext', 'absplit', 'rss', 'variate', or None
                 The campaign type.
-            status: string, can only be 'save', 'paused', 'schedule',
-            'sending', 'sent', or None
+            status: string
+                Can only be 'save', 'paused', 'schedule', 'sending', 'sent', or None
                 The status of the campaign.
             before_send_time: string
                 Restrict the response to campaigns sent before the set time. We
@@ -169,13 +175,16 @@ class Mailchimp:
                 Retrieve campaigns sent to a particular list member. Member ID
                 is The MD5 hash of the lowercase version of the list member’s
                 email address.
-            sort_field: string, can only be 'create_time', 'send_time', or None
+            sort_field: string
+                Can only be 'create_time', 'send_time', or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -211,7 +220,10 @@ class Mailchimp:
         count=None,
         offset=None,
         email_type=None,
-        status=None,
+        status: Literal[
+            "subscribed", "unsubscribed", "cleaned", "pending", "transactional", "archived"
+        ]
+        | None = None,
         since_timestamp_opt=None,
         before_timestamp_opt=None,
         since_last_changed=None,
@@ -220,9 +232,9 @@ class Mailchimp:
         vip_only=False,
         interest_category_id=None,
         interest_ids=None,
-        interest_match=None,
-        sort_field=None,
-        sort_dir=None,
+        interest_match: Literal["any", "all", "none"] | None = None,
+        sort_field: Literal["timestamp_opt", "timestamp_signup", "last_changed"] | None = None,
+        sort_dir: Literal["ASC", "DESC"] | None = None,
         since_last_campaign=None,
         unsubscribed_since=None,
     ):
@@ -231,10 +243,10 @@ class Mailchimp:
         argument descriptions here are sourced from Mailchimp's official API
         documentation.
 
-        `Args:`
+        Args:
             list_id: string
                 The unique ID of the list to fetch members from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
             exclude_fields: list of fields as strings
@@ -249,8 +261,8 @@ class Mailchimp:
                 value is 0.
             email_type: string
                 The email type.
-            status: string, can only be 'subscribed', 'unsubscribed',
-            'cleaned', 'pending', 'transactional', 'archived', or None
+            status: string
+                Can only be 'subscribed', 'unsubscribed', 'cleaned', 'pending', 'transactional', 'archived', or None
                 The subscriber's status.
             since_timestamp_opt: string
                 Restrict results to subscribers who opted-in after the set
@@ -278,21 +290,23 @@ class Mailchimp:
                 return all list members.
             interest_category_id: string
                 The unique id for the interest category.
-            interest_ids: list of strings
+            interest_ids: list[str]
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_match. The value must be a
                 comma separated list of interest ids present for any supplied
                 interest categories.
-            interest_match: string, can only be 'any', 'all', 'none', or None
+            interest_match: string
+                Can only be 'any', 'all', 'none', or None
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_ids. "any" will match a
                 member with any of the interest supplied, "all" will only match
                 members with every interest supplied, and "none" will match
                 members without any of the interest supplied.
-            sort_field: string, can only be 'timestamp_opt',
-            'timestamp_signup', 'last_changed', or None
+            sort_field: string
+                Can only be 'timestamp_opt', 'timestamp_signup', 'last_changed', or None
                 Returns files sorted by the specified field.
-            sort_dir: string, can only be 'ASC', 'DESC', or None
+            sort_dir: string
+                Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
             since_last_campaign: string
                 Filter subscribers by those
@@ -303,8 +317,9 @@ class Mailchimp:
                 Using any status other than unsubscribed with this filter will
                 result in an error.
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -350,13 +365,13 @@ class Mailchimp:
         parameters. Note that argument descriptions here are sourced from
         Mailchimp's official API documentation.
 
-        `Args:`
+        Args:
             campaign_id: string
                 The unique ID of the campaign to fetch emails from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -371,8 +386,9 @@ class Mailchimp:
                 specific time. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         params = {
             "fields": fields,
@@ -397,13 +413,13 @@ class Mailchimp:
         parameters. Note that argument descriptions here are sourced from
         Mailchimp's official API documentation.
 
-        `Args:`
+        Args:
             campaign_id: string
                 The unique ID of the campaign to fetch unsubscribes from.
-            fields: list of strings
+            fields: list[str]
                 A comma-separated list of fields to return. Reference
                 parameters of sub-objects with dot notation.
-            exclude_fields: list of strings
+            exclude_fields: list[str]
                 A comma-separated list of fields to exclude. Reference
                 parameters of sub-objects with dot notation.
             count: int
@@ -414,8 +430,9 @@ class Mailchimp:
                 large collections with this parameter can be slow. Default
                 value is 0.
 
-        `Returns:`
+        Returns:
             Table Class
+
         """
         params = {
             "fields": fields,

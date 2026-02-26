@@ -1,4 +1,5 @@
 import urllib.parse
+from typing import Literal
 
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
@@ -12,7 +13,7 @@ class OAuth2APIConnector(APIConnector):
     It extends APIConnector by wrapping the request methods in a server-side OAuth2 client
     and otherwise provides the same interface as APIConnector.
 
-    `Args:`
+    Args:
         uri: str
             The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
         client_id: str
@@ -31,8 +32,9 @@ class OAuth2APIConnector(APIConnector):
         data_key: str
             The name of the key in the response json where the data is contained. Required
             if the data is nested in the response json
-    `Returns`:
+    Returns:
         OAuthAPIConnector class
+
     """
 
     def __init__(
@@ -75,17 +77,24 @@ class OAuth2APIConnector(APIConnector):
             auto_refresh_kwargs=authorization_kwargs,
         )
 
-    def request(self, url, req_type, json=None, data=None, params=None):
+    def request(
+        self,
+        url,
+        req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        json=None,
+        data=None,
+        params=None,
+    ):
         """
         Base request using requests libary.
 
-        `Args:`
+        Args:
             url: str
                 The url request string; if ``url`` is a relative URL, it will be joined with
                 the ``uri`` of the ``OAuthAPIConnector`; if ``url`` is an absolute URL, it will
                 be used as is.
             req_type: str
-                The request type. One of GET, POST, PATCH, DELETE, OPTIONS
+                The request type. One of GET, POST, PUT, PATCH, DELETE, OPTIONS
             json: dict
                 The payload of the request object. By using json, it will automatically
                 serialize the dictionary
@@ -94,8 +103,9 @@ class OAuth2APIConnector(APIConnector):
             params: dict
                 The parameters to append to the url (e.g. http://myapi.com/things?id=1)
 
-        `Returns:`
+        Returns:
             requests response
+
         """
         full_url = urllib.parse.urljoin(self.uri, url)
         return self.client.request(

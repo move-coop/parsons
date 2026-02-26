@@ -71,6 +71,43 @@ jobs:
               exit 1
             fi
 
+      - run:
+          name: Get Latest gh-pages Version
+          command: |
+            npm view gh-pages version > gh_pages_version.txt
+            cat gh_pages_version.txt
+
+      - run:
+          name: Setup NPM Path
+          command: |
+            npm set prefix=/home/circleci/npm
+            echo 'export PATH=/home/circleci/npm/bin:$PATH' >> $BASH_ENV
+
+      - run:
+          name: Setup git
+          command: |
+            git config --global user.email "ci-build@movementcooperative.org"
+            git config --global user.name "ci-build"
+            git config --global init.defaultBranch main
+
+      - restore_cache:
+          keys:
+            - v1-gh-pages-{{ checksum "gh_pages_version.txt" }}-{{ arch }}
+
+      - run:
+          name: Install gh-pages
+          command: |
+            GH_VERSION=$(cat gh_pages_version.txt)
+            if [ ! -f /home/circleci/npm/bin/gh-pages ]; then
+              echo "Installing gh-pages version $GH_VERSION..."
+              npm install -g --silent gh-pages@$GH_VERSION
+            fi
+
+      - save_cache:
+          key: v1-gh-pages-{{ checksum "gh_pages_version.txt" }}-{{ arch }}
+          paths:
+            - /home/circleci/npm
+
       - add_ssh_keys:
           # This SSH key is "CircleCI Docs" in https://github.com/move-coop/parsons/settings/keys
           # We need write access to the Parsons repo, so we can push the "gh-pages" branch.
@@ -80,12 +117,6 @@ jobs:
       - run:
           name: Deploy docs
           command: |
-            git config user.email "ci-build@movementcooperative.org"
-            git config user.name "ci-build"
-
-            npm set prefix=/home/circleci/npm
-            export PATH=/home/circleci/npm/bin:$PATH
-
             OPTIONS=(
               "--dist" "docs/html"
               "--message" "[skip ci] Updates"
@@ -94,12 +125,11 @@ jobs:
             )
             if [ "$CIRCLE_BRANCH" != "main" ]; then
               echo "Verifying gh-pages execution without publishing."
-
               FAKE_REMOTE="/tmp/fake-remote"
               mkdir -p "$FAKE_REMOTE"
               git init --bare "$FAKE_REMOTE"
-              npx gh-pages@6.3.0 "${OPTIONS[@]}" --repo "$FAKE_REMOTE"
+              gh-pages "${OPTIONS[@]}" --repo "$FAKE_REMOTE"
             else
               echo "Publishing with gh-pages."
-              npx gh-pages@6.3.0 "${OPTIONS[@]}"
+              gh-pages "${OPTIONS[@]}"
             fi

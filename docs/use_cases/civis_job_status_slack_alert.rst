@@ -1,6 +1,6 @@
-===============
+============================
 Civis Job Status Slack Alert
-===============
+============================
 
 The Movement Cooperative uses Civis Platform to run the data syncs its members rely on.
 Civis users are able to monitor the status of these pipelines within the Civis interface, but not all stakeholders are Civis users and if a problem occurs folks have to navigate to another system, such as Slack or TMC's support ticket system, to flag the issue, collaborate on troubleshooting, and get updates on the resolution.

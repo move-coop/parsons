@@ -44,7 +44,6 @@ We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker
 QuickStart
 ==========
 
-
 .. code-block:: python
 
   # VAN - Download activist codes to a CSV
@@ -133,6 +132,7 @@ Indices and tables
    box
    braintree
    capitolcanary
+   catalist
    census
    civis
    controlshift
@@ -203,6 +203,7 @@ Indices and tables
    use_cases/contribute_use_cases
    use_cases/civis_job_status_slack_alert
    use_cases/mysql_to_googlesheets
+   use_cases/opt_outs_to_everyaction
 
 .. toctree::
    :maxdepth: 1

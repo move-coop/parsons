@@ -11,6 +11,7 @@ The class provides methods to:
 - Get, put, remove, and check the size of files
 
 .. note::
+
   Authentication
     Depending on the server provider, SFTP may require either password or public key authentication.
     The ``SFTP`` class supports both methods via ``password`` and ``rsa_private_key_file`` arguments.
@@ -49,6 +50,7 @@ it in a ``with`` block:
 API
 ***
 
-.. autoclass :: parsons.SFTP
+.. autoclass:: parsons.sftp.sftp.SFTP
    :inherited-members:
    :members:
+   

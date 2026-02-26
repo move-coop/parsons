@@ -49,7 +49,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: |
           uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
@@ -78,7 +78,7 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+      - uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e
         with:
           disable-sudo: true
           egress-policy: block
@@ -94,7 +94,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -137,7 +137,7 @@ jobs:
           - highest
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+      - uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e
         with:
           disable-sudo: true
           egress-policy: block
@@ -153,7 +153,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -162,7 +162,7 @@ jobs:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
 
       - id: cache-pytest
-        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
           key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
@@ -189,7 +189,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -226,7 +226,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -240,7 +240,7 @@ jobs:
         run: |
           ruff check --output-format=sarif -o results.sarif .
 
-      - uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2
+      - uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -274,7 +274,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -282,7 +282,7 @@ jobs:
         run: |
           bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2
+      - uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -360,7 +360,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@fa468aced1ea5737b7cbaba356dd97587bc27f7f
+      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
 
       - run: uv pip install --system -r requirements-dev.txt
 

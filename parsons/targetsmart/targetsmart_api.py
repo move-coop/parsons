@@ -57,7 +57,7 @@ class Person:
         """
         Searches for a record based on an id or phone or email address
 
-        `Args:`
+        Args:
             search_id: str
                 The primary key or email address or phone number
             search_id_type: str
@@ -69,6 +69,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
@@ -121,7 +122,7 @@ class Person:
         """
         Search for a person based on a specified radius
 
-        `Args`:
+        Args:
             first_name: str
                 One or more alpha characters. Required
             last_name: str
@@ -174,6 +175,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if (latitude is None or longitude is None) and address is None:
@@ -221,12 +223,14 @@ class Person:
         Match based on a list of 500 phones numbers. Table
         can contain up to 500 phone numbers to match
 
-        `Args:`
+        Args:
             table: parsons table
                 See :ref:`parsons-table`. One row per phone number,
                 up to 500 phone numbers.
-        `Returns:`
+
+        Returns:
             See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "person/phone-search"
@@ -271,7 +275,7 @@ class Service:
               - ``point``
               - ``latitude``, ``longitude``
 
-        `Args`:
+        Args:
             search_type: str
                 The type of district search to perform. One of ``zip``, ``address``
                 or ``point``.
@@ -287,9 +291,10 @@ class Service:
                 Valid latitude floating point
             longitude: float or str
                 Valid longitude floating point
-        `Returns`:
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_type == "zip" and None in [zip5, zip4]:
@@ -346,7 +351,7 @@ class Voter:
 
         A search must include the at minimum first name, last name and state.
 
-        `Args:`
+        Args:
             first_name: str
                 Required; One or more alpha characters. Trailing wildcard allowed
             last_name: str
@@ -375,6 +380,7 @@ class Voter:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "voter/voter-registration-check"

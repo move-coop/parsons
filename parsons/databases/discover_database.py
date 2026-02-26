@@ -32,6 +32,7 @@ def discover_database(
 
     Returns:
         DatabaseConnector: The database connector configured in the environment.
+
     """
     connectors = {
         "Redshift": Redshift,

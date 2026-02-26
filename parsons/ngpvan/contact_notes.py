@@ -15,12 +15,14 @@ class ContactNotes:
         """
         Get custom fields.
 
-        `Args:`
+        Args:
             van_id : str
                 VAN ID for the person to get notes for.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
@@ -41,7 +43,7 @@ class ContactNotes:
         """
         Create a contact note
 
-        `Args:`
+        Args:
             van_id: str
                 VAN ID for the person this note will be applied to.
             text: str
@@ -61,9 +63,11 @@ class ContactNotes:
                 Defaults to current date if no value is set. Dates should be formatted in ISO8601 standard.
             result_code_id: str
                 Defaults to 205 if no value is set. This value results in a "Contacted" result in EA.
-        `Returns:`
+
+        Returns:
             int
               The note ID.
+
         """
         note = {"text": text, "isViewRestricted": is_view_restricted}
         if note_category_id is not None:

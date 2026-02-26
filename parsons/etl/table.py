@@ -20,7 +20,8 @@ class _EmptyDefault(Enum):
     This is used because Table(None) should not be allowed, but we
     need a default argument that isn't the mutable []
 
-    See https://stackoverflow.com/a/76606310 for discussion."""
+    See https://stackoverflow.com/a/76606310 for discussion.
+    """
 
     token = 0
 
@@ -35,13 +36,14 @@ class Table(ETL, ToFrom):
     - A list of dicts
     - A petl table
 
-    `Args:`
+    Args:
         lst: list
             See above for accepted list formats
         source: str
             The original data source from which the data was pulled (optional)
         name: str
             The name of the table (optional)
+
     """
 
     def __init__(
@@ -116,18 +118,17 @@ class Table(ETL, ToFrom):
         return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
-        """
-        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
-        """
+        """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
 
         return self.table._repr_html_()
 
     @property
     def num_rows(self):
         """
-        `Returns:`
+        Returns:
             int
                 Number of rows in the table
+
         """
         return petl.nrows(self.table)
 
@@ -145,9 +146,10 @@ class Table(ETL, ToFrom):
     @property
     def columns(self):
         """
-        `Returns:`
+        Returns:
             list
                 List of the table's column names
+
         """
         return list(petl.header(self.table))
 
@@ -169,12 +171,13 @@ class Table(ETL, ToFrom):
         """
         Returns a row in table
 
-        `Args:`
+        Args:
             row_index: int
-        `Returns:`
+        Returns:
             dict
                 A dictionary of the row with the column as the key and the cell
                 as the value.
+
         """
 
         self._index_count += 1
@@ -195,12 +198,13 @@ class Table(ETL, ToFrom):
         """
         Returns the data in the column as a list.
 
-        `Args:`
+        Args:
             column_name: str
                 The name of the column
-        `Returns`:
+        Returns:
             list
                 A list of data in the column.
+
         """
 
         if column_name in self.columns:
@@ -229,13 +233,15 @@ class Table(ETL, ToFrom):
 
         This method updates the current table in place.
 
-        `Args:`
+        Args:
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
-        `Returns:`
+
+        Returns:
             str
                 Path to the temp file that now contains the table
+
         """
 
         # Load the data in batches, and "pickle" the rows to a temp file.
@@ -258,8 +264,9 @@ class Table(ETL, ToFrom):
         Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
         table within the Parsons Table.
 
-        `Returns:`
+        Returns:
             bool
+
         """
 
         if not isinstance(self.table, petl.util.base.Table):
@@ -277,11 +284,12 @@ class Table(ETL, ToFrom):
         Checks if a given column is empty. Returns ``True`` if empty and ``False``
         if not empty.
 
-        `Args:`
+        Args:
             column: str
                 The column name
-        `Returns:`
+        Returns:
             bool
+
         """
 
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

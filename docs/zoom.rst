@@ -10,10 +10,11 @@ fetching users, fetching meetings, fetching metadata for past meetings, and fetc
 participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`_.
 
 .. note::
+
   Authentication
-    The ``Zoom`` class uses server-to-server `OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>` 
-    to authenticate queries to the Zoom API. You must create a server-to-server application in 
-    `Zoom's app marketplace <https://marketplace.zoom.us/develop/create>` to obtain an 
+    The ``Zoom`` class uses server-to-server `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
+    to authenticate queries to the Zoom API. You must create a server-to-server application at
+    `Zoom App Marketplace - Create App <https://marketplace.zoom.us/develop/create>`_ to obtain an
     ``account_id``, ``client_id``, and ``client_secret`` key. You will use this OAuth application to define your scopes,
     which gives your ``Zoom`` connector read permission on endpoints of your choosing (`meetings`, `webinars`, `reports`, etc.)
 
@@ -21,8 +22,8 @@ participants of past meetings via the `Zoom API <https://developers.zoom.us/docs
 Quick Start
 ***********
 
-To instantiate the ``Zoom`` class, you can either store your Zoom account ID, client ID, and client secret 
-as environmental variables (``ZOOM_ACCOUNT_ID``, ``ZOOM_CLIENT_ID``, ``ZOOM_CLIENT_SECRET``) 
+To instantiate the ``Zoom`` class, you can either store your Zoom account ID, client ID, and client secret
+as environmental variables (``ZOOM_ACCOUNT_ID``, ``ZOOM_CLIENT_ID``, ``ZOOM_CLIENT_SECRET``)
 or pass them in as arguments.
 
 .. code-block:: python
@@ -50,5 +51,7 @@ or pass them in as arguments.
 API
 ***
 
-.. autoclass :: parsons.Zoom
+.. autoclass:: parsons.zoom.zoom.Zoom
    :inherited-members:
+   :members:
+   

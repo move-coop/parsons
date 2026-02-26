@@ -27,6 +27,7 @@ class People:
         Find a person record.
 
         .. note::
+
             Person find must include the following minimum combinations to conduct
             a search.
 
@@ -36,7 +37,7 @@ class People:
               - first_name, last_name, street_number, street_name, zip5
               - email_address
 
-        `Args:`
+        Args:
             first_name: str
                 The person's first name
             last_name: str
@@ -56,8 +57,10 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
-        `Returns:`
+
+        Returns:
             A person dict object
+
         """
 
         logger.info(f"Finding {first_name} {last_name}.")
@@ -80,25 +83,28 @@ class People:
         Find a person record based on json data.
 
         .. note::
+
             Person find must include the following minimum combinations to conduct
             a search.
 
-              - first_name, last_name, email
-              - first_name, last_name, phone
-              - first_name, last_name, zip5, date_of_birth
-              - first_name, last_name, street_number, street_name, zip5
-              - email_address
+            - first_name, last_name, email
+            - first_name, last_name, phone
+            - first_name, last_name, zip5, date_of_birth
+            - first_name, last_name, street_number, street_name, zip5
+            - email_address
 
         .. note::
-            A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefind>`_.
 
-        `Args:`
+            A full list of possible values for the json, and its structure can be found
+            `here <https://docs.ngpvan.com/reference/people#peoplefind>`__.
+
+        Args:
             match_json: dict
                 A dictionary of values to match against.
-            fields: The fields to return. Leave as default for all available fields
-        `Returns:`
+
+        Returns:
             A person dict object
+
         """
 
         logger.info("Finding a match for json details.")
@@ -126,7 +132,7 @@ class People:
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             id: str
                 A valid id
             id_type: str
@@ -151,8 +157,9 @@ class People:
                 Street Name
             zip: str
                 5 digit zip code
-        `Returns:`
+        Returns:
             A person dict
+
         """
 
         return self._people_search(
@@ -175,10 +182,11 @@ class People:
         Update a person record based on a provided ID within the match_json dict.
 
         .. note::
-            A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`_.
 
-        `Args:`
+            A full list of possible values for the json, and its structure can be found
+            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`__.
+
+        Args:
             id: str
                 A valid id
             id_type: str
@@ -186,8 +194,10 @@ class People:
                 Defaults to ``vanid``.
             match_json: dict
                 A dictionary of values to match against and save.
-        `Returns:`
+
+        Returns:
             A person dict
+
         """
 
         return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
@@ -209,6 +219,7 @@ class People:
         Create or update a person record.
 
         .. note::
+
             Person find must include the following minimum combinations.
 
               - first_name, last_name, email
@@ -220,7 +231,7 @@ class People:
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             first_name: str
                 The person's first name
             last_name: str
@@ -245,8 +256,10 @@ class People:
             kwargs:
                 Any additional keyword arguments will be passed to
                 the EveryAction API for matching.
-        `Returns:`
+
+        Returns:
             A person dict
+
         """
 
         return self._people_search(
@@ -268,6 +281,7 @@ class People:
         Create or update a person record.
 
         .. note::
+
             Person find must include the following minimum combinations.
 
               - first_name, last_name, email
@@ -277,18 +291,21 @@ class People:
               - email_address
 
         .. note::
+
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`_. `vanId` can
+            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`__. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::
             This method can only be run on MyMembers, EveryAction, MyCampaign databases.
 
-        `Args:`
+        Args:
             match_json: dict
                 A dictionary of values to match against and save.
-        `Returns:`
+
+        Returns:
             A person dict
+
         """
 
         return self._people_search(match_json=match_json, create=True)
@@ -408,7 +425,7 @@ class People:
         """
         Returns a single person record using their VANID or external id.
 
-        `Args:`
+        Args:
             id: str
                 A valid id
             id_type: str
@@ -422,8 +439,10 @@ class People:
                 ``reported_demographics``, ``suppressions``, ``cases``, ``custom_properties``,
                 ``districts``, ``election_records``, ``membership_statuses``, ``notes``,
                 ``organization_roles``, ``scores``, ``disclosure_field_values``.
-        `Returns:`
+
+        Returns:
             A person dict
+
         """
 
         # Change end point based on id type
@@ -469,11 +488,13 @@ class People:
         """
         Suppress the given VANID in databases where contact records can be suppressed.
 
-        `Args:`
+        Args:
             vanid: str
                 The person's VAN ID.
-        `Returns:`
+
+        Returns:
             Success or error.
+
         """
         url = f"people/{vanid}"
         r = self.connection.delete_request(url)
@@ -494,7 +515,7 @@ class People:
         Apply a canvass result to a person. Use this end point for attempts that do not
         result in a survey response or an activist code (e.g. Not Home).
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             result_code_id : int
@@ -511,8 +532,7 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
             phone: str
                 `Optional`; Phone number of any type (Work, Cell, Home)
-        `Returns:`
-            ``None``
+
         """
 
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
@@ -541,7 +561,7 @@ class People:
         """
         Apply or remove a volunteer action to or from a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             id_type: str
@@ -564,6 +584,7 @@ class People:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         ** NOT IMPLEMENTED **
+
         """
 
         """
@@ -595,9 +616,9 @@ class People:
         to a person record. This method allows you apply multiple responses (e.g. two survey
         questions) at the same time. It is a low level method that requires that you
         conform to the VAN API `response object
-        format <https://docs.ngpvan.com/reference/canvass-responses>`_.
+        format <https://docs.ngpvan.com/reference/canvass-responses>`__.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             response: dict
@@ -628,19 +649,26 @@ class People:
                 `Optional`; a valid Campaign ID.
             skip_matching: boolean
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
-        `Returns:`
+
+        Returns:
             ``True`` if successful
 
         .. code-block:: python
 
-            response = [{"activistCodeId": 18917,
-                         "action": "Apply",
-                         "type": "ActivistCode"},
-                        {"surveyQuestionId": 109149,
-                         "surveyResponseId": 465468,
-                         "type": "SurveyResponse"}
-                        ]
+            response = [
+                {
+                    "activistCodeId": 18917,
+                    "action": "Apply",
+                    "type": "ActivistCode"
+                },
+                {
+                    "surveyQuestionId": 109149,
+                    "surveyResponseId": 465468,
+                    "type": "SurveyResponse"
+                }
+            ]
             van.apply_response(5222, response)
+
         """
 
         # Set url based on id_type
@@ -685,15 +713,14 @@ class People:
         """
         Create a relationship between two individuals
 
-        `Args:`
+        Args:
             vanid_1 : int
                 The vanid of the primary individual; aka the node
             vanid_2 : int
                 The vanid of the secondary individual; the spoke
             relationship_id : int
                 The relationship id indicating the type of relationship
-        `Returns:`
-            ``None``
+
         """
 
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
@@ -705,7 +732,7 @@ class People:
         """
         Apply a code to a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id.
             code_id: int
@@ -713,8 +740,7 @@ class People:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-        `Returns:`
-            ``None``
+
         """
 
         # Set url based on id_type
@@ -733,15 +759,17 @@ class People:
         and we can't keep both values, such as if the contacts have different
         first names, the primary contact record's data will be retained. For
         more information see the
-        `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`_
+        `VAN API documentation here <https://docs.ngpvan.com/reference/peoplevanidmergeinto>`__
 
-        `Args:`
+        Args:
             primary_vanid: str
                 The VANID of the primary contact record.
             source_vanid: str
                 The VANID of the source contact record.
-        `Returns:`
+
+        Returns:
             The VANID of the primary contact record.
+
         """
 
         url = f"people/{source_vanid}/mergeInto"

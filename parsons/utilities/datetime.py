@@ -6,13 +6,15 @@ from dateutil.parser import parse
 def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
     """Convert any date value into a Unix timestamp.
 
-    `Args:`
+    Args:
         value: int or str or datetime
             Value to parse
         tzinfo: datetime.timezone
             `Optional`: Timezone for the datetime; defaults to UTC.
-    `Returns:`
+
+    Returns:
         Unix timestamp (int)
+
     """
 
     parsed_date = parse_date(value)
@@ -27,9 +29,7 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
 
 
 def convert_unix_to_readable(ts):
-    """
-    Converts UNIX timestamps to readable timestamps.
-    """
+    """Converts UNIX timestamps to readable timestamps."""
 
     ts = datetime.utcfromtimestamp(int(ts) / 1000)
     ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -43,13 +43,15 @@ def parse_date(value: int | str | datetime.datetime, tzinfo=datetime.timezone.ut
     If no value is provided (i.e., the value is None or empty), then the return value will be
     None.
 
-    `Args:`
+    Args:
         value: int or str or datetime
             Value to parse
         tzinfo: datetime.timezone
             `Optional`: Timezone for the datetime; defaults to UTC.
-    `Returns:`
+
+    Returns:
         datetime.datetime or None
+
     """
 
     if not value:

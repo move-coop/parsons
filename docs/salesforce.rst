@@ -16,6 +16,7 @@ The ``Salesforce`` class utilizes the `Simple Salesforce <https://simple-salesfo
 client for making API calls under the hood.
 
 .. note::
+
   Authentication
     ``Salesforce`` requires your Salesforce username and password, as well as a security token
     which can be acquired or reset by logging in to your Salesforce account and navigating to
@@ -55,5 +56,8 @@ You can then call different endpoints:
 ***
 API
 ***
-.. autoclass :: parsons.Salesforce
+
+.. autoclass:: parsons.salesforce.salesforce.Salesforce
    :inherited-members:
+   :members:
+   

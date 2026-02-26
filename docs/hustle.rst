@@ -9,7 +9,8 @@ Overview
 the `Hustle v1 API <https://api.hustle.com/docs/>`_ provides methods for fetching agents,
 organizations, groups, leads, and tags, as well as creating and updating agents and leads.
 
-.. notes::
+.. note::
+
   Authentication
     Hustle uses the `OAuth2 client credentials flow <https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/>`_.
     Clients with a Hustle account can obtain the client ID and client secret needed to request a token which
@@ -54,6 +55,7 @@ To instantiate the ``Hustle`` class, you can either store your Hustle client ID 
 API
 ***
 
-.. autoclass :: parsons.Hustle
+.. autoclass:: parsons.hustle.hustle.Hustle
    :inherited-members:
    :members:
+   

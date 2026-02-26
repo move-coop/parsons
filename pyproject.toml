@@ -83,6 +83,7 @@ test = [
     "requests-mock==1.12.1",
     "testfixtures==8.3.0;python_version<'3.11'",
     "testfixtures==9.1.0;python_version>='3.11'",
+    "dbt-duckdb==1.8.0",
 ]
 
 [tool]

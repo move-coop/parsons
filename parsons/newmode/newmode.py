@@ -114,6 +114,7 @@ class NewmodeV1:
     ) -> Table:
         """
         Lookup targets for a given tool
+
         Args:
             tool_id:
                 The tool to lookup targets.
@@ -703,6 +704,7 @@ class NewmodeV2:
     ) -> Table:
         """
         Retrieve a specific recipient by ID
+
         Args:
             campaign_id: str
                 The ID of the campaign to retrieve.

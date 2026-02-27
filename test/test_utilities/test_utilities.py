@@ -1,7 +1,5 @@
 import datetime
 import os
-import shutil
-import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -97,18 +95,17 @@ def test_compression_type_for_path():
     assert files.compression_type_for_path("some/file.csv.gz") == "gzip"
 
 
-def test_empty_file():
+def test_empty_file(tmp_path: Path):
     # Create fake files.
-    tmp_folder = tempfile.mkdtemp()
-    (Path(tmp_folder) / "empty.csv").open(mode="w+").close()
+    empty_csv = tmp_path / "empty.csv"
+    empty_csv.touch()
 
-    Table([["1"], ["a"]]).to_csv(str(Path(tmp_folder) / "full.csv"))
+    full_csv = tmp_path / "full.csv"
 
-    assert not files.has_data(Path(tmp_folder) / "empty.csv")
-    assert files.has_data(Path(tmp_folder) / "full.csv")
+    Table([["1"], ["a"]]).to_csv(str(full_csv))
 
-    # Remove fake files and dir
-    shutil.rmtree(tmp_folder)
+    assert not files.has_data(empty_csv)
+    assert files.has_data(full_csv)
 
 
 def test_json_format():

@@ -106,8 +106,8 @@ class TestFileOperations:
         ],
         ids=["uncompressed", "compressed"],
     )
-    def test_to_from_csv(self, tbl, tmp_folder, filename, compression):
-        path = str(Path(tmp_folder) / filename)
+    def test_to_from_csv(self, tbl, tmp_path, filename, compression):
+        path = str(tmp_path / filename)
         tbl.to_csv(path)
         self._assert_expected_csv(path, tbl)
 
@@ -134,9 +134,9 @@ class TestFileOperations:
         tbl.concat(append_tbl)
         assert_matching_tables(tbl, result_tbl)
 
-    def test_from_csv_raises_on_empty_file(self, tmp_folder):
+    def test_from_csv_raises_on_empty_file(self, tmp_path: Path):
         # Create empty file
-        path = Path(tmp_folder) / "empty.csv"
+        path = tmp_path / "empty.csv"
         path.touch()
 
         with pytest.raises(ValueError, match="CSV file is empty"):
@@ -165,8 +165,8 @@ class TestFileOperations:
         ],
         ids=["uncompressed", "compressed"],
     )
-    def test_to_from_json(self, tbl, tmp_folder, filename, compression):
-        path = str(Path(tmp_folder) / filename)
+    def test_to_from_json(self, tbl, tmp_path, filename, compression):
+        path = str(tmp_path / filename)
         tbl.to_json(path)
 
         result_tbl = Table.from_json(path)
@@ -186,15 +186,15 @@ class TestFileOperations:
         ],
         ids=["uncompressed", "compressed"],
     )
-    def test_to_from_json_line_delimited(self, tbl, tmp_folder, filename, compression):
-        path = str(Path(tmp_folder) / filename)
+    def test_to_from_json_line_delimited(self, tbl, tmp_path, filename, compression):
+        path = str(tmp_path / filename)
         tbl.to_json(path, line_delimited=True)
 
         result_tbl = Table.from_json(path, line_delimited=True)
         assert_matching_tables(tbl, result_tbl)
 
-    def test_to_html(self, tbl, tmp_folder):
-        html_file = str(Path(tmp_folder) / "test.html")
+    def test_to_html(self, tbl, tmp_path: Path):
+        html_file = str(tmp_path / "test.html")
 
         # Test writing file
         tbl.to_html(html_file)

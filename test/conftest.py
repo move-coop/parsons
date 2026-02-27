@@ -1,5 +1,4 @@
 import os
-from tempfile import TemporaryDirectory
 
 import pytest
 
@@ -69,16 +68,3 @@ def sample_data():
 def tbl(sample_data):
     """Creates a Table from sample data"""
     return Table(sample_data["lst_dicts"])
-
-
-@pytest.fixture
-def tmp_folder():
-    """
-    Create and clean up a temporary folder.
-
-    Yields:
-        str: path to generated temporary directory
-
-    """
-    with TemporaryDirectory() as folder:
-        yield folder

@@ -511,8 +511,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">blob_name</span><span class="p">)</span>
-        <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket deleted.&quot;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">blob</span><span class="p">:</span>
+            <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">blob_name</span><span class="si">}</span><span class="s2"> blob in </span><span class="si">{</span><span class="n">bucket_name</span><span class="si">}</span><span class="s2"> bucket deleted.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Blob: </span><span class="si">{</span><span class="n">blob</span><span class="si">}</span><span class="s2"> doesn&#39;t exist.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GoogleCloudStorage.upload_table">

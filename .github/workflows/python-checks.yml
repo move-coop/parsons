@@ -50,7 +50,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - if: matrix.resolution != 'limited-dependencies'
         continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
@@ -107,7 +107,7 @@ jobs:
           python-version: '3.14'
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -166,7 +166,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -202,7 +202,7 @@ jobs:
           python-version: '3.13'
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -239,7 +239,7 @@ jobs:
           python-version: '3.13'
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -287,7 +287,7 @@ jobs:
           python-version: '3.13'
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 
@@ -373,7 +373,7 @@ jobs:
           python-version: '3.13'
           cache: pip
 
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
 
       - run: uv pip install --system -r requirements-dev.txt
 

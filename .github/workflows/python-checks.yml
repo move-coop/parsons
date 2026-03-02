@@ -77,7 +77,7 @@ jobs:
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
@@ -338,7 +338,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
         with:
           name: python-coverage-comment-action

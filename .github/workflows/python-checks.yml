@@ -12,6 +12,13 @@ on:
 
 permissions: read-all
 
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/requirements*.txt
+    **/setup.py
+    **/uv.lock
+
 jobs:
   pytest:
     runs-on: ${{ matrix.os }}
@@ -49,12 +56,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: |
           RES_FLAG="${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}"
@@ -104,12 +106,7 @@ jobs:
         with:
           python-version: '3.13'
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 
@@ -164,12 +161,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 
@@ -204,12 +196,7 @@ jobs:
         with:
           python-version: '3.13'
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 
@@ -245,12 +232,7 @@ jobs:
         with:
           python-version: '3.13'
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 
@@ -261,8 +243,7 @@ jobs:
           key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
-        run: |
-          ruff check --output-format=sarif -o results.sarif .
+        run: ruff check --output-format=sarif -o results.sarif .
 
       - uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
@@ -271,8 +252,7 @@ jobs:
 
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
-        run: |
-          ruff check --output-format=github .
+        run: ruff check --output-format=github .
 
   bandit:
     runs-on: ubuntu-latest
@@ -297,12 +277,7 @@ jobs:
         with:
           python-version: '3.13'
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 
@@ -387,12 +362,7 @@ jobs:
         with:
           python-version: '3.13'
           activate-environment: true
-          cache-dependency-glob: |
-            **/pyproject.toml
-            **/requirements.txt
-            **/requirements-dev.txt
-            **/setup.py.lock
-            **/uv.lock
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: uv pip install -r requirements-dev.txt
 

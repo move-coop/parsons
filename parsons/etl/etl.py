@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Literal
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -52,7 +52,7 @@ class ETL:
     def add_column(
         self,
         column: str,
-        value: Any = None,
+        value: object = None,
         index: int | None = None,
         if_exists: Literal["fail", "replace"] = "fail",
     ) -> ETL:
@@ -62,7 +62,7 @@ class ETL:
         Args:
             column: str
                 Name of column to add.
-            value: Any
+            value: object
                 A fixed or calculated value.
             index: int
                 Optionally, the position of the new column in the table. Default behavior
@@ -152,14 +152,14 @@ class ETL:
         self.table = petl.rename(self.table, column_map)
         return self
 
-    def fill_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
+    def fill_column(self, column_name: str, fill_value: Callable[[object], object] | object) -> ETL:
         """
         Fill a column in a table.
 
         Args:
             column_name: str
                 The column to fill.
-            fill_value: Callable[[Any], Any] | Any
+            fill_value: Callable[[object], object] | object
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
@@ -177,14 +177,16 @@ class ETL:
 
         return self
 
-    def fillna_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
+    def fillna_column(
+        self, column_name: str, fill_value: Callable[[object], object] | object
+    ) -> ETL:
         """
         Fill None values in a column in a table.
 
         Args:
             column_name: str
                 The column to fill.
-            fill_value: Callable[[Any], Any] | Any
+            fill_value: Callable[[object], object] | object
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
@@ -229,7 +231,7 @@ class ETL:
         self.table = petl.movefield(self.table, column, index)
         return self
 
-    def convert_column(self, *column: str, **kwargs: Callable[[Any], Any] | Any) -> ETL:
+    def convert_column(self, *column: str, **kwargs: Callable[[object], object] | object) -> ETL:
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl convert()
@@ -238,7 +240,7 @@ class ETL:
         Args:
             *column: str
                 A single column or multiple columns passed as a list.
-            **kwargs: Callable[[Any], Any] | Any
+            **kwargs: Callable[[object], object] | object
                 The update function, method, or variable to process the update.
 
         Returns:
@@ -286,21 +288,16 @@ class ETL:
 
         cols = self.get_columns_type_stats()
 
-        def str_or_empty(x):
-            if x is None:
-                return ""
-            return str(x)
-
         for col in cols:
             # If there's more than one type (or no types), convert to str
             # Also if there is one type and it's not str, convert to str
             if len(col["type"]) != 1 or col["type"][0] != "str":
-                self.convert_column(col["name"], str_or_empty)
+                self.convert_column(col["name"], lambda x: "" if x is None else str(x))
 
         return self
 
     def coalesce_columns(
-        self, dest_column: str, source_columns: list, remove_source_columns: bool = True
+        self, dest_column: str, source_columns: list[str], remove_source_columns: bool = True
     ) -> ETL:
         """
         Coalesces values from one or more source columns into a destination column, by selecting
@@ -309,7 +306,7 @@ class ETL:
         Args:
             dest_column: str
                 Name of destination column.
-            source_columns: list
+            source_columns: list[str]
                 List of source column names.
             remove_source_columns: bool
                 Optionally, whether to remove the source columns after the coalesce. If the
@@ -323,7 +320,7 @@ class ETL:
 
         if dest_column in self.columns:
 
-            def convert_fn(value, row):
+            def convert_fn(value: object, row: object) -> object:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -333,7 +330,7 @@ class ETL:
 
         else:
 
-            def add_fn(row):
+            def add_fn(row: object) -> object:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -473,7 +470,7 @@ class ETL:
 
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
-    def convert_table(self, *args: Callable[[Any], Any] | Any) -> ETL:
+    def convert_table(self, *args: Callable[[object], object] | object) -> ETL:
         r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
@@ -495,10 +492,10 @@ class ETL:
     def unpack_dict(
         self,
         column: str,
-        keys: list | None = None,
+        keys: list[str] | None = None,
         include_original: bool = False,
         sample_size: int = 5000,
-        missing=None,
+        missing: object = None,
         prepend: bool = True,
         prepend_value: str | None = None,
     ) -> ETL:
@@ -508,14 +505,14 @@ class ETL:
         Args:
             column: str
                 The column name to unpack.
-            keys: list
+            keys: list[str]
                 The dict keys in the column to unpack. If None will unpack
                 all.
             include_original: bool
                 Retain original column after unpacking.
             sample_size: int
                 Number of rows to sample before determining columns.
-            missing: str
+            missing: object
                 If a value is missing, the value to fill it with.
             prepend: bool
                 Prepend the column name of the unpacked values. Useful for
@@ -628,7 +625,6 @@ class ETL:
 
         if replace:
             self.table = tbl
-
         else:
             return tbl
 
@@ -740,12 +736,12 @@ class ETL:
 
     def long_table(
         self,
-        key: list,
+        key: list[str],
         column: str,
         key_rename: dict | None = None,
         retain_original: bool = False,
         prepend: bool = True,
-        prepend_value: str = None,
+        prepend_value: str | None = None,
     ) -> parsons.etl.table.Table:
         """
         Create a new long parsons table from a column, including the foreign
@@ -777,7 +773,7 @@ class ETL:
             >>> {'id': '5421', 'emails_home': None, 'emails_work': 'jane@mywork.com'}
 
         Args:
-            key: list
+            key: list[str]
                 The columns to retain in the long table (e.g. foreign keys).
             column: str
                 The column name to make long.
@@ -838,7 +834,7 @@ class ETL:
 
         return parsons.etl.table.Table(petl.cut(self.table, *columns))
 
-    def select_rows(self, *filters):
+    def select_rows(self, *filters: Callable[[object], bool]) -> parsons.etl.table.Table:
         r"""
         Select specific rows from a Parsons table based on the passed
         filters.
@@ -872,26 +868,23 @@ class ETL:
             *filters: function or str.
 
         Returns:
-            A new parsons table containing the selected rows.
+            parsons.etl.table.Table: A new parsons table containing the selected rows.
 
         """
 
         return parsons.etl.table.Table(petl.select(self.table, *filters))
 
-    def remove_null_rows(self, columns, null_value=None):
+    def remove_null_rows(self, columns: list[str] | str, null_value: object = None) -> None:
         """
         Remove rows if the values in a column are None. If multiple columns
         are passed as list, it will remove all rows with null values in any
         of the passed columns.
 
         Args:
-            column: str or list
+            column: list[str] | str
                 The column or columns to analyze.
-            null_value: int or float or str
+            null_value: object
                 The null value.
-
-        Returns:
-            None
 
         """
         if isinstance(columns, str):
@@ -902,7 +895,7 @@ class ETL:
 
         return self
 
-    def _prepend_dict(self, dict_obj, prepend):
+    def _prepend_dict(self, dict_obj: dict, prepend: object) -> dict:
         # Internal method to rename dict keys
 
         new_dict = {}
@@ -912,7 +905,7 @@ class ETL:
 
         return new_dict
 
-    def stack(self, *tables, missing=None):
+    def stack(self, *tables, missing=None) -> None:
         """
         Stack Parsons tables on top of one another.
 
@@ -924,9 +917,6 @@ class ETL:
                 A single table, or a list of tables.
             missing: bool
                 The value to use when padding missing values.
-
-        Returns:
-            None.
 
         """
 
@@ -1001,7 +991,7 @@ class ETL:
 
     def match_columns(
         self,
-        desired_columns,
+        desired_columns: list[str],
         fuzzy_match=True,
         if_extra_columns: Literal["remove", "ignore", "fail"] = "remove",
         if_missing_columns: Literal["add", "ignore", "fail"] = "add",
@@ -1011,7 +1001,7 @@ class ETL:
         names.
 
         Args:
-            desired_columns: list
+            desired_columns: list[str]
                 Ordered list of desired column names.
             fuzzy_match: bool
                 Whether to normalize column names when matching against the desired column names,
@@ -1106,7 +1096,9 @@ class ETL:
 
         return self
 
-    def reduce_rows(self, columns, reduce_func, headers, presorted=False, **kwargs):
+    def reduce_rows(
+        self, columns: list[str], reduce_func, headers: list[str], presorted=False, **kwargs
+    ):
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
@@ -1163,13 +1155,13 @@ class ETL:
             +-------------------------+-----------------------------------------------------------------------+
 
         Args:
-            columns (list):
+            columns: list[str]
                 The column(s) by which to group the rows.
             reduce_func: fun
                 The function by which to reduce the rows. Should take the 2
                 arguments, the columns list and the rows list and return a list.
-                `reducer(columns: list, rows: list) -> list;`.
-            headers: list
+                `reducer(columns: list[str], rows: list[object]) -> list[object];`.
+            headers: list[str]
                 The list of headers for modified table. The length should match the length
                 of the list returned by the reduce function.
             presorted: bool
@@ -1191,12 +1183,12 @@ class ETL:
 
         return self
 
-    def sort(self, columns=None, reverse=False):
+    def sort(self, columns: list[str] | str | None = None, reverse=False):
         """
         Sort the rows a table.
 
         Args:
-            sort_columns: list or str
+            columns: list[str] | str
                 Sort by a single column or a list of column. If None then
                 will sort columns from left to right.
             reverse: boolean
@@ -1211,12 +1203,12 @@ class ETL:
 
         return self
 
-    def set_header(self, new_header):
+    def set_header(self, new_header: list[str]):
         """
         Replace the header row of the table.
 
         Args:
-            new_header: list
+            new_header: list[str]
                 List of new header column names.
 
         Returns:

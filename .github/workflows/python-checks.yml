@@ -31,7 +31,6 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
-          - '3.14'
         os:
           - ubuntu-latest
           - windows-latest
@@ -59,11 +58,10 @@ jobs:
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: |
-          RES_FLAG="${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}"
-          uv pip install --resolution "$RES_FLAG" -r requirements-dev.txt
-          uv pip install --resolution "$RES_FLAG" .[all]
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
+          uv pip install -r requirements-dev.txt
+          uv pip install .[all]
         env:
+          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
 
       - id: cache-pytest
@@ -73,12 +71,10 @@ jobs:
           key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
 
       - run: pytest
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
-        if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
           name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}

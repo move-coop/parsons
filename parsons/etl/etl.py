@@ -23,8 +23,8 @@ class ETL:
             n: int
                 The number of rows to return. Defaults to 5.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -39,8 +39,8 @@ class ETL:
             n: int
                 The number of rows to select. Defaults to 5.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -69,8 +69,11 @@ class ETL:
                 If set "replace", this function will call fill_column. If the column
                 already exists, rather than raising a ValueError.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
+
+        Raises:
+            ValueError: The column already exists.
 
         """
 
@@ -92,8 +95,8 @@ class ETL:
             columns:
                 Column name(s).
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -110,8 +113,12 @@ class ETL:
             new_column_name: str
                 The new column name.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
+
+        Raises:
+            ValueError:
+                Column already exists.
 
         """
 
@@ -134,8 +141,14 @@ class ETL:
                 {'old_name': 'new_name',
                 'old_name2': 'new_name2'}
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
+
+        Raises:
+            KeyError:
+                Old column does not exist.
+            ValueError:
+                New column already exists.
 
         """
 
@@ -161,8 +174,8 @@ class ETL:
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -186,8 +199,8 @@ class ETL:
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -219,8 +232,8 @@ class ETL:
             index: int
                 The new index for the column.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -239,8 +252,8 @@ class ETL:
             kwargs:
                 The update function, method, or variable to process the update.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -255,8 +268,8 @@ class ETL:
             column: str
                 The column name.
 
-        Returns: int
-            The max width.
+        Returns:
+            int: The max width.
 
         """
 
@@ -273,8 +286,8 @@ class ETL:
         Convenience function to convert all non-string or mixed columns in a
         Parsons table to string (e.g. for comparison.)
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -312,8 +325,8 @@ class ETL:
                 destination column is also one of the source columns, it will not be removed.
                 Defaults to True.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -375,8 +388,8 @@ class ETL:
                 Optionally, if True will only map if an exact match. If False will
                 ignore case, spaces and underscores. Defaults to True.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -423,8 +436,8 @@ class ETL:
             column_map: dict
                 A dictionary of columns and possible values that map to it.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -451,8 +464,8 @@ class ETL:
             column: str
                 Name of the column to analyze.
 
-        Returns: list[TypeVar]
-            A list of Python types.
+        Returns:
+            list[TypeVar]: A list of Python types.
 
         """
 
@@ -462,8 +475,8 @@ class ETL:
         """
         Return descriptive stats for all columns.
 
-        Returns: list[dict]
-            A list of dicts, each containing a column 'name' and a 'type' list.
+        Returns:
+            list[dict]: A list of dicts, each containing a column 'name' and a 'type' list.
 
         """
 
@@ -480,8 +493,8 @@ class ETL:
             args:
                 The update function, method, or variable to process the update. Can also...
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -520,8 +533,8 @@ class ETL:
                 Value to prepend new columns if prepend=True. If None, will
                 set to column name.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -589,8 +602,8 @@ class ETL:
             max_columns: int
                 Optionally, the maximum number of columns to unpack.
 
-        Returns: petl.util.base.Table
-            The new table or returns None if table is being replaced.
+        Returns:
+            petl.util.base.Table: The new table or returns None if table is being replaced.
 
         """
 
@@ -646,8 +659,8 @@ class ETL:
                 If False (default): Return unpacked rows (with key column only) as standalone.
                 Removes packed list and dict rows from original either way.
 
-        Returns: parsons.etl.table.Table
-            If expand_original, original table with packed rows replaced
+        Returns:
+            parsons.etl.table.Table: If expand_original, original table with packed rows replaced
             by unpacked rows. Otherwise, standalone table with key column and unpacked values only.
 
         """
@@ -799,8 +812,8 @@ class ETL:
                 Value to prepend new columns if prepend=True. If None, will
                 set to column name.
 
-        Returns: parsons.etl.table.Table
-            The Parsons Table.
+        Returns:
+            parsons.etl.table.Table: The Parsons Table.
 
         """
 
@@ -836,8 +849,8 @@ class ETL:
             columns
                 Columns in the parsons table.
 
-        Returns: parsons.etl.table.Table
-            The Parsons Table.
+        Returns:
+            parsons.etl.table.Table: The Parsons Table.
 
         """
 
@@ -879,8 +892,8 @@ class ETL:
             filters:
                 Function or str.
 
-        Returns: parsons.etl.table.Table
-            A new parsons table containing the selected rows.
+        Returns:
+            parsons.etl.table.Table: A new parsons table containing the selected rows.
 
         """
 
@@ -900,8 +913,8 @@ class ETL:
             null_value: Any
                 The null value.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
         if isinstance(columns, str):
@@ -974,8 +987,8 @@ class ETL:
             rows: int
                 The number of rows of each new Parsons table.
 
-        Returns: list[parsons.etl.table.Table]
-            A list of Parsons tables.
+        Returns:
+            list[parsons.etl.table.Table]: A list of Parsons tables.
 
         """
 
@@ -994,8 +1007,8 @@ class ETL:
         Args:
             column_name: str
 
-        Returns: str
-            Normalized column name.
+        Returns:
+            str: Normalized column name.
 
         """
 
@@ -1022,15 +1035,20 @@ class ETL:
                 Eg. With this flag set, "FIRST NAME" would match "first_name".
                 If the Table has two columns that normalize to the same string (eg. "FIRST NAME"
                 and "first_name"), the latter will be considered an extra column.
-            if_extra_columns: string
+            if_extra_columns: str
                 If the Table has columns that don't match any desired columns, either 'remove'
                 them, 'ignore' them, or 'fail' (raising an error).
-            if_missing_columns: string
+            if_missing_columns: str
                 If the Table is missing some of the desired columns, either 'add' them (with a
                 value of None), 'ignore' them, or 'fail' (raising an error).
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
+
+        Raises:
+            TypeError:
+                Strategy was to fail or an invalid strategy was passed to if_extra_columns or
+                if_missing_columns.
 
         """
 
@@ -1186,8 +1204,8 @@ class ETL:
             kwargs:
                 Optionally, the buffersize, tempdir, or cache to use.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -1213,8 +1231,8 @@ class ETL:
             reverse: boolean
                 Sort rows in reverse order.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -1230,8 +1248,8 @@ class ETL:
             new_header: list[str]
                 List of new header column names.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
         self.table = petl.setheader(self.table, new_header)
@@ -1284,8 +1302,8 @@ class ETL:
             kwargs:
                 The keyword arguments to pass to the petl function.
 
-        Returns: parsons.etl.table.Table
-            A Parsons table.
+        Returns:
+            parsons.etl.table.Table: A Parsons table.
 
         """
 
@@ -1380,8 +1398,8 @@ class ETL:
             presorted: bool
                 If false, the row will be sorted.
 
-        Returns: ETL
-            The modified ETL (self).
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 

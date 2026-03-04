@@ -347,9 +347,7 @@ jobs:
       - id: cache-pre-commit
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
-          path: .pre-commit-cache
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - run: pre-commit run --show-diff-on-failure --color=always
-        env:
-          PRE_COMMIT_HOME: .pre-commit-cache

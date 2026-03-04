@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -50,7 +50,7 @@ class ETL:
     def add_column(
         self,
         column: str,
-        value: object = None,
+        value: Any = None,
         index: int | None = None,
         if_exists: Literal["fail", "replace"] = "fail",
     ) -> ETL:
@@ -60,7 +60,7 @@ class ETL:
         Args:
             column: str
                 Name of column to add.
-            value: object
+            value: Any
                 A fixed or calculated value.
             index: int
                 Optionally, the position of the new column in the table. Default behavior
@@ -150,14 +150,14 @@ class ETL:
         self.table = petl.rename(self.table, column_map)
         return self
 
-    def fill_column(self, column_name: str, fill_value: Callable[[object], object] | object) -> ETL:
+    def fill_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
         """
         Fill a column in a table.
 
         Args:
             column_name: str
                 The column to fill.
-            fill_value: Callable[[object], object] | object
+            fill_value: Callable[[Any], Any] | Any
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
@@ -175,16 +175,14 @@ class ETL:
 
         return self
 
-    def fillna_column(
-        self, column_name: str, fill_value: Callable[[object], object] | object
-    ) -> ETL:
+    def fillna_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
         """
         Fill None values in a column in a table.
 
         Args:
             column_name: str
                 The column to fill.
-            fill_value: Callable[[object], object] | object
+            fill_value: Callable[[Any], Any] | Any
                 A conversion function taking a single argument and returning the converted
                 value. Alternatively, a fixed or calculated value.
 
@@ -321,7 +319,7 @@ class ETL:
 
         if dest_column in self.columns:
 
-            def convert_fn(value: object, row: dict) -> object:
+            def convert_fn(value: Any, row: dict) -> Any:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -331,7 +329,7 @@ class ETL:
 
         else:
 
-            def add_fn(row: dict) -> object:
+            def add_fn(row: dict) -> Any:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -496,7 +494,7 @@ class ETL:
         keys: list[str] | None = None,
         include_original: bool = False,
         sample_size: int = 5000,
-        missing: object = None,
+        missing: Any = None,
         prepend: bool = True,
         prepend_value: str | None = None,
     ) -> ETL:
@@ -513,7 +511,7 @@ class ETL:
                 Retain original column after unpacking.
             sample_size: int
                 Number of rows to sample before determining columns.
-            missing: object
+            missing: Any
                 If a value is missing, the value to fill it with.
             prepend: bool
                 Prepend the column name of the unpacked values. Useful for
@@ -890,7 +888,7 @@ class ETL:
 
         return Table(petl.select(self.table, *filters))
 
-    def remove_null_rows(self, columns: list[str] | str, null_value: object = None) -> ETL:
+    def remove_null_rows(self, columns: list[str] | str, null_value: Any = None) -> ETL:
         """
         Remove rows if the values in a column are None. If multiple columns
         are passed as list, it will remove all rows with null values in any
@@ -899,7 +897,7 @@ class ETL:
         Args:
             column: list[str] | str
                 The column or columns to analyze.
-            null_value: object
+            null_value: Any
                 The null value.
 
         Returns: ETL
@@ -924,7 +922,7 @@ class ETL:
 
         return new_dict
 
-    def stack(self, *tables, missing: object = None) -> None:
+    def stack(self, *tables, missing: Any = None) -> None:
         """
         Stack Parsons tables on top of one another.
 
@@ -934,7 +932,7 @@ class ETL:
         Args:
             tables
                 A single table, or a list of tables.
-            missing: object
+            missing: Any
                 The value to use when padding missing values.
 
         """
@@ -945,7 +943,7 @@ class ETL:
         petl_tables = [tbl.table for tbl in tables]
         self.table = petl.stack(self.table, *petl_tables, missing=missing)
 
-    def concat(self, *tables, missing: object = None) -> None:
+    def concat(self, *tables, missing: Any = None) -> None:
         """
         Concatenates one or more tables onto this one.
 
@@ -956,7 +954,7 @@ class ETL:
         Args:
             tables
                 A single table, or a list of tables.
-            missing: object
+            missing: Any
                 The value to use when padding missing values.
 
         """
@@ -1114,7 +1112,7 @@ class ETL:
     def reduce_rows(
         self,
         columns: list[str],
-        reduce_func: Callable[[list[str], list[object]], list[object]],
+        reduce_func: Callable[[list[str], list], list],
         headers: list[str],
         presorted: bool = False,
         **kwargs,
@@ -1177,7 +1175,7 @@ class ETL:
         Args:
             columns: list[str]
                 The column(s) by which to group the rows.
-            reduce_func: Callable[[list[str], list[object]], list[object]]
+            reduce_func: Callable[[list[str], list], list]
                 The function by which to reduce the rows. Should take the 2
                 arguments, the columns list and the rows list and return a list.
             headers: list[str]

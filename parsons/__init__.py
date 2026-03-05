@@ -30,7 +30,7 @@ warnings.warn(
         "The behavior of 'pip install parsons' has changed so only core dependencies are installed."
         "Learn more: https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
     ),
-    category=ImportWarning,
+    category=RuntimeWarning,
     stacklevel=2,
 )
 

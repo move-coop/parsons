@@ -24,7 +24,6 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
-          - '3.14'
         os:
           - ubuntu-latest
           - windows-latest
@@ -63,7 +62,7 @@ jobs:
 
       - run: pytest
         env:
-          COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
+          COVERAGE_FILE: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
@@ -91,7 +90,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: 3.13
           cache: pip
 
       - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
@@ -186,7 +185,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: 3.13
           cache: pip
 
       - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
@@ -223,7 +222,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: 3.13
           cache: pip
 
       - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
@@ -271,7 +270,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: 3.13
           cache: pip
 
       - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
@@ -357,7 +356,7 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: 3.13
           cache: pip
 
       - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3

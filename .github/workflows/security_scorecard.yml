@@ -11,11 +11,10 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   pull_request:
-    branches: [ "main", "major-release" ]
+    branches: [ 'main', 'major-release' ]
   schedule:
     - cron: '45 16 * * 2'
 
-# Declare default permissions as read only.
 permissions: read-all
 
 jobs:

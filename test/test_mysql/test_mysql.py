@@ -115,8 +115,7 @@ class TestMySQL(unittest.TestCase):
         assert self.tbl.get_new_rows_count("id", 1) == 2
 
 
-# TODO: figure out why there are 2 of these
-class TestMySQL(unittest.TestCase):  # noqa: F811
+class TestMySQLTable(unittest.TestCase):
     def setUp(self):
         self.mysql = MySQL(username="test", password="test", host="test", db="test", port=123)
 

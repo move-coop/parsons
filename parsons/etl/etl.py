@@ -1,5 +1,10 @@
+from __future__ import annotations
+
 import logging
-from typing import Literal
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 import petl
 
@@ -7,63 +12,68 @@ logger = logging.getLogger(__name__)
 
 
 class ETL:
-    def __init__(self):
-        pass
+    def __init__(self) -> None:
+        self.table = petl.fromdicts([])
 
-    def head(self, n: int = 5):
+    def head(self, n: int = 5) -> ETL:
         """
-        Return the first n rows of the table
+        Select the first n rows of the table, dropping other records.
 
         Args:
             n: int
                 The number of rows to return. Defaults to 5.
 
         Returns:
-            `Parsons Table`
+            ETL: The modified ETL (self).
 
         """
 
         self.table = petl.head(self.table, n)
-
         return self
 
-    def tail(self, n: int = 5):
+    def tail(self, n: int = 5) -> ETL:
         """
-        Return the last n rows of the table
+        Select the last n rows of the table, dropping other records.
 
         Args:
-            n: int, optional
-                The number of rows to return.
-                Defaults to 5.
+            n: int
+                The number of rows to select. Defaults to 5.
 
         Returns:
-            parsons.Table
+            ETL: The modified ETL (self).
 
         """
 
         self.table = petl.tail(self.table, n)
-
         return self
 
-    def add_column(self, column, value=None, index=None, if_exists: str = "fail"):
+    def add_column(
+        self,
+        column: str,
+        value: Any = None,
+        index: int | None = None,
+        if_exists: Literal["fail", "replace"] = "fail",
+    ) -> ETL:
         """
-        Add a column to your table
+        Add a column to your table.
 
         Args:
             column: str
-                Name of column to add
-            value: optional
-                A fixed or calculated value
-            index: int, optional
-                The position of the new column in the table
+                Name of column to add.
+            value: Any
+                A fixed or calculated value.
+            index: int
+                Optionally, the position of the new column in the table. Default behavior
+                inserts the record at the end of the table.
             if_exists: str (options: 'fail', 'replace')
-                If set `replace`, this function will call `fill_column`
-                if the column already exists, rather than raising a `ValueError`
-                Defaults to "fail".
+                If set "replace", this function will call fill_column. If the column
+                already exists, rather than raising a ValueError.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
+
+        Raises:
+            ValueError: The column already exists.
 
         """
 
@@ -75,39 +85,40 @@ class ETL:
                 raise ValueError(f"Column {column} already exists")
 
         self.table = self.table.addfield(column, value, index)
-
         return self
 
-    def remove_column(self, *columns):
-        r"""
-        Remove a column from your table
+    def remove_column(self, *columns) -> ETL:
+        """
+        Remove a column(s) from your table.
 
         Args:
-            `*columns`: str
-                Column names
+            columns:
+                Column name(s).
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
         self.table = petl.cutout(self.table, *columns)
-
         return self
 
-    def rename_column(self, column_name, new_column_name):
+    def rename_column(self, column_name: str, new_column_name: str) -> ETL:
         """
-        Rename a column
+        Rename a column.
 
         Args:
             column_name: str
-                The current column name
+                The current column name.
             new_column_name: str
-                The new column name
+                The new column name.
+
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
+
+        Raises:
+            ValueError:
+                Column already exists.
 
         """
 
@@ -115,12 +126,11 @@ class ETL:
             raise ValueError(f"Column {new_column_name} already exists")
 
         self.table = petl.rename(self.table, column_name, new_column_name)
-
         return self
 
-    def rename_columns(self, column_map):
+    def rename_columns(self, column_map: dict) -> ETL:
         """
-        Rename multiple columns
+        Rename multiple columns.
 
         Args:
             column_map: dict
@@ -132,8 +142,13 @@ class ETL:
                 'old_name2': 'new_name2'}
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
+
+        Raises:
+            KeyError:
+                Old column does not exist.
+            ValueError:
+                New column already exists.
 
         """
 
@@ -146,22 +161,21 @@ class ETL:
 
         # Uses the underlying petl method
         self.table = petl.rename(self.table, column_map)
-
         return self
 
-    def fill_column(self, column_name, fill_value):
+    def fill_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
         """
-        Fill a column in a table
+        Fill a column in a table.
 
         Args:
             column_name: str
-                The column to fill
-            fill_value:
-                A fixed or calculated value
+                The column to fill.
+            fill_value: Callable[[Any], Any] | Any
+                A conversion function taking a single argument and returning the converted
+                value. Alternatively, a fixed or calculated value.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -174,19 +188,19 @@ class ETL:
 
         return self
 
-    def fillna_column(self, column_name, fill_value):
+    def fillna_column(self, column_name: str, fill_value: Callable[[Any], Any] | Any) -> ETL:
         """
-        Fill None values in a column in a table
+        Fill None values in a column in a table.
 
         Args:
             column_name: str
-                The column to fill
-            fill_value:
-                A fixed or calculated value
+                The column to fill.
+            fill_value: Callable[[Any], Any] | Any
+                A conversion function taking a single argument and returning the converted
+                value. Alternatively, a fixed or calculated value.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -208,49 +222,45 @@ class ETL:
 
         return self
 
-    def move_column(self, column, index):
+    def move_column(self, column: str, index: int) -> ETL:
         """
-        Move a column
+        Move a column.
 
         Args:
             column: str
-                The column name to move
-            index:
-                The new index for the column
+                The column name to move.
+            index: int
+                The new index for the column.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
         self.table = petl.movefield(self.table, column, index)
-
         return self
 
-    def convert_column(self, *column, **kwargs):
+    def convert_column(self, *column, **kwargs) -> ETL:
         """
         Transform values under one or more fields via arbitrary functions, method
-        invocations or dictionary translations. This leverages the petl ``convert()``
+        invocations or dictionary translations. This leverages the petl convert()
         method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`_.
 
         Args:
-            `*column`: str
-                A single column or multiple columns passed as a list
-            `**kwargs`: str, method or variable
-                The update function, method, or variable to process the update
+            column:
+                A single column or multiple columns passed as a list.
+            kwargs:
+                The update function, method, or variable to process the update.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
         self.table = petl.convert(self.table, *column, **kwargs)
-
         return self
 
-    def get_column_max_width(self, column: str):
+    def get_column_max_width(self, column: str) -> int:
         """
         Return the maximum width of the column.
 
@@ -259,7 +269,7 @@ class ETL:
                 The column name.
 
         Returns:
-            int
+            int: The max width.
 
         """
 
@@ -271,14 +281,13 @@ class ETL:
 
         return max_width
 
-    def convert_columns_to_str(self):
+    def convert_columns_to_str(self) -> ETL:
         """
         Convenience function to convert all non-string or mixed columns in a
-        Parsons table to string (e.g. for comparison)
+        Parsons table to string (e.g. for comparison.)
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -288,10 +297,8 @@ class ETL:
 
         cols = self.get_columns_type_stats()
 
-        def str_or_empty(x):
-            if x is None:
-                return ""
-            return str(x)
+        def str_or_empty(x: str | None) -> str:
+            return "" if x is None else str(x)
 
         for col in cols:
             # If there's more than one type (or no types), convert to str
@@ -301,29 +308,31 @@ class ETL:
 
         return self
 
-    def coalesce_columns(self, dest_column, source_columns, remove_source_columns=True):
+    def coalesce_columns(
+        self, dest_column: str, source_columns: list[str], remove_source_columns: bool = True
+    ) -> ETL:
         """
         Coalesces values from one or more source columns into a destination column, by selecting
         the first non-empty value. If the destination column doesn't exist, it will be added.
 
         Args:
             dest_column: str
-                Name of destination column
-            source_columns: list
-                List of source column names
+                Name of destination column.
+            source_columns: list[str]
+                List of source column names.
             remove_source_columns: bool
-                Whether to remove the source columns after the coalesce. If the destination
-                column is also one of the source columns, it will not be removed.
+                Optionally, whether to remove the source columns after the coalesce. If the
+                destination column is also one of the source columns, it will not be removed.
+                Defaults to True.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
         if dest_column in self.columns:
 
-            def convert_fn(value, row):
+            def convert_fn(value: Any, row: dict) -> Any:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -333,7 +342,7 @@ class ETL:
 
         else:
 
-            def add_fn(row):
+            def add_fn(row: dict) -> Any:
                 for source_col in source_columns:
                     if row.get(source_col):
                         return row[source_col]
@@ -348,7 +357,7 @@ class ETL:
 
         return self
 
-    def map_columns(self, column_map, exact_match=True):
+    def map_columns(self, column_map: dict, exact_match: bool = True) -> ETL:
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
@@ -374,14 +383,13 @@ class ETL:
 
         Args:
             column_map: dict
-                A dictionary of columns and possible values that map to it
-            exact_match: boolean
-                If ``True`` will only map if an exact match. If ``False`` will
-                ignore case, spaces and underscores.
+                A dictionary of columns and possible values that map to it.
+            exact_match: bool
+                Optionally, if True will only map if an exact match. If False will
+                ignore case, spaces and underscores. Defaults to True.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -395,7 +403,7 @@ class ETL:
 
         return self
 
-    def map_and_coalesce_columns(self, column_map):
+    def map_and_coalesce_columns(self, column_map: dict) -> ETL:
         """
         Coalesces columns based on multiple possible values. The columns in the map
         do not need to be in your table, so you can create a map with all possibilities.
@@ -426,11 +434,10 @@ class ETL:
 
         Args:
             column_map: dict
-                A dictionary of columns and possible values that map to it
+                A dictionary of columns and possible values that map to it.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -449,90 +456,85 @@ class ETL:
 
         return self
 
-    def get_column_types(self, column):
+    def get_column_types(self, column: str) -> list[TypeVar]:
         """
-        Return all of the Python types for values in a given column
+        Return all of the Python types for values in a given column.
 
         Args:
             column: str
-                Name of the column to analyze
+                Name of the column to analyze.
 
         Returns:
-            list
-                A list of Python types
+            list[TypeVar]: A list of Python types.
 
         """
 
         return list(petl.typeset(self.table, column))
 
-    def get_columns_type_stats(self):
+    def get_columns_type_stats(self) -> list[dict]:
         """
-        Return descriptive stats for all columns
+        Return descriptive stats for all columns.
 
         Returns:
-            list
-                A list of dicts
-
-        Returns:
-            list[dict]
-                A list of dicts, each containing a column 'name' and a 'type' list
+            list[dict]: A list of dicts, each containing a column 'name' and a 'type' list.
 
         """
 
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
-    def convert_table(self, *args):
-        r"""
+    def convert_table(self, *args) -> ETL:
+        """
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
-        as regex. This method leverages the petl ``convert()`` method. Example usage can be
+        as regex. This method leverages the petl convert() method. Example usage can be
         found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
 
         Args:
-            `*args`: str, method or variable
-                The update function, method, or variable to process the update.
+            args:
+                The update function, method, or variable to process the update. Can also...
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
         self.convert_column(self.columns, *args)
-
         return self
 
     def unpack_dict(
         self,
-        column,
-        keys=None,
-        include_original=False,
-        sample_size=5000,
-        missing=None,
-        prepend=True,
-        prepend_value=None,
-    ):
+        column: str,
+        keys: list[str] | None = None,
+        include_original: bool = False,
+        sample_size: int = 5000,
+        missing: Any = None,
+        prepend: bool = True,
+        prepend_value: str | None = None,
+    ) -> ETL:
         """
-        Unpack dictionary values from one column into separate columns
+        Unpack dictionary values from one column into separate columns.
 
         Args:
             column: str
-                The column name to unpack
-            keys: list
-                The dict keys in the column to unpack. If ``None`` will unpack
+                The column name to unpack.
+            keys: list[str]
+                The dict keys in the column to unpack. If None will unpack
                 all.
-            include_original: boolean
-                Retain original column after unpacking
+            include_original: bool
+                Retain original column after unpacking.
             sample_size: int
-                Number of rows to sample before determining columns
-            missing: str
-                If a value is missing, the value to fill it with
-            prepend:
+                Number of rows to sample before determining columns.
+            missing: Any
+                If a value is missing, the value to fill it with.
+            prepend: bool
                 Prepend the column name of the unpacked values. Useful for
-                avoiding duplicate column names
-            prepend_value:
-                Value to prepend new columns if ``prepend=True``. If None, will
+                avoiding duplicate column names.
+            prepend_value: str
+                Value to prepend new columns if prepend=True. If None, will
                 set to column name.
+
+        Returns:
+            ETL: The modified ETL (self).
 
         """
 
@@ -557,12 +559,12 @@ class ETL:
 
     def unpack_list(
         self,
-        column,
-        include_original=False,
-        missing=None,
-        replace=False,
-        max_columns=None,
-    ):
+        column: str,
+        include_original: bool = False,
+        missing: str | None = None,
+        replace: bool = False,
+        max_columns: int | None = None,
+    ) -> petl.util.base.Table:
         """
         Unpack list values from one column into separate columns.
         Numbers the columns.
@@ -588,17 +590,20 @@ class ETL:
 
         Args:
             column: str
-                The column name to unpack
-            include_original: boolean
-                Retain original column after unpacking
+                The column name to unpack.
+            include_original: bool
+                Retain original column after unpacking. Defaults to False.
             sample_size: int
-                Number of rows to sample before determining columns
+                Number of rows to sample before determining columns.
             missing: str
-                If a value is missing, the value to fill it with
-            replace: boolean
-                Return new table or replace existing
+                Optionally, a default value to use when values are missing.
+            replace: bool
+                Return new table or replace existing. Defaults to False.
             max_columns: int
-                The maximum number of columns to unpack
+                Optionally, the maximum number of columns to unpack.
+
+        Returns:
+            petl.util.base.Table: The new table or returns None if table is being replaced.
 
         """
 
@@ -632,33 +637,35 @@ class ETL:
 
         if replace:
             self.table = tbl
-
         else:
             return tbl
 
-    def unpack_nested_columns_as_rows(self, column, key="id", expand_original: bool | int = False):
+    def unpack_nested_columns_as_rows(
+        self, column: str, key: str = "id", expand_original: bool | int = False
+    ) -> ETL:
         """
         Unpack list or dict values from one column into separate rows.
         Not recommended for JSON columns (i.e. lists of dicts), but can handle columns
-        with any mix of types. Makes use of PETL's `melt()` method.
+        with any mix of types. Makes use of PETL's melt() method.
 
         Args:
             column: str
-                The column name to unpack
+                The column name to unpack.
             key: str
-                The column to use as a key when unpacking. Defaults to `id`
-            expand_original: boolean or int
-                If `True`: Add resulting unpacked rows (with all other columns) to original
-                If `int`: Add to original unless the max added per key is above the given number
-                If `False` (default): Return unpacked rows (with `key` column only) as standalone
+                The column to use as a key when unpacking. Defaults to "id".
+            expand_original: bool | int
+                If True: Add resulting unpacked rows (with all other columns) to original.
+                If int: Add to original unless the max added per key is above the given number.
+                If False (default): Return unpacked rows (with key column only) as standalone.
                 Removes packed list and dict rows from original either way.
 
         Returns:
-            parsons.Table
-                If `expand_original`, original table with packed rows replaced by unpacked rows.
-                Otherwise, standalone table with key column and unpacked values only
+            parsons.etl.table.Table: If expand_original, original table with packed rows replaced
+            by unpacked rows. Otherwise, standalone table with key column and unpacked values only.
 
         """
+
+        from parsons.etl import Table
 
         if isinstance(expand_original, int) and expand_original is not True:
             lengths = {len(row[column]) for row in self if isinstance(row[column], (dict, list))}
@@ -668,12 +675,18 @@ class ETL:
 
         if expand_original:
             # Include all columns and filter out other non-dict types in table_list
+            def select_lists(row: dict) -> bool:
+                return isinstance(row[column], list)
+
             table = self
-            table_list = table.select_rows(lambda row: isinstance(row[column], list))
+            table_list = table.select_rows(select_lists)
         else:
             # Otherwise, include only key and column, but keep all non-dict types in table_list
+            def select_non_dicts(row: dict) -> bool:
+                return not isinstance(row[column], dict)
+
             table = self.cut(key, column)
-            table_list = table.select_rows(lambda row: not isinstance(row[column], dict))
+            table_list = table.select_rows(select_non_dicts)
 
         # All the columns other than column to ignore while melting
         ignore_cols = table.columns
@@ -690,8 +703,6 @@ class ETL:
         # Filter dicts and unpack as separate columns
         table_dict = table.select_rows(lambda row: isinstance(row[column], dict))
         table_dict.unpack_dict(column, prepend=False)
-
-        from parsons.etl.table import Table
 
         # Use melt to pivot both sets of columns into their own Tables and clean out None values
         melted_list = Table(petl.melt(table_list.table, ignore_cols))
@@ -729,7 +740,9 @@ class ETL:
             orig.move_column(column, -1)
             output = orig
         else:
-            orig = self.remove_column(column)
+            from parsons.etl.table import Table
+
+            orig = Table(self.remove_column(column).table)
             # Add unique id column by hashing all the other fields
             melted_list.add_column(
                 "uid",
@@ -745,13 +758,13 @@ class ETL:
 
     def long_table(
         self,
-        key,
-        column,
-        key_rename=None,
-        retain_original=False,
-        prepend=True,
-        prepend_value=None,
-    ):
+        key: list[str],
+        column: str,
+        key_rename: dict | None = None,
+        retain_original: bool = False,
+        prepend: bool = True,
+        prepend_value: str | None = None,
+    ) -> ETL:
         """
         Create a new long parsons table from a column, including the foreign
         key.
@@ -782,26 +795,25 @@ class ETL:
             >>> {'id': '5421', 'emails_home': None, 'emails_work': 'jane@mywork.com'}
 
         Args:
-            key: lst
-                The columns to retain in the long table (e.g. foreign keys)
+            key: list[str]
+                The columns to retain in the long table (e.g. foreign keys).
             column: str
-                The column name to make long
+                The column name to make long.
             key_rename: dict
                 The new name for the foreign key to better identify it. For
-                example, you might want to rename ``id`` to ``person_id``.
-                Ex. {'KEY_NAME': 'NEW_KEY_NAME'}
-            retain_original: boolean
-                Retain the original column from the source table.
-            prepend:
+                example, you might want to rename "id" to "person_id".
+                Ex. {'KEY_NAME': 'NEW_KEY_NAME'}.
+            retain_original: bool
+                Retain the original column from the source table. Defaults to False.
+            prepend: bool
                 Prepend the column name of the unpacked values. Useful for
-                avoiding duplicate column names
-            prepend_value:
-                Value to prepend new columns if ``prepend=True``. If None, will
+                avoiding duplicate column names. Defaults to True.
+            prepend_value: str
+                Value to prepend new columns if prepend=True. If None, will
                 set to column name.
 
         Returns:
-            parsons.Table
-                The new long table
+            parsons.etl.table.Table: The Parsons Table.
 
         """
 
@@ -829,26 +841,25 @@ class ETL:
 
         return lt
 
-    def cut(self, *columns):
-        r"""
-        Return a table of selection of columns
+    def cut(self, *columns) -> ETL:
+        """
+        Return a table of selection of columns.
 
         Args:
-            `*columns`: str
-                Columns in the parsons table
+            columns
+                Columns in the parsons table.
 
         Returns:
-            parsons.Table
-                Selected columnns
+            parsons.etl.table.Table: The Parsons Table.
 
         """
 
-        from parsons.etl.table import Table
+        from parsons.etl import Table
 
         return Table(petl.cut(self.table, *columns))
 
-    def select_rows(self, *filters):
-        r"""
+    def select_rows(self, *filters) -> ETL:
+        """
         Select specific rows from a Parsons table based on the passed
         filters.
 
@@ -878,28 +889,32 @@ class ETL:
             >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         Args:
-            `*filters`: function or str
+            filters:
+                Function or str.
 
         Returns:
-            A new parsons table containing the selected rows
+            parsons.etl.table.Table: A new parsons table containing the selected rows.
 
         """
 
-        from parsons.etl.table import Table
+        from parsons.etl import Table
 
         return Table(petl.select(self.table, *filters))
 
-    def remove_null_rows(self, columns, null_value=None):
+    def remove_null_rows(self, columns: list[str] | str, null_value: Any = None) -> ETL:
         """
-        Remove rows if the values in a column are ``None``. If multiple columns
+        Remove rows if the values in a column are None. If multiple columns
         are passed as list, it will remove all rows with null values in any
         of the passed columns.
 
         Args:
-            columns: str or list
-                The column or columns to analyze
-            null_value: int or float or str
-                The null value
+            column: list[str] | str
+                The column or columns to analyze.
+            null_value: Any
+                The null value.
+
+        Returns:
+            ETL: The modified ETL (self).
 
         """
         if isinstance(columns, str):
@@ -910,7 +925,7 @@ class ETL:
 
         return self
 
-    def _prepend_dict(self, dict_obj, prepend):
+    def _prepend_dict(self, dict_obj: dict, prepend: str) -> dict:
         # Internal method to rename dict keys
 
         new_dict = {}
@@ -920,64 +935,64 @@ class ETL:
 
         return new_dict
 
-    def stack(self, *tables, missing=None):
+    def stack(self, *tables, missing: Any = None) -> None:
         """
         Stack Parsons tables on top of one another.
 
-        Similar to ``table.concat()``, except no attempt is made to align fields from
+        Similar to table.concat(), except no attempt is made to align fields from
         different tables.
 
         Args:
-            tables: parsons.Table or list
-                A single table, or a list of tables
-            missing: bool
-                The value to use when padding missing values
+            tables
+                A single table, or a list of tables.
+            missing: Any
+                The value to use when padding missing values.
 
         """
 
         if type(tables) not in [list, tuple]:
             tables = [tables]
-        petl_tables = [tbl.table for tbl in tables]
 
+        petl_tables = [tbl.table for tbl in tables]
         self.table = petl.stack(self.table, *petl_tables, missing=missing)
 
-    def concat(self, *tables, missing=None):
+    def concat(self, *tables, missing: Any = None) -> None:
         """
         Concatenates one or more tables onto this one.
 
         Note that the tables do not need to share exactly the same fields.
         Any missing fields will be padded with None, or whatever is provided via the
-        ``missing`` keyword argument.
+        missing keyword argument.
 
         Args:
-            tables: parsons.Table or list
-                A single table, or a list of tables
-            missing: bool
-                The value to use when padding missing values
+            tables
+                A single table, or a list of tables.
+            missing: Any
+                The value to use when padding missing values.
 
         """
 
         if type(tables) not in [list, tuple]:
             tables = [tables]
-        petl_tables = [tbl.table for tbl in tables]
 
+        petl_tables = [tbl.table for tbl in tables]
         self.table = petl.cat(self.table, *petl_tables, missing=missing)
 
-    def chunk(self, rows: int):
+    def chunk(self, rows: int) -> list[ETL]:
         """
         Divides a Parsons table into smaller tables of a specified row count. If the table
         cannot be divided evenly, then the final table will only include the remainder.
 
         Args:
             rows: int
-                The number of rows of each new Parsons table
+                The number of rows of each new Parsons table.
 
         Returns:
-            list[parsons.Table]
+            list[parsons.etl.table.Table]: A list of Parsons tables.
 
         """
 
-        from parsons.etl import Table
+        from parsons.etl.table import Table
 
         return [
             Table(petl.rowslice(self.table, i, i + rows)) for i in range(0, self.num_rows, rows)
@@ -993,8 +1008,7 @@ class ETL:
             column_name: str
 
         Returns:
-            str
-                Normalized column name
+            str: Normalized column name.
 
         """
 
@@ -1003,38 +1017,42 @@ class ETL:
 
     def match_columns(
         self,
-        desired_columns,
-        fuzzy_match=True,
+        desired_columns: list[str],
+        fuzzy_match: bool = True,
         if_extra_columns: Literal["remove", "ignore", "fail"] = "remove",
         if_missing_columns: Literal["add", "ignore", "fail"] = "add",
-    ):
+    ) -> ETL:
         """
         Changes the column names and ordering in this Table to match a list of desired column
         names.
 
         Args:
-            desired_columns: list
-                Ordered list of desired column names
+            desired_columns: list[str]
+                Ordered list of desired column names.
             fuzzy_match: bool
                 Whether to normalize column names when matching against the desired column names,
                 removing whitespace and non-alphanumeric characters, and lowercasing everything.
                 Eg. With this flag set, "FIRST NAME" would match "first_name".
                 If the Table has two columns that normalize to the same string (eg. "FIRST NAME"
                 and "first_name"), the latter will be considered an extra column.
-            if_extra_columns: string
+            if_extra_columns: str
                 If the Table has columns that don't match any desired columns, either 'remove'
                 them, 'ignore' them, or 'fail' (raising an error).
-            if_missing_columns: string
+            if_missing_columns: str
                 If the Table is missing some of the desired columns, either 'add' them (with a
                 value of None), 'ignore' them, or 'fail' (raising an error).
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
+
+        Raises:
+            TypeError:
+                Strategy was to fail or an invalid strategy was passed to if_extra_columns or
+                if_missing_columns.
 
         """
 
-        from parsons.etl import Table  # Just trying to avoid recursive imports.
+        from parsons.etl.table import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
 
@@ -1109,12 +1127,19 @@ class ETL:
 
         return self
 
-    def reduce_rows(self, columns, reduce_func, headers, presorted=False, **kwargs):
+    def reduce_rows(
+        self,
+        columns: list[str],
+        reduce_func: Callable[[list[str], list], list],
+        headers: list[str],
+        presorted: bool = False,
+        **kwargs,
+    ) -> ETL:
         """
         Group rows by a column or columns, then reduce the groups to a single row.
 
         For example, the output from the query to get a table's definition is
-        returned as one component per row. The `reduce_rows` method can be used
+        returned as one component per row. The reduce_rows method can be used
         to reduce all those to a single row containg the entire query.
 
         Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`__.
@@ -1166,25 +1191,21 @@ class ETL:
             +-------------------------+-----------------------------------------------------------------------+
 
         Args:
-            columns (list):
+            columns: list[str]
                 The column(s) by which to group the rows.
-            reduce_func (function):
-                The function by which to reduce the rows.
-                Should take the 2 arguments, the columns list
-                and the rows list and return a list.
-                ``reducer(columns: list, rows: list) -> list;``
-            headers (list):
-                The list of headers for modified table.
-                The length of `headers` should match the length of the
-                list returned by the reduce function.
-            presorted (bool):
+            reduce_func: Callable[[list[str], list], list]
+                The function by which to reduce the rows. Should take the 2
+                arguments, the columns list and the rows list and return a list.
+            headers: list[str]
+                The list of headers for modified table. The length should match the length
+                of the list returned by the reduce function.
+            presorted: bool
                 If false, the row will be sorted.
-            `**kwargs`:
-                Extra options to pass to petl.rowreduce
+            kwargs:
+                Optionally, the buffersize, tempdir, or cache to use.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -1199,19 +1220,19 @@ class ETL:
 
         return self
 
-    def sort(self, columns=None, reverse=False):
+    def sort(self, columns: list[str] | str | None = None, reverse: bool = False) -> ETL:
         """
         Sort the rows a table.
 
         Args:
-            sort_columns: list or str
-                Sort by a single column or a list of column. If ``None`` then
+            columns: list[str] | str
+                Sort by a single column or a list of column. If None then
                 will sort columns from left to right.
             reverse: boolean
                 Sort rows in reverse order.
 
         Returns:
-            `Parsons Table` and also updates self
+            ETL: The modified ETL (self).
 
         """
 
@@ -1219,29 +1240,28 @@ class ETL:
 
         return self
 
-    def set_header(self, new_header):
+    def set_header(self, new_header: list[str]) -> ETL:
         """
         Replace the header row of the table.
 
         Args:
-            new_header: list
-                List of new header column names
+            new_header: list[str]
+                List of new header column names.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
         self.table = petl.setheader(self.table, new_header)
         return self
 
-    def use_petl(self, petl_method, *args, **kwargs):
+    def use_petl(self, petl_method: str, *args, **kwargs) -> ETL:
         """
         Call a petl function on the current table.
 
         This convenience method exposes the petl functions to the current
-        Table. This is useful in cases where one might need a ``petl`` function
-        that has not yet been implemented for ``parsons.Table``.
+        Table. This is useful in cases where one might need a petl function
+        that has not yet been implemented for Parsons.Table.
 
         .. code-block:: python
 
@@ -1270,22 +1290,25 @@ class ETL:
 
         Args:
             petl_method: str
-                The ``petl`` function to call
+                The petl function to call.
             update_table: bool
-                If ``True``, updates the ``parsons.Table``. Defaults to
-                ``False``.
+                If True, updates the Parsons.Table. Defaults to
+                False.
             to_petl: bool
-                If ``True``, returns a petl table, otherwise a ``parsons.Table``.
-                Defaults to ``False``.
-            `*args`: Any
-                The arguements to pass to the petl function.
-            `**kwargs`: Any
-                The keyword arguements to pass to the petl function.
+                If True, returns a petl table, otherwise a Parsons.Table.
+                Defaults to False.
+            args:
+                The arguments to pass to the petl function.
+            kwargs:
+                The keyword arguments to pass to the petl function.
 
         Returns:
-            `parsons.Table` or `petl` table
+            parsons.etl.table.Table: A Parsons table.
 
         """
+
+        from parsons.etl import Table
+
         update_table = kwargs.pop("update_table", False)
         to_petl = kwargs.pop("to_petl", False)
 
@@ -1295,19 +1318,17 @@ class ETL:
         if to_petl:
             return getattr(petl, petl_method)(self.table, *args, **kwargs)
 
-        from parsons.etl.table import Table
-
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
 
-    def deduplicate(self, keys=None, presorted=False):
+    def deduplicate(self, keys: list[str] | str | None = None, presorted: bool = False) -> ETL:
         """
-        Deduplicates table based on an optional ``keys`` argument,
+        Deduplicates table based on an optional keys argument,
         which can contain any number of keys or None.
 
-        Method considers all keys specified in the ``keys`` argument
+        Method considers all keys specified in the keys argument
         when deduplicating, not each key individually. For example,
-        if ``keys=['a', 'b']``, the method will not remove a record
-        unless it's identical to another record in both columns ``a`` and ``b``.
+        if keys=['a', 'b'], the method will not remove a record
+        unless it's identical to another record in both columns "a" and "b".
 
         .. code-block:: python
 
@@ -1372,14 +1393,13 @@ class ETL:
             +---+---+
 
         Args:
-            keys: str or list[str] or None
+            keys: list[str] | str | None
                 keys to deduplicate (and optionally sort) on.
             presorted: bool
                 If false, the row will be sorted.
 
         Returns:
-            parsons.Table
-                Also updates self
+            ETL: The modified ETL (self).
 
         """
 

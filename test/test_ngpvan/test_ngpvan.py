@@ -173,7 +173,3 @@ class TestNGPVAN(unittest.TestCase):
                 bad_vanid,
                 bad_supporter_group_id,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

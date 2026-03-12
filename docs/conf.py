@@ -197,7 +197,7 @@ DOCUMENTED_VERSIONS = ["v0.18.1", "v0.18.0", "v0.17.0", "v0.16.0", "v0.15.0", "v
 smv_branch_whitelist = r"^stable|latest$"  # creates version for latest master/main branch
 
 # Get tags to whitelist from DOCUMENTED_VERSIONS const
-smv_tag_whitelist = "|".join(["^" + version + "$" for version in DOCUMENTED_VERSIONS])
+smv_tag_whitelist = "|".join(f"^{version}$" for version in DOCUMENTED_VERSIONS)
 
 # Adds Google Analytics tracking code to the HTML output
 googleanalytics_id = "G-L2YB7WHTRG"

@@ -26,9 +26,8 @@ class TestDBSync(ABC, unittest.TestCase):
     def setUpClass(cls):
         # Skip tests on this abstract base class
         if cls is TestDBSync:
-            raise unittest.SkipTest(f"{cls.__name__} is an abstract base class")
-        else:
-            super().setUpClass()
+            pytest.skip(f"{cls.__name__} is an abstract base class")
+        super().setUpClass()
 
     def setUp(self):
         self.initialize_db_connections()

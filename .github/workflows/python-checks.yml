@@ -77,7 +77,12 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
-          key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
+          key: >-
+            pytest
+            -${{ matrix.python-version }}
+            -${{ matrix.os }}
+            -${{ matrix.resolution }}
+            -${{ hashFiles('pyproject.toml') }}
 
       - env:
           COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
@@ -194,7 +199,13 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
-          key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
+          key: >-
+            pytest
+            -${{ hashFiles('pyproject.toml') }}
+            -${{ matrix.os }}
+            -${{ matrix.python-version }}
+            -${{ matrix.resolution }}
+            -${{ matrix.extra }}
 
       - run: uv run pytest test/test_${{ matrix.extra }}
 
@@ -230,7 +241,9 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: >-
+            ruff
+            -${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff
         run: >-
@@ -275,7 +288,9 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: >-
+            ruff
+            -${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
         run: >-
@@ -434,7 +449,10 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pre-commit-cache
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
+          key: >-
+            pre-commit
+            -${{ hashFiles('.pre-commit-config.yaml') }}
+            -${{ hashFiles('pyproject.toml') }}
 
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache

@@ -133,7 +133,7 @@ jobs:
         env:
           PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
-          uv run - "
+          uv run python -c "
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path

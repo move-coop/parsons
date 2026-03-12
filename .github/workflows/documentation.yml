@@ -48,7 +48,13 @@ jobs:
       - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: docs/html
-          key: sphinx-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}-${{ hashFiles('requirements-dev.txt') }}
+          key: >-
+            sphinx
+            -${{ hashFiles('pyproject.toml') }}
+            -${{ hashFiles('setup.py') }}
+            -${{ hashFiles('requirements-dev.txt') }}
+            -${{ hashFiles('docs/make.py') }}
+            -${{ hashFiles('docs/conf.py') }}
 
       - run: make build_docs
         working-directory: docs

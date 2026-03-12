@@ -2232,8 +2232,8 @@ to reduce all those to a single row containg the entire query.</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>
-    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reducer_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="p">[</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
     <span class="sa">r</span><span class="s2">&quot;\n&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">])</span>
 <span class="p">]</span>
 <span class="n">ddl</span><span class="o">.</span><span class="n">reduce_rows</span><span class="p">(</span>

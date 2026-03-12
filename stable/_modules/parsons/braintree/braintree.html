@@ -155,7 +155,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for parsons.braintree.braintree</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">braintree</span>
 
@@ -491,7 +492,7 @@
             <span class="sa">f</span><span class="s2">&quot;Braintree subscriptions search resulted in subscriptions count of </span><span class="si">{</span><span class="n">query_count</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">just_ids</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">([(</span><span class="s2">&quot;id&quot;</span><span class="p">,)]</span> <span class="o">+</span> <span class="p">[[</span><span class="n">item_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">item_id</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">ids</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">([[</span><span class="s2">&quot;id&quot;</span><span class="p">]],</span> <span class="p">([</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">ids</span><span class="p">))))</span>
 
         <span class="c1"># Iterating on collection.items triggers web requests in batches of 50 records</span>
         <span class="c1"># This can be frustratingly slow :-(</span>
@@ -574,15 +575,20 @@
         <span class="n">query_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">collection</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Braintree transactions resulted in transaction count of </span><span class="si">{</span><span class="n">query_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">just_ids</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Table</span><span class="p">([(</span><span class="s2">&quot;id&quot;</span><span class="p">,)]</span> <span class="o">+</span> <span class="p">[[</span><span class="n">item_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">item_id</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">ids</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">Table</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">([[</span><span class="s2">&quot;id&quot;</span><span class="p">]],</span> <span class="p">([</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">ids</span><span class="p">))))</span>
 
         <span class="c1"># Iterating on collection.items triggers web requests in batches of 50 records</span>
         <span class="c1"># This can be frustratingly slow :-(</span>
         <span class="c1"># Also note: Braintree will push you to their new GraphQL API,</span>
-        <span class="c1">#   but it, too, paginates with a max of 50 records</span>
+        <span class="c1"># but it, too, paginates with a max of 50 records</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Braintree transactions iterating to build transaction table&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Table</span><span class="p">(</span>
-            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_transaction_header</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_transaction_to_row</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+            <span class="nb">list</span><span class="p">(</span>
+                <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_transaction_header</span><span class="p">()],</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transaction_to_row</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">collection</span><span class="o">.</span><span class="n">items</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="p">)</span></div>
 
 

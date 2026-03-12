@@ -61,7 +61,3 @@ class TestSSHTunnelUtility(unittest.TestCase):
         )
         mock_cursor.execute.assert_called_once_with(query)
         mock_cursor.fetchall.assert_called_once()
-
-
-if __name__ == "__main__":
-    unittest.main()

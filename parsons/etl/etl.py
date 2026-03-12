@@ -717,7 +717,7 @@ class ETL:
                 orig.add_column(
                     "uid",
                     lambda row: hashlib.md5(
-                        str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                        str.encode("".join(str(x) for x in row)), usedforsecurity=False
                     ).hexdigest(),
                 )
                 orig.move_column("uid", 0)
@@ -734,7 +734,7 @@ class ETL:
             melted_list.add_column(
                 "uid",
                 lambda row: hashlib.md5(
-                    str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                    str.encode("".join(str(x) for x in row)), usedforsecurity=False
                 ).hexdigest(),
             )
             melted_list.move_column("uid", 0)
@@ -1141,8 +1141,8 @@ class ETL:
 
         .. code-block:: python
 
-            reducer_fn = lambda columns, rows: [
-                f"{columns[0]}.{columns[1]}",
+            reducer_fn = lambda cols, rows: [
+                f"{cols[0]}.{cols[1]}",
                 r"\n".join([row[2] for row in rows])
             ]
             ddl.reduce_rows(

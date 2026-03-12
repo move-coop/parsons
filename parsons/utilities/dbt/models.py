@@ -114,20 +114,20 @@ class Manifest:
     @property
     def summary(self) -> collections.Counter:
         """Aggregates all node outcomes into a count of status strings."""
-        return collections.Counter([NodeStatus(i.status) for i in self.results])
+        return collections.Counter(NodeStatus(i.status) for i in self.results)
 
     @property
     def total_gb_processed(self) -> float:
         """Total GB processed by full dbt command run."""
         return (
-            sum([node.adapter_response.get("bytes_processed", 0) for node in self.results])
+            sum(node.adapter_response.get("bytes_processed", 0) for node in self.results)
             / 1000000000
         )
 
     @property
     def total_slot_hours(self) -> float:
         """Total slot hours used by full dbt command run."""
-        return sum([node.adapter_response.get("slot_ms", 0) for node in self.results]) / 3600000
+        return sum(node.adapter_response.get("slot_ms", 0) for node in self.results) / 3600000
 
 
 class EnhancedNodeResult(NodeResult):

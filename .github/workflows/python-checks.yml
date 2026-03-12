@@ -12,6 +12,20 @@ on:
 
 permissions: read-all
 
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/requirements*.txt
+    **/setup.py
+    **/uv.lock
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    releases.astral.sh
+    files.pythonhosted.org:443
+    *.github.com:443
+    *.githubusercontent.com:443
+
 jobs:
   pytest:
     runs-on: ${{ matrix.os }}
@@ -24,7 +38,6 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
-          - '3.14'
         os:
           - ubuntu-latest
           - windows-latest
@@ -41,47 +54,47 @@ jobs:
       - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
         with:
           disable-sudo: true
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
+
+      - run: |
+          echo "\
+          RUN_KEY=\
+          ${{ hashFiles('pyproject.toml') }}-\
+          ${{ matrix.os }}-\
+          ${{ matrix.python-version }}-\
+          ${{ matrix.resolution }}\
+          " >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - if: matrix.resolution != 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
-        run: |
-          uv pip install --system --resolution ${{ matrix.resolution }} -e .[all]
-          uv pip install --system --resolution ${{ matrix.resolution }} -r requirements-dev.txt
-
-      - if: matrix.resolution == 'limited-dependencies'
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
+      - run: |
+          uv pip install -r requirements-dev.txt
+          uv pip install .[all]
         env:
-            PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
-        run: |
-          uv pip install --system -r requirements-dev.txt
-          uv pip install --system -e .[all]
+          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
+          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
-          key: pytest-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.resolution }}-${{ hashFiles('pyproject.toml') }}
+          key: pytest-${{ env.RUN_KEY }}
 
       - run: pytest
-        continue-on-error: ${{ contains(matrix.python-version, '3.14') }}
         env:
-          COVERAGE_FILE: ".coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}"
+          COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
-        if: ${{ !contains(matrix.python-version, '3.14') }}
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
-          path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}.${{ matrix.resolution }}
+          name: coverage-${{ env.RUN_KEY }}
+          path: .coverage.${{ env.RUN_KEY }}
           include-hidden-files: true
 
   pytest-extras-config:
@@ -95,21 +108,17 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.14'
-          cache: pip
+          python-version: '3.13'
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: uv pip install -r requirements-dev.txt
 
       - name: get-extras
         id: get-extras
@@ -142,35 +151,28 @@ jobs:
       fail-fast: false
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
-        python-version:
-          - '3.13'
-        os:
-          - ubuntu-latest
-        resolution:
-          - highest
+        python-version: ['3.13']
+        os: ['ubuntu-latest']
+        resolution: ['highest']
 
     steps:
       - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
+      - run: uv pip install -r requirements-dev.txt
 
-      - run: uv pip install --system -r requirements-dev.txt
-
-      - run: uv pip install --system .[${{ matrix.extra }}]
+      - run: uv pip install .[${{ matrix.extra }}]
         env:
             PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
 
@@ -178,7 +180,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
-          key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}
+          key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
 
       - run: pytest test/test_${{ matrix.extra }}
 
@@ -190,21 +192,17 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: '3.13'
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: uv pip install -r requirements-dev.txt
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -226,22 +224,17 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: '3.13'
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: uv pip install -r requirements-dev.txt
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -250,8 +243,7 @@ jobs:
           key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
-        run: |
-          ruff check --output-format=sarif -o results.sarif .
+        run: ruff check --output-format=sarif -o results.sarif .
 
       - uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
@@ -260,8 +252,7 @@ jobs:
 
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
-        run: |
-          ruff check --output-format=github .
+        run: ruff check --output-format=github .
 
   bandit:
     runs-on: ubuntu-latest
@@ -274,22 +265,17 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: '3.13'
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: uv pip install -r requirements-dev.txt
 
       - id: run-bandit-sarif
         run: |
@@ -320,10 +306,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
-            img.shields.io:443
+          allowed-endpoints: img.shields.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
@@ -391,31 +374,22 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            proxy.golang.org:443
-            pypi.org:443
+          allowed-endpoints: proxy.golang.org:443 ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
           python-version: '3.13'
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@4d66dd6355704140c330bc2a2e6291cbf3bcb67f
-
-      - run: uv pip install --system -r requirements-dev.txt
+      - run: uv pip install -r requirements-dev.txt
 
       - id: cache-pre-commit
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
-          path: .pre-commit-cache
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ hashFiles('pyproject.toml') }}
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
 
-      - run: |
-          pre-commit install
-          pre-commit run --all-files
-        env:
-          PRE_COMMIT_HOME: .pre-commit-cache
+      - run: pre-commit run --all-files --show-diff-on-failure --color=always

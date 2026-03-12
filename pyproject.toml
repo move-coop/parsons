@@ -85,24 +85,24 @@ indent-width = 4
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = [
-    "B", # flake8-bugbear
-    "E", # pycodestyle errors
-    "W", # pycodestyle warnings
-    "C4", # flake8-comprehensions
+    "B", # flake8-bugbear (B)
+    "E", # pycodestyle errors (E)
+    "W", # pycodestyle warnings (W)
     "D", # pydocstyle
-    "C4", # flake8-comprehensions
-    "F", # Pyflakes
-    "UP", # pyupgrade
-    "I", # isort
-    "TID", # flake8-tidy-imports
-    "ICN", # flake8-import-conventions
-    "Q", # flake8-quotes
-    "TC", # flake8-type-checking
-    "YTT", # flake8-2020
-    "SIM", # flake8-simplify
-    "PTH", # flake8-use-pathlib
-    "ISC", # flake8-implicit-str-concat
-    "PT", # flake8-pytest-style
+    "C4", # flake8-comprehensions (C4)
+    "F", # Pyflakes (F)
+    "UP", # pyupgrade (UP)
+    "I", # isort (I)
+    "TID", # flake8-tidy-imports (TID)
+    "ICN", # flake8-import-conventions (ICN)
+    "Q", # flake8-quotes (Q)
+    "TC", # flake8-type-checking (TC)
+    "YTT", # flake8-2020 (YTT)
+    "SIM", # flake8-simplify (SIM)
+    "PTH", # flake8-use-pathlib (PTH)
+    "ISC", # flake8-implicit-str-concat (ISC)
+    "PT", # flake8-pytest-style (PT)
+    "RUF100", # unused-noqa
 ]
 ignore = [
     "E501", # line-too-long

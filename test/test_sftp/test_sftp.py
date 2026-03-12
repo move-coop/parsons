@@ -37,7 +37,7 @@ FILE_PATHS = [CSV_PATH, COMPRESSED_CSV_PATH, CSV_A_PATH, CSV_B_PATH]
 DIR_PATHS = [REMOTE_DIR, EMPTY_PATH, SUBDIR_A_PATH, SUBDIR_B_PATH]
 
 
-def sup(sftp, simple_csv_path, simple_compressed_csv_path):  # noqa: F811
+def sup(sftp, simple_csv_path, simple_compressed_csv_path):
     # The setup function creates remote directories and files needed for live tests
     for remote_dir in DIR_PATHS:
         sftp.make_directory(remote_dir)
@@ -62,7 +62,7 @@ def generate_live_sftp_connection():
 
 
 @pytest.fixture
-def live_sftp(simple_csv_path, simple_compressed_csv_path, simple_table):  # noqa: F811
+def live_sftp(simple_csv_path, simple_compressed_csv_path, simple_table):
     sftp = generate_live_sftp_connection()
     sup(sftp, simple_csv_path, simple_compressed_csv_path)
     yield sftp
@@ -72,7 +72,7 @@ def live_sftp(simple_csv_path, simple_compressed_csv_path, simple_table):  # noq
 # This second live_sftp fixture is used for test_get_files so that files are never downloaded and
 # mocks can be inspected.
 @pytest.fixture
-def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):  # noqa: F811
+def live_sftp_with_mocked_get(simple_csv_path, simple_compressed_csv_path):
     SFTP_with_mocked_get = deepcopy(SFTP)
 
     # The names of temp files are long arbitrary strings. This makes them predictable.
@@ -160,28 +160,28 @@ def assert_file_matches_table(local_path, table):
 
 
 @mark_live_test
-def test_get_file(live_sftp, simple_table):  # noqa F811
+def test_get_file(live_sftp, simple_table):
     local_path = file_util.create_temp_file()
     live_sftp.get_file(CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
 
 
 @mark_live_test
-def test_get_table(live_sftp, simple_table):  # noqa F811
+def test_get_table(live_sftp, simple_table):
     file_util.create_temp_file()
     tbl = live_sftp.get_table(CSV_PATH)
     assert_matching_tables(tbl, simple_table)
 
 
 @mark_live_test
-def test_get_temp_file(live_sftp, simple_table):  # noqa F811
+def test_get_temp_file(live_sftp, simple_table):
     local_path = live_sftp.get_file(CSV_PATH)
     assert_file_matches_table(local_path, simple_table)
 
 
 @mark_live_test
 @pytest.mark.parametrize("compression", [None, "gzip"])
-def test_table_to_sftp_csv(live_sftp, simple_table, compression):  # noqa F811
+def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     host = os.environ["SFTP_HOST"]
     username = os.environ["SFTP_USERNAME"]
     password = os.environ["SFTP_PASSWORD"]

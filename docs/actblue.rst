@@ -52,4 +52,3 @@ API
 .. autoclass:: parsons.actblue.actblue.ActBlue
    :inherited-members:
    :members:
-   

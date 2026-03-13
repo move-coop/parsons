@@ -250,4 +250,3 @@ used SQL queries run against the Redshift database.
 .. autoclass:: parsons.databases.redshift.rs_schema.RedshiftSchema
    :inherited-members:
    :members:
-   

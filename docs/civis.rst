@@ -43,4 +43,3 @@ API
 .. autoclass:: parsons.civis.civisclient.CivisClient
    :inherited-members:
    :members:
-   

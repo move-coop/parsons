@@ -63,4 +63,3 @@ API
 .. autoclass:: parsons.airmeet.airmeet.Airmeet
    :inherited-members:
    :members:
-   

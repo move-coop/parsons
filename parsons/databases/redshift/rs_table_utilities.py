@@ -687,7 +687,7 @@ class RedshiftTableUtilities:
             return None
 
         def join_sql_parts(columns, rows):
-            return [f"{columns[1]}.{columns[2]}", "\n".join([row[4] for row in rows])]
+            return [f"{columns[1]}.{columns[2]}", "\n".join(row[4] for row in rows)]
 
         # The query returns the sql over multiple rows
         # We need to join then into a single row

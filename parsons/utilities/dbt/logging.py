@@ -132,7 +132,7 @@ class dbtLoggerMarkdown(dbtLogger):
         assets = self._get_status_assets(self.commands)
         now = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
 
-        total_duration = sum([command.elapsed_time for command in self.commands])
+        total_duration = sum(command.elapsed_time for command in self.commands)
         duration_str = human_readable_duration(total_duration)
 
         header = (

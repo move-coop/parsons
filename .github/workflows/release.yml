@@ -17,25 +17,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      CACHE_GLOBS: |
+        **/pyproject.toml
+        **/requirements*.txt
+        **/setup.py
+        **/uv.lock
+
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-            python-version: 3.13
-            cache: pip
-
-      - uses: install-pinned/uv@05d9162df91b0a72301801afd144d0b8b525e0b3
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: |
-            uv pip install --system -r requirements-dev.txt
-            uv pip install --system -e .[all]
+            uv pip install -r requirements-dev.txt
+            uv pip install -e .[all]
 
       - run: python setup.py check
 
       - run: python -m build --sdist --outdir dist
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: parsons-dist
           path: dist/
@@ -59,7 +65,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
         with:
           name: parsons-dist
           path: dist
@@ -99,7 +105,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
         with:
           name: parsons-dist
           path: dist

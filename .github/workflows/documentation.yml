@@ -10,35 +10,47 @@ on:
 
 permissions: read-all
 
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/requirements*.txt
+    **/setup.py
+    **/uv.lock
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    releases.astral.sh
+    files.pythonhosted.org:443
+    *.github.com:443
+    *.githubusercontent.com:443
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           # If it's a pull request, don't get full history.
           fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
-          cache: pip
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
-
-      - run: |
-          uv pip install --system -e .[all]
-          uv pip install --system -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
 
       - name: configure git
         run: |
@@ -49,6 +61,7 @@ jobs:
         with:
           path: docs/html
           key: >-
+            uv run
             sphinx
             -${{ hashFiles('pyproject.toml') }}
             -${{ hashFiles('setup.py') }}
@@ -65,8 +78,8 @@ jobs:
 
   deploy:
     needs: build
-    # Only run this job if triggered by updating the main branch
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # Don't run this job on pull requests
+    if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest
 
@@ -79,9 +92,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
-          egress-policy: audit
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

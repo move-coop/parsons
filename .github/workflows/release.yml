@@ -20,26 +20,31 @@ jobs:
     env:
       CACHE_GLOBS: |
         **/pyproject.toml
-        **/requirements*.txt
         **/setup.py
         **/uv.lock
 
     steps:
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: |
-            uv pip install -r requirements-dev.txt
-            uv pip install -e .[all]
+      - run: >-
+          uv sync
+          --upgrade
+          --all-extras
 
-      - run: python setup.py check
-
-      - run: python -m build --sdist --outdir dist
+      - run: >-
+          uv build
+          --sdist
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
@@ -65,7 +70,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: parsons-dist
           path: dist
@@ -73,12 +83,14 @@ jobs:
       - shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+
           # Extract to a temp directory first
           mkdir -p temp_extract
           tar -xzf "$file" -C temp_extract
-          # Find and move requirements files to root
+
+          # Find and move pyproject file to root
           find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
-          find temp_extract -name 'setup.py' -exec cp {} . \; 2>/dev/null || true
+
           # Clean up
           rm -rf temp_extract
 
@@ -103,9 +115,14 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: parsons-dist
           path: dist

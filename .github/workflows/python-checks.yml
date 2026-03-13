@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
@@ -50,34 +49,38 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - run: |
+      - id: pytest-run-key
+        run: |
           echo "\
           RUN_KEY=\
-          ${{ hashFiles('pyproject.toml') }}-\
-          ${{ matrix.os }}-\
-          ${{ matrix.python-version }}-\
-          ${{ matrix.resolution }}\
+          ${{ hashFiles('pyproject.toml') }}\
+          -${{ matrix.os }}\
+          -${{ matrix.python-version }}\
+          -${{ matrix.resolution }}\
           " >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: |
-          uv pip install -r requirements-dev.txt
-          uv pip install .[all]
-        env:
+      - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test-coverage
+          --all-extras
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
@@ -85,9 +88,9 @@ jobs:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
 
-      - run: pytest
-        env:
+      - env:
           COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
+        run: uv run pytest --failed-first
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
@@ -102,7 +105,7 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -110,18 +113,23 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group ci
+          --all-extras
 
       - name: get-extras
         id: get-extras
         run: |
-          python -c "
+          uv run python -c "
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path
@@ -152,37 +160,52 @@ jobs:
         resolution: ['highest']
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
+      - id: pytest-run-key
+        run: |
+          echo "\
+          RUN_KEY=\
+          ${{ hashFiles('pyproject.toml') }}\
+          -${{ matrix.os }}\
+          -${{ matrix.python-version }}\
+          -${{ matrix.resolution }}\
+          " >> $GITHUB_ENV
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
-
-      - run: uv pip install .[${{ matrix.extra }}]
+      - env:
+          UV_RESOLUTION: ${{ matrix.resolution }}
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group test
+          --extra ${{ matrix.extra }}
 
       - id: cache-pytest
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pytest_cache
-          key: pytest-${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}
+          key: pytest-${{ env.RUN_KEY }}
 
-      - run: pytest test/test_${{ matrix.extra }}
+      - run: uv run pytest test/test_${{ matrix.extra }}
 
   ruff-format:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -190,22 +213,30 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group lint
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff
-        run: ruff format --diff .
+        run: >-
+          uv run
+          ruff format
+          --diff
+          .
 
   ruff-check:
     runs-on: ubuntu-latest
@@ -214,7 +245,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -222,31 +253,44 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group lint
 
       - id: cache-ruff
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff-sarif
-        run: ruff check --output-format=sarif -o results.sarif .
+        run: >-
+          uv run
+          ruff check
+          --output-format=sarif
+          -o results.sarif
+          .
 
-      - uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162
+      - uses: github/codeql-action/upload-sarif@0d579ffd059c29b07949a3cce3983f0780820c98
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
 
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
-        run: ruff check --output-format=github .
+        run: >-
+          uv run
+          ruff check
+          --output-format=github
+          .
 
   bandit:
     runs-on: ubuntu-latest
@@ -255,7 +299,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -263,27 +307,41 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group security
 
       - id: run-bandit-sarif
-        run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons' --format 'sarif' --output 'results.sarif'
+        run: >-
+          uv run
+          bandit
+          --confidence-level 'medium'
+          --severity-level 'medium'
+          --recursive 'parsons'
+          --format 'sarif'
+          --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162
+      - uses: github/codeql-action/upload-sarif@0d579ffd059c29b07949a3cce3983f0780820c98
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
 
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
-        run: |
-          bandit --confidence-level 'medium' --severity-level 'medium' --recursive 'parsons'
+        run: >-
+          uv run
+          bandit
+          --confidence-level 'medium'
+          --severity-level 'medium'
+          --recursive 'parsons'
 
   coverage:
     runs-on: ubuntu-latest
@@ -296,7 +354,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -304,7 +362,7 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: coverage-*
           merge-multiple: true
@@ -325,31 +383,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
-          python-version: '3.13'
-          cache: pip
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
 
-      - run: |
-          uv pip install --system -e .[all]
-          uv pip install --system -r requirements-dev.txt
+      - run: uv run sphinx-lint docs
 
-      - run: sphinx-lint docs
-
-      - run: sphinx-lint parsons
+      - run: uv run sphinx-lint parsons
 
   pre-commit:
     runs-on: ubuntu-latest
@@ -364,7 +420,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@a90bcbc6539c36a85cdfeb73f7e2f433735f215b
+      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
         with:
           disable-sudo: true
           egress-policy: block
@@ -372,18 +428,31 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
         with:
           python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - run: uv pip install -r requirements-dev.txt
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group pre-commit
 
       - id: cache-pre-commit
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
-          path: ~/.cache/pre-commit
-          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          path: .pre-commit-cache
+          key: |
+            pre-commit\
+            -${{ hashFiles('.pre-commit-config.yaml') }}\
+            -${{ hashFiles('pyproject.toml') }}\
+            -${{ hashFiles('setup.py') }}
 
-      - run: pre-commit run --all-files --show-diff-on-failure --color=always
+      - env:
+          PRE_COMMIT_HOME: .pre-commit-cache
+        run: >-
+          uv run
+          pre-commit run
+          --all-files

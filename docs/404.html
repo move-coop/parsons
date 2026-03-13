@@ -8,27 +8,41 @@
     <style>
       :root {
         --primary: #2563eb;
+        --primary-hover: #1d4ed8;
         --text: #1f2937;
         --bg: #f6bdb8;
       }
+
+      /* Base resets and centered layout */
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background-color: var(--bg);
         color: var(--text);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
         margin: 0;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
         text-align: center;
       }
+
       .container {
         max-width: 400px;
         padding: 2rem;
       }
+
+      /* Typography */
       h1 { font-size: 5rem; margin: 0; }
       h2 { font-size: 1.5rem; margin-top: 0; }
       p { line-height: 1.6; }
+
+      /* Components */
+      .logo {
+        width: 128px;
+        height: 128px;
+        margin-top: 1.5rem;
+        object-fit: contain;
+      }
+
       .btn {
         display: inline-block;
         margin-top: 1.5rem;
@@ -40,34 +54,26 @@
         font-weight: 600;
         transition: background 0.2s;
       }
-      .btn:hover { background-color: #1d4ed8; }
 
-      .logo {
-        display: inline-block;
-        margin-top: 1.5rem;
-        padding: 0.75rem 1.5rem;
-        width: 128px;
-        height: 128px;
-        display: inline-block;
-        vertical-align: middle;
-      }
+      .btn:hover { background-color: var(--primary-hover); }
 
+      /* Feedback elements */
       .loader {
         border: 3px solid #f3f3f3;
-        border-top: 3px solid var(--primary);
+        border-top-color: var(--primary);
         border-radius: 50%;
         width: 24px;
         height: 24px;
-        animation: spin 1s linear infinite;
         display: inline-block;
         vertical-align: middle;
         margin-right: 10px;
+        animation: spin 1s linear infinite;
       }
-      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+      @keyframes spin { to { transform: rotate(360deg); } }
 
       #error-content { display: none; }
     </style>
-
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', () => {
         let targetURL = "/parsons/stable/index.html";
@@ -98,7 +104,7 @@
   <body>
     <div class="container">
       <div id="project-logo">
-         <img class="logo" src="https://move-coop.github.io/parsons/stable/_static/parsons_logo.png" alt="Parsons logo">
+         <img class="logo" src="/parsons/stable/_static/parsons_logo.png" alt="Parsons logo">
       </div>
       <div id="redirecting-content">
         <div class="loader"></div>

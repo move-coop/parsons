@@ -54,13 +54,14 @@ ci = [
     "build>=1.4.0",
 ]
 docs = [
-    "myst-parser==4.0.1",
-    "sphinxcontrib-googleanalytics==0.5",
+    "furo~=2025.12.19",
+    "myst-parser~=4.0.1",
+    "packaging~=26.0",
+    "sphinxcontrib-googleanalytics~=0.5",
     "sphinx-lint==1.0.2",
-    "sphinx-multiversion==0.2.4",
-    "sphinx-rtd-theme==3.0.2",
-    "Sphinx==7.4.7;python_version<'3.11'",
-    "Sphinx==8.2.3;python_version>='3.11'",
+    "sphinx-multiversion~=0.2.4",
+    "Sphinx~=7.4.7;python_version<'3.11'",
+    "Sphinx~=8.2.3;python_version>='3.11'",
 ]
 lint = [
     "ruff==0.13.0",

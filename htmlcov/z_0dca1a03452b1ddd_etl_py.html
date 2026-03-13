@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_0dca1a03452b1ddd_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.1">coverage.py v7.13.1</a>,
-            created at 2026-03-12 19:58 +0000
+            created at 2026-03-13 02:32 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -1194,7 +1194,7 @@
     <p class="run"><span class="n"><a id="t1110" href="#t1110">1110</a></span><span class="t">        <span class="key">return</span> <span class="nam">self</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1111" href="#t1111">1111</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t1112" href="#t1112">1112</a></span><span class="t">    <span class="key">def</span> <span class="nam">reduce_rows</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">columns</span><span class="op">,</span> <span class="nam">reduce_func</span><span class="op">,</span> <span class="nam">headers</span><span class="op">,</span> <span class="nam">presorted</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1113" href="#t1113">1113</a></span><span class="t">        <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1113" href="#t1113">1113</a></span><span class="t">        <span class="str">r"""</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1114" href="#t1114">1114</a></span><span class="t"><span class="str">        Group rows by a column or columns, then reduce the groups to a single row.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1115" href="#t1115">1115</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1116" href="#t1116">1116</a></span><span class="t"><span class="str">        For example, the output from the query to get a table's definition is</span>&nbsp;</span><span class="r"></span></p>
@@ -1218,16 +1218,16 @@
     <p class="pln"><span class="n"><a id="t1134" href="#t1134">1134</a></span><span class="t"><span class="str">            +--------------+--------------+----------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1135" href="#t1135">1135</a></span><span class="t"><span class="str">            | 'db_scratch' | 'state_fips' | '('                                                |</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1136" href="#t1136">1136</a></span><span class="t"><span class="str">            +--------------+--------------+----------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1137" href="#t1137">1137</a></span><span class="t"><span class="str">            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1137" href="#t1137">1137</a></span><span class="t"><span class="str">            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'               |</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1138" href="#t1138">1138</a></span><span class="t"><span class="str">            +--------------+--------------+----------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1139" href="#t1139">1139</a></span><span class="t"><span class="str">            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1139" href="#t1139">1139</a></span><span class="t"><span class="str">            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'             |</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1140" href="#t1140">1140</a></span><span class="t"><span class="str">            +--------------+--------------+----------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1141" href="#t1141">1141</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1142" href="#t1142">1142</a></span><span class="t"><span class="str">        .. code-block:: python</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1143" href="#t1143">1143</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1144" href="#t1144">1144</a></span><span class="t"><span class="str">            reducer_fn = lambda cols, rows: [</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1145" href="#t1145">1145</a></span><span class="t"><span class="str">                f"{cols[0]}.{cols[1]}",</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1146" href="#t1146">1146</a></span><span class="t"><span class="str">                r"\\n".join([row[2] for row in rows])</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1146" href="#t1146">1146</a></span><span class="t"><span class="str">                r"\n".join([row[2] for row in rows])</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1147" href="#t1147">1147</a></span><span class="t"><span class="str">            ]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1148" href="#t1148">1148</a></span><span class="t"><span class="str">            ddl.reduce_rows(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1149" href="#t1149">1149</a></span><span class="t"><span class="str">                ['schemaname', 'tablename'],</span>&nbsp;</span><span class="r"></span></p>
@@ -1241,12 +1241,12 @@
     <p class="pln"><span class="n"><a id="t1157" href="#t1157">1157</a></span><span class="t"><span class="str">            +-------------------------+-----------------------------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1158" href="#t1158">1158</a></span><span class="t"><span class="str">            | tablename               | ddl                                                                   |</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1159" href="#t1159">1159</a></span><span class="t"><span class="str">            +=========================+=======================================================================+</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1160" href="#t1160">1160</a></span><span class="t"><span class="str">            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1161" href="#t1161">1161</a></span><span class="t"><span class="str">            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1162" href="#t1162">1162</a></span><span class="t"><span class="str">            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1163" href="#t1163">1163</a></span><span class="t"><span class="str">            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1164" href="#t1164">1164</a></span><span class="t"><span class="str">            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t1165" href="#t1165">1165</a></span><span class="t"><span class="str">            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1160" href="#t1160">1160</a></span><span class="t"><span class="str">            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1161" href="#t1161">1161</a></span><span class="t"><span class="str">            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1162" href="#t1162">1162</a></span><span class="t"><span class="str">            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1163" href="#t1163">1163</a></span><span class="t"><span class="str">            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name                 |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1164" href="#t1164">1164</a></span><span class="t"><span class="str">            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE         |</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t1165" href="#t1165">1165</a></span><span class="t"><span class="str">            |                         | RAW\n)\nDISTSTYLE EVEN\n;'                                            |</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1166" href="#t1166">1166</a></span><span class="t"><span class="str">            +-------------------------+-----------------------------------------------------------------------+</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1167" href="#t1167">1167</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1168" href="#t1168">1168</a></span><span class="t"><span class="str">        Args:</span>&nbsp;</span><span class="r"></span></p>
@@ -1480,7 +1480,7 @@
             <a class="nav" href="z_0dca1a03452b1ddd_table_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.1">coverage.py v7.13.1</a>,
-            created at 2026-03-12 19:58 +0000
+            created at 2026-03-13 02:32 +0000
         </p>
     </div>
 </footer>

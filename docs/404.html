@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        let targetURL = "/parsons/stable/index.html";
+
+        const path = window.location.pathname;
+        if (path.includes('/html/')) {
+          targetURL = path.replace('/html/', '/');
+        }
+
+        fetch(targetURL, { method: 'HEAD' })
+          .then(response => {
+            if (response.ok) {
+              window.location.replace(targetURL);
+            } else {
+              showErrorContent();
+            }
+          })
+          .catch(() => {
+            showErrorContent();
+          });
+
+        function showErrorContent() {
+          window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('status-message').innerText = "404: Page Not Found";
+            document.getElementById('fallback-info').style.display = "block";
+          });
+        }
+      </script>
+  </head>
+  <body>
+    <h1 id="status-message">Redirecting...</h1>
+    <div id="fallback-info" style="display: none;">
+      <p>Sorry, the page you are looking for doesn't exist.</p>
+    </div>
+    <p id="redirect-text">
+      If you are not redirected, <a id="redirect-link" href="#">click here</a>.
+    </p>
+  </body>
+</html>

@@ -40,7 +40,8 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Install parsons
 RUN uv sync \
     --upgrade \
-    --all-extras
+    --all-extras \
+    --system
 
 # The /app directory can house the scripts that will actually execute on this Docker image.
 # Eg. If using this image in a Civis container script, Civis will install your script repo

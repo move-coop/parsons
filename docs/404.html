@@ -2,14 +2,79 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
-    <title>Redirecting...</title>
+    <title>Page Not Found</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --text: #1f2937;
+        --bg: #f6bdb8;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
+      .container {
+        max-width: 400px;
+        padding: 2rem;
+      }
+      h1 { font-size: 5rem; margin: 0; }
+      h2 { font-size: 1.5rem; margin-top: 0; }
+      p { line-height: 1.6; }
+      .btn {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+      .btn:hover { background-color: #1d4ed8; }
+
+      .logo {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        width: 128px;
+        height: 128px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .loader {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid var(--primary);
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+      #error-content { display: none; }
+    </style>
+
     <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
         let targetURL = "/parsons/stable/index.html";
 
         const path = window.location.pathname;
         if (path.includes('/html/')) {
-          targetURL = path.replace('/html/', '/');
+            targetURL = path.replace('/html/', '/');
         }
 
         fetch(targetURL, { method: 'HEAD' })
@@ -17,28 +82,33 @@
             if (response.ok) {
               window.location.replace(targetURL);
             } else {
-              showErrorContent();
+              show404();
             }
           })
-          .catch(() => {
-            showErrorContent();
-          });
+          .catch(() => show404());
+      });
 
-        function showErrorContent() {
-          window.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('status-message').innerText = "404: Page Not Found";
-            document.getElementById('fallback-info').style.display = "block";
-          });
-        }
-      </script>
+      function show404() {
+        document.getElementById('redirecting-content').style.display = 'none';
+        document.getElementById('error-content').style.display = 'block';
+        document.title = "404 - Not Found";
+      }
+    </script>
   </head>
   <body>
-    <h1 id="status-message">Redirecting...</h1>
-    <div id="fallback-info" style="display: none;">
-      <p>Sorry, the page you are looking for doesn't exist.</p>
+    <div class="container">
+      <div id="project-logo">
+         <img class="logo" src="https://move-coop.github.io/parsons/stable/_static/parsons_logo.png" alt="Parsons logo">
+      </div>
+      <div id="redirecting-content">
+        <div class="loader"></div>
+        <span>Finding the right page...</span>
+      </div>
+      <div id="error-content">
+        <h1>404</h1>
+        <p>We tried to find a newer version of this page for you, but it looks like it's gone for good.</p>
+        <a href="/" class="btn">Parsons Documentation Home</a>
+      </div>
     </div>
-    <p id="redirect-text">
-      If you are not redirected, <a id="redirect-link" href="#">click here</a>.
-    </p>
   </body>
 </html>

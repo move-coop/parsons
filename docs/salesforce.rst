@@ -60,4 +60,3 @@ API
 .. autoclass:: parsons.salesforce.salesforce.Salesforce
    :inherited-members:
    :members:
-   

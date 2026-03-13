@@ -80,5 +80,5 @@ dbt Utilities
 .. autoclass:: parsons.utilities.dbt.dbt.dbtRunnerParsons
    :inherited-members:
    :members:
-   
+
 .. autofunction:: parsons.utilities.dbt.dbt.run_dbt_commands

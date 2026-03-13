@@ -79,9 +79,7 @@ EXTRA_DEPENDENCIES = {
 
 
 def get_extras_require() -> dict[str, list[str]]:
-    """
-    Get the extras_require dictionary, with added "all" extra that contains the values of all other extras.
-    """
+    """Get the extras_require dictionary, with added "all" extra that contains the values of all other extras."""
     extras_require = EXTRA_DEPENDENCIES
     extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
 

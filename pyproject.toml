@@ -88,6 +88,7 @@ select = [
     "B", # flake8-bugbear (B)
     "E", # pycodestyle errors (E)
     "W", # pycodestyle warnings (W)
+    "D", # pydocstyle
     "C4", # flake8-comprehensions (C4)
     "F", # Pyflakes (F)
     "UP", # pyupgrade (UP)
@@ -104,20 +105,33 @@ select = [
     "RUF100", # unused-noqa
 ]
 ignore = [
-    "E501", # line-too-long (E501)
-    # Pathlib stuff that isn't autofixable
-    "PTH116", # os-stat (PTH116)
-    "PTH118", # os-path-join (PTH118)
-    "PTH122", # os-path-splitext (PTH122)
-    "PTH124", # py-path (PTH124)
-    "PTH206", # os-sep-split (PTH206)
-    "PTH207", # glob (PTH207)
-    "PTH208", # os-listdir (PTH208)
+    "E501", # line-too-long
+    # pathlib
+    "PTH116", # os-stat
+    "PTH118", # os-path-join
+    "PTH122", # os-path-splitext
+    "PTH124", # py-path
+    "PTH206", # os-sep-split
+    "PTH207", # glob
+    "PTH208", # os-listdir
+    # pydocstyle
+    "D1", # pydocstyle (D) warnings about undocumented module, class, method, etc
+    "D202", # blank-line-after-function
+    "D205", # missing-blank-line-after-summary
+    "D400", # missing-trailing-period
+    "D401", # non-imperative-mood
+    "D404", # docstring-starts-with-this
+    "D406", # missing-new-line-after-section-name
+    "D407", # missing-dashed-underline-after-section
+    "D408", # missing-section-underline-after-name
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.

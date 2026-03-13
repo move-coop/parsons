@@ -56,4 +56,3 @@ API
 .. autoclass:: parsons.crowdtangle.crowdtangle.CrowdTangle
    :inherited-members:
    :members:
-   

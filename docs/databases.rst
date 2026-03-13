@@ -140,4 +140,3 @@ Quick Start
 .. autoclass:: parsons.databases.sqlite.sqlite.Sqlite
    :inherited-members:
    :members:
-   

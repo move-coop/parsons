@@ -516,4 +516,3 @@ Targets
 .. autoclass:: parsons.ngpvan.van.Targets
    :inherited-members:
    :members:
-   

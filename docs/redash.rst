@@ -53,4 +53,3 @@ API
 .. autoclass:: parsons.redash.redash.Redash
    :inherited-members:
    :members:
-   

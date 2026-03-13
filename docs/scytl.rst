@@ -43,4 +43,3 @@ Scytl Class
 .. autoclass:: parsons.scytl.scytl.Scytl
    :inherited-members:
    :members:
-   

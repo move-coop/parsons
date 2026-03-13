@@ -12,7 +12,7 @@ facebook-business==24.0.1
 fastavro==1.12.1
 google-api-core==2.30.0
 google-api-python-client==2.190.0
-google-auth==2.48.0
+google-auth==2.49.1
 google-cloud-bigquery==3.40.1
 google-cloud-storage-transfer==1.18.0
 google-cloud-storage==3.7.0

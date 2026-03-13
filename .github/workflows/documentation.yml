@@ -34,7 +34,7 @@ jobs:
           python-version: '3.13'
           cache: pip
 
-      - uses: install-pinned/uv@259f91feb61b6e94766d7a1dbcd5f17335370e64
+      - uses: install-pinned/uv@20019e26f914870e2b2ad5f968e0bab666853050
 
       - run: |
           uv pip install --system -e .[all]

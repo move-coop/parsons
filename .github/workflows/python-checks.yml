@@ -127,7 +127,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.13'
+          python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -230,7 +230,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.13'
+          python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -272,7 +272,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.13'
+          python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -328,7 +328,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.13'
+          python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -398,13 +398,42 @@ jobs:
           name: python-coverage-comment-action
           path: python-coverage-comment-action.txt
 
+  sphinx-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
+
+      - run: uv run sphinx-lint docs
+
+      - run: uv run sphinx-lint parsons
+
   pre-commit:
     runs-on: ubuntu-latest
 
     needs:
+      - bandit
       - ruff-format
       - ruff-check
-      - bandit
+      - sphinx-lint
 
     permissions:
       contents: write
@@ -420,7 +449,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@5a095e7a2014a4212f075830d4f7277575a9d098
         with:
-          python-version: '3.13'
+          python-version: 3.13
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 

@@ -37,4 +37,3 @@ API
 .. autoclass:: parsons.auth0.auth0.Auth0
    :inherited-members:
    :members:
-   

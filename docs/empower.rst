@@ -49,4 +49,3 @@ API
 .. autoclass:: parsons.empower.empower.Empower
    :inherited-members:
    :members:
-   

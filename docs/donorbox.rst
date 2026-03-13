@@ -69,4 +69,3 @@ API
 .. autoclass:: parsons.donorbox.donorbox.Donorbox
    :inherited-members:
    :members:
-   

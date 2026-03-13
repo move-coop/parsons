@@ -53,4 +53,3 @@ API
 .. autoclass:: parsons.sftp.sftp.SFTP
    :inherited-members:
    :members:
-   

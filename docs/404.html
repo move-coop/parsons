@@ -45,12 +45,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: var(--space-tight) 0 var(--space-tight) 0;
       }
 
       h1 {
         font-size: 5.5rem;
         font-weight: 900;
-        margin: 0 0 var(--space-tight) 0;
+        margin: 0 0 0 0;
         line-height: 1;
         letter-spacing: -0.02em;
       }
@@ -123,7 +124,7 @@
 
       function show404() {
         document.getElementById('redirecting-content').style.display = 'none';
-        document.getElementById('error-content').style.display = 'block';
+        document.getElementById('error-content').style.display = 'flex';
         document.title = "404 - Not Found";
       }
     </script>

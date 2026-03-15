@@ -2,6 +2,7 @@ import os
 import warnings
 
 import pytest
+from _pytest.mark import MarkDecorator
 
 from parsons import Table
 
@@ -17,7 +18,7 @@ from parsons import Table
 # ...rest of test...
 
 
-def mark_live_test(func):
+def mark_live_test(func) -> MarkDecorator:
     """Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message."""
     warnings.warn(
         "Marking tests with @mark_live_test is deprecated, use @pytest.mark.live instead.",
@@ -27,7 +28,7 @@ def mark_live_test(func):
     return pytest.mark.live(func)
 
 
-def pytest_addoption(parser):
+def pytest_addoption(parser) -> None:
     """Add pytest command-line flag `--live` to activate live tests"""
     parser.addoption(
         "--live",
@@ -37,25 +38,23 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_configure(config):
+def pytest_configure(config) -> None:
     """Register `@pytest.mark.live` with pytest."""
     config.addinivalue_line(
         "markers", "live: mark test as requiring authentication and/or network access"
     )
 
 
-def pytest_collection_modifyitems(config, items):
+def pytest_collection_modifyitems(config, items) -> None:
     """
     Add `@pytest.mark.skip` to tests with `@pytest.mark.live`, if appropriate.
 
     Tests will be marked to skip if pytest is not run with `--live` and
     the `LIVE_TEST` environment variable is not found.
     """
-    live_testing_environment = os.environ.get("LIVE_TEST", "").strip().upper() in (
-        "1",
-        "YES",
-        "TRUE",
-        "ON",
+    accepted_env_values = ("1", "YES", "TRUE", "ON")
+    live_testing_environment = (
+        os.environ.get("LIVE_TEST", "").strip().upper() in accepted_env_values
     )
     if config.getoption("--live") or live_testing_environment:
         return
@@ -66,17 +65,19 @@ def pytest_collection_modifyitems(config, items):
 # Utility functions used in tests across multiple connectors
 
 
-def validate_list(expected_keys: list, table: Table):
-    """Test whether the columns of a Table match the provided list."""
+def validate_list(expected_keys: set | list, table: Table) -> bool:
+    """Test whether the columns of a Table match those provided."""
     if set(expected_keys) != set(table.columns):
         raise KeyError("Not all expected keys found.")
 
     return True
 
 
-def assert_matching_tables(table1, table2, ignore_headers=False):
+def assert_matching_tables(
+    table1: Table | dict, table2: Table | dict, ignore_headers: bool = False
+) -> None:
     """
-    Assert that two parsons Tables are the same.
+    Assert that two parsons Tables or dicts are the same.
 
     First checks that each has the same number of rows,
     then compares each row sequentially.

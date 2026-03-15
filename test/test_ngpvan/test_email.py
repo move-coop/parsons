@@ -4,30 +4,8 @@ from copy import deepcopy
 
 import requests_mock
 
-from parsons import VAN, Table
-
-
-def assert_matching_tables(table1, table2, ignore_headers=False):
-    if ignore_headers:
-        data1 = table1.data
-        data2 = table2.data
-    else:
-        data1 = table1
-        data2 = table2
-
-    if isinstance(data1, Table) and isinstance(data2, Table):
-        assert data1.num_rows == data2.num_rows
-
-    for r1, r2 in zip(data1, data2, strict=False):
-        # Cast both rows to lists, in case they are different types of collections. Must call
-        # .items() on dicts to compare content of collections
-        if isinstance(r1, dict):
-            r1 = r1.items()
-        if isinstance(r2, dict):
-            r2 = r2.items()
-
-        assert list(r1) == list(r2)
-
+from parsons import VAN
+from test.conftest import assert_matching_tables
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 

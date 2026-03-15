@@ -4,7 +4,7 @@ import pytest
 
 from parsons import Table
 
-# Live test decorator
+# Live test decorator + pytest command-line flag
 #
 # Use the @pytest.mark.live decorator when authentication and/or
 # network access is required. This will exclude them from our CI workflows,
@@ -14,6 +14,16 @@ from parsons import Table
 # def test_something_requiring_auth():
 # service = SomeService()
 # ...rest of test...
+
+
+def pytest_addoption(parser):
+    """Add pytest command-line flag `--live` to activate live tests"""
+    parser.addoption(
+        "--live",
+        action="store_true",
+        default=False,
+        help="run tests requiring authentication and/or network access",
+    )
 
 
 def pytest_configure(config):
@@ -27,11 +37,16 @@ def pytest_collection_modifyitems(config, items):
     """
     Add `@pytest.mark.skip` to tests with `@pytest.mark.live`, if appropriate.
 
-    Tests will be marked to skip if the `LIVE_TEST` environment variable is not found.
+    Tests will be marked to skip if pytest is not run with `--live` and
+    the `LIVE_TEST` environment variable is not found.
     """
-    if os.environ.get("LIVE_TEST", "").strip().upper() in ("1", "YES", "TRUE", "ON"):
+    live_testing_environment = (
+        os.environ.get("LIVE_TEST", "").strip().upper()
+        in ("1", "YES", "TRUE", "ON")
+    )
+    if config.getoption("--live") or live_testing_environment:
         return
-    skip_slow = pytest.mark.skip(reason="need LIVE_TEST environment variable to run")
+    skip_slow = pytest.mark.skip(reason="need --live option to run")
     [item.add_marker(skip_slow) for item in items if "live" in item.keywords]
 
 

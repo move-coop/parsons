@@ -10,7 +10,7 @@ from test.conftest import assert_matching_tables
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 
-sample_content_full = [
+sample_content_single = [
     {
         "name": "Email Name",
         "senderDisplayName": "Joe Biden",
@@ -30,7 +30,11 @@ sample_content_full = [
             "contributionCount": 0,
             "machineOpenCount": 0,
         },
-    },
+    }
+]
+
+sample_content_full = [
+    sample_content_single[0],
     {
         "name": "Email Name_B",
         "senderDisplayName": "Kamala Harris",
@@ -91,29 +95,6 @@ sample_content_full = [
             "machineOpenCount": 30,
         },
     },
-]
-
-sample_content_single = [
-    {
-        "name": "Email Name",
-        "senderDisplayName": "Joe Biden",
-        "senderEmailAddress": "joe@biden.org",
-        "subject": "This is Joe",
-        "createdBy": "Random Intern",
-        "dateCreated": "2023-05-17T15:04:00Z",
-        "emailMessageContentDistributions": {
-            "dateSent": "2023-05-17T15:05:00Z",
-            "recipientCount": 10,
-            "openCount": 0,
-            "linksClickedCount": 0,
-            "unsubscribeCount": 0,
-            "bounceCount": 0,
-            "contributionTotal": 0.0,
-            "formSubmissionCount": 0,
-            "contributionCount": 0,
-            "machineOpenCount": 0,
-        },
-    }
 ]
 
 sample_content_pending_email = [

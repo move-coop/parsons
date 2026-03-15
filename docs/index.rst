@@ -19,14 +19,17 @@ was built and is maintained by The Movement Cooperative.
 
 The Movement Cooperative
 ========================
+
 The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
 
 License and Usage
 =================
+
 Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
 Resources
 =========
+
 * Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
 * Source Code: `<https://github.com/move-coop/parsons>`_
 * Project Website: `<https://www.parsonsproject.org/>`_
@@ -45,21 +48,22 @@ QuickStart
 ==========
 
 .. code-block:: python
-
-  # VAN - Download activist codes to a CSV
+  :caption: VAN - Download activist codes to a CSV
 
   from parsons import VAN
   van = VAN(db='MyVoters')
   ac = van.get_activist_codes()
   ac.to_csv('my_activist_codes.csv')
 
-  # Redshift - Create a table from a CSV
+.. code-block:: python
+  :caption: Redshift - Create a table from a CSV
 
   from parsons import Table
   tbl = Table.from_csv('my_table.csv')
   tbl.to_redshift('my_schema.my_table')
 
-  # Redshift - Export from a query to CSV
+.. code-block:: python
+  :caption: Redshift - Export from a query to CSV
 
   from parsons import Redshift
   sql = 'select * from my_schema.my_table'
@@ -67,13 +71,15 @@ QuickStart
   tbl = rs.query(sql)
   tbl.to_csv('my_table.csv')
 
-  # Upload a file to S3
+.. code-block:: python
+  :caption: S3 - Upload a file
 
   from parsons import S3
   s3 = S3()
   s3.put_file('my_bucket','my_table.csv')
 
-  # TargetSmart - Append data to a record
+.. code-block:: python
+  :caption: TargetSmart - Append data to a record
 
   from parsons import TargetSmart
   ts = TargetSmart(api_key='MY_KEY')
@@ -81,6 +87,7 @@ QuickStart
 
 Design Goals
 ============
+
 The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
 .. image:: /_static/parsons_diagram.png
@@ -89,6 +96,7 @@ Parsons seeks to be flexible from a data ingestion and output perspective, while
 
 Logging
 =======
+
 Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_. By default, log output will go to the console and look like:
 
 .. code-block:: none

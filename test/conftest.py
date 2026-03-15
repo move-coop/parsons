@@ -6,16 +6,18 @@ from _pytest.mark import MarkDecorator
 
 from parsons import Table
 
+#
 # Live test decorator + pytest command-line flag
 #
+
 # Use the @pytest.mark.live decorator when authentication and/or
 # network access is required. This will exclude them from our CI workflows,
 # as authentication cannot be counted on within GitHub Actions.
-#
+
 # @pytest.mark.live
 # def test_something_requiring_auth():
-# service = SomeService()
-# ...rest of test...
+#     service = SomeService()
+#     ...rest of test...
 
 
 def mark_live_test(func) -> MarkDecorator:
@@ -62,7 +64,9 @@ def pytest_collection_modifyitems(config, items) -> None:
     [item.add_marker(skip_slow) for item in items if "live" in item.keywords]
 
 
+#
 # Utility functions used in tests across multiple connectors
+#
 
 
 def validate_list(expected_keys: set | list, table: Table) -> bool:

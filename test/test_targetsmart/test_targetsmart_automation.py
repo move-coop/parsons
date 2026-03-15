@@ -5,7 +5,6 @@ from pathlib import Path
 import pytest
 
 from parsons import SFTP, TargetSmartAutomation
-from test.conftest import mark_live_test
 
 
 class TestTargetSmartAutomation(unittest.TestCase):
@@ -24,7 +23,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         # Clean up the files were put on the SFTP
         self.ts.remove_files(self.job_name)
 
-    @mark_live_test
+    @pytest.mark.live
     def test_create_job_xml(self):
         # Assert that job xml creates the file correctly
         job_xml = self.ts.create_job_xml(
@@ -34,7 +33,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         real_xml = Path(job_xml).read_text()
         assert test_xml == real_xml
 
-    @mark_live_test
+    @pytest.mark.live
     def test_config_status(self):
         # Find good configuration
         self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.job.xml.good")
@@ -49,7 +48,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         ):
             self.ts.config_status(self.job_name)
 
-    @mark_live_test
+    @pytest.mark.live
     def test_match_status(self):
         # Find good configuration
         good_match = "test/test_targetsmart/match_good.xml"
@@ -63,7 +62,7 @@ class TestTargetSmartAutomation(unittest.TestCase):
         with pytest.raises(ValueError, match="Match job failed"):
             self.ts.match_status(self.job_name)
 
-    @mark_live_test
+    @pytest.mark.live
     def test_remove_files(self):
         # Add a file
         self.sftp.put_file(self.test_xml, f"{self.ts.sftp_dir}/{self.job_name}.txt")

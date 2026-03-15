@@ -3,7 +3,6 @@ import unittest
 import pytest
 
 from parsons import FacebookAds, Table
-from test.conftest import mark_live_test
 
 users_table = Table(
     [
@@ -27,7 +26,7 @@ users_table = Table(
 )
 
 
-@mark_live_test
+@pytest.mark.live
 class TestFacebookAdsIntegration(unittest.TestCase):
     def setUp(self):
         self.fb_ads = FacebookAds()

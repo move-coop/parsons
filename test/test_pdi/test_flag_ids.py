@@ -5,7 +5,6 @@ import pytest
 from requests.exceptions import HTTPError
 
 from parsons import Table
-from test.conftest import mark_live_test
 
 #
 # Fixtures and constants
@@ -53,7 +52,7 @@ def create_temp_flag_id():
 #
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize("limit", [None, 5, 15])
 def test_get_flag_ids(live_pdi, limit):
     flag_ids = live_pdi.get_flag_ids(limit=limit)
@@ -66,7 +65,7 @@ def test_get_flag_ids(live_pdi, limit):
     assert flag_ids.num_rows == expected_num_rows
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(
     "id",
     [
@@ -83,7 +82,7 @@ def test_get_flag_id(live_pdi, id):
     assert list(flag_id.keys()) == expected_keys
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(
     ("flag_id", "is_default"),
     [
@@ -98,7 +97,7 @@ def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
     cleanup_flag_id(live_pdi, flag_id)
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(
     "my_flag_id",
     [
@@ -114,7 +113,7 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
     assert did_delete
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(
     "my_flag_id",
     [

@@ -4,11 +4,11 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import pytest
 from azure.storage.blob import BlobClient, ContainerClient
 
 from parsons import AzureBlobStorage, Table
 from parsons.utilities import files
-from test.conftest import mark_live_test
 
 TEST_ACCOUNT_NAME = os.getenv("PARSONS_AZURE_ACCOUNT_NAME")
 TEST_CREDENTIAL = os.getenv("PARSONS_AZURE_CREDENTIAL")
@@ -17,7 +17,7 @@ TEST_FILE_NAME = "tmp_file_01.txt"
 TEST_FILE_CONTENTS = "Test"
 
 
-@mark_live_test
+@pytest.mark.live
 class TestAzureBlobStorage(unittest.TestCase):
     def setUp(self):
         self.azure_blob = AzureBlobStorage(

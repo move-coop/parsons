@@ -4,20 +4,38 @@ import pytest
 
 from parsons import Table
 
-"""
-Use this as a marker before any tests that hit live services. That way they'll only run
-if you set the "LIVE_TEST" env var.
-Example usage:
+# Live test decorator
+#
+# Use the @pytest.mark.live decorator when authentication and/or
+# network access is required. This will exclude them from our CI workflows,
+# as authentication cannot be counted on within GitHub Actions.
+#
+# @pytest.mark.live
+# def test_something_requiring_auth():
+# service = SomeService()
+# ...rest of test...
 
-@mark_live_test
-def test_something():
-    service = SomeService()
-    ...
-"""
-mark_live_test = pytest.mark.skipif(
-    not os.environ.get("LIVE_TEST"), reason="Skipping because not running live test"
-)
 
+def pytest_configure(config):
+    """Register `@pytest.mark.live` with pytest."""
+    config.addinivalue_line(
+        "markers", "live: mark test as requiring authentication and/or network access"
+    )
+
+
+def pytest_collection_modifyitems(config, items):
+    """
+    Add `@pytest.mark.skip` to tests with `@pytest.mark.live`, if appropriate.
+
+    Tests will be marked to skip if the `LIVE_TEST` environment variable is not found.
+    """
+    if os.environ.get("LIVE_TEST", "").strip().upper() in ("1", "YES", "TRUE", "ON"):
+        return
+    skip_slow = pytest.mark.skip(reason="need LIVE_TEST environment variable to run")
+    [item.add_marker(skip_slow) for item in items if "live" in item.keywords]
+
+
+# Utility functions used in tests across multiple connectors
 
 
 def validate_list(expected_keys: list, table: Table):

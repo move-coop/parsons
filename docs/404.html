@@ -76,7 +76,8 @@
     </style>
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', () => {
-        let targetURL = window.location.pathname;
+        const currentPath = window.location.pathname;
+        let targetURL = currentPath;
 
         if (targetURL.includes('/html/')) {
             targetURL = targetURL.replace('/html/', '/');
@@ -84,7 +85,7 @@
 
         fetch(targetURL, { method: 'HEAD' })
           .then(response => {
-            if (response.ok) {
+            if (response.ok && targetURL !== currentPath) {
               window.location.replace(targetURL);
             } else {
               show404();

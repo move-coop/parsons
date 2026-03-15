@@ -90,7 +90,13 @@ Design Goals
 
 The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-.. image:: /_static/parsons_diagram.png
+.. figure:: /_static/parsons_diagram_light.png
+   :align: center
+   :figclass: only-light
+
+.. figure:: /_static/parsons_diagram_dark.png
+   :align: center
+   :figclass: only-dark
 
 Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 

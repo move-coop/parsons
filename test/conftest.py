@@ -1,4 +1,5 @@
 import os
+import warnings
 
 import pytest
 
@@ -14,6 +15,16 @@ from parsons import Table
 # def test_something_requiring_auth():
 # service = SomeService()
 # ...rest of test...
+
+
+def mark_live_test(func):
+    """Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message."""
+    warnings.warn(
+        "Marking tests with @mark_live_test is deprecated, use @pytest.mark.live instead.",
+        category=pytest.PytestDeprecationWarning,
+        stacklevel=2,
+    )
+    return pytest.mark.live(func)
 
 
 def pytest_addoption(parser):
@@ -40,9 +51,11 @@ def pytest_collection_modifyitems(config, items):
     Tests will be marked to skip if pytest is not run with `--live` and
     the `LIVE_TEST` environment variable is not found.
     """
-    live_testing_environment = (
-        os.environ.get("LIVE_TEST", "").strip().upper()
-        in ("1", "YES", "TRUE", "ON")
+    live_testing_environment = os.environ.get("LIVE_TEST", "").strip().upper() in (
+        "1",
+        "YES",
+        "TRUE",
+        "ON",
     )
     if config.getoption("--live") or live_testing_environment:
         return

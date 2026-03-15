@@ -83,6 +83,10 @@
             targetURL = targetURL.replace('/html/', '/');
         }
 
+        const versionMatch = currentPath.match(/\/parsons\/[^/]+\//);
+        const homeBtn = document.getElementById('home-link');
+        if (homeBtn) homeBtn.href = versionMatch ? versionMatch[0] + 'index.html' : '/';
+
         fetch(targetURL, { method: 'HEAD' })
           .then(response => {
             if (response.ok && targetURL !== currentPath) {
@@ -113,7 +117,7 @@
       <div id="error-content">
         <h1>404</h1>
         <p>We tried to find a newer version of this page for you, but it looks like it's gone for good.</p>
-        <a href="/" class="btn">Parsons Documentation Home</a>
+        <a id="home-link" href="/parsons/latest/index.html" class="btn">Parsons Documentation Home</a>
       </div>
     </div>
   </body>

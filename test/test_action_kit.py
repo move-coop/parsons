@@ -4,7 +4,7 @@ import unittest
 from unittest import mock
 
 from parsons import ActionKit, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 ENV_PARAMETERS = {
     "ACTION_KIT_DOMAIN": "env_domain",

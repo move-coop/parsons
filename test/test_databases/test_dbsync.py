@@ -1,17 +1,15 @@
-import os
 import tempfile
 import unittest
 from abc import ABC
 from pathlib import Path
-from typing import Optional
 
 import pytest
 
 from parsons import DBSync, Postgres, Redshift, Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.sqlite import Sqlite
+from test.conftest import assert_matching_tables, mark_live_test
 from test.test_databases.fakes import FakeDatabase
-from test.utils import assert_matching_tables
 
 _dir = Path(__file__).parent
 
@@ -19,18 +17,17 @@ TEMP_SCHEMA = "parsons_test"
 
 
 class TestDBSync(ABC, unittest.TestCase):
-    setup_sql: Optional[str] = None
-    teardown_sql: Optional[str] = None
-    temp_schema: Optional[str] = TEMP_SCHEMA
+    setup_sql: str | None = None
+    teardown_sql: str | None = None
+    temp_schema: str | None = TEMP_SCHEMA
     db: type[DatabaseConnector]
 
     @classmethod
     def setUpClass(cls):
         # Skip tests on this abstract base class
         if cls is TestDBSync:
-            raise unittest.SkipTest(f"{cls.__name__} is an abstract base class")
-        else:
-            super().setUpClass()
+            pytest.skip(f"{cls.__name__} is an abstract base class")
+        super().setUpClass()
 
     def setUp(self):
         self.initialize_db_connections()
@@ -196,7 +193,7 @@ class TestSqliteDBSync(TestDBSync):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestPostgresDBSync(TestDBSync):
     db = Postgres
     setup_sql = f"""
@@ -210,6 +207,6 @@ class TestPostgresDBSync(TestDBSync):
 
 # These tests interact directly with the Postgres database. In order to run, set the
 # env to LIVE_TEST='TRUE'.
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestRedshiftDBSync(TestPostgresDBSync):
     db = Redshift

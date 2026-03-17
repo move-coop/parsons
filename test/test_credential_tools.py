@@ -103,7 +103,3 @@ class TestCredentialTool(unittest.TestCase):
         expected = "PRSNSENVeyJkaWN0IjogInZhcmlhYmxlIn0="
 
         assert ct.encode_from_dict(dct) == expected
-
-
-if __name__ == "__main__":
-    unittest.main()

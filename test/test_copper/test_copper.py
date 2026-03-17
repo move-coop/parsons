@@ -7,7 +7,7 @@ from pathlib import Path
 import requests_mock
 
 from parsons import Copper, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 # Set up the logger
 logger = logging.getLogger(__name__)

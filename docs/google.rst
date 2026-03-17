@@ -3,7 +3,7 @@ Google
 
 Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets) or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as binary objects (via GoogleCloudStorage). Google also offers an API for civic information using GoogleCivic and admin information using the Google Workspace Admin SDK.
 
-For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens or other credentials to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/dashboard>`_. The connectors below have more specific information about how to authenticate.
+For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens or other credentials to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services - Dashboard <https://console.cloud.google.com/apis/dashboard>`_. The connectors below have more specific information about how to authenticate.
 
 .. _gbq:
 
@@ -50,7 +50,7 @@ API
 
 .. autoclass:: parsons.google.google_admin.GoogleAdmin
    :inherited-members:
-
+   :members:
 
 ********
 BigQuery
@@ -138,11 +138,10 @@ We can now upload/query data.
 ===
 API
 ===
+
 .. autoclass:: parsons.google.google_bigquery.GoogleBigQuery
    :inherited-members:
-
-
-
+   :members:
 
 *************
 Cloud Storage
@@ -154,7 +153,7 @@ Overview
 Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.
 
-To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the `Google Cloud Console APIs and Services <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
+To use the GoogleCloudStorage class, you will need Google service account credentials. If you are the administrator of your Google Cloud account, you can generate them in the `Google Cloud Console APIs and Services - Service Account Key <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
 
 ==========
 Quickstart
@@ -194,9 +193,10 @@ the available blobs.
 ===
 API
 ===
+
 .. autoclass:: parsons.google.google_cloud_storage.GoogleCloudStorage
    :inherited-members:
-
+   :members:
 
 *****
 Civic
@@ -212,7 +212,6 @@ use Google Civic, you must enable this specific end point.
 
 The Google Civic API utilizes the `Voting Information Project <https://www.votinginfoproject.org/>`_ to collect
 key civic information such as personalized ballots and polling location information.
-
 
 ==========
 Quickstart
@@ -257,8 +256,65 @@ You can also retrieve represntative information such as offices, officals, etc.
 API
 ===
 
-.. autoclass :: parsons.google.google_civic.GoogleCivic
+.. autoclass:: parsons.google.google_civic.GoogleCivic
    :inherited-members:
+   :members:
+
+*************
+Google Docs
+*************
+
+========
+Overview
+========
+
+The GoogleDocs class allows you to interact with Google Docs. You can use this connector to access and manipulate Google Docs documents programmatically.
+
+In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
+
+- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_ and make sure the "Google Docs API" and "Google Drive API" are both enabled.
+- Go to the credentials page via the lefthand sidebar. On the credentials page, click "create credentials".
+- Choose the "Service Account" option and fill out the form provided. This should generate your credentials.
+- Select your newly created Service Account on the credentials main page.
+- select "keys", then "add key", then "create new key". Pick the key type JSON. The credentials should start to automatically download.
+
+You can now copy and paste the data from the key into your script or (recommended) save it locally as a JSON file.
+
+==========
+Quickstart
+==========
+
+To instantiate the GoogleDocs class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_DRIVE_CREDENTIALS`` to contain a path to the JSON file containing the dict.
+
+.. code-block:: python
+
+   from parsons import GoogleDocs
+
+   # First approach: Use API credentials via environmental variables
+   docs = GoogleDocs()
+
+   # Second approach: Pass API credentials as argument
+   credential_filename = 'google_drive_service_credentials.json'
+   docs = GoogleDocs(app_creds=credential_filename)
+
+You can then use the client to interact with Google Docs:
+
+.. code-block:: python
+
+   # Access the Google Docs API client
+   document_id = 'your-document-id'
+   document = docs.client.documents().get(documentId=document_id).execute()
+
+   # Get the document content
+   content = document.get('body').get('content')
+
+===
+API
+===
+
+.. autoclass:: parsons.google.google_docs.GoogleDocs
+   :inherited-members:
+   :members:
 
 *************
 Google Drive
@@ -300,16 +356,16 @@ To instantiate the GoogleDrive class, you can either pass the constructor a dict
 You can then perform a variety of functions in Drive over API.
 
 .. code-block:: python
-   new_folder = drive.create_folder(name='My Folder')
 
+   new_folder = drive.create_folder(name='My Folder')
 
 ===
 API
 ===
 
 .. autoclass:: parsons.google.google_drive.GoogleDrive
-   :inherited-members:      
-
+   :inherited-members:
+   :members:
 
 *************
 Google Sheets
@@ -365,4 +421,4 @@ API
 
 .. autoclass:: parsons.google.google_sheets.GoogleSheets
    :inherited-members:
-
+   :members:

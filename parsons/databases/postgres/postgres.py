@@ -1,7 +1,7 @@
 import logging
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Literal
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -30,6 +30,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             Required if env variable ``PGPORT`` not populated.
         timeout: int
             Seconds to timeout if connection not established.
+
     """
 
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
@@ -58,13 +59,13 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
     ):
         """
         Copy a :ref:`parsons-table` to Postgres.
 
-        `Args:`
+        Args:
             tbl: parsons.Table
                 A Parsons table object
             table_name: str
@@ -77,6 +78,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. Defaults to ``False``.
+
         """
 
         with self.connection() as connection:
@@ -120,7 +122,7 @@ class PostgresTable(BaseTable):
         updated_at_column: str,
         cutoff_value,
         offset: int = 0,
-        chunk_size: Optional[int] = None,
+        chunk_size: int | None = None,
     ) -> Table:
         """Get rows that have a greater updated_at_column value than the one provided."""
         sql = f"""

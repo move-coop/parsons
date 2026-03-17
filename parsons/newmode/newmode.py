@@ -1,10 +1,10 @@
 import logging
-from typing import Any, Optional, Union
+from typing import Any
 
 from Newmode import Client
 from oauthlib.oauth2 import TokenExpiredError
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
@@ -28,9 +28,9 @@ RESPONSE_LINKS_KEY = "links"
 class NewmodeV1:
     def __init__(
         self,
-        api_user: Optional[str] = None,
-        api_password: Optional[str] = None,
-        api_version: Optional[str] = None,
+        api_user: str | None = None,
+        api_password: str | None = None,
+        api_version: str | None = None,
     ):
         """
         Args:
@@ -43,32 +43,34 @@ class NewmodeV1:
             api_version: str
                 The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
                 env variable.
-        Returns:
-            Newmode class
+
         """
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1"
         )
         self.api_user: str = check_env.check("NEWMODE_API_USER", api_user)
         self.api_password: str = check_env.check("NEWMODE_API_PASSWORD", api_password)
-        self.api_version: Optional[str] = api_version
+        self.api_version: str | None = api_version
         self.client: Client = Client(api_user, api_password, api_version)
 
-    def convert_to_table(self, data: Union[list[dict[str, Any]], dict[str, Any]]) -> Table:
+    def convert_to_table(self, data: list[dict[str, Any]] | dict[str, Any]) -> Table:
         # Internal method to create a Parsons table from a data element.
         table = None
         table = Table(data) if isinstance(data, list) else Table([data])
 
         return table
 
-    def get_tools(self, params: dict[str, Any] = None) -> Table:
+    def get_tools(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing tools.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tools information as table.
+
         """
         if params is None:
             params = {}
@@ -80,17 +82,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_tool(
-        self, tool_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, tool_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool information.
+
         """
         if params is None:
             params = {}
@@ -103,12 +108,13 @@ class NewmodeV1:
 
     def lookup_targets(
         self,
-        tool_id: Union[int, str],
-        search: Optional[str] = None,
-        params: Optional[dict[str, Any]] = None,
+        tool_id: int | str,
+        search: str | None = None,
+        params: dict[str, Any] | None = None,
     ) -> Table:
         """
         Lookup targets for a given tool
+
         Args:
             tool_id:
                 The tool to lookup targets.
@@ -121,8 +127,10 @@ class NewmodeV1:
                 matched for those coordinates.
                 - Search term: For your csv tools, this will return targets
                 matched by given valid search term.
+
         Returns:
             Targets information as table.
+
         """
         if params is None:
             params = {}
@@ -138,17 +146,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_action(
-        self, tool_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, tool_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get the action information for a given tool.
+
         Args:
             tool_id:
                 The id of the tool to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Tool action information.
+
         """
         if params is None:
             params = {}
@@ -161,12 +172,13 @@ class NewmodeV1:
 
     def run_action(
         self,
-        tool_id: Union[int, str],
+        tool_id: int | str,
         payload: dict[str, Any],
-        params: Optional[dict[str, Any]] = None,
-    ) -> Optional[Union[str, int]]:
+        params: dict[str, Any] | None = None,
+    ) -> str | int | None:
         """
         Run specific action with given payload.
+
         Args:
             tool_id:
                 The id of the tool to run.
@@ -175,8 +187,10 @@ class NewmodeV1:
                 on the stuff returned by get_action.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Action link (if otl) or sid.
+
         """
         if params is None:
             params = {}
@@ -191,17 +205,20 @@ class NewmodeV1:
             return None
 
     def get_target(
-        self, target_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, target_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific target.
+
         Args:
             target_id:
                 The id of the target to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Target information.
+
         """
         if params is None:
             params = {}
@@ -212,7 +229,7 @@ class NewmodeV1:
             logging.warning("Empty target returned")
             return None
 
-    def get_targets(self, params: Optional[dict[str, Any]] = None) -> Optional[Table]:
+    def get_targets(self, params: dict[str, Any] | None = None) -> Table | None:
         """
         Get all targets
 
@@ -222,6 +239,7 @@ class NewmodeV1:
 
         Returns:
             Target information
+
         """
 
         if params is None:
@@ -235,14 +253,17 @@ class NewmodeV1:
             logging.warning("No targets returned")
             return None
 
-    def get_campaigns(self, params: Optional[dict[str, Any]] = None) -> Table:
+    def get_campaigns(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing campaigns.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaigns information as table.
+
         """
         if params is None:
             params = {}
@@ -254,17 +275,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_campaign(
-        self, campaign_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, campaign_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific campaign.
+
         Args:
             campaign_id:
                 The id of the campaign to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Campaign information.
+
         """
         if params is None:
             params = {}
@@ -275,14 +299,17 @@ class NewmodeV1:
             logging.warning("Empty campaign returned")
             return None
 
-    def get_organizations(self, params: Optional[dict[str, Any]] = None) -> Table:
+    def get_organizations(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing organizations.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organizations information as table.
+
         """
         if params is None:
             params = {}
@@ -294,17 +321,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_organization(
-        self, organization_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, organization_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific organization.
+
         Args:
             organization_id:
                 The id of the organization to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Organization information.
+
         """
         if params is None:
             params = {}
@@ -315,14 +345,17 @@ class NewmodeV1:
             logging.warning("Empty organization returned")
             return None
 
-    def get_services(self, params: Optional[dict[str, Any]] = None) -> Table:
+    def get_services(self, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing services.
+
         Args:
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Services information as table.
+
         """
         if params is None:
             params = {}
@@ -334,17 +367,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_service(
-        self, service_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, service_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific service.
+
         Args:
             service_id:
                 The id of the service to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Service information.
+
         """
         if params is None:
             params = {}
@@ -355,18 +391,19 @@ class NewmodeV1:
             logging.warning("Empty service returned")
             return None
 
-    def get_outreaches(
-        self, tool_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Table:
+    def get_outreaches(self, tool_id: int | str, params: dict[str, Any] | None = None) -> Table:
         """
         Get existing outreaches for a given tool.
+
         Args:
             tool_id:
                 Tool to return outreaches.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreaches information as table.
+
         """
         if params is None:
             params = {}
@@ -378,17 +415,20 @@ class NewmodeV1:
             return self.convert_to_table([])
 
     def get_outreach(
-        self, outreach_id: Union[int, str], params: Optional[dict[str, Any]] = None
-    ) -> Optional[dict[str, Any]]:
+        self, outreach_id: int | str, params: dict[str, Any] | None = None
+    ) -> dict[str, Any] | None:
         """
         Get specific outreach.
+
         Args:
             outreach_id:
                 The id of the outreach to return.
             params:
                 Extra parameters sent to New/Mode library.
+
         Returns:
             Outreach information.
+
         """
         if params is None:
             params = {}
@@ -404,13 +444,13 @@ class NewmodeV2:
     # TODO: Add param definition and requirements once official Newmode docs are published
     def __init__(
         self,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
         api_version: str = "v2.1",
     ):
         """
         Instantiate Class
-        `Args`:
+        Args:
             client_id: str
                 The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
                 env variable set.
@@ -452,9 +492,7 @@ class NewmodeV2:
             grant_type="client_credentials",
         )
 
-    def checked_response(
-        self, response: Any, client: OAuth2APIConnector
-    ) -> Optional[dict[str, Any]]:
+    def checked_response(self, response: Any, client: OAuth2APIConnector) -> dict[str, Any] | None:
         response.raise_for_status()
         success_codes = [200, 201, 202, 204]
         client.validate_response(response)
@@ -472,10 +510,10 @@ class NewmodeV2:
         url: str,
         retries: int = 2,
         use_campaigns_client: bool = False,
-        data: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-        params: Optional[dict[str, Any]] = None,
-    ) -> Optional[Union[dict[str, Any], None]]:
+        data: dict[str, Any] | None = None,
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
+    ) -> dict[str, Any] | None | None:
         """
         Internal method to instantiate OAuth2APIConnector class,
         make a single call to Newmode API, and validate the response.
@@ -516,16 +554,14 @@ class NewmodeV2:
         endpoint: str,
         use_campaigns_client: bool = False,
         data_key: str = RESPONSE_DATA_KEY,
-        data: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-        params: Optional[dict[str, Any]] = None,
+        data: dict[str, Any] | None = None,
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
         supports_version: bool = True,
-        override_api_version: Optional[str] = None,
+        override_api_version: str | None = None,
         retries: int = 2,
     ) -> list[dict[str, Any]]:
-        """
-        Wrapper method to handle pagination for API requests.
-        """
+        """Wrapper method to handle pagination for API requests."""
         if params is None:
             params = {}
         results = []
@@ -563,14 +599,14 @@ class NewmodeV2:
         method: str,
         retries: int = 2,
         supports_version: bool = True,
-        data: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-        params: Optional[dict[str, Any]] = None,
+        data: dict[str, Any] | None = None,
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
         convert_to_table: bool = True,
-        data_key: Optional[str] = None,
+        data_key: str | None = None,
         use_campaigns_client: bool = False,
-        override_api_version: Optional[str] = None,
-    ) -> Union[Table, dict[str, Any]]:
+        override_api_version: str | None = None,
+    ) -> Table | dict[str, Any]:
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
 
         if params is None:
@@ -597,19 +633,22 @@ class NewmodeV2:
         self,
         campaign_id: str,
         retries: int = 2,
-        params: Optional[dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
     ) -> Table:
         """
         Retrieve a specific campaign by ID.
 
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing campaign data.
+
         """
         if params is None:
             params = {}
@@ -622,18 +661,21 @@ class NewmodeV2:
     def get_campaign_ids(
         self,
         retries: int = 2,
-        params: Optional[dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
     ) -> list[str]:
         """
         Retrieve all campaigns
         In v2, a campaign is equivalent to Tools or Actions in V1.
-        `Args:`
+
+        Args:
             organization_id: str
                 ID of organization
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             List containing all campaign ids.
+
         """
         if params is None:
             params = {}
@@ -653,16 +695,17 @@ class NewmodeV2:
     def get_recipient(
         self,
         campaign_id: str,
-        street_address: Optional[str] = None,
-        city: Optional[str] = None,
-        postal_code: Optional[str] = None,
-        region: Optional[str] = None,
-        params: Optional[dict[str, Any]] = None,
-        retries: int = None,
+        street_address: str | None = None,
+        city: str | None = None,
+        postal_code: str | None = None,
+        region: str | None = None,
+        params: dict[str, Any] | None = None,
+        retries: int | None = None,
     ) -> Table:
         """
         Retrieve a specific recipient by ID
-        `Args:`
+
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             street_address: str
@@ -675,8 +718,10 @@ class NewmodeV2:
                 Region (i.e. state/province abbreviation) of recipient
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing recipient data.
+
         """
         if params is None:
             params = {}
@@ -702,9 +747,9 @@ class NewmodeV2:
         self,
         campaign_id: str,
         retries: int = 2,
-        json: Optional[dict[str, Any]] = None,
-        data: Optional[dict[str, Any]] = None,
-        params: Optional[dict[str, Any]] = None,
+        json: dict[str, Any] | None = None,
+        data: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """
         Pass a submission from a supporter to a campaign
@@ -712,13 +757,15 @@ class NewmodeV2:
         sends an email or triggers a phone call
         depending on your campaign type
 
-        `Args:`
+        Args:
             campaign_id: str
                 The ID of the campaign to retrieve.
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing submit data.
+
         """
 
         if params is None:
@@ -738,18 +785,20 @@ class NewmodeV2:
         self,
         campaign_id: str,
         retries: int = 2,
-        params: Optional[dict[str, Any]] = None,
+        params: dict[str, Any] | None = None,
     ) -> Table:
         """
         Retrieve and sort submissions and contact data
         for a specified campaign using a range of filters
         that include campaign id, data range and submission status
 
-        `Args:`
+        Args:
             params: dict
                 Query parameters to include in the request.
-        `Returns:`
+
+        Returns:
             Parsons Table containing submit data.
+
         """
         if params is None:
             params = {}
@@ -767,16 +816,16 @@ class NewmodeV2:
 class Newmode:
     def __new__(
         cls,
-        client_id: Optional[str] = None,
-        client_secret: Optional[str] = None,
-        api_user: Optional[str] = None,
-        api_password: Optional[str] = None,
+        client_id: str | None = None,
+        client_secret: str | None = None,
+        api_user: str | None = None,
+        api_password: str | None = None,
         api_version: str = "v1.0",
-    ) -> Union[NewmodeV1, NewmodeV2]:
+    ) -> NewmodeV1 | NewmodeV2:
         """
         Create and return Newmode instance based on chosen version (V1 or V2)
 
-        `Args`:
+        Args:
             api_user: str
                 The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
                 passed. Needed for V1.
@@ -794,6 +843,7 @@ class Newmode:
 
         Returns:
             NewMode Class
+
         """
         api_version = check_env.check("NEWMODE_API_VERSION", api_version)
         if api_version.startswith("v2"):

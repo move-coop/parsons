@@ -3,8 +3,8 @@ from unittest import TestCase
 import requests_mock
 
 from parsons import Controlshift
+from test.conftest import mark_live_test, validate_list
 from test.test_controlshift import test_cs_data as test_data  # type: ignore
-from test.utils import mark_live_test, validate_list
 
 
 @mark_live_test

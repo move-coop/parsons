@@ -1,4 +1,3 @@
-import os
 import time
 import unittest
 
@@ -6,10 +5,10 @@ import gspread
 import pytest
 
 from parsons import GoogleSheets, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables, mark_live_test
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@mark_live_test
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
         self.google_sheets = GoogleSheets()
@@ -45,7 +44,7 @@ class TestGoogleSheets(unittest.TestCase):
 
     def test_read_nonexistent_worksheet(self):
         bogus_title = "abc123"
-        with pytest.raises(gspread.exceptions.APIError):  # noqa: PT011
+        with pytest.raises(gspread.exceptions.APIError):
             self.google_sheets.read_sheet(bogus_title)
 
     def test_create_spreadsheet(self):

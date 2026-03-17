@@ -1,0 +1,43 @@
+name: Label Check
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+
+permissions: read-all
+
+jobs:
+  label-check:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: read
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Check for required labels
+        env:
+          LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        run: |
+          HAS_BREAKING=$(echo "$LABELS" | jq 'map(select(. == "breaking-change")) | length')
+          HAS_NON_BREAKING=$(echo "$LABELS" | jq 'map(select(. == "non-breaking-change")) | length')
+
+          if [ "$HAS_BREAKING" -gt 0 ] && [ "$HAS_NON_BREAKING" -gt 0 ]; then
+            echo "::error::PR has both 'breaking-change' and 'non-breaking-change' labels. Please remove one — a change cannot be both."
+            exit 1
+          fi
+
+          if [ "$HAS_BREAKING" -eq 0 ] && [ "$HAS_NON_BREAKING" -eq 0 ]; then
+            echo "::error::PR is missing a required label. Please add exactly one of: 'breaking-change' or 'non-breaking-change'."
+            exit 1
+          fi
+
+          echo "✅ Label check passed."

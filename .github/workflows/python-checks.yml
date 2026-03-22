@@ -72,15 +72,6 @@ jobs:
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - if: matrix.resolution != 'limited-dependencies'
-        run: >-
-          uv sync
-          --upgrade
-          --no-default-groups
-          --group test-coverage
-          --all-extras
-          --resolution ${{ matrix.resolution }}
-
       - env:
           UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
           PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}

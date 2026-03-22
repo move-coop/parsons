@@ -1,7 +1,7 @@
 azure-storage-blob==12.27.1
 boto3>=1.17.98
 boxsdk==4.3.0
-braintree==4.41.0
+braintree==4.42.0
 bs4==0.0.2
 censusgeocode~=0.5.3
 civis==2.7.1
@@ -14,7 +14,7 @@ google-api-core==2.30.0
 google-api-python-client==2.190.0
 google-auth==2.49.1
 google-cloud-bigquery==3.40.1
-google-cloud-storage-transfer==1.18.0
+google-cloud-storage-transfer==1.19.0
 google-cloud-storage==3.7.0
 grpcio==1.76.0
 gspread==6.2.1
@@ -35,7 +35,7 @@ requests-oauthlib==2.0.0
 requests-toolbelt>=1.0.0
 setuptools==80.10.2
 simple-salesforce==1.12.9
-simplejson==3.20.1
+simplejson==3.20.2
 slack-sdk==3.38.0
 sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0 # Prefect does not work with 1.4.33 and >=2.0.0 has breaking changes
 sshtunnel==0.4.0

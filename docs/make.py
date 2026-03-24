@@ -90,10 +90,15 @@ def build_docs():
     logger.info("Building multiversion documentation...")
     run_command(["sphinx-multiversion", str(SOURCEDIR), str(HTMLDIR)])
 
-    redirect_src = SOURCEDIR / "index-redirect.html"
-    if redirect_src.exists():
-        shutil.copy2(redirect_src, HTMLDIR / "index.html")
+    src_redirect = SOURCEDIR / "index-redirect.html"
+    if src_redirect.exists():
+        shutil.copy2(src_redirect, HTMLDIR / "index.html")
         logger.info("Static redirect applied to root index.")
+
+    src_404 = SOURCEDIR / "404.html"
+    if src_404.exists():
+        shutil.copy2(src_404, HTMLDIR / "404.html")
+        logger.info("404 page added to root.")
 
 
 def clean():

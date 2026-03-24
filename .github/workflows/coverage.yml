@@ -31,7 +31,7 @@ jobs:
         steps:
             # DO NOT run actions/checkout here, for security reasons
             # For details, refer to https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
-            - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+            - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
               with:
                 disable-sudo: false
                 egress-policy: audit

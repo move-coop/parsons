@@ -6,7 +6,7 @@
 .. image:: /_static/parsons_logo.png
    :width: 250px
    :height: 250px
-   :alt: Parsons logo
+   :alt: Parsons logo of a large letter 'P' with a jigsaw puzzle piece cutout, enclosed within a black circular border that resembles a gear or cog
    :align: center
 
 About

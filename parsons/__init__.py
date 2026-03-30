@@ -113,4 +113,4 @@ for module_path, connector_name in (
         globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
         __all__.append(connector_name)
     except ImportError as e:
-        logger.error(f"Could not import {module_path}.{connector_name} with {e}; skipping")
+        logger.debug(f"Could not import {module_path}.{connector_name} with {e}; skipping")

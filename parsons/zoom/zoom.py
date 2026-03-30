@@ -782,57 +782,6 @@ class ZoomV2(ZoomV1):
         logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
         return tbl
 
-    def get_upcoming_meeting_occurrences(self, meeting_id: int) -> Table:
-        """
-        Get past meeting occurrences for a given meeting ID.
-
-        Args:
-            meeting_id: int
-                The meeting id
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-        tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
-        tbl.add_column(column="meeting_id", value=meeting_id)
-        logger.info(f"Retrieved {tbl.num_rows} webinar occurrences.")
-        return tbl
-
-    def get_meeting(
-        self,
-        meeting_id: int,
-        occurrence_id: str = None,
-        show_previous_occurrences: bool = True,
-    ) -> Table:
-        """
-        Get information about a single meeting.
-
-        Args:
-            meeting_id: int
-                Unique identifier for Zoom meeting
-            occurrence_id: str
-                Meeting occurrence ID. Provide this field to view meeting
-                details of a particular occurrence of the recurring meeting.
-            show_previous_occurrences: bool
-                Set this field's value to true to view meeting details of
-                all previous occurrences of a recurring meeting.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
-        endpoint = f"meetings/{meeting_id}"
-        params = {
-            "occurrence_id": occurrence_id,
-            "show_previous_occurrences": show_previous_occurrences,
-        }
-        tbl = self._get_request(endpoint=endpoint, params=params, data_key=None)
-        logger.info(f"Retrieved {tbl.num_rows} for [meeting {meeting_id}]")
-        return tbl
-
     def get_meeting_poll(self, meeting_id: int, poll_id: str) -> Table:
         """
         Get information about a single poll for a given meeting ID.
@@ -850,7 +799,7 @@ class ZoomV2(ZoomV1):
 
         """
 
-        endpoint = f"meetings/{meeting_id}"
+        endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
         return tbl

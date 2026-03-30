@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
         with:
           disable-sudo: true
           egress-policy: block
@@ -40,7 +40,7 @@ jobs:
           # If it's a pull request, don't get full history.
           fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
 
-      - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
         with:
           python-version: 3.13
           activate-environment: true
@@ -92,7 +92,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: step-security/harden-runner@58077d3c7e43986b6b15fba718e8ea69e387dfcc
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
         with:
           disable-sudo: true
           egress-policy: block

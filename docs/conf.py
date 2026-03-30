@@ -31,6 +31,7 @@ autodoc_member_order = "bysource"
 html_theme = "furo"
 html_static_path = ["_static"]
 googleanalytics_id = "G-L2YB7WHTRG"
+html_favicon = "_static/favicon.ico"
 
 html_sidebars = {
     "**": [

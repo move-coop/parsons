@@ -14,7 +14,7 @@ EXTRA_DEPENDENCIES = {
     "alchemer": ["surveygizmo >= 1"],
     "avro": ["fastavro >= 1.12"],
     "azure": ["azure-storage-blob >= 12"],
-    "box": ["boxsdk[jwt] >= 4, < 10", "requests-toolbelt >= 1"],
+    "box": ["boxsdk[jwt] >= 4, < 4.4.0, < 10", "requests-toolbelt >= 1"],
     "braintree": ["braintree >= 4"],
     "catalist": ["paramiko >= 3"],
     "civis": ["civis >= 2"],

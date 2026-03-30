@@ -832,7 +832,7 @@ class ZoomV2(ZoomV1):
     def get_meeting(
         self,
         meeting_id: int,
-        occurrence_id: str,
+        occurrence_id: str = None,
         show_previous_occurrences: bool = True,
     ) -> Table:
         """
@@ -859,10 +859,8 @@ class ZoomV2(ZoomV1):
             "occurrence_id": occurrence_id,
             "show_previous_occurrences": show_previous_occurrences,
         }
-        tbl = self._get_request(endpoint=endpoint, params=params)
-        logger.info(
-            f"Retrieved {tbl.num_rows} for [meeting {meeting_id}]"
-        )
+        tbl = self._get_request(endpoint=endpoint, params=params, data_key=None)
+        logger.info(f"Retrieved {tbl.num_rows} for [meeting {meeting_id}]")
         return tbl
 
     def get_meeting_poll(self, meeting_id: int, poll_id: str) -> Table:

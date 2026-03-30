@@ -9,7 +9,8 @@ from pathlib import Path
 import pytest
 from boxsdk.exception import BoxAPIException, BoxOAuthException
 
-from parsons import Box, Table
+from parsons.box import Box
+from parsons.etl import Table
 from test.conftest import mark_live_test
 
 """Prior to running, you should ensure that the relevant environment

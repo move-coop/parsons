@@ -717,7 +717,7 @@ class ETL:
                 orig.add_column(
                     "uid",
                     lambda row: hashlib.md5(
-                        str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                        str.encode("".join(str(x) for x in row)), usedforsecurity=False
                     ).hexdigest(),
                 )
                 orig.move_column("uid", 0)
@@ -734,7 +734,7 @@ class ETL:
             melted_list.add_column(
                 "uid",
                 lambda row: hashlib.md5(
-                    str.encode("".join([str(x) for x in row])), usedforsecurity=False
+                    str.encode("".join(str(x) for x in row)), usedforsecurity=False
                 ).hexdigest(),
             )
             melted_list.move_column("uid", 0)
@@ -1110,7 +1110,7 @@ class ETL:
         return self
 
     def reduce_rows(self, columns, reduce_func, headers, presorted=False, **kwargs):
-        """
+        r"""
         Group rows by a column or columns, then reduce the groups to a single row.
 
         For example, the output from the query to get a table's definition is
@@ -1134,16 +1134,16 @@ class ETL:
             +--------------+--------------+----------------------------------------------------+
             | 'db_scratch' | 'state_fips' | '('                                                |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'               |
+            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'               |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'             |
+            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'             |
             +--------------+--------------+----------------------------------------------------+
 
         .. code-block:: python
 
-            reducer_fn = lambda columns, rows: [
-                f"{columns[0]}.{columns[1]}",
-                r"\\n".join([row[2] for row in rows])
+            reducer_fn = lambda cols, rows: [
+                f"{cols[0]}.{cols[1]}",
+                r"\n".join([row[2] for row in rows])
             ]
             ddl.reduce_rows(
                 ['schemaname', 'tablename'],
@@ -1157,12 +1157,12 @@ class ETL:
             +-------------------------+-----------------------------------------------------------------------+
             | tablename               | ddl                                                                   |
             +=========================+=======================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS      |
-            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t      |
-            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW         |
-            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name                 |
-            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
-            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                            |
+            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS      |
+            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t      |
+            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW         |
+            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name                 |
+            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE         |
+            |                         | RAW\n)\nDISTSTYLE EVEN\n;'                                            |
             +-------------------------+-----------------------------------------------------------------------+
 
         Args:

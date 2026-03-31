@@ -15,7 +15,11 @@ DOMAIN = "fakedomain.auth0.com"
 
 class TestAuth0(unittest.TestCase):
     def setUp(self):
-        self.auth0 = Auth0(CLIENT_ID, CLIENT_SECRET, DOMAIN)
+        with requests_mock.Mocker() as m:
+            m.post(f"https://{DOMAIN}/oauth/token", json={"access_token": "fake_token"})
+
+            self.auth0 = Auth0(CLIENT_ID, CLIENT_SECRET, DOMAIN)
+
         self.fake_upsert_person = {
             "email": "fakeemail@fakedomain.com",
             "given_name": "Fakey",

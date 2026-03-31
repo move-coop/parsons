@@ -252,13 +252,13 @@ class Sqlite(DatabaseConnector):
         insert_sql = "INSERT INTO {} ({}) VALUES ({});".format(
             table_name,
             ", ".join(tbl.columns),
-            ", ".join(["?" for _ in tbl.columns]),
+            ", ".join("?" for _ in tbl.columns),
         )
         with self.connection() as connection, self.cursor(connection) as cursor:
             for chunked_tbl in chunked_tbls:
                 cursor.executemany(
                     insert_sql,
-                    tuple([tuple(row.values()) for row in chunked_tbl]),
+                    tuple(tuple(row.values()) for row in chunked_tbl),
                 )
 
     def _cli_command(self, command: str) -> None:

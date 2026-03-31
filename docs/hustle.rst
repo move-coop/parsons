@@ -58,4 +58,3 @@ API
 .. autoclass:: parsons.hustle.hustle.Hustle
    :inherited-members:
    :members:
-   

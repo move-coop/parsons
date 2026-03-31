@@ -1,0 +1,101 @@
+name: Documentation CI/CD
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - major-release
+
+permissions: read-all
+
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/requirements*.txt
+    **/setup.py
+    **/uv.lock
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    releases.astral.sh
+    files.pythonhosted.org:443
+    *.github.com:443
+    *.githubusercontent.com:443
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          # If it's a pull request, don't get full history.
+          fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
+
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
+
+      - name: configure git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        with:
+          path: docs/html
+          key: >-
+            uv run
+            sphinx
+            -${{ hashFiles('pyproject.toml') }}
+            -${{ hashFiles('setup.py') }}
+            -${{ hashFiles('requirements-dev.txt') }}
+            -${{ hashFiles('docs/make.py') }}
+            -${{ hashFiles('docs/conf.py') }}
+
+      - run: make build_docs
+        working-directory: docs
+
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: docs/html/
+
+  deploy:
+    needs: build
+    # Don't run this job on pull requests
+    if: github.event_name != 'pull_request'
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

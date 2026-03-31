@@ -44,7 +44,3 @@ class TestSqlite(unittest.TestCase):
         self.sqlite.copy(self.tbl, "tbl1", if_exists="truncate")
         row_count = self.sqlite.query("select count(*) as count from tbl1")
         assert row_count[0]["count"] == 3
-
-
-if __name__ == "__main__":
-    unittest.main()

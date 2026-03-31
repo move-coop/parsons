@@ -60,4 +60,3 @@ API
 .. autoclass:: parsons.braintree.braintree.Braintree
    :inherited-members:
    :members:
-   

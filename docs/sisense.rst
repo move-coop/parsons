@@ -59,4 +59,3 @@ API
 .. autoclass:: parsons.sisense.sisense.Sisense
    :inherited-members:
    :members:
-   

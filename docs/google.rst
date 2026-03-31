@@ -422,4 +422,3 @@ API
 .. autoclass:: parsons.google.google_sheets.GoogleSheets
    :inherited-members:
    :members:
-   

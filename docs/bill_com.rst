@@ -52,4 +52,3 @@ API
 .. autoclass:: parsons.bill_com.bill_com.BillCom
    :inherited-members:
    :members:
-   

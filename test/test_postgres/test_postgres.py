@@ -142,7 +142,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
 
         # Assert that an error is raised by an empty table
         empty_table = Table([["Col_1", "Col_2"]])
-        with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):  # noqa: PT011
+        with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):
             self.pg.create_statement(empty_table, "tmc.test")
 
 
@@ -242,7 +242,3 @@ class TestPostgresDB(unittest.TestCase):
         self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy", if_exists="drop")
         out_tbl = self.tbl.from_postgres(f"SELECT * FROM {self.temp_schema}.test_copy")
         assert_matching_tables(out_tbl, tbl)
-
-
-if __name__ == "__main__":
-    unittest.main()

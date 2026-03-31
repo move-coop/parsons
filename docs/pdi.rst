@@ -49,4 +49,3 @@ PDI Class
 .. autoclass:: parsons.pdi.pdi.PDI
    :inherited-members:
    :members:
-   

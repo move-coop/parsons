@@ -62,7 +62,7 @@ class TestMobileCommons(unittest.TestCase):
             status_code=get_profiles_response.status_code,
             text=get_profiles_response.text,
         )
-        profiles = self.mc.get_profiles(limit=1000)
+        profiles = self.mc.get_profiles(limit=200)
         assert isinstance(profiles, Table), (
             "MobileCommons.get_profiles method did not return a parsons Table"
         )

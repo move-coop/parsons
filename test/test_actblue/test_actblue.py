@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 import requests_mock
@@ -71,7 +71,8 @@ class TestActBlue(unittest.TestCase):
             ],
         )
 
-        assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
+        with patch("time.sleep", return_value=None):
+            assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
     @requests_mock.Mocker()
     def test_successful_get_contributions(self, m):

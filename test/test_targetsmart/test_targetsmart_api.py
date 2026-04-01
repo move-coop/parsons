@@ -20,7 +20,7 @@ def ts_api():
     return TargetSmartAPI(api_key="FAKEKEY")
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def output_list():
     return [
         {
@@ -46,12 +46,12 @@ def output_list():
     ]
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def expected_data_enhance_keys(output_list):
     return output_list[0].keys()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def expected_radius_keys():
     return [
         "similarity_score",

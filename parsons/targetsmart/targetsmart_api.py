@@ -257,7 +257,7 @@ class Person:
         if not isinstance(vanid, int) and not isinstance(vanid, str):
             raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
 
-        vanid = int(vanid)
+        vanid = int(str(vanid).replace(",", ""))
         if vanid < 0:
             raise ValueError(f"vanid must be a non-negative number. Got {vanid}")
 

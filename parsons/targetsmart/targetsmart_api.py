@@ -456,11 +456,11 @@ class Voter:
                 Optional; The person's home city
             zip_code: str
                 Optional; Numeric characters. Trailing wildcard allowed
-            age; int
+            age: int
                 Optional; One or more integers. Trailing wildcard allowed
-            dob; str
+            dob: str
                 Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed
-            phone; str
+            phone: str
                 Optional; Integer followed by 0 or more * or integers
             email: str
                 Optional; Alphanumeric character followed by 0 or more * or legal characters

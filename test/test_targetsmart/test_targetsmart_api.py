@@ -246,8 +246,9 @@ def test_phone(ts_api, requests_mock):
 @pytest.mark.parametrize(
     ("vanid", "expected_url"),
     [
+        (5, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID5F"),
+        (29, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD1M"),
         (55895, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID75ADQ"),
-        (55901, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD5ADF"),
         ("337052", "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K"),
         ("337,052", "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K"),
     ],
@@ -260,8 +261,8 @@ def test_get_ngp_url_from_vanid(ts_api, vanid: int | str, expected_url: str) -> 
 @pytest.mark.parametrize(
     ("url", "expected_vanid"),
     [
-        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID75ADQ", 55895),
-        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD5ADF", 55901),
+        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID5F", 5),
+        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD1M", 29),
         ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K", 337052),
     ],
 )

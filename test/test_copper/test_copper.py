@@ -3,6 +3,7 @@ import logging
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import requests_mock
 
@@ -383,10 +384,14 @@ class TestCopper(unittest.TestCase):
             headers={"filename": "people_search.txt"},
         )
 
-        # self.assertTrue(
+        with patch("time.sleep", return_value=None):
+            paginated_table = self.cp.paginate_request(
+                "/people/search", page_size=1, req_type="POST"
+            )
+
         assert_matching_tables(
             Table(self.blob),
-            Table(self.cp.paginate_request("/people/search", page_size=1, req_type="POST")),
+            Table(paginated_table),
         )
 
     def test_process_json(self):

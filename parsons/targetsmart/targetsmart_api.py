@@ -37,8 +37,8 @@ class TargetSmartConnector:
 
 
 class Person:
-    def __init__(self):
-        return None
+    def __init__(self, connection):
+        self.connection = connection
 
     def data_enhance(
         self,
@@ -331,8 +331,8 @@ class Person:
 
 
 class Service:
-    def __init__(self):
-        return None
+    def __init__(self, connection):
+        self.connection = connection
 
     def district(
         self,

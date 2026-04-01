@@ -498,3 +498,4 @@ class Voter:
 class TargetSmartAPI(Voter, Person, Service, SmartMatch):
     def __init__(self, api_key=None):
         self.connection = TargetSmartConnector(api_key=api_key)
+        super().__init__(self.connection)

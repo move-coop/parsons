@@ -6,6 +6,7 @@ https://docs.targetsmart.com/developers/tsapis/v2/index.html
 
 import logging
 from typing import Literal
+from urllib.parse import parse_qs, urlparse
 
 import petl
 import requests
@@ -238,6 +239,95 @@ class Person:
         args = {"phones": list(petl.values(table.table, 0))}
 
         return Table(self.connection.request(url, args=args, raw=True)["result"])
+
+    @staticmethod
+    def get_ngp_url_from_vanid(vanid: int | str) -> str:
+        """
+        Translates a numeric VAN ID to the URL for the associated profile page in NGP.
+
+        Args:
+            vanid: str
+                The VANID of the primary contact record.
+
+        Returns:
+            str: The profile page in NGP associated with the provided VAN ID.
+
+        Raises:
+            TypeError: If the input is not an integer or string.
+            ValueError: If the input is a negative number.
+
+        """
+
+        if not isinstance(vanid, int) and not isinstance(vanid, str):
+            raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
+
+        vanid = int(vanid)
+        if vanid < 0:
+            raise ValueError(f"vanid must be a non-negative number. Got {vanid}")
+
+        # Convert to hex (removing the '0x' prefix) and uppercase
+        in_hex = hex(vanid)[2:].upper()
+
+        # Reverse the hex string
+        in_hex_rev = in_hex[::-1]
+
+        # Get the suffix character
+        suffix_chars = "ABCDEFGHIJKLMNOPQ"
+        suffix = suffix_chars[vanid % 17]
+
+        return f"https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID{in_hex_rev}{suffix}"
+
+    @staticmethod
+    def get_vanid_from_ngp_url(profile_url: str) -> int:
+        """
+        Translates a profile page in NGP to the associated numeric VAN ID.
+
+        Args:
+            profile_url: str
+                The url of a profile page in NGP.
+
+        Returns:
+            int: The VAN ID of the primary contact record.
+
+        Raises:
+            TypeError: If the input is not a string.
+            ValueError: If the URL is invalid, missing parameters, or fails checksum.
+
+        """
+
+        if not isinstance(profile_url, str):
+            raise TypeError(f"url must be a string. Got {type(profile_url).__name__}")
+
+        parsed_url = urlparse(profile_url)
+        params = parse_qs(parsed_url.query)
+        if "VANID" not in params:
+            raise ValueError(f"Missing VAN ID parameter in URL: {profile_url}")
+
+        vanid_param_list = params.get("VANID")
+        if not vanid_param_list:
+            raise ValueError(f"Invalid VAN ID URL: VANID parameter missing: {profile_url}")
+
+        vanid_param = vanid_param_list[0]
+        if not vanid_param.startswith("EID"):
+            raise ValueError(
+                f"Invalid VAN ID URL: VANID parameter must start with 'EID': {profile_url}"
+            )
+
+        vanid_part = vanid_param[3:]  # Remove 'EID'
+        suffix = vanid_part[-1]  # Get last character
+        inhexrev = vanid_part[:-1]  # Get everything except last character
+        inhex = inhexrev[::-1]  # Reverse the hex string
+        try:
+            vanid = int(inhex, 16)
+        except ValueError as e:
+            raise ValueError(f"Invalid VAN ID URL: hex conversion failed: {inhex}") from e
+
+        # Checksum validation
+        checksum_chars = "ABCDEFGHIJKLMNOPQ"
+        if checksum_chars[vanid % 17] != suffix:
+            raise ValueError(f"Invalid VAN ID URL: checksum failed: {vanid_part}")
+
+        return vanid
 
 
 class Service:

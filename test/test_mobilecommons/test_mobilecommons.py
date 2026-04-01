@@ -50,7 +50,7 @@ class TestMobileCommons(unittest.TestCase):
             endpoint=DEFAULT_GET_ENDPOINT,
             first_data_key=DEFAULT_FIRST_KEY,
             second_data_key=DEFAULT_SECOND_KEY,
-            limit=10,
+            limit=200,
         )
         assert isinstance(parsed_get_response_text, Table), (
             "MobileCommons.mc_get_request does output parsons table"
@@ -78,7 +78,7 @@ class TestMobileCommons(unittest.TestCase):
             status_code=get_broadcasts_response.status_code,
             text=get_broadcasts_response.text,
         )
-        broadcasts = self.mc.get_broadcasts(limit=1000)
+        broadcasts = self.mc.get_broadcasts(limit=200)
         assert isinstance(broadcasts, Table), (
             "MobileCommons.get_broadcasts method did not return a parsons Table"
         )

@@ -188,10 +188,6 @@ class Person:
         if not last_name:
             raise ValueError("Last name is required")
 
-        # Convert booleans
-        for a in [last_name_exact, last_name_is_prefix]:
-            a = str(a)
-
         url = self.connection.uri + "person/radius-search"
 
         args = {

@@ -97,18 +97,20 @@ def setup_dbt_files(proj_dir: Path, prof_dir: Path, adapter_type: str, adapter_p
     ids=[
         "duckdb",
     ],
+    scope="session",
 )
-def dbt_env(request, tmp_path: Path) -> tuple[Path, Path]:
+def dbt_env(request, tmp_path_factory) -> tuple[Path, Path]:
     """Parameterized fixture that sets up a dbt environment for each adapter."""
     config = request.param
     adapter_type = config["type"]
     adapter_path = config["path"]
 
-    # Unique directories per adapter to avoid collision
-    proj_dir = tmp_path / f"project_{adapter_type}"
-    prof_dir = tmp_path / f"profiles_{adapter_type}"
-    proj_dir.mkdir(parents=True)
-    prof_dir.mkdir(parents=True)
+    base_temp = tmp_path_factory.mktemp(f"dbt_session_{adapter_type}")
+    proj_dir = base_temp / "project"
+    proj_dir.mkdir()
+
+    prof_dir = base_temp / "profiles"
+    prof_dir.mkdir()
 
     setup_dbt_files(proj_dir, prof_dir, adapter_type, adapter_path)
 

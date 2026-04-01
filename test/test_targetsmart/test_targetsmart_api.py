@@ -241,3 +241,30 @@ def test_phone(ts_api, requests_mock):
     """Test phone"""
     requests_mock.get(ts_api.connection.uri + "person/phone-search", json=phone_response)
     assert validate_list(phone_expected, ts_api.phone(Table([{"phone": 4435705355}])))
+
+
+@pytest.mark.parametrize(
+    ("vanid", "expected_url"),
+    [
+        (55895, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID75ADQ"),
+        (55901, "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD5ADF"),
+        ("337052", "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K"),
+        ("337,052", "https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K"),
+    ],
+)
+def test_get_ngp_url_from_vanid(ts_api, vanid: int | str, expected_url: str) -> None:
+    targetsmart_url = ts_api.get_ngp_url_from_vanid(vanid)
+    assert targetsmart_url == expected_url
+
+
+@pytest.mark.parametrize(
+    ("url", "expected_vanid"),
+    [
+        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID75ADQ", 55895),
+        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDD5ADF", 55901),
+        ("https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EIDC9425K", 337052),
+    ],
+)
+def test_get_vanid_from_ngp_url(ts_api, url: str, expected_vanid: int | str) -> None:
+    vanid = ts_api.get_vanid_from_ngp_url(url)
+    assert vanid == expected_vanid

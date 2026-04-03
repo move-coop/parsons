@@ -7,8 +7,9 @@ on:
 permissions: read-all
 
 jobs:
-  label-check:
+  ensure-label-present:
     if: github.actor != 'dependabot[bot]'
+
     runs-on: ubuntu-latest
 
     permissions:

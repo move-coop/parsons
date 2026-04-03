@@ -73,7 +73,10 @@ def test_list_repo_issues(github_client, requests_mock, get_repo_response_text):
     assert issues_table[0]["id"] == 1
     assert issues_table[0]["title"] == "Found a bug"
 
-def test_download_file_explicit_path(github_client, requests_mock, get_repo_response_text, tmp_path):
+
+def test_download_file_explicit_path(
+    github_client, requests_mock, get_repo_response_text, tmp_path
+):
     requests_mock.get(
         "https://api.github.com:443/repos/octocat/Hello-World",
         text=get_repo_response_text,
@@ -83,16 +86,15 @@ def test_download_file_explicit_path(github_client, requests_mock, get_repo_resp
         text=(_dir / "test_data" / "test_download_file.csv").read_text(),
     )
 
-    tmp_file = (tmp_path / "tmp_data.csv")
+    tmp_file = tmp_path / "tmp_data.csv"
     _ = github_client.download_file("octocat/Hello-World", "data.csv", local_path=str(tmp_file))
     file_contents = tmp_file.read_text()
 
     assert file_contents == "header\ndata\n"
 
+
 @pytest.mark.parametrize(
-    "branch",
-    ["main", "testing", None],
-    ids=["main-branch", "testing-branch", "no-explicit-branch"]
+    "branch", ["main", "testing", None], ids=["main-branch", "testing-branch", "no-explicit-branch"]
 )
 def test_download_file_branches(github_client, requests_mock, get_repo_response_text, branch):
     test_file_text = (_dir / "test_data" / "test_download_file.csv").read_text()
@@ -102,7 +104,7 @@ def test_download_file_branches(github_client, requests_mock, get_repo_response_
         text=get_repo_response_text,
     )
     requests_mock.get(
-        f"https://raw.githubusercontent.com/octocat/Hello-World/{branch or "master"}/data.csv",
+        f"https://raw.githubusercontent.com/octocat/Hello-World/{branch or 'master'}/data.csv",
         text=test_file_text,
     )
 

@@ -16,8 +16,8 @@ def get_repo_response_text() -> str:
 
 
 @pytest.fixture
-def github_client() -> GitHub:
-    return GitHub(access_token="token")
+def github_client(request) -> GitHub:
+    return GitHub()
 
 
 def test_wrap_github_404(github_client):

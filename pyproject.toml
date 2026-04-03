@@ -196,6 +196,7 @@ filterwarnings = [
     "ignore:invalid escape sequence:DeprecationWarning", # typically due to using "/" in docstrings that aren't raw strings
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree causes these as of 2026-04
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree causes these as of 2026-04
+    "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these on older python versions as of 2026-04
 ]
 
 [tool.isort]

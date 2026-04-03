@@ -1,0 +1,23 @@
+documentation:
+- changed-files:
+  - any-glob-to-any-file: ['**/*.md', '**/*.rst', 'docs/**']
+
+dependencies:
+- changed-files:
+  - any-glob-to-any-file: ['setup.py', 'requirements.txt']
+
+testing:
+- changed-files:
+  - any-glob-to-any-file: 'test/**'
+
+docker:
+- changed-files:
+  - any-glob-to-any-file: '**/Dockerfile'
+
+github_actions:
+- changed-files:
+  - any-glob-to-any-file: '.github/workflows/*.yml'
+
+python:
+- changed-files:
+  - any-glob-to-any-file: '**/*.py'

@@ -7,6 +7,27 @@ on:
 permissions: read-all
 
 jobs:
+  label-from-files:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Update labels based on modified files
+        uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b
+        with:
+          sync-labels: true
+
   label-from-checkboxes:
     if: github.actor != 'dependabot[bot]'
 

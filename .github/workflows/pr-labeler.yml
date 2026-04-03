@@ -1,0 +1,58 @@
+name: PR labeler
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  label-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update labels based on checkboxes
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        with:
+          script: |
+            const body = context.payload.pull_request.body;
+            const labelsToAdd = [];
+            const labelsToRemove = [];
+
+            // Define your mapping of checkbox text to label names
+            const options = [
+              { text: 'label: Breaking change', label: 'breaking-change' },
+              { text: 'label: Non-breaking change', label: 'non-breaking-change' }
+            ];
+
+            options.forEach(opt => {
+              // Regex to check if [x] is marked for a specific string
+              const isChecked = new RegExp(`- \\[x\\] ${opt.text}`, 'i').test(body);
+
+              if (isChecked) {
+                labelsToAdd.push(opt.label);
+              } else {
+                labelsToRemove.push(opt.label);
+              }
+            });
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labelsToAdd
+              });
+            }
+
+            // Optional: Logic to remove labels if unchecked
+            for (const label of labelsToRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: label
+                });
+              } catch (e) {
+                // Ignore error if the label wasn't there to begin with
+              }
+            }

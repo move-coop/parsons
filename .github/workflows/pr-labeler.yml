@@ -4,11 +4,17 @@ on:
   pull_request:
     types: [opened, edited, reopened, ready_for_review, synchronize]
 
+permissions: read-all
+
 jobs:
   label-from-checkboxes:
     if: github.actor != 'dependabot[bot]'
 
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2

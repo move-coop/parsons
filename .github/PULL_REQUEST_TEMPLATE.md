@@ -3,10 +3,6 @@
 - (List out the changes.)
 - (Link to any relevant Github issues or Slack discussion.)
 
-## Breaking changes (if needed)
-
-- (List out any changes to the API that may cause breaks for developer implementation.)
-
 ## Considerations for discussion
 
 - (List out any significant design decisions that were made and why.)
@@ -23,3 +19,7 @@ Please select whether this PR introduces breaking changes (`[x]` is selected, `[
 Breaking changes are changes to our public API which may require existing users to change their code.
 - [ ] label: Non-breaking change — This PR does not introduce one or more breaking changes.
 Any existing parsons users should not need to do anything after updating their parsons version.
+
+### Details (if needed)
+
+- (List out any changes to the API that may cause breaks for developer implementation.)

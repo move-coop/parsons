@@ -18,7 +18,7 @@ class TestGitHub(unittest.TestCase):
 
     def test_wrap_github_404(self):
         with patch("github.Github.get_repo") as get_repo_mock:
-            get_repo_mock.side_effect = UnknownObjectException("", "")
+            get_repo_mock.side_effect = UnknownObjectException(404)
             with pytest.raises(ParsonsGitHubError):
                 self.github.get_repo("octocat/Hello-World")
 

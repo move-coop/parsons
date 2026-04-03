@@ -102,7 +102,11 @@ jobs:
 
       - env:
           COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
-        run: pytest --failed-first
+        run: >-
+          pytest
+          --failed-first
+          --cov=parsons
+          --no-cov-on-fail
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:

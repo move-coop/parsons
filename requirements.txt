@@ -33,6 +33,7 @@ python-dateutil==2.9.0.post0
 requests==2.33.0
 requests-oauthlib==2.0.0
 requests-toolbelt>=1.0.0
+rich~=14.3.3
 setuptools==80.10.2
 simple-salesforce==1.12.9
 simplejson==3.20.2

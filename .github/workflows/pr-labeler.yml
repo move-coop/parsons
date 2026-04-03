@@ -2,7 +2,7 @@ name: PR labeler
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, edited, reopened, ready_for_review, synchronize]
 
 jobs:
   label-from-checkboxes:

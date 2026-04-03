@@ -2,7 +2,7 @@ name: PR label checking
 
 on:
   pull_request_target:
-    types: [opened, edited, reopened, ready_for_review, synchronize]
+    types: [opened, edited, reopened, ready_for_review, labeled, unlabeled, synchronize]
 
 permissions: read-all
 

@@ -1,5 +1,6 @@
 import os
 import warnings
+from pathlib import Path
 
 import pytest
 from _pytest.mark import MarkDecorator
@@ -34,9 +35,11 @@ def pytest_addoption(parser) -> None:
     """Add pytest command-line flag `--live` to activate live tests"""
     parser.addoption(
         "--live",
-        action="store_true",
-        default=False,
-        help="run tests requiring authentication and/or network access",
+        action="store",
+        nargs="?",
+        const="all",
+        default="none",
+        help="run tests requiring authentication and/or network access; optionally specify a parsons extra (e.g. --live=box or --live=targetsmart)",
     )
 
 
@@ -55,13 +58,24 @@ def pytest_collection_modifyitems(config, items) -> None:
     the `LIVE_TEST` environment variable is not found.
     """
     accepted_env_values = ("1", "YES", "TRUE", "ON")
-    live_testing_environment = (
-        os.environ.get("LIVE_TEST", "").strip().upper() in accepted_env_values
-    )
-    if config.getoption("--live") or live_testing_environment:
+    live_env = os.environ.get("LIVE_TEST", "").strip().upper() in accepted_env_values
+    live_keyword = config.getoption("--live")
+    if live_keyword == "all" or live_env:
         return
-    skip_slow = pytest.mark.skip(reason="need --live option to run")
-    [item.add_marker(skip_slow) for item in items if "live" in item.keywords]
+
+    skip_all_live = live_keyword == "none"
+    skip_marker = pytest.mark.skip(
+        reason="Live test skipped. Use --live or --live=<name of parsons extra> to run."
+    )
+    allowed_fragment = str(Path("test") / f"test_{live_keyword}")
+    for item in items:
+        if "live" in item.keywords:
+            if skip_all_live:
+                item.add_marker(skip_marker)
+                continue
+            test_path_str = str(item.path)
+            if allowed_fragment not in test_path_str:
+                item.add_marker(skip_marker)
 
 
 #

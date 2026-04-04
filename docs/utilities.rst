@@ -2,6 +2,22 @@
 Utilities
 *********
 
+.. _api-connector:
+
+=============
+API Connector
+=============
+
+.. automodule:: parsons.utilities.api_connector
+
+.. _check-env:
+
+=========
+Check ENV
+=========
+
+.. automodule:: parsons.utilities.check_env
+
 .. _cloud-storage:
 
 =============
@@ -25,6 +41,8 @@ storage arguments:
 
 The file will then be converted to a CSV, compressed and posted to the cloud storage. A presigned url will
 be generated and active by default for 60 minutes, but you can adjust the time.
+
+.. automodule:: parsons.utilities.cloud_storage
 
 **Amazon S3**
 
@@ -70,6 +88,70 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
     * - ``public_url_expire``
       - No
       - Defaults is 60 minutes.
+
+.. _datetime:
+
+========
+Datetime
+========
+
+.. automodule:: parsons.utilities.datetime
+
+.. _files:
+
+=====
+Files
+=====
+
+.. automodule:: parsons.utilities.files
+
+.. _format_phone_number:
+
+===================
+Format Phone Number
+===================
+
+.. automodule:: parsons.utilities.format_phone_number
+
+.. _format_json:
+
+===========
+Format JSON
+===========
+
+.. automodule:: parsons.utilities.json_format
+
+.. _oauth_api_connector:
+
+===================
+OAuth API Connector
+===================
+
+.. automodule:: parsons.utilities.oauth_api_connector
+
+.. _sql_helpers:
+
+===========
+SQL Helpers
+===========
+
+.. automodule:: parsons.utilities.sql_helpers
+
+.. _ssh_utilities:
+
+=============
+SSH Utilities
+=============
+
+.. automodule:: parsons.utilities.ssh_utilities
+
+.. _zip_archive:
+
+===========
+ZIP Archive
+===========
+
+.. automodule:: parsons.utilities.zip_archive
 
 .. _dbt:
 

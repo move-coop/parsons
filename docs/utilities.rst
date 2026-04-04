@@ -9,6 +9,7 @@ API Connector
 =============
 
 .. automodule:: parsons.utilities.api_connector
+   :members:
 
 .. _check-env:
 
@@ -17,6 +18,7 @@ Check ENV
 =========
 
 .. automodule:: parsons.utilities.check_env
+   :members:
 
 .. _cloud-storage:
 
@@ -43,6 +45,7 @@ The file will then be converted to a CSV, compressed and posted to the cloud sto
 be generated and active by default for 60 minutes, but you can adjust the time.
 
 .. automodule:: parsons.utilities.cloud_storage
+   :members:
 
 **Amazon S3**
 
@@ -96,6 +99,7 @@ Datetime
 ========
 
 .. automodule:: parsons.utilities.datetime
+   :members:
 
 .. _files:
 
@@ -104,6 +108,7 @@ Files
 =====
 
 .. automodule:: parsons.utilities.files
+   :members:
 
 .. _format_phone_number:
 
@@ -112,6 +117,7 @@ Format Phone Number
 ===================
 
 .. automodule:: parsons.utilities.format_phone_number
+   :members:
 
 .. _format_json:
 
@@ -120,6 +126,7 @@ Format JSON
 ===========
 
 .. automodule:: parsons.utilities.json_format
+   :members:
 
 .. _oauth_api_connector:
 
@@ -128,6 +135,7 @@ OAuth API Connector
 ===================
 
 .. automodule:: parsons.utilities.oauth_api_connector
+   :members:
 
 .. _sql_helpers:
 
@@ -136,6 +144,7 @@ SQL Helpers
 ===========
 
 .. automodule:: parsons.utilities.sql_helpers
+   :members:
 
 .. _ssh_utilities:
 
@@ -144,6 +153,7 @@ SSH Utilities
 =============
 
 .. automodule:: parsons.utilities.ssh_utilities
+   :members:
 
 .. _zip_archive:
 
@@ -152,6 +162,7 @@ ZIP Archive
 ===========
 
 .. automodule:: parsons.utilities.zip_archive
+   :members:
 
 .. _dbt:
 
@@ -160,7 +171,10 @@ dbt Utilities
 =============
 
 .. automodule:: parsons.utilities.dbt.dbt
+   :members:
 
 .. automodule:: parsons.utilities.dbt.logging
+   :members:
 
 .. automodule:: parsons.utilities.dbt.models
+   :members:

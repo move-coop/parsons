@@ -20,14 +20,14 @@ def post_file(tbl, type, file_path=None, quoting=csv.QUOTE_MINIMAL, **file_stora
         tbl: object
             parsons.Table
         type: str
-            ``S3`` or ``GCS`` (Google Cloud Storage)
+            `S3` or `GCS` (Google Cloud Storage)
         file_path: str
             The file path to store the file. Not required if provided with
             the **file_storage_args.
         quoting: attr
             The type of quoting to use for the csv.
-        `**kwargs`: kwargs
-                Optional arguments specific to the file storage.
+        `**file_storage_args`: kwargs
+            Optional arguments specific to the file storage.
 
     Returns:
         ``None``

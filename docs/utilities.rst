@@ -9,6 +9,7 @@ API Connector
 =============
 
 .. automodule:: parsons.utilities.api_connector
+   :inherited-members:
    :members:
 
 .. _check-env:
@@ -18,6 +19,7 @@ Check ENV
 =========
 
 .. automodule:: parsons.utilities.check_env
+   :inherited-members:
    :members:
 
 .. _cloud-storage:
@@ -45,6 +47,7 @@ The file will then be converted to a CSV, compressed and posted to the cloud sto
 be generated and active by default for 60 minutes, but you can adjust the time.
 
 .. automodule:: parsons.utilities.cloud_storage
+   :inherited-members:
    :members:
 
 **Amazon S3**
@@ -99,6 +102,7 @@ Datetime
 ========
 
 .. automodule:: parsons.utilities.datetime
+   :inherited-members:
    :members:
 
 .. _files:
@@ -108,6 +112,7 @@ Files
 =====
 
 .. automodule:: parsons.utilities.files
+   :inherited-members:
    :members:
 
 .. _format_phone_number:
@@ -117,6 +122,7 @@ Format Phone Number
 ===================
 
 .. automodule:: parsons.utilities.format_phone_number
+   :inherited-members:
    :members:
 
 .. _format_json:
@@ -126,6 +132,7 @@ Format JSON
 ===========
 
 .. automodule:: parsons.utilities.json_format
+   :inherited-members:
    :members:
 
 .. _oauth_api_connector:
@@ -135,6 +142,7 @@ OAuth API Connector
 ===================
 
 .. automodule:: parsons.utilities.oauth_api_connector
+   :inherited-members:
    :members:
 
 .. _sql_helpers:
@@ -144,6 +152,7 @@ SQL Helpers
 ===========
 
 .. automodule:: parsons.utilities.sql_helpers
+   :inherited-members:
    :members:
 
 .. _ssh_utilities:
@@ -153,6 +162,7 @@ SSH Utilities
 =============
 
 .. automodule:: parsons.utilities.ssh_utilities
+   :inherited-members:
    :members:
 
 .. _zip_archive:
@@ -162,6 +172,7 @@ ZIP Archive
 ===========
 
 .. automodule:: parsons.utilities.zip_archive
+   :inherited-members:
    :members:
 
 .. _dbt:
@@ -171,10 +182,13 @@ dbt Utilities
 =============
 
 .. automodule:: parsons.utilities.dbt.dbt
+   :inherited-members:
    :members:
 
 .. automodule:: parsons.utilities.dbt.logging
+   :inherited-members:
    :members:
 
 .. automodule:: parsons.utilities.dbt.models
+   :inherited-members:
    :members:

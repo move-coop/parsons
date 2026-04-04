@@ -4,8 +4,8 @@ from typing import Literal
 """
 This utility method is a generalizable method for moving files to an
 online file storage class. It is used by methods that require access
-to a file via a public url (e.g. VAN). Currently only includes Amazon S3 and
-Google Cloud Storage.
+to a file via a public url (e.g. VAN). Currently only includes
+Amazon S3 and Google Cloud Storage.
 """
 
 
@@ -26,7 +26,7 @@ def post_file(
             `S3` or `GCS` (Google Cloud Storage)
         file_path: str
             The file path to store the file. Not required if provided with
-            the **file_storage_args.
+            the `**file_storage_args`.
         quoting: attr
             The type of quoting to use for the csv.
         `**file_storage_args`: kwargs

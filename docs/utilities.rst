@@ -95,6 +95,16 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
       - No
       - Defaults is 60 minutes.
 
+.. _credential_tools:
+
+================
+Credential Tools
+================
+
+.. automodule:: parsons.utilities.credential_tools
+   :inherited-members:
+   :members:
+
 .. _datetime:
 
 ========

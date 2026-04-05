@@ -47,6 +47,21 @@ class TestTableCreation:
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
         assert tbl[1] == {"a": 4, "b": 5, "c": 6}
 
+    def test_from_generator(self):
+        expected_list = [
+            {"col1": 1, "col2": 3},
+            {"col1": 2, "col2": 1},
+            {"col1": 3, "col2": 2},
+        ]
+
+        def fun():
+            yield from expected_list
+
+        tbl = Table(fun())
+
+        for item_number, item_value in enumerate(expected_list):
+            assert tbl[item_number] == item_value
+
     def test_from_petl(self):
         nrows = 10
         ptbl = petl.dummytable(numrows=nrows)

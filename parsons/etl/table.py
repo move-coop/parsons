@@ -66,7 +66,7 @@ class Table(ETL, ToFrom):
 
         elif isinstance(lst, (list, tuple)):
             # Check for empty list
-            if not len(lst):
+            if not lst:
                 self.table = petl.fromdicts([])
             else:
                 row_type = type(lst[0])

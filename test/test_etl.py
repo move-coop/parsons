@@ -44,9 +44,17 @@ class TestTableCreation:
         tbl = Table(ptbl)
         assert tbl.num_rows == nrows
 
-    def test_from_invalid_list(self):
+    @pytest.mark.parametrize(
+        "list_of_invalid",
+        [
+            [1, 2, 3],
+            ["foo", "bar"],
+            [True, False],
+        ],
+        ids=["list[int]", "list[str]", "list[bool]"],
+    )
+    def test_from_invalid_list(self, list_of_invalid):
         # Tests that a table can't be created from a list of invalid items
-        list_of_invalid = [1, 2, 3]
         with pytest.raises(ValueError, match="Could not create Table"):
             Table(list_of_invalid)
 

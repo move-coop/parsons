@@ -7,7 +7,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-uv.lock
 .Python
 build/
 develop-eggs/
@@ -64,9 +63,12 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
+# documentation
 docs/html
 docs/_build/html
+docs/dirhtml
+/site
+doctrees/
 
 # PyBuilder
 target/
@@ -103,35 +105,32 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
-
 # mypy
 .mypy_cache/
+
+# ruff
+.ruff_cache/
 
 # scratch
 scratch*
 old!_*
-test.ipynb
 
 # vscode
 .vscode/
 
-doctrees/
-.buildinfo
-
+# macOS specific files
 .DS_Store
 
-bill_com_credentials.*
-*.ipynb
-
-docs/_build
-docs/html
-docs/dirhtml
-*.sw*
+# swap files
+*.sw?
+*.sw.*
 
 # bin files
 bin/
 
 # uv
 uv.lock
+
+# other
+.buildinfo
+bill_com_credentials.*

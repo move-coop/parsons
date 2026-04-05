@@ -77,6 +77,9 @@ class Table(ETL, ToFrom):
                 # Check for list of lists
                 elif isinstance(first_row, (list, tuple)):
                     self.table = petl.wrap(lst)
+                else:
+                    err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
+                    raise ValueError(err_msg)
 
         elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
@@ -89,13 +92,12 @@ class Table(ETL, ToFrom):
             self.table = petl.fromdicts(lst if isinstance(lst, Generator) else list(lst))
 
         else:
-            raise ValueError(
-                f"Could not initialize table from input type. "
-                f"Got {type(lst)}, expected list, tuple, or petl Table"
-            )
+            err_msg = f"Could not initialize Table from input type. Expected list, tuple, generator, or petl Table, got {type(lst)}."
+            raise ValueError(err_msg)
 
         if not self.is_valid_table():
-            raise ValueError("Could not create Table")
+            err_msg = "Could not initialize Table."
+            raise ValueError(err_msg)
 
         # Count how many times someone is indexing directly into this table, so we can warn
         # against inefficient usage.

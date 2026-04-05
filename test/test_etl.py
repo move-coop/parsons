@@ -90,13 +90,19 @@ class TestTableCreation:
     )
     def test_from_invalid_list(self, list_of_invalid):
         # Tests that a table can't be created from a list of invalid items
-        with pytest.raises(ValueError, match="Could not create Table"):
+        with pytest.raises(
+            ValueError,
+            match=f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(list_of_invalid[0])}.",
+        ):
             Table(list_of_invalid)
 
     def test_from_empty_petl(self):
         # This test ensures that this would fail: Table(None)
         # Even while allowing Table() to work
-        with pytest.raises(ValueError, match="Could not initialize table from input type"):
+        with pytest.raises(
+            ValueError,
+            match=f"Could not initialize Table from input type. Expected list, tuple, generator, or petl Table, got {type(None)}.",
+        ):
             Table(None)
 
     @pytest.mark.parametrize(

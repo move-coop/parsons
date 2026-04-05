@@ -1,5 +1,6 @@
 import logging
 import pickle
+from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
 
@@ -48,7 +49,7 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: list | tuple | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
         source: str | None = None,
         name: str | None = None,
     ):
@@ -80,6 +81,12 @@ class Table(ETL, ToFrom):
         elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
+
+        elif isinstance(lst, Iterator):
+            # petl.fromdicts handles generators by using a temporary file cache
+            # to allow multiple passes over the data.
+            # unfortunately iterators like map don't work with this so we convert them to lists
+            self.table = petl.fromdicts(lst if isinstance(lst, Generator) else list(lst))
 
         else:
             raise ValueError(

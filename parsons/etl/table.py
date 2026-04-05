@@ -69,12 +69,12 @@ class Table(ETL, ToFrom):
             if not lst:
                 self.table = petl.fromdicts([])
             else:
-                row_type = type(lst[0])
+                first_row = lst[0]
                 # Check for list of dicts
-                if row_type is dict:
+                if isinstance(first_row, dict):
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
-                elif row_type in [list, tuple]:
+                elif isinstance(first_row, (list, tuple)):
                     self.table = petl.wrap(lst)
 
         elif isinstance(lst, petl.util.base.Table):

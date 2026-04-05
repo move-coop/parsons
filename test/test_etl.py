@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any
 
@@ -26,6 +27,14 @@ class TestTableCreation:
 
         # Test Iterate and is list like
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
+
+    def test_from_list_of_ordered_dicts(self):
+        od1 = OrderedDict([("a", 1), ("b", 2), ("c", 3)])
+        od2 = OrderedDict([("c", 1), ("b", 3), ("a", 2)])
+        tbl = Table([od1, od2])
+
+        assert tbl[0] == {"a": 1, "b": 2, "c": 3}
+        assert tbl[1] == {"a": 2, "b": 3, "c": 1}
 
     def test_from_list_of_lists(self):
         list_of_lists = [

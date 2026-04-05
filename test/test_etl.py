@@ -36,6 +36,7 @@ class TestTableCreation:
         tbl = Table(list_of_lists)
 
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
+        assert tbl[1] == {"a": 4, "b": 5, "c": 6}
 
     def test_from_petl(self):
         nrows = 10

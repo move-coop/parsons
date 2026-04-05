@@ -49,8 +49,12 @@ class Table(ETL, ToFrom):
     def __init__(
         self,
         lst: list | tuple | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        source: str | None = None,
+        name: str | None = None,
     ):
         self.table = None
+        self.source = source
+        self.name = name
 
         # Normally we would use None as the default argument here
         # Instead of using None, we use a sentinal

@@ -62,6 +62,17 @@ class TestTableCreation:
         for item_number, item_value in enumerate(expected_list):
             assert tbl[item_number] == item_value
 
+    def test_from_map_iterator(self):
+        raw_data = [1, 2, 3]
+        data_map = map(lambda x: {"col1": x, "col2": x * 2}, raw_data)  # noqa: C417 unnecessary-map
+
+        tbl = Table(data_map)
+
+        results = list(tbl.to_dicts())
+        assert len(results) == len(raw_data)
+        for item_number, item_value in enumerate(raw_data):
+            assert results[item_number] == {"col1": item_value, "col2": item_value * 2}
+
     def test_from_petl(self):
         nrows = 10
         ptbl = petl.dummytable(numrows=nrows)

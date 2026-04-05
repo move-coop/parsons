@@ -140,6 +140,26 @@ class TestTableCreation:
 
         assert_matching_tables(tbl, tbl_materialized)
 
+    def test_set_table_name(self):
+        tbl = Table()
+
+        assert not tbl.name
+
+        test_name = "testing table name"
+        tbl = Table(name=test_name)
+
+        assert tbl.name == test_name
+
+    def test_set_table_source(self):
+        tbl = Table()
+
+        assert not tbl.source
+
+        test_source = "ngpvan"
+        tbl = Table(source=test_source)
+
+        assert tbl.source == test_source
+
 
 class TestFileOperations:
     """Tests for CSV, JSON, HTML, and other file operations"""

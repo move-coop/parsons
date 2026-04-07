@@ -17,6 +17,8 @@ def query_through_ssh(
     query,
 ):
     """
+    Securely query a PostgreSQL database on a private network via an SSH tunnel.
+
     Args:
         ssh_host:
             The host for the SSH connection

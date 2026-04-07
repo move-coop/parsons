@@ -19,6 +19,8 @@ Breaking changes are changes to our public API which may require existing users 
 
 <summary>Does this PR introduce breaking changes?</summary>
 
+<!-- Pick only one. [x] is selected, [ ] is not -->
+
 - [ ] label: Breaking change — This PR introduces one or more breaking changes.
 - [ ] label: Non-breaking change — This PR does not introduce one or more breaking changes.
 

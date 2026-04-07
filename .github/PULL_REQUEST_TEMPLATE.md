@@ -13,12 +13,16 @@
 
 ## Breaking Changes
 
-Please select whether this PR introduces breaking changes (`[x]` is selected, `[ ]` is not):
+Breaking changes are changes to our public API which may require existing users to change their code. If there are no breaking changes, any existing parsons user should not need to do anything after updating their parsons version.
+
+<details open>
+
+<summary>Does this PR introduce breaking changes?</summary>
 
 - [ ] label: Breaking change — This PR introduces one or more breaking changes.
-Breaking changes are changes to our public API which may require existing users to change their code.
 - [ ] label: Non-breaking change — This PR does not introduce one or more breaking changes.
-Any existing parsons users should not need to do anything after updating their parsons version.
+
+</details>
 
 ### Details (if needed)
 

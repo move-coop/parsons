@@ -4,35 +4,13 @@ from copy import deepcopy
 
 import requests_mock
 
-from parsons import VAN, Table
-
-
-def assert_matching_tables(table1, table2, ignore_headers=False):
-    if ignore_headers:
-        data1 = table1.data
-        data2 = table2.data
-    else:
-        data1 = table1
-        data2 = table2
-
-    if isinstance(data1, Table) and isinstance(data2, Table):
-        assert data1.num_rows == data2.num_rows
-
-    for r1, r2 in zip(data1, data2, strict=False):
-        # Cast both rows to lists, in case they are different types of collections. Must call
-        # .items() on dicts to compare content of collections
-        if isinstance(r1, dict):
-            r1 = r1.items()
-        if isinstance(r2, dict):
-            r2 = r2.items()
-
-        assert list(r1) == list(r2)
-
+from parsons import VAN
+from test.conftest import assert_matching_tables
 
 os.environ["VAN_API_KEY"] = "SOME_KEY"
 
 
-sample_content_full = [
+sample_content_single = [
     {
         "name": "Email Name",
         "senderDisplayName": "Joe Biden",
@@ -52,7 +30,11 @@ sample_content_full = [
             "contributionCount": 0,
             "machineOpenCount": 0,
         },
-    },
+    }
+]
+
+sample_content_full = [
+    sample_content_single[0],
     {
         "name": "Email Name_B",
         "senderDisplayName": "Kamala Harris",
@@ -113,29 +95,6 @@ sample_content_full = [
             "machineOpenCount": 30,
         },
     },
-]
-
-sample_content_single = [
-    {
-        "name": "Email Name",
-        "senderDisplayName": "Joe Biden",
-        "senderEmailAddress": "joe@biden.org",
-        "subject": "This is Joe",
-        "createdBy": "Random Intern",
-        "dateCreated": "2023-05-17T15:04:00Z",
-        "emailMessageContentDistributions": {
-            "dateSent": "2023-05-17T15:05:00Z",
-            "recipientCount": 10,
-            "openCount": 0,
-            "linksClickedCount": 0,
-            "unsubscribeCount": 0,
-            "bounceCount": 0,
-            "contributionTotal": 0.0,
-            "formSubmissionCount": 0,
-            "contributionCount": 0,
-            "machineOpenCount": 0,
-        },
-    }
 ]
 
 sample_content_pending_email = [

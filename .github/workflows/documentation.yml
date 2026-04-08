@@ -59,14 +59,7 @@ jobs:
       - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: docs/html
-          key: >-
-            uv run
-            sphinx
-            -${{ hashFiles('pyproject.toml') }}
-            -${{ hashFiles('setup.py') }}
-            -${{ hashFiles('requirements-dev.txt') }}
-            -${{ hashFiles('docs/make.py') }}
-            -${{ hashFiles('docs/conf.py') }}
+          key: sphinx-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements-dev.txt', 'docs/make.py', 'docs/conf.py') }}
 
       - run: make build_docs
         working-directory: docs

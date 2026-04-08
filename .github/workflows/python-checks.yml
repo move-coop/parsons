@@ -57,14 +57,11 @@ jobs:
 
       - name: determine key for pytest cache
         id: pytest-run-key
+        shell: bash
         run: |
-          echo "\
-          RUN_KEY=\
-          ${{ hashFiles('pyproject.toml') }}\
-          -${{ matrix.os }}\
-          -${{ matrix.python-version }}\
-          -${{ matrix.resolution }}\
-          " >> $GITHUB_ENV
+          HASH=${{ hashFiles('pyproject.toml') }}
+          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
@@ -169,14 +166,11 @@ jobs:
 
       - name: determine key for pytest cache
         id: pytest-run-key
+        shell: bash
         run: |
-          echo "\
-          RUN_KEY=\
-          ${{ hashFiles('pyproject.toml') }}\
-          -${{ matrix.os }}\
-          -${{ matrix.python-version }}\
-          -${{ matrix.resolution }}\
-          " >> $GITHUB_ENV
+          HASH=${{ hashFiles('pyproject.toml') }}
+          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
@@ -231,7 +225,7 @@ jobs:
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff
         run: >-
@@ -271,7 +265,7 @@ jobs:
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
         run: >-
@@ -446,11 +440,7 @@ jobs:
         uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
-          key: |
-            pre-commit\
-            -${{ hashFiles('.pre-commit-config.yaml') }}\
-            -${{ hashFiles('pyproject.toml') }}\
-            -${{ hashFiles('setup.py') }}
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}
 
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache

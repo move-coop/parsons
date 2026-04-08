@@ -182,8 +182,6 @@
 | parsons/targetsmart/targetsmart\_api.py                   |      113 |       17 |       36 |        8 |     82% |41, 89, 258, 262, 295, 300, 304, 308, 318-319, 324, 331, 472-495 |
 | parsons/targetsmart/targetsmart\_automation.py            |       95 |       72 |       26 |        0 |     19% |53-58, 116-151, 159, 164-192, 197-201, 207-222, 230-248, 253-256 |
 | parsons/targetsmart/targetsmart\_smartmatch.py            |      105 |       13 |       36 |       14 |     81% |78, 87, 99, 113, 118, 197, 203, 208, 211, 217-\>219, 242, 307, 313, 326 |
-| parsons/tools/\_\_init\_\_.py                             |        0 |        0 |        0 |        0 |    100% |           |
-| parsons/tools/credential\_tools.py                        |       68 |       16 |       22 |        2 |     71% |47, 199-214, 218 |
 | parsons/turbovote/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/turbovote/turbovote.py                            |       28 |        0 |        0 |        0 |    100% |           |
 | parsons/twilio/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
@@ -192,6 +190,7 @@
 | parsons/utilities/api\_connector.py                       |       96 |        4 |       46 |       10 |     90% |120, 152-\>exit, 175-\>177, 183-\>exit, 216-\>exit, 243-\>245, 251-\>exit, 253, 270, 328 |
 | parsons/utilities/check\_env.py                           |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/cloud\_storage.py                       |       11 |        7 |        6 |        0 |     24% |     40-53 |
+| parsons/utilities/credential\_tools.py                    |       68 |       16 |       22 |        2 |     71% |47, 199-214, 218 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |26, 35-37, 68 |
 | parsons/utilities/dbt/\_\_init\_\_.py                     |        3 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/dbt/dbt.py                              |       41 |        1 |       18 |        2 |     95% |47-\>45, 128 |

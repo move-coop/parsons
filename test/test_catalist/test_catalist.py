@@ -1,65 +1,81 @@
 import gzip
-import time
+import re
 from zipfile import ZipFile
 
 import pytest
 
 from parsons import CatalistMatch, Table
 
-TEST_CREDS = {
-    "client_id": "id",
-    "client_secret": "secret",
-    "sftp_username": "user",
-    "sftp_password": "pw",
-}
-
 
 @pytest.fixture
-def client(fake_sftp_backend):
-    """Provides a CatalistMatch client using the fake SFTP backend."""
-    match = CatalistMatch(**TEST_CREDS)
-    match._token_expired_at = time.time() + 99999
-    return match
+def client(mocker, tmp_path, requests_mock):
+    requests_mock.post(
+        "https://auth.catalist.us/oauth/token",
+        json={"access_token": "fake_token", "expires_in": 3600},
+    )
+    requests_mock.get(
+        re.compile("/mapi/status/id/"), json={"process": {"processState": "Finished"}}
+    )
+    # Generic catch-all for the 'upload' call which returns [metadata_dict]
+    requests_mock.get(re.compile("/mapi/upload/"), json=[{"id": "999", "status": "queued"}])
+
+    sftp_root = tmp_path / "sftp"
+    (sftp_root / "myUploads").mkdir(parents=True)
+    (sftp_root / "myDownloads").mkdir(parents=True)
+
+    mock_sftp = mocker.patch("parsons.catalist.catalist.SFTP").return_value
+    mock_sftp.root = sftp_root
+
+    mock_sftp.put_file.side_effect = lambda local, remote: (
+        sftp_root / remote.lstrip("/")
+    ).parent.mkdir(parents=True, exist_ok=True) or __import__("shutil").copy2(
+        local, sftp_root / remote.lstrip("/")
+    )
+
+    mock_sftp.list_directory.side_effect = lambda path: [
+        f.name for f in (sftp_root / path.lstrip("/")).iterdir()
+    ]
+
+    mock_sftp.get_file.side_effect = lambda remote_path, **kw: str(
+        sftp_root / remote_path.lstrip("/")
+    )
+
+    return CatalistMatch("id", "secret", "user", "pass")
 
 
-def test_load_table_to_sftp_integrity(client):
-    """Verify that the .gz file is real and has the right CSV content."""
+def test_upload_flow(client):
+    """Verify that upload() hits the API and puts a GZipped file on SFTP."""
     tbl = Table([{"first_name": "John", "last_name": "Doe"}])
 
-    sftp_url = client.load_table_to_sftp(tbl)
+    response = client.upload(tbl, description="test_job")
 
-    filename = sftp_url.replace("file://", "")
-    uploaded_path = client.sftp.root / "myUploads" / filename
+    assert response["id"] == "999"
+    uploaded_files = list((client.sftp.root / "myUploads").glob("*.csv.gz"))
+    assert len(uploaded_files) == 1
 
-    assert uploaded_path.exists()
-
-    with gzip.open(uploaded_path, "rt") as f:
-        content = f.read()
-        assert "first_name,last_name" in content
-        assert "John,Doe" in content
+    with gzip.open(uploaded_files[0], "rt") as f:
+        assert "John,Doe" in f.read()
 
 
-def test_load_matches_unzip_logic(client, tmp_path):
-    """Test that we can handle a real ZIP file from the 'remote' server."""
+def test_load_matches_unzip(client, tmp_path):
+    """Verify that load_matches correctly pulls from SFTP and parses the TSV."""
     job_id = "999"
-
-    csv_data = "COL1-first_name\tDWID\nJane\t123"
-    csv_file = tmp_path / "results.csv"
-    csv_file.write_text(csv_data)
+    results_csv = tmp_path / "results.csv"
+    results_csv.write_text("COL1-first_name\tDWID\nJane\t123")
 
     zip_path = client.sftp.root / "myDownloads" / f"match_{job_id}.zip"
     with ZipFile(zip_path, "w") as zf:
-        zf.write(csv_file, arcname="results.csv")
+        zf.write(results_csv, arcname="results.csv")
 
-    result_table = client.load_matches(job_id)
+    table = client.load_matches(job_id)
 
-    assert result_table[0]["DWID"] == "123"
-    assert "COL1-first_name" in result_table.columns
+    assert table[0]["DWID"] == "123"
+    assert table.columns == ["COL1-first_name", "DWID"]
 
 
-def test_validate_table_errors(client):
-    """Test validation logic using a real Table object."""
-    bad_table = Table([{"first_name": "NoLastName"}])
+def test_validate_table_logic(client):
+    """Ensure validation catches missing required columns."""
+    bad_tbl = Table([{"first_name": "OnlyName"}])  # Missing last_name
 
     with pytest.raises(ValueError, match="missing_required_columns"):
-        client.validate_table(bad_table)
+        client.validate_table(bad_tbl)

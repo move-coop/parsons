@@ -43,13 +43,6 @@ def pytest_addoption(parser) -> None:
     )
 
 
-def pytest_configure(config) -> None:
-    """Register `@pytest.mark.live` with pytest."""
-    config.addinivalue_line(
-        "markers", "live: mark test as requiring authentication and/or network access"
-    )
-
-
 def pytest_collection_modifyitems(config, items) -> None:
     """
     Add `@pytest.mark.skip` to tests with `@pytest.mark.live`, if appropriate.

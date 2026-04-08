@@ -78,7 +78,7 @@ test-coverage = [
     {include-group = "test"},
 ]
 test = [
-    "pytest~=8.4.2",
+    "pytest~=9.0.3",
     "pytest-datadir~=1.8.0",
     "pytest-mock~=3.15.1",
     "pytest-xdist~=3.8.0",
@@ -185,8 +185,11 @@ line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
-[tool.pytest.ini_options]
-addopts = "-rf -n auto"
+[tool.pytest]
+addopts = [
+    "-rf",
+    "-n=auto",
+]
 testpaths = [
     "test",
 ]
@@ -197,6 +200,9 @@ filterwarnings = [
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
     "ignore:Argument login_or_token is deprecated:DeprecationWarning",
+]
+markers = [
+    "live: mark test as requiring authentication and/or network access"
 ]
 
 [tool.isort]

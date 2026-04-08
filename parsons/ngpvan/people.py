@@ -17,7 +17,7 @@ class People:
         date_of_birth=None,
         email=None,
         phone=None,
-        phone_type=None,
+        phone_type: Literal["H", "W", "C", "M", "F"] | None = None,
         street_number=None,
         street_name=None,
         zip=None,
@@ -42,12 +42,14 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
             phone: str
                 Phone number of any type (Work, Cell, Home)
+            phone_type: str
+                Type of the phone number (Work, Cell, Home)
             street_number: str
                 Street Number
             street_name: str
@@ -142,7 +144,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: str
                 The person's email address
@@ -236,7 +238,7 @@ class People:
                 The person's first name
             last_name: str
                 The person's last name
-            dob: str
+            date_of_birth: str
                 ISO 8601 formatted date of birth (e.g. ``1981-02-01``)
             email: Union[str, list[dict[str, Union[str, bool]]], None]
                 The person's email address or a list of email dicts.
@@ -319,7 +321,7 @@ class People:
         date_of_birth=None,
         email: str | list[dict[str, str | bool]] | None = None,
         phone=None,
-        phone_type="H",
+        phone_type: Literal["H", "W", "C", "M", "F"] | None = "H",
         street_number=None,
         street_name=None,
         zip=None,
@@ -384,8 +386,8 @@ class People:
 
         return self.connection.post_request(url, json=json)
 
+    @staticmethod
     def _valid_search(
-        self,
         firstName=None,
         lastName=None,
         email=None,
@@ -637,8 +639,6 @@ class People:
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
-            responses : list or dict
-                The responses to apply.
             omit_contact: boolean
                 Omit adding contact history to the response. This is particularly
                 useful when adding activist codes that are not based on contact

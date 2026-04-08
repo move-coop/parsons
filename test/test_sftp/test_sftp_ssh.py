@@ -4,7 +4,7 @@ import pytest
 
 from parsons import SFTP, Table
 from parsons.utilities import files
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 #
 # Fixtures and constants
@@ -70,13 +70,13 @@ def test_credential_validation():
         SFTP(host="host", username="sam", password=None, rsa_private_key_file=None)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_non_existent_directory(live_sftp):
     file_list = live_sftp.list_directory("abc123")
     assert len(file_list) == 0
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_directory_with_files(live_sftp):
     file_list = live_sftp.list_directory(REMOTE_DIR)
     assert len(file_list) == 2
@@ -84,7 +84,7 @@ def test_list_directory_with_files(live_sftp):
     assert REMOTE_CSV in file_list
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_non_existent_file(live_sftp):
     with pytest.raises(FileNotFoundError):
         live_sftp.get_file("abc123")
@@ -96,20 +96,20 @@ def assert_file_matches_table(local_path, table):
     assert_matching_tables(table, downloaded_tbl)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_file(live_sftp, simple_table):
     local_path = files.create_temp_file()
     live_sftp.get_file(REMOTE_CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_temp_file(live_sftp, simple_table):
     local_path = live_sftp.get_file(REMOTE_CSV_PATH)
     assert_file_matches_table(local_path, simple_table)
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize("compression", [None, "gzip"])
 def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     host = os.environ["SFTP_HOST"]
@@ -137,7 +137,7 @@ def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     live_sftp.remove_file(remote_path)
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize("compression", [None, "gzip"])
 def test_table_to_sftp_csv_no_password(live_sftp, simple_table, compression):
     host = os.environ.get("SFTP_HOST")

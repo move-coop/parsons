@@ -1,17 +1,18 @@
 import unittest
 from pathlib import Path
 
+import pytest
 from google.cloud import storage
 
 from parsons import GoogleCloudStorage, Table
 from parsons.utilities import files
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 TEMP_BUCKET_NAME = "parsons_test"
 TEMP_FILE_NAME = "tmp_file_01.txt"
 
 
-@mark_live_test
+@pytest.mark.live
 class TestGoogleStorageBuckets(unittest.TestCase):
     def setUp(self):
         self.cloud = GoogleCloudStorage()

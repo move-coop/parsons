@@ -2,14 +2,15 @@ import unittest
 from unittest import mock
 
 import petl
+import pytest
 
 from parsons import CensusGeocoder, Table
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
 
 
-@mark_live_test
+@pytest.mark.live
 class TestCensusGeocoder(unittest.TestCase):
     def setUp(self):
         self.cg = CensusGeocoder()
@@ -64,7 +65,7 @@ class TestCensusGeocoder(unittest.TestCase):
         geo = self.cg.geocode_address_batch(tbl)
         assert_matching_tables(geo, Table(petl.fromdicts(batch_resp)))
 
-    @mark_live_test
+    @pytest.mark.live
     def test_coordinates(self):
         # Assert coordinates data returns expected response.
         self.cg.cg.address = mock.MagicMock(return_value=coord_resp)

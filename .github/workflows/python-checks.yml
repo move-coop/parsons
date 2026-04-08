@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
@@ -45,7 +44,6 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
@@ -75,18 +73,8 @@ jobs:
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - if: matrix.resolution != 'limited-dependencies'
-        run: >-
-          uv sync
-          --upgrade
-          --no-default-groups
-          --group test-coverage
-          --all-extras
-          --resolution ${{ matrix.resolution }}
-
       - env:
-          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
+          UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
           --upgrade
@@ -140,8 +128,6 @@ jobs:
 
       - name: get-extras
         id: get-extras
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
           uv run python -c "
           import json
@@ -200,7 +186,6 @@ jobs:
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: >-
           uv sync
           --upgrade
@@ -244,9 +229,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff
         run: >-
@@ -286,9 +269,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff-sarif
         run: >-
@@ -463,10 +444,11 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: .pre-commit-cache
-          key: >-
-            pre-commit
-            -${{ hashFiles('.pre-commit-config.yaml') }}
-            -${{ hashFiles('pyproject.toml') }}
+          key: |
+            pre-commit\
+            -${{ hashFiles('.pre-commit-config.yaml') }}\
+            -${{ hashFiles('pyproject.toml') }}\
+            -${{ hashFiles('setup.py') }}
 
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache

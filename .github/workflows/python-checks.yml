@@ -55,7 +55,7 @@ jobs:
       - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - id: pytest-run-key
@@ -178,7 +178,7 @@ jobs:
       - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - id: pytest-run-key

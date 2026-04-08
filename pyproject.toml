@@ -197,9 +197,9 @@ filterwarnings = [
     # Warnings triggered by libraries we use (not our own code)
     "ignore:invalid escape sequence:SyntaxWarning", # typically due to using "/" in docstrings that aren't raw strings
     "ignore:invalid escape sequence:DeprecationWarning", # typically due to using "/" in docstrings that aren't raw strings
-    "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree throws these
-    "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree throws these
-    "ignore:Argument login_or_token is deprecated:DeprecationWarning",
+    "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree causes these as of 2026-04
+    "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree causes these as of 2026-04
+    "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these on older python versions as of 2026-04
 ]
 markers = [
     "live: mark test as requiring authentication and/or network access"

@@ -321,7 +321,8 @@ class GoogleCloudStorage:
         if blob:
             blob.delete()
             logger.info(f"{blob_name} blob in {bucket_name} bucket deleted.")
-        logger.warning(f"Blob: {blob} doesn't exist.")
+        else:
+            logger.warning(f"Blob: {blob} doesn't exist.")
 
     def upload_table(
         self,

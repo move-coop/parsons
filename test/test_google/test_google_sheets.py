@@ -5,10 +5,10 @@ import gspread
 import pytest
 
 from parsons import GoogleSheets, Table
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 
-@mark_live_test
+@pytest.mark.live
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
         self.google_sheets = GoogleSheets()

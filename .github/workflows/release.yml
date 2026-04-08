@@ -80,7 +80,8 @@ jobs:
           name: parsons-dist
           path: dist
 
-      - shell: bash
+      - name: extract requirements.txt for use in pip cache
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
 
@@ -99,7 +100,8 @@ jobs:
             python-version: ${{ matrix.python-version }}
             cache: pip
 
-      - shell: bash
+      - name: install parsons from file
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
           pip install "$file"

@@ -1,12 +1,13 @@
 import unittest
 
+import pytest
+
 from parsons import CivisClient, Table
-from test.conftest import mark_live_test
 
 # from . import scratch_creds
 
 
-@mark_live_test
+@pytest.mark.live
 class TestCivisClient(unittest.TestCase):
     def setUp(self):
         self.civis = CivisClient()

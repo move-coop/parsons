@@ -25,6 +25,7 @@ env:
     files.pythonhosted.org:443
     *.github.com:443
     *.githubusercontent.com:443
+    *.docker.io:443
 
 jobs:
   pytest:
@@ -55,7 +56,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - id: pytest-run-key
         run: |

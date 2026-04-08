@@ -16,7 +16,7 @@ This project is maintained by [The Movement Cooperative](https://movementcoopera
 after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization
 focused on providing data, tools, and strategic support for the progressive community.
 
-Parsons is only supported for Python 3.10-13.
+Parsons is only supported for Python 3.10 - 3.13. Python 3.14 support is blocked by one of our dependencies.
 
 ## Table of Contents
 

@@ -161,9 +161,6 @@ async def async_query_through_ssh(
             config=ssh_config,
             options=ssh_options,
             known_hosts=None if ssh_options is None else getattr(ssh_options, "known_hosts", None),
-            verify_host_key=None
-            if ssh_options is None
-            else getattr(ssh_options, "verify_host_key", None),
         )
         logging.info("SSH connection established.")
 

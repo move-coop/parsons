@@ -79,3 +79,35 @@ def test_validate_table_logic(client):
 
     with pytest.raises(ValueError, match="missing_required_columns"):
         client.validate_table(bad_tbl)
+
+
+def test_load_table_to_sftp_with_subfolder(client):
+    """Verify that specifying a subfolder creates the dir and places the file there."""
+    tbl = Table([{"first_name": "John", "last_name": "Doe"}])
+    subfolder = "campaign_2024"
+    sftp_url = client.load_table_to_sftp(tbl, input_subfolder=subfolder)
+
+    assert subfolder in sftp_url
+    assert sftp_url.startswith(f"file://{subfolder}/")
+
+    target_dir = client.sftp.root / "myUploads" / subfolder
+    assert target_dir.is_dir()
+
+    uploaded_files = list(target_dir.glob("*.csv.gz"))
+    assert len(uploaded_files) == 1
+    assert uploaded_files[0].exists()
+
+
+def test_load_table_to_sftp_subfolder_already_exists(client):
+    """Verify it doesn't fail if the subfolder already exists."""
+    tbl = Table([{"first_name": "Jane", "last_name": "Doe"}])
+    subfolder = "existing_folder"
+
+    # Pre-create the folder
+    (client.sftp.root / "myUploads" / subfolder).mkdir(parents=True)
+
+    # This should run without calling make_directory (or at least without error)
+    client.load_table_to_sftp(tbl, input_subfolder=subfolder)
+
+    uploaded_files = list((client.sftp.root / "myUploads" / subfolder).glob("*.csv.gz"))
+    assert len(uploaded_files) == 1

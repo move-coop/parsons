@@ -6,6 +6,7 @@ from typing import Literal
 
 import petl
 import requests
+from github import Auth as PyGithubAuth
 from github import Github as PyGithub
 from github.GithubException import UnknownObjectException
 
@@ -83,9 +84,11 @@ class GitHub:
         self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)
 
         if self.username and self.password:
-            self.client = PyGithub(self.username, self.password)
+            self.client = PyGithub(
+                auth=PyGithubAuth.Login(login=self.username, password=self.password)
+            )
         elif self.access_token:
-            self.client = PyGithub(self.access_token)
+            self.client = PyGithub(auth=PyGithubAuth.Token(token=self.access_token))
         else:
             self.client = PyGithub()
 

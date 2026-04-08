@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
@@ -45,7 +44,6 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
@@ -57,7 +55,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           echo "\
           RUN_KEY=\
@@ -75,18 +74,8 @@ jobs:
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - if: matrix.resolution != 'limited-dependencies'
-        run: >-
-          uv sync
-          --upgrade
-          --no-default-groups
-          --group test-coverage
-          --all-extras
-          --resolution ${{ matrix.resolution }}
-
       - env:
-          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
+          UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
           --upgrade
@@ -95,7 +84,7 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -138,10 +127,8 @@ jobs:
           --group ci
           --all-extras
 
-      - name: get-extras
+      - name: create list of all parsons extras
         id: get-extras
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
           uv run python -c "
           import json
@@ -180,7 +167,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           echo "\
           RUN_KEY=\
@@ -200,7 +188,6 @@ jobs:
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: >-
           uv sync
           --upgrade
@@ -209,7 +196,7 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -241,12 +228,10 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff
         run: >-
@@ -283,12 +268,10 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
 
       - id: run-ruff-sarif
         run: >-
@@ -460,13 +443,14 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
-          key: >-
-            pre-commit
-            -${{ hashFiles('.pre-commit-config.yaml') }}
-            -${{ hashFiles('pyproject.toml') }}
+          key: |
+            pre-commit\
+            -${{ hashFiles('.pre-commit-config.yaml') }}\
+            -${{ hashFiles('pyproject.toml') }}\
+            -${{ hashFiles('setup.py') }}
 
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache

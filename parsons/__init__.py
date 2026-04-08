@@ -27,90 +27,102 @@ else:
 # Temporary deprecation warning for changes to install process
 warnings.warn(
     (
-        "The behavior of 'pip install parsons' is changing so only core dependencies will be installed. Learn more: "
-        "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
+        "The behavior of 'pip install parsons' has changed so only core dependencies are installed."
+        "Learn more: https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
     ),
-    category=FutureWarning,
+    category=RuntimeWarning,
     stacklevel=2,
 )
 
-# Table is referenced by many connectors, so we add it immediately to limit the damage
-# of circular dependencies
-__all__ = ["Table"]
-for module_path, connector_name in (
-    ("parsons.actblue.actblue", "ActBlue"),
-    ("parsons.action_kit.action_kit", "ActionKit"),
-    ("parsons.action_builder.action_builder", "ActionBuilder"),
-    ("parsons.action_network.action_network", "ActionNetwork"),
-    ("parsons.airmeet.airmeet", "Airmeet"),
-    ("parsons.airtable.airtable", "Airtable"),
-    ("parsons.alchemer.alchemer", "Alchemer"),
-    ("parsons.alchemer.alchemer", "SurveyGizmo"),
-    ("parsons.auth0.auth0", "Auth0"),
-    ("parsons.aws.s3", "S3"),
-    ("parsons.azure.azure_blob_storage", "AzureBlobStorage"),
-    ("parsons.bill_com.bill_com", "BillCom"),
-    ("parsons.bloomerang.bloomerang", "Bloomerang"),
-    ("parsons.box.box", "Box"),
-    ("parsons.braintree.braintree", "Braintree"),
-    ("parsons.capitol_canary.capitol_canary", "CapitolCanary"),
-    ("parsons.catalist.catalist", "CatalistMatch"),
-    ("parsons.census.census", "Census"),
-    ("parsons.civis.civisclient", "CivisClient"),
-    ("parsons.community.community", "Community"),
-    ("parsons.controlshift.controlshift", "Controlshift"),
-    ("parsons.copper.copper", "Copper"),
-    ("parsons.crowdtangle.crowdtangle", "CrowdTangle"),
-    ("parsons.databases.database_connector", "DatabaseConnector"),
-    ("parsons.databases.discover_database", "discover_database"),
-    ("parsons.databases.db_sync", "DBSync"),
-    ("parsons.databases.mysql.mysql", "MySQL"),
-    ("parsons.databases.postgres.postgres", "Postgres"),
-    ("parsons.databases.redshift.redshift", "Redshift"),
-    ("parsons.databases.sqlite.sqlite", "Sqlite"),
-    ("parsons.donorbox.donorbox", "Donorbox"),
-    ("parsons.facebook_ads.facebook_ads", "FacebookAds"),
-    ("parsons.formstack.formstack", "Formstack"),
-    ("parsons.freshdesk.freshdesk", "Freshdesk"),
-    ("parsons.geocode.census_geocoder", "CensusGeocoder"),
-    ("parsons.github.github", "GitHub"),
-    ("parsons.google.google_admin", "GoogleAdmin"),
-    ("parsons.google.google_bigquery", "GoogleBigQuery"),
-    ("parsons.google.google_civic", "GoogleCivic"),
-    ("parsons.google.google_cloud_storage", "GoogleCloudStorage"),
-    ("parsons.google.google_drive", "GoogleDrive"),
-    ("parsons.google.google_docs", "GoogleDocs"),
-    ("parsons.google.google_sheets", "GoogleSheets"),
-    ("parsons.hustle.hustle", "Hustle"),
-    ("parsons.mailchimp.mailchimp", "Mailchimp"),
-    ("parsons.mobilecommons.mobilecommons", "MobileCommons"),
-    ("parsons.mobilize_america.ma", "MobilizeAmerica"),
-    ("parsons.nation_builder.nation_builder", "NationBuilder"),
-    ("parsons.newmode.newmode", "Newmode"),
-    ("parsons.ngpvan.van", "VAN"),
-    ("parsons.notifications.gmail", "Gmail"),
-    ("parsons.notifications.slack", "Slack"),
-    ("parsons.notifications.smtp", "SMTP"),
-    ("parsons.pdi.pdi", "PDI"),
-    ("parsons.phone2action.p2a", "Phone2Action"),
-    ("parsons.quickbase.quickbase", "Quickbase"),
-    ("parsons.quickbooks.quickbookstime", "QuickBooksTime"),
-    ("parsons.redash.redash", "Redash"),
-    ("parsons.rockthevote.rtv", "RockTheVote"),
-    ("parsons.salesforce.salesforce", "Salesforce"),
-    ("parsons.scytl.scytl", "Scytl"),
-    ("parsons.sftp.sftp", "SFTP"),
-    ("parsons.shopify.shopify", "Shopify"),
-    ("parsons.sisense.sisense", "Sisense"),
-    ("parsons.targetsmart.targetsmart_api", "TargetSmartAPI"),
-    ("parsons.targetsmart.targetsmart_automation", "TargetSmartAutomation"),
-    ("parsons.turbovote.turbovote", "TurboVote"),
-    ("parsons.twilio.twilio", "Twilio"),
-    ("parsons.zoom.zoom", "Zoom"),
-    ("parsons.empower.empower", "Empower"),
-):
+_CONNECTORS = {
+    "ActBlue": "parsons.actblue.actblue",
+    "ActionBuilder": "parsons.action_builder.action_builder",
+    "ActionKit": "parsons.action_kit.action_kit",
+    "ActionNetwork": "parsons.action_network.action_network",
+    "Airmeet": "parsons.airmeet.airmeet",
+    "Airtable": "parsons.airtable.airtable",
+    "Alchemer": "parsons.alchemer.alchemer",
+    "SurveyGizmo": "parsons.alchemer.alchemer",
+    "Auth0": "parsons.auth0.auth0",
+    "S3": "parsons.aws.s3",
+    "AzureBlobStorage": "parsons.azure.azure_blob_storage",
+    "BillCom": "parsons.bill_com.bill_com",
+    "Bloomerang": "parsons.bloomerang.bloomerang",
+    "Box": "parsons.box.box",
+    "Braintree": "parsons.braintree.braintree",
+    "CapitolCanary": "parsons.capitol_canary.capitol_canary",
+    "CatalistMatch": "parsons.catalist.catalist",
+    "Census": "parsons.census.census",
+    "CivisClient": "parsons.civis.civisclient",
+    "Community": "parsons.community.community",
+    "Controlshift": "parsons.controlshift.controlshift",
+    "Copper": "parsons.copper.copper",
+    "CrowdTangle": "parsons.crowdtangle.crowdtangle",
+    "DatabaseConnector": "parsons.databases.database_connector",
+    "DBSync": "parsons.databases.db_sync",
+    "discover_database": "parsons.databases.discover_database",
+    "MySQL": "parsons.databases.mysql.mysql",
+    "Postgres": "parsons.databases.postgres.postgres",
+    "Redshift": "parsons.databases.redshift.redshift",
+    "Sqlite": "parsons.databases.sqlite.sqlite",
+    "Donorbox": "parsons.donorbox.donorbox",
+    "Empower": "parsons.empower.empower",
+    "FacebookAds": "parsons.facebook_ads.facebook_ads",
+    "Formstack": "parsons.formstack.formstack",
+    "Freshdesk": "parsons.freshdesk.freshdesk",
+    "CensusGeocoder": "parsons.geocode.census_geocoder",
+    "GitHub": "parsons.github.github",
+    "GoogleAdmin": "parsons.google.google_admin",
+    "GoogleBigQuery": "parsons.google.google_bigquery",
+    "GoogleCivic": "parsons.google.google_civic",
+    "GoogleCloudStorage": "parsons.google.google_cloud_storage",
+    "GoogleDocs": "parsons.google.google_docs",
+    "GoogleDrive": "parsons.google.google_drive",
+    "GoogleSheets": "parsons.google.google_sheets",
+    "Hustle": "parsons.hustle.hustle",
+    "Mailchimp": "parsons.mailchimp.mailchimp",
+    "MobileCommons": "parsons.mobilecommons.mobilecommons",
+    "MobilizeAmerica": "parsons.mobilize_america.ma",
+    "NationBuilder": "parsons.nation_builder.nation_builder",
+    "Newmode": "parsons.newmode.newmode",
+    "VAN": "parsons.ngpvan.van",
+    "Gmail": "parsons.notifications.gmail",
+    "Slack": "parsons.notifications.slack",
+    "SMTP": "parsons.notifications.smtp",
+    "PDI": "parsons.pdi.pdi",
+    "Phone2Action": "parsons.phone2action.p2a",
+    "Quickbase": "parsons.quickbase.quickbase",
+    "QuickBooksTime": "parsons.quickbooks.quickbookstime",
+    "Redash": "parsons.redash.redash",
+    "RockTheVote": "parsons.rockthevote.rtv",
+    "Salesforce": "parsons.salesforce.salesforce",
+    "Scytl": "parsons.scytl.scytl",
+    "SFTP": "parsons.sftp.sftp",
+    "Shopify": "parsons.shopify.shopify",
+    "Sisense": "parsons.sisense.sisense",
+    "TargetSmartAPI": "parsons.targetsmart.targetsmart_api",
+    "TargetSmartAutomation": "parsons.targetsmart.targetsmart_automation",
+    "TurboVote": "parsons.turbovote.turbovote",
+    "Twilio": "parsons.twilio.twilio",
+    "Zoom": "parsons.zoom.zoom",
+}
+
+__all__ = ["Table"] + list(_CONNECTORS.keys())
+
+
+def __getattr__(name):
+    if name not in _CONNECTORS:
+        raise AttributeError(f"module {__name__} has no attribute {name}")
+    module_path = _CONNECTORS[name]
     try:
-        globals()[connector_name] = getattr(importlib.import_module(module_path), connector_name)
-        __all__.append(connector_name)
+        module = importlib.import_module(module_path)
+        connector = getattr(module, name)
+        globals()[name] = connector
+        return connector
     except ImportError as e:
-        logger.debug(f"Could not import {module_path}.{connector_name} with {e}; skipping")
+        logger.error(f"Failed to import {name} from {module_path}.")
+        raise ImportError(
+            "The behavior of 'pip install parsons' has changed. "
+            "Only core dependencies are installed by default. Learn more: "
+            "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
+        ) from e

@@ -1,33 +1,98 @@
 import os
+import warnings
+from pathlib import Path
 
 import pytest
+from _pytest.mark import MarkDecorator
 
 from parsons import Table
 
-"""
-Use this as a marker before any tests that hit live services. That way they'll only run
-if you set the "LIVE_TEST" env var.
-Example usage:
+#
+# Live test decorator + pytest command-line flag
+#
 
-@mark_live_test
-def test_something():
-    service = SomeService()
-    ...
-"""
-mark_live_test = pytest.mark.skipif(
-    not os.environ.get("LIVE_TEST"), reason="Skipping because not running live test"
-)
+# Use the @pytest.mark.live decorator when authentication and/or
+# network access is required. This will exclude them from our CI workflows,
+# as authentication cannot be counted on within GitHub Actions.
+
+# @pytest.mark.live
+# def test_something_requiring_auth():
+#     service = SomeService()
+#     ...rest of test...
 
 
-# Tests whether a table has the expected structure
-def validate_list(expected_keys, table):
+def mark_live_test(func) -> MarkDecorator:
+    """Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message."""
+    warnings.warn(
+        "Marking tests with @mark_live_test is deprecated, use @pytest.mark.live instead.",
+        category=pytest.PytestDeprecationWarning,
+        stacklevel=2,
+    )
+    return pytest.mark.live(func)
+
+
+def pytest_addoption(parser) -> None:
+    """Add pytest command-line flag `--live` to activate live tests"""
+    parser.addoption(
+        "--live",
+        action="store",
+        nargs="?",
+        const="all",
+        default="none",
+        help="run tests requiring authentication and/or network access; optionally specify a parsons extra (e.g. --live=box or --live=targetsmart)",
+    )
+
+
+def pytest_collection_modifyitems(config, items) -> None:
+    """
+    Add `@pytest.mark.skip` to tests with `@pytest.mark.live`, if appropriate.
+
+    Tests will be marked to skip if pytest is not run with `--live` and
+    the `LIVE_TEST` environment variable is not found.
+    """
+    accepted_env_values = ("1", "YES", "TRUE", "ON")
+    live_env = os.environ.get("LIVE_TEST", "").strip().upper() in accepted_env_values
+    live_keyword = config.getoption("--live")
+    if live_keyword == "all" or live_env:
+        return
+
+    skip_all_live = live_keyword == "none"
+    skip_marker = pytest.mark.skip(
+        reason="Live test skipped. Use --live or --live=<name of parsons extra> to run."
+    )
+    allowed_fragment = str(Path("test") / f"test_{live_keyword}")
+    for item in items:
+        if "live" in item.keywords:
+            if skip_all_live:
+                item.add_marker(skip_marker)
+                continue
+            test_path_str = str(item.path)
+            if allowed_fragment not in test_path_str:
+                item.add_marker(skip_marker)
+
+
+#
+# Utility functions used in tests across multiple connectors
+#
+
+
+def validate_list(expected_keys: set | list, table: Table) -> bool:
+    """Test whether the columns of a Table match those provided."""
     if set(expected_keys) != set(table.columns):
         raise KeyError("Not all expected keys found.")
 
     return True
 
 
-def assert_matching_tables(table1, table2, ignore_headers=False):
+def assert_matching_tables(
+    table1: Table | dict, table2: Table | dict, ignore_headers: bool = False
+) -> None:
+    """
+    Assert that two parsons Tables or dicts are the same.
+
+    First checks that each has the same number of rows,
+    then compares each row sequentially.
+    """
     if ignore_headers:
         data1 = table1.data
         data2 = table2.data
@@ -39,19 +104,17 @@ def assert_matching_tables(table1, table2, ignore_headers=False):
         assert data1.num_rows == data2.num_rows
 
     for r1, r2 in zip(data1, data2, strict=False):
-        # Cast both rows to lists, in case they are different types of collections. Must call
-        # .items() on dicts to compare content of collections
-        if isinstance(r1, dict):
-            r1 = r1.items()
-        if isinstance(r2, dict):
-            r2 = r2.items()
+        # Cast both rows to lists, in case they are different types of collections.
+        # Must call .items() on dicts to compare content of collections.
+        r1_compare = r1.items() if isinstance(r1, dict) else r1
+        r2_compare = r2.items() if isinstance(r2, dict) else r2
 
-        assert list(r1) == list(r2)
+        assert list(r1_compare) == list(r2_compare)
 
 
 @pytest.fixture
-def sample_data():
-    """Provides sample data for tests"""
+def sample_data() -> dict[str, list[dict[str, str | int]]]:
+    """Provides sample dict containing two lists for use in tests."""
     return {
         "lst": [
             {"a": 1, "b": 2, "c": 3},
@@ -65,6 +128,10 @@ def sample_data():
 
 
 @pytest.fixture
-def tbl(sample_data):
-    """Creates a Table from sample data"""
+def tbl(sample_data) -> Table:
+    """
+    Provides a Table for use in tests.
+
+    The table contains the data from the sample_data fixture.
+    """
     return Table(sample_data["lst_dicts"])

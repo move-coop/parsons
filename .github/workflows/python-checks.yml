@@ -57,6 +57,7 @@ jobs:
 
       - name: determine key for pytest cache
         id: pytest-run-key
+        shell: bash
         run: |
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
@@ -165,6 +166,7 @@ jobs:
 
       - name: determine key for pytest cache
         id: pytest-run-key
+        shell: bash
         run: |
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"

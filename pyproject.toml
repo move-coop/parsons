@@ -51,7 +51,7 @@ dev = [
     {include-group = "test-coverage"},
 ]
 ci = [
-    "build>=1.4.0",
+    "build>=1.4",
 ]
 docs = [
     "furo~=2025.12.19",

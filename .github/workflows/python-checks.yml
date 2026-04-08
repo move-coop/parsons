@@ -84,7 +84,7 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -196,7 +196,7 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -228,7 +228,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
@@ -268,7 +268,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('setup.py') }}
@@ -443,7 +443,7 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
           key: |

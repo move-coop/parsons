@@ -12,14 +12,15 @@ from parsons.utilities.ssh_utilities import query_through_ssh
 def mock_ssh_context():
     """Fixture to mock the entire asyncssh connection and tunnel lifecycle."""
     with patch("asyncssh.connect", new_callable=AsyncMock) as mock_connect:
-        mock_tunnel = AsyncMock()
-        mock_tunnel.get_port = MagicMock(return_value=54321)
-        mock_tunnel.close = MagicMock()
-        mock_tunnel.wait_closed = AsyncMock()
-
-        mock_conn = AsyncMock(spec=asyncssh.SSHClientConnection)
-        mock_conn.close = MagicMock()
+        mock_conn = MagicMock(spec=asyncssh.SSHClientConnection)
+        mock_conn.forward_local_port = AsyncMock()
         mock_conn.wait_closed = AsyncMock()
+        mock_conn.close = MagicMock()
+
+        mock_tunnel = MagicMock()
+        mock_tunnel.get_port = MagicMock(return_value=54321)
+        mock_tunnel.wait_closed = AsyncMock()
+        mock_tunnel.close = MagicMock()
 
         mock_connect.return_value = mock_conn
         mock_conn.forward_local_port.return_value = mock_tunnel

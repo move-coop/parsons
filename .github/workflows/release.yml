@@ -20,7 +20,6 @@ jobs:
     env:
       CACHE_GLOBS: |
         **/pyproject.toml
-        **/requirements*.txt
         **/setup.py
         **/uv.lock
 
@@ -81,7 +80,8 @@ jobs:
           name: parsons-dist
           path: dist
 
-      - shell: bash
+      - name: extract requirements.txt for use in pip cache
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
 
@@ -89,8 +89,8 @@ jobs:
           mkdir -p temp_extract
           tar -xzf "$file" -C temp_extract
 
-          # Find and move requirements files to root
-          find temp_extract -name 'requirements.txt' -exec cp {} . \; 2>/dev/null || true
+          # Find and move pyproject file to root
+          find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
 
           # Clean up
           rm -rf temp_extract
@@ -100,7 +100,8 @@ jobs:
             python-version: ${{ matrix.python-version }}
             cache: pip
 
-      - shell: bash
+      - name: install parsons from file
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
           pip install "$file"

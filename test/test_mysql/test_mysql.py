@@ -1,12 +1,14 @@
 import unittest
 
+import pytest
+
 from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@mark_live_test
+@pytest.mark.live
 class TestMySQLLive(unittest.TestCase):
     def setUp(self):
         self.mysql = MySQL()
@@ -40,7 +42,7 @@ class TestMySQLLive(unittest.TestCase):
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
-@mark_live_test
+@pytest.mark.live
 class TestMySQL(unittest.TestCase):
     def setUp(self):
         self.mysql = MySQL()

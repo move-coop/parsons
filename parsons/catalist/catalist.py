@@ -375,9 +375,6 @@ class CatalistMatch:
         temp_file_zip = self.sftp.get_file(
             remote_path=remote_filepath, export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE
         )
-        logger.debug(
-            f"Download complete for job {id} (local size: {temp_file_zip.stat().st_size} bytes)."
-        )
 
         if not is_zipfile(temp_file_zip):
             raise RuntimeError(
@@ -386,6 +383,9 @@ class CatalistMatch:
                 "The SFTP download may be corrupt or incomplete."
             )
 
+        logger.debug(
+            f"Download complete for job {id} (local size: {temp_file_zip.stat().st_size} bytes)."
+        )
         temp_dir = tempfile.mkdtemp()
         with ZipFile(temp_file_zip) as zf:
             zf.extractall(path=temp_dir)

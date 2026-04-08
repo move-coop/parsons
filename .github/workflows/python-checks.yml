@@ -55,14 +55,14 @@ jobs:
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-
-      - id: pytest-run-key
-        shell: bash
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
         with:
@@ -80,7 +80,7 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -123,7 +123,7 @@ jobs:
           --group ci
           --all-extras
 
-      - name: get-extras
+      - name: create list of all parsons extras
         id: get-extras
         run: |
           uv run python -c "
@@ -163,14 +163,14 @@ jobs:
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-
-      - id: pytest-run-key
-        shell: bash
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
         with:
@@ -188,7 +188,7 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -220,7 +220,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -260,7 +260,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -435,7 +435,7 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}

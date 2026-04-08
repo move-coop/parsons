@@ -1,3 +1,4 @@
+asyncssh~=2.22.0
 azure-storage-blob==12.27.1
 boto3>=1.17.98
 boxsdk[jwt]>=10.4.0
@@ -38,7 +39,6 @@ simple-salesforce==1.12.9
 simplejson==3.20.2
 slack-sdk==3.38.0
 sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0 # Prefect does not work with 1.4.33 and >=2.0.0 has breaking changes
-sshtunnel==0.4.0
 suds-py3==1.4.5.0
 surveygizmo==1.2.3
 twilio==9.10.3

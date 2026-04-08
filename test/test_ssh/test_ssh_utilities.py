@@ -1,63 +1,90 @@
-import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import asyncssh
+import psycopg2
+import pytest
+from asyncssh.constants import DISC_CONNECTION_LOST
 
 from parsons.utilities.ssh_utilities import query_through_ssh
 
 
-class TestSSHTunnelUtility(unittest.TestCase):
-    @patch("parsons.utilities.ssh_utilities.sshtunnel.SSHTunnelForwarder")
-    @patch("parsons.utilities.ssh_utilities.psycopg2.connect")
-    def test_query_through_ssh(self, mock_connect, mock_tunnel):
-        # Setup mock for SSHTunnelForwarder
-        mock_tunnel_instance = MagicMock()
-        mock_tunnel.return_value = mock_tunnel_instance
-        mock_tunnel_instance.start.return_value = None
-        mock_tunnel_instance.stop.return_value = None
-        mock_tunnel_instance.local_bind_port = 12345
+@pytest.fixture
+def mock_ssh_context():
+    """Fixture to mock the entire asyncssh connection and tunnel lifecycle."""
+    with patch("asyncssh.connect", new_callable=AsyncMock) as mock_connect:
+        mock_tunnel = AsyncMock()
+        mock_tunnel.get_port = MagicMock(return_value=54321)
+        mock_tunnel.close = MagicMock()
+        mock_tunnel.wait_closed = AsyncMock()
 
-        # Setup mock for psycopg2.connect
-        mock_conn_instance = MagicMock()
-        mock_connect.return_value = mock_conn_instance
+        mock_conn = AsyncMock(spec=asyncssh.SSHClientConnection)
+        mock_conn.close = MagicMock()
+        mock_conn.wait_closed = AsyncMock()
+
+        mock_connect.return_value = mock_conn
+        mock_conn.forward_local_port.return_value = mock_tunnel
+
+        yield {"connect": mock_connect, "connection": mock_conn, "tunnel": mock_tunnel}
+
+
+@pytest.fixture
+def mock_db_context():
+    """Fixture to mock psycopg2 connection and cursor."""
+    with patch("psycopg2.connect") as mock_connect:
+        mock_conn = MagicMock()
         mock_cursor = MagicMock()
-        mock_conn_instance.cursor.return_value = mock_cursor
-        mock_cursor.fetchall.return_value = [("row1",), ("row2",)]
 
-        # Define the parameters for the test
-        ssh_host = "ssh.example.com"
-        ssh_port = 22
-        ssh_username = "user"
-        ssh_password = "pass"
-        db_host = "db.example.com"
-        db_port = 5432
-        db_name = "testdb"
-        db_username = "dbuser"
-        db_password = "dbpass"
-        query = "SELECT * FROM table"
+        mock_conn.cursor.return_value.__enter__.return_value = mock_cursor
+        mock_connect.return_value = mock_conn
 
-        # Execute the function under test
-        result = query_through_ssh(
-            ssh_host,
-            ssh_port,
-            ssh_username,
-            ssh_password,
-            db_host,
-            db_port,
-            db_name,
-            db_username,
-            db_password,
-            query,
-        )
+        yield {"connect": mock_connect, "connection": mock_conn, "cursor": mock_cursor}
 
-        # Assert that the result is as expected
-        assert result == [("row1",), ("row2",)]
-        mock_tunnel.assert_called_once_with(
-            (ssh_host, ssh_port),
-            ssh_username=ssh_username,
-            ssh_password=ssh_password,
-            remote_bind_address=(db_host, db_port),
-        )
-        mock_connect.assert_called_once_with(
-            host="localhost", port=12345, database=db_name, user=db_username, password=db_password
-        )
-        mock_cursor.execute.assert_called_once_with(query)
-        mock_cursor.fetchall.assert_called_once()
+
+def test_query_through_ssh_success(mock_ssh_context, mock_db_context):
+    expected_data = [("row1",), ("row2",)]
+    mock_db_context["cursor"].fetchall.return_value = expected_data
+
+    result = query_through_ssh(
+        ssh_host="ssh.example.com",
+        ssh_port=22,
+        ssh_username="user",
+        ssh_password="password",
+        db_host="db.internal",
+        db_port=5432,
+        db_name="testdb",
+        db_username="dbuser",
+        db_password="dbpassword",
+        query="SELECT * FROM table",
+    )
+
+    assert result == expected_data
+    mock_ssh_context["connect"].assert_called_once()
+    mock_db_context["connect"].assert_called_once_with(
+        host="127.0.0.1",
+        port=54321,
+        user="dbuser",
+        password="dbpassword",
+        database="testdb",
+    )
+    mock_ssh_context["tunnel"].close.assert_called_once()
+    mock_ssh_context["connection"].close.assert_called_once()
+
+
+def test_query_through_ssh_ssh_failure(mock_ssh_context):
+    error_msg = "Connection lost to the remote host"
+    mock_ssh_context["connect"].side_effect = asyncssh.Error(DISC_CONNECTION_LOST, error_msg)
+
+    with pytest.raises(asyncssh.Error, match=error_msg):
+        query_through_ssh("host", 22, "user", "pass", "db", 5432, "name", "u", "p", "SELECT 1")
+
+    mock_ssh_context["connection"].forward_local_port.assert_not_called()
+
+
+def test_query_through_ssh_db_failure(mock_ssh_context, mock_db_context):
+    mock_db_context["connect"].side_effect = psycopg2.OperationalError("DB Connection Error")
+
+    with pytest.raises(psycopg2.OperationalError, match="DB Connection Error"):
+        query_through_ssh("host", 22, "user", "pass", "db", 5432, "name", "u", "p", "SELECT 1")
+
+    mock_ssh_context["tunnel"].close.assert_called_once()
+    mock_ssh_context["connection"].close.assert_called_once()

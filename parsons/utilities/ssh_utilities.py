@@ -1,85 +1,129 @@
+import asyncio
 import logging
+from typing import TYPE_CHECKING
 
+import asyncssh
 import psycopg2
-import sshtunnel
+from asyncssh import SSHClientConnection, SSHClientConnectionOptions, SSHForwarder, SSHListener
+
+if TYPE_CHECKING:
+    from psycopg2.extensions import connection as PostgresConnection
 
 
-def query_through_ssh(
-    ssh_host,
-    ssh_port,
-    ssh_username,
-    ssh_password,
-    db_host,
-    db_port,
-    db_name,
-    db_username,
-    db_password,
-    query,
-):
+def query_through_ssh(*args, **kwargs):
+    """Synchronous wrapper for the async query function."""
+    return asyncio.run(async_query_through_ssh(*args, **kwargs))
+
+
+async def async_query_through_ssh(
+    ssh_host: str,
+    ssh_port: int,
+    ssh_username: str,
+    ssh_password: str,
+    db_host: str,
+    db_port: int,
+    db_name: str,
+    db_username: str,
+    db_password: str,
+    query: str,
+    *,
+    ssh_config: list[str] | None = None,
+    ssh_options: SSHClientConnectionOptions | None = None,
+) -> list[tuple] | None:
     """
-    Securely query a PostgreSQL database on a private network via an SSH tunnel.
+    Securely query a PostgreSQL database via an SSH tunnel.
 
     Args:
-        ssh_host:
+        ssh_host: str
             The host for the SSH connection
-        ssh_port:
+        ssh_port: int
             The port for the SSH connection
-        ssh_username:
+        ssh_username: str
             The username for the SSH connection
-        ssh_password:
+        ssh_password: str
             The password for the SSH connection
-        db_host:
+        db_host: str
             The host for the db connection
-        db_port:
+        db_port: int
             The port for the db connection
-        db_name:
+        db_name: str
             The name of the db database
-        db_username:
+        db_username: str
             The username for the db database
-        db_password:
+        db_password: str
             The password for the db database
-        query:
+        query: str
             The SQL query to execute
+        ssh_config: SSHClientConnectionOptions, optional
+            Paths to OpenSSH client configuration files to load
+        ssh_options: SSHClientConnectionOptions, optional
+            Options for establishing the SSH client connection, such as host key(s)
 
     Returns:
-        A list of records resulting from the query or None if something went wrong
+        list[tuple] | None
+            A list of records resulting from the query or None if something went wrong
 
     """
-    output = None
-    server = None
-    con = None
+    ssh_conn: SSHClientConnection | None = None
+    tunnel: SSHListener | SSHForwarder | None = None
+
+    def _execute_sync_query(assigned_port: int) -> list[tuple]:
+        db_conn: PostgresConnection | None = None
+
+        try:
+            db_conn = psycopg2.connect(
+                host="127.0.0.1",
+                port=assigned_port,
+                user=db_username,
+                password=db_password,
+                database=db_name,
+            )
+            with db_conn.cursor() as cur:
+                cur.execute(query)
+                return cur.fetchall()
+
+        except psycopg2.Error as db_err:
+            logging.error(f"PostgreSQL Error: {db_err}")
+            raise
+
+        finally:
+            if db_conn:
+                db_conn.close()
+
     try:
-        server = sshtunnel.SSHTunnelForwarder(
-            (ssh_host, int(ssh_port)),
-            ssh_username=ssh_username,
-            ssh_password=ssh_password,
-            remote_bind_address=(db_host, int(db_port)),
+        ssh_conn = await asyncssh.connect(
+            ssh_host,
+            port=ssh_port,
+            username=ssh_username,
+            password=ssh_password,
+            config=ssh_config,
+            options=ssh_options,
+            known_hosts=None if ssh_options is None else getattr(ssh_options, "known_hosts", None),
+            verify_host_key=None
+            if ssh_options is None
+            else getattr(ssh_options, "verify_host_key", None),
         )
-        server.start()
-        logging.info("SSH tunnel established successfully.")
+        logging.info("SSH connection established.")
 
-        con = psycopg2.connect(
-            host="localhost",
-            port=server.local_bind_port,
-            database=db_name,
-            user=db_username,
-            password=db_password,
-        )
-        logging.info("Database connection established successfully.")
+        tunnel = await ssh_conn.forward_local_port("", 0, db_host, db_port)
+        local_port = tunnel.get_port()
+        logging.info(f"Tunnel active on localhost:{local_port}")
 
-        cursor = con.cursor()
-        cursor.execute(query)
-        records = cursor.fetchall()
-        output = records
-        logging.info(f"Query executed successfully: {records}")
-    except Exception as e:
-        logging.error(f"Error during query execution: {e}")
-        raise e
+        output = await asyncio.to_thread(_execute_sync_query, local_port)
+        logging.info(f"Query successful: {len(output) if output else 0} rows returned.")
+
+    except (psycopg2.Error, asyncssh.Error, OSError):
+        raise
+
     finally:
-        if con:
-            con.close()
-            logging.info("Database connection closed.")
-        if server:
-            server.stop()
+        if tunnel:
+            tunnel.close()
+            await tunnel.wait_closed()
             logging.info("SSH tunnel closed.")
-    return output
+
+        if ssh_conn:
+            ssh_conn.close()
+            await ssh_conn.wait_closed()
+            logging.info("SSH connection closed.")
+
+    return output or None

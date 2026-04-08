@@ -83,7 +83,7 @@ EXTRA_DEPENDENCIES = {
     "ssh": [
         "psycopg2-binary >= 2.0.0",
         "sqlalchemy >= 1.4.22",
-        "sshtunnel",
+        "asyncssh >= 2",
     ],
 }
 

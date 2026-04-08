@@ -55,7 +55,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           echo "\
           RUN_KEY=\
@@ -126,7 +127,7 @@ jobs:
           --group ci
           --all-extras
 
-      - name: get-extras
+      - name: create list of all parsons extras
         id: get-extras
         run: |
           uv run python -c "
@@ -166,7 +167,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
         run: |
           echo "\
           RUN_KEY=\

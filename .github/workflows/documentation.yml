@@ -13,7 +13,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-

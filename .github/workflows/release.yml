@@ -20,7 +20,6 @@ jobs:
     env:
       CACHE_GLOBS: |
         **/pyproject.toml
-        **/requirements*.txt
         **/setup.py
         **/uv.lock
 
@@ -89,8 +88,8 @@ jobs:
           mkdir -p temp_extract
           tar -xzf "$file" -C temp_extract
 
-          # Find and move requirements files to root
-          find temp_extract -name 'requirements.txt' -exec cp {} . \; 2>/dev/null || true
+          # Find and move pyproject file to root
+          find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
 
           # Clean up
           rm -rf temp_extract

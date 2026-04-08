@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
@@ -45,7 +44,6 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
@@ -73,8 +71,7 @@ jobs:
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - env:
-          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
+          UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
           --upgrade
@@ -128,8 +125,6 @@ jobs:
 
       - name: get-extras
         id: get-extras
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
           uv run python -c "
           import json
@@ -185,7 +180,6 @@ jobs:
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: >-
           uv sync
           --upgrade

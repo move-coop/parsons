@@ -1,18 +1,26 @@
-.dockerignore
-Dockerfile
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.Python
-env
-pip-log.txt
-pip-delete-this-directory.txt
-.tox
-.coverage
-.coverage.*
-.cache
-coverage.xml
-*,cover
-*.log
+# Git
 .git
+*.gitignore
+
+# Python artifacts
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.coverage
+
+# Docker/CI
+Dockerfile
+.dockerignore
+.circleci/
+.github/
+.pre-commit-config.yaml
+
+# OS/IDEs
+.DS_Store
+.vscode/
+.idea/

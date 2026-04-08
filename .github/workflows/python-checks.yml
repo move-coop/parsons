@@ -88,7 +88,11 @@ jobs:
 
       - env:
           COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
-        run: uv run pytest --failed-first
+        run: >-
+          pytest
+          --failed-first
+          --cov=parsons
+          --no-cov-on-fail
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
@@ -127,7 +131,7 @@ jobs:
       - name: create list of all parsons extras
         id: get-extras
         run: |
-          uv run python -c "
+          python -c "
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path
@@ -195,7 +199,7 @@ jobs:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
 
-      - run: uv run pytest test/test_${{ matrix.extra }}
+      - run: pytest test/test_${{ matrix.extra }}
 
   ruff-format:
     runs-on: ubuntu-latest
@@ -229,7 +233,6 @@ jobs:
 
       - id: run-ruff
         run: >-
-          uv run
           ruff format
           --diff
           .
@@ -269,7 +272,6 @@ jobs:
 
       - id: run-ruff-sarif
         run: >-
-          uv run
           ruff check
           --output-format=sarif
           -o results.sarif
@@ -283,7 +285,6 @@ jobs:
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
         run: >-
-          uv run
           ruff check
           --output-format=github
           .
@@ -317,7 +318,6 @@ jobs:
 
       - id: run-bandit-sarif
         run: >-
-          uv run
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
@@ -333,7 +333,6 @@ jobs:
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
         run: >-
-          uv run
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
@@ -399,9 +398,9 @@ jobs:
           --no-default-groups
           --group docs
 
-      - run: uv run sphinx-lint docs
+      - run: sphinx-lint docs
 
-      - run: uv run sphinx-lint parsons
+      - run: sphinx-lint parsons
 
   pre-commit:
     runs-on: ubuntu-latest
@@ -445,6 +444,5 @@ jobs:
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache
         run: >-
-          uv run
           pre-commit run
           --all-files

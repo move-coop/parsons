@@ -188,8 +188,6 @@ docstring-code-line-length = "dynamic"
 [tool.pytest]
 addopts = [
     "-rf",
-    "--cov=parsons",
-    "--no-cov-on-fail",
     "-n=auto",
 ]
 testpaths = [

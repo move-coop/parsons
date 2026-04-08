@@ -10,9 +10,71 @@ if TYPE_CHECKING:
     from psycopg2.extensions import connection as PostgresConnection
 
 
-def query_through_ssh(*args, **kwargs):
-    """Synchronous wrapper for the async query function."""
-    return asyncio.run(async_query_through_ssh(*args, **kwargs))
+def query_through_ssh(
+    ssh_host: str,
+    ssh_port: int,
+    ssh_username: str,
+    ssh_password: str,
+    db_host: str,
+    db_port: int,
+    db_name: str,
+    db_username: str,
+    db_password: str,
+    query: str,
+    *,
+    ssh_config: list[str] | None = None,
+    ssh_options: SSHClientConnectionOptions | None = None,
+) -> list[tuple] | None:
+    """
+    Securely query a PostgreSQL database via an SSH tunnel.
+
+    Args:
+        ssh_host: str
+            The host for the SSH connection
+        ssh_port: int
+            The port for the SSH connection
+        ssh_username: str
+            The username for the SSH connection
+        ssh_password: str
+            The password for the SSH connection
+        db_host: str
+            The host for the db connection
+        db_port: int
+            The port for the db connection
+        db_name: str
+            The name of the db database
+        db_username: str
+            The username for the db database
+        db_password: str
+            The password for the db database
+        query: str
+            The SQL query to execute
+        ssh_config: SSHClientConnectionOptions, optional
+            Paths to OpenSSH client configuration files to load
+        ssh_options: SSHClientConnectionOptions, optional
+            Options for establishing the SSH client connection, such as host key(s)
+
+    Returns:
+        list[tuple] | None
+            A list of records resulting from the query or None if something went wrong
+
+    """
+    return asyncio.run(
+        async_query_through_ssh(
+            ssh_host=ssh_host,
+            ssh_port=ssh_port,
+            ssh_username=ssh_username,
+            ssh_password=ssh_password,
+            db_host=db_host,
+            db_port=db_port,
+            db_name=db_name,
+            db_username=db_username,
+            db_password=db_password,
+            query=query,
+            ssh_config=ssh_config,
+            ssh_options=ssh_options,
+        )
+    )
 
 
 async def async_query_through_ssh(
@@ -31,7 +93,7 @@ async def async_query_through_ssh(
     ssh_options: SSHClientConnectionOptions | None = None,
 ) -> list[tuple] | None:
     """
-    Securely query a PostgreSQL database via an SSH tunnel.
+    Securely query a PostgreSQL database via an asynchronous SSH tunnel.
 
     Args:
         ssh_host: str

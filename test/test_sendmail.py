@@ -131,7 +131,7 @@ class TestSendMailValidateEmailString:
             dummy_sendmail._validate_email_string(bad_email)
 
     @pytest.mark.parametrize(
-        "good_email", ["a@b.com", "a+b@c.com", "a@b.org", "a@b.c.org"]
+        "good_email", ["a@b.com", "a+b@c.com", "a@b.org", "a@b.c.org", "a+b@c.d.net"]
     )
     def test_passes_valid_emails(self, dummy_sendmail, good_email: str):
         dummy_sendmail._validate_email_string(good_email)

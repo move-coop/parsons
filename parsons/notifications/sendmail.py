@@ -198,7 +198,7 @@ class SendMail(ABC):
         _, email_addr = parseaddr(email_address)
 
         if not email_addr:
-            err_msg = f"Invalid email address, could not parse '{email_address}'"
+            err_msg = f"Invalid email address, could not parse '{email_address}'."
             raise EmailSyntaxError(err_msg)
 
         if validate_email(email_addr, check_deliverability=False):

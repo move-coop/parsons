@@ -119,11 +119,19 @@ class TestSendMailValidateEmailString:
     @pytest.mark.parametrize(
         ("bad_email", "error_match"),
         [
-            ("a", "An email address must have an @-sign"),
-            ("a@", "Invalid email address, could not parse 'a@'"),
-            ("a@.com", "An email address cannot have a period immediately after the @-sign"),
-            ("a+b", "An email address must have an @-sign"),
-            ("@a.com", "There must be something before the @-sign"),
+            ("a", "An email address must have an @-sign."),
+            ("a@", "Invalid email address, could not parse 'a@'."),
+            ("a@b", "The part after the @-sign is not valid. It should have a period."),
+            ("a@.com", "An email address cannot have a period immediately after the @-sign."),
+            ("", "Invalid email address, could not parse ''."),
+            ("@", "Invalid email address, could not parse '@'."),
+            ("@a", "There must be something before the @-sign."),
+            ("@.com", "There must be something before the @-sign."),
+            ("@a.com", "There must be something before the @-sign."),
+            ("a+b", "An email address must have an @-sign."),
+            ("a+b@", r"Invalid email address, could not parse 'a\+b@'."),
+            ("a+b@c", "The part after the @-sign is not valid. It should have a period."),
+            ("a+b@.com", "An email address cannot have a period immediately after the @-sign."),
         ],
     )
     def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email: str, error_match: str):

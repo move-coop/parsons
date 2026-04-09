@@ -147,7 +147,6 @@ class SendMail(ABC):
 
         for f in files:
             filename = getattr(f, "name", "file")
-            file_bytes = b""
 
             if isinstance(f, io.StringIO):
                 file_bytes = f.getvalue().encode()

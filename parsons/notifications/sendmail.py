@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr
 from pathlib import Path
 
-from validate_email import validate_email
+from email_validator import EmailSyntaxError, validate_email
 
 # BUG: can't send files equal to or larger than 6MB
 # There is a possible fix
@@ -193,12 +193,16 @@ class SendMail(ABC):
 
         return message
 
-    def _validate_email_string(self, str):
+    def _validate_email_string(self, email_address: str):
         self.log.debug(f"Validating email {str}...")
-        realname, email_addr = parseaddr(str)
+        _, email_addr = parseaddr(email_address)
 
-        if not email_addr or not validate_email(email_addr):
-            raise ValueError("Invalid email address.")
+        if not email_addr:
+            err_msg = f"Invalid email address, could not parse '{email_address}'"
+            raise EmailSyntaxError(err_msg)
+
+        if validate_email(email_addr, check_deliverability=False):
+            return True
 
         return True
 

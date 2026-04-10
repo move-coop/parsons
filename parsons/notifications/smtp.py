@@ -32,13 +32,14 @@ class SMTP(SendMail):
 
     def __init__(
         self,
-        host=None,
-        port=None,
-        username=None,
-        password=None,
-        tls=None,
-        ssl=None,
-        close_manually=False,
+        host: str | None = None,
+        port: int | str | None = None,
+        username: str | None = None,
+        password: str | None = None,
+        *,
+        tls: bool | None = None,
+        ssl: bool | None = None,
+        close_manually: bool = False,
     ):
         self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in FALSE_VALUES
         self.ssl = check_env.check("SMTP_SSL", ssl, optional=True) in TRUE_VALUES

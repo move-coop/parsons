@@ -112,7 +112,7 @@ def test_send_email_content(
 
     if files_with_data:
         for content in files_with_data:
-            assert content.read().encode() in sent_payloads
+            assert content.getvalue().encode() in sent_payloads
 
     sent_types = mock_conn.get_sent_types()
     for t in expected_types:

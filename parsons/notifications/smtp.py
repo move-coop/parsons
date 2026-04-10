@@ -117,6 +117,8 @@ class SMTP(SendMail):
         tos = message.get_all("To") or []
         ccs = message.get_all("Cc") or []
         bccs = message.get_all("Bcc") or []
+        if "Bcc" in message:
+            del message["Bcc"]
 
         all_recipients = [addr for _, addr in getaddresses(tos + ccs + bccs)]
         if not all_recipients:

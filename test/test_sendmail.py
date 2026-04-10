@@ -172,7 +172,7 @@ class TestSendMailSendEmail:
             )
 
     def test_errors_if_no_to_email_is_specified(self, patched_sendmail):
-        with pytest.raises(EmptyListError, match="Must contain at least 1 email"):
+        with pytest.raises(EmptyListError, match="Must provide at least 1 email"):
             patched_sendmail.send_email("from", [], "subject", "text")
 
     def test_appropriately_dispatches_html_email(self, patched_sendmail):

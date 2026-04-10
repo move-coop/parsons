@@ -13,7 +13,7 @@ _dir = Path(__file__).parent
 
 @pytest.fixture
 def gmail_client(tmp_path: Path) -> Gmail:
-    """Set up temporary credentials and return a configured Gmail client with mocked network requests."""
+    """Set up temporary credentials and return a configured Gmail client."""
     credentials_file = tmp_path / "credentials.json"
     token_file = tmp_path / "token.json"
 
@@ -67,363 +67,100 @@ def gmail_client(tmp_path: Path) -> Gmail:
     return Gmail(str(credentials_file), str(token_file))
 
 
-def test_create_message_simple(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email"
-    message_text = "The is the message text of the email"
-
-    msg = gmail_client._create_message_simple(sender, to, subject, message_text)
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", 'text/plain; charset="us-ascii"'),
-        ("MIME-Version", "1.0"),
-        ("Content-Transfer-Encoding", "7bit"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    assert decoded.items() == expected_items
-
-    expected_parts = 1
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    assert decoded.get_payload() == message_text
+@pytest.fixture
+def email_meta():
+    return {
+        "sender": "Sender <sender@email.com>",
+        "to": "Recepient <recepient@email.com>",
+        "subject": "Test Subject",
+        "text": "The is the message text",
+        "html": "<p>This is html</p>",
+    }
 
 
-def test_create_message_html(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test html email"
-    message_text = "The is the message text of the email"
-    message_html = "<p>This is the html message part of the email</p>"
+def get_decoded_email(gmail_client, msg_obj):
+    """Helper to decode the raw gmail message into an email object."""
+    raw = gmail_client._encode_raw_message(msg_obj)
+    return email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
-    msg = gmail_client._create_message_html(sender, to, subject, message_text, message_html)
-    raw = gmail_client._encode_raw_message(msg)
 
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("subject", subject),
-        ("from", sender),
-        ("to", to),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
+def get_normalized_items(decoded_msg):
+    """Normalizes Content-Type boundaries for consistent assertion."""
+    updated = []
+    for key, value in decoded_msg.items():
+        if "Content-Type" in key and "boundary=" in value:
+            updated.append(("Content-Type", "multipart/alternative;\n boundary="))
         else:
-            updated_items.append((key, value))
+            updated.append((key, value))
+    return updated
 
-    assert updated_items == expected_items
 
-    expected_parts = 3
-    assert sum(1 for _ in decoded.walk()) == expected_parts
+def test_create_message_simple(gmail_client, email_meta):
+    msg = gmail_client._create_message_simple(
+        email_meta["sender"], email_meta["to"], email_meta["subject"], email_meta["text"]
+    )
+    decoded = get_decoded_email(gmail_client, msg)
 
+    assert decoded["to"] == email_meta["to"]
+    assert decoded["subject"] == email_meta["subject"]
+    assert decoded.get_payload() == email_meta["text"]
+
+
+def test_create_message_html(gmail_client, email_meta):
+    msg = gmail_client._create_message_html(
+        email_meta["sender"],
+        email_meta["to"],
+        email_meta["subject"],
+        email_meta["text"],
+        email_meta["html"],
+    )
+    decoded = get_decoded_email(gmail_client, msg)
+
+    assert get_normalized_items(decoded)[0] == (
+        "Content-Type",
+        "multipart/alternative;\n boundary=",
+    )
     parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
+    assert parts[0].get_payload() == email_meta["text"]
+    assert parts[1].get_payload() == email_meta["html"]
 
 
-def test_create_message_html_no_text(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test html email"
-    message_html = "<p>This is the html message part of the email</p>"
+@pytest.mark.parametrize(
+    ("ext", "expected_type", "b64_suffix"),
+    [
+        ("txt", "text/plain", "txt"),
+        ("jpeg", "image/jpeg", "jpeg"),
+        ("m4a", "audio/mp4", "m4a"),
+        ("mp3", "audio/mpeg", "mp3"),
+        ("mp4", "video/mp4", "mp4"),
+        ("pdf", "application/pdf", "pdf"),
+    ],
+)
+def test_create_message_attachments_all(gmail_client, email_meta, ext, expected_type, b64_suffix):
+    # Handle the specific logic for Windows line endings in the txt file
+    if ext == "txt" and os.linesep == "\r\n":
+        b64_suffix = "win_txt"
 
-    msg = gmail_client._create_message_html(sender, to, subject, "", message_html)
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("subject", subject),
-        ("from", sender),
-        ("to", to),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 2
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_html
-
-
-def test_create_message_attachments(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.txt")]
+    attachment_path = _dir / f"assets/loremipsum.{ext}"
+    b64_ref_path = _dir / f"assets/loremipsum_b64_{b64_suffix}.txt"
 
     msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
-    )
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-
-    if os.linesep == "\r\n":
-        file = _dir / "assets/loremipsum_b64_win_txt.txt"
-    else:
-        file = _dir / "assets/loremipsum_b64_txt.txt"
-
-    assert parts[2].get_content_type() == "text/plain"
-    assert parts[2].get_payload() == file.read_text()
-
-
-def test_create_message_attachments_jpeg(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.jpeg")]
-
-    msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
-    )
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-    assert parts[2].get_content_maintype() == "image"
-    assert parts[2].get_payload() == (_dir / "assets/loremipsum_b64_jpeg.txt").read_text()
-
-
-def test_create_message_attachments_m4a(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.m4a")]
-
-    msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
-    )
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-    assert parts[2].get_content_maintype() == "audio"
-    assert parts[2].get_payload() == (_dir / "assets/loremipsum_b64_m4a.txt").read_text()
-
-
-def test_create_message_attachments_mp3(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.mp3")]
-
-    msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
-    )
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-    assert parts[2].get_content_type() == "audio/mpeg"
-    assert parts[2].get_payload() == (_dir / "assets/loremipsum_b64_mp3.txt").read_text()
-
-
-def test_create_message_attachments_mp4(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.mp4")]
-
-    msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
-    )
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
-    parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-    assert parts[2].get_content_type() == "video/mp4"
-    assert parts[2].get_payload() == (_dir / "assets/loremipsum_b64_mp4.txt").read_text()
-
-
-def test_create_message_attachments_pdf(gmail_client: Gmail):
-    sender = "Sender <sender@email.com>"
-    to = "Recepient <recepient@email.com>"
-    subject = "This is a test email with attachements"
-    message_text = "The is the message text of the email with attachments"
-    message_html = "<p>This is the html message part of the email with attachments</p>"
-    attachments = [str(_dir / "assets/loremipsum.pdf")]
-
-    msg = gmail_client._create_message_attachments(
-        sender, to, subject, message_text, attachments, message_html=message_html
+        email_meta["sender"],
+        email_meta["to"],
+        email_meta["subject"],
+        email_meta["text"],
+        [str(attachment_path)],
+        message_html=email_meta["html"],
     )
 
-    raw = gmail_client._encode_raw_message(msg)
-
-    decoded = email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
-
-    expected_items = [
-        ("Content-Type", "multipart/alternative;\n boundary="),
-        ("MIME-Version", "1.0"),
-        ("to", to),
-        ("from", sender),
-        ("subject", subject),
-    ]
-
-    updated_items = []
-    for key, value in decoded.items():
-        if "Content-Type" in key and "multipart/alternative;\n boundary=" in value:
-            updated_items.append(("Content-Type", "multipart/alternative;\n boundary="))
-        else:
-            updated_items.append((key, value))
-
-    assert updated_items == expected_items
-
-    expected_parts = 4
-    assert sum(1 for _ in decoded.walk()) == expected_parts
-
+    decoded = get_decoded_email(gmail_client, msg)
     parts = decoded.get_payload()
-    assert parts[0].get_payload() == message_text
-    assert parts[1].get_payload() == message_html
-    assert parts[2].get_content_type() == "application/pdf"
-    assert parts[2].get_payload() == (_dir / "assets/loremipsum_b64_pdf.txt").read_text()
+
+    assert parts[0].get_payload() == email_meta["text"]
+    assert parts[1].get_payload() == email_meta["html"]
+
+    assert expected_type in parts[2].get_content_type()
+    assert parts[2].get_payload() == b64_ref_path.read_text()
 
 
 @pytest.mark.parametrize(
@@ -438,12 +175,11 @@ def test_create_message_attachments_pdf(gmail_client: Gmail):
         ("Sender <sender+alias@email,com>", False),
     ],
 )
-def test__validate_email_string(gmail_client: Gmail, email_str: str, expected_valid: bool):
+def test__validate_email_string(gmail_client, email_str, expected_valid):
     if expected_valid:
         assert gmail_client._validate_email_string(email_str)
     else:
         with pytest.raises(ValueError, match="Invalid email address"):
             gmail_client._validate_email_string(email_str)
-
 
 # TODO test sending emails

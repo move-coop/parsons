@@ -5,7 +5,8 @@ from parsons.utilities.check_env import check
 
 
 class SMTP(SendMail):
-    """Create a SMTP object, for sending emails.
+    """
+    Create a SMTP object, for sending emails.
 
     Args:
         host: str
@@ -17,7 +18,10 @@ class SMTP(SendMail):
         password: str
             The password of the SMTP server login
         tls: bool
-            Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
+            Defaults to True -- Can set SMTP_TLS to "0" or "False" to disable
+            If SSL is True, TLS is disabled.
+        ssl: bool
+            Defaults to False -- Can set SMTP_SSL to "1" or "True" to enable
         close_manually: bool
             When set to True, send_message will not close the connection
 
@@ -30,6 +34,7 @@ class SMTP(SendMail):
         username=None,
         password=None,
         tls=None,
+        ssl=None,
         close_manually=False,
     ):
         self.host = check("SMTP_HOST", host)
@@ -37,17 +42,26 @@ class SMTP(SendMail):
         self.username = check("SMTP_USER", username)
         self.password = check("SMTP_PASSWORD", password)
         self.tls = check("SMTP_TLS", tls, optional=True) not in ("false", "False", "0", False)
+        self.ssl = check("SMTP_SSL", ssl, optional=True) in ("true", "True", "1", True)
         self.close_manually = close_manually
 
         self.conn = None
 
     def get_connection(self):
         if self.conn is None:
-            self.conn = smtplib.SMTP(self.host, self.port)
-            self.conn.ehlo()
-            if self.tls:
-                self.conn.starttls()
-            self.conn.login(self.username, self.password)
+            if self.ssl:
+                self.conn = smtplib.SMTP_SSL(self.host, self.port)
+            else:
+                self.conn = smtplib.SMTP(self.host, self.port)
+                self.conn.ehlo()
+
+                if self.tls:
+                    self.conn.starttls()
+                    self.conn.ehlo()
+
+            if self.username and self.password:
+                self.conn.login(self.username, self.password)
+
         return self.conn
 
     def _send_message(self, message):

@@ -113,11 +113,10 @@ jobs:
 
             const hasBreaking = labels.includes('breaking-change');
             const hasNonBreaking = labels.includes('non-breaking-change');
-
             if (hasBreaking && hasNonBreaking) {
-              core.setFailed("PR has both 'breaking-change' and 'non-breaking-change' labels. Please remove one.");
+              core.setFailed("⛔ PR has both 'breaking-change' and 'non-breaking-change' labels. Please remove one.");
             } else if (!hasBreaking && !hasNonBreaking) {
-              core.setFailed("PR is missing a required label. Please add exactly one of: 'breaking-change' or 'non-breaking-change'.");
+              core.setFailed("⛔ PR is missing a required label. Please add exactly one of: 'breaking-change' or 'non-breaking-change'.");
             } else {
               console.log("✅ Label check passed.");
             }

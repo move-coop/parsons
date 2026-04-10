@@ -4,8 +4,8 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons?label=Python)](https://pypi.org/project/parsons/)
 
 [![PyPI - Latest Version](https://img.shields.io/pypi/v/parsons?label=PyPI)](https://pypi.org/project/parsons/)
-[![PyPI - Total Downloads](https://static.pepy.tech/personalized-badge/parsons?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Total+DL)](https://pepy.tech/projects/parsons)
-[![PyPI - Monthly Downloads](https://static.pepy.tech/personalized-badge/parsons?period=monthly&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Monthly+DL)](https://pepy.tech/projects/parsons)
+[![PyPI - Total Downloads](https://static.pepy.tech/personalized-badge/parsons?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Total+Downloads)](https://pepy.tech/projects/parsons)
+[![PyPI - Monthly Downloads](https://static.pepy.tech/personalized-badge/parsons?period=monthly&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Monthly+Downloads)](https://pepy.tech/projects/parsons)
 
 [![Build, Test, & Publish](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/release.yml?branch=main&label=Build%2C%20Test%2C%20%26%20Publish)](https://github.com/move-coop/parsons/actions/workflows/release.yml)
 [![Python Checks](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/python-checks.yml?branch=main&label=Python%20Checks)](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml)

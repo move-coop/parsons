@@ -7,7 +7,9 @@ from email.mime.text import MIMEText
 from pathlib import Path
 from unittest.mock import MagicMock
 
+import httplib2
 import pytest
+from googleapiclient.errors import HttpError
 
 from parsons import Gmail
 
@@ -187,4 +189,60 @@ def test__validate_email_string(gmail_client: Gmail, email_str: str, expected_va
         with pytest.raises(ValueError, match="Invalid email address"):
             gmail_client._validate_email_string(email_str)
 
-# TODO test sending emails
+
+@pytest.mark.parametrize(
+    ("to_input", "expected_to_header"),
+    [
+        ("recipient@email.com", "recipient@email.com"),
+        ("Recipient <recipient@email.com>", "Recipient <recipient@email.com>"),
+        (["one@test.com", "Two <two@test.com>"], "one@test.com, Two <two@test.com>"),
+    ],
+    ids=["single_string_only_email", "single_string_with_name", "list_of_strings_mixed"],
+)
+def test_send_email_success(gmail_client, email_meta, to_input, expected_to_header):
+    """Test successful email sending with various recipient formats."""
+    mock_service = MagicMock()
+    gmail_client.service = mock_service
+    mock_execute = mock_service.users.return_value.messages.return_value.send.return_value.execute
+    mock_execute.return_value = {"id": "12345"}
+
+    gmail_client.send_email(
+        sender=email_meta["sender"],
+        to=to_input,
+        subject=email_meta["subject"],
+        message_text=email_meta["text"],
+    )
+
+    _, kwargs = mock_service.users.return_value.messages.return_value.send.call_args
+    decoded_bytes = base64.urlsafe_b64decode(kwargs["body"]["raw"])
+    decoded_msg = email.message_from_bytes(decoded_bytes)
+
+    assert decoded_msg["To"] == expected_to_header
+    assert decoded_msg["Subject"] == email_meta["subject"]
+    assert decoded_msg.get_payload() == email_meta["text"]
+
+
+@pytest.mark.parametrize(
+    ("side_effect", "expected_exception"),
+    [
+        (HttpError(httplib2.Response({"status": 400}), b"Error"), HttpError),
+        (ValueError("Invalid email address"), ValueError),
+    ],
+    ids=["api_http_error", "validation_error"],
+)
+def test_send_email_failures(gmail_client, email_meta, side_effect, expected_exception):
+    """Test that various failures raise the expected exceptions."""
+    mock_service = MagicMock()
+    gmail_client.service = mock_service
+
+    mock_service.users.return_value.messages.return_value.send.return_value.execute.side_effect = (
+        side_effect
+    )
+
+    with pytest.raises(expected_exception):
+        gmail_client.send_email(
+            sender=email_meta["sender"],
+            to=email_meta["to"],
+            subject=email_meta["subject"],
+            message_text=email_meta["text"],
+        )

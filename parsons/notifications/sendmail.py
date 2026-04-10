@@ -261,6 +261,6 @@ class SendMail(ABC):
 
 
 class EmptyListError(IndexError):
-    """Throw when a list is empty that should contain at least 1 element."""
+    """Throw when a list of recipients is empty, but should contain at least 1 recipient."""
 
     pass

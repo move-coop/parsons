@@ -5,7 +5,7 @@ import time
 import requests
 
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -45,10 +45,10 @@ class Redash:
         timeout=0,  # never timeout
         verify=True,
     ):
-        self.base_url = check("REDASH_BASE_URL", base_url)
-        self.user_api_key = check("REDASH_USER_API_KEY", user_api_key, optional=True)
-        self.pause = int(check("REDASH_PAUSE_TIME", str(pause_time), optional=True))
-        self.timeout = int(check("REDASH_TIMEOUT", str(timeout), optional=True))
+        self.base_url = check_env.check("REDASH_BASE_URL", base_url)
+        self.user_api_key = check_env.check("REDASH_USER_API_KEY", user_api_key, optional=True)
+        self.pause = int(check_env.check("REDASH_PAUSE_TIME", str(pause_time), optional=True))
+        self.timeout = int(check_env.check("REDASH_TIMEOUT", str(timeout), optional=True))
 
         self.verify = verify  # for https requests
         self.session = requests.Session()
@@ -164,8 +164,8 @@ class Redash:
             Table Class
 
         """
-        query_id = check("REDASH_QUERY_ID", query_id, optional=True)
-        params_from_env = check("REDASH_QUERY_PARAMS", "", optional=True)
+        query_id = check_env.check("REDASH_QUERY_ID", query_id, optional=True)
+        params_from_env = check_env.check("REDASH_QUERY_PARAMS", "", optional=True)
         redash_params = (
             {f"p_{k}": str(v).replace("'", "''") for k, v in params.items()} if params else {}
         )
@@ -210,8 +210,8 @@ class Redash:
             Table Class
 
         """
-        query_id = check("REDASH_QUERY_ID", query_id)
-        query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
+        query_id = check_env.check("REDASH_QUERY_ID", query_id)
+        query_api_key = check_env.check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
         params = {}
         if not self.user_api_key and query_api_key:
             params["api_key"] = query_api_key

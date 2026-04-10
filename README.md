@@ -34,7 +34,7 @@ a [modified Apache License with author attribution statement](https://github.com
 ## Documentation
 
 To gain a full understanding of all of the features of Parsons, please review the
-Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
+Parsons [documentation](https://move-coop.github.io/parsons/index.html).
 
 ## Installation
 

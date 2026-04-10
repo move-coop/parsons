@@ -14,7 +14,7 @@ from email.utils import parseaddr
 from pathlib import Path
 
 from dns.resolver import Resolver
-from email_validator import EmailSyntaxError, validate_email
+from email_validator import EmailSyntaxError, caching_resolver, validate_email
 
 # BUG: can't send files equal to or larger than 6MB
 # There is a possible fix
@@ -243,7 +243,18 @@ class SendMail(ABC):
             email_addr, check_deliverability=check_deliverability, dns_resolver=dns_resolver
         )
 
-    def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
+    def send_email(
+        self,
+        sender: str,
+        to: str | list[str],
+        subject: str,
+        message_text: str,
+        message_html: str = None,
+        files: str | list[str] = None,
+        *,
+        check_deliverability: bool = False,
+        dns_resolver: Resolver | None = None,
+    ):
         """Send an email message.
 
         Args:
@@ -262,22 +273,34 @@ class SendMail(ABC):
                 email is sent a text-only body.
             files: str or list
                 The path to the file(s) to be attached.
+            check_deliverability: bool, optional
+                Query DNS to ensure that the domain name(s) can receive mail.
+            dns_resolver: dns.resolver.Resolver, optional
+                Caching dns resolver to reuse in each call.
+                You can create one with email_validator.caching_resolver(timeout=10)
+                If check_deliverability is not True, this has no effect.
+                If resolver is not provided, but check_deliverability is True,
+                one will be created with a 10 second timeout.
 
         """
         self.log.info("Preparing to send an email...")
 
         self.log.info("Validating email(s)")
-        if isinstance(to, list):
-            if len(to) == 0:
-                raise EmptyListError("Must contain at least 1 email.")
+        if isinstance(to, list) and not to:
+            raise EmptyListError("Must provide at least 1 email.")
 
-            for e in to:
-                self._validate_email_string(e)
+        if isinstance(to, str):
+            to = [to]
 
-            to = ", ".join(to)
+        if check_deliverability and not dns_resolver:
+            dns_resolver = caching_resolver(timeout=10)
 
-        elif isinstance(to, str):
-            self._validate_email_string(to)
+        for e in to:
+            self._validate_email_string(
+                e, check_deliverability=check_deliverability, dns_resolver=dns_resolver
+            )
+
+        to = ", ".join(to)
 
         if not message_html and not files:
             msg_type = "simple"

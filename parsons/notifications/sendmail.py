@@ -193,7 +193,7 @@ class SendMail(ABC):
 
         return message
 
-    def _validate_email_string(self, email_address: str):
+    def _validate_email_string(self, email_address: str, *, check_deliverability: bool = False):
         """
         Check whether a provided email address has valid syntax.
 
@@ -205,6 +205,9 @@ class SendMail(ABC):
         Args:
             email_address: str
                 Email address to validate
+            check_deliverability: bool, optional
+                Query DNS to ensure that the domain name can receive mail
+                Default: False
 
         Returns:
             bool
@@ -225,7 +228,7 @@ class SendMail(ABC):
             err_msg = f"Invalid email address, could not parse '{email_address}'."
             raise EmailSyntaxError(err_msg)
 
-        return validate_email(email_addr, check_deliverability=False)
+        return validate_email(email_addr, check_deliverability=check_deliverability)
 
     def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
         """Send an email message.

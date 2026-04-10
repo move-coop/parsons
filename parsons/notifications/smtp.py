@@ -1,7 +1,10 @@
 import smtplib
 
 from parsons.notifications.sendmail import SendMail
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
+
+TRUE_VALUES = ("true", "True", "1", True)
+FALSE_VALUES = ("false", "False", "0", False)
 
 
 class SMTP(SendMail):
@@ -37,12 +40,15 @@ class SMTP(SendMail):
         ssl=None,
         close_manually=False,
     ):
-        self.host = check("SMTP_HOST", host)
-        self.port = check("SMTP_PORT", port, optional=True) or 587
-        self.username = check("SMTP_USER", username)
-        self.password = check("SMTP_PASSWORD", password)
-        self.tls = check("SMTP_TLS", tls, optional=True) not in ("false", "False", "0", False)
-        self.ssl = check("SMTP_SSL", ssl, optional=True) in ("true", "True", "1", True)
+        self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in FALSE_VALUES
+        self.ssl = check_env.check("SMTP_SSL", ssl, optional=True) in TRUE_VALUES
+
+        self.host = check_env.check("SMTP_HOST", host)
+        self.port = int(check_env.check("SMTP_PORT", port, optional=True) or self._infer_port())
+
+        self.username = check_env.check("SMTP_USER", username)
+        self.password = check_env.check("SMTP_PASSWORD", password)
+
         self.close_manually = close_manually
 
         self.conn = None
@@ -92,3 +98,12 @@ class SMTP(SendMail):
             conn.quit()
             self.conn = None
         return result
+
+    def _infer_port(self):
+        """Assume port number based on security protocol used."""
+        if self.ssl:
+            self.port = 465
+        elif self.tls:
+            self.port = 587
+        else:
+            self.port = 25

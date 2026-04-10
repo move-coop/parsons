@@ -143,10 +143,18 @@ class SMTP(SendMail):
                 self.quit()
 
     def _infer_port(self):
-        """Set active port by assuming port number based on security protocol used."""
+        """
+        Set active port by assuming port number based on security protocol used.
+
+        Returns:
+            int
+                Inferred port (also updates self.port)
+
+        """
         if self.ssl:
             self.port = 465
         elif self.tls:
             self.port = 587
         else:
             self.port = 25
+        return self.port

@@ -1,3 +1,4 @@
+import mimetypes
 import random
 import string
 from email import message_from_string
@@ -122,6 +123,18 @@ def test_send_email_content(
     sent_types = mock_conn.get_sent_types()
     for t in expected_types:
         assert t in sent_types
+
+
+def test_dynamic_mime_check(smtp: SMTP, mock_conn: MagicMock):
+    filenames = ["report.pdf", "data.csv", "photo.jpg"]
+    virtual_files = [create_virtual_file(f) for f in filenames]
+
+    smtp.send_email("f@ex.com", "t@ex.com", "Sub", "Body", files=virtual_files)
+
+    sent = mock_conn.get_attachments()
+    for f in filenames:
+        expected_type, _ = mimetypes.guess_type(f)
+        assert sent[f] == expected_type
 
 
 def test_binary_attachment_integrity(smtp: SMTP, mock_conn: MagicMock):

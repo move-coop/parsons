@@ -4,6 +4,7 @@ import string
 from email import message_from_string
 from email.message import Message
 from io import BytesIO, StringIO
+from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
@@ -174,16 +175,14 @@ def test_connection_authentication_flow(mock_conn: MagicMock):
     mock_conn.login.assert_called_once_with(user, pwd)
 
 
-@pytest.mark.usefixtures("mock_conn")
-def test_send_email_files_as_single_string(smtp: SMTP, mocker: MockerFixture):
-    # We mock the attachment creator because we only care about the input conversion here
-    mock_create = mocker.patch.object(smtp, "_create_message_attachments")
-    filename = "single_report.pdf"
+def test_send_email_files_as_single_string(smtp: SMTP, mock_conn: MagicMock, tmp_path: Path):
+    file_path = tmp_path / "single_report.pdf"
+    file_path.write_bytes(b"fake pdf content")
 
-    smtp.send_email("sender@ex.com", "to@ex.com", "Subject", "Body", files=filename)
+    smtp.send_email("s@ex.com", "t@ex.com", "Sub", "Body", files=str(file_path))
 
-    args, _ = mock_create.call_args
-    assert args[4] == [filename]
+    sent_attachments = mock_conn.get_attachments()
+    assert "single_report.pdf" in sent_attachments
 
 
 def test_send_email_empty_recipient_list(smtp: SMTP):

@@ -55,6 +55,11 @@ class SMTP(SendMail):
         self.conn = None
 
     def get_connection(self):
+        """
+        Get the active SMTP connection.
+
+        If there is no active connection, initialize one.
+        """
         if self.conn is None:
             if self.ssl:
                 self.conn = smtplib.SMTP_SSL(self.host, self.port)

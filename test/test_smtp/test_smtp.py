@@ -34,8 +34,13 @@ def mock_conn(mocker: MockerFixture) -> MagicMock:
             return []
         return [p.get_content_type() for p in msg.walk() if not p.is_multipart()]
 
+    def get_attachments() -> dict[str, str]:
+        msg = get_msg()
+        return {p.get_filename(): p.get_content_type() for p in msg.walk() if p.get_filename()}
+
     conn.get_sent_msg = get_msg
     conn.get_sent_types = get_types
+    conn.get_attachments = get_attachments
     return conn
 
 

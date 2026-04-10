@@ -18,6 +18,10 @@ def mock_conn(mocker: MockerFixture) -> MagicMock:
     conn = mock_smtp_class.return_value
     conn.sendmail.return_value = None
 
+    conn.ehlo.return_value = (250, b"ok")
+    conn.starttls.return_value = (220, b"Ready to start TLS")
+    conn.login.return_value = (235, b"Authentication successful")
+
     def get_msg() -> Message | None:
         if not conn.sendmail.called:
             return None
@@ -138,6 +142,17 @@ def test_attachment_disposition(smtp: SMTP, mock_conn: MagicMock):
     msg = mock_conn.get_sent_msg()
     file_part = next(p for p in msg.walk() if p.get_filename() == "report.pdf")
     assert "attachment" in file_part.get("Content-Disposition")
+
+
+def test_connection_authentication_flow(mock_conn: MagicMock):
+    host, user, pwd = "smtp.custom.com", "user123", "secret_pass"
+    smtp_inst = SMTP(host=host, username=user, password=pwd, port=587, tls=True)
+    smtp_inst.send_email("f@ex.com", "t@ex.com", "Sub", "Body")
+
+    assert mock_conn.ehlo.called
+    assert mock_conn.starttls.call_count == 1
+
+    mock_conn.login.assert_called_once_with(user, pwd)
 
 
 @pytest.mark.usefixtures("mock_conn")

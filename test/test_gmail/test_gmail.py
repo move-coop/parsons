@@ -2,7 +2,10 @@ import base64
 import email
 import json
 import os
+from email.message import Message
+from email.mime.text import MIMEText
 from pathlib import Path
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -68,7 +71,7 @@ def gmail_client(tmp_path: Path) -> Gmail:
 
 
 @pytest.fixture
-def email_meta():
+def email_meta() -> dict[str, str]:
     return {
         "sender": "Sender <sender@email.com>",
         "to": "Recepient <recepient@email.com>",
@@ -78,13 +81,13 @@ def email_meta():
     }
 
 
-def get_decoded_email(gmail_client, msg_obj):
+def get_decoded_email(gmail_client: Gmail, msg_obj: MIMEText) -> Message:
     """Helper to decode the raw gmail message into an email object."""
     raw = gmail_client._encode_raw_message(msg_obj)
     return email.message_from_bytes(base64.urlsafe_b64decode(bytes(raw["raw"], "utf-8")))
 
 
-def get_normalized_items(decoded_msg):
+def get_normalized_items(decoded_msg) -> list[tuple[str]]:
     """Normalizes Content-Type boundaries for consistent assertion."""
     updated = []
     for key, value in decoded_msg.items():
@@ -95,7 +98,7 @@ def get_normalized_items(decoded_msg):
     return updated
 
 
-def test_create_message_simple(gmail_client, email_meta):
+def test_create_message_simple(gmail_client: Gmail, email_meta: dict[str, str]):
     msg = gmail_client._create_message_simple(
         email_meta["sender"], email_meta["to"], email_meta["subject"], email_meta["text"]
     )
@@ -106,7 +109,7 @@ def test_create_message_simple(gmail_client, email_meta):
     assert decoded.get_payload() == email_meta["text"]
 
 
-def test_create_message_html(gmail_client, email_meta):
+def test_create_message_html(gmail_client: Gmail, email_meta: dict[str, str]):
     msg = gmail_client._create_message_html(
         email_meta["sender"],
         email_meta["to"],
@@ -136,7 +139,9 @@ def test_create_message_html(gmail_client, email_meta):
         ("pdf", "application/pdf", "pdf"),
     ],
 )
-def test_create_message_attachments_all(gmail_client, email_meta, ext, expected_type, b64_suffix):
+def test_create_message_attachments_all(
+    gmail_client: Gmail, email_meta: dict[str, str], ext: str, expected_type: str, b64_suffix: str
+):
     # Handle the specific logic for Windows line endings in the txt file
     if ext == "txt" and os.linesep == "\r\n":
         b64_suffix = "win_txt"
@@ -175,7 +180,7 @@ def test_create_message_attachments_all(gmail_client, email_meta, ext, expected_
         ("Sender <sender+alias@email,com>", False),
     ],
 )
-def test__validate_email_string(gmail_client, email_str, expected_valid):
+def test__validate_email_string(gmail_client: Gmail, email_str: str, expected_valid: bool):
     if expected_valid:
         assert gmail_client._validate_email_string(email_str)
     else:

@@ -7,8 +7,8 @@
 [![PyPI - Total Downloads](https://static.pepy.tech/personalized-badge/parsons?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Total+DL)](https://pepy.tech/projects/parsons)
 [![PyPI - Monthly Downloads](https://static.pepy.tech/personalized-badge/parsons?period=monthly&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Monthly+DL)](https://pepy.tech/projects/parsons)
 
-[![Build, test, & publish](https://github.com/move-coop/parsons/actions/workflows/release.yml/badge.svg)](https://github.com/move-coop/parsons/actions/workflows/release.yml)
-[![Python checks](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml/badge.svg)](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml)
+[![Build, Test, & Publish](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/release.yml?branch=main&label=Build%2C%20Test%2C%20%26%20Publish)](https://github.com/move-coop/parsons/actions/workflows/release.yml)
+[![Python Checks](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/python-checks.yml?branch=main&label=Python%20Checks)](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml)
 [![Coverage](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive

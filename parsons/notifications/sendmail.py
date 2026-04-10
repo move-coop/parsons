@@ -197,9 +197,10 @@ class SendMail(ABC):
         """
         Check whether a provided email address has valid syntax.
 
-        First, python's email module is used to validate email syntax.
+        First, python's email module is used to parse the email address
+        from the string (in cases of name <email> syntax).
         Then, the email_validator library's validate_email function
-        is used for more precise validation.
+        is used for full syntax validation.
 
         Args:
             email_address: str
@@ -213,7 +214,8 @@ class SendMail(ABC):
         Raise:
             EmailSyntaxError
                 If python's email.utils.parseaddr function is unable to
-                validate the address syntax.
+                validate the address syntax. The validate_email function also raises
+                if email is not valid. EmailSyntaxError inherits from ValueError.
 
         """
         self.log.debug(f"Validating email {str}...")

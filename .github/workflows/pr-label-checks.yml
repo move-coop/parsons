@@ -1,0 +1,119 @@
+name: PR label checking
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, ready_for_review, labeled, unlabeled, synchronize]
+
+permissions: read-all
+
+jobs:
+  label-from-files:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Update labels based on modified files
+        uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b
+        with:
+          sync-labels: true
+
+  label-from-checkboxes:
+    if: github.actor != 'dependabot[bot]'
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Update labels based on checkboxes
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        with:
+          script: |
+            const body = context.payload.pull_request.body || "";
+
+            const mapping = [
+              { text: 'label: Breaking change', label: 'breaking-change' },
+              { text: 'label: Non-breaking change', label: 'non-breaking-change' }
+            ];
+
+            for (const { text, label } of mapping) {
+              await core.group(`Processing label: ${label}`, async () => {
+                const isChecked = new RegExp(`- \\[x\\] ${text}`, 'i').test(body);
+
+                if (isChecked) {
+                  console.log(`Adding label: ${label}`);
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    labels: [label]
+                  });
+                } else {
+                  console.log(`Removing label: ${label} (if present)`);
+                  try {
+                    await github.rest.issues.removeLabel({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: context.issue.number,
+                      name: label
+                    });
+                    console.log(`Removed label: ${label}`);
+                  } catch (e) {
+                    if (e.status !== 404) throw e;
+                  }
+                }
+              });
+            }
+
+  ensure-label-present:
+    if: github.actor != 'dependabot[bot]'
+
+    runs-on: ubuntu-latest
+
+    needs: label-from-checkboxes
+
+    steps:
+      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+
+      - name: Check for required labels
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const hasBreaking = labels.includes('breaking-change');
+            const hasNonBreaking = labels.includes('non-breaking-change');
+
+            if (hasBreaking && hasNonBreaking) {
+              core.setFailed("PR has both 'breaking-change' and 'non-breaking-change' labels. Please remove one.");
+            } else if (!hasBreaking && !hasNonBreaking) {
+              core.setFailed("PR is missing a required label. Please add exactly one of: 'breaking-change' or 'non-breaking-change'.");
+            } else {
+              console.log("✅ Label check passed.");
+            }

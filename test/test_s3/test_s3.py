@@ -7,13 +7,13 @@ from datetime import datetime, timezone
 import pytest
 
 from parsons import S3, Table
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 # Requires a s3 credentials stored in aws config or env variable
 # to run properly.
 
 
-@mark_live_test
+@pytest.mark.live
 class TestS3(unittest.TestCase):
     def setUp(self):
         self.s3 = S3()

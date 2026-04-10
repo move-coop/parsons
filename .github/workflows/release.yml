@@ -20,12 +20,11 @@ jobs:
     env:
       CACHE_GLOBS: |
         **/pyproject.toml
-        **/requirements*.txt
         **/setup.py
         **/uv.lock
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: audit
@@ -71,7 +70,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: audit
@@ -81,7 +80,8 @@ jobs:
           name: parsons-dist
           path: dist
 
-      - shell: bash
+      - name: extract requirements.txt for use in pip cache
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
 
@@ -89,8 +89,8 @@ jobs:
           mkdir -p temp_extract
           tar -xzf "$file" -C temp_extract
 
-          # Find and move requirements files to root
-          find temp_extract -name 'requirements.txt' -exec cp {} . \; 2>/dev/null || true
+          # Find and move pyproject file to root
+          find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
 
           # Clean up
           rm -rf temp_extract
@@ -100,7 +100,8 @@ jobs:
             python-version: ${{ matrix.python-version }}
             cache: pip
 
-      - shell: bash
+      - name: install parsons from file
+        shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
           pip install "$file"
@@ -116,7 +117,7 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: audit

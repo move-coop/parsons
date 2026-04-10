@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/requirements*.txt
     **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
@@ -45,27 +44,24 @@ jobs:
         resolution:
           - highest
           - lowest-direct
-          - limited-dependencies
 
     permissions:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
+        shell: bash
         run: |
-          echo "\
-          RUN_KEY=\
-          ${{ hashFiles('pyproject.toml') }}\
-          -${{ matrix.os }}\
-          -${{ matrix.python-version }}\
-          -${{ matrix.resolution }}\
-          " >> $GITHUB_ENV
+          HASH=${{ hashFiles('pyproject.toml') }}
+          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
@@ -75,18 +71,8 @@ jobs:
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - if: matrix.resolution != 'limited-dependencies'
-        run: >-
-          uv sync
-          --upgrade
-          --no-default-groups
-          --group test-coverage
-          --all-extras
-          --resolution ${{ matrix.resolution }}
-
       - env:
-          UV_RESOLUTION: ${{ matrix.resolution == 'limited-dependencies' && 'highest' || matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: ${{ matrix.resolution == 'limited-dependencies' && 'TRUE' || 'FALSE' }}
+          UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
           --upgrade
@@ -95,14 +81,18 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
 
       - env:
           COVERAGE_FILE: .coverage.${{ env.RUN_KEY }}
-        run: uv run pytest --failed-first
+        run: >-
+          pytest
+          --failed-first
+          --cov=parsons
+          --no-cov-on-fail
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
@@ -117,7 +107,7 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -138,12 +128,10 @@ jobs:
           --group ci
           --all-extras
 
-      - name: get-extras
+      - name: create list of all parsons extras
         id: get-extras
-        env:
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: |
-          uv run python -c "
+          python -c "
           import json
           from build.util import project_wheel_metadata
           from pathlib import Path
@@ -174,21 +162,19 @@ jobs:
         resolution: ['highest']
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - id: pytest-run-key
+      - name: determine key for pytest cache
+        id: pytest-run-key
+        shell: bash
         run: |
-          echo "\
-          RUN_KEY=\
-          ${{ hashFiles('pyproject.toml') }}\
-          -${{ matrix.os }}\
-          -${{ matrix.python-version }}\
-          -${{ matrix.resolution }}\
-          " >> $GITHUB_ENV
+          HASH=${{ hashFiles('pyproject.toml') }}
+          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
@@ -200,7 +186,6 @@ jobs:
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
-          PARSONS_LIMITED_DEPENDENCIES: 'TRUE'
         run: >-
           uv sync
           --upgrade
@@ -209,18 +194,18 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
 
-      - run: uv run pytest test/test_${{ matrix.extra }}
+      - run: pytest test/test_${{ matrix.extra }}
 
   ruff-format:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -241,16 +226,13 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff
         run: >-
-          uv run
           ruff format
           --diff
           .
@@ -262,7 +244,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -283,22 +265,19 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .ruff_cache
-          key: >-
-            ruff
-            -${{ hashFiles('pyproject.toml') }}
+          key: ruff-${{ hashFiles('pyproject.toml') }}
 
       - id: run-ruff-sarif
         run: >-
-          uv run
           ruff check
           --output-format=sarif
           -o results.sarif
           .
 
-      - uses: github/codeql-action/upload-sarif@38697555549f1db7851b81482ff19f1fa5c4fedc
+      - uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -306,7 +285,6 @@ jobs:
       - id: run-ruff
         if: failure() && contains('["failure"]', steps.run-ruff-sarif.outcome)
         run: >-
-          uv run
           ruff check
           --output-format=github
           .
@@ -318,7 +296,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -340,7 +318,6 @@ jobs:
 
       - id: run-bandit-sarif
         run: >-
-          uv run
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
@@ -348,7 +325,7 @@ jobs:
           --format 'sarif'
           --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@38697555549f1db7851b81482ff19f1fa5c4fedc
+      - uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -356,7 +333,6 @@ jobs:
       - id: run-bandit
         if: failure() && contains('["failure"]', steps.run-bandit-sarif.outcome)
         run: >-
-          uv run
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
@@ -373,7 +349,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -402,7 +378,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -422,9 +398,9 @@ jobs:
           --no-default-groups
           --group docs
 
-      - run: uv run sphinx-lint docs
+      - run: sphinx-lint docs
 
-      - run: uv run sphinx-lint parsons
+      - run: sphinx-lint parsons
 
   pre-commit:
     runs-on: ubuntu-latest
@@ -439,7 +415,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
           egress-policy: block
@@ -460,17 +436,13 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: .pre-commit-cache
-          key: >-
-            pre-commit
-            -${{ hashFiles('.pre-commit-config.yaml') }}
-            -${{ hashFiles('pyproject.toml') }}
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}
 
       - env:
           PRE_COMMIT_HOME: .pre-commit-cache
         run: >-
-          uv run
           pre-commit run
           --all-files

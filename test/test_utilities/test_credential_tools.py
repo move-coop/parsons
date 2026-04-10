@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from parsons.tools import credential_tools as ct
+from parsons.utilities import credential_tools as ct
 
 
 class TestCredentialTool(unittest.TestCase):

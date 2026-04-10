@@ -4,7 +4,6 @@ import os
 import pytest
 
 from parsons import PDI
-from test.conftest import mark_live_test
 
 
 #
@@ -23,7 +22,7 @@ def remove_from_env(*env_vars):
 
 # Need to provide environment variables
 # PDI_USERNAME, PDI_PASSWORD, PDI_API_TOKEN
-@mark_live_test
+@pytest.mark.live
 def test_connection():
     PDI(qa_url=True)
 

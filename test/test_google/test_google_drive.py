@@ -2,13 +2,14 @@ import random
 import string
 import unittest
 
+import pytest
+
 from parsons import GoogleDrive
-from test.conftest import mark_live_test
 
 # Test Slides: https://docs.google.com/presentation/d/19I-kicyaJV53KoPNwt77KJL10fHzWFdZ_c2mW4XJaxc
 
 
-@mark_live_test
+@pytest.mark.live
 class TestGoogleDrive(unittest.TestCase):
     def setUp(self):
         self.gd = GoogleDrive()

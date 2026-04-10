@@ -1,8 +1,9 @@
 import contextlib
 import smtplib
 from email.message import Message
+from email.utils import getaddresses
 
-from parsons.notifications.sendmail import SendMail
+from parsons.notifications.sendmail import EmptyListError, SendMail
 from parsons.utilities import check_env
 
 TRUE_VALUES = ("true", "True", "1", True)
@@ -108,25 +109,36 @@ class SMTP(SendMail):
         Returns:
             dict of refused recipient addresses (otherwise None)
 
+        Raises:
+            EmptyListError
+                If there are no recipients across to, cc, and bcc.
+
         """
+        tos = message.get_all("To") or []
+        ccs = message.get_all("Cc") or []
+        bccs = message.get_all("Bcc") or []
+
+        all_recipients = [addr for _, addr in getaddresses(tos + ccs + bccs)]
+        if not all_recipients:
+            err_msg = "No recipients found in To, Cc, or Bcc headers."
+            raise EmptyListError(err_msg)
+
         self.log.info("Sending a message...")
+        conn = self.get_connection()
         try:
-            conn = self.get_connection()
-            result = conn.sendmail(
-                message["From"],
-                [x.strip() for x in message["To"].split(",")],
-                message.as_string(),
-            )
+            result = conn.sendmail(message["From"], all_recipients, message.as_string())
+            if result:
+                self.log.warning("Message failed for some recipients: %s", result)
+                return result
+
         except Exception:
-            self.log.exception("An error occurred: while attempting to send a message.")
+            self.log.exception("An error occurred while attempting to send a message.")
+            self.quit()
             raise
 
-        if result:
-            self.log.warning("Message failed to send to some recipients: " + str(result))
-        if not self.close_manually:
-            conn.quit()
-            self.conn = None
-        return result
+        finally:
+            if not self.close_manually:
+                self.quit()
 
     def _infer_port(self):
         """Set active port by assuming port number based on security protocol used."""

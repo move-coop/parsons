@@ -1,3 +1,4 @@
+import contextlib
 import smtplib
 from email.message import Message
 
@@ -76,6 +77,25 @@ class SMTP(SendMail):
                 self.conn.login(self.username, self.password)
 
         return self.conn
+
+    def quit(self):
+        """
+        Close the connection manually.
+
+        Typically used if SMTP was initialized with close_manually=True.
+        """
+        if not self.conn:
+            return
+
+        try:
+            self.conn.quit()
+
+        except (OSError, smtplib.SMTPException):
+            with contextlib.suppress(Exception):
+                self.conn.close()
+
+        finally:
+            self.conn = None
 
     def _send_message(self, message: Message) -> dict:
         """

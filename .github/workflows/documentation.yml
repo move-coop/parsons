@@ -7,7 +7,8 @@ on:
     branches:
       - main
       - major-release
-
+    tags:
+      - 'v*'
 permissions: read-all
 
 env:

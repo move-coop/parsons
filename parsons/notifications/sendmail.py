@@ -282,6 +282,10 @@ class SendMail(ABC):
                 If resolver is not provided, but check_deliverability is True,
                 one will be created with a 10 second timeout.
 
+        Raises:
+            EmptyListError
+                If to parameter is an empty list.
+
         """
         self.log.info("Preparing to send an email...")
 

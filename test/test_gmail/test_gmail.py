@@ -178,8 +178,14 @@ def test_create_message_attachments_all(
         ("<sender@email.com>", True),
         ("Sender sender@email.com", False),
         ("Sender <sender2email.com>", False),
-        ("Sender <sender@email,com>", False),
-        ("Sender <sender+alias@email,com>", False),
+        (
+            "Sender <sender@email,com>",
+            not getattr(email.utils, "supports_strict_parsing", False),
+        ),
+        (
+            "Sender <sender+alias@email,com>",
+            not getattr(email.utils, "supports_strict_parsing", False),
+        ),
     ],
 )
 def test__validate_email_string(gmail_client: Gmail, email_str: str, expected_valid: bool):

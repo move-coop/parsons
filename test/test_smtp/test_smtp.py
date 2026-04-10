@@ -26,8 +26,9 @@ def mock_conn(mocker: MockerFixture) -> MagicMock:
     def get_msg() -> Message | None:
         if not conn.sendmail.called:
             return None
-        args, _ = conn.sendmail.call_args
-        return message_from_string(args[2])
+        args, kwargs = conn.sendmail.call_args
+        msg_string = kwargs.get("msg") or args[2]
+        return message_from_string(msg_string)
 
     def get_types() -> list[str]:
         msg = get_msg()

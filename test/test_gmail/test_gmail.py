@@ -511,27 +511,9 @@ class TestGmail(unittest.TestCase):
             {"email": "<sender@email.com>", "expected": True},
             {"email": "Sender sender@email.com", "expected": False},
             {"email": "Sender <sender2email.com>", "expected": False},
+            {"email": "Sender <sender@email,com>", "expected": False},
+            {"email": "Sender <sender+alias@email,com>", "expected": False},
         ]
-
-        # The behavior of email.parseaddr depends on the python patch version
-        # See https://github.com/python/cpython/issues/102988
-        # or associated changelogs, e.g.
-        # https://docs.python.org/3.8/whatsnew/changelog.html#python-3-8-20-final
-        if getattr(email.utils, "supports_strict_parsing", False):
-            # email.utils was deprecated in python 3.12, and removed in version 3.14
-            emails.extend(
-                [
-                    {"email": "Sender <sender@email,com>", "expected": False},
-                    {"email": "Sender <sender+alias@email,com>", "expected": False},
-                ]
-            )
-        else:
-            emails.extend(
-                [
-                    {"email": "Sender <sender@email,com>", "expected": True},
-                    {"email": "Sender <sender+alias@email,com>", "expected": True},
-                ]
-            )
 
         for e in emails:
             if e["expected"]:

@@ -13,6 +13,7 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr
 from pathlib import Path
 
+from dns.resolver import Resolver
 from email_validator import EmailSyntaxError, validate_email
 
 # BUG: can't send files equal to or larger than 6MB
@@ -193,7 +194,13 @@ class SendMail(ABC):
 
         return message
 
-    def _validate_email_string(self, email_address: str, *, check_deliverability: bool = False):
+    def _validate_email_string(
+        self,
+        email_address: str,
+        *,
+        check_deliverability: bool = False,
+        dns_resolver: Resolver | None = None,
+    ):
         """
         Check whether a provided email address has valid syntax.
 
@@ -209,6 +216,9 @@ class SendMail(ABC):
             check_deliverability: bool, optional
                 Query DNS to ensure that the domain name can receive mail
                 Default: False
+            dns_resolver: dns.resolver.Resolver, optional
+                Caching dns resolver to reuse in each call.
+                You can create one with email_validator.caching_resolver(timeout=10)
 
         Returns:
             bool
@@ -229,7 +239,9 @@ class SendMail(ABC):
             err_msg = f"Invalid email address, could not parse '{email_address}'."
             raise EmailSyntaxError(err_msg)
 
-        return validate_email(email_addr, check_deliverability=check_deliverability)
+        return validate_email(
+            email_addr, check_deliverability=check_deliverability, dns_resolver=dns_resolver
+        )
 
     def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
         """Send an email message.

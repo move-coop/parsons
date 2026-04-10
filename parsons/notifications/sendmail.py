@@ -257,7 +257,7 @@ class SendMail(ABC):
 
         self._send_message(msg)
 
-        self.log.info("Email sent succesfully.")
+        self.log.info("Email sent successfully.")
 
 
 class EmptyListError(IndexError):

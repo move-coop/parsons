@@ -47,6 +47,7 @@ def create_virtual_file(name: str, content: str = "data") -> StringIO:
     return f
 
 
+@pytest.mark.usefixtures("mocker")
 @pytest.mark.parametrize(
     ("html", "files", "expected_types"),
     [
@@ -74,7 +75,6 @@ def test_send_email_content(
     html: str | None,
     files: list[str] | None,
     expected_types: list[str],
-    mocker: MockerFixture,
 ):
     files_with_data = (
         [
@@ -140,7 +140,8 @@ def test_attachment_disposition(smtp: SMTP, mock_conn: MagicMock):
     assert "attachment" in file_part.get("Content-Disposition")
 
 
-def test_send_email_files_as_single_string(smtp: SMTP, mock_conn: MagicMock, mocker: MockerFixture):
+@pytest.mark.usefixtures("mock_conn")
+def test_send_email_files_as_single_string(smtp: SMTP, mocker: MockerFixture):
     # We mock the attachment creator because we only care about the input conversion here
     mock_create = mocker.patch.object(smtp, "_create_message_attachments")
     filename = "single_report.pdf"

@@ -201,10 +201,7 @@ class SendMail(ABC):
             err_msg = f"Invalid email address, could not parse '{email_address}'."
             raise EmailSyntaxError(err_msg)
 
-        if validate_email(email_addr, check_deliverability=False):
-            return True
-
-        return True
+        return validate_email(email_addr, check_deliverability=False)
 
     def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
         """Send an email message.

@@ -213,6 +213,8 @@ class SendMail(ABC):
         Args:
             email_address: str
                 Email address to validate
+
+        Keyword Args:
             check_deliverability: bool, optional
                 Query DNS to ensure that the domain name can receive mail
                 Default: False
@@ -273,6 +275,8 @@ class SendMail(ABC):
                 email is sent a text-only body.
             files: str or list
                 The path to the file(s) to be attached.
+
+        Keyword Args:
             check_deliverability: bool, optional
                 Query DNS to ensure that the domain name(s) can receive mail.
             dns_resolver: dns.resolver.Resolver, optional

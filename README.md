@@ -1,10 +1,15 @@
 # Parsons
 
-[![Downloads](https://pepy.tech/badge/parsons)](https://pepy.tech/project/parsons)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons)](https://pypi.org/project/parsons/)
-[![PyPI](https://img.shields.io/pypi/v/parsons?color=blue)](https://pypi.org/project/parsons/)
-[![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/main.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/main)
-[![Coverage badge](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
+[![Documentation - Latest Version](https://img.shields.io/github/v/tag/move-coop/parsons?sort=semver&filter=v*&label=Documentation)](https://move-coop.github.io/parsons/index.html/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons?label=Python)](https://pypi.org/project/parsons/)
+
+[![PyPI - Latest Version](https://img.shields.io/pypi/v/parsons?label=PyPI)](https://pypi.org/project/parsons/)
+[![PyPI - Total Downloads](https://static.pepy.tech/personalized-badge/parsons?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Total+DL)](https://pepy.tech/projects/parsons)
+[![PyPI - Monthly Downloads](https://static.pepy.tech/personalized-badge/parsons?period=monthly&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Monthly+DL)](https://pepy.tech/projects/parsons)
+
+[![Build, test, & publish](https://github.com/move-coop/parsons/actions/workflows/release.yml/badge.svg)](https://github.com/move-coop/parsons/actions/workflows/release.yml)
+[![Python checks](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml/badge.svg)](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml)
+[![Coverage](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive
 organizations, political and issue campaigns, activists, and other allied actors.

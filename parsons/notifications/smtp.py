@@ -1,4 +1,5 @@
 import smtplib
+from email.message import Message
 
 from parsons.notifications.sendmail import SendMail
 from parsons.utilities import check_env
@@ -76,14 +77,16 @@ class SMTP(SendMail):
 
         return self.conn
 
-    def _send_message(self, message):
-        """Send an email message.
+    def _send_message(self, message: Message) -> dict:
+        """
+        Send an email message.
 
         Args:
-            message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
-                i.e. the objects created by the create_* instance methods
+            message: email.message.Message
+                A Message object to be sent.
+
         Returns:
-            dict of refused To addresses (otherwise None)
+            dict of refused recipient addresses (otherwise None)
 
         """
         self.log.info("Sending a message...")

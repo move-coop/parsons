@@ -200,7 +200,8 @@ class SendMail(ABC):
         First, python's email module is used to parse the email address
         from the string (in cases of name <email> syntax).
         Then, the email_validator library's validate_email function
-        is used for full syntax validation.
+        is used for full syntax validation. Optionally, the email domain
+        can also have its deliverability checked via DNS records.
 
         Args:
             email_address: str

@@ -49,7 +49,7 @@ BIGQUERY_TYPE_MAP = {
 QUERY_BATCH_SIZE = 100000
 
 
-def parse_table_name(table_name):
+def _parse_table_name(table_name):
     # Helper function to parse out the different components of a table ID
     parts = table_name.split(".")
     parts.reverse()
@@ -67,14 +67,14 @@ def parse_table_name(table_name):
     return parsed
 
 
-def ends_with_semicolon(query: str) -> str:
+def _ends_with_semicolon(query: str) -> str:
     query = query.strip()
     if query[-1] == ";":
         return query
     return query + ";"
 
 
-def map_column_headers_to_schema_field(schema_definition: list) -> list:
+def _map_column_headers_to_schema_field(schema_definition: list) -> list:
     """
     Loops through a list of dictionaries and instantiates
     google.cloud.bigquery.SchemaField objects. Useful docs
@@ -363,7 +363,7 @@ class GoogleBigQuery(DatabaseConnector):
             return final_table
 
     def query_with_transaction(self, queries, parameters=None):
-        queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
+        queries_with_semicolons = [_ends_with_semicolon(q) for q in queries]
         queries_on_newlines = "\n".join(queries_with_semicolons)
         queries_wrapped = f"""
         BEGIN
@@ -1417,7 +1417,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def get_table_ref(self, table_name):
         # Helper function to build a TableReference for our table
-        parsed = parse_table_name(table_name)
+        parsed = _parse_table_name(table_name)
         dataset_ref = self.client.dataset(parsed["dataset"])
         return dataset_ref.table(parsed["table"])
 
@@ -1435,7 +1435,7 @@ class GoogleBigQuery(DatabaseConnector):
             return job_config.schema
         # if schema specified by user, convert to schema type and use that
         if custom_schema:
-            return map_column_headers_to_schema_field(custom_schema)
+            return _map_column_headers_to_schema_field(custom_schema)
         # if template_table specified by user, use that
         # otherwise, if loading into existing table, infer destination table as template table
         if not template_table and if_exists in ("append", "truncate"):

@@ -249,6 +249,8 @@ def test_connection_authentication_flow(
     assert smtp_inst.ssl in (ssl, not implicit_not_ssl), (
         f"SSL Status: {smtp_inst.ssl}; SSL Parameter: {ssl}; SSL Implicitly Disabled: {implicit_not_ssl}"
     )
+    if smtp_inst.ssl is True:
+        assert smtp_inst.tls is False
 
     mock_conn.login.assert_called_once_with(data["user"], data["pass"])
     assert mock_conn.starttls.call_count == starttls_calls

@@ -17,9 +17,12 @@ from parsons.notifications.sendmail import EmptyListError
 @pytest.fixture
 def mock_conn(mocker: MockerFixture) -> MagicMock:
     mock_smtp_class = mocker.patch("parsons.notifications.smtp.smtplib.SMTP", autospec=True)
-    conn = mock_smtp_class.return_value
-    conn.sendmail.return_value = None
+    mock_smtp_ssl_class = mocker.patch("parsons.notifications.smtp.smtplib.SMTP_SSL", autospec=True)
 
+    conn = mock_smtp_class.return_value
+    mock_smtp_ssl_class.return_value = conn
+
+    conn.sendmail.return_value = None
     conn.ehlo.return_value = (250, b"ok")
     conn.starttls.return_value = (220, b"Ready to start TLS")
     conn.login.return_value = (235, b"Authentication successful")
@@ -44,6 +47,7 @@ def mock_conn(mocker: MockerFixture) -> MagicMock:
     conn.get_sent_msg = get_msg
     conn.get_sent_types = get_types
     conn.get_attachments = get_attachments
+
     return conn
 
 

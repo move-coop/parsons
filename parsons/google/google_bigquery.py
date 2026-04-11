@@ -134,19 +134,19 @@ class GoogleBigQuery(DatabaseConnector):
     * Pass in a json string using the `app_creds` argument.
 
     Args:
-        app_creds: str
+        app_creds: str, optional
             A credentials json string or a path to a json file. Not required
-            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-        project: str
+            if `GOOGLE_APPLICATION_CREDENTIALS` env variable set.
+        project: str, optional
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
-        location: str
+        location: str, optional
             Default geographic location for tables
-        client_options: dict
+        client_options: dict, optional
             A dictionary containing any requested client options. Defaults to the required
             scopes for making API calls against External tables stored in Google Drive.
             Can be set to None if these permissions are not desired
-        gcs_temp_bucket: str
+        tmp_gcs_bucket: str, optional
             Name of the GCS bucket that will be used for storing data during bulk transfers.
             Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),
             and env variable `GCS_TEMP_BUCKET` is not populated.
@@ -383,8 +383,6 @@ class GoogleBigQuery(DatabaseConnector):
         Args:
             job_id: str
                 ID of job to fetch
-            location: str
-                Location where the job was run
             `**job_kwargs`: kwargs
                 Other arguments to pass to the underlying get_job
                 call on the BigQuery client.
@@ -1698,8 +1696,7 @@ class GoogleBigQuery(DatabaseConnector):
                 The Google Cloud project ID.
                 If not provided, the default project of the client is used.
             gzip: bool
-                If True, the exported file will be compressed using GZIP.
-                Defaults to False.
+                Not implemented
 
         """
         if not job_config:

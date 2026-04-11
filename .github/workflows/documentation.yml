@@ -51,6 +51,7 @@ jobs:
           --upgrade
           --no-default-groups
           --group docs
+          --all-extras
 
       - name: configure git
         run: |

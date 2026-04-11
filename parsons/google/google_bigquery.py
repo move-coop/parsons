@@ -124,14 +124,14 @@ class GoogleBigQuery(DatabaseConnector):
     This class requires application credentials in the form of a json. It can be passed
     in the following ways:
 
-    * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the
+    * Set an environmental variable named `GOOGLE_APPLICATION_CREDENTIALS` with the
       local path to the credentials json.
 
-      Example: ``GOOGLE_APPLICATION_CREDENTALS='path/to/creds.json'``
+      Example: `GOOGLE_APPLICATION_CREDENTALS='path/to/creds.json'`
 
-    * Pass in the path to the credentials using the ``app_creds`` argument.
+    * Pass in the path to the credentials using the `app_creds` argument.
 
-    * Pass in a json string using the ``app_creds`` argument.
+    * Pass in a json string using the `app_creds` argument.
 
     Args:
         app_creds: str
@@ -149,7 +149,7 @@ class GoogleBigQuery(DatabaseConnector):
         gcs_temp_bucket: str
             Name of the GCS bucket that will be used for storing data during bulk transfers.
             Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),
-            and env variable ``GCS_TEMP_BUCKET`` is not populated.
+            and env variable `GCS_TEMP_BUCKET` is not populated.
 
     """
 

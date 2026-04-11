@@ -6,9 +6,6 @@ from email.utils import getaddresses
 from parsons.notifications.sendmail import EmptyListError, SendMail
 from parsons.utilities import check_env
 
-TRUE_VALUES = ("true", "True", "1", True)
-FALSE_VALUES = ("false", "False", "0", False)
-
 
 class SMTP(SendMail):
     """
@@ -24,11 +21,14 @@ class SMTP(SendMail):
         password: str
             The password of the SMTP server login
         tls: bool
-            Defaults to True -- Can set SMTP_TLS to "0" or "False" to disable
+            Use TLS for connection. Defaults to True.
+            Can set SMTP_TLS to "0" or "False" to disable.
             If SSL is True, TLS is disabled.
         ssl: bool
-            Defaults to False -- Can set SMTP_SSL to "1" or "True" to enable
-        close_manually: bool
+            Use SSL for connection. Defaults to False.
+            Can set SMTP_SSL to "1" or "True" to disable.
+            If SSL is True, TLS is disabled.
+    close_manually: bool
             When set to True, send_message will not close the connection
 
     """
@@ -44,8 +44,10 @@ class SMTP(SendMail):
         ssl: bool | None = None,
         close_manually: bool = False,
     ):
-        self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in FALSE_VALUES
-        self.ssl = check_env.check("SMTP_SSL", ssl, optional=True) in TRUE_VALUES
+        self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in ("0", "False", False)
+        if tls is False:
+            self.tls = False
+        self.ssl = check_env.check("SMTP_SSL", ssl, optional=True) in ("1", "True", True)
 
         self.host = check_env.check("SMTP_HOST", host)
         self.port = int(check_env.check("SMTP_PORT", port, optional=True) or self._infer_port())

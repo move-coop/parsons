@@ -1795,13 +1795,14 @@ class GoogleBigQuery(DatabaseConnector):
             if if_table_exists == "overwrite":  # if it exists
                 job_config = bigquery.CopyJobConfig()
                 job_config.write_disposition = "WRITE_TRUNCATE"
-                job = self.client.copy_table(
+                copy_job = self.client.copy_table(
                     source_table_id,
                     destination_table_id,
                     location="US",
                     job_config=job_config,
                 )
-                result = job.result()
+                result = copy_job.result()
+                logger.info(result)
             else:
                 logger.error(
                     f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
@@ -1809,13 +1810,13 @@ class GoogleBigQuery(DatabaseConnector):
 
         except NotFound:
             # destination table doesn't exist, so we can create one
-            job = self.client.copy_table(
+            copy_job = self.client.copy_table(
                 source_table_id,
                 destination_table_id,
                 location="US",
                 job_config=job_config,
             )
-            result = job.result()
+            result = copy_job.result()
             logger.info(result)
 
 

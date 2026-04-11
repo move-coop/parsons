@@ -168,15 +168,52 @@ def test_attachment_disposition(smtp: SMTP, mock_conn: MagicMock):
     assert "attachment" in file_part.get("Content-Disposition")
 
 
-def test_connection_authentication_flow(mock_conn: MagicMock):
-    host, user, pwd = "smtp.custom.com", "user123", "secret_pass"
-    smtp_inst = SMTP(host=host, username=user, password=pwd, port=587, tls=True)
+@pytest.mark.parametrize(
+    ("tls", "ssl", "starttls_calls"),
+    [
+        (False, None, 0),
+        (None, None, 1),
+        (None, False, 1),
+        (True, None, 1),
+        (True, False, 1),
+        (False, True, 0),
+        (None, True, 0),
+        (True, True, 0),
+    ],
+    ids=[
+        "plain-text",
+        "implicit-tls",
+        "implicit-tls-explicit-not-ssl",
+        "explicit-tls",
+        "explicit-tls-explicit-not-ssl",
+        "explicit-ssl-explicit-not-tls",
+        "explicit-ssl-overrides-implicit-tls",
+        "explicit-ssl-overrides-explicit-tls",
+    ],
+)
+def test_connection_authentication_flow(
+    mock_conn: MagicMock, tls: bool | None, ssl: bool | None, starttls_calls: int
+):
+    host, user, pwd, port = "smtp.custom.com", "user123", "secret_pass", 587
+    smtp_inst = SMTP(host=host, username=user, password=pwd, port=port, tls=tls, ssl=ssl)
     smtp_inst.send_email("f@ex.com", "t@ex.com", "Sub", "Body")
 
-    assert mock_conn.ehlo.called
-    assert mock_conn.starttls.call_count == 1
+    implicit_tls = tls is None
+    implicit_not_ssl = ssl is None
+    tls_disabled = ssl is not True
+
+    assert smtp_inst.host is host
+    assert smtp_inst.port is port
+
+    assert smtp_inst.tls in (tls, implicit_tls, tls_disabled), (
+        f"TLS Status: {smtp_inst.tls}; TLS Parameter: {tls}; TLS Implicitly Enabled: {implicit_tls}"
+    )
+    assert smtp_inst.ssl in (ssl, not implicit_not_ssl), (
+        f"SSL Status: {smtp_inst.ssl}; SSL Parameter: {ssl}; SSL Implicitly Disabled: {implicit_not_ssl}"
+    )
 
     mock_conn.login.assert_called_once_with(user, pwd)
+    assert mock_conn.starttls.call_count == starttls_calls
 
 
 def test_send_email_files_as_single_string(smtp: SMTP, mock_conn: MagicMock, tmp_path: Path):

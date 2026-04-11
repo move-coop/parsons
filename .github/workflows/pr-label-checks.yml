@@ -108,7 +108,13 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
         with:
           script: |
-            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const labels = pullRequest.labels.map(l => l.name);
             core.debug(`Detected labels: ${JSON.stringify(labels)}`);
 
             const hasBreaking = labels.includes('breaking-change');

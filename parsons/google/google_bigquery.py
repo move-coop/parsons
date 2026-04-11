@@ -1021,7 +1021,8 @@ class GoogleBigQuery(DatabaseConnector):
             if not keep_gcs_file:
                 gcs_client.delete_blob(tmp_gcs_bucket, temp_blob_name)
 
-    def _stringify_records(self, tbl):
+    @staticmethod
+    def _stringify_records(tbl):
         # Convert dict columns to JSON strings
         for field in tbl.get_columns_type_stats():
             if "dict" in field["type"] or "list" in field["type"]:
@@ -1596,7 +1597,8 @@ class GoogleBigQuery(DatabaseConnector):
 
         return job_config
 
-    def _fetch_query_results(self, cursor) -> Table:
+    @staticmethod
+    def _fetch_query_results(cursor) -> Table:
         # We will use a temp file to cache the results so that they are not all living
         # in memory. We'll use pickle to serialize the results to file in order to maintain
         # the proper data types (e.g. integer).
@@ -1618,8 +1620,8 @@ class GoogleBigQuery(DatabaseConnector):
         ptable = petl.frompickle(temp_filename)
         return Table(ptable)
 
+    @staticmethod
     def _validate_copy_inputs(
-        self,
         if_exists: Literal["append", "drop", "truncate", "fail"],
         data_type: Literal["csv", "json"],
         accepted_data_types: list[str],

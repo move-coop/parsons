@@ -45,9 +45,9 @@ class SMTP(SendMail):
         close_manually: bool = False,
     ):
         self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in ("0", "False", False)
-        if tls is False:
-            self.tls = False
         self.ssl = check_env.check("SMTP_SSL", ssl, optional=True) in ("1", "True", True)
+        if (tls is False) or (self.ssl is True):
+            self.tls = False
 
         self.host = check_env.check("SMTP_HOST", host)
         self.port = int(check_env.check("SMTP_PORT", port, optional=True) or self._infer_port())

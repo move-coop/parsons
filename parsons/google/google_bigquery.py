@@ -796,7 +796,7 @@ class GoogleBigQuery(DatabaseConnector):
             or check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
         )
         gcs_client = gcs_client or GoogleCloudStorage()
-        temp_blob_uri = gcs_client.copy_s3_to_gcs(
+        gcs_client.copy_s3_to_gcs(
             aws_source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
@@ -1708,7 +1708,6 @@ class GoogleBigQuery(DatabaseConnector):
             )
         source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
-        compression = "GZIP" if gzip else compression
         logger.info(f"Project (parsons): {project}")
         extract_job = self.client.extract_table(
             source=source,
@@ -1780,7 +1779,7 @@ class GoogleBigQuery(DatabaseConnector):
             # if it doesn't exist: check if it's ok to create it
             if if_dataset_not_exists == "create":  # create a new dataset in the destination
                 dataset = bigquery.Dataset(dataset_id)
-                dataset = self.client.create_dataset(dataset, timeout=30)
+                self.client.create_dataset(dataset, timeout=30)
             else:  # if it doesn't exist and it's not ok to create it, fail
                 logger.error("BigQuery copy failed")
                 logger.error(

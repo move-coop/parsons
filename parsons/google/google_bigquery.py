@@ -903,6 +903,7 @@ class GoogleBigQuery(DatabaseConnector):
                 tmpfile,
                 destination=self.get_table_ref(table_name=table_name),
                 job_config=job_config,
+                **load_kwargs,
             )
 
             try:

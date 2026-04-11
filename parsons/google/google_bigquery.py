@@ -408,7 +408,7 @@ class GoogleBigQuery(DatabaseConnector):
         schema: list[dict] | None = None,
         job_config: LoadJobConfig | None = None,
         force_unzip_blobs: bool = False,
-        compression_type: str = "gzip",
+        compression_type: Literal["zip", "gzip"] = "gzip",
         new_file_extension: str = "csv",
         template_table: str | None = None,
         max_timeout: int = 21600,
@@ -593,7 +593,7 @@ class GoogleBigQuery(DatabaseConnector):
         quote: str | None = None,
         schema: list[dict] | None = None,
         job_config: LoadJobConfig | None = None,
-        compression_type: str = "gzip",
+        compression_type: Literal["zip", "gzip"] = "gzip",
         new_file_extension: str = "csv",
         template_table: str | None = None,
         max_timeout: int = 21600,
@@ -1053,7 +1053,7 @@ class GoogleBigQuery(DatabaseConnector):
         quote,
         schema,
     ):
-        data_type = "csv"
+        data_type: Literal["csv", "json"] = "csv"
 
         self._validate_copy_inputs(
             if_exists=if_exists, data_type=data_type, accepted_data_types=["csv"]

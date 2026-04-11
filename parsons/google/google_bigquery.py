@@ -12,7 +12,7 @@ import google
 import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
-from google.cloud.bigquery import dbapi, job
+from google.cloud.bigquery import ExtractJob, dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 from google.oauth2.credentials import Credentials
 
@@ -156,8 +156,8 @@ class GoogleBigQuery(DatabaseConnector):
     def __init__(
         self,
         app_creds: str | dict | Credentials | None = None,
-        project=None,
-        location=None,
+        project: str | None = None,
+        location: str | None = None,
         client_options: dict | None = None,
         tmp_gcs_bucket: str | None = None,
     ):
@@ -1679,7 +1679,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: ExtractJobConfig = None,
         wait_for_job_to_complete: bool = True,
         **export_kwargs,
-    ) -> None:
+    ) -> ExtractJob:
         """
         Extracts a BigQuery table to a Google Cloud Storage bucket.
 

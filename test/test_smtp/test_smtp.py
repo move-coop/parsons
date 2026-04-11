@@ -1,4 +1,5 @@
 import mimetypes
+import os
 import random
 import string
 from email import message_from_string
@@ -168,17 +169,19 @@ def test_attachment_disposition(smtp: SMTP, mock_conn: MagicMock):
     assert "attachment" in file_part.get("Content-Disposition")
 
 
+@pytest.mark.parametrize("infer_port", [True, False])
+@pytest.mark.parametrize("init_mode", ["args", "env"])
 @pytest.mark.parametrize(
-    ("tls", "ssl", "starttls_calls"),
+    ("tls", "ssl", "starttls_calls", "inferrable_port"),
     [
-        (False, None, 0),
-        (None, None, 1),
-        (None, False, 1),
-        (True, None, 1),
-        (True, False, 1),
-        (False, True, 0),
-        (None, True, 0),
-        (True, True, 0),
+        (False, None, 0, 25),
+        (None, None, 1, 587),
+        (None, False, 1, 587),
+        (True, None, 1, 587),
+        (True, False, 1, 587),
+        (False, True, 0, 465),
+        (None, True, 0, 465),
+        (True, True, 0, 465),
     ],
     ids=[
         "plain-text",
@@ -192,18 +195,53 @@ def test_attachment_disposition(smtp: SMTP, mock_conn: MagicMock):
     ],
 )
 def test_connection_authentication_flow(
-    mock_conn: MagicMock, tls: bool | None, ssl: bool | None, starttls_calls: int
+    mock_conn: MagicMock,
+    mocker: MockerFixture,
+    infer_port: bool,
+    init_mode: str,
+    tls: bool,
+    ssl: bool,
+    starttls_calls: int,
+    inferrable_port: int,
 ):
-    host, user, pwd, port = "smtp.custom.com", "user123", "secret_pass", 587
-    smtp_inst = SMTP(host=host, username=user, password=pwd, port=port, tls=tls, ssl=ssl)
+    data = {
+        "host": "smtp.custom.com",
+        "user": "user123",
+        "pass": "secret_pass",
+        "port": None if infer_port else 587,
+    }
+
+    if init_mode == "args":
+        smtp_inst = SMTP(
+            host=data["host"],
+            username=data["user"],
+            password=data["pass"],
+            port=data["port"],
+            tls=tls,
+            ssl=ssl,
+        )
+    else:
+        env_vars = {
+            "SMTP_HOST": data["host"],
+            "SMTP_USER": data["user"],
+            "SMTP_PASSWORD": data["pass"],
+            "SMTP_TLS": str(tls) if tls is not None else "",
+            "SMTP_SSL": str(ssl) if ssl is not None else "",
+        }
+        if not infer_port:
+            env_vars["SMTP_PORT"] = str(data["port"])
+
+        mocker.patch.dict(os.environ, env_vars)
+        smtp_inst = SMTP()
+
     smtp_inst.send_email("f@ex.com", "t@ex.com", "Sub", "Body")
 
     implicit_tls = tls is None
     implicit_not_ssl = ssl is None
     tls_disabled = ssl is not True
 
-    assert smtp_inst.host is host
-    assert smtp_inst.port is port
+    assert smtp_inst.host == data["host"]
+    assert smtp_inst.port == data["port"] if not infer_port else inferrable_port
 
     assert smtp_inst.tls in (tls, implicit_tls, tls_disabled), (
         f"TLS Status: {smtp_inst.tls}; TLS Parameter: {tls}; TLS Implicitly Enabled: {implicit_tls}"
@@ -212,7 +250,7 @@ def test_connection_authentication_flow(
         f"SSL Status: {smtp_inst.ssl}; SSL Parameter: {ssl}; SSL Implicitly Disabled: {implicit_not_ssl}"
     )
 
-    mock_conn.login.assert_called_once_with(user, pwd)
+    mock_conn.login.assert_called_once_with(data["user"], data["pass"])
     assert mock_conn.starttls.call_count == starttls_calls
 
 

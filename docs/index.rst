@@ -195,10 +195,10 @@ Indices and tables
    :caption: Framework
    :name: framework
 
-   dbsync
-   table
-   notifications
-   utilities
+   framework/dbsync
+   framework/table
+   framework/notifications
+   framework/utilities
 
 .. toctree::
    :maxdepth: 1

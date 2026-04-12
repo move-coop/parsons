@@ -1,10 +1,7 @@
-*********
+#########
 Utilities
-*********
+#########
 
-.. _api-connector:
-
-=============
 API Connector
 =============
 
@@ -12,9 +9,6 @@ API Connector
    :inherited-members:
    :members:
 
-.. _check-env:
-
-=========
 Check ENV
 =========
 
@@ -22,9 +16,6 @@ Check ENV
    :inherited-members:
    :members:
 
-.. _cloud-storage:
-
-=============
 Cloud Storage
 =============
 
@@ -50,7 +41,8 @@ be generated and active by default for 60 minutes, but you can adjust the time.
    :inherited-members:
    :members:
 
-**Amazon S3**
+Amazon S3
+---------
 
 Below are the required and optional arguments utilizing Amazon S3 as the cloud storage service:
 
@@ -74,7 +66,8 @@ Below are the required and optional arguments utilizing Amazon S3 as the cloud s
       - No
       - Defaults is 60 minutes.
 
-**Google Cloud Storage**
+Google Cloud Storage
+--------------------
 
 Below are the required and optional arguments utilizing Google Cloud Storage as the cloud storage service:
 
@@ -95,9 +88,6 @@ Below are the required and optional arguments utilizing Google Cloud Storage as 
       - No
       - Defaults is 60 minutes.
 
-.. _credential_tools:
-
-================
 Credential Tools
 ================
 
@@ -105,9 +95,6 @@ Credential Tools
    :inherited-members:
    :members:
 
-.. _datetime:
-
-========
 Datetime
 ========
 
@@ -115,9 +102,6 @@ Datetime
    :inherited-members:
    :members:
 
-.. _files:
-
-=====
 Files
 =====
 
@@ -125,9 +109,6 @@ Files
    :inherited-members:
    :members:
 
-.. _format_phone_number:
-
-===================
 Format Phone Number
 ===================
 
@@ -135,9 +116,6 @@ Format Phone Number
    :inherited-members:
    :members:
 
-.. _format_json:
-
-===========
 Format JSON
 ===========
 
@@ -145,9 +123,6 @@ Format JSON
    :inherited-members:
    :members:
 
-.. _oauth_api_connector:
-
-===================
 OAuth API Connector
 ===================
 
@@ -155,9 +130,6 @@ OAuth API Connector
    :inherited-members:
    :members:
 
-.. _sql_helpers:
-
-===========
 SQL Helpers
 ===========
 
@@ -165,9 +137,6 @@ SQL Helpers
    :inherited-members:
    :members:
 
-.. _ssh_utilities:
-
-=============
 SSH Utilities
 =============
 
@@ -175,9 +144,6 @@ SSH Utilities
    :inherited-members:
    :members:
 
-.. _zip_archive:
-
-===========
 ZIP Archive
 ===========
 
@@ -185,9 +151,6 @@ ZIP Archive
    :inherited-members:
    :members:
 
-.. _dbt:
-
-=============
 dbt Utilities
 =============
 

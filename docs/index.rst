@@ -44,7 +44,7 @@ Need more detail? We have a `detailed, beginner-friendly guide to installing Par
 
 We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`_ for each release of Parsons.
 
-QuickStart
+Quickstart
 ==========
 
 .. code-block:: python
@@ -205,9 +205,9 @@ Indices and tables
    :caption: Contributor Documentation
    :name: contrib_docs
 
-   contributing
-   build_a_connector
-   write_tests
+   contrib_docs/contributing
+   contrib_docs/build_a_connector
+   contrib_docs/write_tests
 
 .. toctree::
    :maxdepth: 1

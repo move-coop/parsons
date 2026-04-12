@@ -57,13 +57,17 @@ If you were able to get an API key, you can now save it as the environmental var
 
 (Not comfortable with the command line? Check out our `training guide <getting_set_up.html>`_.)
 
-And that's it, you're done! When you instantiate the Mobilize connector, it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``. If it finds the key, it can use it to handle all the authentication for you.
+And that's it, you're done! When you instantiate the Mobilize connector, it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
+If it finds the key, it can use it to handle all the authentication for you.
 
 .. note::
 
-    What do we mean, "when you instantiate the Mobilize connector"? We've created the Mobilize connector class, which has general features anyone can use to work with Mobilize. But in order to actually work with that class, you need to create a "instance" of it. That instance will have data specific to you, such as your API key.
+    What do we mean, "when you instantiate the Mobilize connector"?
+    We've created the Mobilize connector class, which has general features anyone can use to work with Mobilize.
+    But in order to actually work with that class, you need to create a "instance" of it. That instance will have data specific to you, such as your API key.
 
-    "Instantiation" is just a fancy way to say "create an instance of". In Python, you instantiate something by calling it with parentheses, ie: ``mobilize_instance = Mobilize()``.
+    "Instantiation" is just a fancy way to say "create an instance of".
+    In Python, you instantiate something by calling it with parentheses, ie: ``mobilize_instance = Mobilize()``.
 
 #############
 Google Sheets
@@ -71,19 +75,27 @@ Google Sheets
 
 Setting up the Google Sheets connector takes several steps.
 
-First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`_ and select the project you want to work with, or create a new one (recommended). Following `these instructions from Google <https://developers.google.com/drive/api/guides/enable-drive-api>`_, click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
+First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`_
+and select the project you want to work with, or create a new one (recommended).
+Following `these instructions from Google <https://developers.google.com/drive/api/guides/enable-drive-api>`_,
+click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
 
-Once you've created a project and enabled the API, you'll need to get the credentials that will allow you to access the API. Click on the **credentials** option in the left sidebar. Click **create credentials** and select the **Service Account** option. Once you have filled out the form and clicked submit, it will give you a set of credentials as a json string which you can save to a file.
+Once you've created a project and enabled the API, you'll need to get the credentials that will allow you to access the API.
+Click on the **credentials** option in the left sidebar. Click **create credentials** and select the **Service Account** option.
+Once you have filled out the form and clicked submit, it will give you a set of credentials as a json string which you can save to a file.
 
-Now we need to tell Parsons where it can find the credentials. We'll set an environmental variable ``GOOGLE_DRIVE_CREDENTIALS`` which is the path to where your credentials are stored (replace the paths below with your correct paths)::
+Now we need to tell Parsons where it can find the credentials.
+We'll set an environmental variable ``GOOGLE_DRIVE_CREDENTIALS`` which is the path to where
+your credentials are stored (replace the paths below with your correct paths)::
 
     set GOOGLE_DRIVE_CREDENTIALS="C:\Home\Projects\"      # Windows
     export GOOGLE_DRIVE_CREDENTIALS="/home/projects/"     # Linux/Mac
 
-
 Learn more about paths :ref:`here <path-explainer>`.
 
-Finally, look inside the credentials file for an email address in the field ``client_email``. It will look something like ``service-account@projectname-123456.iam.gserviceaccount.com``. Go to the Google Drive UI for the folder you want to work with and share the folder with this email address.
+Finally, look inside the credentials file for an email address in the field ``client_email``.
+It will look something like ``service-account@projectname-123456.iam.gserviceaccount.com``.
+Go to the Google Drive UI for the folder you want to work with and share the folder with this email address.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Extracting Data from Moblize
@@ -101,11 +113,14 @@ Your imports should look like this::
     from datetime import datetime
     from parsons import Table, MobilizeAmerica, GoogleSheets
 
-`json <https://docs.python.org/3/library/json.html>`_ is a Python module that helps us convert between data in a JSON format (which is a popular way to store and share data) and Python data structures.
+`json <https://docs.python.org/3/library/json.html>`_ is a Python module that helps us convert between data in a JSON format
+(which is a popular way to store and share data) and Python data structures.
 
 `datetime <https://docs.python.org/3/library/datetime.html>`_  is a Python module that helps us work more easily with dates and times.
 
-Finally, from Parsons, we're importing the two connectors we're using, plus the Parsons Table object. The Parsons Table is the core data structure in Parsons. It's a standardized way to hold data, which makes it very easy to move data between vendors even if the vendors have different structures.
+Finally, from Parsons, we're importing the two connectors we're using, plus the Parsons Table object.
+The Parsons Table is the core data structure in Parsons. It's a standardized way to hold data,
+which makes it very easy to move data between vendors even if the vendors have different structures.
 
 We instantiate our connectors with this code::
 
@@ -122,7 +137,8 @@ We're going to extract some data on attendance from Mobilize. We can do that wit
 
     attendance_records = mobilize.get_attendances()
 
-If you weren't able to get an authenticated Mobilize account, you can use the fake Mobilize data in `this google sheet <https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/>`_::
+If you weren't able to get an authenticated Mobilize account, you can use the fake Mobilize data in
+`this google sheet <https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/>`_::
 
     spreadsheet_id = "1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I"
     attendance_records = google_sheets.get_worksheet(spreadsheet_id)
@@ -142,7 +158,8 @@ The result should look like this::
 
 There are more than five rows in our table, but ``print`` only displays the first five rows by default, for readability's sake.
 
-As you can see, this data corresponds to what's in the Google sheet. We display the data in a Python dictionary, with the column names as keys and the actual contents of each cell as the values. You can ask for any row of a Parsons Table as a dictionary::
+As you can see, this data corresponds to what's in the Google sheet. We display the data in a Python dictionary,
+with the column names as keys and the actual contents of each cell as the values. You can ask for any row of a Parsons Table as a dictionary::
 
     print(attendance_records[0])
     >> {'id': '46273', 'event_id': '454545', 'event_title': 'January Canvass', 'timeslot_id': '738375', 'timeslot_start_date': '1642865400', 'timeslot_end_date': '1642872600', 'status': 'REGISTERED', 'attended': 'true', 'person': '{"id": 1, "given_name": "Lou", "family_name": "Slainey", "email_address": "lslainey0@unicef.org", "phone_number": "3271326753", "postal_code": "78737"}'}
@@ -174,20 +191,24 @@ Fixing Dates + Times
 
 Let's make some fixes to our data. First off, those timeslot fields are confusing! What kind of date is ``1642865400``?
 
-(It's actually something called a `unix timestamp <https://www.unixtimestamp.com/>`_, which measures the total number of seconds since January 1st, 1970. Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)
+(It's actually something called a `unix timestamp <https://www.unixtimestamp.com/>`_, which measures the total number of seconds since January 1st, 1970.
+Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)
 
 Let's convert these unix timestamps to something more readable. To do this, we define a function that takes in a value and returns a value::
 
     def convert_to_legible_date(unix_date):
         return datetime.utcfromtimestamp(int(unix_date)).strftime('%Y-%m-%d %H:%M:%S')
 
-Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format. For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01). Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
+Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format.
+For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
+Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
 
 Once we've got our function, we can apply it to all the rows in a column by using the Parsons Table's ``convert_column`` function::
 
     attendance_records.convert_column('timeslot_start_date', convert_to_legible_date)
 
-Notice how the first parameter passed to the method names the column to be converted, while the second parameter is the function to be applied to each row in the column. The original value of the cell will be passed into the function, and whatever is returned will be the new value of the cell.
+Notice how the first parameter passed to the method names the column to be converted, while the second parameter is the function to be applied to each row in the column.
+The original value of the cell will be passed into the function, and whatever is returned will be the new value of the cell.
 
 ##################
 Unpacking a Column
@@ -199,7 +220,8 @@ Currently in our table, each person's contact info is crammed into a single colu
 
 We can turn these fields into their own columns in two steps.
 
-First, we're going to convert that column from a json string to a Python dictionary. As long as the string is formatted correctly, the only thing we need to do is pass in the ``json.loads`` method::
+First, we're going to convert that column from a json string to a Python dictionary. As long as the string is formatted correctly,
+the only thing we need to do is pass in the ``json.loads`` method::
 
     attendance_records.convert_column('person', json.loads)
 
@@ -211,13 +233,16 @@ Then we can use a special Parsons method, ``unpack_dict``, to turn the keys of a
 Aggregating Data Using PETL
 ###########################
 
-Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/en/stable/>`_ is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
+Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/en/stable/>`_
+is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
 
-Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons Table. Just convert your Parsons table to a PETL table with the ``.table`` method::
+Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons Table.
+Just convert your Parsons table to a PETL table with the ``.table`` method::
 
     petl_table = attendance_records.table
 
-One example of a useful PETL function is ``Aggregate()`` which allows you to summarize data across rows. For instance, the following code gets the total number of signups by event::
+One example of a useful PETL function is ``Aggregate()`` which allows you to summarize data across rows.
+For instance, the following code gets the total number of signups by event::
 
     sign_ups_by_event_petl = petl_table.aggregate('event_title', len)
 
@@ -241,7 +266,8 @@ Note that this only works if we successfully transformed ``timeslot_start_date``
 Loading Data to Google Sheets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's go ahead and create a new spreadsheet to load data into. We'll put it in a folder that already exists. To get the folder ID below, look in the URL. The folder ID is the long string of letters and numbers, like so::
+Let's go ahead and create a new spreadsheet to load data into. We'll put it in a folder that already exists.
+To get the folder ID below, look in the URL. The folder ID is the long string of letters and numbers, like so::
 
     folder_id = "1y1jgygK5YUQLVrgRgNw7A8Hf2ppqOJJZ"  # get from URL
 
@@ -258,7 +284,8 @@ The ``overwrite_sheet`` overwrites an existing sheet with data::
     google_sheets.overwrite_sheet(sheet_id, jan_attendances)
     google_sheets.overwrite_sheet(sheet_id, feb_attendances)
 
-If you run both commands, you should only see the February attendances, because they'll have overwritten the January ones. But maybe you don't want to do that. Maybe you want to append all the data. You can do that too::
+If you run both commands, you should only see the February attendances, because they'll have overwritten the January ones.
+But maybe you don't want to do that. Maybe you want to append all the data. You can do that too::
 
     google_sheets.overwrite_sheet(sheet_id, jan_attendances)
     google_sheets.append_to_sheet(sheet_id, feb_attendances)
@@ -271,7 +298,9 @@ You can also format cells using the ``format_cells`` method::
     red = {"red": 1.0, "green": 0.0, "blue": 0.0}
     google_sheets.format_cells(sheet_id, "A1",  {"backgroundColor": red}, worksheet=0)
 
-Formatting a random cell red is a bit silly though. Let's try a more interesting example. We're going to overwrite our attendance records, just to make sure we're working from a fresh start. Then we'll go through the records one by one and, if the person didn't attend, we'll make their background red::
+Formatting a random cell red is a bit silly though. Let's try a more interesting example.
+We're going to overwrite our attendance records, just to make sure we're working from a fresh start.
+Then we'll go through the records one by one and, if the person didn't attend, we'll make their background red::
 
     google_sheets.overwrite_sheet(sheet_id, attendance_records)  # overwrite sheet
 
@@ -281,7 +310,9 @@ Formatting a random cell red is a bit silly though. Let's try a more interesting
             cell_range = f"A{adjusted_index}:N{adjusted_index}"
             google_sheets.format_cells(sheet_id, cell_range, {"backgroundColor": red}, worksheet=0)
 
-The Parsons Google Sheets connector only exposes a few very common functions directly. Everything else we'll need to use the underlying client for. If you use a client function a lot, feel free to suggest to us that we add it to the Parsons connector directly! That will make it easier for you and others to use.
+The Parsons Google Sheets connector only exposes a few very common functions directly.
+Everything else we'll need to use the underlying client for. If you use a client function a lot,
+feel free to suggest to us that we add it to the Parsons connector directly! That will make it easier for you and others to use.
 
 .. note::
 
@@ -304,7 +335,8 @@ Let's just re-write the code above to show you what it would look like if we wer
            cell_range = f"A{adjusted_index}:N{adjusted_index}"
            worksheet.format(cell_range, {"backgroundColor": red})
 
-As you can see, the code is pretty similar. The only difference is that we use ``gspread_client`` to directly call a client method (``open``) and then work with the object that the client returns (``worksheet``) when formatting the cells.
+As you can see, the code is pretty similar. The only difference is that we use ``gspread_client`` to directly call
+a client method (``open``) and then work with the object that the client returns (``worksheet``) when formatting the cells.
 
 ********
 Part Two
@@ -314,22 +346,29 @@ Part Two
 Using a Data Warehouse
 ^^^^^^^^^^^^^^^^^^^^^^
 
-We've gone over how to write a script that takes data from one place, transforms it, and then moves it to another. But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:
+We've gone over how to write a script that takes data from one place, transforms it, and then moves it to another.
+But many people find it helpful to store their data in a centralized location. This can be desirable for a few different reasons:
 
 * Using a data warehouse can make it easier to look at your data all together and to track changes to it
 * Most warehouses let you query data with SQL queries, which many people find easier or more familiar
 * Warehouse are often optimized for dealing with very large data sources, which is helpful if you're using large data sets.
 
-In other words, it's convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system.
+In other words, it's convenient to extract data from your source system and load it in to your data warehouse.
+From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system.
 
-Some examples of data warehouses are BigQuery, SnowFlake, and Redshift. Low cost solutions could be Google sheets (maybe using Google Data Studio as a reporting tool.)
+Some examples of data warehouses are BigQuery, SnowFlake, and Redshift.
+Low cost solutions could be Google Sheets (maybe using Google Data Studio as a reporting tool.)
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 New Example: Mobilize ➡ Civis/Redshift ➡ Action Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For the second half of this training, we're going to be focused on a new use case. We'll be trying to move data from Mobilize to Civis/Redshift to Action Network. If you don't have a Civis account, you won't be able to follow along with this part of the guide at home, so we've included a lot of screenshots. :)
 
-The Mobilize to Action Network sync is something we'd want to run every day on an automated basis. There are various tools that can help automate syncs like ours. We're using Civis, but we could also use Fivetran, Airflow, or chron jobs. If you'd like a guide that goes through using a different tool, please request one!
+For the second half of this training, we're going to be focused on a new use case. We'll be trying to move data from Mobilize to Civis/Redshift to Action Network.
+If you don't have a Civis account, you won't be able to follow along with this part of the guide at home, so we've included a lot of screenshots. :)
+
+The Mobilize to Action Network sync is something we'd want to run every day on an automated basis.
+There are various tools that can help automate syncs like ours. We're using Civis, but we could also use Fivetran, Airflow, or chron jobs.
+If you'd like a guide that goes through using a different tool, please request one!
 
 .. image:: ../_static/images/civis_etl_workflow.png
 
@@ -345,11 +384,13 @@ The three steps of our ETL pipeline are displayed under the big letters E, T and
 Step 1: Extracting Data Into the Warehouse
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Tools like Civis often have no-code solutions for getting data from your source system into your data warehouse. That makes our jobs quite a bit easier! This screenshot shows the interface for importing data from Mobilize using Civis:
+Tools like Civis often have no-code solutions for getting data from your source system into your data warehouse.
+That makes our jobs quite a bit easier! This screenshot shows the interface for importing data from Mobilize using Civis:
 
 .. image:: ../_static/images/civis_mobilize_import.png
 
-If that's not an option, because Civis doesn't have an importer for your tool or for some other reason, you can write a custom Python script which extracts data from the source system. You can use Parsons for this::
+If that's not an option, because Civis doesn't have an importer for your tool or for some other reason,
+you can write a custom Python script which extracts data from the source system. You can use Parsons for this::
 
 
     from Parsons import Table, MobilizeAmerica, Redshift
@@ -360,13 +401,16 @@ If that's not an option, because Civis doesn't have an importer for your tool or
     attendances = mobilize.get_attendances()
     rs.copy(attendances, 'mobilize.attendances', if_exists='drop', alter_table=True)
 
-The ``rs.copy`` used here loads data into the RedShift database you're connected to. The ``mobilize.attendances`` parameter specifies which table to copy the data to. The ``copy`` method can also be used with the BigQuery connector.
+The ``rs.copy`` used here loads data into the RedShift database you're connected to.
+The ``mobilize.attendances`` parameter specifies which table to copy the data to.
+The ``copy`` method can also be used with the BigQuery connector.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Step 2: Transforming Data in Warehouse with SQL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-With our previous script, we transformed data using Python, but you may be more comfortable using SQL. When you're using a data warehouse like Civis, you can run a SQL query or two (or more!) during the transformation step.
+With our previous script, we transformed data using Python, but you may be more comfortable using SQL.
+When you're using a data warehouse like Civis, you can run a SQL query or two (or more!) during the transformation step.
 
 .. code-block:: sql
 
@@ -388,14 +432,15 @@ With our previous script, we transformed data using Python, but you may be more 
 
     );
 
-
-This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network. It creates this table from the participations table by using the ``DISTINCT SQL`` function.
+This script creates a table where each row is a unique Mobilize user that needs to be synced to Action Network.
+It creates this table from the participations table by using the ``DISTINCT SQL`` function.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Step 3: Load Data from Warehouse to Action Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The final step is to move data from the warehouse to Action Network. You can use `this script <https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py>`_ to follow along if you have a Civis account.
+The final step is to move data from the warehouse to Action Network. You can use
+`this script <https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py>`_ to follow along if you have a Civis account.
 
 Before we dive into the script, let's go over a few key concepts: log tables, and logging.
 
@@ -403,9 +448,11 @@ Before we dive into the script, let's go over a few key concepts: log tables, an
 Log Tables & Logging
 ####################
 
-Log Tables and loging are two distinct things, but they serve the same general purpose: helping us to track what's happening to our data, which is especially useful when something goes wrong.
+Log Tables and loging are two distinct things, but they serve the same general purpose:
+helping us to track what's happening to our data, which is especially useful when something goes wrong.
 
-Log Tables are tables in our database where we store information about our attempts to sync records. When we're saving data to log tables, it looks like this::
+Log Tables are tables in our database where we store information about our attempts to sync records.
+When we're saving data to log tables, it looks like this::
 
     log_record = {
         'mobilizeid': mobilize_user['mobilizeid'],
@@ -418,7 +465,10 @@ Log Tables are tables in our database where we store information about our attem
     # Add the record of our success to the history books
     loglist.append(log_record)
 
-The logging package, conversely, is a standard part of Python. Logs are usually saved as strings and saved to a single file or printed to standard output. It's for less formal analyses, like being able to check "hey where's my code at". When we're saving data via the logging package, it looks like this::
+The logging package, conversely, is a standard part of Python.
+Logs are usually saved as strings and saved to a single file or printed to standard output.
+It's for less formal analyses, like being able to check "hey where's my code at".
+When we're saving data via the logging package, it looks like this::
 
     logger.info('Starting the sync now.')
 
@@ -437,7 +487,9 @@ We start by pulling our Mobilize data out of the Redshift table where it's been 
     if new_mobilize_users.num_rows > 0:
         logger.info('Starting the sync now.')
 
-We can now iterate through each of our new mobilize users. For each Mobilize user, we're going to try and sync them to Action Network. If that doesn't work, we'll log the errors. We'll do this using what's known as a try-except statement in Python::
+We can now iterate through each of our new mobilize users.
+For each Mobilize user, we're going to try and sync them to Action Network.
+If that doesn't work, we'll log the errors. We'll do this using what's known as a try-except statement in Python::
 
     for mobilize_user in new_mobilize_users:
 
@@ -451,7 +503,11 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
 
 .. warning::
 
-    Pythonistas refer to handling an exception as "catching" it. It is considered bad practice to catch a "bare" (generic) Exception. You should instead try to be as specific as possible. Ask yourself: what kind of errors am I expecting? For instance, here we might expect database errors and want to handle them without crashing the script, but we might not expect errors in our Python syntax. We probably still want our code to break if we make a typo, so that we can find and fix the typo!
+    Pythonistas refer to handling an exception as "catching" it. It is considered bad practice to catch a "bare" (generic) Exception.
+    You should instead try to be as specific as possible. Ask yourself: what kind of errors am I expecting?
+    For instance, here we might expect database errors and want to handle them without crashing the script,
+    but we might not expect errors in our Python syntax.
+    We probably still want our code to break if we make a typo, so that we can find and fix the typo!
 
     If you know that you're okay with, say, ValueErrors, you can write a try-except like this::
 
@@ -495,11 +551,15 @@ Let's take a look inside the try statement. What are we trying to do?::
         # Add the record of our success to the history books
         loglist.append(log_record)
 
-We get the data from each ``mobilize_user`` in our Parsons Table and send that data to Action Network via the ``add_person`` method. (There's a little bit of fancy formatting done to send the ``postal_addresses`` info. You can figure out if data needs special formatting by checking out the connector's docs. For instance, the docs for ``add_person`` can be found `here <https://move-coop.github.io/parsons/html/stable/action_network.html#parsons.ActionNetwork.add_person>`_.)
+We get the data from each ``mobilize_user`` in our Parsons Table and send that data to Action Network via the ``add_person`` method.
+(There's a little bit of fancy formatting done to send the ``postal_addresses`` info.
+You can figure out if data needs special formatting by checking out the connector's docs.
+For instance, the docs for ``add_person`` can be found `here <https://move-coop.github.io/parsons/html/stable/action_network.html#parsons.ActionNetwork.add_person>`_.)
 
 Action Network sends back information about the user. We do another bit offancy formatting work to extract the action network ID.
 
-If we got all the way to this point in the script without breaking on an error, then our sync was a success! We can save it as a ``log_record`` in our ``log_list`` to be stored in the database later.
+If we got all the way to this point in the script without breaking on an error, then our sync was a success!
+We can save it as a ``log_record`` in our ``log_list`` to be stored in the database later.
 
 Now let's look inside the except statement. What happens if things go wrong?::
 
@@ -541,13 +601,18 @@ Scheduling Jobs With Container Scripts
 
 Different platforms allow you to schedule jobs in different ways. Civis lets you schedule jobs using container scripts.
 
-A Civis container script runs your Python code on a remote server for you. Under the hood, Civis takes your Python script from where it is stored in GitHub and runs it a Docker remote server environment.
+A Civis container script runs your Python code on a remote server for you. Under the hood,
+Civis takes your Python script from where it is stored in GitHub and runs it a Docker remote server environment.
 
-`GitHub <https://github.com>`_ is the google docs of coding, an online service for collaborating with a team as you write scripts. It's where we maintain `Parsons <https://github.com/move-coop/parsons/>`_ itself.
+`GitHub <https://github.com>`_ is the google docs of coding, an online service for collaborating with a team as you write scripts.
+It's where we maintain `Parsons <https://github.com/move-coop/parsons/>`_ itself.
 
-`Docker <https://www.docker.com/>`_ is a service that lets you create a remote environment that includes all of the Python packages your script needs to run. TMC maintains a `Parsons docker image <https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons>`_ that you can use - or that you can tell Civis to use!
+`Docker <https://www.docker.com/>`_ is a service that lets you create a remote environment that includes all of the Python packages your script needs to run.
+TMC maintains a `Parsons docker image <https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons>`_ that
+you can use - or that you can tell Civis to use!
 
-Put all these pieces together and you get a virtual computer with Parsons pre-installed where you can run the specified script. Civis orchestrates this, and also allows you to pass parameters into the script - for example, the API keys for Action Network or Redshift.
+Put all these pieces together and you get a virtual computer with Parsons pre-installed where you can run the specified script.
+Civis orchestrates this, and also allows you to pass parameters into the script - for example, the API keys for Action Network or Redshift.
 
 Let's look at the civis container script for this project:
 

@@ -1441,7 +1441,7 @@ class ActionKit:
         upload_client = self._conn({"accepts": "application/json"})
         # TODO: use context manager or close file when done
         if isinstance(csv_file, str):
-            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115
+            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115 open-file-with-context-handler
 
         url = self._base_endpoint("upload")
         files = {"upload": csv_file}

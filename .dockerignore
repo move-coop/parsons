@@ -70,8 +70,9 @@ instance/
 docs/html
 docs/_build/html
 docs/dirhtml
-/site
-doctrees/
+site/
+.doctrees/
+linkcheck/
 
 # PyBuilder
 target/

@@ -1,8 +1,3 @@
-.. Parsons documentation master file, created by
-   sphinx-quickstart on Sat Sep  8 14:41:56 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 .. image:: /_static/parsons_logo.png
    :width: 250px
    :height: 250px
@@ -12,18 +7,22 @@
 About
 =====
 
-Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_, is a Python package that contains a growing list of connectors and integrations to move data between various tools. Parsons is focused on integrations and connectors for tools utilized by the progressive community.
+Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_,
+is a Python package that contains a growing list of connectors and integrations to move data between various tools.
+Parsons is focused on integrations and connectors for tools utilized by the progressive community.
 
-Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations, over and over and over again, while they should be engaged in more important and impactful work. It
+Parsons was built out of a belief that progressive organizations spend far too much time building the same integrations,
+over and over and over again, while they should be engaged in more important and impactful work. It
 was built and is maintained by The Movement Cooperative.
 
 The Movement Cooperative
-========================
+------------------------
 
-The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
+The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community.
+Our mission is to break down technological barriers for organizations that fight for social justice.
 
 License and Usage
-=================
+-----------------
 
 Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
@@ -38,7 +37,8 @@ Resources
 Installation
 ============
 
-You can install Parsons using ``pip install parsons``. We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`_.
+You can install Parsons using ``pip install parsons``.
+We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`_.
 
 Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`_ on our website.
 
@@ -88,7 +88,9 @@ Quickstart
 Design Goals
 ============
 
-The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
+The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible.
+Simply put, we seek to reduce the lines of code that are written by the progressive community.
+Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
 .. figure:: /_static/parsons_diagram_light.png
    :align: center
@@ -98,7 +100,8 @@ The goal of Parsons is to make the movement of data between systems as easy and 
    :align: center
    :figclass: only-dark
 
-Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
+Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy.
+Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
 Logging
 =======

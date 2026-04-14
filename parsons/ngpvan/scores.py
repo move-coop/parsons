@@ -165,7 +165,7 @@ class Scores:
 
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             email: str
                 An email address to send job load status updates.
             auto_approve: boolean
@@ -176,7 +176,7 @@ class Scores:
                 approve the score. Maximum of .1.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             int

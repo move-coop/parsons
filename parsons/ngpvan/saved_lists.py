@@ -98,7 +98,7 @@ class SavedLists:
                 A parsons table object containing one column of person ids.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             folder_id: int
                 The folder id where the list will be stored.
             list_name: str
@@ -124,7 +124,7 @@ class SavedLists:
                 existing list that you would like to overwrite.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             dict
@@ -213,7 +213,7 @@ class SavedLists:
                 The folder id where the list will be stored.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             id_type: str
                 The primary key type. The options, beyond ``vanid`` are specific to your
                 instance of VAN.
@@ -221,7 +221,7 @@ class SavedLists:
                 Replace saved list if already exists.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             dict

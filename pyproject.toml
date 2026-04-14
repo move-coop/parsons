@@ -107,12 +107,12 @@ mobilecommons = [
 ]
 pandas = ["pandas >= 2.3"]
 postgres = [
-    "psycopg2-binary >= 2.9",
+    "psycopg2-binary >= 2.9.11",
     "sqlalchemy >= 1.4",
 ]
 redshift = [
     "boto3 >= 1",
-    "psycopg2-binary >= 2.9",
+    "psycopg2-binary >= 2.9.11",
     "sqlalchemy >= 1.4",
 ]
 s3 = ["boto3 >= 1"]
@@ -129,7 +129,7 @@ targetsmart = [
 twilio = ["twilio >= 9.0"]
 ssh = [
     "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9",
+    "psycopg2-binary >= 2.9.11",
     "sqlalchemy >= 1.4",
 ]
 all = [

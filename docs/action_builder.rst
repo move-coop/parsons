@@ -1,9 +1,9 @@
+##############
 Action Builder
-==============
+##############
 
-********
 Overview
-********
+========
 
 `Action Builder <https://actionbuilder.org/>`_ is an online tool for field organizing, with an
 original use-case designed for the Labor context. While it has essentially no built-in outreach
@@ -11,20 +11,18 @@ capabilities, it does provide robust record and relationship storage, including 
 create custom record types. For more information, see
 `Action Builder developer docs <https://www.actionbuilder.org/docs/v1/index.html>`_
 
-.. note::
+.. admonition:: Custom Fields/Tags
 
-  Custom Fields/Tags
-    Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
-    means that, with a couple exceptions such as date, values must be created ahead of time to be
-    applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
-    differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
-    ``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
-    ``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
-    applied on Connections as well as on Entities.
+   Action Builder custom fields are treated as tags in both the SQL Mirror, and the API. This
+   means that, with a couple exceptions such as date, values must be created ahead of time to be
+   applied to a record. Each tag has two layers of taxonomy above it as well, that appear slightly
+   differently in the SQL Mirror and in the API. In the SQL Mirror, each tag has a
+   ``tag_category``, and each category has a ``tag_group``. In the API, the equivalents are called
+   ``tag_field`` and ``tag_section``, respectively (closer to the naming in the UI). Tags can be
+   applied on Connections as well as on Entities.
 
-***********
-Quick Start
-***********
+Quickstart
+==========
 
 To instantiate a class, you can either pass in the API token as an argument or set the
 ``ACTION_BUILDER_API_TOKEN`` environmental variable. The subdomain at which you access the UI must
@@ -33,21 +31,29 @@ an optional campaign argument may also be supplied. If not supplied when instant
 may be passed to individual methods, instead.
 
 .. code-block:: python
+   :caption: Use API credentials via environmental variables
+   :emphasize-lines: 2
 
    from parsons import ActionBuilder
-
-   # First approach: Use API credentials via environmental variables
    bldr = ActionBuilder(subdomain='yourorgsubdomain')
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+   :emphasize-lines: 2
+
+   from parsons import ActionBuilder
    bldr = ActionBuilder(api_token='MY_API_TOKEN', subdomain='yourorgsubdomain')
 
-   # Third approach: Include campaign argument
-    bldr = ActionBuilder(
-        api_token = 'MY_API_TOKEN',
-        subdomain = 'yourorgsubdomain',
-        campaign = 'your-desired-campaign-id'
-    )
+.. code-block:: python
+   :caption: Include campaign argument
+   :emphasize-lines: 2-6
+
+   from parsons import ActionBuilder
+   bldr = ActionBuilder(
+       api_token = 'MY_API_TOKEN',
+       subdomain = 'yourorgsubdomain',
+       campaign = 'your-desired-campaign-id',
+   )
 
 You can then call various endpoints:
 
@@ -83,9 +89,8 @@ You can then call various endpoints:
         tag_data = tag_data
     )
 
-***
 API
-***
+====
 
 .. autoclass:: parsons.action_builder.action_builder.ActionBuilder
    :inherited-members:

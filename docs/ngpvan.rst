@@ -1,76 +1,73 @@
+######
 NGPVAN
-======
+######
 
-********
 Overview
-********
+========
 
 The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
 is recommended that you reference their `API documentation <https://docs.ngpvan.com/reference/overview>`_ for
 additional details and information.
 
-.. note::
+.. admonition:: API Keys
 
-   API Keys
-      - API Keys are specific to each committee and state.
-      - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
-        if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app
-        support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
-        <parsons@movementcooperative.org>.
+   - API Keys are specific to each committee and state.
+   - The Parsons API Key can be requested via the VAN Integrations menu under `TMC (Parsons)`. However,
+     if you can't find the key there, you can reach out to `apideveloeprs@ngpvan.com` or send an in-app
+     support request. If you need any additional guidance, please refer to the Parsons Slack or reach out to
+     <parsons@movementcooperative.org>.
 
-.. warning::
-   VANIDs
-      VANIDs are unique to each state and instance of the VAN. VANIDs used for the AV VAN **will not** match
-      those of the SmartVAN or VoteBuilder.
+.. admonition:: VAN IDs
 
-   Maintenance & Support
-      VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
-      about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
+   VAN IDs are unique to each state and instance of the VAN.
+   VAN IDs used for the AV VAN **will not** match those of the SmartVAN or VoteBuilder.
 
-.. toctree::
-    :maxdepth: 1
+.. admonition:: Maintenance & Support
 
-**********
-QuickStart
-**********
+   VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
+   about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
+
+Quickstart
+==========
 
 To call the VAN class you can either store the api key as an environmental variable VAN_API_KEY or pass it in as an argument.
 
 .. code-block:: python
+   :caption: Specify the DB type and pass api key via environmental variable
+   :emphasize-lines: 2
 
-  from parsons import VAN
+   from parsons import VAN
+   van = VAN(db='MyVoters')
 
-   van = VAN(db='MyVoters') # Specify the DB type and pass api key via environmental variable.
+.. code-block:: python
+   :caption: Pass api key directly
+   :emphasize-lines: 2
 
-   van = VAN(api_key='asdfa-sdfadsf-adsfasdf',db='MyVoters') # Pass api key directly
+   from parsons import VAN
+   van = VAN(api_key='asdfa-sdfadsf-adsfasdf',db='MyVoters')
 
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: List events with a date filter
 
-  from parsons import VAN
-
-   van = VAN(db='MyVoters')
-
-   # List events with a date filter
    events = van.get_events(starting_before='2018-02-01')
 
-   # List all folders shared with API Key User
+.. code-block:: python
+   :caption: List all folders shared with API Key User
+
    folders = van.get_folders()
 
-   # Return to a Redshift database
+.. code-block:: python
+   :caption: Return to a Redshift database
+
    saved_lists = van.get_saved_lists().to_redshift('van.my_saved_lists')
 
 This a is just a small sampling of all of the VAN endpoints that you can leverage. We recommend reviewing the
 documentation for all functions.
 
-****************
-Common Workflows
-****************
-
-===========
-Bulk Import
-===========
+VAN Bulk Import
+---------------
 
 For some methods, VAN allows you to bulk import multiple records to create or modify them.
 
@@ -103,7 +100,6 @@ have the following columns:
    # The bulk import job is run asynchronously, so you may poll the status of a job.
    job_status = van.get_bulk_import_job(job_id)
 
-
 ** Bulk Upsert Contacts**
 In this example we are creating and updating emails and addresses. The csv file would
 have the following columns:
@@ -126,24 +122,24 @@ If the VANID record is null, then a new record will be created.
 
 .. code-block:: python
 
-    from parsons import VAN, Table
+   from parsons import VAN, Table
 
-    van = VAN(db=EveryAction)
+   van = VAN(db=EveryAction)
 
-    # Load a table containing VANID and PII columns
-    tbl = Table.from_csv('hot_leads.csv')
+   # Load a table containing VANID and PII columns
+   tbl = Table.from_csv('hot_leads.csv')
 
-    # Table will be sent to S3 bucket and a POST request will be made to VAN creating
-    # the bulk import job with all of the valid meta information. The method will
-    # return the job id.
-    job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket='my_bucket')
+   # Table will be sent to S3 bucket and a POST request will be made to VAN creating
+   # the bulk import job with all of the valid meta information. The method will
+   # return the job id.
+   job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket='my_bucket')
 
-    # The bulk import job is run asynchronously, so you may poll the status of a job.
-    job_status = van.get_bulk_import_job(job_id)
+   # The bulk import job is run asynchronously, so you may poll the status of a job.
+   job_status = van.get_bulk_import_job(job_id)
 
-    # When the job is complete, get the results of the job. This file will include newly
-    # created vanids.
-    job_results = van.get_bulk_import_job_results(job_id)
+   # When the job is complete, get the results of the job. This file will include newly
+   # created vanids.
+   job_results = van.get_bulk_import_job_results(job_id)
 
 **Upload Saved List**
 
@@ -169,12 +165,18 @@ If the VANID record is null, then a new record will be created.
    bucket_name = 'my_bucket'
    app_creds = 'my_creds.json' # Not required if stored as env variable.
 
-   van.upload_saved_list(tbl, list_name, folder_id, url_type, replace=true,
-                         bucket_name=bucket_name, app_creds=app_creds)
+   van.upload_saved_list(
+       tbl,
+       list_name,
+       folder_id,
+       url_type,
+       replace=true,
+       bucket_name=bucket_name,
+       app_creds=app_creds
+   )
 
-============================
 Scores: Loading and Updating
-============================
+----------------------------
 
 Loading a score is a multi-step process. Once a score is set to approved, loading takes place overnight.
 
@@ -218,15 +220,20 @@ Loading a score is a multi-step process. Once a score is set to approved, loadin
 
    # Note that auto_approve is set to False. This means that you need to manually approve
    # the job once it is loaded.
-   job_id = van.upload_scores(tbl, config, url_type='S3', email='info@tmc.org',
-                              bucket='tmc-fake', auto_approve=False)
+   job_id = van.upload_scores(
+       tbl,
+       config,
+       url_type='S3',
+       email='info@tmc.org',
+       bucket='tmc-fake',
+       auto_approve=False
+   )
 
    # Approve the job
    van.update_score_status(job_id,'approved')
 
-===========================
 People: Add Survey Response
-===========================
+---------------------------
 
 The following workflow can be used to apply survey questions, activist codes
 and canvass responses.
@@ -247,9 +254,8 @@ and canvass responses.
    # Create a valid survey question response
    van.apply_survey_response(vanid, sq, sr, contact_type_id=ct, input_type_id=it)
 
-=============================
 Event: Creating and Modifying
-=============================
+-----------------------------
 
 Events are made up of sub objects that need to exist to create an event
 
@@ -265,253 +271,237 @@ Events are made up of sub objects that need to exist to create an event
 
 .. code-block:: python
 
-  from parsons import VAN
+   from parsons import VAN
 
-  # Instantiate class
-  van = VAN(db="EveryAction")
+   # Instantiate class
+   van = VAN(db="EveryAction")
 
-  # Create A Location
-  loc_id = van.location(name='Big `Ol Canvass', address='100 W Washington', city='Chicago', state='IL')
+   # Create A Location
+   loc_id = van.location(name='Big `Ol Canvass', address='100 W Washington', city='Chicago', state='IL')
 
-  # Create Event
-  name = 'GOTV Canvass' # Name of event
-  short_name = 'GOTVCan' # Short name of event, 12 chars or less
-  start_time = '2018-11-01T15:00:00' # ISO formatted date
-  end_time = '2018-11-01T18:00:00' # ISO formatted date after start time
-  event_type_id = 296199 # A valid event type id
-  roles = [259236] # A list of valid role ids
-  location_ids = [loc_id] # An optional list of locations ids for the event
-  description = 'CPD Super Volunteers Canvass' # Optional description of 200 chars or less
-  shifts = [{'name': 'Shift 1',
-             'start_time': '2018-11-01T15:00:00',
-             'end_time': '2018-11-11T17:00:00'}] # Shifts must fall within event start/end time.
+   # Create Event
+   name = 'GOTV Canvass' # Name of event
+   short_name = 'GOTVCan' # Short name of event, 12 chars or less
+   start_time = '2018-11-01T15:00:00' # ISO formatted date
+   end_time = '2018-11-01T18:00:00' # ISO formatted date after start time
+   event_type_id = 296199 # A valid event type id
+   roles = [259236] # A list of valid role ids
+   location_ids = [loc_id] # An optional list of locations ids for the event
+   description = 'CPD Super Volunteers Canvass' # Optional description of 200 chars or less
+   shifts = [
+       {
+           'name': 'Shift 1',
+           'start_time': '2018-11-01T15:00:00',
+           'end_time': '2018-11-11T17:00:00'
+       }
+   ] # Shifts must fall within event start/end time.
 
-  new_event = van.event_create(name, short_name, start_time, end_time, event_type_id, roles,
-                               location_ids=location_ids, shifts=shifts, description=description)
+   new_event = van.event_create(
+       name,
+       short_name,
+       start_time,
+       end_time,
+       event_type_id,
+       roles,
+       location_ids=location_ids,
+       shifts=shifts,
+       description=description
+   )
 
-
-============================
 Signup: Adding and Modifying
-============================
+----------------------------
 
 .. code-block:: python
 
-  from parsons import VAN
+   from parsons import VAN
 
-  # Instantiate class
-  van = VAN(db="EveryAction")
+   # Instantiate class
+   van = VAN(db="EveryAction")
 
-  # Create a new signup
+   # Create a new signup
 
-  vanid = 100349920
-  event_id = 750001004
-  shift_id = 19076
-  role_id = 263920
-  location_id = 3
-  role_id = 263920
-  status_id = 11
+   vanid = 100349920
+   event_id = 750001004
+   shift_id = 19076
+   role_id = 263920
+   location_id = 3
+   role_id = 263920
+   status_id = 11
 
-  # Create the signup. Will return a signup id
-  signup_id  = van.signup_create(vanid, event_id, shift_id, role_id, status_id, location_id
+   # Create the signup. Will return a signup id
+   signup_id  = van.signup_create(vanid, event_id, shift_id, role_id, status_id, location_id
 
-  # Modify a status of the signup
-  new_status_id = 6
-  van.signup_update(signup_id, status_id=new_status_id)
+   # Modify a status of the signup
+   new_status_id = 6
+   van.signup_update(signup_id, status_id=new_status_id)
 
-***
 API
-***
+====
 
-======
 People
-======
+------
 
 .. autoclass:: parsons.ngpvan.van.People
    :inherited-members:
    :members:
 
-==============
 Activist Codes
-==============
+--------------
 
 .. autoclass:: parsons.ngpvan.van.ActivistCodes
    :inherited-members:
    :members:
 
-===========
 Bulk Import
-===========
+-----------
 
 .. autoclass:: parsons.ngpvan.van.BulkImport
    :inherited-members:
    :members:
 
-=================
 Canvass Responses
-=================
+-----------------
 
 .. autoclass:: parsons.ngpvan.van.CanvassResponses
    :inherited-members:
    :members:
 
-================
 Changed Entities
-================
+----------------
 
 .. autoclass:: parsons.ngpvan.van.ChangedEntities
    :inherited-members:
    :members:
 
-=====
 Codes
-=====
+-----
 
 .. autoclass:: parsons.ngpvan.van.Codes
    :inherited-members:
    :members:
 
-=============
 Contact Notes
-=============
+-------------
 
 .. autoclass:: parsons.ngpvan.van.ContactNotes
    :inherited-members:
    :members:
 
-=============
 Custom Fields
-=============
+-------------
 
 .. autoclass:: parsons.ngpvan.van.CustomFields
    :inherited-members:
    :members:
 
-=====
 Email
-=====
+-----
 
 .. autoclass:: parsons.ngpvan.van.Email
    :inherited-members:
    :members:
 
-======
 Events
-======
+------
 
 .. autoclass:: parsons.ngpvan.van.Events
    :inherited-members:
    :members:
 
-===========
 Export Jobs
-===========
+-----------
 
 .. autoclass:: parsons.ngpvan.van.ExportJobs
    :inherited-members:
    :members:
 
-=================
 File Loading Jobs
-=================
+-----------------
 
 .. autoclass:: parsons.ngpvan.van.FileLoadingJobs
    :inherited-members:
    :members:
 
-=======
 Folders
-=======
+-------
 
 .. note::
 
-   A folder must be shared with the user associated with your API key to
-   be listed.
+   A folder must be shared with the user associated with your API key to be listed.
 
 .. autoclass:: parsons.ngpvan.van.Folders
    :inherited-members:
    :members:
 
-=========
 Locations
-=========
+---------
 
 .. autoclass:: parsons.ngpvan.van.Locations
    :inherited-members:
    :members:
 
-=============
 Printed Lists
-=============
+-------------
 
 .. note::
 
-   A printed list must be shared with the user associated with your API key to
-   be listed.
+   A printed list must be shared with the user associated with your API key to be listed.
 
 .. autoclass:: parsons.ngpvan.van.PrintedLists
    :inherited-members:
    :members:
 
-===========
 Saved Lists
-===========
+-----------
 
 .. note::
 
-   A saved list must be shared with the user associated with your API key to
-   be listed.
+   A saved list must be shared with the user associated with your API key to be listed.
 
 .. autoclass:: parsons.ngpvan.van.SavedLists
    :inherited-members:
    :members:
 
-======
 Scores
-======
+------
 
 Prior to loading a score for the first time, you must contact VAN support to request
 a score slot.
 
-.. note::
+.. admonition:: Score Auto Approval
 
-  Score Auto Approval
-    Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
-    method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of
-    the scores is within the fault tolerance specified by the user. It is only available
-    to API keys with permission to automatically approve scores.
-
+   Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
+   method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of
+   the scores is within the fault tolerance specified by the user. It is only available
+   to API keys with permission to automatically approve scores.
 
 .. autoclass:: parsons.ngpvan.van.Scores
    :inherited-members:
    :members:
 
-=======
 Signups
-=======
+-------
 
 .. autoclass:: parsons.ngpvan.van.Signups
    :inherited-members:
    :members:
 
-================
 Supporter Groups
-================
+----------------
 
 .. autoclass:: parsons.ngpvan.van.SupporterGroups
    :inherited-members:
    :members:
 
-================
 Survey Questions
-================
+----------------
 
 .. autoclass:: parsons.ngpvan.van.SurveyQuestions
    :inherited-members:
    :members:
 
-=======
 Targets
-=======
+-------
 
 .. autoclass:: parsons.ngpvan.van.Targets
    :inherited-members:

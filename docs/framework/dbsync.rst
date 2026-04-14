@@ -2,15 +2,15 @@
 Database Sync
 #############
 
-The database sync framework allows tables between two databases with just a few lines of code. Currently supported
-database types are:
+The database sync framework allows tables between two databases with just a few lines of code.
+Currently supported database types are:
 
-* :ref:`Google Big Query <gbq>`
-* :ref:`MySQL <my-sql>`
-* :ref:`Postgres <postgres>`
-* :ref:`Redshift <redshift>`
+* :ref:`google/bigquery:BigQuery`
+* :ref:`databases/mysql:MySQL`
+* :ref:`databases/postgres:Postgres`
+* :ref:`aws/redshift:Redshift`
 
-The ``DBSync`` class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.
+The :class:`DBSync` class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.
 
 Quickstart
 ==========

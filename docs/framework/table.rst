@@ -1,13 +1,15 @@
-#############
-Parsons Table
-#############
+.. _table:
+
+#####
+Table
+#####
 
 Overview
 ========
 
-Most methods and functions in Parsons return a `Table`, which is a 2D list-like object similar to a Pandas Dataframe.
-You can call the following methods on the Table object to output it into a variety of formats or storage types.
-A full list of `Table` methods can be found in the API section.
+Most methods and functions in Parsons return a :ref:`Table`, which is a 2D list-like object similar to a Pandas Dataframe.
+You can call the following methods on the :ref:`Table` object to output it into a variety of formats or storage types.
+A full list of :ref:`Table` methods can be found in the API section.
 
 From Parsons Table
 ------------------
@@ -68,13 +70,12 @@ From Parsons Table
       - Dicts
       - Write a table as a list of dicts
 
-
 .. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``.
 
 To Parsons Table
 ----------------
 
-Create Parsons Table object using the following methods.
+Create Parsons :ref:`Table` object using the following methods.
 
 .. list-table::
     :widths: 25 25 50
@@ -113,22 +114,22 @@ Create Parsons Table object using the following methods.
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
-You can also use the Table constructor to create a Table from a python list or petl table:
+You can also use the :ref:`Table` constructor to create a :ref:`Table` from a python list or petl table:
 
 .. code-block:: python
    :caption: From a list of dicts
 
-    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
+   tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
 
 .. code-block:: python
    :caption: From a list of lists, the first list holding the field names
 
-    tbl = Table([['a', 'b'], [1, 2], [3, 4]])
+   tbl = Table([['a', 'b'], [1, 2], [3, 4]])
 
 .. code-block:: python
    :caption: From a petl table
 
-    tbl = Table(petl_tbl)
+   tbl = Table(petl_tbl)
 
 Parsons Table Attributes
 ------------------------
@@ -239,20 +240,19 @@ To access rows and columns of data within a Parsons table, you can index on them
 pass in the column name as a string (e.g. ``tbl['a']``) and to access a row, pass in the row index as
 an integer (e.g. ``tbl[1]``).
 
-
 .. code-block:: python
    :caption: Return a column as a list
    :emphasize-lines: 2
 
-    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
-    tbl['a'] # [1, 3]
+   tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
+   tbl['a'] # [1, 3]
 
 .. code-block:: python
    :caption: Return a column as a dict
    :emphasize-lines: 2
 
-    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
-    tbl[1] # {'a': 3, 'b': 4}
+   tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
+   tbl[1] # {'a': 3, 'b': 4}
 
 A note on indexing and iterating over a table's data:
 If you need to iterate over the data, make sure to use the python iterator syntax,
@@ -262,11 +262,12 @@ so any data transformations can be applied efficiently.
    :caption: Efficient way to grab all the data (applying the data transformations only once)
    :emphasize-lines: 2
 
-    # Some data transformations
-    table.add_column('newcol', 'some value')
-    rows_list = [row for row in table]
+   # Some data transformations
+   table.add_column('newcol', 'some value')
+   rows_list = [row for row in table]
 
 .. warning::
+
    If you must index directly into a table's data, you can do so, but note that data transformations will be applied **each time** you do so.
    This code will be very inefficient on a large table.
 
@@ -274,8 +275,8 @@ so any data transformations can be applied efficiently.
    :caption: Inefficient way to grab all the data
    :emphasize-lines: 3
 
-    rows_list = []
-    for i in range(0, table.num_rows):
+   rows_list = []
+   for i in range(0, table.num_rows):
       rows_list.append(table[i]) # Data transformations will be applied each time through this loop!
 
 PETL
@@ -289,44 +290,44 @@ allow you to perform any petl-supported ETL operations. Additionally, you can us
 
 .. code-block:: python
 
-  import petl
+   import petl
 
-  tbl = Table()
-  tbl.table = petl.skipcomments(tbl.table, '#')
+   tbl = Table()
+   tbl.table = petl.skipcomments(tbl.table, '#')
 
 or
 
 .. code-block:: python
 
-  tbl = Table()
-  tbl.use_petl('skipcomments', '#', update_table=True)
+   tbl = Table()
+   tbl.use_petl('skipcomments', '#', update_table=True)
 
 Lazy Loading
 ------------
 
-The Parsons `Table` makes use of "lazy" loading and "lazy" transformations.
+The :ref:`Table` makes use of "lazy" loading and "lazy" transformations.
 What this means is that it tries not to load and process your data until absolutely necessary.
 
 .. code-block:: python
 
-  # Specify where to load the data
-  tbl = Table.from_csv('name_data.csv')
+   # Specify where to load the data
+   tbl = Table.from_csv('name_data.csv')
 
-  # Specify data transformations
-  tbl.add_column('full_name', lambda row: row['first_name'] + ' ' + row['last_name'])
-  tbl.remove_column(['first_name', 'last_name'])
+   # Specify data transformations
+   tbl.add_column('full_name', lambda row: row['first_name'] + ' ' + row['last_name'])
+   tbl.remove_column(['first_name', 'last_name'])
 
-  # Save the table elsewhere
-  # IMPORTANT - The CSV won't actually be loaded and transformed until this step,
-  # since this is the first time it's actually needed.
-  tbl.to_redshift('main.name_table')
+   # Save the table elsewhere
+   # IMPORTANT - The CSV won't actually be loaded and transformed until this step,
+   # since this is the first time it's actually needed.
+   tbl.to_redshift('main.name_table')
 
 This "lazy" loading can be very convenient and performant. However, it can make issues hard to debug.
-Eg. if your data transformations are time-consuming, you won't actually notice that performance hit until you try to use the data, potentially much later in your code.
-There may also be cases where it's possible to get faster execution by caching a table,
+Eg. if your data transformations are time-consuming, you won't actually notice that performance hit until you try to use the data,
+potentially much later in your code. There may also be cases where it's possible to get faster execution by caching a table,
 especially in situations where a single table will be used as the base for several subsequent calculations.
 
-For these cases Parsons provides two utility functions to materialize a Table and all of its transformations.
+For these cases Parsons provides two utility functions to materialize a :ref:`Table` and all of its transformations.
 
 .. list-table::
     :widths: 25 50
@@ -345,21 +346,21 @@ Quickstart
 .. code-block:: python
    :caption: S3 to Civis
 
-    s3 = S3()
-    csv = s3.get_file('tmc-bucket', 'my_ids.csv')
-    Table.from_csv(csv).to_civis('TMC','ids.my_ids')
+   s3 = S3()
+   csv = s3.get_file('tmc-bucket', 'my_ids.csv')
+   Table.from_csv(csv).to_civis('TMC','ids.my_ids')
 
 .. code-block:: python
    :caption: VAN Activist Codes to a Dataframe
 
-    van = VAN(db='MyVoters')
-    van.activist_codes().to_dataframe()
+   van = VAN(db='MyVoters')
+   van.activist_codes().to_dataframe()
 
 .. code-block:: python
    :caption: VAN Events to an s3 bucket
 
-    van = VAN(db='MyVoters')
-    van.events().to_s3_csv('my-van-bucket','myevents.csv')
+   van = VAN(db='MyVoters')
+   van.events().to_s3_csv('my-van-bucket','myevents.csv')
 
 API
 ====

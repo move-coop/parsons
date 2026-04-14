@@ -16,7 +16,7 @@ and a person shrugging emoji if the script was unable to determine the status of
 Data syncs in Civis can take a variety of forms. Some are single jobs, some are a specific type of job called an import,
 and others consist of multiple jobs chained together in a workflow. The Civis API treats these objects slightly differently,
 so the script accounts for that by parsing out each type from the API response
-and combining them into one Parsons Table with a column for object_type.
+and combining them into one Parsons :ref:`Table` with a column for object_type.
 
 At the request of Indivisible, the TMC Data & Technology team templatized this script
 to allow for creating customized versions for member organizations with only the specific syncs they depend on.

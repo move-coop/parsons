@@ -1,22 +1,20 @@
+############
 Controlshift
-============
+############
 
-********
 Overview
-********
+========
 
 Controlshift is a platform for creating campaigns with distributed events, local groups, and member-led petitions. This connector allows you to interact with select functions of the the `Controlshift Authenticated REST API <https://developers.controlshiftlabs.com/#authenticated-rest-api/>`_ .
 
-.. note::
+.. admonition:: Authentication
 
-  Authentication
-    An API Application Integration is required to instantiate the ``Controlshift`` class.
-    Details on how to create the integration and acquire credentials can be found `on the Controlshift website
-    <https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide>`_.
+   An API Application Integration is required to instantiate the ``Controlshift`` class.
+   Details on how to create the integration and acquire credentials can be found `on the Controlshift website
+   <https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide>`_.
 
-**********
 Quickstart
-**********
+==========
 
 To instantiate the Controlshift class, you can either store your credentials as environment
 variables (``CONTROLSHIFT_HOSTNAME``, ``CONTROLSHIFT_CLIENT_ID``, and ``CONTROLSHIFT_CLIENT_SECRET``) or pass them in as arguments:
@@ -34,9 +32,8 @@ variables (``CONTROLSHIFT_HOSTNAME``, ``CONTROLSHIFT_CLIENT_ID``, and ``CONTROLS
    # Get all petitions
    cs.get_petitions()
 
-******************
-Controlshift Class
-******************
+API
+====
 
 .. autoclass:: parsons.controlshift.Controlshift
    :inherited-members:

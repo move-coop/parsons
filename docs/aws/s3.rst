@@ -1,0 +1,97 @@
+####
+S3
+####
+
+Overview
+========
+
+The :class:`~s3.S3` class allows interaction with Amazon Web Service's `object storage service <https://aws.amazon.com/s3/>`_
+to store and access data objects. It is a wrapper around the AWS SDK `boto3 <https://boto3.amazonaws.com/v1/documentation/api/latest/index.html>`_.
+It provides methods to upload and download files from S3 as well as manipulate buckets.
+
+.. admonition:: Authentication
+
+   Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`_ .
+   Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class.
+
+Quickstart
+==========
+
+S3 credentials can be passed as environmental variables (``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``),
+stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments.
+
+.. code-block:: python
+   :caption: Pass API credentials via environmental variables or an AWS CLI file
+   :emphasize-lines: 2
+
+   from parsons import S3
+   s3 = S3()
+
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+   :emphasize-lines: 2
+
+   from parsons import S3
+   s3 = S3(aws_access_key_id='MY_KEY', aws_secret_access_key='MY_SECRET')
+
+.. code-block:: python
+   :caption: Put an arbitrary file in an S3 bucket
+
+   with open('winning_formula.csv') as w:
+       s3.put_file('my_bucket', 'winning.csv, w)
+
+.. code-block:: python
+   :caption: Put a Parsons Table as a CSV using convenience method
+
+   tbl = Table.from_csv('winning_formula.csv')
+   tbl.to_s3_csv('my_bucket', 'winning.csv')
+
+.. code-block:: python
+   :caption: Download a csv file and convert to a table
+
+   f = s3.get_file('my_bucket', 'my_dir/my_file.csv')
+   tbl = Table(f)
+
+.. code-block:: python
+   :caption: List buckets that you have access to
+
+   buckets = s3.list_buckets()
+
+.. code-block:: python
+   :caption: List the keys in a bucket
+
+   s3.list_keys('my_bucket')
+
+Temporary Credentials
+---------------------
+
+The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
+For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
+When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
+them to be accepted. The ``S3`` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
+
+.. code-block:: python
+   :caption: Pass session token via AWS_SESSION_TOKEN environmental variable
+   :emphasize-lines: 2
+
+   from parsons import S3
+   s3 = S3()
+
+.. code-block:: python
+   :caption: Pass session token as an argument
+   :emphasize-lines: 2-7
+
+   from parsons import S3
+   creds = request_temporary_credentials()
+   s3 = S3(
+      aws_access_key_id=creds['id'],
+      aws_secret_access_key=creds['key'],
+      aws_session_token=creds['token']
+   )
+
+API
+====
+
+.. autoclass:: parsons.aws.s3.S3
+   :inherited-members:
+   :members:

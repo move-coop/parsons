@@ -48,42 +48,42 @@ Quickstart
 ==========
 
 .. code-block:: python
-  :caption: VAN - Download activist codes to a CSV
+   :caption: VAN - Download activist codes to a CSV
 
-  from parsons import VAN
-  van = VAN(db='MyVoters')
-  ac = van.get_activist_codes()
-  ac.to_csv('my_activist_codes.csv')
-
-.. code-block:: python
-  :caption: Redshift - Create a table from a CSV
-
-  from parsons import Table
-  tbl = Table.from_csv('my_table.csv')
-  tbl.to_redshift('my_schema.my_table')
+   from parsons import VAN
+   van = VAN(db='MyVoters')
+   ac = van.get_activist_codes()
+   ac.to_csv('my_activist_codes.csv')
 
 .. code-block:: python
-  :caption: Redshift - Export from a query to CSV
+   :caption: Redshift - Create a table from a CSV
 
-  from parsons import Redshift
-  sql = 'select * from my_schema.my_table'
-  rs = Redshift()
-  tbl = rs.query(sql)
-  tbl.to_csv('my_table.csv')
+   from parsons import Table
+   tbl = Table.from_csv('my_table.csv')
+   tbl.to_redshift('my_schema.my_table')
 
 .. code-block:: python
-  :caption: S3 - Upload a file
+   :caption: Redshift - Export from a query to CSV
 
-  from parsons import S3
-  s3 = S3()
-  s3.put_file('my_bucket','my_table.csv')
+   from parsons import Redshift
+   sql = 'select * from my_schema.my_table'
+   rs = Redshift()
+   tbl = rs.query(sql)
+   tbl.to_csv('my_table.csv')
 
 .. code-block:: python
-  :caption: TargetSmart - Append data to a record
+   :caption: S3 - Upload a file
 
-  from parsons import TargetSmart
-  ts = TargetSmart(api_key='MY_KEY')
-  record = ts.data_enhance(231231231, state='DC')
+   from parsons import S3
+   s3 = S3()
+   s3.put_file('my_bucket','my_table.csv')
+
+.. code-block:: python
+   :caption: TargetSmart - Append data to a record
+
+   from parsons import TargetSmart
+   ts = TargetSmart(api_key='MY_KEY')
+   record = ts.data_enhance(231231231, state='DC')
 
 Design Goals
 ============
@@ -100,17 +100,19 @@ Not only is this a waste of time, but we rarely have the capacity and resources 
    :align: center
    :figclass: only-dark
 
-Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy.
-Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
+Parsons seeks to be flexible from a data ingestion and output perspective,
+while providing ETL tools that recognize that our data is **always** messy.
+Central to this concept is the :ref:`Table` the table-like object that most methods return.
 
 Logging
 =======
 
-Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_. By default, log output will go to the console and look like:
+Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_.
+By default, log output will go to the console and look like:
 
 .. code-block:: none
 
-    parsons.modulename LOGLEVEL the specific log message
+   parsons.modulename LOGLEVEL the specific log message
 
 In your scripts that use Parsons, if you want to override the default Parsons logging behavior, just grab the "parsons" logger and tweak it:
 
@@ -142,7 +144,7 @@ Indices and tables
    airtable
    alchemer
    auth0
-   aws
+   aws/aws
    azure
    bill_com
    bloomerang
@@ -155,14 +157,14 @@ Indices and tables
    controlshift
    copper
    crowdtangle
-   databases
+   databases/databases
    donorbox
    empower
    facebook_ads
    formstack
    freshdesk
    github
-   google
+   google/google
    hustle
    mailchimp
    mobilecommons
@@ -200,7 +202,7 @@ Indices and tables
 
    framework/dbsync
    framework/table
-   framework/notifications
+   framework/notifications/notifications
    framework/utilities
 
 .. toctree::
@@ -229,3 +231,10 @@ Indices and tables
 
    training_guides/getting_set_up
    training_guides/etl_best_practices
+
+.. toctree::
+   :hidden:
+   :name: hidden_pages
+
+   targetsmart_api
+   targetsmart_automation_workflows

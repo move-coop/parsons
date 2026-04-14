@@ -27,6 +27,7 @@ source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_template.rst"]
 templates_path = ["_templates"]
 autodoc_member_order = "bysource"
+autosectionlabel_prefix_document = True
 
 # -- HTML Output (Furo Theme) ------------------------------------------------
 html_theme = "furo"

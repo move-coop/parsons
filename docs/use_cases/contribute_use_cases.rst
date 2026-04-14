@@ -16,29 +16,29 @@ To request access to the Parsons slack, email *engineering@movementcooperative.o
 
 .. note::
 
-    The last step in this process involves submitting your contribution as a pull request.
-    To do this, fork the repository by clicking the "fork" button in the top right-hand corner.
-    Then you can make the edits described below, either locally or through the
-    `Github web editor <https://docs.github.com/en/codespaces/the-githubdev-web-based-editor>`_.
-    Once you've saved your changes (if you're working locally, this means doing a ``git push`` back to your fork)
-    an alert asking you if you want to open a pull request should appear on your fork's main page.
-    Go ahead and follow those instructions!
+   The last step in this process involves submitting your contribution as a pull request.
+   To do this, fork the repository by clicking the "fork" button in the top right-hand corner.
+   Then you can make the edits described below, either locally or through the
+   `Github web editor <https://docs.github.com/en/codespaces/the-githubdev-web-based-editor>`_.
+   Once you've saved your changes (if you're working locally, this means doing a ``git push`` back to your fork)
+   an alert asking you if you want to open a pull request should appear on your fork's main page.
+   Go ahead and follow those instructions!
 
 Steps:
 
-  1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content.
-     The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file.
-     Note that the syntax for RST files can be a little tricky!
+1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content.
+   The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file.
+   Note that the syntax for RST files can be a little tricky!
 
-  2. Test that your use case looks correct by building the documentation.
-     There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_.
-     The important steps to follow there are making a virtual environment, installing parsons, and then building the docs with `make deploy_docs`.
+2. Test that your use case looks correct by building the documentation.
+   There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_.
+   The important steps to follow there are making a virtual environment, installing parsons, and then building the docs with `make deploy_docs`.
 
-  3. Write up your sample script in a Python (``.py``) file, place it in ``useful_resources/sample_code``,
-     and add it to the ``use_cases_and_sample_scripts`` section of the table of contents in ``index.rst``.
-     Use the guidelines below for style and content. After you've adapted to our style, please test to make sure the script still works.
+3. Write up your sample script in a Python (``.py``) file, place it in ``useful_resources/sample_code``,
+   and add it to the ``use_cases_and_sample_scripts`` section of the table of contents in ``index.rst``.
+   Use the guidelines below for style and content. After you've adapted to our style, please test to make sure the script still works.
 
-  4. Submit your changes as a pull request on Github. We will review your contribution and give you any feedback. When it's ready, we'll merge!
+4. Submit your changes as a pull request on Github. We will review your contribution and give you any feedback. When it's ready, we'll merge!
 
 Use Case Guidelines
 ===================
@@ -119,16 +119,16 @@ That makes your script easier to reuse.
 
 For example, instead of doing this::
 
-  if training_duration > 60:
+   if training_duration > 60:
       # Do something
 
 Do something like this::
 
-  # configuration variables
-  MINIMUM_DURATION = 60    # minimum duration for attendee to count as trained (in hours)
+   # configuration variables
+   MINIMUM_DURATION = 60    # minimum duration for attendee to count as trained (in hours)
 
-  # within code
-  if training_duration > MINIMUM_DURATION:
+   # within code
+   if training_duration > MINIMUM_DURATION:
       # Do something
 
 Comment Liberally
@@ -144,12 +144,12 @@ If you're not used to writing code in this style, we're happy to help.
 
 In particular, please try to use meaningful and readable variable names. For example, instead of writing::
 
-    for i in j:
+   for i in j:
       print(i)
 
 Write something more like::
 
-    for attendee in training_session:
+   for attendee in training_session:
       print(attendee)
 
 Put Your Code In Callable Functions
@@ -157,9 +157,9 @@ Put Your Code In Callable Functions
 
 Often people will write their Python code like this::
 
-    user_name = "Maria"
-    message = f"Hello {user_name}! Welcome to our community."
-    print(message)
+   user_name = "Maria"
+   message = f"Hello {user_name}! Welcome to our community."
+   print(message)
 
 This works fine when running a script directly, but can cause trouble when importing into other files.
 Code at the "top" level of a Python file automatically runs on import.
@@ -167,16 +167,16 @@ Most people importing your code into another file will not want to do that!
 
 To make your code easier to re-use, stick it in one or more functions::
 
-    def greet_user(user_name):
-        message = f"Hello {user_name}! Welcome to our community."
-        print(message)
+   def greet_user(user_name):
+      message = f"Hello {user_name}! Welcome to our community."
+      print(message)
 
 Now other people can import your code and use it however they like.
 But what if they still want to run it from the command line?
 You can allow them to do that too by sticking this at the bottom of your Python file::
 
-    if __name__ == "__main__":
-        greet_user("Maria")  # or whatever you want to happen when the file is run
+   if __name__ == "__main__":
+      greet_user("Maria")  # or whatever you want to happen when the file is run
 
 What's happening here? Well, ``__name__`` is a special, built-in Python variable that is set to ``__main__`` if you're running the file directly.
 So this little piece of code says: if and only if you're running this code directly, execute the code within.

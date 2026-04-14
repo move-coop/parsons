@@ -54,16 +54,16 @@ and that the mock HTTP server should return our ``test_campaigns`` canned respon
 
    class TestMailchimp(unittest.TestCase):
 
-       @requests_mock.Mocker()
-       def test_get_campaigns(self, m):
+      @requests_mock.Mocker()
+      def test_get_campaigns(self, m):
 
-           mc = MailChimp(api_key='12345')
+         mc = MailChimp(api_key='12345')
 
-           # Test that campaigns are returned correctly.
-           m.get(self.mc.uri + 'campaigns', json=expected_json.test_campaigns)
-           tbl = self.mc.get_campaigns()
+         # Test that campaigns are returned correctly.
+         m.get(self.mc.uri + 'campaigns', json=expected_json.test_campaigns)
+         tbl = self.mc.get_campaigns()
 
-           self.assertEqual(tbl.num_rows, 2)
+         self.assertEqual(tbl.num_rows, 2)
 
 After wiring up the mock HTTP API, we are ready to call the ``get_campaigns`` method on our ``Mailchimp`` connector.
 Since we are using the ``requests_mock.Mocker`` class, our Connector will not actually hit the Mailchimp API;
@@ -78,7 +78,6 @@ The data is imported at the top of the ``test_mailchimp.py`` file:
 .. code-block:: python
 
    from test.test_mailchimp import expected_json
-
 
 ``expected_json`` can now be used to pull in our canned response variables, as we saw above:
 
@@ -108,7 +107,7 @@ Please see the following, SalesforceTest example on integrating it with your Con
    mock_client = MagicMock()
    # Tell the client to return a canned list of people from its list_people method
    mock_client.list_people.return_value = [
-       {'id': 1, 'name': 'Nicole Jackson'},
+      {'id': 1, 'name': 'Nicole Jackson'},
    ]
 
    # Your Connector would call the client like normal
@@ -130,9 +129,8 @@ In the ``SalesforceTest`` class, this is done in the ``setUp`` method of the tes
 .. code-block:: python
 
    def setUp(self):
-       self.sf = Salesforce()
-       self.sf._client = mock.MagicMock()
-
+      self.sf = Salesforce()
+      self.sf._client = mock.MagicMock()
 
 The ``_client`` attribute on the Salesforce Connector class holds the class' reference to the underlying third party client object.
 By overriding it with our ``MagicMock`` object, the ``Salesforce`` Parsons class will be calling methods on our mock client instead of an actual simple-salesforce client.
@@ -142,7 +140,6 @@ We can then set up our mock client's ``query_all`` method:
 .. code-block:: python
 
    self.sf._client.query_all.return_value = [{'Id': 1, 'value': 'FAKE'}]
-
 
 Now, we can test our Salesforce Parsons Connector's query method:
 
@@ -154,7 +151,6 @@ Now, we can test our Salesforce Parsons Connector's query method:
    self.sf._client.query_all.assert_called_with('FAKESOQL')
    # Check that the response from our query method is what we expect
    self.assertEqual(response[0]['value'], 'FAKE')
-
 
 In the first line, we call the method we are testing (query) with a fake value. In the next line,
 we check to make sure our mock client's ``query_all`` method was called with the same fake value.

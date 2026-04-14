@@ -1,9 +1,9 @@
+#######
 Empower
-=======
+#######
 
-********
 Overview
-********
+========
 
 The Empower class allows you to interact with the Empower API. Documentation for the Empower API can be found
 in their `GitHub <https://github.com/getempower/api-documentation/blob/master/README.md>`_ repo.
@@ -12,11 +12,10 @@ The Empower API only has a single endpoint to access all account data. As such, 
 connector employs caching in order to allow the user to specify the tables to extract without additional API calls.
 You can disable caching as an argument when instantiating the class.
 
-.. note::
+.. admonition:: Authentication
 
-    To authenticate, request a secret token from Empower.
+    You must request a secret token from Empower.
 
-==========
 Quickstart
 ==========
 
@@ -40,11 +39,10 @@ You can then request tables in the following manner:
 
 .. code-block:: python
 
-    tbl = empower.get_profiles()
+   tbl = empower.get_profiles()
 
-***
 API
-***
+====
 
 .. autoclass:: parsons.empower.empower.Empower
    :inherited-members:

@@ -84,7 +84,7 @@ geocode = [
 ]
 github = ["PyGitHub >= 2.0"]
 google = [
-    "apiclient >= 1.0",
+    "apiclient >= 1.0.4",
     "google-api-python-client >= 2.150",
     "google-cloud-bigquery >= 3.35",
     "google-cloud-storage >= 3.1",

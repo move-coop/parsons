@@ -188,7 +188,7 @@ class SmartMatch:
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

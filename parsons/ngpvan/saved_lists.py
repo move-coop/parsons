@@ -26,7 +26,7 @@ class SavedLists:
                 the saved lists in the folder
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -61,7 +61,7 @@ class SavedLists:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -295,7 +295,7 @@ class Folders:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -313,7 +313,7 @@ class Folders:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -332,7 +332,7 @@ class ExportJobs:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -381,7 +381,7 @@ class ExportJobs:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

@@ -13,7 +13,7 @@ class DatabaseConnector(ABC):
     It ensures that any class that inherits from it implements the methods that are uniform
     operations when working with databases.
 
-    Should you use `DatabaseConnector` instead of `Redshift`/`BigQuery`/etc?
+    Should you use `DatabaseConnector` instead of :class:`~redshift.Redshift`/:class:`~google_bigquery.GoogleBigQuery`/etc?
 
     Overall this class is mostly useful for code in the Parsons library, not code using it.
     There could be some exceptions. In general though, if you are writing a script to do a task
@@ -140,7 +140,7 @@ class DatabaseConnector(ABC):
     def copy(
         self, tbl: Table, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
     ):
-        """Copy a :ref:`parsons-table` to the database.
+        """Copy a :ref:`Table` to the database.
 
         Args:
             tbl (Table):
@@ -189,7 +189,7 @@ class DatabaseConnector(ABC):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         pass

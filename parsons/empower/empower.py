@@ -63,7 +63,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -79,7 +79,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -92,7 +92,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -106,7 +106,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -157,7 +157,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -169,7 +169,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -181,7 +181,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -193,7 +193,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -206,7 +206,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -219,7 +219,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -232,7 +232,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         if self._empty_obj("outreachEntries"):
@@ -255,7 +255,7 @@ class Empower:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

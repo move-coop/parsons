@@ -72,7 +72,7 @@ class Sqlite(DatabaseConnector):
 
         Returns:
             parsons.Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         with self.connection() as connection:
@@ -104,7 +104,7 @@ class Sqlite(DatabaseConnector):
 
         Returns:
             parsons.Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         # sqlite3 cursor cannot take None for parameters
@@ -199,7 +199,7 @@ class Sqlite(DatabaseConnector):
         force_python_sdk: bool = False,
     ):
         """
-        Copy a :ref:`parsons-table` to Sqlite.
+        Copy a :ref:`Table` to Sqlite.
 
         Args:
             tbl: parsons.Table

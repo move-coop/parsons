@@ -137,7 +137,7 @@ class Hustle:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -250,7 +250,7 @@ class Hustle:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -283,7 +283,7 @@ class Hustle:
             organization_id: str
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -354,7 +354,7 @@ class Hustle:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -571,7 +571,7 @@ class Hustle:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -605,7 +605,7 @@ class Hustle:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

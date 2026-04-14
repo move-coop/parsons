@@ -50,7 +50,7 @@ class Slack:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         if types is None:
@@ -88,7 +88,7 @@ class Slack:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

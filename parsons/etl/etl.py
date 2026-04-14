@@ -19,7 +19,7 @@ class ETL:
                 The number of rows to return. Defaults to 5.
 
         Returns:
-            `Parsons Table`
+            :ref:`Table`
 
         """
 
@@ -1211,7 +1211,7 @@ class ETL:
                 Sort rows in reverse order.
 
         Returns:
-            `Parsons Table` and also updates self
+            :ref:`Table` and also updates self
 
         """
 

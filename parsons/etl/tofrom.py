@@ -121,7 +121,7 @@ class ToFrom:
         Write the table into a new avro file according to schema passed.
 
         This method assume that each column has values with the same type
-        for all rows of the source `table`.
+        for all rows of the source :ref:`Table`.
 
         Avro is a data serialization framework that is generally is faster
         and safer than text formats like Json, XML or CSV.
@@ -209,7 +209,7 @@ class ToFrom:
         Write the table into an existing avro file according to schema passed.
 
         This method assume that each column has values with the same type
-        for all rows of the source `table`.
+        for all rows of the source :ref:`Table`.
 
         Args:
             target: str
@@ -850,7 +850,7 @@ class ToFrom:
     @classmethod
     def from_avro(cls, local_path, limit=None, skips=0, **avro_args):
         r"""
-        Create a ``parsons table`` from an Avro file.
+        Create a `:ref:`Table`` from an Avro file.
 
         Args:
             local_path: str
@@ -864,7 +864,7 @@ class ToFrom:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -873,7 +873,7 @@ class ToFrom:
     @classmethod
     def from_csv(cls, local_path, **csvargs):
         r"""
-        Create a ``parsons table`` object from a CSV file
+        Create a `:ref:`Table`` object from a CSV file
 
         Args:
             local_path: obj
@@ -883,7 +883,7 @@ class ToFrom:
                 ``csv_reader`` optional arguments
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -898,7 +898,7 @@ class ToFrom:
     @classmethod
     def from_csv_string(cls, str, **csvargs):
         """
-        Create a ``parsons table`` object from a string representing a CSV.
+        Create a `:ref:`Table`` object from a string representing a CSV.
 
         Args:
             str: str
@@ -907,7 +907,7 @@ class ToFrom:
                 ``csv_reader`` optional arguments
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -918,7 +918,7 @@ class ToFrom:
     @classmethod
     def from_columns(cls, cols, header=None):
         """
-        Create a ``parsons table`` from a list of lists organized as columns
+        Create a `:ref:`Table`` from a list of lists organized as columns
 
         Args:
             cols: list
@@ -927,7 +927,7 @@ class ToFrom:
                 List of column names. If not specified, will use dummy column names
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -936,7 +936,7 @@ class ToFrom:
     @classmethod
     def from_json(cls, local_path, header=None, line_delimited=False):
         """
-        Create a ``parsons table`` from a json file
+        Create a `:ref:`Table`` from a json file
 
         Args:
             local_path: list
@@ -951,7 +951,7 @@ class ToFrom:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -968,7 +968,7 @@ class ToFrom:
     @classmethod
     def from_redshift(cls, sql, username=None, password=None, host=None, db=None, port=None):
         """
-        Create a ``parsons table`` from a Redshift query.
+        Create a `:ref:`Table`` from a Redshift query.
 
         To pull an entire Redshift table, use a query like ``SELECT * FROM tablename``.
 
@@ -988,7 +988,7 @@ class ToFrom:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -1032,7 +1032,7 @@ class ToFrom:
         **csvargs,
     ):
         r"""
-        Create a ``parsons table`` from a key in an S3 bucket.
+        Create a `:ref:`Table`` from a key in an S3 bucket.
 
         Args:
             bucket: str
@@ -1081,7 +1081,7 @@ class ToFrom:
     @classmethod
     def from_bigquery(cls, sql: str, app_creds: str | None = None, project: str | None = None):
         """
-        Create a ``parsons table`` from a BigQuery statement.
+        Create a `:ref:`Table`` from a BigQuery statement.
 
         To pull an entire BigQuery table, use a query like ``SELECT * FROM {{ table }}``.
 
@@ -1097,7 +1097,7 @@ class ToFrom:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         # TODO: Should users be able to pass in kwargs here? For parameters?
@@ -1111,7 +1111,7 @@ class ToFrom:
     @classmethod
     def from_dataframe(cls, dataframe, include_index=False):
         """
-        Create a ``parsons table`` from a Pandas dataframe.
+        Create a `:ref:`Table`` from a Pandas dataframe.
 
         Args:
             dataframe: dataframe

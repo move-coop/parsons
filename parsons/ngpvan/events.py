@@ -45,7 +45,7 @@ class Events:
 
         Returns:
             parsons.Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -97,7 +97,7 @@ class Events:
 
         Returns:
             parsons.Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -278,7 +278,7 @@ class Events:
 
         Returns:
             parsons.Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

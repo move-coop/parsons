@@ -124,7 +124,7 @@ class Freshdesk:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -166,7 +166,7 @@ class Freshdesk:
             expand_custom_fields (bool): Expand nested custom fields to their own columns.
 
         Returns:
-            parsons.Table: See :ref:`parsons-table` for output options.
+            parsons.Table: See :ref:`Table` for output options.
 
         """
 
@@ -196,7 +196,7 @@ class Freshdesk:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -222,7 +222,7 @@ class Freshdesk:
                 Filter by state
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

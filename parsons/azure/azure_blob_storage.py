@@ -406,7 +406,7 @@ class AzureBlobStorage:
 
         Args:
             table: obj
-                A :ref:`parsons-table`
+                A :ref:`Table`
             container_name: str
                 The container name to upload the data into
             blob_name: str

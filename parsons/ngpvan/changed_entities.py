@@ -35,7 +35,7 @@ class ChangedEntities:
             resource_type: str
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -76,7 +76,7 @@ class ChangedEntities:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

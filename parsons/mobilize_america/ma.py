@@ -93,7 +93,7 @@ class MobilizeAmerica:
                 Filter to organizations updated since given date (ISO Date)
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -319,7 +319,7 @@ class MobilizeAmerica:
                 Filter to events updated since given date (ISO Date)
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -348,7 +348,7 @@ class MobilizeAmerica:
                 Filter to people updated since given date (ISO Date)
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         if isinstance(organization_id, collections.abc.Iterable):
@@ -377,7 +377,7 @@ class MobilizeAmerica:
                 Filter to attendances updated since given date (ISO Date)
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"

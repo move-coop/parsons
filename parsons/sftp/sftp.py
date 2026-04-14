@@ -338,7 +338,7 @@ class SFTP:
                 An SFTP connection object
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

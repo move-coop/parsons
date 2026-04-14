@@ -288,7 +288,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -329,7 +329,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -787,7 +787,7 @@ class GoogleBigQuery(DatabaseConnector):
 
         `Returns`
             Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -846,7 +846,7 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a :ref:`parsons-table` into Google BigQuery
+        Copy a :ref:`Table` into Google BigQuery
         directly. This will work well for smaller data. For larger
         data, use the :meth:`copy` method which stages the upload through CloudStorage.
 
@@ -940,7 +940,7 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
+        Copy a :ref:`Table` into Google BigQuery via Google Cloud Storage.
 
         Args:
             tbl: obj
@@ -1295,7 +1295,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a table name
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -1316,7 +1316,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a table name
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

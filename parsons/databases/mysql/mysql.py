@@ -128,7 +128,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -154,7 +154,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         with self.cursor(connection) as cursor:
@@ -207,7 +207,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         strict_length: bool = True,
     ):
         """
-        Copy a :ref:`parsons-table` to the database.
+        Copy a :ref:`Table` to the database.
 
         .. note::
 

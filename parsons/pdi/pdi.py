@@ -38,13 +38,13 @@ class PDI(
         Args:
             username: str
                 The username for a PDI account. Can be passed as arguement or
-                can be set as `PDI_USERNAME` environment variable.
+                can be set as ``PDI_USERNAME`` environment variable.
             password: str
                 The password for a PDI account. Can be passed as arguement or
-                can be set as `PDI_PASSWORD` environment variable.
+                can be set as ``PDI_PASSWORD`` environment variable.
             api_token: str
                 The api_token for a PDI account. Can be passed as arguement or
-                can be set as `PDI_API_TOKEN` environment variable.
+                can be set as ``PDI_API_TOKEN`` environment variable.
             qa_url: bool
                 Defaults to False. If True, requests will be made to a sandbox
                 account. This requires separate qa credentials and api

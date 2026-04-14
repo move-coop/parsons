@@ -93,7 +93,7 @@ class GitHub:
             self.client = PyGithub()
 
     def _as_table(self, paginated_list, page=None, page_size=100):
-        """Converts a paginated list into a Parsons ``Table``. Uses the ``_rawData`` property of
+        """Converts a paginated list into a Parsons :ref:`Table`. Uses the ``_rawData`` property of
         each item instead of calling ``raw_data`` to avoid making a separate request for each item
         in a page for types that PyGithub doesn't consider complete.
 
@@ -106,7 +106,7 @@ class GitHub:
                 Page size. Defaults to 100. Ignored if ``page`` is not set.
 
         Returns:
-            ``Table``
+            Table
                 Table object created from the raw data of the list
 
         """
@@ -166,7 +166,7 @@ class GitHub:
         return self.client.get_repo(repo_name).raw_data
 
     def list_user_repos(self, username, page=None, page_size=100):
-        """List user repos with pagination, returning a ``Table``
+        """List user repos with pagination, returning a :ref:`Table`
 
         Args:
             username: str
@@ -177,7 +177,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            ``Table``
+            Table
                 Table with page of user repos
 
         """
@@ -189,7 +189,7 @@ class GitHub:
         )
 
     def list_organization_repos(self, organization_name, page=None, page_size=100):
-        """List organization repos with pagination, returning a ``Table``
+        """List organization repos with pagination, returning a :ref:`Table`
 
         Args:
             organization_name: str
@@ -200,7 +200,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            ``Table``
+            Table
                 Table with page of organization repos
 
         """
@@ -272,7 +272,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            ``Table``
+            Table
                 Table with page of repo issues
 
         """
@@ -346,7 +346,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            ``Table``
+            Table
                 Table with page of repo pull requests
 
         """
@@ -375,7 +375,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            ``Table``
+            Table
                 Table with page of repo contributors
 
         """
@@ -465,7 +465,7 @@ class GitHub:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         downloaded_file = self.download_file(repo_name, path, branch, local_path)

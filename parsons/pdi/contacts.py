@@ -157,7 +157,7 @@ class Contacts:
 
         Returns:
             parsons.Table:
-                See :ref:`parsons-table` for output options
+                See :ref:`Table` for output options
 
         """
         payload = {

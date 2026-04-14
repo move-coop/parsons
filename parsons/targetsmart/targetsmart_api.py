@@ -69,7 +69,7 @@ class Person:
                 ``votebuilder`` or ``voter``.
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -175,7 +175,7 @@ class Person:
                 ignored if last_name_exact is enabled.
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -222,11 +222,11 @@ class Person:
 
         Args:
             table: parsons table
-                See :ref:`parsons-table`. One row per phone number,
+                See :ref:`Table`. One row per phone number,
                 up to 500 phone numbers.
 
         Returns:
-            See :ref:`parsons-table` for output options.
+            See :ref:`Table` for output options.
 
         """
 
@@ -379,7 +379,7 @@ class Service:
                 Valid longitude floating point
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -465,7 +465,7 @@ class Voter:
                 Optional; One or more alphanumeric characters. No wildcards.
         `Returns`
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

@@ -193,7 +193,7 @@ class Redshift(
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -220,7 +220,7 @@ class Redshift(
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -400,7 +400,7 @@ class Redshift(
 
         `Returns`
             Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -506,7 +506,7 @@ class Redshift(
         csv_encoding: str = "utf-8",
     ):
         """
-        Copy a :ref:`parsons-table` to Redshift.
+        Copy a :ref:`Table` to Redshift.
 
         Args:
             tbl: obj
@@ -621,7 +621,7 @@ class Redshift(
 
         `Returns`
             Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

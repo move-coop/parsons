@@ -63,7 +63,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         strict_length: bool = False,
     ):
         """
-        Copy a :ref:`parsons-table` to Postgres.
+        Copy a :ref:`Table` to Postgres.
 
         Args:
             tbl: parsons.Table

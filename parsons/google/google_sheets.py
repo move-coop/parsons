@@ -104,7 +104,7 @@ class GoogleSheets:
 
     def get_worksheet(self, spreadsheet_id, worksheet=0, skip_header_rows: int = 0):
         """
-        Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
+        Create a `:ref:`Table`` from a sheet in a Google spreadsheet, given the sheet index.
 
         Args:
             spreadsheet_id: str
@@ -115,7 +115,7 @@ class GoogleSheets:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -179,7 +179,7 @@ class GoogleSheets:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

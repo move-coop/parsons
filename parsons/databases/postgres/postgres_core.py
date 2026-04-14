@@ -100,7 +100,7 @@ class PostgresCore(PostgresCreateStatement):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -126,7 +126,7 @@ class PostgresCore(PostgresCreateStatement):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

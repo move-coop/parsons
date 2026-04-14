@@ -338,7 +338,7 @@ class GoogleCloudStorage:
 
         Args:
             table: obj
-                A :ref:`parsons-table`
+                A :ref:`Table`
             bucket_name: str
                 The name of the bucket to upload the data into.
             blob_name: str

@@ -186,7 +186,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -238,7 +238,7 @@ class ZoomV1:
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         params: dict[str, str] = {"type": meeting_type}
@@ -260,7 +260,7 @@ class ZoomV1:
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -277,7 +277,7 @@ class ZoomV1:
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -294,7 +294,7 @@ class ZoomV1:
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -311,7 +311,7 @@ class ZoomV1:
                 The user id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -328,7 +328,7 @@ class ZoomV1:
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -346,7 +346,7 @@ class ZoomV1:
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -363,7 +363,7 @@ class ZoomV1:
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -643,7 +643,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -685,7 +685,7 @@ class ZoomV2(ZoomV1):
                 The user id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -702,7 +702,7 @@ class ZoomV2(ZoomV1):
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         tbl = self._get_request(f"webinars/{webinar_id}/", "occurrences")
@@ -718,7 +718,7 @@ class ZoomV2(ZoomV1):
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         tbl = self._get_request(f"past_webinars/{webinar_id}/instances", "webinars")
@@ -740,7 +740,7 @@ class ZoomV2(ZoomV1):
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -757,7 +757,7 @@ class ZoomV2(ZoomV1):
                 The webinar id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -774,7 +774,7 @@ class ZoomV2(ZoomV1):
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
@@ -791,7 +791,7 @@ class ZoomV2(ZoomV1):
                 The meeting id
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
         tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
@@ -820,7 +820,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -846,7 +846,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -872,7 +872,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -896,7 +896,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -923,7 +923,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -949,7 +949,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -973,7 +973,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -997,7 +997,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 
@@ -1021,7 +1021,7 @@ class ZoomV2(ZoomV1):
 
         Returns:
             Parsons Table
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
 

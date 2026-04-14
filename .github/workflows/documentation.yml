@@ -8,7 +8,7 @@ on:
       - main
       - major-release
     tags:
-      - 'v*'
+      - "v*"
 permissions: read-all
 
 env:
@@ -48,7 +48,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group docs
 

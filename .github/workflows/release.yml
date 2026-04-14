@@ -39,7 +39,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --all-extras
 
       - run: >-
@@ -58,10 +57,10 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - '3.10'
-          - '3.11'
-          - '3.12'
-          - '3.13'
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
         os:
           - ubuntu-latest
           - windows-latest
@@ -97,8 +96,8 @@ jobs:
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-            python-version: ${{ matrix.python-version }}
-            cache: pip
+          python-version: ${{ matrix.python-version }}
+          cache: pip
 
       - name: install parsons from file
         shell: bash

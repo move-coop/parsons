@@ -49,37 +49,30 @@ BIGQUERY_TYPE_MAP = {
 QUERY_BATCH_SIZE = 100000
 
 
-def _parse_table_name(table_name):
-    # Helper function to parse out the different components of a table ID
+def parse_table_name(table_name: str):
+    """Parse a table name into its project, dataset, and table components."""
     parts = table_name.split(".")
     parts.reverse()
-    parsed = {
-        "project": None,
-        "dataset": None,
-        "table": None,
+    return {
+        "table": parts[0] if len(parts) > 0 else None,
+        "dataset": parts[1] if len(parts) > 1 else None,
+        "project": parts[2] if len(parts) > 2 else None,
     }
-    if len(parts) > 0:
-        parsed["table"] = parts[0]
-    if len(parts) > 1:
-        parsed["dataset"] = parts[1]
-    if len(parts) > 2:
-        parsed["project"] = parts[2]
-    return parsed
 
 
-def _ends_with_semicolon(query: str) -> str:
+def ends_with_semicolon(query: str) -> str:
+    """Ensure a query ends with a semicolon append a semicolon, if not."""
     query = query.strip()
     if query[-1] == ";":
         return query
     return query + ";"
 
 
-def _map_column_headers_to_schema_field(schema_definition: list) -> list:
+def map_column_headers_to_schema_field(schema_definition: list) -> list:
     """
-    Loops through a list of dictionaries and instantiates
-    google.cloud.bigquery.SchemaField objects. Useful docs
-    from Google's API can be found here:
-        https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
+    Loops through a list of dictionaries and instantiates google.cloud.bigquery.SchemaField objects.
+    Useful docs from Google's API can be found here:
+    https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
 
     Args:
         schema_definition: list
@@ -284,7 +277,8 @@ class GoogleBigQuery(DatabaseConnector):
             parameters: dict
                 A dictionary of query parameters for BigQuery.
             job_config: QueryJobConfig or None
-                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
+                An optional QueryJobConfig object for custom behavior.
+                See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
             Parsons Table
@@ -325,7 +319,8 @@ class GoogleBigQuery(DatabaseConnector):
             commit: boolean
                 Must be true. BigQuery
             job_config: QueryJobConfig or None
-                An optional QueryJobConfig object for custom behavior. See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
+                An optional QueryJobConfig object for custom behavior.
+                See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
             Parsons Table
@@ -363,7 +358,7 @@ class GoogleBigQuery(DatabaseConnector):
             return final_table
 
     def query_with_transaction(self, queries, parameters=None):
-        queries_with_semicolons = [_ends_with_semicolon(q) for q in queries]
+        queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
         queries_on_newlines = "\n".join(queries_with_semicolons)
         queries_wrapped = f"""
         BEGIN
@@ -983,7 +978,9 @@ class GoogleBigQuery(DatabaseConnector):
         )
         if not tmp_gcs_bucket:
             raise ValueError(
-                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. This alternate method will not work well with larger data."
+                "Must set GCS_TEMP_BUCKET environment variable or pass in tmp_gcs_bucket parameter. "
+                "If you have smaller data, you can use the `copy_direct` method to upload the data without needing to use CloudStorage. "
+                "This alternate method will not work well with larger data."
             )
 
         if convert_dict_list_columns_to_json:
@@ -1416,7 +1413,7 @@ class GoogleBigQuery(DatabaseConnector):
 
     def get_table_ref(self, table_name):
         # Helper function to build a TableReference for our table
-        parsed = _parse_table_name(table_name)
+        parsed = parse_table_name(table_name)
         dataset_ref = self.client.dataset(parsed["dataset"])
         return dataset_ref.table(parsed["table"])
 
@@ -1434,7 +1431,7 @@ class GoogleBigQuery(DatabaseConnector):
             return job_config.schema
         # if schema specified by user, convert to schema type and use that
         if custom_schema:
-            return _map_column_headers_to_schema_field(custom_schema)
+            return map_column_headers_to_schema_field(custom_schema)
         # if template_table specified by user, use that
         # otherwise, if loading into existing table, infer destination table as template table
         if not template_table and if_exists in ("append", "truncate"):

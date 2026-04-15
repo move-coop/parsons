@@ -23,13 +23,13 @@ config_vars = {
 
 # Setup
 
-import os  # noqa E402
+import os  # noqa E402 module-import-not-at-top-of-file
 
 os.environ["PARSONS_SKIP_IMPORT_ALL"] = "1"
 
-from parsons import logger  # noqa E402
-from parsons.actblue import ActBlue  # noqa E402
-from parsons.google.google_sheets import GoogleSheets  # noqa E402
+from parsons import logger  # noqa E402 module-import-not-at-top-of-file
+from parsons.actblue import ActBlue  # noqa E402 module-import-not-at-top-of-file
+from parsons.google.google_sheets import GoogleSheets  # noqa E402 module-import-not-at-top-of-file
 
 # if variables specified above, sets them as environmental variables
 for name, value in config_vars.items():

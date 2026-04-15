@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_a69c8c6145fa2ce3___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -332,7 +332,7 @@
     <p class="run run2"><span class="n"><a id="t248" href="#t248">248</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t249" href="#t249">249</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t250" href="#t250">250</a></span><span class="t">        <span class="com"># Write Petl table to CSV and upload for SmartMatch to process</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t251" href="#t251">251</a></span><span class="t">        <span class="nam">tmp</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa: SIM115</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t251" href="#t251">251</a></span><span class="t">        <span class="nam">tmp</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa SIM115 open-file-with-context-handler</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t252" href="#t252">252</a></span><span class="t">            <span class="nam">mode</span><span class="op">=</span><span class="str">"w+"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t253" href="#t253">253</a></span><span class="t">            <span class="nam">encoding</span><span class="op">=</span><span class="str">"utf8"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t254" href="#t254">254</a></span><span class="t">            <span class="nam">newline</span><span class="op">=</span><span class="str">"\n"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -359,14 +359,14 @@
     <p class="pln"><span class="n"><a id="t275" href="#t275">275</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t276" href="#t276">276</a></span><span class="t">        <span class="com"># Download SmartMatch .csv.gz results, decompress, and Petl table wrap.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t277" href="#t277">277</a></span><span class="t">        <span class="com"># The final tmp file cannot be deleted due to Petl tables being lazy.</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t278" href="#t278">278</a></span><span class="t">        <span class="nam">tmp_gz</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa: SIM115</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t278" href="#t278">278</a></span><span class="t">        <span class="nam">tmp_gz</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa SIM115 open-file-with-context-handler</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t279" href="#t279">279</a></span><span class="t">            <span class="nam">prefix</span><span class="op">=</span><span class="str">"smartmatch_output"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t280" href="#t280">280</a></span><span class="t">            <span class="nam">suffix</span><span class="op">=</span><span class="str">".csv.gz"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t281" href="#t281">281</a></span><span class="t">            <span class="nam">dir</span><span class="op">=</span><span class="nam">tmp_location</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t282" href="#t282">282</a></span><span class="t">            <span class="nam">delete</span><span class="op">=</span><span class="key">False</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t283" href="#t283">283</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t284" href="#t284">284</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t285" href="#t285">285</a></span><span class="t">        <span class="nam">tmp_csv</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa: SIM115</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t285" href="#t285">285</a></span><span class="t">        <span class="nam">tmp_csv</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span>  <span class="com"># noqa SIM115 open-file-with-context-handler</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t286" href="#t286">286</a></span><span class="t">            <span class="nam">prefix</span><span class="op">=</span><span class="str">"smartmatch_output"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t287" href="#t287">287</a></span><span class="t">            <span class="nam">suffix</span><span class="op">=</span><span class="str">".csv"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t288" href="#t288">288</a></span><span class="t">            <span class="nam">dir</span><span class="op">=</span><span class="nam">tmp_location</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -419,7 +419,7 @@
             <a class="nav" href="z_a69c8c6145fa2ce3___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
     </div>
 </footer>

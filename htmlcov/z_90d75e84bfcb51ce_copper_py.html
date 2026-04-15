@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_990c76490a3bac87___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -377,8 +377,8 @@
     <p class="pln"><span class="n"><a id="t293" href="#t293">293</a></span><span class="t">                <span class="com"># Check for nested data</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t294" href="#t294">294</a></span><span class="t">                <span class="nam">list_rows</span> <span class="op">=</span> <span class="nam">obj_table</span><span class="op">.</span><span class="nam">select_rows</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t295" href="#t295">295</a></span><span class="t">                    <span class="key">lambda</span> <span class="nam">row</span><span class="op">:</span> <span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t296" href="#t296">296</a></span><span class="t">                        <span class="nam">isinstance</span><span class="op">(</span><span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">,</span> <span class="nam">list</span><span class="op">)</span>  <span class="com"># noqa: B023</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t297" href="#t297">297</a></span><span class="t">                        <span class="key">and</span> <span class="nam">any</span><span class="op">(</span><span class="nam">isinstance</span><span class="op">(</span><span class="nam">x</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span> <span class="key">for</span> <span class="nam">x</span> <span class="key">in</span> <span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">)</span>  <span class="com"># noqa: B023</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t296" href="#t296">296</a></span><span class="t">                        <span class="nam">isinstance</span><span class="op">(</span><span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">,</span> <span class="nam">list</span><span class="op">)</span>  <span class="com"># noqa B023 function-uses-loop-variable</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t297" href="#t297">297</a></span><span class="t">                        <span class="key">and</span> <span class="nam">any</span><span class="op">(</span><span class="nam">isinstance</span><span class="op">(</span><span class="nam">x</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span> <span class="key">for</span> <span class="nam">x</span> <span class="key">in</span> <span class="nam">row</span><span class="op">[</span><span class="nam">column</span><span class="op">]</span><span class="op">)</span>  <span class="com"># noqa B023 function-uses-loop-variable</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t298" href="#t298">298</a></span><span class="t">                    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t299" href="#t299">299</a></span><span class="t">                <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t300" href="#t300">300</a></span><span class="t">                <span class="com"># Add separate long table for each column with nested data</span>&nbsp;</span><span class="r"></span></p>
@@ -451,7 +451,7 @@
             <a class="nav" href="z_990c76490a3bac87___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
     </div>
 </footer>

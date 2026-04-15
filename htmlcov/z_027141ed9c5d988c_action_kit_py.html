@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_e1421bcd55b4fec9___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -1525,7 +1525,7 @@
     <p class="run"><span class="n"><a id="t1441" href="#t1441">1441</a></span><span class="t">        <span class="nam">upload_client</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_conn</span><span class="op">(</span><span class="op">{</span><span class="str">"accepts"</span><span class="op">:</span> <span class="str">"application/json"</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1442" href="#t1442">1442</a></span><span class="t">        <span class="com"># TODO: use context manager or close file when done</span>&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t1443" href="#t1443">1443</a></span><span class="t">        <span class="key">if</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">csv_file</span><span class="op">,</span> <span class="nam">str</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">1443&#x202F;&#x219B;&#x202F;1446</span><span class="annotate long">line 1443 didn't jump to line 1446 because the condition on line 1443 was always true</span></span></p>
-    <p class="run"><span class="n"><a id="t1444" href="#t1444">1444</a></span><span class="t">            <span class="nam">csv_file</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">csv_file</span><span class="op">)</span><span class="op">.</span><span class="nam">open</span><span class="op">(</span><span class="nam">mode</span><span class="op">=</span><span class="str">"rb"</span><span class="op">)</span>  <span class="com"># noqa SIM115</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t1444" href="#t1444">1444</a></span><span class="t">            <span class="nam">csv_file</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">csv_file</span><span class="op">)</span><span class="op">.</span><span class="nam">open</span><span class="op">(</span><span class="nam">mode</span><span class="op">=</span><span class="str">"rb"</span><span class="op">)</span>  <span class="com"># noqa SIM115 open-file-with-context-handler</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t1445" href="#t1445">1445</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t1446" href="#t1446">1446</a></span><span class="t">        <span class="nam">url</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_base_endpoint</span><span class="op">(</span><span class="str">"upload"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t1447" href="#t1447">1447</a></span><span class="t">        <span class="nam">files</span> <span class="op">=</span> <span class="op">{</span><span class="str">"upload"</span><span class="op">:</span> <span class="nam">csv_file</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
@@ -1700,7 +1700,7 @@
             <a class="nav" href="z_e1421bcd55b4fec9___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-04-15 18:20 +0000
+            created at 2026-04-15 18:23 +0000
         </p>
     </div>
 </footer>

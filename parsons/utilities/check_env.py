@@ -1,8 +1,11 @@
 import os
+import warnings
 from typing import Any
 
 
-def check(env: str, value: Any | None = None, *, optional: bool = False) -> Any | None:
+def check(
+    env: str, value: Any | None = None, *, optional: bool = False, field: Any | None = None
+) -> Any | None:
     """
     Check if an environment variable has been set or value has been provided.
 
@@ -15,6 +18,9 @@ def check(env: str, value: Any | None = None, *, optional: bool = False) -> Any 
     Keyword Args:
         optional: bool, optional
             If true, do not raise an error if no value is found or provided.
+        field: Any, optional
+            Former name of ``value`` argument. Will be removed in a future release.
+            Operates as if value was passed to ``value`` instead of field.
 
     Returns:
         Any
@@ -28,6 +34,14 @@ def check(env: str, value: Any | None = None, *, optional: bool = False) -> Any 
     """
     if value is not None:
         return value
+
+    if field is not None:
+        warnings.warn(
+            "The 'field' argument is deprecated and will be removed in a future release.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return field
 
     try:
         return os.environ[env]

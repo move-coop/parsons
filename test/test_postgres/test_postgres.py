@@ -220,11 +220,11 @@ class TestPostgresDB(unittest.TestCase):
         assert tbl.first == 6
 
         # Try to copy the table and ensure that default fail works.
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy")
 
         # Try to copy the table and ensure that explicit fail works.
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.pg.copy(
                 self.tbl,
                 f"{self.temp_schema}.test_copy",

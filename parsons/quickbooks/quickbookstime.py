@@ -19,7 +19,7 @@ class QuickBooksTime:
         token: str
             A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env
             variable set.
-            [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa: E501
+            [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa E501 line-too-long
 
             [QuickBooksTime API Documentation](https://tsheetsteam.github.io/api_docs/#introduction)
 

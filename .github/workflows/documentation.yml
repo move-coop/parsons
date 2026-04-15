@@ -8,7 +8,7 @@ on:
       - main
       - major-release
     tags:
-      - "v*"
+      - 'v*'
 permissions: read-all
 
 env:

@@ -32,8 +32,6 @@ class APIConnector:
         data_key: str
             The name of the key in the response json where the data is contained. Required
             if the data is nested in the response json
-    Returns:
-        APIConnector class
 
     """
 
@@ -79,7 +77,7 @@ class APIConnector:
                 are looping through data, you might want to ignore individual failures.
 
         Returns:
-            requests response
+            requests Response
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
@@ -103,8 +101,9 @@ class APIConnector:
                 A complete and valid url for the api request
             params: dict
                 The request parameters
+
         Returns:
-                A requests response object
+            A requests response object
 
         """
 
@@ -168,7 +167,7 @@ class APIConnector:
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
 
         Returns:
-                A requests response object or status code
+            A requests response object or status code
 
         """
 
@@ -203,7 +202,7 @@ class APIConnector:
                 The expected success codes to be returned. If not provided, accepts 200, 201, 204.
 
         Returns:
-                A requests response object
+            A requests response object
 
         """
 
@@ -288,6 +287,7 @@ class APIConnector:
         Args:
             resp:
                 A response dictionary
+
         Returns:
             dict
                 A dictionary of data.
@@ -318,7 +318,8 @@ class APIConnector:
         Args:
             resp:
                 A response dictionary
-        `Returns:
+
+        Returns:
             boolean
 
         """

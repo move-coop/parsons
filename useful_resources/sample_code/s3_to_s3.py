@@ -24,9 +24,9 @@ DESTINATION_BUCKET = None
 
 # ### CODE
 
-import os  # noqa: E402
+import os  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import S3, logger, utilities  # noqa: E402
+from parsons import S3, logger, utilities  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 

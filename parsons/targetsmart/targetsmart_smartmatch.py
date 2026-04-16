@@ -248,7 +248,7 @@ class SmartMatch:
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
-        tmp = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             mode="w+",
             encoding="utf8",
             newline="\n",
@@ -275,14 +275,14 @@ class SmartMatch:
 
         # Download SmartMatch .csv.gz results, decompress, and Petl table wrap.
         # The final tmp file cannot be deleted due to Petl tables being lazy.
-        tmp_gz = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp_gz = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             prefix="smartmatch_output",
             suffix=".csv.gz",
             dir=tmp_location,
             delete=False,
         )
 
-        tmp_csv = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp_csv = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             prefix="smartmatch_output",
             suffix=".csv",
             dir=tmp_location,

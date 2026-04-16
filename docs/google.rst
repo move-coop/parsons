@@ -5,8 +5,6 @@ Google Cloud services allow you to upload and manipulate Tables as spreadsheets 
 
 For all of these services you will need to enable the APIs for your Google Cloud account and obtain authentication tokens or other credentials to access them from your scripts. If you are the administrator of your Google Cloud account, you can do both of these at `Google Cloud Console APIs and Services - Dashboard <https://console.cloud.google.com/apis/dashboard>`_. The connectors below have more specific information about how to authenticate.
 
-.. _gbq:
-
 *************
 Google Admin
 *************
@@ -51,6 +49,8 @@ API
 .. autoclass:: parsons.google.google_admin.GoogleAdmin
    :inherited-members:
    :members:
+
+.. _gbq:
 
 ********
 BigQuery

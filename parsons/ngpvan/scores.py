@@ -154,7 +154,7 @@ class Scores:
                     * - ``score_id``
                       - The score slot id.
 
-        Example:
+                Example:
 
                 .. code-block:: python
 

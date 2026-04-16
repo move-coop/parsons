@@ -100,7 +100,7 @@ mysql = [
     "sqlalchemy >= 1.4",
 ]
 newmode = ["newmode >= 0.1.6"]
-ngpvan = ["suds-py3 >= 1.4"]
+ngpvan = ["suds >= 1"]
 mobilecommons = [
     "beautifulsoup4 >= 4.0",
     "xmltodict >= 1.0"
@@ -111,11 +111,11 @@ postgres = [
     "sqlalchemy >= 1.4",
 ]
 redshift = [
-    "boto3 >= 1",
+    "boto3 >= 1.0",
     "psycopg2-binary >= 2.9.11",
     "sqlalchemy >= 1.4",
 ]
-s3 = ["boto3 >= 1"]
+s3 = ["boto3 >= 1.0"]
 salesforce = ["simple-salesforce >= 1.0"]
 scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
@@ -209,7 +209,7 @@ security = [
 ]
 test-coverage = [
     "coverage~=7.13.3",
-    "pytest-cov~=7.0.0",
+    "pytest-cov>=7.0,<7.2",
     {include-group = "test"},
 ]
 test = [
@@ -220,7 +220,7 @@ test = [
     "requests-mock~=1.12.1",
     "testfixtures~=8.3.0;python_version<'3.11'",
     "testfixtures~=9.1.0;python_version>='3.11'",
-    "dbt-duckdb~=1.8.0",
+    "dbt-duckdb>=1.8,<1.11",
 ]
 
 [tool]

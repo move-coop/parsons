@@ -27,8 +27,8 @@ config_vars = {
 
 # ### CODE
 
-import os  # noqa E402
-from parsons import Redshift, S3, utilities, logger  # noqa E402
+import os  # noqa E402 module-import-not-at-top-of-file
+from parsons import Redshift, S3, utilities, logger  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 

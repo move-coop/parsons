@@ -40,7 +40,7 @@ jobs:
           # If it's a pull request, don't get full history.
           fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57
         with:
           python-version: 3.13
           activate-environment: true
@@ -50,6 +50,7 @@ jobs:
           uv sync
           --no-default-groups
           --group docs
+          --all-extras
 
       - name: configure git
         run: |
@@ -64,7 +65,7 @@ jobs:
       - run: make build_docs
         working-directory: docs
 
-      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
         with:
           path: docs/html/
 

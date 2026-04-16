@@ -106,6 +106,7 @@ class CensusGeocoder:
         Args:
             table: Parsons Table
                 A Parsons table
+
         Returns:
             A Parsons table
 
@@ -144,13 +145,15 @@ class CensusGeocoder:
         """
         Return census data on coordinates.
 
-        `Args`
+        Args:
             latitude: int
                 A valid latitude in the United States
             longitude: int
                 A valid longitude in the United States
+
         Returns:
-           dict
+            dict
+
         """
 
         geo = self.cg.coordinates(x=longitude, y=latitude)

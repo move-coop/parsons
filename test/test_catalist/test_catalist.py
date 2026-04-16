@@ -27,9 +27,8 @@ def client(mocker, tmp_path, requests_mock):
     mock_sftp.root = sftp_root
 
     mock_sftp.put_file.side_effect = lambda local, remote: (
-        sftp_root / remote.lstrip("/")
-    ).parent.mkdir(parents=True, exist_ok=True) or __import__("shutil").copy2(
-        local, sftp_root / remote.lstrip("/")
+        (sftp_root / remote.lstrip("/")).parent.mkdir(parents=True, exist_ok=True)
+        or __import__("shutil").copy2(local, sftp_root / remote.lstrip("/"))
     )
 
     mock_sftp.list_directory.side_effect = lambda path: [

@@ -138,6 +138,8 @@ class Table(ETL, ToFrom):
     @property
     def num_rows(self):
         """
+        Count the number of rows in the table.
+
         Returns:
             int
                 Number of rows in the table
@@ -150,15 +152,14 @@ class Table(ETL, ToFrom):
 
     @property
     def data(self):
-        """
-        Returns an iterable object for iterating over the raw data rows as tuples
-        (without field names)
-        """
+        """Returns an iterable object for iterating over the raw data rows as tuples (without field names)."""
         return petl.data(self.table)
 
     @property
     def columns(self):
         """
+        List the table's column names.
+
         Returns:
             list
                 List of the table's column names
@@ -168,10 +169,7 @@ class Table(ETL, ToFrom):
 
     @property
     def first(self):
-        """
-        Returns the first value in the table. Useful for database queries that only
-        return a single value.
-        """
+        """Returns the first value in the table. Useful for database queries that only return a single value."""
 
         try:
             return self.data[0][0]

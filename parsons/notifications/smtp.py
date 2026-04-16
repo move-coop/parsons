@@ -135,8 +135,8 @@ class SMTP(SendMail):
                 self.log.warning("Message failed for some recipients: %s", result)
                 return result
 
-        except Exception:
-            self.log.exception("An error occurred while attempting to send a message.")
+        except Exception as e:
+            self.log.exception("An error occurred while attempting to send a message: %s", e)
             self.quit()
             raise
 

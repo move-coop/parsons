@@ -35,7 +35,10 @@ or made available as an environment variable in the form of an access token:
 .. admonition:: Performance
 
    Most functions in this class exist both in 'path'-based form and 'folder_id'/'file_id'-based form.
-   The path-based forms rely on the `get_item_id()` method, which navigates through subfolders with sequential API calls. This can be slow and computationally expensive if the Box path string in question is long, or intermediate folders contain many items. If efficiency and memory management is paramount, consider using the "by_id" methods of each function. In most cases, the id will be more accessible from returns on upload methods despite this documentation describing both methods.
+   The path-based forms rely on the :meth:`~Box.get_item_id` method, which navigates through subfolders with sequential API calls.
+   This can be slow and computationally expensive if the Box path string in question is long, or intermediate folders contain many items.
+   If efficiency and memory management is paramount, consider using the "by_id" methods of each function.
+   In most cases, the id will be more accessible from returns on upload methods despite this documentation describing both methods.
 
 .. code-block:: python
    :caption: Instantiate class

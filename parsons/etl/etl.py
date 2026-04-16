@@ -1114,7 +1114,7 @@ class ETL:
         Group rows by a column or columns, then reduce the groups to a single row.
 
         For example, the output from the query to get a table's definition is
-        returned as one component per row. The `reduce_rows` method can be used
+        returned as one component per row. The :meth:`~ETL.reduce_rows` method can be used
         to reduce all those to a single row containg the entire query.
 
         Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`__.
@@ -1241,7 +1241,7 @@ class ETL:
 
         This convenience method exposes the petl functions to the current
         Table. This is useful in cases where one might need a ``petl`` function
-        that has not yet been implemented for ``parsons.Table``.
+        that has not yet been implemented for :class:`parsons.Table`.
 
         .. code-block:: python
 

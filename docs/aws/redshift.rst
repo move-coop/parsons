@@ -62,7 +62,7 @@ or keyword arguments.
 
    table = rs.copy(tbl, 'tmc_scratch.test_table', if_exists='drop')
 
-All of the standard COPY options can be passed as kwargs. See the :meth:`copy` method for all
+All of the standard COPY options can be passed as kwargs. See the :meth:`~Redshift.copy` method for all
 options.
 
 Core API

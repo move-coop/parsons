@@ -56,7 +56,7 @@ class Redshift(
             Seconds to timeout if connection not established
         s3_temp_bucket: str
             Name of the S3 bucket that will be used for storing data during bulk transfers.
-            Required if you intend to perform bulk data transfers (eg. the copy_s3 method),
+            Required if you intend to perform bulk data transfers (eg. the :meth:`~Redshift.copy_s3` method),
             and env variable ``S3_TEMP_BUCKET`` is not populated.
         aws_access_key_id: str
             The default AWS access key id for copying data from S3 into Redshift
@@ -896,7 +896,7 @@ class Redshift(
         """
         Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file
         allows you to copy multiple files into a single table at once. Once the manifest is
-        generated, you can pass it with the :func:`~parsons.redshift.Redshift.copy_s3` method.
+        generated, you can pass it with the :meth:`~Redshift.copy_s3` method.
 
         AWS keys are not required if ``AWS_ACCESS_KEY_ID`` and
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.

@@ -18,7 +18,8 @@ For more information, see `Action Network developer docs <https://actionnetwork.
 Quickstart
 ==========
 
-To instantiate a class, you can either pass in the API token as an argument or set the ``AN_API_TOKEN`` environmental variable.
+To instantiate the :class:`~action_network.ActionNetwork` class, you can either pass in the API token as an argument
+or set the ``AN_API_TOKEN`` environmental variable.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables

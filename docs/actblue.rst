@@ -5,7 +5,7 @@ ActBlue
 Overview
 ========
 
-The ActBlue class allows you to interact with the ActBlue CSV API. Users of this Parsons integration can generate CSVs and
+The :class:`~actblue.ActBlue` class allows you to interact with the ActBlue CSV API. Users of this Parsons integration can generate CSVs and
 manipulate entity CSV data within the Parsons table format.
 
 .. admonition:: Authentication
@@ -16,7 +16,7 @@ manipulate entity CSV data within the Parsons table format.
 Quickstart
 ==========
 
-To instantiate the ActBlue class, you can either store your ``ACTBLUE_CLIENT_UUID`` and ``ACTBLUE_CLIENT_SECRET`` keys as environment
+To instantiate the :class:`~actblue.ActBlue` class, you can either store your ``ACTBLUE_CLIENT_UUID`` and ``ACTBLUE_CLIENT_SECRET`` keys as environment
 variables or pass them in as arguments:
 
 .. code-block:: python

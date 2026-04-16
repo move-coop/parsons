@@ -403,7 +403,7 @@ class Airmeet:
         includes a download link which is valid for 6 hours.
 
         The API returns "recordingsCount" and "totalCount", which implies
-        that the results could be paged like in fetch_airmeet_participants().
+        that the results could be paged like in :meth:`~Airmeet.fetch_airmeet_participants`.
         The API docs don't specify if that's the case, but this method will
         need to be updated if it is.
 

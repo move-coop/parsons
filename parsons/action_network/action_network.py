@@ -1579,7 +1579,7 @@ class ActionNetwork:
     def update_person(self, entry_id, background_processing=False, **kwargs):
         """
         Updates a person's data in Action Network, given their Action Network ID. Note that you
-        can't alter a person's tags with this method. Instead, use upsert_person.
+        can't alter a person's tags with this method. Instead, use :meth:`~ActionNetwork.upsert_person`.
 
         Args:
             entry_id:

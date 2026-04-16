@@ -160,7 +160,7 @@ class MobilizeAmerica:
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+            :ref:`Table`, dict, list[:ref:`Table`]
 
         """
 
@@ -267,7 +267,7 @@ class MobilizeAmerica:
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         `Returns`
-            :ref:`parsons.Table <parsons-table>`, dict, list[:ref:`parsons.Table <parsons-table>`]
+            :ref:`Table`, dict, list[:ref:`Table`]
 
         """
 

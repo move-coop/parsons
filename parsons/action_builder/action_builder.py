@@ -355,8 +355,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            API response JSON which contains `{'message': 'Tag has been removed from Taggable
-            Logbook'}` if successful.
+            API response JSON which contains
+            `{'message': 'Tag has been removed from Taggable Logbook'}` if successful.
 
         """
 

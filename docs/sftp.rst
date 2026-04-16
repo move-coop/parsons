@@ -2,7 +2,7 @@
 SFTP
 ####
 
-The :class:`~sftp.SFTP` class allows you to interact with `SFTP services <https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`_,
+The :class:`~parsons.sftp.sftp.SFTP` class allows you to interact with `SFTP services <https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`_,
 using the  `Paramiko SFTP library <http://docs.paramiko.org/en/2.7/api/sftp.html>`_ under the hood.
 
 The class provides methods to:
@@ -14,12 +14,12 @@ The class provides methods to:
 .. admonition:: Authentication
 
    Depending on the server provider, SFTP may require either password or public key authentication.
-   The :class:`~sftp.SFTP` class supports both methods via ``password`` and ``rsa_private_key_file`` arguments.
+   The :class:`~parsons.sftp.sftp.SFTP` class supports both methods via ``password`` and ``rsa_private_key_file`` arguments.
 
 Quickstart
 ==========
 
-To instantiate :class:`~sftp.SFTP`, pass your host name, user name, and either a password or an authentication
+To instantiate :class:`~parsons.sftp.sftp.SFTP`, pass your host name, user name, and either a password or an authentication
 key file as keyword arguments.
 
 .. code-block:: python

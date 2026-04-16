@@ -522,7 +522,7 @@ class People:
                 A valid person id
             result_code_id : int
                 Specifies the result code of the attempt. Valid ids can be found
-                by using the :meth:`get_canvass_responses_result_codes`
+                by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
@@ -577,7 +577,7 @@ class People:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id: int
                 `Optional`; A valid contact type id
             input_type_id: int
@@ -620,6 +620,24 @@ class People:
         conform to the VAN API `response object
         format <https://docs.ngpvan.com/reference/canvass-responses>`__.
 
+        Example:
+
+            .. code-block:: python
+
+                response = [
+                    {
+                        "activistCodeId": 18917,
+                        "action": "Apply",
+                        "type": "ActivistCode"
+                    },
+                    {
+                        "surveyQuestionId": 109149,
+                        "surveyResponseId": 465468,
+                        "type": "SurveyResponse"
+                    }
+                ]
+                van.apply_response(5222, response)
+
         Args:
             id: str
                 A valid person id
@@ -632,7 +650,7 @@ class People:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int
@@ -652,22 +670,6 @@ class People:
 
         Returns:
             ``True`` if successful
-
-        .. code-block:: python
-
-            response = [
-                {
-                    "activistCodeId": 18917,
-                    "action": "Apply",
-                    "type": "ActivistCode"
-                },
-                {
-                    "surveyQuestionId": 109149,
-                    "surveyResponseId": 465468,
-                    "type": "SurveyResponse"
-                }
-            ]
-            van.apply_response(5222, response)
 
         """
 

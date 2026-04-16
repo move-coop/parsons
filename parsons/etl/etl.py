@@ -37,7 +37,7 @@ class ETL:
                 Defaults to 5.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
 
@@ -62,7 +62,7 @@ class ETL:
                 Defaults to "fail".
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -87,7 +87,7 @@ class ETL:
                 Column names
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -106,7 +106,7 @@ class ETL:
             new_column_name: str
                 The new column name
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -132,7 +132,7 @@ class ETL:
                 'old_name2': 'new_name2'}
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -160,7 +160,7 @@ class ETL:
                 A fixed or calculated value
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -185,7 +185,7 @@ class ETL:
                 A fixed or calculated value
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -219,7 +219,7 @@ class ETL:
                 The new index for the column
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -241,7 +241,7 @@ class ETL:
                 The update function, method, or variable to process the update
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -277,7 +277,7 @@ class ETL:
         Parsons table to string (e.g. for comparison)
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -316,7 +316,7 @@ class ETL:
                 column is also one of the source columns, it will not be removed.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -380,7 +380,7 @@ class ETL:
                 ignore case, spaces and underscores.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -429,7 +429,7 @@ class ETL:
                 A dictionary of columns and possible values that map to it
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -493,7 +493,7 @@ class ETL:
                 The update function, method, or variable to process the update.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -654,7 +654,7 @@ class ETL:
                 Removes packed list and dict rows from original either way.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 If `expand_original`, original table with packed rows replaced by unpacked rows.
                 Otherwise, standalone table with key column and unpacked values only
 
@@ -800,7 +800,7 @@ class ETL:
                 set to column name.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 The new long table
 
         """
@@ -838,7 +838,7 @@ class ETL:
                 Columns in the parsons table
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Selected columnns
 
         """
@@ -1029,7 +1029,7 @@ class ETL:
                 value of None), 'ignore' them, or 'fail' (raising an error).
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -1114,7 +1114,7 @@ class ETL:
         Group rows by a column or columns, then reduce the groups to a single row.
 
         For example, the output from the query to get a table's definition is
-        returned as one component per row. The :meth:`~ETL.reduce_rows` method can be used
+        returned as one component per row. The :meth:`~parsons.etl.etl.ETL.reduce_rows` method can be used
         to reduce all those to a single row containg the entire query.
 
         Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`__.
@@ -1183,7 +1183,7 @@ class ETL:
                 Extra options to pass to petl.rowreduce
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -1228,7 +1228,7 @@ class ETL:
                 List of new header column names
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """
@@ -1241,7 +1241,7 @@ class ETL:
 
         This convenience method exposes the petl functions to the current
         Table. This is useful in cases where one might need a ``petl`` function
-        that has not yet been implemented for :class:`parsons.Table`.
+        that has not yet been implemented for :class:`~parsons.etl.table.Table`.
 
         .. code-block:: python
 
@@ -1272,10 +1272,10 @@ class ETL:
             petl_method: str
                 The ``petl`` function to call
             update_table: bool
-                If ``True``, updates the ``parsons.Table``. Defaults to
+                If ``True``, updates the :ref:`Table`. Defaults to
                 ``False``.
             to_petl: bool
-                If ``True``, returns a petl table, otherwise a ``parsons.Table``.
+                If ``True``, returns a petl table, otherwise a :ref:`Table`.
                 Defaults to ``False``.
             `*args`: Any
                 The arguements to pass to the petl function.
@@ -1283,7 +1283,7 @@ class ETL:
                 The keyword arguements to pass to the petl function.
 
         Returns:
-            `parsons.Table` or `petl` table
+            :ref:`Table` or `petl` table
 
         """
         update_table = kwargs.pop("update_table", False)
@@ -1378,7 +1378,7 @@ class ETL:
                 If false, the row will be sorted.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Also updates self
 
         """

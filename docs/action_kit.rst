@@ -21,7 +21,7 @@ transactions, and users. Bulk upload of new users and user updates is also suppo
 Quickstart
 ==========
 
-To instantiate the :class:`~action_kit.ActionKit` class, you can either store your ActionKit API
+To instantiate the :class:`~parsons.action_kit.action_kit.ActionKit` class, you can either store your ActionKit API
 domain, username, and password as environmental variables (``ACTION_KIT_DOMAIN``,
 ``ACTION_KIT_USERNAME``, and ``ACTION_KIT_PASSWORD``, respectively) or pass in your
 domain, username, and password as arguments:

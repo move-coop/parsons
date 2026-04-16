@@ -17,7 +17,7 @@ tool. This class contains a single method which allows you to export your users
 Quickstart
 ==========
 
-To instantiate the :class:`~turbovote.TurboVote` class, you can either store your TurboVote API
+To instantiate the :class:`~parsons.turbovote.turbovote.TurboVote` class, you can either store your TurboVote API
 username, password, subdomain as environmental variables (``TURBOVOTE_USERNAME``,
 ``TURBOVOTE_PASSWORD``, and ``TURBOVOTE_SUBDOMAIN``, respectively) or pass them
 in as arguments.

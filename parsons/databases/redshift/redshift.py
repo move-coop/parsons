@@ -56,7 +56,7 @@ class Redshift(
             Seconds to timeout if connection not established
         s3_temp_bucket: str
             Name of the S3 bucket that will be used for storing data during bulk transfers.
-            Required if you intend to perform bulk data transfers (eg. the :meth:`~Redshift.copy_s3` method),
+            Required if you intend to perform bulk data transfers (eg. the :meth:`.copy_s3` method),
             and env variable ``S3_TEMP_BUCKET`` is not populated.
         aws_access_key_id: str
             The default AWS access key id for copying data from S3 into Redshift
@@ -398,9 +398,8 @@ class Redshift(
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
 
-        `Returns`
-            Parsons Table or ``None``
-                See :ref:`Table` for output options.
+        Returns:
+            :ref:`Table` or ``None``
 
         """
 
@@ -536,8 +535,7 @@ class Redshift(
 
                 .. note::
 
-                    If STATUPDATE is used, the current user must be either the table owner or a
-                    superuser.
+                    If STATUPDATE is used, the current user must be either the table owner or a superuser.
 
             compupdate: boolean
                 Controls whether compression encodings are automatically applied during a COPY. If
@@ -619,9 +617,8 @@ class Redshift(
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.
 
-        `Returns`
-            Parsons Table or ``None``
-                See :ref:`Table` for output options.
+        Returns:
+            :ref:`Table` or ``None``
 
         """
 
@@ -848,17 +845,22 @@ class Redshift(
         Args:
             rs_table: str
                 Redshift table.
-
             bucket: str
                 S3 bucket
-
             key: str
                 S3 key prefix ahead of table name
-
             cascade: bool
                 whether to drop cascade
-
-            `***unload params`:
+            manifest: bool
+            header: bool
+            delimiter: str
+            compression: str
+            add_quotes: bool
+            escape: bool
+            allow_overwrite: bool
+            parallel: bool
+            max_file_size: str
+            aws_region: str
 
         """
         query_end = "cascade" if cascade else ""
@@ -896,7 +898,7 @@ class Redshift(
         """
         Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file
         allows you to copy multiple files into a single table at once. Once the manifest is
-        generated, you can pass it with the :meth:`~Redshift.copy_s3` method.
+        generated, you can pass it with the :meth:`.copy_s3` method.
 
         AWS keys are not required if ``AWS_ACCESS_KEY_ID`` and
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.
@@ -1003,14 +1005,14 @@ class Redshift(
                 is ``False``, this will be ignored.
             from_s3: boolean
                 Instead of specifying a table_obj (set the first argument to None),
-                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                set this to True and include :meth:`.copy_s3` arguments
                 to upsert a pre-existing s3 file into the target_table
             distkey: str
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.Redshift.copy` for options.
+                See :meth:`.copy` for options.
 
         """
 

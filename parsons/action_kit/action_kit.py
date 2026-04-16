@@ -433,7 +433,8 @@ class ActionKit:
     def get_campaign_fields(self):
         """
         Get list of valid campaign fields that can be passed with the
-        :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_campaign`
+        and :meth:`~parsons.action_kit.action_kit.ActionKit.update_campaign` methods.
 
         Returns:
             List of campaign fields
@@ -466,6 +467,12 @@ class ActionKit:
             name=name,
             **kwargs,
         )
+
+    def update_campaign(self):
+        """Update a campaign (NOT IMPLEMENTED)"""
+
+        err_msg = "ActionKit.update_campaign() is not implemented"
+        raise NotImplementedError(err_msg)
 
     def search_events_in_campaign(
         self,
@@ -559,7 +566,7 @@ class ActionKit:
     def get_event_create_page_fields(self):
         """
         Get list of event create page fields that can be passed with the
-        :meth:`ActionKit.create_event_create_page`.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_event_create_page`.
 
         Returns:
             List of event create page fields
@@ -621,7 +628,7 @@ class ActionKit:
     def get_event_create_form_fields(self):
         """
         Get list of valid event create form fields that can be passed with the
-        :meth:`ActionKit.create_event_create_form` method.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_event_create_form` method.
 
         Returns:
             List of event create form fields
@@ -680,7 +687,7 @@ class ActionKit:
     def get_event_signup_page_fields(self):
         """
         Get list of valid event signup page fields that can be passed with the
-        :meth:`ActionKit.create_event_signup_page` method.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_event_signup_page` method.
 
         Returns:
             List of event signup page fields
@@ -742,7 +749,7 @@ class ActionKit:
     def get_event_signup_form_fields(self):
         """
         Get list of valid event signup form fields that can be passed with the
-        :meth:`ActionKit.create_event_signup_form` method.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_event_signup_form` method.
 
         Returns:
             List of event signup form fields
@@ -1198,7 +1205,7 @@ class ActionKit:
     def get_page_followup_fields(self):
         """
         Get list of valid page followup fields that can be passed with the
-        :meth:`ActionKit.create_page_followup` method.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_page_followup` method.
 
         Returns:
             List of page followup fields

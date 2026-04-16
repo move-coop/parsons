@@ -19,7 +19,7 @@ account usage data.
 Quickstart
 ==========
 
-To instantiate the :class:`~twilio.Twilio` class, you can either store your Twilio account SID
+To instantiate the :class:`~parsons.twilio.twilio.Twilio` class, you can either store your Twilio account SID
 and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 ``TWILIO_AUTH_TOKEN``, respectively) or pass them in as arguments.
 

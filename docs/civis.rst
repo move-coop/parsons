@@ -12,13 +12,13 @@ Redshift cluster.
 
 .. admonition:: Authentication
 
-   The :class:`~civisclient.CivisClient` class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
+   The :class:`~parsons.civis.civisclient.CivisClient` class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
    Civis and follow the instructions for `Creating an API Key <https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key>`_.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~civisclient.CivisClient` class, you can either store your database identifier and API Key as
+To instantiate the :class:`~parsons.civis.civisclient.CivisClient` class, you can either store your database identifier and API Key as
 environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python

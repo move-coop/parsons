@@ -16,7 +16,7 @@ class Universes:
                 The number of universes to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
 
@@ -31,7 +31,7 @@ class Universes:
                 The Universe id
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return self._request(f"{self.url_universes}/{id}")

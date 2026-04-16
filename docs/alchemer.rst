@@ -20,7 +20,7 @@ class allows users to retrieve surveys and survey results.
 Quickstart
 ==========
 
-To instantiate the :class:`~alchemer.Alchemer` class, you can either store your API token and API secret
+To instantiate the :class:`~parsons.alchemer.alchemer.Alchemer` class, you can either store your API token and API secret
 token as environmental variables (``SURVEYGIZMO_API_TOKEN`` and ``SURVEYGIZMO_API_TOKEN_SECRET``,
 respectively) or pass in the tokens arguments.
 

@@ -16,7 +16,7 @@ For more information, see `Bill.com developer docs <https://developer.bill.com/h
 
 .. admonition:: Authentication
 
-   To instantiate the :class:`~bill_com.BillCom` class, you must provide the username and password you used to sign
+   To instantiate the :class:`~parsons.bill_com.bill_com.BillCom` class, you must provide the username and password you used to sign
    up for Bill.com, and the Organization ID and Dev Key you received when API access was granted.
 
 Quickstart

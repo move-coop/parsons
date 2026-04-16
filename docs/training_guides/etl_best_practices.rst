@@ -64,17 +64,18 @@ If you were able to get an API key, you can now save it as the environmental var
 
 (Not comfortable with the command line? Check out our `training guide <getting_set_up.html>`_.)
 
-And that's it, you're done! When you instantiate the :class:`~mobilize.Mobilize` connector, it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
+And that's it, you're done! When you instantiate the :class:`~parsons.mobilize_america.ma.MobilizeAmerica` connector,
+it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
 If it finds the key, it can use it to handle all the authentication for you.
 
 .. note::
 
    What do we mean, "when you instantiate the Mobilize connector"?
-   We've created the Mobilize connector class, which has general features anyone can use to work with Mobilize.
+   We've created the MobilizeAmerica connector class, which has general features anyone can use to work with MobilizeAmerica.
    But in order to actually work with that class, you need to create a "instance" of it. That instance will have data specific to you, such as your API key.
 
    "Instantiation" is just a fancy way to say "create an instance of".
-   In Python, you instantiate something by calling it with parentheses, ie: ``mobilize_instance = Mobilize()``.
+   In Python, you instantiate something by calling it with parentheses, ie: ``mobilize_instance = MobilizeAmerica()``.
 
 Google Sheets
 -------------
@@ -222,7 +223,7 @@ Here, we're using the ``datetime`` library mentioned above. The ``strftime`` met
 For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
 Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
 
-Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s :meth:`~Table.convert_column` function
+Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s :meth:`~parsons.etl.table.Table.convert_column` function
 
 .. code-block:: python
 
@@ -248,7 +249,7 @@ the only thing we need to do is pass in the ``json.loads`` method
 
    attendance_records.convert_column('person', json.loads)
 
-Then we can use a special Parsons method, :meth:`~Table.unpack_dict`, to turn the keys of a dictionary into multiple columns!
+Then we can use a special Parsons method, :meth:`~parsons.etl.table.Table.unpack_dict`, to turn the keys of a dictionary into multiple columns!
 
 .. code-block:: python
 
@@ -261,7 +262,7 @@ Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.
 is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons :ref:`Table`.
-Just convert your Parsons table to a PETL table with the :meth:`~Table.table` method
+Just convert your Parsons table to a PETL table with the :meth:`~parsons.etl.table.Table` method
 
 .. code-block:: python
 
@@ -283,7 +284,7 @@ We can then convert the result back into a Parsons :ref:`Table`, if needed
 Selecting Rows
 ^^^^^^^^^^^^^^
 
-One last transformation! Let's use the ``select_rows`` function to separate the event attendances by the month that they happened
+One last transformation! Let's use the :meth:`~parsons.etl.table.Table.select_rows` function to separate the event attendances by the month that they happened
 
 .. code-block:: python
 
@@ -309,7 +310,7 @@ We also need to give our new spreadsheet a name
 
    spreadsheet_name = "Volunteer Attendance Records"
 
-We can use these two variables with the :meth:`~GoogleSheets.create_spreadsheet` command, and save the sheet_id for later use
+We can use these two variables with the :meth:`~parsons.google.google_sheets.GoogleSheets.create_spreadsheet` command, and save the sheet_id for later use
 
 .. code-block:: python
 
@@ -331,9 +332,9 @@ But maybe you don't want to do that. Maybe you want to append all the data. You 
    google_sheets.append_to_sheet(sheet_id, feb_attendances)
    google_sheets.append_to_sheet(sheet_id, mar_attendances)
 
-Note how the first command overwrites the sheet, starting us fresh, but the other two use :meth:`~GoogleSheets.append_to_sheet`.
+Note how the first command overwrites the sheet, starting us fresh, but the other two use :meth:`~parsons.google.google_sheets.GoogleSheets.append_to_sheet`.
 
-You can also format cells using the :meth:`~GoogleSheets.format_cells` method
+You can also format cells using the :meth:`~parsons.google.google_sheets.GoogleSheets.format_cells` method
 
 .. code-block:: python
 
@@ -442,9 +443,9 @@ you can write a custom Python script which extracts data from the source system.
    attendances = mobilize.get_attendances()
    rs.copy(attendances, 'mobilize.attendances', if_exists='drop', alter_table=True)
 
-The ``rs.copy`` used here loads data into the RedShift database you're connected to.
+The :meth:`~parsons.databases.redshift.redshift.Redshift.copy` used here loads data into the RedShift database you're connected to.
 The ``mobilize.attendances`` parameter specifies which table to copy the data to.
-The ``copy`` method can also be used with the BigQuery connector.
+The :meth:`~parsons.google.google_bigquery.GoogleBigQuery.copy` method can also be used with the :ref:`google/bigquery:BigQuery` connector.
 
 Step 2: Transforming Data in Warehouse with SQL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -551,16 +552,15 @@ If that doesn't work, we'll log the errors. We'll do this using what's known as 
    but we might not expect errors in our Python syntax.
    We probably still want our code to break if we make a typo, so that we can find and fix the typo!
 
-   If you know that you're okay with, say, ValueErrors, you can write a try-except like this
+   .. code-block:: python
+      :caption: Catch and handle only ``ValueError``
 
-      .. code-block:: python
+      try:
+         # stuff
+      except ValueError as error:
+         # other stuff
 
-         try:
-            # stuff
-         except ValueError as error:
-            # other stuff
-
-   This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
+   All other errors will be "thrown" instead of "caught", which will halt/crash the script.
 
 Let's take a look inside the try statement. What are we trying to do?
 
@@ -596,10 +596,10 @@ Let's take a look inside the try statement. What are we trying to do?
       # Add the record of our success to the history books
       loglist.append(log_record)
 
-We get the data from each ``mobilize_user`` in our Parsons :ref:`Table` and send that data to Action Network via the ``add_person`` method.
-(There's a little bit of fancy formatting done to send the ``postal_addresses`` info.
+We get the data from each ``mobilize_user`` in our Parsons :ref:`Table` and send that data to Action Network via
+the :meth:`~parsons.action_network.action_network.ActionNetwork.add_person` method.
+(There's a little bit of fancy formatting done to send the ``postal_addresses`` info).
 You can figure out if data needs special formatting by checking out the connector's docs.
-For instance, the docs for ``add_person`` can be found `here <https://move-coop.github.io/parsons/html/stable/action_network.html#parsons.ActionNetwork.add_person>`_.)
 
 Action Network sends back information about the user. We do another bit offancy formatting work to extract the action network ID.
 
@@ -640,7 +640,7 @@ Finally, once we've looped through all our Mobilize users, we're ready to save o
    my_rs_warehouse.copy(tbl=logtable, table_name='mobilize_schema.mobilize_to_actionnetwork_log', if_exists='append', alter_table=True)
 
 Note that our log records can be turned into a Parsons :ref:`Table` just like any other kind of data!
-And note that we're again using :meth:`~Table.copy` to copy data into our database.
+And note that we're again using :meth:`~parsons.databases.redshift.redshift.Redshift.copy` to copy data into our database.
 
 And that's it!
 

@@ -180,20 +180,20 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
 
     Encoding examples:
 
-    ... code-block:: bash
-        :caption: Encoding a json string. Note: this assumes the output of json.dumps(str).
+    .. code-block:: bash
+       :caption: Encoding a json string. Note: this assumes the output of json.dumps(str).
 
-        python env_tools.py -e '{"key": "val", "key2": "val2"}'
+       python env_tools.py -e '{"key": "val", "key2": "val2"}'
 
-    ... code-block:: bash
-        :caption: Encoding a json file.
+    .. code-block:: bash
+       :caption: Encoding a json file.
 
-        python env_tools.py -e -f /path/to/credentials.json
+       python env_tools.py -e -f /path/to/credentials.json
 
-    ... code-block:: bash
-        :caption: Encoding a list currenct environment variables.
+    .. code-block:: bash
+       :caption: Encoding a list currenct environment variables.
 
-        python env_tools.py -e env_var1,env_var2,env_ var3
+       python env_tools.py -e env_var1,env_var2,env_ var3
 
     """
     if fn == "encode":

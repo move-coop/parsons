@@ -71,8 +71,7 @@ class Sqlite(DatabaseConnector):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
         with self.connection() as connection:
@@ -103,8 +102,7 @@ class Sqlite(DatabaseConnector):
                 commit manually with ``connection.commit()``).
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
         # sqlite3 cursor cannot take None for parameters

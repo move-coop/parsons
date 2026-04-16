@@ -23,7 +23,7 @@ class Flags:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         try:

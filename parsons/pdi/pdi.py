@@ -46,7 +46,7 @@ class PDI(
                 The api_token for a PDI account. Can be passed as arguement or
                 can be set as ``PDI_API_TOKEN`` environment variable.
             qa_url: bool
-                Defaults to False. If True, requests will be made to a sandbox
+                Defaults to ``False``. If ``True``, requests will be made to a sandbox
                 account. This requires separate qa credentials and api
                 token.
 

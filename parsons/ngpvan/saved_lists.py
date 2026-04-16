@@ -24,9 +24,9 @@ class SavedLists:
             folder_id: int
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
+
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -105,7 +105,7 @@ class SavedLists:
                 The saved list name.
             description: str
                 Description of the file upload job and the list.
-            callback_url: string
+            callback_url: str
                 The configured HTTP listener to which successful list loads will send
                 a standard webhook.
             columns: list
@@ -198,8 +198,8 @@ class SavedLists:
         **url_kwargs,
     ):
         """
-            .. warning::
-               .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
+        .. warning::
+            .. deprecated:: 0.X Use :meth:`~parsons.ngpvan.saved_lists.SavedLists.upload_saved_list_rest` instead.
 
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
@@ -340,12 +340,12 @@ class ExportJobs:
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
 
-    def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.nothing.com"):
+    def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.example.com"):
         """
         Creates an export job
 
         Currently, this is only used for exporting saved lists. It is
-        recommended that you use the :meth:`saved_list_download` method
+        recommended that you use the :meth:`parsons.ngpvan.saved_lists.SavedLists.download_saved_list` method
         instead.
 
         Args:
@@ -355,6 +355,7 @@ class ExportJobs:
                 The export type id, which defines the columns to export
             webhookUrl:
                 A webhook to include to notify as to the status of the export
+
         Returns:
             dict
                 The export job object

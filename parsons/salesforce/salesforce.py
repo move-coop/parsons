@@ -38,9 +38,6 @@ class Salesforce:
         authentication_method: str
             the method to use for authentication. defaults to "password". Not required if ``SALESFORCE_AUTHENTICATION_METHOD`` env variable is passed.
 
-    Returns:
-        Salesforce class
-
     """
 
     def __init__(
@@ -89,7 +86,8 @@ class Salesforce:
                 The API name of the type of record to describe. Note that custom object names end
                 in `__c`
         Returns:
-            Ordered Dict of all the object's meta data in Salesforce
+            OrderedDict
+                All the object's metadata in Salesforce
 
         """
 
@@ -116,7 +114,8 @@ class Salesforce:
                 For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
 
         Returns:
-            list of dicts with Salesforce data
+            list[dict]
+                Salesforce data
 
         """
 
@@ -139,11 +138,11 @@ class Salesforce:
                 names end in `__c`.
 
         Returns:
-            list of dicts that have the following data:
-            * success: boolean
-            * created: boolean (if new record is created)
-            * id: str (id of record created, if successful)
-            * errors: list of dicts (with error details)
+            list[dict[str, bool | str | list[dict]]]
+                * success: boolean
+                * created: boolean (if new record is created)
+                * id: str (id of record created, if successful)
+                * errors: list of dicts (with error details)
 
         """
 
@@ -168,7 +167,7 @@ class Salesforce:
                 not match. Note that custom field names end in `__c`.
 
         Returns:
-                list of dicts that have the following data:
+            list[dict[str, bool | str | list[dict]]]
                 * success: boolean
                 * created: boolean (if new record is created)
                 * id: str (id of record altered, if successful)
@@ -200,7 +199,7 @@ class Salesforce:
                 records are new/inserted.
 
         Returns:
-                list of dicts that have the following data:
+            list[dict[str, bool | str | list[dict]]]
                 * success: boolean
                 * created: boolean (if new record is created)
                 * id: str (id of record created or altered, if successful)
@@ -230,7 +229,7 @@ class Salesforce:
                 If true, will permanently delete record instead of moving it to trash
 
         Returns:
-            list[dict]
+            list[dict[str, bool | str | list[dict]]]
                 Each list has the following data:
                 * success: boolean
                 * created: boolean (if new record is created)

@@ -15,7 +15,7 @@ This Parsons integration with the `Shopify REST API <https://shopify.dev/api/adm
 Quickstart
 ==========
 
-To instantiate the :class:`~shopify.Shopify` class, you can either store your Shopify API subdomain, password, key, and version as environmental variables
+To instantiate the :class:`~parsons.shopify.shopify.Shopify` class, you can either store your Shopify API subdomain, password, key, and version as environmental variables
 (``SHOPIFY_SUBDOMAIN``, ``SHOPIFY_PASSWORD``, ``SHOPIFY_API_KEY``, and ``SHOPIFY_API_VERSION``, respectively)
 or pass in your subdomain, password, key, and version as arguments.
 

@@ -223,13 +223,13 @@ class Braintree:
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The start_date/end_date arguments are the same as
-                        {"effective_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The start_date/end_date arguments are the same as
+                    {"effective_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
         Returns:
             Table Class
@@ -286,13 +286,13 @@ class Braintree:
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The start_date/end_date arguments are the same as
-                        {"created_at": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The start_date/end_date arguments are the same as
+                    {"created_at": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
             include_transactions: bool
                 If this is true, include the full collection of transaction objects.
@@ -371,13 +371,13 @@ class Braintree:
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The disbursement_start_date/disbursement_end_date arguments are the same as
-                        {"disbursement_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The disbursement_start_date/disbursement_end_date arguments are the same as
+                    {"disbursement_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
             just_ids: bool
                 While querying a list of transaction ids is a single, fast query to Braintree's API,

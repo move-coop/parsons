@@ -93,7 +93,7 @@ class Shopify:
                 True if only getting completed orders, False otherwise.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         orders = []
@@ -244,7 +244,7 @@ class Shopify:
                 value as value
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return cls(subdomain, password, api_key, api_version).get_orders(

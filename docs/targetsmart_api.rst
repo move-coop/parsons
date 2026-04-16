@@ -7,7 +7,7 @@ TargetSmart Developer API
 Overview
 ========
 
-The :class:`~targetsmart_api.TargetSmartAPI` class provides methods to consume the data services provided by the
+The :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI` class provides methods to consume the data services provided by the
 `TargetSmart Developer API <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_.
 Parsons provides the following methods as convenient wrappers for interacting with the corresponding TargetSmart HTTP services:
 
@@ -24,7 +24,7 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
 .. admonition:: Authentication
 
    Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials.
-   You will need an API key to use the :class:`~targetsmart_api.TargetSmartAPI` class.
+   You will need an API key to use the :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI` class.
 
 .. admonition:: Endpoint Access
 
@@ -43,7 +43,7 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
 Quickstart
 ==========
 
-To instantiate :class:`~targetsmart_api.TargetSmartAPI`, you can either store your API Key as the environmental variable
+To instantiate :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI`, you can either store your API Key as the environmental variable
 ``TS_API_KEY``, or pass it in as an argument:
 
 .. code-block:: python

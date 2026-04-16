@@ -44,8 +44,7 @@ class Events:
                 ``onlineForms``.
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -96,8 +95,7 @@ class Events:
                 ``ticketCategories``, ``voterRegistrationBatches``.
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -277,8 +275,7 @@ class Events:
         Get event types.
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 

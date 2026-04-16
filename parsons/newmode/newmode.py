@@ -234,7 +234,7 @@ class NewmodeV1:
         Get all targets
 
         Args:
-            params dict:
+            params: dict
                 Extra paramaters sent to New/Mode library
 
         Returns:

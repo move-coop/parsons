@@ -1895,18 +1895,18 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               Unique ID of the petition
+                Unique ID of the petition
             data:
-               Payload for creating the signature
+                Payload for creating the signature
 
                 .. code-block:: python
 
-                   {
-                       "comments" : "Stop doing the thing",
-                       "_links" : {
-                           "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
-                       }
-                   }
+                    {
+                        "comments" : "Stop doing the thing",
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                        }
+                    }
 
         Returns:
             A JSON with the created signature entry

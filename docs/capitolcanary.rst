@@ -15,7 +15,7 @@ allows you to interact with the tool by leveraging their `API <http://docs.phone
 Quickstart
 ==========
 
-To instantiate the :class:`~capitol_canary.CapitolCanary` class, you can either pass in the app ID and app key as arguments or set the
+To instantiate the :class:`~parsons.capitol_canary.capitol_canary.CapitolCanary` class, you can either pass in the app ID and app key as arguments or set the
 ``CAPITOLCANARY_APP_ID`` and ``CAPITOLCANARY_APP_KEY`` environmental variables.
 
 .. code-block:: python

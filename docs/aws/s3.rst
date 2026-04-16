@@ -5,7 +5,7 @@ S3
 Overview
 ========
 
-The :class:`~s3.S3` class allows interaction with Amazon Web Service's `object storage service <https://aws.amazon.com/s3/>`_
+The :class:`~parsons.aws.s3.S3` class allows interaction with Amazon Web Service's `object storage service <https://aws.amazon.com/s3/>`_
 to store and access data objects. It is a wrapper around the AWS SDK `boto3 <https://boto3.amazonaws.com/v1/documentation/api/latest/index.html>`_.
 It provides methods to upload and download files from S3 as well as manipulate buckets.
 
@@ -68,7 +68,7 @@ Temporary Credentials
 The S3 API supports creating temporary credentials for one-off operations, such as pushing a file to a particular key in a particular bucket.
 For example, the Mapbox API allows you to request temporary credentials that grant you access to a bucket where you can upload map data.
 When S3 returns a set of temporary credentials it also returns a session token that needs to be included with the standard credentials for
-them to be accepted. The :class:`~s3.S3` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
+them to be accepted. The :class:`~parsons.aws.s3.S3` class can be passed a session token as an environmental variable (``AWS_SESSION_TOKEN``) or as a keyword argument.
 
 .. code-block:: python
    :caption: Pass session token via AWS_SESSION_TOKEN environmental variable

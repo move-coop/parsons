@@ -5,10 +5,10 @@ FacebookAds
 Overview
 ********
 
-The :class:`~facebook_ads.FacebookAds` class allows you to interact with parts of the Facebook Business API.
+The :class:`~parsons.facebook_ads.facebook_ads.FacebookAds` class allows you to interact with parts of the Facebook Business API.
 Currently the connector provides methods for creating and deleting custom audiences, and for adding users to audiences.
 
-The :class:`~facebook_ads.FacebookAds` connector is a thin wrapper around the `FB Business SDK <https://github.com/facebook/facebook-python-business-sdk>`_,
+The :class:`~parsons.facebook_ads.facebook_ads.FacebookAds` connector is a thin wrapper around the `FB Business SDK <https://github.com/facebook/facebook-python-business-sdk>`_,
 so some of that SDK is exposed, e.g., you may see exceptions like ``FacebookRequestError``.
 
 Facebook's advertising and Pages systems are massive. Check out the overviews for more information:
@@ -19,7 +19,7 @@ Facebook's advertising and Pages systems are massive. Check out the overviews fo
 
 .. admonition:: Authentication
 
-   Before using :class:`~facebook_ads.FacebookAds`, you'll need the following:
+   Before using :class:`~parsons.facebook_ads.facebook_ads.FacebookAds`, you'll need the following:
    * A FB application, specifically the app ID and secret. See `<https://developers.facebook.com>`_ to find your app details or create a new app. Note that a Facebook app isn't necessarily visible to anyone but you: it's just needed to interact with the Facebook API.
    * A FB ad account. See `<https://business.facebook.com>`_ to find your ad accounts or create a new one.
    * A FB access token representing a user that has access to the relevant ad account. You can generate an access token from your app, either via the Facebook API itself, or via console at `<https://developers.facebook.com>`_.

@@ -491,7 +491,7 @@ class ToFrom:
                 Raise an Error if encountered
             write_header: boolean
                 Include header in output
-            rsa_private_key_file str
+            rsa_private_key_file: str
                 Absolute path to a private RSA key used
                 to authenticate stfp connection
             `**csvargs`: kwargs
@@ -704,7 +704,7 @@ class ToFrom:
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.Redshift.copy`` for options.
+                See :func:`~parsons.databases.redshift.redshift.Redshift.copy`` for options.
 
         """
 
@@ -740,7 +740,7 @@ class ToFrom:
             port: int
                 Required if env variable ``PGPORT`` not populated.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.Postgres.copy`` for options.
+                See :func:`~parsons.databases.postgres.Postgres.copy`` for options.
 
         """
 
@@ -769,8 +769,8 @@ class ToFrom:
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
             `**kwargs`: kwargs
-                Additional keyword arguments passed into the `.copy()` function (`if_exists`,
-                `max_errors`, etc.)
+                Additional keyword arguments passed into
+                :meth:`~parsons.google.google_bigquery.GoogleBigQuery.copy` (`if_exists`, `max_errors`, etc.)
 
         """
 
@@ -780,6 +780,7 @@ class ToFrom:
         bq.copy(self, table_name=table_name, **kwargs)
 
     def to_petl(self):
+        """Access as PETL table."""
         return self.table
 
     def to_civis(
@@ -1040,7 +1041,7 @@ class ToFrom:
             key: str
                 The S3 key
             from_manifest: bool
-                If True, treats `key` as a manifest file and loads all urls into a `parsons.Table`.
+                If True, treats `key` as a manifest file and loads all urls into a :ref:`Table`.
                 Defaults to False.
             aws_access_key_id: str
                 Required if not included as environmental variable.
@@ -1049,7 +1050,7 @@ class ToFrom:
             `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
-            `parsons.Table` object
+            :ref:`Table`
 
         """
 

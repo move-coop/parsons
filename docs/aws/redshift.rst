@@ -5,19 +5,21 @@ Redshift
 Overview
 ========
 
-The :class:`~redshift.Redshift` class allows you to interact with an `Amazon Redshift <https://aws.amazon.com/redshift/>`_ relational database.
-The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`_ Python package under the hood. The core methods
-focus on input, output and querying of the database.
+The :class:`~parsons.databases.redshift.redshift.Redshift` class allows you to interact with an
+`Amazon Redshift <https://aws.amazon.com/redshift/>`_ relational database.
+The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`_ Python package under the hood.
+The core methods focus on input, output and querying of the database.
 
-In addition to the core API integration provided by the :class:`~redshift.Redshift` class, Parsons also includes utility functions for
-managing schemas and tables. See :ref:`aws/redshift:Table and View API` and :ref:`aws/redshift:Schema API` for more information.
+In addition to the core API integration provided by the :class:`~parsons.databases.redshift.redshift.Redshift` class,
+Parsons also includes utility functions for managing schemas and tables.
+See :ref:`aws/redshift:Table and View API` and :ref:`aws/redshift:Schema API` for more information.
 
 .. admonition:: S3 Credentials
 
-   Redshift only allows data to be copied to the database via S3. As such, the the :meth:`~S3.copy` and :meth:`~S3.copy_s3`
-   methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
-   Redshift. See the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_
-   for more information about AWS Redshift authorization.
+   Redshift only allows data to be copied to the database via S3. As such, the the :meth:`~parsons.databases.redshift.redshift.Redshift.copy`
+   and :meth:`~parsons.databases.redshift.redshift.Redshift.copy_s3` methods require S3 credentials and write access on an S3 Bucket,
+   which will be used for storing data en route to Redshift. For more information about AWS Redshift authorization,
+   see the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_.
 
 .. admonition:: Whitelisting
 
@@ -62,13 +64,13 @@ or keyword arguments.
 
    table = rs.copy(tbl, 'tmc_scratch.test_table', if_exists='drop')
 
-All of the standard COPY options can be passed as kwargs. See the :meth:`~Redshift.copy` method for all
+All of the standard COPY options can be passed as kwargs. See the :meth:`~parsons.databases.redshift.redshift.Redshift.copy` method for all
 options.
 
 Core API
 --------
 
-.. autoclass:: parsons.databases.redshift.Redshift
+.. autoclass:: parsons.databases.redshift.redshift.Redshift
    :inherited-members:
    :members:
 
@@ -78,7 +80,7 @@ Table and View API
 Table and view utilities are a series of helper methods, all built off of commonly
 used SQL queries run against the Redshift database.
 
-.. autoclass:: parsons.databases.redshift.rs_table_utilities::RedshiftTableUtilities
+.. autoclass:: parsons.databases.redshift.rs_table_utilities.RedshiftTableUtilities
    :inherited-members:
    :members:
 

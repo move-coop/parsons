@@ -18,7 +18,7 @@ organizations, services, and outreaches. There are also methods for looking up t
 Quickstart
 ==========
 
-To instantiate the :class:`~newmode.Newmode` class, you can either store your New/Mode username
+To instantiate the :class:`~parsons.newmode.newmode.Newmode` class, you can either store your New/Mode username
 and password as environmental variables (``NEWMODE_API_USER`` and ``NEWMODE_API_PASSWORD``,
 respectively) or pass in your username and password as arguments.
 

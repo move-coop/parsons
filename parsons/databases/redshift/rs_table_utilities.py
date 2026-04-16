@@ -87,7 +87,7 @@ class RedshiftTableUtilities:
         .. note::
 
             You cannot move schemas when renaming a table. Instead, utilize
-            the :meth:`~RedshiftTableUtilities.table_duplicate` method.
+            the :meth:`~parsons.databases.redshift.rs_table_utilities.RedshiftTableUtilities.table_duplicate` method.
 
         Args:
             table_name: str

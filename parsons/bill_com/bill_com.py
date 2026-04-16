@@ -155,7 +155,7 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 User information for every user from start_user to max_user
 
         """
@@ -174,7 +174,7 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Customer information for every user from start_customer to max_customer
 
         """

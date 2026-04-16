@@ -13,14 +13,14 @@ questions, universes, and flags given start and end dates.
 
 .. admonition:: Authentication
 
-   A user name, password, and API token are required to instantiate the :class:`~pdi.PDI` class.
+   A user name, password, and API token are required to instantiate the :class:`~parsons.pdi.pdi.PDI` class.
    To obtain log in credentials, request a PDI API account from ``support@politicaldata.com``.
    The administrative process usually takes a couple of hours.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~pdi.PDI` class, you can either store your PDI API username, password,
+To instantiate the :class:`~parsons.pdi.pdi.PDI` class, you can either store your PDI API username, password,
 and API token as environmental variables (``PDI_USERNAME``, ``PDI_PASSWORD``, and
 ``PDI_API_TOKEN``, respectively) or pass them in as arguments.
 

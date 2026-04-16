@@ -169,8 +169,7 @@ class CapitolCanary:
                 sync errors.
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 

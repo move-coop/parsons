@@ -97,8 +97,7 @@ class Airtable:
                 Number of rows to sample before determining columns
 
         Returns:
-            parsons.Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 

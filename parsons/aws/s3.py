@@ -62,9 +62,6 @@ class S3:
             to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
 
-    Returns:
-        S3 class.
-
     """
 
     def __init__(
@@ -354,8 +351,8 @@ class S3:
             expires_in: int
                 The time, in seconds, until the url expires
         Returns:
-            Url:
-                A link to download the object
+            str:
+                A url to download the object
 
         """
 

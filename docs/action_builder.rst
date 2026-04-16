@@ -24,7 +24,7 @@ create custom record types. For more information, see
 Quickstart
 ==========
 
-To instantiate the :class:`~action_builder.ActionBuilder` class, you can either pass in the API token as an argument or set the
+To instantiate the :class:`~parsons.action_builder.action_builder.ActionBuilder` class, you can either pass in the API token as an argument or set the
 ``ACTION_BUILDER_API_TOKEN`` environmental variable. The subdomain at which you access the UI must
 also be provided. If all calls from this object will be to the same Campaign in Action Builder,
 an optional campaign argument may also be supplied. If not supplied when instantiating, campaign

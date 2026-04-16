@@ -61,7 +61,7 @@ class ParsonsGitHubError(Exception):
 class GitHub:
     """Creates a GitHub class for accessing the GitHub API.
 
-    Uses ``parsons.utilities.check_env`` to load credentials from environment variables if not
+    Uses :mod:`parsons.utilities.check_env` to load credentials from environment variables if not
     supplied. Supports either a username and password or an access token for authentication. The
     client also supports unauthenticated access.
 

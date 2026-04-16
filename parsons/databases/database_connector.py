@@ -13,62 +13,65 @@ class DatabaseConnector(ABC):
     It ensures that any class that inherits from it implements the methods that are uniform
     operations when working with databases.
 
-    Should you use `DatabaseConnector` instead of :class:`~redshift.Redshift`/:class:`~google_bigquery.GoogleBigQuery`/etc?
+    Should you use :class:`.DatabaseConnector` instead of :class:`~parsons.databases.redshift.redshift.Redshift`/:class:`~google_bigquery.GoogleBigQuery`/etc?
 
     Overall this class is mostly useful for code in the Parsons library, not code using it.
     There could be some exceptions. In general though, if you are writing a script to do a task
     like moving data out of an API service and into a data warehouse, you probably do not need
-    to use DatabaseConnector. You can probably just use the Parsons class that directly corresponds
+    to use :class:`.DatabaseConnector`. You can probably just use the Parsons class that directly corresponds
     with the database that you use.
 
-    Here are more examples of situations where you may or may not need to use DatabaseConnector:
+    Here are more examples of situations where you may or may not need to use :class:`.DatabaseConnector`:
 
-        1. You do not use type annotations, or you don't know what "type annotations" are - No
+    1. You do not use type annotations, or you don't know what "type annotations" are - No
 
-            If you do not use type annotations for your code, then you do not need to think about
-            `DatabaseConnector` when writing your code. This is the most common case. If none
-            of the cases below apply to you, then you probably don't need it.
+        If you do not use type annotations for your code, then you do not need to think about
+        :class:`.DatabaseConnector` when writing your code. This is the most common case. If none
+        of the cases below apply to you, then you probably don't need it.
 
-            In this simple example, we are not using type annotations in our code. We don't need
-            to think about exactly what class is being passed in. Python will figure it out.
+        In this simple example, we are not using type annotations in our code. We don't need
+        to think about exactly what class is being passed in. Python will figure it out.
 
-            .. code-block:: python
+        .. code-block:: python
 
-                def my_database_function(db):
-                    some_data = get_some_data()
-                    db.copy("some_table", some_data)
+            def my_database_function(db):
+                some_data = get_some_data()
+                db.copy("some_table", some_data)
 
-                # These will all just work:
-                my_database_function(Redshift())
-                my_database_function(MySQL())
-                my_database_functon(BigQuery())
+            # These will all just work:
+            my_database_function(Redshift())
+            my_database_function(MySQL())
+            my_database_functon(BigQuery())
 
-        2. You only use one database in your work - No
+    2. You only use one database in your work - No
 
-            This is where most people will fall. Usually code is not intended to run on
-            multiple databases without modification. For example, if you are working for
-            an organization that uses Amazon Redshift as your data warehouse, you do not
-            need to use `DatabaseConnector` to write ETL scripts to load data into your
-            Redshift. It is rare that organizations switch databases. In the cases where
-            that does occur, usually more work is required to migrate your environment and
-            your vendor-specific SQL than would be saved by using `DatabaseConnector`.
+        This is where most people will fall. Usually code is not intended to run on
+        multiple databases without modification. For example, if you are working for
+        an organization that uses Amazon Redshift as your data warehouse, you do not
+        need to use :class:`.DatabaseConnector` to write ETL scripts to load data into your
+        Redshift. It is rare that organizations switch databases. In the cases where
+        that does occur, usually more work is required to migrate your environment and
+        your vendor-specific SQL than would be saved by using :class:`.DatabaseConnector`.
 
-        3. You are writing a sample script or a tutorial - Yes
+    3. You are writing a sample script or a tutorial - Yes
 
-            If you are using Parsons to write a sample script or tutorial, you should use
-            `DatabaseConnector`! If you use `DatabaseConnector` type annotations and the
-            `discover_database` function, then your sample code will run on any system.
-            This makes it much easier for new programmers to get your code working on
-            their system.
+        If you are using Parsons to write a sample script or tutorial, you should use
+        :class:`.DatabaseConnector`!
+        If you use :class:`.DatabaseConnector` type annotations and the
+        `discover_database` function, then your sample code will run on any system.
+        This makes it much easier for new programmers to get your code working on
+        their system.
 
-        4. Utility code inside Parsons or other libraries - Yes
+    4. Utility code inside Parsons or other libraries - Yes
 
-            If you are writing a utility script inside Parsons or another library meant
-            for broad distribution, you should probably use `DatabaseConnector` type
-            annotations. This will ensure that your library code will be usable by the
-            widest possible set of users, not just users on one specific database.
+        If you are writing a utility script inside Parsons or another library meant
+        for broad distribution, you should probably us
+        :class:`.DatabaseConnector` type
+        annotations. This will ensure that your library code will be usable by the
+        widest possible set of users, not just users on one specific database.
 
     Developer Notes:
+
         This class is an Abstract Base Class (ABC). It's designed to ensure that all classes
         inheriting from it implement certain methods, enforcing a consistent interface across
         database connectors.
@@ -109,7 +112,7 @@ class DatabaseConnector(ABC):
         parameters to methods specified in the interface should be considered bad practice, because
         it could result in unexpected behavior.
 
-    Example usage:
+    Example:
 
     .. code-block:: python
 
@@ -158,13 +161,11 @@ class DatabaseConnector(ABC):
     def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         """Execute a query against the database. Will return ``None`` if the query returns empty.
 
-        To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style
-          <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`.
-        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
-        injection attacks.
+        To include python variables in your query, it is recommended to pass them as parameters, following the
+        `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`.
+        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
-        **Parameter Examples**
+        Examples:
 
         .. code-block:: python
 

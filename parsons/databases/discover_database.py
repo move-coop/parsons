@@ -10,7 +10,8 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 def discover_database(
     default_connector: type[DatabaseConnector] | list[type[DatabaseConnector]] | None = None,
 ) -> DatabaseConnector:
-    """Create an appropriate ``DatabaseConnector`` based on environmental variables.
+    """
+    Create an appropriate :class:`.DatabaseConnector` based on environmental variables.
 
     Will search the environmental variables for the proper credentials for the
     Redshift, MySQL, Postgres, and BigQuery connectors. See the documentation

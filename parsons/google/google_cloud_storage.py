@@ -399,8 +399,8 @@ class GoogleCloudStorage:
             expires_in: int
                 Minutes until the url expires
         Returns:
-            url:
-                A link to download the object
+            str:
+                URL of a link to download the object
 
         """
 

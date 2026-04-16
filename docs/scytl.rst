@@ -27,7 +27,7 @@ To skip this feature, set force_update to true on any of the fetch methods.
 Quickstart
 ==========
 
-To get started, initialize a :class:`~scytl.Scytl` class with the two-letter state code, the election id, and the county name (optional).
+To get started, initialize a :class:`~parsons.scytl.scytl.Scytl` class with the two-letter state code, the election id, and the county name (optional).
 
 To get these details, go to the website for the given election, and look in the url.
 For example, if the url is "https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/", then the state is "TX",

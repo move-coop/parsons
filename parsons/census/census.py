@@ -42,7 +42,7 @@ class Census:
                 e.g. ``'us:*'``
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         # set up the URL

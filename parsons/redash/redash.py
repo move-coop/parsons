@@ -27,7 +27,7 @@ class Redash:
             The base url for your redash instance (excluding the final /)
         user_api_key: str
             The user API key found in the User's profile screen
-        pause_time int
+        pause_time: int
             Specify time between polling for refreshed queries (Defaults to 3 seconds)
         verify: bool
             For https requests, should the certificate be verified (Defaults to True)
@@ -240,7 +240,7 @@ class Redash:
             query_api_key: str
                 If you did not supply a user_api_key on the Redash object, then you can
                 supply a query_api_key to get cached results back anonymously.
-            pause_time int
+            pause_time: int
                 Specify time between polling for refreshed queries (Defaults to 3 seconds)
             verify: bool
                 For https requests, should the certificate be verified (Defaults to True)

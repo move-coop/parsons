@@ -64,7 +64,7 @@ If you were able to get an API key, you can now save it as the environmental var
 
 (Not comfortable with the command line? Check out our `training guide <getting_set_up.html>`_.)
 
-And that's it, you're done! When you instantiate the Mobilize connector, it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
+And that's it, you're done! When you instantiate the :class:`~mobilize.Mobilize` connector, it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
 If it finds the key, it can use it to handle all the authentication for you.
 
 .. note::
@@ -222,7 +222,7 @@ Here, we're using the ``datetime`` library mentioned above. The ``strftime`` met
 For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
 Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
 
-Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s ``convert_column`` function
+Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s :meth:`~Table.convert_column` function
 
 .. code-block:: python
 
@@ -248,7 +248,7 @@ the only thing we need to do is pass in the ``json.loads`` method
 
    attendance_records.convert_column('person', json.loads)
 
-Then we can use a special Parsons method, ``unpack_dict``, to turn the keys of a dictionary into multiple columns!
+Then we can use a special Parsons method, :meth:`~Table.unpack_dict`, to turn the keys of a dictionary into multiple columns!
 
 .. code-block:: python
 
@@ -261,7 +261,7 @@ Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.
 is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons :ref:`Table`.
-Just convert your Parsons table to a PETL table with the ``.table`` method
+Just convert your Parsons table to a PETL table with the :meth:`~Table.table` method
 
 .. code-block:: python
 
@@ -309,7 +309,7 @@ We also need to give our new spreadsheet a name
 
    spreadsheet_name = "Volunteer Attendance Records"
 
-We can use these two variables with the ``create_spreadsheet`` command, and save the sheet_id for later use
+We can use these two variables with the :meth:`~GoogleSheets.create_spreadsheet` command, and save the sheet_id for later use
 
 .. code-block:: python
 
@@ -331,9 +331,9 @@ But maybe you don't want to do that. Maybe you want to append all the data. You 
    google_sheets.append_to_sheet(sheet_id, feb_attendances)
    google_sheets.append_to_sheet(sheet_id, mar_attendances)
 
-Note how the first command overwrites the sheet, starting us fresh, but the other two use ``append_to_sheet``.
+Note how the first command overwrites the sheet, starting us fresh, but the other two use :meth:`~GoogleSheets.append_to_sheet`.
 
-You can also format cells using the ``format_cells`` method
+You can also format cells using the :meth:`~GoogleSheets.format_cells` method
 
 .. code-block:: python
 
@@ -640,7 +640,7 @@ Finally, once we've looped through all our Mobilize users, we're ready to save o
    my_rs_warehouse.copy(tbl=logtable, table_name='mobilize_schema.mobilize_to_actionnetwork_log', if_exists='append', alter_table=True)
 
 Note that our log records can be turned into a Parsons :ref:`Table` just like any other kind of data!
-And note that we're again using ``copy`` to copy data into our database.
+And note that we're again using :meth:`~Table.copy` to copy data into our database.
 
 And that's it!
 

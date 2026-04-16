@@ -57,7 +57,7 @@ class ChangedEntities:
 
         Args:
             resource_type: str
-                The type of resource to export. Use the :py:meth:`~parsons.ngpvan.changed_entities.ChangedEntities.get_changed_entity_resources`
+                The type of resource to export. Use the :meth:`~parsons.ngpvan.changed_entities.ChangedEntities.get_changed_entity_resources`
                 to get a list of potential entities.
             date_from: str
                 The start date in which to search. Must be less than 90 days in the
@@ -69,7 +69,7 @@ class ChangedEntities:
                 Include inactive records
             requested_fields: list
                 A list of optional requested fields to include. These options can be accessed through
-                :py:meth:`~parsons.ngpvan.changed_entities.ChangedEntities.get_changed_entity_resource_fields`
+                :meth:`~parsons.ngpvan.changed_entities.ChangedEntities.get_changed_entity_resource_fields`
                 method.
             custom_fields: list
                 A list of ids of custom fields to include in the export.

@@ -11,14 +11,14 @@ This class provides several methods for fetching organizations, people, and even
 
 .. admonition:: Authentication
 
-   Some methods in the ``MobilizeAmerica`` class require an API Key furnished by Mobilize America (private methods),
+   Some methods in the :class:`~mobilize_america.MobilizeAmerica` class require an API Key furnished by Mobilize America (private methods),
    while others do not (public methods). Each method in this class contains a note indicating whether it is public
    or private. For more information, see the `API documentation <https://github.com/mobilizeamerica/api#authentication>`_.
 
 Quickstart
 ==========
 
-If you instantiate ``MobilizeAmerica`` without an API Key, you can only use public methods:
+If you instantiate :class:`~mobilize_america.MobilizeAmerica` without an API Key, you can only use public methods:
 
 .. code-block:: python
    :caption: Instantiate class without an API key

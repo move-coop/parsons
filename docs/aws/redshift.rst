@@ -14,7 +14,7 @@ managing schemas and tables. See :ref:`aws/redshift:Table and View API` and :ref
 
 .. admonition:: S3 Credentials
 
-   Redshift only allows data to be copied to the database via S3. As such, the the :meth:`copy` and :meth:`copy_s3`
+   Redshift only allows data to be copied to the database via S3. As such, the the :meth:`~S3.copy` and :meth:`~S3.copy_s3`
    methods require S3 credentials and write access on an S3 Bucket, which will be used for storing data en route to
    Redshift. See the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_
    for more information about AWS Redshift authorization.

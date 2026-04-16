@@ -14,13 +14,13 @@ This connector allows you to load data from the Formstack API.
    Formstack user and follow Formstack (in-app) user permissions."* You can acquire an OAuth2 token
    in the `Formstack API overview <https://developers.formstack.com/reference/api-overview>`_.
 
-   You can pass the token to the ``Formstack`` object as the `api_token` keyword argument, or you
+   You can pass the token to the :class:`~formstack.Formstack` object as the `api_token` keyword argument, or you
    can set the environment variable ``FORMSTACK_API_TOKEN``.
 
 Quickstart
 ==========
 
-To instantiate the ``Formstack`` class, you can either store your access token in the ``FORMSTACK_API_TOKEN``
+To instantiate the :class:`~formstack.Formstack` class, you can either store your access token in the ``FORMSTACK_API_TOKEN``
 environment variable or pass it in as an argument.
 
 .. code-block:: python

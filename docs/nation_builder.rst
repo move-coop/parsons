@@ -14,7 +14,7 @@ The NationBuilder class allows you to interact with the NationBuilder API. Users
 Quickstart
 ==========
 
-To instantiate the NationBuilder class, you can either store your ``NB_SLUG`` and ``NB_ACCESS_TOKEN`` keys as environment
+To instantiate the :class:`~nation_builder.NationBuilder` class, you can either store your ``NB_SLUG`` and ``NB_ACCESS_TOKEN`` keys as environment
 variables or pass them in as arguments.
 
 .. code-block:: python
@@ -35,7 +35,7 @@ variables or pass them in as arguments.
    from parsons import NationBuilder
    nb = NationBuilder(slug='my-nation-slug', access_token='MY_ACCESS_TOKEN')
 
-You can then make a request to get all people and save its data to a Parsons table using the method, ``get_people()``:
+You can then make a request to get all people and save its data to a Parsons table using the method, :meth:`~NationBuilder.get_people`:
 
 .. code-block:: python
    :caption: Create Parsons table with people data from API

@@ -33,7 +33,7 @@ variables or pass them in as arguments:
    # Second approach: Pass API keys as arguments
    actblue = ActBlue(actblue_client_uuid='MY_UUID', actblue_client_secret='MY_SECRET')
 
-You can then make a request to generate a CSV and save its data to a Parsons table using the main helper method, ``get_contributions()``:
+You can then make a request to generate a CSV and save its data to a Parsons table using the main helper method, :meth:`~ActBlue.get_contributions`:
 
 .. code-block:: python
    :caption: Create Parsons table with entity CSV data for the month of January 2020

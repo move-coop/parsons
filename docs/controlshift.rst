@@ -9,7 +9,7 @@ Controlshift is a platform for creating campaigns with distributed events, local
 
 .. admonition:: Authentication
 
-   An API Application Integration is required to instantiate the ``Controlshift`` class.
+   An API Application Integration is required to instantiate the :class:`~.controlshift.Controlshift` class.
    Details on how to create the integration and acquire credentials can be found `on the Controlshift website
    <https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide>`_.
 

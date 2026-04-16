@@ -15,7 +15,7 @@ Rock the Vote's `Rocky API <https://rock-the-vote.github.io/Voter-Registration-T
 Quickstart
 ==========
 
-To use the ``RockTheVote`` class you can either store the partner ID and API key as an
+To use the :class:`~rockthevote.RockTheVote` class you can either store the partner ID and API key as an
 environmental variable (``RTV_PARTNER_ID`` and ``RTV_PARTNER_API_KEY``, respectively), or you can
 pass them in as arguments to the class.
 

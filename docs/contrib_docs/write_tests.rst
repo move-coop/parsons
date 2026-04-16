@@ -7,7 +7,7 @@ How to Write Tests
 
 Most of our Parsons Connector classes fall into two categories:
 
-* Classes that call directly into HTTP API's using the Parsons ``APIConnector`` class
+* Classes that call directly into HTTP API's using the Parsons :class:`utilities.api_connector.APIConnector` class
 * Classes that wrap around third party Python libraries, often using their own "client" class
 
 The category that the class falls into generally determines how one will write unit tests for the class
@@ -28,15 +28,15 @@ Getting Started
 Tests for HTTP API Connectors
 -----------------------------
 
-For classes built using the ``APIConnector`` class, we can leverage the ``requests-mock`` library, since the ``APIConnector`` uses the ``requests`` library.
+For classes built using the :class:`~api_connector.APIConnector` class, we can leverage the ``requests-mock`` library, since the :class:`~api_connector.APIConnector` uses the ``requests`` library.
 
 The ``requests-mock`` library allows us to simulate the API we are calling into by pretending to be an HTTP server. We can create canned responses,
 and introspect on the endpoints that our Connector called to ensure that the method we are testing is acting the way we expect.
 
-For an example of testing a class built on the ``APIConnector``, we can look at the ``MailChimp`` connector.
+For an example of testing a class built on the :class:`api_connector.APIConnector`, we can look at the :class:`~mailchimp.Mailchimp` connector.
 
 In the code below, we have our ``TestMailchimp`` that serves as our test case. We have one test method to test calls to our
-``get_campaigns`` method in our ``Mailchimp`` Connector class.
+:meth:`~Mailchimp.get_campaigns` method in our :class:`~mailchimp.Mailchimp` Connector class.
 
 We decorate ``test_get_campaigns`` with the ``requests_mock.Mocker`` class, which passes in our requests mocker as an argument ``m``.
 We can then use this mock to configure our mock server.
@@ -65,7 +65,7 @@ and that the mock HTTP server should return our ``test_campaigns`` canned respon
 
          self.assertEqual(tbl.num_rows, 2)
 
-After wiring up the mock HTTP API, we are ready to call the ``get_campaigns`` method on our ``Mailchimp`` connector.
+After wiring up the mock HTTP API, we are ready to call the :meth:`~Mailchimp.get_campaigns` method on our :class:`~mailchimp.Mailchimp` connector.
 Since we are using the ``requests_mock.Mocker`` class, our Connector will not actually hit the Mailchimp API;
 our call will be intercepted and the configured canned response will be returned.
 
@@ -120,9 +120,9 @@ Please see the following, SalesforceTest example on integrating it with your Con
    # Check that the list_people method was called
    mock_client.list_people.assert_called()
 
-The ``Salesforce`` class is a good example for writing tests for Connector classes written against a third party library.
-The ``Salesforce`` Parsons Connector class wraps around the ``simple-salesforce`` library's Salesforce client.
-When testing the ``Salesforce`` Parsons class, we will need to swap out its reference to the ``simple-salesforce`` client with a mock client.
+The :class:`~salesforce.Salesforce` class is a good example for writing tests for Connector classes written against a third party library.
+The :class:`~salesforce.Salesforce` Parsons Connector class wraps around the ``simple-salesforce`` library's Salesforce client.
+When testing the :class:`~salesforce.Salesforce` Parsons class, we will need to swap out its reference to the ``simple-salesforce`` client with a mock client.
 
 In the ``SalesforceTest`` class, this is done in the ``setUp`` method of the test class:
 
@@ -133,7 +133,7 @@ In the ``SalesforceTest`` class, this is done in the ``setUp`` method of the tes
       self.sf._client = mock.MagicMock()
 
 The ``_client`` attribute on the Salesforce Connector class holds the class' reference to the underlying third party client object.
-By overriding it with our ``MagicMock`` object, the ``Salesforce`` Parsons class will be calling methods on our mock client instead of an actual simple-salesforce client.
+By overriding it with our ``MagicMock`` object, the :class:`~salesforce.Salesforce` Parsons class will be calling methods on our mock client instead of an actual simple-salesforce client.
 
 We can then set up our mock client's ``query_all`` method:
 
@@ -154,7 +154,7 @@ Now, we can test our Salesforce Parsons Connector's query method:
 
 In the first line, we call the method we are testing (query) with a fake value. In the next line,
 we check to make sure our mock client's ``query_all`` method was called with the same fake value.
-Finally, we test to make sure that our ``Salesforce`` Connector returned the expected response,
+Finally, we test to make sure that our :class:`~salesforce.Salesforce` Connector returned the expected response,
 which is based on the return value of the mock client's ``query_all`` method (which we set up in the previous block).
 
 That's pretty much all there is to it. When writing tests for a Connector wrapping a third party library, we will almost always:
@@ -168,7 +168,7 @@ That's pretty much all there is to it. When writing tests for a Connector wrappi
 Useful Tips
 -----------
 
-Parsons has a function ``assert_matching_tables`` in the ``parsons.test.conftest`` module that can be used to compare two Parsons tables:
+Parsons has a function :func:`~test.conftest.assert_matching_tables` in the ``parsons.test.conftest`` module that can be used to compare two Parsons tables:
 
 .. code-block:: python
 

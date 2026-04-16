@@ -14,14 +14,14 @@ query those tables using `Quickbase's own query language
 
 .. admonition:: Authentication
 
-   A user token and app ID are required to instantiate the ``Quickbase`` class.
+   A user token and app ID are required to instantiate the :class:`~quickbase.Quickbase` class.
    Details on how to create user tokens can be found `on the Quickbase website
    <https://help.quickbase.com/user-assistance/create_user_tokens.html>`_.
 
 Quickstart
 ==========
 
-To instantiate the Quickbase class, you can either store your credentials as environment
+To instantiate the :class:`~quickbase.Quickbase` class, you can either store your credentials as environment
 variables (``QUICKBASE_HOSTNAME`` and ``QUICKBASE_USER_TOKEN``) or pass them in as arguments.
 
 .. code-block:: python

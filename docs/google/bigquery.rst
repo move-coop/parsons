@@ -12,7 +12,7 @@ Google Cloud projects.
 Quickstart
 ==========
 
-To instantiate the :class:`GoogleBigQuery` class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
+To instantiate the :class:`~google_bigquery.GoogleBigQuery` class, you can pass the constructor a string containing either the name of the Google service account credentials file or a JSON string encoding those credentials. Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and call the constructor without that argument.
 
 .. code-block:: python
    :caption: Set as environment variable

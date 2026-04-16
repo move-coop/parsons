@@ -470,8 +470,8 @@ a score slot.
 
 .. admonition:: Score Auto Approval
 
-   Scores can be automatically set to ``approved`` through the :meth:`VAN.upload_scores`
-   method allowing you to skip calling :meth:`VAN.update_score_status`, if the average of
+   Scores can be automatically set to ``approved`` through the :meth:`~VAN.upload_scores`
+   method allowing you to skip calling :meth:`~VAN.update_score_status`, if the average of
    the scores is within the fault tolerance specified by the user. It is only available
    to API keys with permission to automatically approve scores.
 

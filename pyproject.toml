@@ -64,7 +64,7 @@ docs = [
     "Sphinx~=8.2.3;python_version>='3.11'",
 ]
 lint = [
-    "ruff==0.13.0",
+    "ruff==0.15.10",
 ]
 pre-commit = [
     "pre-commit~=4.5.1",

@@ -303,7 +303,7 @@ def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_wit
 
 @pytest.mark.live
 def test_get_files_raises_error_when_no_file_source_is_provided(live_sftp):
-    with pytest.raises(ValueError):  # noqa: PT011
+    with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
         live_sftp.get_files()
 
 

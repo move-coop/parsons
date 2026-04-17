@@ -143,19 +143,27 @@ def test_redact_credentials():
 
 class TestCheckEnv:
     @pytest.mark.parametrize(
-        ("env_dict", "param_value", "expected_result"),
+        ("environment_value", "input_value", "expected_result"),
         [
-            # (os.environ patch, passed argument, expected output)
-            ({}, "param", "param"),  # test_environment_field
-            ({"PARAM": "env_param"}, None, "env_param"),  # test_environment_env
-            ({"PARAM": "env_param"}, "param", "param"),  # test_environment_field_env
+            ({}, "param", "param"),
+            ({"PARAM": "env_param"}, None, "env_param"),
+            ({"PARAM": "env_param"}, "param", "param"),
         ],
+        ids=["test_environment_field", "test_environment_env", "test_environment_field_env"],
     )
-    def test_check_env_success(self, env_dict, param_value, expected_result):
+    def test_check_env_success(
+        self, environment_value: dict, input_value: str | None, expected_result: str
+    ):
         """Tests successful retrieval of parameters from field or environment."""
-        with mock.patch.dict(os.environ, env_dict):
-            result = check_env.check("PARAM", param_value)
-            assert result == expected_result
+        with mock.patch.dict(os.environ, environment_value):
+            result = check_env.check("PARAM", input_value)
+        assert result == expected_result
+
+    def test_check_env_returns_none(self):
+        """Tests returning None when environment and value are empty and optional value is passed."""
+        with mock.patch.dict(os.environ, {}, clear=True):
+            result = check_env.check("PARAM", None, optional=True)
+        assert result is None
 
     def test_environment_error(self):
         """Test check env raises error when both are missing."""

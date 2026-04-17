@@ -14,7 +14,7 @@ class DatabaseConnector(ABC):
     operations when working with databases.
 
     Should you use :class:`.DatabaseConnector` instead of
-    :class:`~parsons.databases.redshift.redshift.Redshift` / :class:`~google_bigquery.GoogleBigQuery` / etc?
+    :class:`~parsons.databases.redshift.redshift.Redshift` / :class:`~parsons.google.google_bigquery.GoogleBigQuery` / etc?
 
     Overall this class is mostly useful for code in the Parsons library, not code using it.
     There could be some exceptions. In general though, if you are writing a script to do a task
@@ -26,102 +26,102 @@ class DatabaseConnector(ABC):
 
     1. You do not use type annotations, or you don't know what "type annotations" are - No
 
-        If you do not use type annotations for your code, then you do not need to think about
-        :class:`.DatabaseConnector` when writing your code. This is the most common case. If none
-        of the cases below apply to you, then you probably don't need it.
+       If you do not use type annotations for your code, then you do not need to think about
+       :class:`.DatabaseConnector` when writing your code. This is the most common case. If none
+       of the cases below apply to you, then you probably don't need it.
 
-        In this simple example, we are not using type annotations in our code. We don't need
-        to think about exactly what class is being passed in. Python will figure it out.
+       In this simple example, we are not using type annotations in our code. We don't need
+       to think about exactly what class is being passed in. Python will figure it out.
 
-        .. code-block:: python
+       .. code-block:: python
 
-            def my_database_function(db):
-                some_data = get_some_data()
-                db.copy("some_table", some_data)
+           def my_database_function(db):
+               some_data = get_some_data()
+               db.copy("some_table", some_data)
 
-            # These will all just work:
-            my_database_function(Redshift())
-            my_database_function(MySQL())
-            my_database_functon(BigQuery())
+           # These will all just work:
+           my_database_function(Redshift())
+           my_database_function(MySQL())
+           my_database_functon(BigQuery())
 
     2. You only use one database in your work - No
 
-        This is where most people will fall. Usually code is not intended to run on
-        multiple databases without modification. For example, if you are working for
-        an organization that uses Amazon Redshift as your data warehouse, you do not
-        need to use :class:`.DatabaseConnector` to write ETL scripts to load data into your
-        Redshift. It is rare that organizations switch databases. In the cases where
-        that does occur, usually more work is required to migrate your environment and
-        your vendor-specific SQL than would be saved by using :class:`.DatabaseConnector`.
+       This is where most people will fall. Usually code is not intended to run on
+       multiple databases without modification. For example, if you are working for
+       an organization that uses Amazon Redshift as your data warehouse, you do not
+       need to use :class:`.DatabaseConnector` to write ETL scripts to load data into your
+       Redshift. It is rare that organizations switch databases. In the cases where
+       that does occur, usually more work is required to migrate your environment and
+       your vendor-specific SQL than would be saved by using :class:`.DatabaseConnector`.
 
     3. You are writing a sample script or a tutorial - Yes
 
-        If you are using Parsons to write a sample script or tutorial, you should use
-        :class:`.DatabaseConnector`!
-        If you use :class:`.DatabaseConnector` type annotations and the
-        `discover_database` function, then your sample code will run on any system.
-        This makes it much easier for new programmers to get your code working on
-        their system.
+       If you are using Parsons to write a sample script or tutorial, you should use
+       :class:`.DatabaseConnector`!
+       If you use :class:`.DatabaseConnector` type annotations and the
+       `discover_database` function, then your sample code will run on any system.
+       This makes it much easier for new programmers to get your code working on
+       their system.
 
     4. Utility code inside Parsons or other libraries - Yes
 
-        If you are writing a utility script inside Parsons or another library meant
-        for broad distribution, you should probably us
-        :class:`.DatabaseConnector` type
-        annotations. This will ensure that your library code will be usable by the
-        widest possible set of users, not just users on one specific database.
+       If you are writing a utility script inside Parsons or another library meant
+       for broad distribution, you should probably us
+       :class:`.DatabaseConnector` type
+       annotations. This will ensure that your library code will be usable by the
+       widest possible set of users, not just users on one specific database.
 
     Developer Notes:
 
-        This class is an Abstract Base Class (ABC). It's designed to ensure that all classes
-        inheriting from it implement certain methods, enforcing a consistent interface across
-        database connectors.
+        - This class is an Abstract Base Class (ABC). It's designed to ensure that all classes
+          inheriting from it implement certain methods, enforcing a consistent interface across
+          database connectors.
 
-        If you need to add a new method to the database connectors, there are three options:
-        1. Add the method to this ABC and implement it for all databases.
-        2. Add the method to this ABC and implement it for some databases while adding stubs for
-           others.
-        3. Implement the method on a specific database connector without touching the ABC.
+          If you need to add a new method to the database connectors, there are three options:
 
-        If you go the second route, you can add a stub method like this:
+          1. Add the method to this ABC and implement it for all databases.
+          2. Add the method to this ABC and implement it for some databases while adding stubs for
+             others.
+          3. Implement the method on a specific database connector without touching the ABC.
 
-        .. code-block:: python
+          If you go the second route, you can add a stub method like this:
 
-            def new_method(self, arg1, arg2):
-                raise NotImplementedError("Method not implemented for this database connector.")
+          .. code-block:: python
 
-        This communicates clearly to users that the method does not exist for certain connectors.
+              def new_method(self, arg1, arg2):
+                  raise NotImplementedError("Method not implemented for this database connector.")
 
-        If you go the third route, remember that you're responsible for making sure your new
-        method matches the existing methods in other database connectors. For example, if you're
-        adding a method that already exists in another connector, like Redshift, you need to ensure
-        your new method behaves the same way and has the same parameters with the same types in the
-        same order. See the note below for more detail.
+          This communicates clearly to users that the method does not exist for certain connectors.
 
-    Note:
-        The Python type system (as of 3.10.6) will not stop you from breaking the type contract
-        of method signatures when implementing a subclass. It is up to the author of a database
-        connector to ensure that it satisfies this interface. Be careful to, for example, not
-        change the types of the parameters or leave out optional parameters that are specified
-        in the interface.
+          If you go the third route, remember that you're responsible for making sure your new
+          method matches the existing methods in other database connectors. For example, if you're
+          adding a method that already exists in another connector, like Redshift, you need to ensure
+          your new method behaves the same way and has the same parameters with the same types in the
+          same order. See the note below for more detail.
 
-        Any such inconsistencies can cause unexpected runtime errors that will not be caught by
-        the type checker.
+        - The Python type system (as of 3.10.6) will not stop you from breaking the type contract
+          of method signatures when implementing a subclass. It is up to the author of a database
+          connector to ensure that it satisfies this interface. Be careful to, for example, not
+          change the types of the parameters or leave out optional parameters that are specified
+          in the interface.
 
-        It is safe to add additional features to subclasses, such as new methods or extra *optional*
-        parameters to specified methods. In general adding new methods is safe, but adding optional
-        parameters to methods specified in the interface should be considered bad practice, because
-        it could result in unexpected behavior.
+          Any such inconsistencies can cause unexpected runtime errors that will not be caught by
+          the type checker.
+
+          It is safe to add additional features to subclasses, such as new methods or extra *optional*
+          parameters to specified methods. In general adding new methods is safe, but adding optional
+          parameters to methods specified in the interface should be considered bad practice, because
+          it could result in unexpected behavior.
 
     Example:
 
-    .. code-block:: python
+        .. code-block:: python
 
-        def my_function(db: DatabaseConnector, data: Table):
-            # Your code here, using the db object
+            def my_function(db: DatabaseConnector, data: Table):
+                # Your code here, using the db object
 
-        # Pass an instance of a class that inherits from DatabaseConnector, e.g. Redshift
-        my_function(some_db_instance, some_data)
+            # Pass an instance of a class that inherits from DatabaseConnector, e.g. Redshift
+            my_function(some_db_instance, some_data)
 
     """
 
@@ -134,7 +134,7 @@ class DatabaseConnector(ABC):
                 The table name and schema (e.g. ``myschema.mytable``).
 
         Returns:
-            boolean
+            bool
                 ``True`` if the table exists and ``False`` if it does not.
 
         """

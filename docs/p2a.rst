@@ -16,3 +16,5 @@ API
 .. autoclass:: parsons.phone2action.p2a.Phone2Action
    :inherited-members:
    :members:
+
+.. _phone2action api create advocate documentation: https://docs.phone2action.com/#calls-create

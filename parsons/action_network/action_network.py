@@ -1589,7 +1589,7 @@ class ActionNetwork:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
-                `ActionNetwork Background Processing Documentation`_
+                For details, see `ActionNetwork Background Processing Documentation`_
             `**kwargs`:
                 Fields to be updated. The possible fields are
 
@@ -1618,8 +1618,7 @@ class ActionNetwork:
                       Optional field. A list of strings of the languages spoken by the person
                 - postal_addresses:
                       Optional field. A list of dictionaries.
-                      For details, see Action Network's documentation:
-                          `ActionNetwork People Documentation`_
+                      For details, see `ActionNetwork People Documentation`_
                 - custom_fields:
                       A dictionary of any other fields to store about the person.
 

@@ -337,7 +337,7 @@ class Sqlite(DatabaseConnector):
                 Check to see if a view exists by the same name. Defaults to ``False``.
 
         Returns:
-            boolean
+            bool
                 ``True`` if the table exists and ``False`` if it does not.
 
         """

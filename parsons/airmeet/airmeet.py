@@ -9,21 +9,19 @@ AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"
 
 class Airmeet:
     """
-    Instantiate class.
+    For instructions on how to generate an access key and secret key set,
+    see `Airmeet Event Details API Documentation`_.
 
     Args:
-            airmeet_uri: str
-                The URI of the Airmeet API endpoint. Not required. The default
-                is https://api-gateway.airmeet.com/prod/. You can set an
-                ``AIRMEET_URI`` env variable or use this parameter when
-                instantiating the class.
-            airmeet_access_key: str
-                The Airmeet API access key.
-            airmeet_secret_key: str
-                The Airmeet API secret key.
-
-        For instructions on how to generate an access key and secret key set,
-        see `Airmeet's Event Details API Documentation`_.
+        airmeet_uri: str
+            The URI of the Airmeet API endpoint. Not required. The default
+            is `<https://api-gateway.airmeet.com/prod/>`_. You can set an
+            ``AIRMEET_URI`` env variable or use this parameter when
+            instantiating the class.
+        airmeet_access_key: str
+            The Airmeet API access key.
+        airmeet_secret_key: str
+            The Airmeet API secret key.
 
     """
 
@@ -66,7 +64,7 @@ class Airmeet:
         Args:
             page_size: 50
                 The number of items to get per page. The max allowed varies by
-                API call. For details, see ``Airmeet's Event Details API Documentation`_.
+                API call. For details, see ``Airmeet Event Details API Documentation`_.
             `**kwargs`:
                 Additional parameters to include in the request.
 

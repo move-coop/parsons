@@ -319,7 +319,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 The table name
 
         Returns:
-            boolean
+            bool
                 ``True`` if the table exists and ``False`` if it does not.
 
         """

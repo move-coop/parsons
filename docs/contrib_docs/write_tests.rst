@@ -168,7 +168,7 @@ That's pretty much all there is to it. When writing tests for a Connector wrappi
 Useful Tips
 -----------
 
-Parsons has a function :func:`~test.conftest.assert_matching_tables` in the :mod:`parsons.test.conftest` module that can be used to compare two Parsons tables:
+Parsons has a function :func:`~test.conftest.assert_matching_tables` in the :mod:`test.conftest` module that can be used to compare two Parsons tables:
 
 .. code-block:: python
 

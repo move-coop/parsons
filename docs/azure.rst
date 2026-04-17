@@ -26,14 +26,12 @@ and ``AZURE_ACCOUNT_URL``, respectively) or pass them in as arguments:
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import AzureBlobStorage
    azure_blob = AzureBlobStorage()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import AzureBlobStorage
    azure_blob = AzureBlobStorage(account_name='my_account_name', credential='1234')

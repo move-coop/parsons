@@ -23,7 +23,6 @@ keyword arguments. Credentials for your account are provided by TargetSmart.
 
 .. code-block:: python
    :caption: Store SFTP username and password as environmental variables
-   :emphasize-lines: 2
 
    from parsons import TargetSmartAutomation
    ts_auto = TargetSmartAutomation()

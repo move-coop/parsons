@@ -21,21 +21,18 @@ with by specifying the Company ID in the ``company_id`` parameter. To find the C
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables for account has access to only one MobileCommons company
-   :emphasize-lines: 2
 
    from parsons import MobileCommons
    mc = MobileCommons()
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables for account has access to multiple MobileCommons companies
-   :emphasize-lines: 2
 
    from parsons import MobileCommons
    mc = MobileCommons(company_id='EXAMPLE78363BOCA483954419EB70986A68888')
 
 .. code-block:: python
    :caption: Pass credentials via argument for account has access to only one MobileCommons company
-   :emphasize-lines: 2
 
    from parsons import MobileCommons
    mc = MobileCommons(username='octavia.b@scifi.net', password='badpassword123')

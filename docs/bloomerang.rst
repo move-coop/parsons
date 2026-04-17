@@ -30,32 +30,43 @@ key approach, ``BLOOMERANG_CLIENT_ID`` and ``BLOOMERANG_CLIENT_SECRET`` for the 
 approach) or pass in your API Key / OAuth2 credentials as arguments:
 
 .. code-block:: python
+   :caption: Use environmental variables
 
    from parsons import Bloomerang
-
-   # First approach: Use environmental variables
    bloomerang = Bloomerang()
 
-   # Second approach: Pass private API key as argument
+.. code-block:: python
+   :caption: Pass private API key as argument
+
+   from parsons import Bloomerang
    bloomerang = Bloomerang(api_key='my_key')
 
-   # Third approach: Pass OAuth2 client_id and client_secret as arguments
+.. code-block:: python
+   :caption: Pass OAuth2 client_id and client_secret as arguments
+
+   from parsons import Bloomerang
    bloomerang = Bloomerang(client_id='my_client_id', client_secret='my_client_secret')
 
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: Create constituent
 
-   # Create constituent
    bloomerang.create_constituent(email='john@email', first_name='John', last_name='Smith', city='Boston')
 
-   # Get constituent
+.. code-block:: python
+   :caption: Get constituent
+
    constituent = bloomerang.get_constituent(user_id='123')
 
-   # Update constituent
+.. code-block:: python
+   :caption: Update constituent
+
    bloomerang.update_constituent(user_id='123', city='New York')
 
-   # Delete constituent
+.. code-block:: python
+   :caption: Delete constituent
+
    bloomerang.delete_constituent(user_id='123')
 
 API

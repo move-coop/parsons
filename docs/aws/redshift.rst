@@ -36,7 +36,6 @@ or keyword arguments.
 
 .. code-block:: python
    :caption: Pass credentials as environmental variables
-   :emphasize-lines: 2
 
    from parsons import Redshift
    rs = Redshift()

@@ -48,14 +48,12 @@ To instantiate :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI`, you
 
 .. code-block:: python
    :caption: Store API key as an environmental variable
-   :emphasize-lines: 2
 
    from parsons import TargetSmartAPI
    ts_api = TargetSmartAPI()
 
 .. code-block:: python
    :caption: Pass API key as an argument
-   :emphasize-lines: 2
 
    from parsons import TargetSmartAPI
    ts_api = TargetSmartAPI(api_key='my_api_key')

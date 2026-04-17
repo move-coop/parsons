@@ -33,14 +33,12 @@ variable `SLACK_API_TOKEN` or pass it in as an argument.
 
 .. code-block:: python
    :caption: Initiate class via environment variable api token
-   :emphasize-lines: 2
 
    from parsons import Slack
    slack = Slack()
 
 .. code-block:: python
    :caption: Pass api token directly
-   :emphasize-lines: 2
 
    from parsons import Slack
    slack = Slack(api_key='my-api-tkn')

@@ -41,6 +41,7 @@ To instantiate the CatalistMatch class, you must provide your ``client_id``, ``c
 You can then load a CSV as a Parsons table and submit it for matching, then save the resulting matched Parsons table as a CSV.
 
 .. code-block:: python
+   :caption: Load CSV, submit it for matching, save matched Parsons table as a CSV.
 
    source_table = Table.from_csv(source_filepath)
    result_table = match.match(source_table)

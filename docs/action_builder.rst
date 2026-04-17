@@ -32,21 +32,18 @@ may be passed to individual methods, instead.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import ActionBuilder
    bldr = ActionBuilder(subdomain='yourorgsubdomain')
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import ActionBuilder
    bldr = ActionBuilder(api_token='MY_API_TOKEN', subdomain='yourorgsubdomain')
 
 .. code-block:: python
    :caption: Include campaign argument
-   :emphasize-lines: 2-6
 
    from parsons import ActionBuilder
    bldr = ActionBuilder(

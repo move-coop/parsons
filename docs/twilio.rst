@@ -25,14 +25,12 @@ and authorization token as environmental variables (``TWILIO_ACCOUNT_SID`` and
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Twilio
    twilio = Twilio()
 
 .. code-block:: python
    :caption: Pass credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Twilio
    twilio = Twilio(account_sid='account_sid', auth_token='my_auth_token')

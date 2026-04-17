@@ -14,14 +14,12 @@ To instantiate the :class:`~parsons.auth0.auth0.Auth0` class, you can either sto
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Auth0
    auth0 = Auth0()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Auth0
    auth0 = Shopify('auth0_client_id', 'auth0_client_secret', 'auth0_domain')

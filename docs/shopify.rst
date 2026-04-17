@@ -21,14 +21,12 @@ or pass in your subdomain, password, key, and version as arguments.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Shopify
    shopify = Shopify()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Shopify
    shopify = Shopify(subdomain='mysubdomain', password='1234', api_key='1234', api_version='2020-10')

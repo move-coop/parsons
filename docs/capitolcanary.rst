@@ -19,13 +19,14 @@ To instantiate the :class:`~parsons.capitol_canary.capitol_canary.CapitolCanary`
 ``CAPITOLCANARY_APP_ID`` and ``CAPITOLCANARY_APP_KEY`` environmental variables.
 
 .. code-block:: python
+   :caption: Instantiate the class using environment variables
 
    from parsons import CapitolCanary
-
-   # Instantiate the class using environment variables
    cc = CapitolCanary()
 
-   # Get all advocates updated in the last day
+.. code-block:: python
+   :caption: Get all advocates updated in the last day and opt them into SMS
+
    import datetime
    today = datetime.datetime.utcnow()
    yesterday = today - datetime.timedelta(days=1)

@@ -21,14 +21,12 @@ variables or pass them in as arguments:
 
 .. code-block:: python
    :caption: Use API key environment variables
-   :emphasize-lines: 2
 
    from parsons import ActBlue
    actblue = ActBlue()
 
 .. code-block:: python
    :caption: Pass API keys as arguments
-   :emphasize-lines: 2
 
    from parsons import ActBlue
    actblue = ActBlue(actblue_client_uuid='MY_UUID', actblue_client_secret='MY_SECRET')

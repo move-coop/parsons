@@ -31,14 +31,12 @@ To instantiate the :class:`~parsons.hustle.hustle.Hustle` class, you can either 
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Hustle
    hustle = Hustle()
 
 .. code-block:: python
    :caption: Pass API key as argument
-   :emphasize-lines: 2
 
    from parsons import Hustle
    hustle = Hustle(client_id='MYID', client_secret='MYSECRET')

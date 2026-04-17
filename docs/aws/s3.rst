@@ -22,14 +22,12 @@ stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments
 
 .. code-block:: python
    :caption: Pass API credentials via environmental variables or an AWS CLI file
-   :emphasize-lines: 2
 
    from parsons import S3
    s3 = S3()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import S3
    s3 = S3(aws_access_key_id='MY_KEY', aws_secret_access_key='MY_SECRET')
@@ -72,7 +70,6 @@ them to be accepted. The :class:`~parsons.aws.s3.S3` class can be passed a sessi
 
 .. code-block:: python
    :caption: Pass session token via AWS_SESSION_TOKEN environmental variable
-   :emphasize-lines: 2
 
    from parsons import S3
    s3 = S3()

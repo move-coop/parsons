@@ -26,14 +26,12 @@ To instantiate the :class:`~parsons.sisense.sisense.Sisense` class, you can eith
 
 .. code-block:: python
    :caption: Pass authentication credentials with environmental variables
-   :emphasize-lines: 2
 
    from parsons import Sisense
    sisense = Sisense()
 
 .. code-block:: python
    :caption: Pass authentication credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Sisense
    sisense = Sisense(site_name='my_site_name', api_key='my_api_key')

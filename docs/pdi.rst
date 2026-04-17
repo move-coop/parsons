@@ -26,14 +26,12 @@ and API token as environmental variables (``PDI_USERNAME``, ``PDI_PASSWORD``, an
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import PDI
    pdi = PDI()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import PDI
    pdi = PDI(username='my_username', password='my_password', api_token='my_token')

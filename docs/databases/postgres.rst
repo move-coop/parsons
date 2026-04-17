@@ -9,21 +9,18 @@ Quickstart
 
 .. code-block:: python
    :caption: Instantiate Postgres from environmental variables
-   :emphasize-lines: 2
 
    from parsons import Postgres
    pg = Postgres()
 
 .. code-block:: python
    :caption: Instantiate Postgres from passed variables
-   :emphasize-lines: 2
 
    from parsons import Postgres
    pg = Postgres(username='me', password='secret', host='mydb.com', db='dev', port=3306)
 
 .. code-block:: python
    :caption: Instantiate Postgres from a ~/.pgpass file
-   :emphasize-lines: 2
 
    from parsons import Postgres
    pg = Postgres()

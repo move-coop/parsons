@@ -20,16 +20,20 @@ To instantiate the Controlshift class, you can either store your credentials as 
 variables (``CONTROLSHIFT_HOSTNAME``, ``CONTROLSHIFT_CLIENT_ID``, and ``CONTROLSHIFT_CLIENT_SECRET``) or pass them in as arguments:
 
 .. code-block:: python
+   :caption: Use API credentials via environmental variables
 
    from parsons import Controlshift
-
-   # First approach: Use API credentials via environmental variables
    cs = Controlshift()
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+
+   from parsons import Controlshift
    cs = Controlshift(hostname='my_hostname', client_id='my_client_id', client_secret='my_client_secret')
 
-   # Get all petitions
+.. code-block:: python
+   :caption: Get all petitions
+
    cs.get_petitions()
 
 API

@@ -41,31 +41,36 @@ or made available as an environment variable in the form of an access token:
    In most cases, the id will be more accessible from returns on upload methods despite this documentation describing both methods.
 
 .. code-block:: python
-   :caption: Instantiate class
+   :caption: Use API credentials via environmental variables
 
    from parsons import Box
-
-   # First approach: Use API credentials via environmental variables.
    box = Box()
 
-   # Second approach: Pass API authentication as an argument.
+.. code-block:: python
+   :caption: Pass API authentication as an argument
+   :emphasize-lines: 3-5
+
+   from parsons import Box
    from box_sdk_gen import BoxDeveloperTokenAuth
    access_token = "7B39m3ozIGyTcazbWRbi5F2SSZ5J"
    oauth = BoxDeveloperTokenAuth(token=access_token)
    box = Box(auth=oauth):
 
 .. code-block:: python
-   :caption: Create a subfolder and upload a Parsons table to it
+   :caption: Create folder inside default box folder
 
-   # Create folder inside default folder.
    my_folder_id = box.create_folder("My Folder")
 
-   # Create subfolder inside new folder and upload table to it.
+.. code-block:: python
+   :caption: Create subfolder inside new folder and upload table to it
+
    box.create_folder(path="My Folder/My Subfolder")
    box_file = box.upload_table(table=my_parsons_table,
    path="My Folder/My Subfolder/My Parsons Table")
 
-   # Create new subfolder using folder_id and upload table to it.
+.. code-block:: python
+   :caption: Create new subfolder using folder_id and upload table to it
+
    sub_folder_id = box.create_folder_by_id(
       folder_name="My SubFolder",
       parent_folder_id=my_folder_id,
@@ -77,12 +82,13 @@ or made available as an environment variable in the form of an access token:
    )
 
 .. code-block:: python
-   :caption: List folders and files
+   :caption: List default folder
 
-   # List default folder.
    default_folder_list = box.list()
 
-   # Subfolder list - by Box path str.
+.. code-block:: python
+   :caption: Get subfolder list - by Box path string
+
    subfolder_list = box.list("My Folder/My Subfolder")
 
    subfolder_file_list = box.list(
@@ -90,42 +96,45 @@ or made available as an environment variable in the form of an access token:
        item_type="file",
    )
 
-   # Subfolder list - by id.
+.. code-block:: python
+   :caption: Get subfolder list - by Box ID
+
    subfolder_file_list = box.list_files_by_id(folder_id="533944")
    subfolder_folder_list = box.list_folders_by_id(folder_id="533944")
    all_items = box.list_items_by_id(folder_id="533944")
 
 .. code-block:: python
-   :caption: Upload tables to Box
+   :caption: Upload tables to Box as a csv file
 
-   # Upload a table as a csv file.
    uploaded_table = box.upload_table(my_data_table, path="My Folder/My Subfolder/My Parsons Table", format="csv")
 
-   # Upload a table as a json file.
+.. code-block:: python
+   :caption: Upload tables to Box as a json file
+
    uploaded_table = box.upload_table(my_data_table, path="My Folder/My Subfolder/My Parsons Table", format="json")
 
 .. code-block:: python
-   :caption: Retrieve tables from Box
+   :caption: Retrieve tables from a csv in Box using Box path
 
-   # Download a table (csv).
    downloaded_table = box.get_table(path="My Folder/My Subfolder/My Parsons Table", format="csv")
 
-   # Download a table (csv) using file id.
+.. code-block:: python
+   :caption: Retrieve tables from a csv in Box using file ID
+
    downloaded_table = box.get_table_by_file_id(file_id=box_file_id, format="csv")
 
 .. code-block:: python
-   :caption: Upload files to Box
+   :caption: Upload files to specific location in Box using Box path
 
-   # Upload a file to a specified location.
    uploaded_file = box.upload_file(my_file, path="My Folder/My Subfolder/My File")
 
 .. code-block:: python
-   :caption: Retrieve files from Box
+   :caption: Download a file from Box to a temporary local file
 
-   # Download a file to a temporary file.
    downloaded_file = box.download_file("My Folder/My Subfolder/My File")
 
-   # Download a file to a persistent, specified location.
+.. code-block:: python
+   :caption: Download a file from Box to a specific local path
    downloaded_file = box.download_file("My Folder/My Subfolder/My File", local_path="my_file.dat")
 
 .. code-block:: python

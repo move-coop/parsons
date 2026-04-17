@@ -26,7 +26,6 @@ or pass them in as arguments.
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Zoom
    zoom = Zoom()

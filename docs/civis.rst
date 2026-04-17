@@ -22,16 +22,20 @@ To instantiate the :class:`~parsons.civis.civisclient.CivisClient` class, you ca
 environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python
+   :caption: Authorize with environmental variables
 
    from parsons import CivisClient
-
-   # First approach: Authorize with environmental variables
    civis = CivisClient()
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+
+   from parsons import CivisClient
    civis = CivisClient(db='my_db_name', api_key='my_api_key')
 
-   # Execute a Civis query
+.. code-block:: python
+   :caption: Execute a Civis query
+
    civis.query(sql="SELECT * FROM my_table")
 
 API

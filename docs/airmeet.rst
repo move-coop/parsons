@@ -23,14 +23,12 @@ variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``) or p
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Airmeet
    airmeet = Airmeet()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments (airmeet_uri is optional)
-   :emphasize-lines: 2-6
 
    from parsons import Airmeet
    airmeet = Airmeet(

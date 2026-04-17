@@ -35,19 +35,25 @@ Key, and Private API Key as environmental variables (``BRAINTREE_MERCHANT_ID``,
 as arguments:
 
 .. code-block:: python
+   :caption: Use API credentials via environmental variables
 
    from parsons import Braintree
-
-   # First approach: Use API credentials via environmental variables
    brains = Braintree()
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+
+   from parsons import Braintree
    brains = Braintree(merchant_id='my_merchant_id', public_key='my_public_key', private_key='my_private_key')
 
-   # Get disputes from a single day
+.. code-block:: python
+   :caption: Get disputes from a single day
+
    disputes = brains.get_disputes('2020-01-01', '2020-01-02')
 
-   # Get disbursements from a single day
+.. code-block:: python
+   :caption: Get disbursements from a single day
+
    disbursements = brains.get_transactions(disbursement_start_date='2020-01-01', disbursement_end_date='2020-01-02')
 
 API

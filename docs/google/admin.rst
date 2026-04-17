@@ -18,14 +18,12 @@ To instantiate the GoogleAdmin class, you can either pass the constructor a dict
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import GoogleAdmin
    admin = GoogleAdmin(None, 'fakeemail@fakedomain.com')
 
 .. code-block:: python
    :caption: Pass API credentials as argument
-   :emphasize-lines: 2
 
    from parsons import GoogleAdmin
    credential_filename = 'google_application_credentials.json'

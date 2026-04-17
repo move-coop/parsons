@@ -34,14 +34,12 @@ To call the VAN class you can either store the api key as an environmental varia
 
 .. code-block:: python
    :caption: Specify the DB type and pass api key via environmental variable
-   :emphasize-lines: 2
 
    from parsons import VAN
    van = VAN(db='MyVoters')
 
 .. code-block:: python
    :caption: Pass api key directly
-   :emphasize-lines: 2
 
    from parsons import VAN
    van = VAN(api_key='asdfa-sdfadsf-adsfasdf',db='MyVoters')

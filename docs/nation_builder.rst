@@ -19,7 +19,6 @@ variables or pass them in as arguments.
 
 .. code-block:: python
    :caption: Use API key environment variables
-   :emphasize-lines: 6
 
    # In bash, set your environment variables like so:
    # export NB_SLUG='my-nation-slug'
@@ -30,7 +29,6 @@ variables or pass them in as arguments.
 
 .. code-block:: python
    :caption: Pass API keys as arguments
-   :emphasize-lines: 2
 
    from parsons import NationBuilder
    nb = NationBuilder(slug='my-nation-slug', access_token='MY_ACCESS_TOKEN')

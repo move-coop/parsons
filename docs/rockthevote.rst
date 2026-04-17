@@ -21,14 +21,12 @@ pass them in as arguments to the class.
 
 .. code-block:: python
    :caption: If credentials are specified as environment variables, no need to pass them in
-   :emphasize-lines: 2
 
    from parsons import RockTheVote
    rtv = RockTheVote()
 
 .. code-block:: python
    :caption: Pass credentials directly
-   :emphasize-lines: 2
 
    from parsons import RockTheVote
    rtv = RockTheVote(partner_id='123', partner_api_key='supersecretkey')

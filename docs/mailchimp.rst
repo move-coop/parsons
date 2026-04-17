@@ -26,14 +26,12 @@ as an environmental variable (``MAILCHIMP_API_KEY``) or pass it as an argument.
 
 .. code-block:: python
    :caption: API key is stored as an environmental variable
-   :emphasize-lines: 2
 
    from parsons import Mailchimp
    mc = Mailchimp()
 
 .. code-block:: python
    :caption: Pass API key as argument
-   :emphasize-lines: 2
 
    from parsons import Mailchimp
    mc = Mailchimp(api_key='my_api_key')

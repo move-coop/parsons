@@ -24,14 +24,12 @@ as an argument. You also need to pass in the base key and table name.
 
 .. code-block:: python
    :caption: Use personal access token via environmental variable and pass the base key and the table as arguments
-   :emphasize-lines: 2
 
    from parsons import Airtable
    at = Airtable(base_key, 'table01')
 
 .. code-block:: python
    :caption: Pass personal access token, base key and table name as arguments
-   :emphasize-lines: 2
 
    from parsons import Airtable
    at = Airtable(base_key, 'table01', personal_access_token='MYFAKETOKEN')

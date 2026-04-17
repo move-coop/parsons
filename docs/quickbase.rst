@@ -26,14 +26,12 @@ variables (``QUICKBASE_HOSTNAME`` and ``QUICKBASE_USER_TOKEN``) or pass them in 
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import Quickbase
    qb = Quickbase()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Quickbase
    qb = Quickbase(hostname='my_hostname', user_token='my_token')

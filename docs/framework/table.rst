@@ -242,14 +242,12 @@ an integer (e.g. ``tbl[1]``).
 
 .. code-block:: python
    :caption: Return a column as a list
-   :emphasize-lines: 2
 
    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
    tbl['a'] # [1, 3]
 
 .. code-block:: python
    :caption: Return a column as a dict
-   :emphasize-lines: 2
 
    tbl = Table([{'a': 1, 'b': 2}, {'a': 3, 'b': 4}])
    tbl[1] # {'a': 3, 'b': 4}
@@ -260,7 +258,6 @@ so any data transformations can be applied efficiently.
 
 .. code-block:: python
    :caption: Efficient way to grab all the data (applying the data transformations only once)
-   :emphasize-lines: 2
 
    # Some data transformations
    table.add_column('newcol', 'some value')
@@ -273,7 +270,6 @@ so any data transformations can be applied efficiently.
 
 .. code-block:: python
    :caption: Inefficient way to grab all the data
-   :emphasize-lines: 3
 
    rows_list = []
    for i in range(0, table.num_rows):

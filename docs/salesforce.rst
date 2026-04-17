@@ -30,14 +30,12 @@ and ``SALESFORCE_SECURITY_TOKEN``, respectively) or pass them in as arguments:
 
 .. code-block:: python
    :caption: Pass API credentials as environmental variables
-   :emphasize-lines: 2
 
    from parsons import Salesforce
    sf = Salesforce()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import Salesforce
    sf = Salesforce(username='my@email', password='my_password', security_token='123')

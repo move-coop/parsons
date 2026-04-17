@@ -28,14 +28,12 @@ domain, username, and password as arguments:
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import ActionKit
    ak = ActionKit()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import ActionKit
    ak = ActionKit(domain='myorg.actionkit.com', username='my_name', password='1234')

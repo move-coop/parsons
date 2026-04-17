@@ -24,14 +24,12 @@ in as arguments.
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import TurboVote
    tv = TurboVote()
 
 .. code-block:: python
    :caption: Pass credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import TurboVote
    tv = TurboVote(username='me', password='pass', subdomain='myorg')

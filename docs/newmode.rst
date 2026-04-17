@@ -24,14 +24,12 @@ respectively) or pass in your username and password as arguments.
 
 .. code-block:: python
    :caption: API credentials stored as environmental variables
-   :emphasize-lines: 2
 
    from parsons import Newmode
    newmode = Newmode()
 
 .. code-block:: python
    :caption: API credentials passed as arguments
-   :emphasize-lines: 2
 
    from parsons import Newmode
    newmode = Newmode(api_user='my_username', api_password='my_password')

@@ -23,14 +23,12 @@ or set the ``AN_API_TOKEN`` environmental variable.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables
-   :emphasize-lines: 2
 
    from parsons import ActionNetwork
    an = ActionNetwork()
 
 .. code-block:: python
    :caption: Pass API credentials as arguments
-   :emphasize-lines: 2
 
    from parsons import ActionNetwork
    an = ActionNetwork(api_token='MY_API_TOKEN')

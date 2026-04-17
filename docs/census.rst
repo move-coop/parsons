@@ -19,17 +19,15 @@ To instantiate the Census class, either store your ``CENSUS_API_KEY`` as an envi
 variable or pass it as an argument:
 
 .. code-block:: python
+   :caption: Use API key environment variables
 
    from parsons import Census
-
-   # First approach: Use API key environment variables
-
-   # In Mac OS, for example, set your environment variables like so:
-   # export CENSUS_API_KEY='MY_CENSUS_KEY'
-
    census = ActBlue()
 
-   # Second approach: Pass API key as arguments
+.. code-block:: python
+   :caption: Pass API key as arguments
+
+   from parsons import Census
    actblue = ActBlue(api_key = 'MY_CENSUS_KEY')
 
 .. code-block:: python

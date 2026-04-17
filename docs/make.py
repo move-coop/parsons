@@ -65,7 +65,39 @@ def reuse_builds_old_versions():
             shutil.rmtree(item)
 
 
-def build_docs():
+def clean():
+    """Delete the '_build' and 'html' directories if they exist."""
+    for d in [BUILDDIR, HTMLDIR]:
+        if d.exists():
+            logger.info("Cleaning %s...", d)
+            shutil.rmtree(d)
+
+
+def test():
+    """Build sphinx documentation from latest code failing if there are syntax issues."""
+    check_dependencies()
+
+    run_command(
+        [
+            SPHINXBUILD,
+            "--jobs=auto",
+            "--fail-on-warning",
+            "--nitpicky",
+            "--fresh-env",
+            str(SOURCEDIR),
+            str(HTMLDIR),
+        ]
+    )
+
+
+def linkcheck():
+    """Build sphinx documentation, checking for broken links."""
+    check_dependencies()
+
+    run_command([SPHINXBUILD, "-b", "linkcheck", SOURCEDIR, BUILDDIR / "linkcheck"])
+
+
+def build():
     """Build multi-version sphinx documentation."""
     check_dependencies()
 
@@ -101,22 +133,13 @@ def build_docs():
         logger.info("404 page added to root.")
 
 
-def clean():
-    """Delete the '_build' and 'html' directories if they exist."""
-    for d in [BUILDDIR, HTMLDIR]:
-        if d.exists():
-            logger.info("Cleaning %s...", d)
-            shutil.rmtree(d)
-
-
 if __name__ == "__main__":
     targets = {
-        "build_docs": build_docs,
         "clean": clean,
-        "linkcheck": lambda: run_command(
-            [SPHINXBUILD, "-b", "linkcheck", SOURCEDIR, BUILDDIR / "linkcheck"]
-        ),
-        "help": lambda: run_command([SPHINXBUILD, "-M", "help", SOURCEDIR, BUILDDIR]),
+        "test": test,
+        "linkcheck": linkcheck,
+        "build_docs": build,
+        "help": lambda: run_command([SPHINXBUILD, "--help"]),
     }
 
     target = sys.argv[1] if len(sys.argv) > 1 else "help"

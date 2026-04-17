@@ -15,7 +15,7 @@ Quickstart
 ==========
 
 Provide a few examples of how to use ``YourConnector``. Each example should be limited to a few lines of code.
-Use the `Sphinx Markup syntax <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-code>`_
+Use the `Sphinx Markup syntax <https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#directive-code>`__
 to embed your examples. Be sure to provide an explanation of exactly what the code is doing.
 
 .. code-block:: python

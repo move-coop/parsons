@@ -23,8 +23,7 @@ class Airmeet:
                 The Airmeet API secret key.
 
         For instructions on how to generate an access key and secret key set,
-        see `Airmeet's Event Details API documentation
-        <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+        see `Airmeet's Event Details API Documentation`_.
 
     """
 
@@ -67,9 +66,7 @@ class Airmeet:
         Args:
             page_size: 50
                 The number of items to get per page. The max allowed varies by
-                API call. For details, see `Airmeet's Event Details API
-                documentation
-                <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+                API call. For details, see ``Airmeet's Event Details API Documentation`_.
             `**kwargs`:
                 Additional parameters to include in the request.
 

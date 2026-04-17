@@ -5,8 +5,8 @@ Mailchimp
 Overview
 ========
 
-`Mailchimp <https://www.mailchimp.com>`_ is a platform used for creating and sending mass emails.
-`The Mailchimp API <https://developers.braintreepayments.com/>`_ allows users to interact with data from existing
+`Mailchimp <https://www.mailchimp.com>`__ is a platform used for creating and sending mass emails.
+`The Mailchimp API <https://developers.braintreepayments.com/>`__ allows users to interact with data from existing
 email campaigns under their account and to configure further campaigns.
 
 This Parsons integration focuses on accessing information about previous email campaigns, including methods for
@@ -16,7 +16,7 @@ fetching campaigns, members, emails, and unsubscribes.
 
    Mailchimp requires an API key, which can be obtained from the 'API Keys' section of your Mailchimp
    account, assuming you have Manager privileges. For more information about Mailchimp authentication, see
-   the Mailchimp help page about `API Keys <https://mailchimp.com/help/about-api-keys/>`_.
+   the Mailchimp help page about `API Keys <https://mailchimp.com/help/about-api-keys/>`__.
 
 Quickstart
 ==========

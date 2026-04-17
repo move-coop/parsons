@@ -5,12 +5,12 @@ Redash
 Overview
 ========
 
-The :class:`~parsons.redash.redash.Redash` class allows you to interact with a `Redash server <https://redash.io/>`_ to fetch fresh or cached
+The :class:`~parsons.redash.redash.Redash` class allows you to interact with a `Redash server <https://redash.io/>`__ to fetch fresh or cached
 query results as a Parsons :ref:`Table`.
 
 .. admonition:: Authentication
 
-   The `Redash API <https://redash.io/help/user-guide/integrations-and-api/api>`_ has two types of API keys:
+   The `Redash API <https://redash.io/help/user-guide/integrations-and-api/api>`__ has two types of API keys:
    *User API keys* which are found on user profile pages, and *Query API keys* which are found on query pages. The
    :class:`~parsons.redash.redash.Redash` class supports fetching fresh queries with a User API Key, and cached queries with a Query API Key.
 

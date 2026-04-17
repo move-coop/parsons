@@ -5,12 +5,12 @@ Census
 Overview
 ========
 
-Connects to the `Census API <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_.
+Connects to the `Census API <https://www.census.gov/data/developers/guidance/api-user-guide.html>`__.
 It has been tested with the ACS and Economic Survey endpoints.
 
 .. admonition:: Authentication
 
-   The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`_ (click on the box that says "Request a KEY")
+   The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`__ (click on the box that says "Request a KEY")
 
 Quickstart
 ==========

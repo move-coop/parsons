@@ -5,8 +5,8 @@ CapitolCanary
 Overview
 ========
 
-`CapitolCanary <https://capitolcanary.com/>`_ is a digital advocacy tool used by progressive organizations. This class
-allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`_.
+`CapitolCanary <https://capitolcanary.com/>`__ is a digital advocacy tool used by progressive organizations. This class
+allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`__.
 
 .. admonition:: Authentication
 
@@ -48,3 +48,5 @@ API
 .. autoclass:: parsons.capitol_canary.capitol_canary.CapitolCanary
    :inherited-members:
    :members:
+
+.. _phone2action api create advocate documentation: https://docs.phone2action.com/#calls-create

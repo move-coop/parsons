@@ -9,7 +9,7 @@ The NationBuilder class allows you to interact with the NationBuilder API. Users
 
 .. admonition:: Authentication
 
-   In order to use this class you need your nation slug and access token. To get your access token login to your nation and navigate to ``Settings > Developer > API Token`` and create a new token. You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`_.
+   In order to use this class you need your nation slug and access token. To get your access token login to your nation and navigate to ``Settings > Developer > API Token`` and create a new token. You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`__.
 
 Quickstart
 ==========

@@ -5,7 +5,7 @@ Alchemer
 Overview
 ========
 
-`Alchemer <https://www.alchemer.com/>`_ is an online research tool that allows users to field surveys. This Parsons
+`Alchemer <https://www.alchemer.com/>`__ is an online research tool that allows users to field surveys. This Parsons
 class allows users to retrieve surveys and survey results.
 
 .. note::
@@ -15,7 +15,7 @@ class allows users to retrieve surveys and survey results.
 .. admonition:: Authentication
 
    To use the class, you need to provide an Alchemer API token and API token secret. For more information,
-   see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`_.
+   see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`__.
 
 Quickstart
 ==========

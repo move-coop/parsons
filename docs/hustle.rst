@@ -5,14 +5,14 @@ Hustle
 Overview
 ========
 
-`Hustle <https://www.hustle.com/>`_ is a peer to peer texting communication platform. This Parsons integration with the
-the `Hustle v1 API <https://api.hustle.com/docs/>`_ provides methods for fetching agents,
+`Hustle <https://www.hustle.com/>`__ is a peer to peer texting communication platform. This Parsons integration with the
+the `Hustle v1 API <https://api.hustle.com/docs/>`__ provides methods for fetching agents,
 organizations, groups, leads, and tags, as well as creating and updating agents and leads.
 
 .. admonition:: Authentication
 
    Hustle uses the
-   `OAuth2 client credentials flow <https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/>`_.
+   `OAuth2 client credentials flow <https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/>`__.
    Clients with a Hustle account can obtain the client ID and client secret needed to request a token which
    grants to access the Hustle API for 2 hours before expiring.
 

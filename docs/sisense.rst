@@ -5,17 +5,17 @@ Sisense
 Overview
 ========
 
-`Sisense for Cloud Data Teams <https://www.sisense.com/product/data-teams/>`_ is a business intelligence software
+`Sisense for Cloud Data Teams <https://www.sisense.com/product/data-teams/>`__ is a business intelligence software
 formerly known as `Periscope Data <https://www.sisense.com/blog/periscope-data-is-now-sisense-for-cloud-data-teams/>`_,
 with functionality including dashboards, data warehousing, data mining, and predictive analytics.
 
-This Parsons integration with the `Sisense REST API v1.0 <https://sisense.dev/reference/rest/v1.html>`_ supports
+This Parsons integration with the `Sisense REST API v1.0 <https://sisense.dev/reference/rest/v1.html>`__ supports
 fetching, posting, and deleting shared dashboards.
 
 .. admonition:: Authentication
 
    Your site name and an authentication token are required to use the :class:`~parsons.sisense.sisense.Sisense` class. To obtain a token, log in to
-   the Sisense Web Application and follow the instructions in the `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`_.
+   the Sisense Web Application and follow the instructions in the `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`__.
    Be sure to select version ``1.0`` of the API.
 
 Quickstart

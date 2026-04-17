@@ -84,7 +84,7 @@ class TargetSmartAutomation:
               non-optimal results. You can obtain the layout requirements and
               other information about a workflow by visiting the Automation
               console in My TargetSmart. Contact `TargetSmart Client Services
-              <mailto:support@targetsmart.com>`_ for support.
+              <mailto:support@targetsmart.com>`__ for support.
 
         Args:
             table: Parsons Table Object

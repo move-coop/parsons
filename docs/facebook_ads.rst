@@ -20,9 +20,9 @@ Facebook's advertising and Pages systems are massive. Check out the overviews fo
 .. admonition:: Authentication
 
    Before using :class:`~parsons.facebook_ads.facebook_ads.FacebookAds`, you'll need the following:
-   * A FB application, specifically the app ID and secret. See `<https://developers.facebook.com>`_ to find your app details or create a new app. Note that a Facebook app isn't necessarily visible to anyone but you: it's just needed to interact with the Facebook API.
-   * A FB ad account. See `<https://business.facebook.com>`_ to find your ad accounts or create a new one.
-   * A FB access token representing a user that has access to the relevant ad account. You can generate an access token from your app, either via the Facebook API itself, or via console at `<https://developers.facebook.com>`_.
+   * A FB application, specifically the app ID and secret. See `<https://developers.facebook.com>`__ to find your app details or create a new app. Note that a Facebook app isn't necessarily visible to anyone but you: it's just needed to interact with the Facebook API.
+   * A FB ad account. See `<https://business.facebook.com>`__ to find your ad accounts or create a new one.
+   * A FB access token representing a user that has access to the relevant ad account. You can generate an access token from your app, either via the Facebook API itself, or via console at `<https://developers.facebook.com>`__.
 
 Quickstart
 ==========

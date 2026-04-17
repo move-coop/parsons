@@ -255,7 +255,7 @@ class S3:
             you may be mis-using S3, and should consider using the same bucket for multiple tasks.
             There is no limit on the number of objects in a bucket.
             See `AWS bucket restrictions
-            <https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html>`_ for more
+            <https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html>`__ for more
             info.
 
         .. warning::
@@ -287,7 +287,7 @@ class S3:
                 The S3 permissions on the file
             kwargs:
                 Additional arguments for the S3 API call. See `AWS Put Object documentation
-                <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more
+                <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`__ for more
                 info.
 
         """

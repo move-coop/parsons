@@ -24,7 +24,7 @@ Our mission is to break down technological barriers for organizations that fight
 License and Usage
 -----------------
 
-Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
+Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`__.
 
 Resources
 =========
@@ -38,11 +38,11 @@ Installation
 ============
 
 You can install Parsons using ``pip install parsons``.
-We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`_.
+We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`__.
 
-Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`_ on our website.
+Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`__ on our website.
 
-We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`_ for each release of Parsons.
+We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`__ for each release of Parsons.
 
 Quickstart
 ==========
@@ -107,7 +107,7 @@ Central to this concept is the :ref:`Table` the table-like object that most meth
 Logging
 =======
 
-Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_.
+Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`__.
 By default, log output will go to the console and look like:
 
 .. code-block:: none

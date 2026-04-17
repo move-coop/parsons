@@ -5,7 +5,7 @@ Bill.com
 Overview
 ========
 
-`Bill.com <https://www.bill.com>`_ is an online billing and invoicing tool. This class contains methods to:
+`Bill.com <https://www.bill.com>`__ is an online billing and invoicing tool. This class contains methods to:
 
 - Get lists of customers, users, and invoices
 - Read, create, and send invoices

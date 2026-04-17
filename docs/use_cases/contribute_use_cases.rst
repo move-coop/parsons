@@ -19,7 +19,7 @@ To request access to the Parsons slack, email *engineering@movementcooperative.o
    The last step in this process involves submitting your contribution as a pull request.
    To do this, fork the repository by clicking the "fork" button in the top right-hand corner.
    Then you can make the edits described below, either locally or through the
-   `Github web editor <https://docs.github.com/en/codespaces/the-githubdev-web-based-editor>`_.
+   `Github web editor <https://docs.github.com/en/codespaces/the-githubdev-web-based-editor>`__.
    Once you've saved your changes (if you're working locally, this means doing a ``git push`` back to your fork)
    an alert asking you if you want to open a pull request should appear on your fork's main page.
    Go ahead and follow those instructions!
@@ -27,11 +27,11 @@ To request access to the Parsons slack, email *engineering@movementcooperative.o
 Steps:
 
 1. Write up your use case in a file in ``docs/use_cases``. Use the guidelines below for style and content.
-   The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`_ file.
+   The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`__ file.
    Note that the syntax for RST files can be a little tricky!
 
 2. Test that your use case looks correct by building the documentation.
-   There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`_.
+   There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`__.
    The important steps to follow there are making a virtual environment, installing parsons, and then building the docs with `make deploy_docs`.
 
 3. Write up your sample script in a Python (``.py``) file, place it in ``useful_resources/sample_code``,
@@ -139,7 +139,7 @@ Please use code comments to describe what's happening in the code. Err on the si
 Write Code in the Parsons Style
 -------------------------------
 
-We're still working on our style guide, so for now, just try to write code that's in line with Python's `PEP8 <https://realpython.com/python-pep8/>`_.
+We're still working on our style guide, so for now, just try to write code that's in line with Python's `PEP8 <https://realpython.com/python-pep8/>`__.
 If you're not used to writing code in this style, we're happy to help.
 
 In particular, please try to use meaningful and readable variable names. For example, instead of writing::

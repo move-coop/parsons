@@ -99,7 +99,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`_.
+        following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 

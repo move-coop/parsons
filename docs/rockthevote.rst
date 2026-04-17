@@ -5,8 +5,8 @@ Rock the Vote
 Overview
 ========
 
-`Rock the Vote <https://www.rockthevote.org/>`_ is an online registration tool. This Parsons connector makes use of
-Rock the Vote's `Rocky API <https://rock-the-vote.github.io/Voter-Registration-Tool-API-Docs/>`_.
+`Rock the Vote <https://www.rockthevote.org/>`__ is an online registration tool. This Parsons connector makes use of
+Rock the Vote's `Rocky API <https://rock-the-vote.github.io/Voter-Registration-Tool-API-Docs/>`__.
 
 .. admonition:: Authentication
 

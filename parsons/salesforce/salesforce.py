@@ -13,7 +13,7 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
-    Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`_ authentication methods.
+    Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`__ authentication methods.
 
     Args:
         username: str
@@ -111,7 +111,7 @@ class Salesforce:
         Args:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
-                For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+                For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`__.
 
         Returns:
             list[dict]

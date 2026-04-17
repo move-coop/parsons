@@ -5,7 +5,7 @@ Bloomerang
 Overview
 ========
 
-`Bloomerang <https://bloomerang.co/>`_ is a donor management platform for non-profits. This Parsons integration with
+`Bloomerang <https://bloomerang.co/>`__ is a donor management platform for non-profits. This Parsons integration with
 the private `Bloomerang REST API <https://bloomerang.co/features/integrations/api/rest-api>`_
 supports fetching, creating, and updating records of constituents, donations, and interactions.
 

@@ -7,13 +7,13 @@ Overview
 
 The Slack module leverages the Slack API and provides way to easily send
 notifications through Slack. It is recommended that you reference the
-`Slack API documentation <https://api.slack.com/>`_ for additional details and
+`Slack API documentation <https://api.slack.com/>`__ for additional details and
 information.
 
 .. admonition:: API Tokens
 
    - Slack API Tokens are required to use this module. To obtain an API
-     Token, `create a Slack App <https://api.slack.com/apps>`_ associated
+     Token, `create a Slack App <https://api.slack.com/apps>`__ associated
      with the desired Slack workspace. Once you create the app, navigate
      to 'OAuth & Permissions' and add the following OAuth scopes:
 

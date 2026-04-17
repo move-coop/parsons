@@ -93,7 +93,7 @@ class Twilio:
         Args:
             category: str
                 Filter to a specific type of usage category. The list of possibilities can be found
-                `here <https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&code-language=Python&code-sdk-version=5.x#usage-all-categories>`_.
+                `here <https://www.twilio.com/docs/usage/api/usage-record#usage-all-categories>`__.
             start_date: str
                 Filter to usage from a specific start date (ex. ``2019-01-01``).
             end_date: str

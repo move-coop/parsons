@@ -5,15 +5,15 @@ Zoom
 Overview
 ========
 
-`Zoom <https://zoom.us>`_ is a video conferencing platform. This connector supports
+`Zoom <https://zoom.us>`__ is a video conferencing platform. This connector supports
 fetching users, fetching meetings, fetching metadata for past meetings, and fetching
-participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`_.
+participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`__.
 
 .. admonition:: Authentication
 
    The :class:`~parsons.zoom.zoom.Zoom` class uses server-to-server `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
    to authenticate queries to the Zoom API. You must create a server-to-server application at
-   `Zoom App Marketplace - Create App <https://marketplace.zoom.us/develop/create>`_ to obtain an
+   `Zoom App Marketplace - Create App <https://marketplace.zoom.us/develop/create>`__ to obtain an
    ``account_id``, ``client_id``, and ``client_secret`` key. You will use this OAuth application to define your scopes,
    which gives your ``Zoom`` connector read permission on endpoints of your choosing (`meetings`, `webinars`, `reports`, etc.)
 

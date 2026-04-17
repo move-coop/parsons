@@ -5,9 +5,9 @@ MobileCommons
 Overview
 ========
 
-`MobileCommons <https://secure.mcommons.com/>`_ is a broadcast text messaging tool that helps orgranizations
+`MobileCommons <https://secure.mcommons.com/>`__ is a broadcast text messaging tool that helps orgranizations
 mobilize supporters and fundraise by building opt-ed in audiences. You can read more about the product
-`here <https://uplandsoftware.com/mobile-messaging/>`_.
+`here <https://uplandsoftware.com/mobile-messaging/>`__.
 
 Quickstart
 ==========
@@ -17,7 +17,7 @@ or store the username and password into environmental variables called ``MOBILEC
 ``MOBILECOMMONS_PASSWORD``, respectively. If you MobileCommons account has access to various MobileCommons
 companies (i.e. organizations), you'll need to specify which MobileCommons company you'd like to interact
 with by specifying the Company ID in the ``company_id`` parameter. To find the Company ID, navigate to the
-`Company and Users page <https://secure.mcommons.com/companies/>`_.
+`Company and Users page <https://secure.mcommons.com/companies/>`__.
 
 .. code-block:: python
    :caption: Pass credentials via environmental variables for account has access to only one MobileCommons company

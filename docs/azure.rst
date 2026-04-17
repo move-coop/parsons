@@ -5,10 +5,10 @@ Azure Blob Storage
 Overview
 ========
 
-`Azure Blob Storage <https://azure.microsoft.com/en-us/services/storage/blobs/>`_ is a cloud file storage system that
+`Azure Blob Storage <https://azure.microsoft.com/en-us/services/storage/blobs/>`__ is a cloud file storage system that
 uses storage accounts to organize containers (similar to "buckets" for other storage providers) in which to store
 arbitrary files referred to as 'blobs'. This Parsons integration currently only implements
-`block blobs, not page or append blobs <https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs>`_.
+`block blobs, not page or append blobs <https://docs.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs>`__.
 
 .. admonition:: Authentication
 

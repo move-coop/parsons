@@ -17,7 +17,7 @@ class CivisClient:
         api_key: str
             The Civis api key.
         `**kwargs`: args
-            Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
+            Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`__.
 
     Returns:
         Civis class
@@ -31,7 +31,7 @@ class CivisClient:
         """
         The Civis API client. Utilize this attribute to access to lower level and more
         advanced methods which might not be surfaced in Parsons. A list of the methods
-        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
+        can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`__.
         """
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):

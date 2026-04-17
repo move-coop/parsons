@@ -5,18 +5,17 @@ ActionKit
 Overview
 ========
 
-`ActionKit <https://actionkit.com/>`_ is a platform for advocacy, fundraising, and
+`ActionKit <https://actionkit.com/>`__ is a platform for advocacy, fundraising, and
 get-out-the-vote. This Parsons integration with the
-`ActionKit REST API <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html>`_
+`ActionKit REST API <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html>`__
 supports fetching, creating, and updating records of campaigns, events, mailers, orders, survey questions,
 transactions, and users. Bulk upload of new users and user updates is also supported.
 
 .. admonition:: Authentication
 
-   ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
+   ActionKit requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`__.
    Clients with an ActionKit account can obtain the domain, username, and password needed to access the ActionKit API.
-   See the `ActionKit REST API Authentication <https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication>`_
-   documentation for more information on obtaining ActionKit API credentials.
+   See the `ActionKit API Authentication Documentation`_ for more information on obtaining ActionKit API credentials.
 
 Quickstart
 ==========
@@ -66,3 +65,14 @@ API
 .. autoclass:: parsons.action_kit.action_kit.ActionKit
    :inherited-members:
    :members:
+
+.. _actionkit api authentication documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication
+.. _actionkit api action processing documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html
+.. _actionkit api ordering documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering
+.. _actionkit api uploads documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html
+.. _actionkit api autocreate_user_fields documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request
+.. _actionkit api users documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/users.html
+.. _actionkit api mailer documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html
+.. _actionkit api event search examples: https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html
+.. _actionkit email blackhole documentation: https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole
+.. _django field lookup documentation: https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups

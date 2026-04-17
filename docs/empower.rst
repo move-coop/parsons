@@ -6,7 +6,7 @@ Overview
 ========
 
 The Empower class allows you to interact with the Empower API. Documentation for the Empower API can be found
-in their `GitHub <https://github.com/getempower/api-documentation/blob/master/README.md>`_ repo.
+in their `GitHub <https://github.com/getempower/api-documentation/blob/master/README.md>`__ repo.
 
 The Empower API only has a single endpoint to access all account data. As such, it has a very high overhead. This
 connector employs caching in order to allow the user to specify the tables to extract without additional API calls.

@@ -5,7 +5,7 @@ Civis
 Overview
 ========
 
-The `Civis Platform <https://www.civisanalytics.com/civis-platform/>`_ is a cloud-based data science platform.
+The `Civis Platform <https://www.civisanalytics.com/civis-platform/>`__ is a cloud-based data science platform.
 This Parsons connector utilizes the `Civis API Python client <https://civis-python.readthedocs.io/en/stable/user_guide.html>`_
 to interact with the Civis Platform. It supports executing Civis SQL queries and writing Parsons Tables to a Civis
 Redshift cluster.
@@ -13,7 +13,7 @@ Redshift cluster.
 .. admonition:: Authentication
 
    The :class:`~parsons.civis.civisclient.CivisClient` class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
-   Civis and follow the instructions for `Creating an API Key <https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key>`_.
+   Civis and follow the instructions for `Creating an API Key <https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key>`__.
 
 Quickstart
 ==========

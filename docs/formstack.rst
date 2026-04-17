@@ -5,14 +5,14 @@ Formstack
 Overview
 ========
 
-`Formstack <https://www.formstack.com/>`_ is a service that provides an advanced online form builder.
+`Formstack <https://www.formstack.com/>`__ is a service that provides an advanced online form builder.
 This connector allows you to load data from the Formstack API.
 
 .. admonition:: Authentication
 
    Formstack uses OAuth2 user access tokens to handle authentication. *"Access tokens are tied to a
    Formstack user and follow Formstack (in-app) user permissions."* You can acquire an OAuth2 token
-   in the `Formstack API overview <https://developers.formstack.com/reference/api-overview>`_.
+   in the `Formstack API overview <https://developers.formstack.com/reference/api-overview>`__.
 
    You can pass the token to the :class:`~parsons.formstack.formstack.Formstack` object as the `api_token` keyword argument, or you
    can set the environment variable ``FORMSTACK_API_TOKEN``.

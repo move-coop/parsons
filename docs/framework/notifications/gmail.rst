@@ -7,7 +7,7 @@ Overview
 
 The Gmail module leverages the Gmail API and provides an way to easily send
 notifications through email. It is recommended that you reference the
-`Gmail API documentation <https://developers.google.com/gmail/api/>`_ for
+`Gmail API documentation <https://developers.google.com/gmail/api/>`__ for
 additional details and information.
 
 .. admonition:: Credentials and token

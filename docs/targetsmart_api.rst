@@ -2,13 +2,13 @@
 TargetSmart Developer API
 #########################
 
-`TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community.
+`TargetSmart <https://targetsmart.com/>`__ provides access to voter and consumer data for the progressive community.
 
 Overview
 ========
 
 The :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI` class provides methods to consume the data services provided by the
-`TargetSmart Developer API <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_.
+`TargetSmart Developer API <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__.
 Parsons provides the following methods as convenient wrappers for interacting with the corresponding TargetSmart HTTP services:
 
 * ``data_enhance``: Quickly retrieve voter and consumer data enrichment fields from TargetSmart’s platform database for a previously identified individual.
@@ -19,11 +19,11 @@ Parsons provides the following methods as convenient wrappers for interacting wi
 * ``smartmatch``: Match CSV file records to TargetSmart's service database of voting age individuals. Multiple matching strategies are applied to find accurate matches and return enriched data. Read more about `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_, TargetSmart's list matching solution.
 
 Some TargetSmart API services have not yet been implemented in Parsons.
-For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_.
+For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__.
 
 .. admonition:: Authentication
 
-   Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials.
+   Log in to `My TargetSmart <https://my.targetsmart.com/>`__ to access authentication credentials.
    You will need an API key to use the :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI` class.
 
 .. admonition:: Endpoint Access
@@ -38,7 +38,7 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
    Most TargetSmart API services append a set of enrichment data fields as part of
    a matching or search request. The presence of these fields are provisioned by
    the TargetSmart Client Services team. Please contact `TargetSmart Client
-   Services <mailto:support@targetsmart.com>`_ to learn more or request adjustments.
+   Services <mailto:support@targetsmart.com>`__ to learn more or request adjustments.
 
 Quickstart
 ==========

@@ -232,7 +232,7 @@ class ETL:
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`_.
+        method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
 
         Args:
             `*column`: str
@@ -486,7 +486,7 @@ class ETL:
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
         as regex. This method leverages the petl ``convert()`` method. Example usage can be
-        found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`_.
+        found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`__.
 
         Args:
             `*args`: str, method or variable

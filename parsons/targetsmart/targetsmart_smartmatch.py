@@ -161,7 +161,8 @@ class SmartMatch:
 
         Args:
             input_table: Parsons or Petl table
-                A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
+                Required. A Parsons table with
+                `supported header field names <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`__.
             disable_automatic_matchback_id_creation: bool
                 Set to True to disable auto creation of matchback_id. Default of False.
             max_matches: int

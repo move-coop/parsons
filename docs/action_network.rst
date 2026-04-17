@@ -5,10 +5,10 @@ Action Network
 Overview
 ========
 
-`Action Network <https://actionnetwork.org/>`_ is an online tool for storing information
+`Action Network <https://actionnetwork.org/>`__ is an online tool for storing information
 and organizing volunteers and donors. It is used primarily for digital organizing and event mangement.
-For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`_,
-`SQL Mirror developer docs <https://actionnetwork.org/mirroring/docs>`_
+For more information, see `Action Network developer docs <https://actionnetwork.org/docs>`__,
+`SQL Mirror developer docs <https://actionnetwork.org/mirroring/docs>`__.
 
 .. admonition:: Authentication
 
@@ -300,3 +300,33 @@ API
 .. autoclass:: parsons.action_network.action_network.ActionNetwork
    :inherited-members:
    :members:
+
+.. _actionnetwork advocacy campaigns documentation: https://actionnetwork.org/docs/v2/advocacy_campaigns
+.. _actionnetwork attendances documentation: https://actionnetwork.org/docs/v2/attendances
+.. _actionnetwork campaigns documentation: https://actionnetwork.org/docs/v2/campaigns
+.. _actionnetwork custom fields documentation: https://actionnetwork.org/docs/v2/custom_fields
+.. _actionnetwork donations documentation: https://actionnetwork.org/docs/v2/donations
+.. _actionnetwork embeds documentation: https://actionnetwork.org/docs/v2/embeds
+.. _actionnetwork event campaigns documentation: https://actionnetwork.org/docs/v2/event_campaigns
+.. _actionnetwork events documentation: https://actionnetwork.org/docs/v2/events
+.. _actionnetwork forms documentation: https://actionnetwork.org/docs/v2/forms
+.. _actionnetwork fundraising pages documentation: https://actionnetwork.org/docs/v2/fundraising_pages
+.. _actionnetwork items documentation: https://actionnetwork.org/docs/v2/items
+.. _actionnetwork lists documentation: https://actionnetwork.org/docs/v2/lists
+.. _actionnetwork messages documentation: https://actionnetwork.org/docs/v2/messages
+.. _actionnetwork schedule helper documentation: https://actionnetwork.org/docs/v2/schedule_helper
+.. _actionnetwork send helper documentation: https://actionnetwork.org/docs/v2/send_helper
+.. _actionnetwork metadata documentation: https://actionnetwork.org/docs/v2/metadata
+.. _actionnetwork outreaches documentation: https://actionnetwork.org/docs/v2/outreaches
+.. _actionnetwork people documentation: https://actionnetwork.org/docs/v2/people
+.. _actionnetwork person signup helper documentation: https://actionnetwork.org/docs/v2/person_signup_helper
+.. _actionnetwork background processing documentation: https://actionnetwork.org/docs/v2/#background-processing
+.. _actionnetwork petitions documentation: https://actionnetwork.org/docs/v2/petitions
+.. _actionnetwork queries documentation: https://actionnetwork.org/docs/v2/queries
+.. _actionnetwork signatures documentation: https://actionnetwork.org/docs/v2/signatures
+.. _actionnetwork submissions documentation: https://actionnetwork.org/docs/v2/submissions
+.. _actionnetwork surveys documentation: https://actionnetwork.org/docs/v2/surveys
+.. _actionnetwork tags documentation: https://actionnetwork.org/docs/v2/tags
+.. _actionnetwork taggings documentation: https://actionnetwork.org/docs/v2/taggings
+.. _actionnetwork wrappers documentation: https://actionnetwork.org/docs/v2/wrappers
+.. _actionnetwork unique id lists documentation: https://actionnetwork.org/docs/v2/unique_id_lists

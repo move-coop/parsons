@@ -5,13 +5,13 @@ Airtable
 Overview
 ========
 
-The :class:`~parsons.airtable.airtable.Airtable` class allows you to interact with an `Airtable <https://airtable.com/>`_ base. In order to use this class
-you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`_.
+The :class:`~parsons.airtable.airtable.Airtable` class allows you to interact with an `Airtable <https://airtable.com/>`__ base. In order to use this class
+you must generate an Airtable personal access token which can be found in your Airtable `settings <https://airtable.com/create/tokens>`__.
 
 .. admonition:: Finding The Base Key
 
    The easiest place to find the ``base_key`` for the base that you wish to interact with is via the Airtable API documentation.
-   * Go to the `Airtable API Base List <https://airtable.com/api>`_ and select the base.
+   * Go to the `Airtable API Base List <https://airtable.com/api>`__ and select the base.
    * The url of the resulting page will contain the ``base_key``.
    * Example: ``https://airtable.com/[BASE_KEY]/api/docs#curl/introduction``
 

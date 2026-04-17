@@ -6,8 +6,8 @@ Overview
 ========
 
 The :class:`~parsons.databases.redshift.redshift.Redshift` class allows you to interact with an
-`Amazon Redshift <https://aws.amazon.com/redshift/>`_ relational database.
-The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`_ Python package under the hood.
+`Amazon Redshift <https://aws.amazon.com/redshift/>`__ relational database.
+The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`__ Python package under the hood.
 The core methods focus on input, output and querying of the database.
 
 In addition to the core API integration provided by the :class:`~parsons.databases.redshift.redshift.Redshift` class,
@@ -19,7 +19,7 @@ See :ref:`aws/redshift:Table and View API` and :ref:`aws/redshift:Schema API` fo
    Redshift only allows data to be copied to the database via S3. As such, the the :meth:`~parsons.databases.redshift.redshift.Redshift.copy`
    and :meth:`~parsons.databases.redshift.redshift.Redshift.copy_s3` methods require S3 credentials and write access on an S3 Bucket,
    which will be used for storing data en route to Redshift. For more information about AWS Redshift authorization,
-   see the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_.
+   see the `API documentation <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`__.
 
 .. admonition:: Whitelisting
 
@@ -30,7 +30,7 @@ Quickstart
 
 Redshift API credentials can either be passed as environmental variables (``REDSHIFT_USERNAME``, ``REDSHIFT_PASSWORD``,
 ``REDSHIFT_HOST``, ``REDSHIFT_DB``, and ``REDSHIFT_PORT``) or as keyword arguments. Methods that use COPY require an
-`access key ID and a secret access key <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`_,
+`access key ID and a secret access key <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-authorization.html>`__,
 which can also be passed as environmental variables (``aws_access_key_id`` and ``aws_secret_access_key``)
 or keyword arguments.
 

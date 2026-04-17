@@ -5,7 +5,7 @@ TargetSmart
 Overview
 ========
 
-`TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community.
+`TargetSmart <https://targetsmart.com/>`__ provides access to voter and consumer data for the progressive community.
 
 TargetSmart Developer API
 =========================

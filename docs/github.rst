@@ -5,10 +5,10 @@ GitHub
 Overview
 ========
 
-`GitHub <https://github.com>`_ is an online tool for software collaboration.
+`GitHub <https://github.com>`__ is an online tool for software collaboration.
 
 This :class:`~parsons.github.github.GitHub` class uses the `PyGitHub library <https://pygithub.readthedocs.io/en/latest/introduction.html>`_
-to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`_. The class provides methods to:
+to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`__. The class provides methods to:
 
 - Get an individual user, organization, repo, issue, or pull request
 - Get lists of user or organization repos for a given ``username`` or ``organization_name``
@@ -18,7 +18,7 @@ to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`_. Th
 .. admonition:: API Credentials
 
    - If you have a GitHub account you can use your normal username and password to authenticate with the API.
-   - You can also use `a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+   - You can also use `a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`__.
 
 Quickstart
 ==========

@@ -9,7 +9,7 @@ The GoogleDocs class allows you to interact with Google Docs. You can use this c
 
 In order to instantiate the class, you must pass Google service account credentials as a dictionary, or store the credentials as a JSON file locally and pass the path to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable. You can follow these steps:
 
-- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_ and make sure the "Google Docs API" and "Google Drive API" are both enabled.
+- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`__ and make sure the "Google Docs API" and "Google Drive API" are both enabled.
 - Go to the credentials page via the lefthand sidebar. On the credentials page, click "create credentials".
 - Choose the "Service Account" option and fill out the form provided. This should generate your credentials.
 - Select your newly created Service Account on the credentials main page.

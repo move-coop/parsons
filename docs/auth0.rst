@@ -5,7 +5,8 @@ Auth0
 Overview
 ========
 
-`Auth0 <https://auth0.com/>`_ is an authentication and authorization platform. This Parsons integration with the `Auth0 Management API <https://auth0.com/docs/api/management/v2>`_ supports fetching and deleting user records.
+`Auth0 <https://auth0.com/>`__ is an authentication and authorization platform.
+This Parsons integration with the `Auth0 Management API <https://auth0.com/docs/api/management/v2>`__ supports fetching and deleting user records.
 
 Quickstart
 ==========

@@ -5,12 +5,12 @@ Shopify
 Overview
 ========
 
-`Shopify <https://www.shopify.com/>`_ is an e-commerce platform for online stores.
-This Parsons integration with the `Shopify REST API <https://shopify.dev/api/admin/rest/reference>`_ supports fetching records of orders.
+`Shopify <https://www.shopify.com/>`__ is an e-commerce platform for online stores.
+This Parsons integration with the `Shopify REST API <https://shopify.dev/api/admin/rest/reference>`__ supports fetching records of orders.
 
 .. admonition:: Authentication
 
-   Shopify supports different types of authentication methods for different types of apps, which are documented `here <https://shopify.dev/apps/auth>`_.
+   Shopify supports different types of authentication methods for different types of apps, which are documented `here <https://shopify.dev/apps/auth>`__.
 
 Quickstart
 ==========

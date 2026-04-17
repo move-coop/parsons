@@ -5,8 +5,8 @@ CrowdTangle
 Overview
 ========
 
-`CrowdTangle <https://www.crowdtangle.com/>`_ is a Facebook-owned content monitoring and social monitoring platform.
-This Parsons integration with the `CrowdTangle API <https://github.com/CrowdTangle/API/wiki>`_ supports getting posts
+`CrowdTangle <https://www.crowdtangle.com/>`__ is a Facebook-owned content monitoring and social monitoring platform.
+This Parsons integration with the `CrowdTangle API <https://github.com/CrowdTangle/API/wiki>`__ supports getting posts
 and leaderboard data.
 
 .. admonition:: Authentication
@@ -18,7 +18,7 @@ and leaderboard data.
 
    The CrowdTangle API has strict rate limits that vary depending on the endpoint. In the :class:`~parsons.crowdtangle.crowdtangle.CrowdTangle` class, method
    docstrings indicate the rate limit for the relevant endpoint. For more information on rate limits and best practices
-   for meeting them, check the `API documentation <https://help.crowdtangle.com/en/articles/1189612-crowdtangle-api>`_.
+   for meeting them, check the `API documentation <https://help.crowdtangle.com/en/articles/1189612-crowdtangle-api>`__.
 
 .. admonition:: Performance
 

@@ -5,15 +5,15 @@ Airmeet
 Overview
 ========
 
-`Airmeet <https://www.airmeet.com/>`_ is a webinar platform. This connector supports
+`Airmeet <https://www.airmeet.com/>`__ is a webinar platform. This connector supports
 fetching events ("Airmeets"), sessions, participants, and other event data via the
-`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`__.
 
 .. admonition:: Authentication
 
    You must create an Access Key and Secret Key via the Airmeet website. These are used by the :class:`~parsons.airmeet.airmeet.Airmeet` class to fetch
    an access token which is used for subsequent interactions with the API. There are three region-based API endpoints; see
-   the `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`_ for details.
+   the `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`__ for details.
 
 Quickstart
 ==========
@@ -67,3 +67,5 @@ API
 .. autoclass:: parsons.airmeet.airmeet.Airmeet
    :inherited-members:
    :members:
+
+.. _airmeet event details api documentation: https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api

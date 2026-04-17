@@ -5,7 +5,7 @@ Freshdesk
 Overview
 ========
 
-`Freshdesk <https://freshdesk.com>`_ is an omnichannel customer support platform.
+`Freshdesk <https://freshdesk.com>`__ is an omnichannel customer support platform.
 This Parsons integration with the `Freshdesk API <https://developers.freshdesk.com/api/>`_
 provides methods to fetch tickets, contacts, companies, and agents. Results are returned
 as Parsons Tables.
@@ -14,13 +14,13 @@ as Parsons Tables.
 
    To use the :class:`~parsons.freshdesk.freshdesk.Freshdesk` class, you must provide the subdomain of your Freshdesk account and an API Key,
    which can be found by logging into Freshdesk and following the instructions in the
-   `API documentation <https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key>`_.
+   `API documentation <https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key>`__.
 
 .. admonition:: Rate Limits
 
    Rate limits depend on your Freshdesk plan, so be sure to check the API documentation for your
-   `rate limits <https://developers.freshdesk.com/api/#ratelimit>`_ and follow the
-   `best practices guide <https://developers.freshdesk.com/api/#best_practices>`_ to avoid exceeding them.
+   `rate limits <https://developers.freshdesk.com/api/#ratelimit>`__ and follow the
+   `best practices guide <https://developers.freshdesk.com/api/#best_practices>`__ to avoid exceeding them.
 
 Quickstart
 ==========

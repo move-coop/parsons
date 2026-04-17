@@ -217,7 +217,7 @@ class GoogleBigQuery(DatabaseConnector):
         a "commit" function.
 
         If you would like to manage transactions, please use multi-statement queries
-        as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
+        as described in the `BigQuery transactions documentation`_
         or utilize the `query_with_transaction` method on this class.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for

@@ -6,7 +6,7 @@ Overview
 ========
 
 The VAN module leverages the VAN API and generally follows the naming convention of their API endpoints. It
-is recommended that you reference their `API documentation <https://docs.ngpvan.com/reference/overview>`_ for
+is recommended that you reference their `API documentation <https://docs.ngpvan.com/reference/overview>`__ for
 additional details and information.
 
 .. admonition:: API Keys

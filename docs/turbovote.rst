@@ -5,13 +5,13 @@ TurboVote
 Overview
 ========
 
-`TurboVote <https://turbovote.org/>`_ is an online voter registration and vote by mail
+`TurboVote <https://turbovote.org/>`__ is an online voter registration and vote by mail
 tool. This class contains a single method which allows you to export your users
 (aka signups).
 
 .. admonition:: Authentication
 
-   TurboVote requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`_.
+   TurboVote requires `HTTP Basic Auth <https://en.wikipedia.org/wiki/Basic_access_authentication>`__.
    Clients with a TurboVote account must pass their username, password, and subdomain.
 
 Quickstart

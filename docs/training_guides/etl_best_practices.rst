@@ -36,9 +36,9 @@ Today we're going to be using a Parsons script to move data from Mobilize to Goo
 Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize,
 but whose canvassing status was being tracked via Google Sheets.
 
-The example script can be found in full `on Github <https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348>`_.
+The example script can be found in full `on Github <https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348>`__.
 
-If you need help getting set up with Parsons so that you can run this script, check out our `getting started training guide <getting_set_up.html>`_.
+If you need help getting set up with Parsons so that you can run this script, check out our `getting started training guide <getting_set_up.html>`__.
 
 Okay, let's proceed!
 
@@ -62,7 +62,7 @@ If you were able to get an API key, you can now save it as the environmental var
    set MOBILIZE_AMERICA_API_KEY=$API_KEY       # Windows
    export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 
-(Not comfortable with the command line? Check out our `training guide <getting_set_up.html>`_.)
+(Not comfortable with the command line? Check out our `training guide <getting_set_up.html>`__.)
 
 And that's it, you're done! When you instantiate the :class:`~parsons.mobilize_america.ma.MobilizeAmerica` connector,
 it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.
@@ -118,10 +118,10 @@ Your imports should look like this
    from datetime import datetime
    from parsons import Table, MobilizeAmerica, GoogleSheets
 
-`json <https://docs.python.org/3/library/json.html>`_ is a Python module that helps us convert between data in a JSON format
+`json <https://docs.python.org/3/library/json.html>`__ is a Python module that helps us convert between data in a JSON format
 (which is a popular way to store and share data) and Python data structures.
 
-`datetime <https://docs.python.org/3/library/datetime.html>`_  is a Python module that helps us work more easily with dates and times.
+`datetime <https://docs.python.org/3/library/datetime.html>`__  is a Python module that helps us work more easily with dates and times.
 
 Finally, from Parsons, we're importing the two connectors we're using, plus the Parsons :ref:`Table` object.
 The Parsons :ref:`Table` is the core data structure in Parsons. It's a standardized way to hold data,
@@ -221,7 +221,7 @@ Let's convert these unix timestamps to something more readable. To do this, we d
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format.
 For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
-Here's a `cheatsheet <https://strftime.org/>`_ in case you want to play around with the formatting.
+Here's a `cheatsheet <https://strftime.org/>`__ in case you want to play around with the formatting.
 
 Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s :meth:`~parsons.etl.table.Table.convert_column` function
 
@@ -259,7 +259,7 @@ Aggregating Data Using PETL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/en/stable/>`_
-is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
+is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`__.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons :ref:`Table`.
 Just convert your Parsons table to a PETL table with the :meth:`~parsons.etl.table.Table` method
@@ -361,9 +361,9 @@ feel free to suggest to us that we add it to the Parsons connector directly! Tha
 
 .. note::
 
-   What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`_.
+   What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`__.
    Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`_, which means we have access to all the cool features that Google developers have added to that client.
-   Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`_ to make requests. It does not have any additional connector-specific features.
+   Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`__ to make requests. It does not have any additional connector-specific features.
    You can access the client on a connector, whatever kind it is, with the method ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets, the client has a different, custom name such as ``google_sheets.gspread_client``. We're trying to make everything consistent but we haven't quite managed it yet, alas!)
 
 Let's just re-write the code above to show you what it would look like if we were using the client to do it
@@ -480,7 +480,7 @@ Step 3: Load Data from Warehouse to Action Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The final step is to move data from the warehouse to Action Network. You can use
-`this script <https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py>`_ to follow along if you have a Civis account.
+`this script <https://github.com/cmdelrio/parsons_etl_trainings/blob/main/Mobilize_to_ActionNetwork.py>`__ to follow along if you have a Civis account.
 
 Before we dive into the script, let's go over a few key concepts: log tables, and logging.
 
@@ -652,11 +652,11 @@ Different platforms allow you to schedule jobs in different ways. Civis lets you
 A Civis container script runs your Python code on a remote server for you. Under the hood,
 Civis takes your Python script from where it is stored in GitHub and runs it a Docker remote server environment.
 
-`GitHub <https://github.com>`_ is the google docs of coding, an online service for collaborating with a team as you write scripts.
-It's where we maintain `Parsons <https://github.com/move-coop/parsons/>`_ itself.
+`GitHub <https://github.com>`__ is the google docs of coding, an online service for collaborating with a team as you write scripts.
+It's where we maintain `Parsons <https://github.com/move-coop/parsons/>`__ itself.
 
-`Docker <https://www.docker.com/>`_ is a service that lets you create a remote environment that includes all of the Python packages your script needs to run.
-TMC maintains a `Parsons docker image <https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons>`_ that
+`Docker <https://www.docker.com/>`__ is a service that lets you create a remote environment that includes all of the Python packages your script needs to run.
+TMC maintains a `Parsons docker image <https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons>`__ that
 you can use - or that you can tell Civis to use!
 
 Put all these pieces together and you get a virtual computer with Parsons pre-installed where you can run the specified script.

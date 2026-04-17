@@ -23,7 +23,7 @@ Getting Started
 
 * Add a folder *test_yourconnectorname* in parsons/test for your connector
 * Add a file *test_yourconnectorname.py* to the *test_yourconnectorname* folder
-* Add at least one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`_ test per public method of your connector
+* Add at least one `“Happy Path” <https://en.wikipedia.org/wiki/Happy_path>`__ test per public method of your connector
 
 Tests for HTTP API Connectors
 -----------------------------

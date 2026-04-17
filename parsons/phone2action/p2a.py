@@ -131,8 +131,7 @@ class Phone2Action:
         the email address or phone number (accordingly).
 
         The list of arguments only partially covers the fields that can be set on the advocate.
-        For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
             campaigns: list
@@ -215,8 +214,7 @@ class Phone2Action:
         the email address or phone number along with a list of campaigns.
 
         The list of arguments only partially covers the fields that can be updated on the advocate.
-        For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
             advocate_id: integer

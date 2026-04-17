@@ -5,7 +5,7 @@ Copper
 Overview
 ========
 
-`Copper <https://copper.com>`_ is a customer relationship management (CRM) platform to track individuals, companies
+`Copper <https://copper.com>`__ is a customer relationship management (CRM) platform to track individuals, companies
 and activity data. This Parsons class provides methods for extracting people, companies and actions.
 
 .. admonition:: Getting Your API Key

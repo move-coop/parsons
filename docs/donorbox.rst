@@ -5,10 +5,10 @@ Donorbox
 Overview
 ========
 
-`Donorbox <https://donorbox.org/>`_ is an online donation platform through which donors can make one-off or
+`Donorbox <https://donorbox.org/>`__ is an online donation platform through which donors can make one-off or
 recurring donations. This Parsons class provides methods for extracting donors, campaigns, donations, and plans.
 
-The documentation for the underlying Donorbox API can be found `here <https://github.com/donorbox/donorbox-api>`_.
+The documentation for the underlying Donorbox API can be found `here <https://github.com/donorbox/donorbox-api>`__.
 
 .. admonition:: Authentication
 

@@ -18,10 +18,10 @@ class QuickBooksTime:
     Args:
         token: str
             A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env
-            variable set.
-            [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa E501 line-too-long
+            variable set. Learn how to obtain a token
+            `here <https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0>`__
 
-            [QuickBooksTime API Documentation](https://tsheetsteam.github.io/api_docs/#introduction)
+            `QuickBooksTime API Documentation <https://tsheetsteam.github.io/api_docs/#introduction>`__
 
     """
 
@@ -126,7 +126,7 @@ class QuickBooksTime:
                     Represents the page of results you'd like to retrieve.
 
         Returns:
-            Parsons Table
+            Table
 
         """
 
@@ -225,7 +225,7 @@ class QuickBooksTime:
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         Returns:
-            Parsons Table
+            Table
 
         """
 
@@ -335,7 +335,7 @@ class QuickBooksTime:
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         Returns:
-            Parsons Table
+            Table
 
         """
 
@@ -442,8 +442,8 @@ class QuickBooksTime:
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         Returns:
-            Parsons Table
-            See Parsons Table for output options.
+            Table
+                See Parsons Table for output options.
 
         """
 
@@ -634,8 +634,8 @@ class QuickBooksTime:
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         Returns:
-            Parsons Table
-            See Parsons Table for output options.
+            Table
+                See Parsons Table for output options.
 
         """
 
@@ -714,8 +714,8 @@ class QuickBooksTime:
                 Represents the page of results you'd like to retrieve. Default is 1.
 
         Returns:
-            Parsons Table
-            See Parsons Table for output options.
+            Table
+                See Parsons Table for output options.
 
         """
 

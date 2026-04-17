@@ -5,7 +5,7 @@ New/Mode
 Overview
 ========
 
-`New/Mode <https://www.newmode.net/>`_ is a multi-channel advocacy and civic engagement platform
+`New/Mode <https://www.newmode.net/>`__ is a multi-channel advocacy and civic engagement platform
 for organizations and campaigns. This Parsons class includes methods for fetching tools, actions, targets, campaigns,
 organizations, services, and outreaches. There are also methods for looking up targets and running actions given a
 ``tool_id``. Most methods return either individual items as dictionaries or lists of items as Parsons :ref:`Table` objects.
@@ -13,7 +13,7 @@ organizations, services, and outreaches. There are also methods for looking up t
 .. admonition:: Authentication
 
    To use the class, you need to provide a New/Mode username and password. For more information,
-   see `The New/Mode API is Here <https://blog.newmode.net/new-modes-api-is-here-4c4b70c6fce6>`_.
+   see `The New/Mode API is Here <https://blog.newmode.net/new-modes-api-is-here-4c4b70c6fce6>`__.
 
 Quickstart
 ==========

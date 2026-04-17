@@ -9,7 +9,7 @@ The GoogleAdmin class allows you to get information about groups and members in 
 
 In order to instantiate the class, you must pass Google service account credentials as a dictionary,
 or store the credentials as a JSON string in the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable.
-You must also provide an email address for `domain-wide delegation <https://developers.google.com/admin-sdk/directory/v1/guides/delegation>`_.
+You must also provide an email address for `domain-wide delegation <https://developers.google.com/admin-sdk/directory/v1/guides/delegation>`__.
 
 Quickstart
 ==========

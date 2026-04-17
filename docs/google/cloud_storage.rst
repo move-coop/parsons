@@ -9,7 +9,7 @@ store arbitrary files referred to as blobs. You may use this connector to upload
 
 To use the GoogleCloudStorage class, you will need Google service account credentials.
 If you are the administrator of your Google Cloud account, you can generate them in the
-`Google Cloud Console APIs and Services - Service Account Key <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`_.
+`Google Cloud Console APIs and Services - Service Account Key <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`__.
 
 Quickstart
 ==========

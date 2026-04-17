@@ -6,7 +6,7 @@ Overview
 ========
 
 PDI is a political data provider that is primarily active in California. This class
-allows you to interact with the `PDI API <https://api.bluevote.com/docs/index#>`_ .
+allows you to interact with the `PDI API <https://api.bluevote.com/docs/index#>`__ .
 
 This Parsons connector provides methods to fetch lists of acquisition types, flag IDs,
 questions, universes, and flags given start and end dates.

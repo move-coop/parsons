@@ -133,7 +133,7 @@ class ToFrom:
                 overwritten.
             schema: dict
                 defines the rows field structure of the file.
-                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
+                Check `fastavro documentation`_ and `Avro schema reference`_ for details.
             sample: int, optional
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
@@ -146,8 +146,8 @@ class ToFrom:
                 sets the level of compression to use with the specified codec (if the codec supports it)
             `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
-                argument `**avro_args` that are fowarded directly to fastavro. [Check the
-                fastavro documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+                argument `**avro_args` that are fowarded directly to fastavro. Check the
+                `fastavro documentation`_ for reference.
 
         Example usage for writing files::
 
@@ -216,7 +216,7 @@ class ToFrom:
                 the file path for creating the avro file.
             schema: dict
                 defines the rows field structure of the file.
-                Check fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) and Avro schema [reference](https://avro.apache.org/docs/1.8.2/spec.html#schemas) for details.
+                Check `fastavro documentation`_ and `Avro schema reference`_ for details.
             sample: int, optional
                 defines how many rows are inspected
                 for discovering the field types and building a schema for the avro file
@@ -224,7 +224,7 @@ class ToFrom:
             `**avro_args`: kwargs
                 Additionally there are support for passing extra options in the
                 argument `**avro_args` that are fowarded directly to fastavro. Check the
-                fastavro [documentation](https://fastavro.readthedocs.io/en/latest/) for reference.
+                `fastavro documentation`_ for reference.
 
         """
 

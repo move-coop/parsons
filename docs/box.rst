@@ -5,7 +5,7 @@ Box
 Overview
 ========
 
-`Box <https://box.com>`_ is a commercial file sharing service similar to Dropbox and Google Drive.
+`Box <https://box.com>`__ is a commercial file sharing service similar to Dropbox and Google Drive.
 The current Parsons API supports listing files and folders, creating and deleting folders,
 and uploading/downloading Parsons tables as either CSV or JSON files.
 
@@ -14,12 +14,12 @@ and uploading/downloading Parsons tables as either CSV or JSON files.
    This connector requires authentication credentials for a Box account.
    The simplest form of authentication is a through a BoxDeveloperTokenAuth, and this document will cover how to use it.
    Information on setting up credentials for a developer access token can be found at the
-   `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`_.
+   `Create a Platform App page <https://developer.box.com/guides/applications/platform-apps/create>`__.
    On the Configuration tab, check enable "Write all files and folders stored in Box"
    under Application Scopes, and save, prior to generating a token.
    If you fail to do so, the token will not have the correct scope.
    Developer access tokens are not recommended for production environments.
-   However, Box supports a variety of `authentication methods <https://github.com/box/box-python-sdk/blob/main/docs/authentication.md>`_.
+   However, Box supports a variety of `authentication methods <https://github.com/box/box-python-sdk/blob/main/docs/authentication.md>`__.
 
 Quickstart
 ==========

@@ -383,3 +383,6 @@ Materialize API
 .. autoclass:: parsons.etl.table.Table
    :inherited-members:
    :members:
+
+.. _fastavro documentation: https://fastavro.readthedocs.io/en/latest
+.. _Avro schema reference: https://avro.apache.org/docs/1.8.2/spec.html#schemas

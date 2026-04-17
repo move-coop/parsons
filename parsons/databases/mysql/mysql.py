@@ -127,8 +127,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -153,8 +152,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
         with self.cursor(connection) as cursor:

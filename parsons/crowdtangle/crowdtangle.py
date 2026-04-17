@@ -22,9 +22,6 @@ class CrowdTangle:
             A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env
             variable set.
 
-    Returns:
-        CrowdTangle Class
-
     """
 
     def __init__(self, api_key=None):
@@ -156,8 +153,7 @@ class CrowdTangle:
                 that are not ``native_video``, ``youtube`` or ``vine``.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -202,9 +198,7 @@ class CrowdTangle:
                 ``account_ids`` value will be used.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
-
+            :ref:`Table`
         """
 
         args = {
@@ -248,9 +242,7 @@ class CrowdTangle:
                 Filter by platforms
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
-
+            :ref:`Table`
         """
 
         args = {

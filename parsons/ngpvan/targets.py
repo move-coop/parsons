@@ -25,8 +25,8 @@ class Targets:
         Get targets.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -57,8 +57,8 @@ class Targets:
         Get specific target export job id's status.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

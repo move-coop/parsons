@@ -184,12 +184,12 @@ class SmartMatch:
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
         Returns:
-            Parsons Table
+            :ref:`Table`
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
-                See :ref:`Table` for output options.
+
 
         """
 

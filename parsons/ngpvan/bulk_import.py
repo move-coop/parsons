@@ -61,8 +61,8 @@ class BulkImport:
                 Bulk import job id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -78,8 +78,8 @@ class BulkImport:
         Get bulk import mapping types.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

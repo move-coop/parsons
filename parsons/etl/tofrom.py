@@ -864,8 +864,8 @@ class ToFrom:
                 Additional arguments passed to `fastavro.reader`.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -883,8 +883,8 @@ class ToFrom:
             `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -907,8 +907,8 @@ class ToFrom:
             `**csvargs`: kwargs
                 ``csv_reader`` optional arguments
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -927,8 +927,8 @@ class ToFrom:
             header: list
                 List of column names. If not specified, will use dummy column names
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -951,8 +951,8 @@ class ToFrom:
                 JSON file.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -988,8 +988,8 @@ class ToFrom:
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1097,8 +1097,8 @@ class ToFrom:
                 then will use the default inferred environment.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         # TODO: Should users be able to pass in kwargs here? For parameters?

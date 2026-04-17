@@ -26,8 +26,8 @@ class Codes:
                 Filter by code type.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -52,8 +52,8 @@ class Codes:
                 The code id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

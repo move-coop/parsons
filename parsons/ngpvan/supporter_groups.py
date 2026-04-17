@@ -16,8 +16,8 @@ class SupporterGroups:
         Get supporter groups.
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

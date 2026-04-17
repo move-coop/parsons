@@ -67,8 +67,8 @@ class Twilio:
                 Filter to an account status of ``active``, ``closed`` or ``suspended``.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -108,8 +108,8 @@ class Twilio:
                 Exclude rows that have no usage.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -168,8 +168,8 @@ class Twilio:
                 Filter to messages only sent after the specified date (ex. ``2019-01-01``).
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

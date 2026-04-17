@@ -232,7 +232,7 @@ class Braintree:
                     {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(
@@ -309,7 +309,7 @@ class Braintree:
                 when a search result returns 1000s of ids.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(
@@ -391,7 +391,7 @@ class Braintree:
                 when a search result returns 1000s of ids.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(

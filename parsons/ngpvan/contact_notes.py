@@ -20,8 +20,8 @@ class ContactNotes:
                 VAN ID for the person to get notes for.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

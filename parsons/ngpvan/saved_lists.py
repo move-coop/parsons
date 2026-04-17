@@ -60,8 +60,8 @@ class SavedLists:
                 The saved list id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -294,8 +294,8 @@ class Folders:
         Get all folders owned or shared with the API user.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -312,8 +312,8 @@ class Folders:
                 The folder id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -331,8 +331,8 @@ class ExportJobs:
         Get export job types
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -381,8 +381,8 @@ class ExportJobs:
                 The xxport job id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

@@ -136,8 +136,8 @@ class Hustle:
                 The group id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -249,8 +249,8 @@ class Hustle:
         Get organizations.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -282,8 +282,8 @@ class Hustle:
         Args:
             organization_id: str
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -353,8 +353,8 @@ class Hustle:
                 The group id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -570,8 +570,8 @@ class Hustle:
                 The organization id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -604,8 +604,8 @@ class Hustle:
                 The organization id.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

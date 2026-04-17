@@ -86,7 +86,7 @@ class GoogleAdmin:
                 A dictionary of fields for the GET request
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups/" + group_key + "/aliases", "aliases", params)
@@ -105,7 +105,7 @@ class GoogleAdmin:
                 A dictionary of fields for the GET request
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups/" + group_key + "/members", "members", params)
@@ -122,7 +122,7 @@ class GoogleAdmin:
                 A dictionary of fields for the GET request.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups", "groups", params)

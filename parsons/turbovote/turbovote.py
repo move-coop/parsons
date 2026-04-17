@@ -52,8 +52,8 @@ class TurboVote:
         Get users.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

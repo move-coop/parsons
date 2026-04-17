@@ -192,8 +192,7 @@ class Redshift(
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -219,8 +218,7 @@ class Redshift(
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 

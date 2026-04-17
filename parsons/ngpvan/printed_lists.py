@@ -27,8 +27,8 @@ class PrintedLists:
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

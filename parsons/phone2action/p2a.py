@@ -18,9 +18,6 @@ class Phone2Action:
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
 
-    Returns:
-        Phone2Action Class
-
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -97,8 +94,8 @@ class Phone2Action:
                 sync errors.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -173,6 +170,7 @@ class Phone2Action:
                 opted out, they cannot be opted back in.
             `**kwargs`:
                 Additional fields on the advocate to update
+
         Returns:
             The int ID of the created advocate.
 

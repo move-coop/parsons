@@ -62,8 +62,8 @@ class Empower:
         Get Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -78,8 +78,8 @@ class Empower:
         Get active ctas assigned to Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -91,8 +91,8 @@ class Empower:
         Get Empower regions.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -105,8 +105,8 @@ class Empower:
         Get Empower call to action results.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -156,8 +156,8 @@ class Empower:
         Get Empower calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -168,8 +168,8 @@ class Empower:
         Get Empower calls to action prompts.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -180,8 +180,8 @@ class Empower:
         Get Empower calls to action prompt answers.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -192,8 +192,8 @@ class Empower:
         Get a list of regions that each call to active is active in.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -205,8 +205,8 @@ class Empower:
         Get a list of shareables associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -218,8 +218,8 @@ class Empower:
         Get a list prioritizations associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -231,8 +231,8 @@ class Empower:
         Get outreach entries.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         if self._empty_obj("outreachEntries"):
@@ -254,8 +254,8 @@ class Empower:
         Meant to facilitate pure ELT pipelines
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

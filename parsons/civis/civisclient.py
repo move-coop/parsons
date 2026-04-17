@@ -57,8 +57,8 @@ class CivisClient:
                 the method. If ``False``, returns the future object.
 
         Returns:
-            Table or ``civis.CivisFuture``
-                See :ref:`Table` for output options.
+            :ref:`Table` or `civis.CivisFuture`
+
         """
 
         fut = civis.io.query_civis(

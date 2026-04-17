@@ -47,7 +47,7 @@ class Quickbase:
                 Identifies which Quickbase app from which to fetch tables.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return Table(
@@ -65,7 +65,7 @@ class Quickbase:
                 The ID of a Quickbase resource (i.e. a table) to query.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         req_resp = self.client.request(

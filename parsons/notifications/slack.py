@@ -49,8 +49,8 @@ class Slack:
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         if types is None:
@@ -87,8 +87,8 @@ class Slack:
                 available fields. `Notes:` nested fields are unpacked.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

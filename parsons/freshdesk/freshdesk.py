@@ -123,8 +123,8 @@ class Freshdesk:
                 Expand nested custom fields to their own columns.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -202,8 +202,8 @@ class Freshdesk:
                 Expand nested custom fields to their own columns.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -228,8 +228,8 @@ class Freshdesk:
             state: str
                 Filter by state
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

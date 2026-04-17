@@ -69,8 +69,8 @@ class Person:
                 ``votebuilder`` or ``voter``.
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -176,8 +176,8 @@ class Person:
                 ignored if last_name_exact is enabled.
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -379,9 +379,10 @@ class Service:
                 Valid latitude floating point
             longitude: float or str
                 Valid longitude floating point
+
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -467,8 +468,8 @@ class Voter:
                 Optional; One or more alphanumeric characters. No wildcards.
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

@@ -64,7 +64,7 @@ class Formstack:
                 Pass `True` to enable a workaround for these endpoints.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A table with the returned data.
 
         """
@@ -92,7 +92,7 @@ class Formstack:
         Get all folders on your account and their subfolders.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the folders data.
 
         """
@@ -129,7 +129,7 @@ class Formstack:
                 Return forms in the specified folder.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A table with the forms data.
 
         """
@@ -176,7 +176,7 @@ class Formstack:
                 Query arguments to pass to the form/submissions endpoint.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the submission data for the form.
 
         """
@@ -195,7 +195,7 @@ class Formstack:
                 The form ID for the form of the submissions.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the fields on the form.
 
         """

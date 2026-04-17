@@ -69,7 +69,7 @@ class Alchemer:
                 then all pages are retrieved.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
 
@@ -101,7 +101,7 @@ class Alchemer:
                 then all pages are retrieved.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
 

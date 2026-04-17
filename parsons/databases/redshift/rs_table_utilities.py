@@ -320,8 +320,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -351,8 +350,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -463,8 +461,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -490,8 +487,7 @@ class RedshiftTableUtilities:
             Must be a Redshift superuser to run this method.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 

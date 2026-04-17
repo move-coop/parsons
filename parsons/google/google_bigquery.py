@@ -98,7 +98,8 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
             ]
 
     Returns:
-        List of instantiated `SchemaField` objects
+        list[SchemaField]
+            List of instantiated `SchemaField` objects
 
     """
 
@@ -281,8 +282,7 @@ class GoogleBigQuery(DatabaseConnector):
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -323,8 +323,8 @@ class GoogleBigQuery(DatabaseConnector):
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -779,8 +779,8 @@ class GoogleBigQuery(DatabaseConnector):
                 The maximum number of seconds to wait for a request before the job fails.
 
         Returns:
-            Table or ``None``
-                See :ref:`Table` for output options.
+            :ref:`Table` or ``None``
+
 
         """
 
@@ -1268,6 +1268,7 @@ class GoogleBigQuery(DatabaseConnector):
         Args:
             table_name: str
                 The name of the BigQuery table to check for
+
         Returns:
             bool
                 True if the table exists in the specified dataset, false otherwise
@@ -1290,9 +1291,10 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a schema
             table_name: str
                 Filter by a table name
+
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1312,8 +1314,8 @@ class GoogleBigQuery(DatabaseConnector):
             view: str
                 Filter by a table name
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1379,7 +1381,8 @@ class GoogleBigQuery(DatabaseConnector):
                 The table name
 
         Returns:
-            A list of column names
+            list[str]
+                Column names
 
         """
 
@@ -1522,7 +1525,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Optionally supplied GCS `LoadJobConfig` object
 
         Returns:
-            A `LoadJobConfig` object
+            `LoadJobConfig`
 
         """
 

@@ -114,8 +114,8 @@ class GoogleSheets:
                 0.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -178,8 +178,8 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

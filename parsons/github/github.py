@@ -106,7 +106,7 @@ class GitHub:
                 Page size. Defaults to 100. Ignored if ``page`` is not set.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table object created from the raw data of the list
 
         """
@@ -177,7 +177,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table with page of user repos
 
         """
@@ -200,7 +200,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table with page of organization repos
 
         """
@@ -272,7 +272,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table with page of repo issues
 
         """
@@ -346,7 +346,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table with page of repo pull requests
 
         """
@@ -375,7 +375,7 @@ class GitHub:
                 Page size. Defaults to 100.
 
         Returns:
-            Table
+            :ref:`Table`
                 Table with page of repo contributors
 
         """
@@ -464,8 +464,8 @@ class GitHub:
                 The CSV delimiter to use to parse the data. Defaults to ','
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         downloaded_file = self.download_file(repo_name, path, branch, local_path)

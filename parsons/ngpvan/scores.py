@@ -21,8 +21,8 @@ class Scores:
         Get all scores.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -59,8 +59,8 @@ class Scores:
                 format.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

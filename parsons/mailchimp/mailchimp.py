@@ -87,7 +87,7 @@ class Mailchimp:
                 Determines the order direction for sorted results.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -183,7 +183,7 @@ class Mailchimp:
                 Determines the order direction for sorted results.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -318,7 +318,7 @@ class Mailchimp:
                 result in an error.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -387,7 +387,7 @@ class Mailchimp:
                 2015-10-21T15:41:36+00:00.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -431,7 +431,7 @@ class Mailchimp:
                 value is 0.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {

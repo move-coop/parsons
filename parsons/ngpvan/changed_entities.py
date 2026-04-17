@@ -34,8 +34,8 @@ class ChangedEntities:
         Args:
             resource_type: str
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -75,8 +75,8 @@ class ChangedEntities:
                 A list of ids of custom fields to include in the export.
 
         Returns:
-            Parsons Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 

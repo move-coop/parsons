@@ -270,9 +270,7 @@ class Copper:
                 See `Copper documentation <https://developer.copper.com/?version=latest#8b6e6ed8-c594-4eed-a2af-586aa2100f09>`__ for choices
 
         Returns:
-            list[dict[str, str | Table]]
-                List of dicts of Parsons Tables:
-                See :ref:`Table` for output options.
+            list[dict[str, str | :ref:`Table`]]
 
         """
 

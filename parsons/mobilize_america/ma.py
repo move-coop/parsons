@@ -93,8 +93,7 @@ class MobilizeAmerica:
                 Filter to organizations updated since given date (ISO Date)
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
 
         """
 
@@ -114,7 +113,7 @@ class MobilizeAmerica:
                 ID of the organization to query.
 
         Returns:
-            Table
+            :ref:`Table`
 
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
@@ -321,8 +320,8 @@ class MobilizeAmerica:
                 Filter to events updated since given date (ISO Date)
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -351,8 +350,8 @@ class MobilizeAmerica:
                 Filter to people updated since given date (ISO Date)
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         if isinstance(organization_id, collections.abc.Iterable):
@@ -381,8 +380,8 @@ class MobilizeAmerica:
                 Filter to attendances updated since given date (ISO Date)
 
         Returns:
-            Table
-                See :ref:`Table` for output options.
+            :ref:`Table`
+
 
         """
         url = self.uri + "organizations/" + str(organization_id) + "/attendances"

@@ -135,6 +135,7 @@ or made available as an environment variable in the form of an access token:
 
 .. code-block:: python
    :caption: Download a file from Box to a specific local path
+
    downloaded_file = box.download_file("My Folder/My Subfolder/My File", local_path="my_file.dat")
 
 .. code-block:: python

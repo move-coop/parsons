@@ -57,7 +57,8 @@ class Phone2Action:
                 page.
 
         Returns:
-            A dict of parsons tables:
+            dict[:ref:`Table`]
+                A dict of parsons tables:
                 * emails
                 * phones
                 * memberships

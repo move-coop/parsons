@@ -34,9 +34,6 @@ class Braintree:
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
 
-    Returns:
-        Braintree class
-
     """
 
     query_types = {

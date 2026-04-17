@@ -164,7 +164,7 @@ class TestCheckEnv:
             mock.patch.dict(os.environ, {}, clear=True),
             pytest.raises(
                 KeyError,
-                match="No PARAM found. Store as environment variable or pass as an argument.",
+                match="No 'PARAM' found. Store as environment variable or pass as an argument.",
             ),
         ):
             check_env.check("PARAM", None)

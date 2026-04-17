@@ -1,55 +1,63 @@
 import os
 import warnings
-from typing import Any
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
 def check(
-    env: str, value: Any | None = None, *, optional: bool = False, field: Any | None = None
-) -> Any | None:
+    env: str,
+    value: T | None = None,
+    opt: bool | None = None,
+    *,
+    optional: bool = False,
+    field: T | None = None,
+) -> T | str | None:
     """
     Check if an environment variable has been set or value has been provided.
 
     Args:
-        env: str
+        env:
             Name of environment variable to check.
-        value: Any, optional
-            If provided, ignore environment variable and use this.
+        value:
+            If provided, ignore environment variable and return this.
+        opt:
+            Deprecated; use ``optional`` instead.
+            If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
 
     Keyword Args:
-        optional: bool, optional
-            If true, do not raise an error if no value is found or provided.
-        field: Any, optional
-            Former name of ``value`` argument. Will be removed in a future release.
-            Operates as if value was passed to ``value`` instead of field.
+        optional:
+            If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
+        field:
+            Deprecated; use ``value`` instead.
+            If provided, ignore environment variable and return this.
 
     Returns:
-        Any
-            The value of the requested environment variable (str) or the provided value (Any).
-            May return None if no value is found or provided, if called with optional=True.
+        The value of the requested environment variable (str) or the provided value (T).
+        If called with ``optional=True``, will return ``None`` if no value is found or provided.
 
     Raises:
-        KeyError
-            If there is no matching environment variable or provided value.
+        KeyError: If no value is found/provided and ``optional`` is False.
 
     """
-    if value is not None:
-        return value
+    # Handle deprecated arguments
+    for name, val, replacement in (("opt", opt, "optional"), ("field", field, "value")):
+        if val is None:
+            continue
 
-    if field is not None:
         warnings.warn(
-            "The 'field' argument is deprecated and will be removed in a future release.",
+            f"The '{name}' argument is deprecated; use '{replacement}' instead.",
             DeprecationWarning,
             stacklevel=2,
         )
-        return field
 
-    try:
-        return os.environ[env]
+    if (input_value := value if value is not None else field) is not None:
+        return input_value
 
-    except KeyError as e:
-        if optional:
-            return None
+    if (environment_value := os.environ.get(env)) is not None:
+        return environment_value
 
-        raise KeyError(
-            f"No {env} found. Store as environment variable or pass as an argument."
-        ) from e
+    if optional or opt:
+        return None
+
+    raise KeyError(f"No '{env}' found. Store as environment variable or pass as an argument.")

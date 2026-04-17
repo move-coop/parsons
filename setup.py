@@ -44,7 +44,7 @@ EXTRA_DEPENDENCIES = {
         "httplib2 >= 0.15",
         "oauth2client >= 4",
         "protobuf >= 6",
-        "validate-email >= 1",
+        "email-validator >= 2.2",
     ],
     "mysql": [
         "mysql-connector-python >= 7",
@@ -68,7 +68,7 @@ EXTRA_DEPENDENCIES = {
     "scytl": ["defusedxml >= 0.7"],
     "sftp": ["paramiko >= 3"],
     "slack": ["slack-sdk >= 3.26"],
-    "smtp": ["validate-email >= 1"],
+    "smtp": ["email-validator >= 2.2"],
     "targetsmart": ["defusedxml >= 0.7", "paramiko >= 3", "xmltodict >= 1"],
     "twilio": ["twilio >= 9"],
     "ssh": [

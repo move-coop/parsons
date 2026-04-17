@@ -24,3 +24,4 @@ There is also support for synchronization of tables between databases as part of
    postgres
    redshift
    sqlite
+   database_connector

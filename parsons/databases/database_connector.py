@@ -13,7 +13,8 @@ class DatabaseConnector(ABC):
     It ensures that any class that inherits from it implements the methods that are uniform
     operations when working with databases.
 
-    Should you use :class:`.DatabaseConnector` instead of :class:`~parsons.databases.redshift.redshift.Redshift`/:class:`~google_bigquery.GoogleBigQuery`/etc?
+    Should you use :class:`.DatabaseConnector` instead of
+    :class:`~parsons.databases.redshift.redshift.Redshift` / :class:`~google_bigquery.GoogleBigQuery` / etc?
 
     Overall this class is mostly useful for code in the Parsons library, not code using it.
     There could be some exceptions. In general though, if you are writing a script to do a task

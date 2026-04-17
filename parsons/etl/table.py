@@ -50,11 +50,7 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: list
-        | tuple
-        | Iterator
-        | petl.util.Table
-        | Literal[_EmptyDefault.token] = _EMPTYDEFAULT,
+        lst: list | tuple | Iterator | petl.Table | Literal[_EmptyDefault.token] = _EMPTYDEFAULT,
         source: str | None = None,
         name: str | None = None,
     ):
@@ -86,7 +82,7 @@ class Table(ETL, ToFrom):
                     err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
                     raise ValueError(err_msg)
 
-        elif isinstance(lst, petl.util.Table):
+        elif isinstance(lst, petl.Table):
             # Create from a petl table
             self.table = lst
 
@@ -285,7 +281,7 @@ class Table(ETL, ToFrom):
 
         """
 
-        if not isinstance(self.table, petl.util.Table):
+        if not isinstance(self.table, petl.Table):
             return False
 
         try:

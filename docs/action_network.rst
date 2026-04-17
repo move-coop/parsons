@@ -306,7 +306,7 @@ API
 .. _actionnetwork campaigns documentation: https://actionnetwork.org/docs/v2/campaigns
 .. _actionnetwork custom fields documentation: https://actionnetwork.org/docs/v2/custom_fields
 .. _actionnetwork donations documentation: https://actionnetwork.org/docs/v2/donations
-.. _actionnetwork embeds documentation: https://actionnetwork.org/docs/v2/embeds
+.. _actionnetwork embeds documentation: https://actionnetwork.org/docs/v2/embed
 .. _actionnetwork event campaigns documentation: https://actionnetwork.org/docs/v2/event_campaigns
 .. _actionnetwork events documentation: https://actionnetwork.org/docs/v2/events
 .. _actionnetwork forms documentation: https://actionnetwork.org/docs/v2/forms

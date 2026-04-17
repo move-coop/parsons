@@ -375,7 +375,7 @@ class ETL:
         Args:
             column_map: dict
                 A dictionary of columns and possible values that map to it
-            exact_match: boolean
+            exact_match: bool
                 If ``True`` will only map if an exact match. If ``False`` will
                 ignore case, spaces and underscores.
 
@@ -521,7 +521,7 @@ class ETL:
             keys: list
                 The dict keys in the column to unpack. If ``None`` will unpack
                 all.
-            include_original: boolean
+            include_original: bool
                 Retain original column after unpacking
             sample_size: int
                 Number of rows to sample before determining columns
@@ -589,13 +589,13 @@ class ETL:
         Args:
             column: str
                 The column name to unpack
-            include_original: boolean
+            include_original: bool
                 Retain original column after unpacking
             sample_size: int
                 Number of rows to sample before determining columns
             missing: str
                 If a value is missing, the value to fill it with
-            replace: boolean
+            replace: bool
                 Return new table or replace existing
             max_columns: int
                 The maximum number of columns to unpack
@@ -647,7 +647,7 @@ class ETL:
                 The column name to unpack
             key: str
                 The column to use as a key when unpacking. Defaults to `id`
-            expand_original: boolean or int
+            expand_original: bool or int
                 If `True`: Add resulting unpacked rows (with all other columns) to original
                 If `int`: Add to original unless the max added per key is above the given number
                 If `False` (default): Return unpacked rows (with `key` column only) as standalone
@@ -790,7 +790,7 @@ class ETL:
                 The new name for the foreign key to better identify it. For
                 example, you might want to rename ``id`` to ``person_id``.
                 Ex. {'KEY_NAME': 'NEW_KEY_NAME'}
-            retain_original: boolean
+            retain_original: bool
                 Retain the original column from the source table.
             prepend:
                 Prepend the column name of the unpacked values. Useful for
@@ -878,10 +878,10 @@ class ETL:
             >>> {'foo': 'a', 'bar': 2, 'baz': 88.1}
 
         Args:
-            `*filters`: function or str
+            `*filters`: Callable or str
 
         Returns:
-            A new parsons table containing the selected rows
+            :ref:`Table` containing the selected rows
 
         """
 
@@ -1021,10 +1021,10 @@ class ETL:
                 Eg. With this flag set, "FIRST NAME" would match "first_name".
                 If the Table has two columns that normalize to the same string (eg. "FIRST NAME"
                 and "first_name"), the latter will be considered an extra column.
-            if_extra_columns: string
+            if_extra_columns: str
                 If the Table has columns that don't match any desired columns, either 'remove'
                 them, 'ignore' them, or 'fail' (raising an error).
-            if_missing_columns: string
+            if_missing_columns: str
                 If the Table is missing some of the desired columns, either 'add' them (with a
                 value of None), 'ignore' them, or 'fail' (raising an error).
 
@@ -1166,18 +1166,18 @@ class ETL:
             +-------------------------+-----------------------------------------------------------------------+
 
         Args:
-            columns (list):
+            columns: list
                 The column(s) by which to group the rows.
-            reduce_func (function):
+            reduce_func: Callable
                 The function by which to reduce the rows.
                 Should take the 2 arguments, the columns list
                 and the rows list and return a list.
                 ``reducer(columns: list, rows: list) -> list;``
-            headers (list):
+            headers: list
                 The list of headers for modified table.
                 The length of `headers` should match the length of the
                 list returned by the reduce function.
-            presorted (bool):
+            presorted: bool
                 If false, the row will be sorted.
             `**kwargs`:
                 Extra options to pass to petl.rowreduce
@@ -1207,7 +1207,7 @@ class ETL:
             sort_columns: list or str
                 Sort by a single column or a list of column. If ``None`` then
                 will sort columns from left to right.
-            reverse: boolean
+            reverse: bool
                 Sort rows in reverse order.
 
         Returns:

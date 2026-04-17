@@ -139,8 +139,8 @@ class Salesforce:
 
         Returns:
             list[dict[str, bool | str | list[dict]]]
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record created, if successful)
                 * errors: list of dicts (with error details)
 
@@ -168,8 +168,8 @@ class Salesforce:
 
         Returns:
             list[dict[str, bool | str | list[dict]]]
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record altered, if successful)
                 * errors: list of dicts (with error details)
 
@@ -200,8 +200,8 @@ class Salesforce:
 
         Returns:
             list[dict[str, bool | str | list[dict]]]
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record created or altered, if successful)
                 * errors: list of dicts (with error details)
 
@@ -225,14 +225,14 @@ class Salesforce:
             id_table: obj
                 Parsons Table of record IDs to delete.
                 Note that 'Id' is the default Salesforce record ID field name.
-            hard_delete: boolean
+            hard_delete: bool
                 If true, will permanently delete record instead of moving it to trash
 
         Returns:
             list[dict[str, bool | str | list[dict]]]
                 Each list has the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record deleted, if successful)
                 * errors: list of dicts (with error details)
 

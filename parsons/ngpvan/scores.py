@@ -168,7 +168,7 @@ class Scores:
                 See :ref:`google/cloud_storage:Cloud Storage` for more details.
             email: str
                 An email address to send job load status updates.
-            auto_approve: boolean
+            auto_approve: bool
                 If the scores are within the expected tolerance of deviation from the
                 average values provided, then score will be automatically approved.
             approve_tolderance: float

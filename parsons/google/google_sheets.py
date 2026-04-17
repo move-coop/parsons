@@ -22,7 +22,7 @@ class GoogleSheets:
             A dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console. Required if env variable
             ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
-        subject: string
+        subject: str
             In order to use account impersonation, pass in the email address of the account to be
             impersonated as a string.
 
@@ -149,11 +149,11 @@ class GoogleSheets:
             role: str
                 The primary role for this user. Allowed values are: ``owner``,
                 ``writer``, ``reader``.
-            notify: boolean
+            notify: bool
                 Whether to send an email to the target user/domain.
             email_message: str
                 The email to be sent if notify kwarg set to True.
-            with_link: boolean
+            with_link: bool
                 Whether a link is required for this permission.
 
         """

@@ -3,6 +3,7 @@ import pickle
 from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
+from typing import Literal
 
 import petl
 
@@ -49,7 +50,11 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        lst: list
+        | tuple
+        | Iterator
+        | petl.util.Table
+        | Literal[_EmptyDefault.token] = _EMPTYDEFAULT,
         source: str | None = None,
         name: str | None = None,
     ):
@@ -81,7 +86,7 @@ class Table(ETL, ToFrom):
                     err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
                     raise ValueError(err_msg)
 
-        elif isinstance(lst, petl.util.base.Table):
+        elif isinstance(lst, petl.util.Table):
             # Create from a petl table
             self.table = lst
 
@@ -280,7 +285,7 @@ class Table(ETL, ToFrom):
 
         """
 
-        if not isinstance(self.table, petl.util.base.Table):
+        if not isinstance(self.table, petl.util.Table):
             return False
 
         try:

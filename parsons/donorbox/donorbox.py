@@ -196,10 +196,9 @@ class Donorbox:
     def _check_date_helper(self, params):
         """Searches through params for a date parameter and if found, calls format helper.
 
-        params: dictionary
-            Required. Dictionary of parameters to be passed to endpoint.
-
-        Returns: None
+        Args:
+            params: dict
+                Required. Dictionary of parameters to be passed to endpoint.
 
         """
         if "date_from" in params and params["date_from"] is not None:

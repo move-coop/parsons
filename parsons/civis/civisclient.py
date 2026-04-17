@@ -42,7 +42,7 @@ class CivisClient:
         preview is required. To execute a query that returns a large number
         of rows, see :func:`~civis.io.read_civis_sql`.
 
-        `Args`
+        Args:
             sql: str
                 The SQL statement to execute.
             preview_rows: int, optional
@@ -52,11 +52,12 @@ class CivisClient:
                 Number of seconds to wait between checks for query completion.
             hidden: bool, optional
                 If ``True`` (the default), this job will not appear in the Civis UI.
-            wait: boolean
+            wait: bool
                 If ``True``, will wait for query to finish executing before exiting
                 the method. If ``False``, returns the future object.
-        `Returns`
-            Parsons Table or ``civis.CivisFuture``
+
+        Returns:
+            Table or ``civis.CivisFuture``
                 See :ref:`Table` for output options.
         """
 
@@ -97,7 +98,7 @@ class CivisClient:
         Write the table to a Civis Redshift cluster. Additional key word
         arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
 
-        `Args`
+        Args:
             table_obj: obj
                 A Parsons Table object
             table: str
@@ -119,10 +120,11 @@ class CivisClient:
                 The column to use as the sortkey for the table.
             sortkey2: str
                 The second column in a compound sortkey for the table.
-            wait: boolean
+            wait: bool
                 Wait for write job to complete before exiting method. If ``False``, returns
                 the future object.
-        `Returns`
+
+        Returns:
             ``None`` or ``civis.CivisFuture``
         """
 

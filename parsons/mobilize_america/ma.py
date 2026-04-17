@@ -91,8 +91,9 @@ class MobilizeAmerica:
         Args:
             updated_since: str
                 Filter to organizations updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
+
+        Returns:
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -111,8 +112,9 @@ class MobilizeAmerica:
         Args:
             organization_id: int
                 ID of the organization to query.
-        `Returns`
-            Parsons Table
+
+        Returns:
+            Table
 
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
@@ -141,7 +143,7 @@ class MobilizeAmerica:
             timeslot_end: str
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
+            timeslot_table: bool
                 Return timeslots as a separate long table. Useful for extracting
                 to databases.
             max_timeslots: int
@@ -159,8 +161,8 @@ class MobilizeAmerica:
 
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
-        `Returns`
-            :ref:`Table`, dict, list[:ref:`Table`]
+        Returns:
+            Table, dict, list[Table]
 
         """
 
@@ -228,7 +230,7 @@ class MobilizeAmerica:
             timeslot_end: str
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: boolean
+            timeslot_table: bool
                 Return timeslots as a separate long table. Useful for extracting
                 to databases.
             zipcode: str
@@ -266,8 +268,8 @@ class MobilizeAmerica:
 
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
-        `Returns`
-            :ref:`Table`, dict, list[:ref:`Table`]
+        Returns:
+            Table, dict, list[Table]
 
         """
 
@@ -317,8 +319,9 @@ class MobilizeAmerica:
                 Filter events by a single or multiple organization ids
             updated_since: str
                 Filter to events updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
+
+        Returns:
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -346,8 +349,9 @@ class MobilizeAmerica:
                 Request people associated with a single or multiple organization ids
             updated_since: str
                 Filter to people updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
+
+        Returns:
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -375,8 +379,9 @@ class MobilizeAmerica:
                 Filter attendances by an organization id
             updated_since: str
                 Filter to attendances updated since given date (ISO Date)
-        `Returns`
-            Parsons Table
+
+        Returns:
+            Table
                 See :ref:`Table` for output options.
 
         """

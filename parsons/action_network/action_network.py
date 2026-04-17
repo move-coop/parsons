@@ -669,7 +669,8 @@ class ActionNetwork:
                     }
 
         Returns:
-            Dict of Action Network Event data.
+            dict
+                Action Network Event data.
 
         Documentation Reference:
             `<https://actionnetwork.org/docs/v2/events>`__

@@ -148,9 +148,9 @@ class DatabaseConnector(ABC):
         Args:
             tbl (Table):
                 Table containing the data to save.
-            table_name (str):
+            table_name: str
                 The destination table name (ex. ``my_schema.my_table``).
-            if_exists (str):
+            if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
 

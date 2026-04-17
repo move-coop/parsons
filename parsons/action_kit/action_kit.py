@@ -157,9 +157,12 @@ class ActionKit:
         Add a phone number to a user.
 
         Args:
-            user_id (str): The id of the user
-            phone_type (str): The type of the phone (e.g. "Home")
-            phone (str): The phone number
+            user_id: str
+                The id of the user
+            phone_type: str
+                The type of the phone (e.g. "Home")
+            phone: str
+                The phone number
 
         Returns:
             Phone json object
@@ -294,9 +297,9 @@ class ActionKit:
         Args:
             event_id: int
                 The id for the event.
-            name: string
+            name: str
                 The name of the event field.
-            value: string
+            value: str
                 The value of the event field.
 
         Returns:
@@ -318,9 +321,9 @@ class ActionKit:
         Args:
             eventfield_id: int
                 The id of the event field to update.
-            name: string
+            name: str
                 The name of the event field.
-            value: string
+            value: str
                 The value of the event field.
 
         """
@@ -492,14 +495,14 @@ class ActionKit:
                 The id of the event campaign.
             limit: int
                 The maximum number of objects to return.
-            order_by: string
+            order_by: str
                 Event attribute to order the results by. Defaults to id, which will normally
                 be equivalent to ordering by created_at. See `ActionKit's docs on ordering
                 <https://roboticdogs.actionkit.com/docs//manual/api/rest/overview.html#ordering>`__.
-            ascdesc: string
+            ascdesc: str
                 If "asc" (the default), returns events ordered by the attribute specified by
                 the order_by parameter. If "desc", returns events in reverse order.
-            filters: dictionary
+            filters: dict
                 A dictionary for filtering by the attributes of the event or related object.
                 Not all attributes are available for filtering, but an eventfield will work.
                 For additional info, visit `Django's docs on field lookups
@@ -515,7 +518,7 @@ class ActionKit:
                         "field__value": "Example event field value",
                     }
 
-            exclude: dictionary
+            exclude: dict
                 A dictionary for excluding by the attributes of the event or related object.
                 Uses the same format as the filters argument.
             `**kwargs`:
@@ -910,7 +913,7 @@ class ActionKit:
         """Get multiple objects of a given type.
 
         Args:
-            object_type: string
+            object_type: str
                 The type of object to search for.
             limit: int
                 The number of objects to return. If omitted, all objects are returned.
@@ -962,18 +965,18 @@ class ActionKit:
         """Get multiple objects of a given type, stopping based on the value of a field.
 
         Args:
-            object_type: string
+            object_type: str
                 The type of object to search for.
             limit: int
                 The maximum number of objects to return. Even if the threshold
                 value is not reached, if the limit is set, then at most this many
                 objects will be returned.
-            threshold_field: string
+            threshold_field: str
                 The field used to determine when to stop.
                 Must be one of the options for ordering by.
-            threshold_value: string
+            threshold_value: str
                 The value of the field to stop at.
-            ascdesc: string
+            ascdesc: str
                 If "asc" (the default), return all objects below the threshold value.
                 If "desc", return all objects above the threshold value.
             `**kwargs`:

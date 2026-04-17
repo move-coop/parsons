@@ -183,7 +183,7 @@ class Hustle:
                 The full name of the agent.
             phone_number: str
                 The valid phone number of the agent.
-            send_invite: boolean
+            send_invite: bool
                 Send an invitation to the agent.
             email:
                 The email address of the agent.
@@ -227,7 +227,7 @@ class Hustle:
                 The full name of the agent.
             phone_number: str
                 The valid phone number of the agent.
-            send_invite: boolean
+            send_invite: bool
                 Send an invitation to the agent.
 
         Returns:
@@ -530,7 +530,7 @@ class Hustle:
                 The last name of the lead
             email: str
                 The email address of the lead
-            global_opt_out: boolean
+            global_opt_out: bool
                 Opt out flag for the lead
             notes: str
                 The notes for the lead

@@ -93,7 +93,7 @@ class Alchemer:
         Get the responses for a given survey.
 
         Args:
-            survey_id: string
+            survey_id: str
                 The id of survey for which to retrieve the responses.
 
             page : int

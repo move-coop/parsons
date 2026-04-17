@@ -7,9 +7,9 @@ def format_phone_number(phone_number, country_code="1"):
     Example: Converts "555-555-5555" -> "+15555555555"
 
     Args:
-        phone_number (str):
+        phone_number: str
             The phone number to be formatted.
-        country_code (str):
+        country_code: str
             The country code to be used as a prefix.
             Defaults to "1" (United States).
 

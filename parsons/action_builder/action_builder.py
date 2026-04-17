@@ -151,7 +151,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict containing Action Builder tag data.
+            dict
+                Action Builder tag data.
 
         """
 
@@ -193,7 +194,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict containing Action Builder entity data.
+            dict
+                Action Builder entity data.
 
         """
 
@@ -238,7 +240,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict containing Action Builder entity data.
+            dict
+                Action Builder entity data.
 
         """
 
@@ -276,7 +279,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict with HTTP response.
+            dict
+                HTTP response
 
         """
 
@@ -304,7 +308,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict containing Action Builder entity data of the entity being tagged.
+            dict
+                Action Builder entity data of the entity being tagged.
 
         """
 
@@ -427,7 +432,8 @@ class ActionBuilder:
                 if the Connection exists and has `inactive` set to True. True by default.
 
         Returns:
-            Dict containing Action Builder connection data.
+            dict
+                Action Builder connection data.
 
         """
 
@@ -489,7 +495,8 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Dict containing Action Builder connection data.
+            dict
+                Action Builder connection data.
 
         """
 

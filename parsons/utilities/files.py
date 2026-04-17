@@ -249,7 +249,7 @@ def extract_file_name(file_path=None, include_suffix=True):
 
     file_path: str
         The file path
-    include_suffix: boolean
+    include_suffix: bool
         If True, includes full file name with suffix. If False returns the
         file name without the suffix (e.g. "myfile.zip" vs. "myfile").
     """
@@ -287,7 +287,8 @@ def generate_tempfile(suffix=None, create=False):
     Args:
         suffix: str
             The suffix to give the file path in order to advertise the file/mime type of the file.
-    `Returns`
+
+    Returns:
         str
             The path of the newly created temp file.
 
@@ -359,7 +360,7 @@ class TempDirectory:
         So, we want to make sure we have a reference to the function saved somewhere.
 
         Args:
-            unlink: function
+            unlink: Callable
                 Function to use for removing the file from disk.
 
         """
@@ -412,7 +413,7 @@ class TempFile:
         So, we want to make sure we have a reference to the function saved somewhere.
 
         Args:
-            unlink: function
+            unlink: Callable
                 Function to use for removing the file from disk.
 
         """

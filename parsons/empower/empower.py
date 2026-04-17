@@ -22,7 +22,7 @@ class Empower:
                 The URI to access the Empower API. The default is currently set to
                 https://api.getempower.com/v1/export. You can set an ``EMPOWER_URI`` env
                 variable or use this URI parameter if a different endpoint is necessary.
-            cache: boolean
+            cache: bool
                 The Empower API returns all account data after each call. Setting cache
                 to ``True`` stores the blob and then extracts Parsons tables for each method.
                 Setting cache to ``False`` will download all account data for each method call.

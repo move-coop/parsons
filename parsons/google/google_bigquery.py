@@ -281,7 +281,7 @@ class GoogleBigQuery(DatabaseConnector):
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
-            Parsons Table
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -316,14 +316,14 @@ class GoogleBigQuery(DatabaseConnector):
                 A connection object obtained from ``redshift.connection()``
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Must be true. BigQuery
             job_config: QueryJobConfig or None
                 An optional QueryJobConfig object for custom behavior.
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
-            Parsons Table
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -778,8 +778,8 @@ class GoogleBigQuery(DatabaseConnector):
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
 
-        `Returns`
-            Parsons Table or ``None``
+        Returns:
+            Table or ``None``
                 See :ref:`Table` for output options.
 
         """
@@ -1115,7 +1115,7 @@ class GoogleBigQuery(DatabaseConnector):
             if_exists: str
                 If the table already exists, either ``fail``, ``replace``, or
                 ``ignore`` the operation.
-            drop_source_table: boolean
+            drop_source_table: bool
                 Drop the source table
 
         """
@@ -1157,11 +1157,11 @@ class GoogleBigQuery(DatabaseConnector):
                 The schema and table name to upsert
             primary_key: str or list
                 The primary key column(s) of the target table
-            distinct_check: boolean
+            distinct_check: bool
                 Check if the primary key column is distinct. Raise error if not.
-            cleanup_temp_table: boolean
+            cleanup_temp_table: bool
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
-            from_s3: boolean
+            from_s3: bool
                 Instead of specifying a table_obj (set the first argument to None),
                 set this to True and include :func:`~parsons.google.google_bigquery.GoogleBigQuery.copy_s3`
                 arguments to upsert a pre-existing s3 file into the target_table
@@ -1291,7 +1291,7 @@ class GoogleBigQuery(DatabaseConnector):
             table_name: str
                 Filter by a table name
         Returns:
-            Parsons Table
+            Table
                 See :ref:`Table` for output options.
 
         """
@@ -1312,7 +1312,7 @@ class GoogleBigQuery(DatabaseConnector):
             view: str
                 Filter by a table name
         Returns:
-            Parsons Table
+            Table
                 See :ref:`Table` for output options.
 
         """

@@ -12,14 +12,14 @@ class Airmeet:
     Instantiate class.
 
     Args:
-            airmeet_uri: string
+            airmeet_uri: str
                 The URI of the Airmeet API endpoint. Not required. The default
                 is https://api-gateway.airmeet.com/prod/. You can set an
                 ``AIRMEET_URI`` env variable or use this parameter when
                 instantiating the class.
-            airmeet_access_key: string
+            airmeet_access_key: str
                 The Airmeet API access key.
-            airmeet_secret_key: string
+            airmeet_secret_key: str
                 The Airmeet API secret key.
 
         For instructions on how to generate an access key and secret key set,
@@ -34,11 +34,11 @@ class Airmeet:
         with the access token.
 
         Args:
-            airmeet_uri: string
+            airmeet_uri: str
                 The Airmeet API endpoint.
-            airmeet_access_key: string
+            airmeet_access_key: str
                 The Airmeet API access key.
-            airmeet_secret_key: string
+            airmeet_secret_key: str
                 The Airmeet API secret key.
 
         """
@@ -125,12 +125,12 @@ class Airmeet:
         cursors for paging, so we can't use _get_all_pages() here.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
-            sorting_key: string
+            sorting_key: str
                 The key to sort the participants by. Can be 'name', 'email', or
                 'registrationDate' (the default).
-            sorting_direction: string
+            sorting_direction: str
                 Can be either 'ASC' or 'DESC' (the default).
 
         Returns:
@@ -177,7 +177,7 @@ class Airmeet:
         Get the list of sessions for an Airmeet.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -194,14 +194,14 @@ class Airmeet:
         sessions, session hosts/cohosts, and various other info.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
             lists_to_tables: bool
                 If True, will convert any dictionary values that are lists
                 to Tables.
 
         Returns:
-            Dict containing the Airmeet data
+            dict
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
@@ -216,7 +216,7 @@ class Airmeet:
         Get the list of custom registration fields for an Airmeet.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -239,7 +239,7 @@ class Airmeet:
         please try again after 5 minutes."
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -261,7 +261,7 @@ class Airmeet:
         please try again after 5 minutes."
 
         Args:
-            session_id: string
+            session_id: str
                 The id of the session.
 
         Returns:
@@ -279,7 +279,7 @@ class Airmeet:
         certain Airmeet plans.`
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -305,9 +305,9 @@ class Airmeet:
         certain Airmeet plans.`
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
-            booth_id: string
+            booth_id: str
                 The id of the booth.
 
         Returns:
@@ -327,7 +327,7 @@ class Airmeet:
         Maximum number of results per page = 50.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -343,7 +343,7 @@ class Airmeet:
         Get a list of the questions asked in an Airmeet.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -363,7 +363,7 @@ class Airmeet:
         certain Airmeet plans.`
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -386,7 +386,7 @@ class Airmeet:
         please try again after 5 minutes."
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
 
         Returns:
@@ -408,9 +408,9 @@ class Airmeet:
         need to be updated if it is.
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
-            session_id: string
+            session_id: str
                 (optional) If provided, limits results to only the recording
                 of the specified session.
 
@@ -438,9 +438,9 @@ class Airmeet:
         please try again after 5 minutes."
 
         Args:
-            airmeet_id: string
+            airmeet_id: str
                 The id of the Airmeet.
-            session_id: string
+            session_id: str
                 (optional) If provided, limits results to only attendees of
                 the specified session.
 

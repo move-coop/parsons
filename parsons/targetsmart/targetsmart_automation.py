@@ -106,7 +106,7 @@ class TargetSmartAutomation:
                 A callback url to which the status will be posted. See
                 `TargetSmart documentation <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
                 for more details.
-            remove_files: boolean
+            remove_files: bool
                 Remove the configuration, file to be matched and matched file from
                 the TargetSmart SFTP upon completion or failure of match.
 

@@ -52,11 +52,11 @@ class Formstack:
             url: str
                 Relative URL (from the Formstack base URL) to make the request.
 
-            data_key: string
+            data_key: str
                 JSON key that will hold the data in the response body.
 
-            params: Dictionary, optional
-                Params to pass to the request.
+            params: dict, optional
+                    Params to pass to the request.
 
             large_request: Boolean, optional
                 If the response is likely to include a large number of pages. Defaults to `False`.
@@ -123,7 +123,7 @@ class Formstack:
         Get all forms on your account.
 
         Args:
-            form_name: string, optional
+            form_name: str, optional
                 Search by form name.
             folder_id: int, optional
                 Return forms in the specified folder.

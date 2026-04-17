@@ -657,7 +657,7 @@ class People:
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
-            omit_contact: boolean
+            omit_contact: bool
                 Omit adding contact history to the response. This is particularly
                 useful when adding activist codes that are not based on contact
                 attempts.
@@ -665,7 +665,7 @@ class People:
                 `Optional`; Phone number of any type (Work, Cell, Home)
             campaignId: int
                 `Optional`; a valid Campaign ID.
-            skip_matching: boolean
+            skip_matching: bool
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
 
         Returns:

@@ -104,7 +104,7 @@ class Twilio:
             group_by: str
                 The time interval to group usage by. Can be one of ``daily``, ``monthly`` or
                 ``yearly``.
-            exclude_null: boolean
+            exclude_null: bool
                 Exclude rows that have no usage.
 
         Returns:

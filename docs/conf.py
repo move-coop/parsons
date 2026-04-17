@@ -94,10 +94,10 @@ html_favicon = "_static/favicon.ico"
 html_sidebars = {
     "**": [
         "sidebar/brand.html",
+        "sidebar/search.html",
+        "sidebar/scroll-start.html",
         "sidebar/navigation.html",
         "sidebar/scroll-end.html",
-        "sidebar/scroll-start.html",
-        "sidebar/search.html",
         "versions.html",
     ]
 }

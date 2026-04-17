@@ -201,7 +201,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         """Initialize the logger.
 
         Args:
-            database_connector: A :class:`parsons.databases.database_connector.DatabaseConnector` object.
+            database_connector: A :class:`~parsons.databases.database_connector.DatabaseConnector` object.
             destination_table_runs: The name of the table to log run information.
             destination_table_nodes: The name of the table to log node information.
             extra_run_table_fields: A dictionary of additional fields to include in the run table.

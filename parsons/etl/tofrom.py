@@ -704,7 +704,7 @@ class ToFrom:
             port: int
                 Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.redshift.redshift.Redshift.copy`` for options.
+                See :meth:`~parsons.databases.redshift.redshift.Redshift.copy`` for options.
 
         """
 
@@ -740,7 +740,7 @@ class ToFrom:
             port: int
                 Required if env variable ``PGPORT`` not populated.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.postgres.Postgres.copy`` for options.
+                See :meth:`~parsons.databases.postgres.Postgres.copy`` for options.
 
         """
 

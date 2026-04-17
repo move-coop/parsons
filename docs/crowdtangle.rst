@@ -32,16 +32,20 @@ To instantiate the CrowdTangle class,either store your CrowdTangle API as the en
 ``CROWDTANGLE_API_KEY`` or pass it as a keyword argument:
 
 .. code-block:: python
+   :caption: Use environmental variable for API Key
 
    from parsons import CrowdTangle
-
-   # First approach: Use environmental variable for API Key
    ct = CrowdTangle()
 
-   # Second approach: Pass API Key as argument
+.. code-block:: python
+   :caption: Pass API Key as argument
+
+   from parsons import CrowdTangle
    ct = CrowdTangle(api_key='my_api_key')
 
-   # Get posts matching the given parameters
+.. code-block:: python
+   :caption: Get posts matching the given parameters
+
    ct.get_posts(
        start_date='2020-06-01',
        min_interactions=50,

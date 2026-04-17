@@ -23,21 +23,21 @@ To instantiate the Empower class, you can either store your ``EMPOWER_API_KEY`` 
 variables or pass it in as an argument:
 
 .. code-block:: python
+   :caption: Use API key environment variables
 
    from parsons import Empower
-
-   # First approach: Use API key environment variables
-
-   # In bash, set your environment variables like so:
-   # export EMPOWER_API_KEY='MY_API_KEY'
    empower = Empower()
 
-   # Second approach: Pass API keys as arguments
+.. code-block:: python
+   :caption: Pass API keys as arguments
+
+   from parsons import Empower
    empower = Empower(api_key='MY_API_KEY')
 
-You can then request tables in the following manner:
+You can then call class methods:
 
 .. code-block:: python
+   :caption: Request table of profiles
 
    tbl = empower.get_profiles()
 

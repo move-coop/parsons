@@ -117,6 +117,7 @@ By default, log output will go to the console and look like:
 In your scripts that use Parsons, if you want to override the default Parsons logging behavior, just grab the "parsons" logger and tweak it:
 
 .. code-block:: python
+   :caption: Override the default Parsons logging behavior
 
    import logging
    parsons_logger = logging.getLogger('parsons')

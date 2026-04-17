@@ -30,26 +30,32 @@ Key as environmental variables (``FRESHDESK_DOMAIN`` and ``FRESHDESK_API_KEY``, 
 or pass them in as keyword arguments:
 
 .. code-block:: python
+   :caption: Use environmental variables
 
    from parsons import Freshdesk
-
-   # First approach: Use environmental variables
    freshdesk = Freshdesk()
 
-   # Second approach: Use keyword arguments
+.. code-block:: python
+   :caption: Use keyword arguments
+
+   from parsons import Freshdesk
    freshdesk = Freshdesk(domain='my_domain', api_key='my_api_key')
 
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: Fetch all tickets requested by a individual based on their email
 
-   # Fetch all tickets requested a individual based on their email
    freshdesk.get_tickets(requester_email='user@email.com')
 
-   # Fetch all contacts in a specific company
+.. code-block:: python
+   :caption: Fetch all contacts in a specific company
+
    freshdesk.get_contacts(company_id='123')
 
-   # Fetch a specific agent by their mobile number
+.. code-block:: python
+   :caption: Fetch a specific agent by their mobile number
+
    freshdesk.get_agents(mobile='7654367287')
 
 API

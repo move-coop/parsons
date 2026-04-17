@@ -24,26 +24,27 @@ To instantiate the :class:`~parsons.formstack.formstack.Formstack` class, you ca
 environment variable or pass it in as an argument.
 
 .. code-block:: python
+   :caption: Instantiate the Formstack class using the ``FORMSTACK_API_TOKEN`` environment variable
 
    from parsons.formstack import Formstack
-
-   # Instantiate the Formstack class using the FORMSTACK_API_TOKEN env variable
    fs = Formstack()
 
-   # Instantiate the Formstack class using the api token directly
+.. code-block:: python
+   :caption: Instantiate the Formstack class using the api token directly
+
+   from parsons.formstack import Formstack
    fs = Formstack(api_token="<your api token>")
 
-   # Get all of the folders in our account
-   folders = fs.get_folders()
+.. code-block:: python
+   :caption: Find the ID of folder "Data" and get all the forms in it
 
-   # Find the ID of the "Data" folder
+   folders = fs.get_folders()
    data_folder_id = None
    for folder in folders:
       if folder["name"] == "Data":
          data_folder_id = folder["id"]
          break
 
-   # If we found the "Data" folder, get all of the forms in it
    if data_folder_id is not None:
       forms = fs.get_forms(folder_id=data_folder_id)
       print(forms)

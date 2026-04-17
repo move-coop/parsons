@@ -22,20 +22,21 @@ API key as environmental variables (``COPPER_USER_EMAIL``, ``COPPER_API_KEY``)
 or pass them in as arguments:
 
 .. code-block:: python
+   :caption: Use API key and user email via environmental variables
 
    from parsons import Copper
-
-   # First approach: Use API key and user email via environmental variables
    copper = Copper()
 
-   # Second approach: Pass API credentials and user email as arguments
+.. code-block:: python
+   :caption: Pass API credentials and user email as arguments
+
+   from parsons import Copper
    copper = Copper(user_email='me@myorg.com', api_key='MYAPIKEY')
 
 You can then call various endpoints:
 
 .. code-block:: python
-
-   # Get people
+   :caption: Get people
 
    # This will unpack the people json as a dict of Parsons Tables.
    people_tbls = copper.get_people()
@@ -49,7 +50,8 @@ You can then call various endpoints:
    for k, v in people_tbls.items():
       v.to_postgres(f'copper.{k}', if_exists='drop')
 
-   # Get companies
+.. code-block:: python
+   :caption: Get companies
 
    # Get companies modified since a date, unix time. This will unpack the companies
    json as a dict of Parsons Tables.

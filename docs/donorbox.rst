@@ -24,13 +24,15 @@ API key as environmental variables (``DONORBOX_ACCOUNT_EMAIL``, ``DONORBOX_API_K
 or pass them in as arguments:
 
 .. code-block:: python
+   :caption: Use API key and account email via environmental variables
 
    from parsons import Donorbox
-
-   # First approach: Use API key and account email via environmental variables
    donorbox = Donorbox()
 
-   # Second approach: Pass API credentials and user email as arguments
+.. code-block:: python
+   :caption: Pass API credentials and user email as arguments
+
+   from parsons import Donorbox
    donorbox = Donorbox(email='me@myorg.com', api_key='MYAPIKEY')
 
 You can then call various endpoints:

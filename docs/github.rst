@@ -29,29 +29,38 @@ or pass them in as arguments. Alternatively, you can provide a personal access t
 environmental variable (``GITHUB_ACCESS_TOKEN``) or as an argument.
 
 .. code-block:: python
+   :caption: Authenticate by passing a username and password arguments
 
    from parsons import GitHub
-
-   # Authenticate by passing a username and password arguments
    github = GitHub(username='my_username', password='my_password')
 
-   # Authenticate by passing an access token as an argument
+.. code-block:: python
+   :caption: Authenticate by passing an access token as an argument
+
+   from parsons import GitHub
    github = GitHub(access_token='my_access_token')
 
-   # Authenticate with environmental variables
+.. code-block:: python
+   :caption: Authenticate with environmental variables
+
+   from parsons import GitHub
    github = GitHub()
 
 With the class instantiated, you can now call various endpoints.
 
 .. code-block:: python
+   :caption: Get repo by its full name (account/name)
 
-   # Get repo by its full name (account/name)
    parsons_repo = github.get_repo("move-coop/parsons")
 
-   # Get the first page of a repo's issues as a Table
+.. code-block:: python
+   :caption: Get the first page of a repo's issues as a Table
+
    parsons_issues_table = github.list_repo_issues("move-coop/parsons")
 
-   # Download Parsons README.md to local "/tmp/README.md"
+.. code-block:: python
+   :caption: Download Parsons README.md to local "/tmp/README.md"
+
    parsons_readme_path = github.download_file("move-coop/parsons", "README.md", local_path="/tmp/README.md")
 
 API

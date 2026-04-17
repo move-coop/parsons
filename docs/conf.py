@@ -30,6 +30,14 @@ templates_path = ["_templates"]
 primary_domain = "py"
 autodoc_member_order = "bysource"
 autosectionlabel_prefix_document = True
+nitpick_ignore = {
+    ("py:class", "petl.util.base.Table"),  # this class is not in petl's sphinx documentation
+}
+nitpick_ignore_regex = {
+    (r"py:.*", r"dbt\..+"),  # dbt references (no linkable sphinx documentation)
+    (r"py:.*", r"box_sdk_gen\..+"),  # box references (no linkable sphinx documentation)
+    (r"py:.*", r"test\..+"),  # test files are currently not linkable
+}
 
 intersphinx_mapping_core = {
     "petl": ("https://petl.readthedocs.io/latest/", None),

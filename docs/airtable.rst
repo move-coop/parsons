@@ -23,27 +23,34 @@ To instantiate the :class:`~parsons.airtable.airtable.Airtable` class, you can e
 as an argument. You also need to pass in the base key and table name.
 
 .. code-block:: python
+   :caption: Use personal access token via environmental variable and pass the base key and the table as arguments
+   :emphasize-lines: 2
 
    from parsons import Airtable
-
-   # First approach: Use personal access token via environmental variable and pass
-   # the base key and the table as arguments.
    at = Airtable(base_key, 'table01')
 
-   # Second approach: Pass personal access token, base key and table name as arguments.
+.. code-block:: python
+   :caption: Pass personal access token, base key and table name as arguments
+   :emphasize-lines: 2
+
+   from parsons import Airtable
    at = Airtable(base_key, 'table01', personal_access_token='MYFAKETOKEN')
 
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: Get records from a base
 
-   # Get records from a base
    at.get_records(fields=['id', 'fn', 'ln'])
 
-   # Get a single record from a base
+.. code-block:: python
+   :caption: Get a single record from a base
+
    at.get_record(1233)
 
-   # Insert records
+.. code-block:: python
+   :caption: Insert records
+
    tbl.from_csv('my_new_records')
    at.insert_records(tbl)
 

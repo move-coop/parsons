@@ -22,13 +22,17 @@ To instantiate the :class:`~parsons.airmeet.airmeet.Airmeet` class, you can eith
 variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``) or pass them in as arguments.
 
 .. code-block:: python
+   :caption: Use API credentials via environmental variables
+   :emphasize-lines: 2
 
    from parsons import Airmeet
-
-   # First approach: Use API credentials via environmental variables
    airmeet = Airmeet()
 
-   # Second approach: Pass API credentials as arguments (airmeet_uri is optional)
+.. code-block:: python
+   :caption: Pass API credentials as arguments (airmeet_uri is optional)
+   :emphasize-lines: 2-6
+
+   from parsons import Airmeet
    airmeet = Airmeet(
       airmeet_uri='https://api-gateway.airmeet.com/prod',
       airmeet_access_key="my_access_key",
@@ -38,20 +42,25 @@ variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``) or p
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: Fetch the list of Airmeets
 
-   # Fetch the list of Airmeets.
    events_tbl = airmeet.list_airmeets()
 
-   # Fetch the list of sessions in an Airmeet.
+.. code-block:: python
+   :caption: Fetch the list of sessions in an Airmeet
+
    sessions_tbl = airmeet.fetch_airmeet_sessions("my_airmeet_id")
 
-   # Fetch the list of registrations for an Airmeet, sorted in order
-   # of registration date.
+.. code-block:: python
+   :caption: Fetch the list of registrations for an Airmeet, sorted in order of registration date
+
    participants_tbl = airmeet.fetch_airmeet_participants(
       "my_airmeet_id", sorting_direction="ASC"
    )
 
-   # Fetch the list of session attendees.
+.. code-block:: python
+   :caption: Fetch the list of session attendees
+
    session_attendees_tbl = airmeet.fetch_session_attendance("my_session_id")
 
 API

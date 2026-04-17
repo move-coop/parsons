@@ -20,17 +20,17 @@ To instantiate the :class:`~parsons.actblue.actblue.ActBlue` class, you can eith
 variables or pass them in as arguments:
 
 .. code-block:: python
+   :caption: Use API key environment variables
+   :emphasize-lines: 2
 
    from parsons import ActBlue
-
-   # First approach: Use API key environment variables
-
-   # In bash, set your environment variables like so:
-   # export ACTBLUE_CLIENT_UUID='MY_UUID'
-   # export ACTBLUE_CLIENT_SECRET='MY_SECRET'
    actblue = ActBlue()
 
-   # Second approach: Pass API keys as arguments
+.. code-block:: python
+   :caption: Pass API keys as arguments
+   :emphasize-lines: 2
+
+   from parsons import ActBlue
    actblue = ActBlue(actblue_client_uuid='MY_UUID', actblue_client_secret='MY_SECRET')
 
 You can then make a request to generate a CSV and save its data to a Parsons table using the main helper method, :meth:`~parsons.actblue.actblue.ActBlue.get_contributions`:

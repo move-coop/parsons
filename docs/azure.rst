@@ -25,42 +25,48 @@ includes the account name. You can store these as environmental variables (``AZU
 and ``AZURE_ACCOUNT_URL``, respectively) or pass them in as arguments:
 
 .. code-block:: python
-   :caption: Instantiate blob
+   :caption: Use API credentials via environmental variables
+   :emphasize-lines: 2
 
    from parsons import AzureBlobStorage
-
-   # First approach: Use API credentials via environmental variables
    azure_blob = AzureBlobStorage()
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+   :emphasize-lines: 2
+
+   from parsons import AzureBlobStorage
    azure_blob = AzureBlobStorage(account_name='my_account_name', credential='1234')
 
 .. code-block:: python
-   :caption: List containers and blobs
+   :caption: Get all container names for a storage account
 
-   # Get all container names for a storage account
    container_names = azure_blob.list_containers()
 
-   # Get all blob names for a storage account and container
+.. code-block:: python
+   :caption: Get all blob names for a storage account and container
+
    blob_names = azure_blob.list_blobs(container_names[0])
 
 .. code-block:: python
-   :caption: Create a blob from a file or Table
+   :caption: Upload a CSV file from a local file path and set the content type
 
-   # Upload a CSV file from a local file path and set the content type
    azure_blob.put_blob('blob_name', 'test1.csv', './test1.csv', content_type='text/csv')
 
-   # Create a Table and upload it as a JSON blob
+.. code-block:: python
+   :caption: Create a Table and upload it as a JSON blob
+
    table = Table([{'first': 'Test', 'last': 'Person'}])
    azure_blob.upload_table(table, 'blob_name', 'test2.json', data_type='json')
 
 .. code-block:: python
-   :caption: Download a blob
+   :caption: Download a blob to a temporary file path
 
-   # Download to a temporary file path
    temp_file_path = azure_blob.download_blob('blob_name', 'test.csv')
 
-   # Download to a specific file path
+.. code-block:: python
+   :caption: Download a blob to a specific file path
+
    azure_blob.download_blob('blob_name', 'test.csv', local_path='/tmp/test.csv')
 
 API

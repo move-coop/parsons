@@ -25,7 +25,37 @@ env:
     *.githubusercontent.com:443
 
 jobs:
-  build:
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+        with:
+          disable-sudo: true
+          egress-policy: audit
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
+          --all-extras
+
+      - run: make test
+        working-directory: docs
+
+  build-multiversion:
+    needs: test-build
+
     runs-on: ubuntu-latest
 
     steps:
@@ -71,8 +101,8 @@ jobs:
           path: docs/html/
 
   deploy:
-    needs: build
-    # Don't run this job on pull requests
+    needs: build-multiversion
+
     if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest

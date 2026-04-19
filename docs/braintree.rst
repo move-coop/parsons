@@ -5,12 +5,12 @@ Braintree
 Overview
 ========
 
-`Braintree <https://www.braintreepayments.com>`__ is an online payment processor often integrated in other
+`Braintree <https://www.paypal.com/us/braintree>`__ is an online payment processor often integrated in other
 third-party donation platforms like ActionKit, etc.  Even if much data is accessible through those other
 platforms things like credit card disputes and disbursement (to your bank account!) timing may only be
 available directly through Braintree.
 
-While much of the `Braintree API <https://developers.braintreepayments.com/>`__ is about processing payments,
+While much of the `Braintree API <https://developer.paypal.com/braintree/docs/>`__ is about processing payments,
 this Parsons integration focuses on the record searching aspects. Specifically, the :class:`~parsons.braintree.braintree.Braintree` class provides
 methods for fetching disputes and transactions.
 
@@ -24,7 +24,8 @@ methods for fetching disputes and transactions.
    2. **Public API Key:** Click 'API' and scroll to 'API Keys'. If there are none, click 'Generate New API Key'.
    3. **Private API Key:** Click 'API', scroll to 'API Keys', and click the 'view' link in the private column.
 
-   For more information, see the `API documentation <https://articles.braintreepayments.com/control-panel/important-gateway-credentials>`__.
+   For more information, see the
+   `Important Gateway Credentials documentation <https://developer.paypal.com/braintree/articles/control-panel/important-gateway-credentials>`__.
 
 Quickstart
 ==========

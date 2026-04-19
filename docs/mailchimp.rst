@@ -5,8 +5,8 @@ Mailchimp
 Overview
 ========
 
-`Mailchimp <https://www.mailchimp.com>`__ is a platform used for creating and sending mass emails.
-`The Mailchimp API <https://developers.braintreepayments.com/>`__ allows users to interact with data from existing
+`Mailchimp <https://mailchimp.com>`__ is a platform used for creating and sending mass emails.
+`The Mailchimp API <https://mailchimp.com/developer/marketing/api/>`__ allows users to interact with data from existing
 email campaigns under their account and to configure further campaigns.
 
 This Parsons integration focuses on accessing information about previous email campaigns, including methods for

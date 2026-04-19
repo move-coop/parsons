@@ -213,7 +213,7 @@ class Braintree:
                 End date of the dispute range. Requires `start_date` arg. e.g. '2020-11-03'
             query_list: list of braintree.DisputeSearch
                 You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/dispute/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
@@ -276,7 +276,7 @@ class Braintree:
                 e.g. '2020-11-03'
             query_list: list of braintree.SubscriptionSearch
                 You can use the `braintree.SubscriptionSearch
-                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/subscription/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
@@ -361,7 +361,7 @@ class Braintree:
                 e.g. '2020-11-03'
             query_list: list of braintree.TransactionSearch
                 You can use the `braintree.TransactionSearch
-                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/transaction/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API

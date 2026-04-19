@@ -162,8 +162,8 @@ class DatabaseConnector(ABC):
     def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         """Execute a query against the database. Will return ``None`` if the query returns empty.
 
-        To include python variables in your query, it is recommended to pass them as parameters, following the
-        `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`.
+        To include python variables in your query, it is recommended to pass them as parameters,
+        following the `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
         Examples:

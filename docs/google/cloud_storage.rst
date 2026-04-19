@@ -8,8 +8,9 @@ Google Cloud Storage is a cloud file storage system. It uses buckets in which to
 store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.
 
 To use the GoogleCloudStorage class, you will need Google service account credentials.
-If you are the administrator of your Google Cloud account, you can generate them in the
-`Google Cloud Console APIs and Services - Service Account Key <https://console.cloud.google.com/apis/credentials/serviceaccountkey?_ga=2.116342342.-1334320118.1565013288>`__.
+If you are the administrator of your Google Cloud account, you can generate them at
+`Service accounts - IAM & Admin <https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts>`__
+Once signed in, select your project, then your project's email, then Keys, then ``Add key``, and select ``Create new key``.
 
 Quickstart
 ==========

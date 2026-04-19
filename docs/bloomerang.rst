@@ -5,8 +5,8 @@ Bloomerang
 Overview
 ========
 
-`Bloomerang <https://bloomerang.co/>`__ is a donor management platform for non-profits. This Parsons integration with
-the private `Bloomerang REST API <https://bloomerang.co/features/integrations/api/rest-api>`_
+`Bloomerang <https://bloomerang.com/>`__ is a donor management platform for non-profits.
+This Parsons integration with the private `Bloomerang REST API Documentation`_
 supports fetching, creating, and updating records of constituents, donations, and interactions.
 
 .. admonition:: Authentication
@@ -18,8 +18,7 @@ supports fetching, creating, and updating records of constituents, donations, an
    1. Use a private API Key (less secure)
    2. Use OAuth2 authentication, requiring a ``client_id`` and ``client_secret`` (more secure)
 
-   See the `Bloomerang REST API documentation <https://bloomerang.co/features/integrations/api/rest-api>`_
-   for more information on API authentication.
+   See the `Bloomerang REST API Documentation`_ for more information on API authentication.
 
 Quickstart
 ==========
@@ -75,3 +74,11 @@ API
 .. autoclass:: parsons.bloomerang.bloomerang.Bloomerang
    :inherited-members:
    :members:
+
+.. _Bloomerang REST API Documentation: https://bloomerang.com/api/rest-api/
+.. _Bloomerang post_constituent Documentation: https://bloomerang.com/api/rest-api/#/Constituents/post_constituent
+.. _Bloomerang put_constituent__id_ Documentation: https://bloomerang.com/api/rest-api/#/Constituents/put_constituent__id_
+.. _Bloomerang post_transaction Documentation: https://bloomerang.com/api/rest-api/#/Constituents/post_transaction
+.. _Bloomerang put_transaction__id_ Documentation: https://bloomerang.com/api/rest-api/#/Constituents/put_transaction__id_
+.. _Bloomerang post_interaction Documentation: https://bloomerang.com/api/rest-api/#/Constituents/post_interaction
+.. _Bloomerang put_interaction__id_ Documentation: https://bloomerang.com/api/rest-api/#/Constituents/put_interaction__id_

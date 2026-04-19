@@ -30,8 +30,8 @@ Quickstart
 To get started, initialize a :class:`~parsons.scytl.scytl.Scytl` class with the two-letter state code, the election id, and the county name (optional).
 
 To get these details, go to the website for the given election, and look in the url.
-For example, if the url is "https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/", then the state is "TX",
-the county is "Dallas", and the election ID is "114890". If the url is "https://results.enr.clarityelections.com/GA/114729/web.285569/",
+For example, if the url is ``https://results.enr.clarityelections.com/TX/Dallas/114890/web.285569/``, then the state is "TX",
+the county is "Dallas", and the election ID is "114890". If the url is ``https://results.enr.clarityelections.com/GA/114729/web.285569/``,
 the state is "GA" and the election ID is "114729".
 
 .. code-block:: python

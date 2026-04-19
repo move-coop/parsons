@@ -5,7 +5,7 @@ Twilio
 Overview
 ========
 
-`Twilio <https://twilio.com>`__ is a messaging platform that allows you to programmatically
+`Twilio <https://www.twilio.com>`__ is a messaging platform that allows you to programmatically
 send and receive SMS messages, send and receive voice calls, and perform other communication
 functions. This Parsons integration provides methods for fetching messages, accounts, and
 account usage data.

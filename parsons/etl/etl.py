@@ -485,8 +485,8 @@ class ETL:
         r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
-        as regex. This method leverages the petl ``convert()`` method. Example usage can be
-        found `here` <https://petl.readthedocs.io/en/v0.24/transform.html#petl.convert>`__.
+        as regex. This method uses
+        `petl's transform.conversions.convert() method <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
 
         Args:
             `*args`: str, method or variable

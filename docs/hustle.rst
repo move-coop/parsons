@@ -5,8 +5,8 @@ Hustle
 Overview
 ========
 
-`Hustle <https://www.hustle.com/>`__ is a peer to peer texting communication platform. This Parsons integration with the
-the `Hustle v1 API <https://api.hustle.com/docs/>`__ provides methods for fetching agents,
+`Hustle <https://hustle.com/>`__ is a peer to peer texting communication platform. This Parsons integration with the
+the `Hustle v1 API <https://api.hustle.com/v3/docs/>`__ provides methods for fetching agents,
 organizations, groups, leads, and tags, as well as creating and updating agents and leads.
 
 .. admonition:: Authentication

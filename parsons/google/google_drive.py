@@ -264,7 +264,7 @@ class GoogleDrive:
                 set to `None` if you choose `type='anyone'`
             role: str
                 Options are -- owner, organizer, fileOrganizer, writer, commenter, reader
-                https://developers.google.com/drive/api/guides/ref-roles
+                `<https://developers.google.com/workspace/drive/api/guides/ref-roles>`__
             type: str
                 Options are -- user, group, domain, anyone
         Returns:

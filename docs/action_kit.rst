@@ -66,13 +66,13 @@ API
    :inherited-members:
    :members:
 
-.. _actionkit api authentication documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication
-.. _actionkit api action processing documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html
-.. _actionkit api ordering documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering
-.. _actionkit api uploads documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html
-.. _actionkit api autocreate_user_fields documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request
-.. _actionkit api users documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/users.html
-.. _actionkit api mailer documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html
-.. _actionkit api event search examples: https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html
-.. _actionkit email blackhole documentation: https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole
-.. _django field lookup documentation: https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups
+.. _ActionKit API Authentication Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication
+.. _ActionKit API Action processing Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html
+.. _ActionKit API Ordering Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering
+.. _ActionKit API Uploads Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html
+.. _ActionKit API Autocreate_user_fields Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request
+.. _ActionKit API Users Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/users.html
+.. _ActionKit API Mailer Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/mailer.html
+.. _ActionKit API Event Search Examples: https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html
+.. _ActionKit Email Blackhole Documentation: https://docs.actionkit.com/docs/manual/guide/mailings_tools.html#blackhole
+.. _Django Field Lookup Documentation: https://docs.djangoproject.com/en/3.1/topics/db/queries/#field-lookups

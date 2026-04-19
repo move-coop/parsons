@@ -15,7 +15,7 @@ class Alchemy:
     def generate_alchemy_url(self):
         """
         Generate a SQL Alchemy engine
-        https://docs.sqlalchemy.org/en/14/core/engines.html#
+        https://docs.sqlalchemy.org/en/20/core/engines_connections.html
         """
 
         if self.dialect == "redshift" or self.dialect == "postgres":

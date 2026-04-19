@@ -66,7 +66,7 @@ class ToFrom:
                 is done running.
             encoding: str
                 The encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             index_header: bool
@@ -260,7 +260,7 @@ class ToFrom:
                 If a ``local_path`` is specified, this argument is ignored.
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             write_header: bool
@@ -318,7 +318,7 @@ class ToFrom:
                 be compressed.
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             `**csvargs`: kwargs
@@ -362,7 +362,7 @@ class ToFrom:
                 the archive name.
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             write_header: bool
@@ -486,7 +486,7 @@ class ToFrom:
                 The port number of the SFTP server
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             write_header: bool
@@ -548,7 +548,7 @@ class ToFrom:
                 supported. If specified, will override the key suffix.
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             write_header: bool
@@ -634,7 +634,7 @@ class ToFrom:
                 supported. If specified, will override the key suffix.
             encoding: str
                 The CSV encoding type for `csv.writer()
-                <https://docs.python.org/2/library/csv.html#csv.writer/>`_
+                <https://docs.python.org/3/library/csv.html#csv.writer/>`_
             errors: str
                 Raise an Error if encountered
             write_header: bool

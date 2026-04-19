@@ -133,7 +133,7 @@ class GoogleCivic:
         This method returns the raw JSON response from the Google Civic API.
         It is a complex response that is not easily parsed into a table.
         Here is the information on how to parse the response:
-        https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
+        `<https://developers.google.com/resources/api-libraries/documentation/civicinfo/v2/python/latest/civicinfo_v2.representatives.html#representativeInfoByAddress>`__
 
         Args:
             address: str

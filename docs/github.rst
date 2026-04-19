@@ -18,7 +18,7 @@ to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`__. T
 .. admonition:: API Credentials
 
    - If you have a GitHub account you can use your normal username and password to authenticate with the API.
-   - You can also use `a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`__.
+   - You can also use `a personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`__.
 
 Quickstart
 ==========

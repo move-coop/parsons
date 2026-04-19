@@ -184,10 +184,8 @@ class ActionBuilder:
                 provided.
             data: dict
                 The details to include on the record being upserted, to be included as the value
-                of the `person` key. See
-                [documentation for the Person Signup Helper](https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post)
-                for examples, and
-                [the Person endpoint](https://www.actionbuilder.org/docs/v1/people.html#field-names)
+                of the `person` key. See the `ActionBuilder Person Signup Helper Documentation`_
+                for examples, and the `ActionBuilder Person Endpoint Documentation_`
                 for full entity object composition.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
@@ -230,10 +228,8 @@ class ActionBuilder:
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
             data: dict
                 The details to include on the record being upserted, to be included as the value
-                of the `person` key. See
-                [documentation for the Person Signup Helper](https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post)
-                for examples, and
-                [the Person endpoint](https://www.actionbuilder.org/docs/v1/people.html#field-names)
+                of the `person` key. See the `ActionBuilder Person Signup Helper Documentation`_
+                for examples, and the `ActionBuilder Person Endpoint Documentation_`
                 for full entity object composition.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
@@ -422,8 +418,7 @@ class ActionBuilder:
                 `action_builder:abc123-...`. Requires exactly two identifiers.
             tag_data: list
                 List of dicts of tags to be added to the connection record (i.e. Connection Info).
-                See [documentation on Connection Helper](https://www.actionbuilder.org/docs/v1/connection_helper.html#post)
-                for examples.
+                See the `ActionBuilder Connection Helper Documentation`_ for examples.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.

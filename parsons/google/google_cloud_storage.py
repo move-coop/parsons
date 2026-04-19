@@ -194,7 +194,8 @@ class GoogleCloudStorage:
             include_file_details: bool
                 If True, returns a list of `Blob` objects with accessible metadata. For
                 documentation of attributes associated with `Blob` objects see
-                https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
+                `<https://docs.cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob>`__
+
         Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
 

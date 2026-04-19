@@ -68,4 +68,4 @@ API
    :inherited-members:
    :members:
 
-.. _airmeet event details api documentation: https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api
+.. _Airmeet Event Details API Documentation: https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api

@@ -8,9 +8,8 @@ Overview
 `Salesforce <https://www.salesforce.com>`__ is a cloud-based CRM (customer relationship management) tool
 with a huge share of the for-profit and apolitical non-profit markets. This Parsons integration with the
 `Salesforce REST API <https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm>`_
-provides methods to describe objects and fields, handle records, and submit Salesforce
-`SOQL queries <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_
-that return a Parsons :ref:`Table`.
+provides methods to describe objects and fields, handle records, and submit Salesforce SOQL queries that return a Parsons :ref:`Table`.
+For more information, see the `Salesforce SOQL Documentation`_.
 
 The :class:`~parsons.salesforce.salesforce.Salesforce` class utilizes the `Simple Salesforce <https://simple-salesforce.readthedocs.io/en/latest/>`_
 client for making API calls under the hood.
@@ -63,3 +62,5 @@ API
 .. autoclass:: parsons.salesforce.salesforce.Salesforce
    :inherited-members:
    :members:
+
+.. _salesforce soql documentation: https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm

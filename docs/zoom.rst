@@ -5,7 +5,7 @@ Zoom
 Overview
 ========
 
-`Zoom <https://zoom.us>`__ is a video conferencing platform. This connector supports
+`Zoom <https://www.zoom.com>`__ is a video conferencing platform. This connector supports
 fetching users, fetching meetings, fetching metadata for past meetings, and fetching
 participants of past meetings via the `Zoom API <https://developers.zoom.us/docs/api/>`__.
 

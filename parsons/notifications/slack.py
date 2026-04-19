@@ -38,8 +38,8 @@ class Slack:
             fields: list
                 A list of the fields to return. By default, only the channel
                 `id` and `name` are returned. See
-                https://api.slack.com/methods/conversations.list for a full
-                list of available fields. `Notes:` nested fields are unpacked.
+                `<https://docs.slack.dev/reference/methods/conversations.list>`__ for a full
+                list of available fields. ``Notes`` nested fields are unpacked.
             exclude_archived: bool
                 Set to `True` to exclude archived channels from the list.
                 Default is false.
@@ -83,8 +83,9 @@ class Slack:
             fields: list
                 A list of the fields to return. By default, only the user
                 `id` and `name` and `deleted` status are returned. See
-                https://api.slack.com/methods/users.list for a full list of
-                available fields. `Notes:` nested fields are unpacked.
+                `<https://docs.slack.dev/reference/methods/users.list>`__
+                for a full list of available fields.
+                ``Notes`` nested fields are unpacked.
 
         Returns:
             :ref:`Table`
@@ -117,7 +118,7 @@ class Slack:
                 Text of the message to send.
             webhook: str
                 If you have a webhook url instead of an api_key
-                Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx
+                Looks like: ``https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx``
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
 
@@ -145,11 +146,11 @@ class Slack:
             as_user: str
                 This is a deprecated argument. Use optional username, icon_url, and icon_emoji
                 args to customize the attributes of the user posting the message.
-                See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
-                more information about legacy authorship
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+                for more information about legacy authorship
             `**kwargs`: kwargs
                 Additional arguments for chat.postMessage API call.
-                See `documentation <https://api.slack.com/methods/chat.postMessage>`__ for more info.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage>`__ for more info.
 
         Returns:
             dict
@@ -204,7 +205,8 @@ class Slack:
             filetype: str
                 A file type identifier. If None, type will be inferred base on
                 file extension. This is used to determine what fields are
-                available for that object. See https://api.slack.com/types/file
+                available for that object.
+                See `<https://docs.slack.dev/reference/objects/file-object/#types>`__
                 for a list of valid types and for more information about the
                 file object.
             initial_comment: str

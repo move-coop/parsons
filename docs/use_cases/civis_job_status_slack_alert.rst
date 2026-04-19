@@ -23,5 +23,5 @@ to allow for creating customized versions for member organizations with only the
 Indivisible now has their own daily alert on the status of their data syncs and other important scripts populating in a private Slack channel.
 
 The code we used is available as a
-`sample script <https://github.com/move-coop/parsons/tree/master/useful_resources/sample_code/civis_job_status_slack_alert.py>`_
+`sample script <https://github.com/move-coop/parsons/blob/main/useful_resources/sample_code/civis_job_status_slack_alert.py>`_
 for you to view, re-use, and/or customize.

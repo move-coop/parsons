@@ -278,7 +278,7 @@ so any data transformations can be applied efficiently.
 PETL
 ----
 
-The Parsons :meth:`~parsons.etl.table.Table` relies heavily on the `petl <https://petl.readthedocs.io/en/stable/index.html>`_
+The Parsons :meth:`~parsons.etl.table.Table` relies heavily on the `petl <https://petl.readthedocs.io/latest/>`_
 Python package. You can always access the underlying petl table, :meth:`~parsons.etl.etl.ETL`, which will
 allow you to perform any petl-supported ETL operations. Additionally, you can use the helper method,
 :meth:`~parsons.etl.etl.ETL.use_petl`, to conveniently perform the same operations on a parsons

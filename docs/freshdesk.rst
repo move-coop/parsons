@@ -5,7 +5,7 @@ Freshdesk
 Overview
 ========
 
-`Freshdesk <https://freshdesk.com>`__ is an omnichannel customer support platform.
+`Freshdesk <https://www.freshworks.com/freshdesk>`__ is an omnichannel customer support platform.
 This Parsons integration with the `Freshdesk API <https://developers.freshdesk.com/api/>`_
 provides methods to fetch tickets, contacts, companies, and agents. Results are returned
 as Parsons Tables.

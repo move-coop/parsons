@@ -438,7 +438,7 @@ class GoogleSheets:
                 The cell range to format. E.g. ``"A2"`` or ``"A2:B100"``
             cell_format: dict
                 The formatting to apply to the range. Full options are specified in
-                the GoogleSheets `API documentation <https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat>`__.
+                the `CellFormat documentation <https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat>`__.
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.

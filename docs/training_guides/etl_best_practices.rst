@@ -84,7 +84,7 @@ Setting up the Google Sheets connector takes several steps.
 
 First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`_
 and select the project you want to work with, or create a new one (recommended).
-Following `these instructions from Google <https://developers.google.com/drive/api/guides/enable-drive-api>`_,
+Following `these instructions from Google <https://developers.google.com/workspace/drive/api/guides/enable-sdk>`_,
 click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
 
 Once you've created a project and enabled the API, you'll need to get the credentials that will allow you to access the API.
@@ -145,8 +145,8 @@ We're going to extract some data on attendance from Mobilize. We can do that wit
 
    attendance_records = mobilize.get_attendances()
 
-If you weren't able to get an authenticated Mobilize account, you can use the fake Mobilize data in
-`this google sheet <https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/>`_
+If you weren't able to get an authenticated Mobilize account, you can use this
+`fake Mobilize data <https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/>`__
 
 .. code-block:: python
 
@@ -220,10 +220,12 @@ Let's convert these unix timestamps to something more readable. To do this, we d
        return datetime.utcfromtimestamp(int(unix_date)).strftime('%Y-%m-%d %H:%M:%S')
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format.
-For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970), and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
-Here's a `cheatsheet <https://strftime.org/>`__ in case you want to play around with the formatting.
+For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970),
+and ``%m`` means "Month as a zero-padded decimal number" (like, say, 01).
+Here's a `cheatsheet <https://www.strfti.me/>`__ in case you want to play around with the formatting.
 
-Once we've got our function, we can apply it to all the rows in a column by using the Parsons :ref:`Table`'s :meth:`~parsons.etl.table.Table.convert_column` function
+Once we've got our function, we can apply it to all the rows in a column by using the
+:meth:`~parsons.etl.table.Table.convert_column` method of the Parsons :ref:`Table`.
 
 .. code-block:: python
 
@@ -656,7 +658,7 @@ Civis takes your Python script from where it is stored in GitHub and runs it a D
 It's where we maintain `Parsons <https://github.com/move-coop/parsons/>`__ itself.
 
 `Docker <https://www.docker.com/>`__ is a service that lets you create a remote environment that includes all of the Python packages your script needs to run.
-TMC maintains a `Parsons docker image <https://cloud.docker.com/u/movementcooperative/repository/docker/movementcooperative/parsons>`__ that
+TMC maintains a `Parsons docker image <https://hub.docker.com/repository/docker/movementcooperative/parsons>`__ that
 you can use - or that you can tell Civis to use!
 
 Put all these pieces together and you get a virtual computer with Parsons pre-installed where you can run the specified script.

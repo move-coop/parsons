@@ -5,7 +5,7 @@ Box
 Overview
 ========
 
-`Box <https://box.com>`__ is a commercial file sharing service similar to Dropbox and Google Drive.
+`Box <https://www.box.com>`__ is a commercial file sharing service similar to Dropbox and Google Drive.
 The current Parsons API supports listing files and folders, creating and deleting folders,
 and uploading/downloading Parsons tables as either CSV or JSON files.
 

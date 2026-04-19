@@ -73,7 +73,7 @@ class Airtable:
                 ``COLUMN_A`` isn't empty, pass in: ``"NOT({COLUMN_A}='')"``
 
                 For more information see
-                `Airtable Docs on formulas. <https://airtable.com/api>`_
+                `Airtable API Documentation`_
 
                 Usage - Text Column is not empty:
 

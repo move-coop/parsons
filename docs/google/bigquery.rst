@@ -84,4 +84,4 @@ API
    :inherited-members:
    :members:
 
-.. _bigquery transactions documentation: https://cloud.google.com/bigquery/docs/transactions
+.. _bigquery transactions documentation: https://docs.cloud.google.com/bigquery/docs/transactions

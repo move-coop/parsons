@@ -111,7 +111,7 @@ class Salesforce:
         Args:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
-                For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`__.
+                For reference, see the `Salesforce SOQL Documentation`_.
 
         Returns:
             list[dict]

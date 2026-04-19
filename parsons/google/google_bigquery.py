@@ -334,8 +334,8 @@ class GoogleBigQuery(DatabaseConnector):
                 BigQuery implementation uses an API client which always auto-commits.
                 If you wish to wrap multiple queries in a transaction, use
                 Mulit-Statement transactions within a single query as outlined
-                here: https://cloud.google.com/bigquery/docs/transactions or use the
-                `query_with_transaction` method on the BigQuery connector.
+                here: https://docs.cloud.google.com/bigquery/docs/transactions/ or use the
+                `query_with_transaction` method of the GoogleBigQuery connector.
             """
             )
 

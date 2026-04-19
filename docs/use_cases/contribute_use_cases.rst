@@ -30,9 +30,8 @@ Steps:
    The file should end with ``.rst``. That means it's a `Restructured Text <https://www.writethedocs.org/guide/writing/reStructuredText/>`__ file.
    Note that the syntax for RST files can be a little tricky!
 
-2. Test that your use case looks correct by building the documentation.
-   There are instructions `here <https://move-coop.github.io/parsons/html/contributing.html#documentation>`__.
-   The important steps to follow there are making a virtual environment, installing parsons, and then building the docs with `make deploy_docs`.
+2. Test that your use case looks correct by
+   `building the parsons documentation <https://www.parsonsproject.org/pub/contributing-guide#build-the-docs-optional>`_.
 
 3. Write up your sample script in a Python (``.py``) file, place it in ``useful_resources/sample_code``,
    and add it to the ``use_cases_and_sample_scripts`` section of the table of contents in ``index.rst``.

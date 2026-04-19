@@ -6,7 +6,7 @@ Overview
 ========
 
 `CapitolCanary <https://capitolcanary.com/>`__ is a digital advocacy tool used by progressive organizations. This class
-allows you to interact with the tool by leveraging their `API <http://docs.phone2action.com/#overview>`__.
+allows you to interact with the tool by leveraging the `Phone2Docs API <https://docs.phone2action.com>`__.
 
 .. admonition:: Authentication
 
@@ -49,4 +49,4 @@ API
    :inherited-members:
    :members:
 
-.. _phone2action api create advocate documentation: https://docs.phone2action.com/#calls-create
+.. _Phone2Action API Create Advocate Documentation: https://docs.phone2action.com/#calls-create

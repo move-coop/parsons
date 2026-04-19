@@ -98,7 +98,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefind>`__.
+            `here <https://docs.ngpvan.com/reference/peoplefind>`__.
 
         Args:
             match_json: dict
@@ -186,7 +186,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`__.
+            `here <https://docs.ngpvan.com/reference/peoplevanid>`__.
 
         Args:
             id: str
@@ -295,7 +295,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`__. `vanId` can
+            `here <https://docs.ngpvan.com/reference/peoplefindorcreate>`__. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::

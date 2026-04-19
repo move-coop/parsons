@@ -19,7 +19,7 @@ class ActBlue:
     Instantiate class.
 
     For instructions on how to generate a Client UUID and Client Secret set,
-    visit https://secure.actblue.com/docs/csv_api#authentication.
+    visit the `ActBlue CSV API Authentication Documentation`_.
 
     Args:
             actblue_client_uuid: str

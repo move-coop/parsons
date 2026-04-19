@@ -5,7 +5,7 @@ Action Builder
 Overview
 ========
 
-`Action Builder <https://actionbuilder.org/>`__ is an online tool for field organizing, with an
+`Action Builder <https://www.actionbuilder.org/>`__ is an online tool for field organizing, with an
 original use-case designed for the Labor context. While it has essentially no built-in outreach
 capabilities, it does provide robust record and relationship storage, including the ability to
 create custom record types. For more information, see
@@ -93,6 +93,6 @@ API
    :inherited-members:
    :members:
 
-.. _person endpoint documentation: https://www.actionbuilder.org/docs/v1/people.html#field-names
-.. _person signup helper documentation: https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post
-.. _connection helper documentation: https://www.actionbuilder.org/docs/v1/connection_helper.html#post
+.. _ActionBuilder Person Endpoint Documentation: https://www.actionbuilder.org/docs/v1/people.html#field-names
+.. _ActionBuilder Person Signup Helper Documentation: https://www.actionbuilder.org/docs/v1/person_signup_helper.html#post
+.. _ActionBuilder Connection Helper Documentation: https://www.actionbuilder.org/docs/v1/connection_helper.html#post

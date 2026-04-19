@@ -5,15 +5,15 @@ Mobilize America
 Overview
 ========
 
-`Mobilize America <https://www.mobilizeamerica.io/>`__ is an activist signup tool used by progressive organizations.
+`Mobilize America <https://join.mobilize.us/>`__ is an activist signup tool used by progressive organizations.
 This class provides several methods for fetching organizations, people, and events from their
-`API <https://github.com/mobilizeamerica/api#mobilizeamerica-api>`_, which is currently in alpha development.
+`API <https://github.com/mobilizeamerica/api/blob/main/README.md#mobilizeamerica-api>`_, which is currently in alpha development.
 
 .. admonition:: Authentication
 
    Some methods in the :class:`~parsons.mobilize_america.ma.MobilizeAmerica` class require an API Key furnished by Mobilize America (private methods),
    while others do not (public methods). Each method in this class contains a note indicating whether it is public
-   or private. For more information, see the `API documentation <https://github.com/mobilizeamerica/api#authentication>`__.
+   or private. For more information, see the `API documentation <https://github.com/mobilizeamerica/api/blob/main/README.md#authentication>`__.
 
 Quickstart
 ==========

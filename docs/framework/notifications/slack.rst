@@ -7,7 +7,7 @@ Overview
 
 The Slack module leverages the Slack API and provides way to easily send
 notifications through Slack. It is recommended that you reference the
-`Slack API documentation <https://api.slack.com/>`__ for additional details and
+`Slack API documentation <https://docs.slack.dev/reference/>`__ for additional details and
 information.
 
 .. admonition:: API Tokens

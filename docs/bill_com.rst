@@ -12,7 +12,7 @@ Overview
 - Read, create, and get customers
 - Check whether two customers are the same
 
-For more information, see `Bill.com developer docs <https://developer.bill.com/hc/en-us/categories/360002253732>`_
+For more information, see `Bill.com developer docs <https://developer.bill.com/docs/home>`_
 
 .. admonition:: Authentication
 

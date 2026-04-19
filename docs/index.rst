@@ -29,7 +29,7 @@ Usage of Parsons is governed by a `modified Apache License with author attributi
 Resources
 =========
 
-* Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
+* Documentation: `<https://move-coop.github.io/parsons/>`_
 * Source Code: `<https://github.com/move-coop/parsons>`_
 * Project Website: `<https://www.parsonsproject.org/>`_
 * Docker Image: `<https://hub.docker.com/r/movementcooperative/parsons>`_

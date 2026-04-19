@@ -119,7 +119,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to include, e.g., FirstName = 'Rachel'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/post_constituent>`__.
+                See the `Bloomerang post_constituent documentation`_ for a full list of fields.
 
         """
         return self._base_create("constituent", **kwargs)
@@ -132,7 +132,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to update, e.g., FirstName = 'RJ'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Constituents/put_constituent__id_>`__.
+                See the `Bloomerang put_constituent__id_ documentation`_ for a full list of fields.
 
         """
         return self._base_update("constituent", entity_id=constituent_id, **kwargs)
@@ -198,7 +198,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to include, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/post_transaction>`__.
+                See the `Bloomerang post_transaction documentation`_ for a full list of fields.
 
         """
         return self._base_create("transaction", **kwargs)
@@ -211,7 +211,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to update, e.g., CreditCardType = 'Visa'.
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Transactions/put_transaction__id_>`__.
+                See the `Bloomerang put_transaction__id_ documentation`_ for a full list of fields.
 
         """
         return self._base_update("transaction", entity_id=transaction_id, **kwargs)
@@ -301,7 +301,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to include, e.g., Channel = "Email".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/post_interaction>`__.
+                See the `Bloomerang post_interaction documentation`_ for a full list of fields.
 
         """
         return self._base_create("interaction", **kwargs)
@@ -314,7 +314,7 @@ class Bloomerang:
             `**kwargs`:
                 Fields to update, e.g., EmailAddress = "user@example.com".
 
-                See the Bloomerang API docs for a full list of `fields <https://bloomerang.co/features/integrations/api/rest-api#/Interactions/put_interaction__id_>`__.
+                See the `Bloomerang put_interaction__id_ documentation`_ for a full list of fields.
 
         """
         return self._base_update("interaction", entity_id=interaction_id, **kwargs)

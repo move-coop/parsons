@@ -18,7 +18,8 @@ For more information, see `Action Network developer docs <https://actionnetwork.
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.action_network.action_network.ActionNetwork` class, you can either pass in the API token as an argument
+To instantiate :class:`~parsons.action_network.action_network.ActionNetwork`,
+you can either pass in the API token as an argument
 or set the ``AN_API_TOKEN`` environmental variable.
 
 .. code-block:: python

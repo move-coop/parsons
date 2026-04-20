@@ -5,8 +5,9 @@ Copper
 Overview
 ========
 
-`Copper <https://www.copper.com:443>`__ is a customer relationship management (CRM) platform to track individuals, companies
-and activity data. This Parsons class provides methods for extracting people, companies and actions.
+`Copper <https://www.copper.com:443>`__ is a customer relationship management (CRM)
+platform to track individuals, companies and activity data.
+This Parsons class provides methods for extracting people, companies and actions.
 
 .. admonition:: Getting Your API Key
 

@@ -19,8 +19,9 @@ Redshift cluster.
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.civis.civisclient.CivisClient` class, you can either store your database identifier and API Key as
-environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
+To instantiate the :class:`~parsons.civis.civisclient.CivisClient` class,
+you can either store your database identifier and API Key as environmental variables
+(``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python
    :caption: Authorize with environmental variables

@@ -16,8 +16,9 @@ and leaderboard data.
 
 .. admonition:: Rate Limits
 
-   The CrowdTangle API has strict rate limits that vary depending on the endpoint. In the :class:`~parsons.crowdtangle.crowdtangle.CrowdTangle` class, method
-   docstrings indicate the rate limit for the relevant endpoint. For more information on rate limits and best practices
+   The CrowdTangle API has strict rate limits that vary depending on the endpoint.
+   In the :class:`~parsons.crowdtangle.crowdtangle.CrowdTangle` class, method docstrings indicate the rate limit
+   for the relevant endpoint. For more information on rate limits and best practices
    for meeting them, check the `API documentation <https://help.crowdtangle.com/en/articles/1189612-crowdtangle-api>`__.
 
 .. admonition:: Performance

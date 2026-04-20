@@ -6,11 +6,12 @@ Overview
 ========
 
 `Mailchimp <https://mailchimp.com>`__ is a platform used for creating and sending mass emails.
-`The Mailchimp API <https://mailchimp.com/developer/marketing/api/>`__ allows users to interact with data from existing
+`The Mailchimp API <https://mailchimp.com/developer/marketing/api/>`__
+allows users to interact with data from existing
 email campaigns under their account and to configure further campaigns.
 
-This Parsons integration focuses on accessing information about previous email campaigns, including methods for
-fetching campaigns, members, emails, and unsubscribes.
+This Parsons integration focuses on accessing information about previous email campaigns,
+including methods for fetching campaigns, members, emails, and unsubscribes.
 
 .. admonition:: Authentication
 

@@ -11,16 +11,20 @@ participants of past meetings via the `Zoom API <https://developers.zoom.us/docs
 
 .. admonition:: Authentication
 
-   The :class:`~parsons.zoom.zoom.Zoom` class uses server-to-server `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
+   The :class:`~parsons.zoom.zoom.Zoom` class uses server-to-server
+   `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
    to authenticate queries to the Zoom API. You must create a server-to-server application at
    `Zoom App Marketplace - Create App <https://marketplace.zoom.us/develop/create>`__ to obtain an
-   ``account_id``, ``client_id``, and ``client_secret`` key. You will use this OAuth application to define your scopes,
-   which gives your ``Zoom`` connector read permission on endpoints of your choosing (`meetings`, `webinars`, `reports`, etc.)
+   ``account_id``, ``client_id``, and ``client_secret`` key.
+   You will use this OAuth application to define your scopes,
+   which gives your ``Zoom`` connector read permission
+   on endpoints of your choosing (`meetings`, `webinars`, `reports`, etc.)
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.zoom.zoom.Zoom` class, you can either store your Zoom account ID, client ID, and client secret
+To instantiate the :class:`~parsons.zoom.zoom.Zoom` class,
+you can either store your Zoom account ID, client ID, and client secret
 as environmental variables (``ZOOM_ACCOUNT_ID``, ``ZOOM_CLIENT_ID``, ``ZOOM_CLIENT_SECRET``)
 or pass them in as arguments.
 

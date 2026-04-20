@@ -14,15 +14,18 @@ fetching, posting, and deleting shared dashboards.
 
 .. admonition:: Authentication
 
-   Your site name and an authentication token are required to use the :class:`~parsons.sisense.sisense.Sisense` class. To obtain a token, log in to
-   the Sisense Web Application and follow the instructions in the `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`__.
+   Your site name and an authentication token are required to use the
+   :class:`~parsons.sisense.sisense.Sisense` class. To obtain a token, log in to
+   the Sisense Web Application and follow the instructions in the
+   `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`__.
    Be sure to select version ``1.0`` of the API.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.sisense.sisense.Sisense` class, you can either store your Sisense credentials as environmental variables
-(``SISENSE_SITE_NAME`` and ``SISENSE_API_KEY``) or pass them as keyword arguments.
+To instantiate the :class:`~parsons.sisense.sisense.Sisense` class, you can either store your
+Sisense credentials as environmental variables (``SISENSE_SITE_NAME`` and ``SISENSE_API_KEY``)
+or pass them as keyword arguments.
 
 .. code-block:: python
    :caption: Pass authentication credentials with environmental variables

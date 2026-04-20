@@ -23,10 +23,11 @@ supports fetching, creating, and updating records of constituents, donations, an
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.bloomerang.bloomerang.Bloomerang` class, you can either store your Bloomerang private API key /
-OAuth2 credentials as environmental variables (``BLOOMERANG_API_KEY`` for the private
-key approach, ``BLOOMERANG_CLIENT_ID`` and ``BLOOMERANG_CLIENT_SECRET`` for the OAuth2
-approach) or pass in your API Key / OAuth2 credentials as arguments:
+To instantiate the :class:`~parsons.bloomerang.bloomerang.Bloomerang` class,
+you can either store your Bloomerang private API key / OAuth2 credentialsas environmental variables
+(``BLOOMERANG_API_KEY`` for the private key approach
+or ``BLOOMERANG_CLIENT_ID`` and ``BLOOMERANG_CLIENT_SECRET`` for the OAuth2 approach)
+or pass in your API Key / OAuth2 credentials as arguments:
 
 .. code-block:: python
    :caption: Use environmental variables

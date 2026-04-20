@@ -11,7 +11,8 @@ platforms things like credit card disputes and disbursement (to your bank accoun
 available directly through Braintree.
 
 While much of the `Braintree API <https://developer.paypal.com/braintree/docs/>`__ is about processing payments,
-this Parsons integration focuses on the record searching aspects. Specifically, the :class:`~parsons.braintree.braintree.Braintree` class provides
+this Parsons integration focuses on the record searching aspects.
+Specifically, the :class:`~parsons.braintree.braintree.Braintree` class provides
 methods for fetching disputes and transactions.
 
 .. admonition:: Authentication

@@ -5,8 +5,10 @@ Airtable
 Overview
 ========
 
-The :class:`~parsons.airtable.airtable.Airtable` class allows you to interact with an `Airtable <https://www.airtable.com/>`__ base. In order to use this class
-you must generate an Airtable personal access token which can be found in your Airtable `settings <https://www.airtable.com/create/tokens>`__.
+The :class:`~parsons.airtable.airtable.Airtable` class allows you to interact with
+an `Airtable <https://www.airtable.com/>`__ base. In order to use this class you must
+generate an Airtable personal access token which can be found
+in your `Airtable token settings <https://www.airtable.com/create/tokens>`__.
 
 .. admonition:: Finding The Base Key
 
@@ -18,8 +20,9 @@ you must generate an Airtable personal access token which can be found in your A
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.airtable.airtable.Airtable` class, you can either store your Airtable personal access token
-``AIRTABLE_PERSONAL_ACCESS_TOKEN`` as an environmental variable or pass in your personal access token
+To instantiate the :class:`~parsons.airtable.airtable.Airtable` class,
+you can either store your Airtable personal access token ``AIRTABLE_PERSONAL_ACCESS_TOKEN``
+as an environmental variable or pass in your personal access token
 as an argument. You also need to pass in the base key and table name.
 
 .. code-block:: python

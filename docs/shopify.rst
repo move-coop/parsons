@@ -5,17 +5,19 @@ Shopify
 Overview
 ========
 
-`Shopify <https://www.shopify.com/>`__ is an e-commerce platform for online stores.
-This Parsons integration with the `Shopify REST API <https://shopify.dev/docs/api/admin-rest>`__ supports fetching records of orders.
+`Shopify <https://www.shopify.com/>`__ is an e-commerce platform for online stores. This Parsons integration
+with the `Shopify REST API <https://shopify.dev/docs/api/admin-rest>`__ supports fetching records of orders.
 
 .. admonition:: Authentication
 
-   Shopify supports different types of authentication methods for different types of apps, which are documented `here <https://shopify.dev/docs/apps/build/authentication-authorization>`__.
+   Shopify supports different types of authentication methods for different types of apps,
+   which are documented `here <https://shopify.dev/docs/apps/build/authentication-authorization>`__.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.shopify.shopify.Shopify` class, you can either store your Shopify API subdomain, password, key, and version as environmental variables
+To instantiate the :class:`~parsons.shopify.shopify.Shopify` class, you can either
+store your Shopify API subdomain, password, key, and version as environmental variables
 (``SHOPIFY_SUBDOMAIN``, ``SHOPIFY_PASSWORD``, ``SHOPIFY_API_KEY``, and ``SHOPIFY_API_VERSION``, respectively)
 or pass in your subdomain, password, key, and version as arguments.
 

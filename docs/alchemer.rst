@@ -5,8 +5,8 @@ Alchemer
 Overview
 ========
 
-`Alchemer <https://www.alchemer.com/>`__ is an online research tool that allows users to field surveys. This Parsons
-class allows users to retrieve surveys and survey results.
+`Alchemer <https://www.alchemer.com/>`__ is an online research tool that allows users to field surveys.
+This Parsons class allows users to retrieve surveys and survey results.
 
 .. note::
 
@@ -20,9 +20,10 @@ class allows users to retrieve surveys and survey results.
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.alchemer.alchemer.Alchemer` class, you can either store your API token and API secret
-token as environmental variables (``SURVEYGIZMO_API_TOKEN`` and ``SURVEYGIZMO_API_TOKEN_SECRET``,
-respectively) or pass in the tokens arguments.
+To instantiate the :class:`~parsons.alchemer.alchemer.Alchemer` class,
+you can either store your API token and API secret token as environmental variables
+(``SURVEYGIZMO_API_TOKEN`` and ``SURVEYGIZMO_API_TOKEN_SECRET``, respectively)
+or pass in the tokens arguments.
 
 API
 ====

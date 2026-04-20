@@ -36,7 +36,7 @@ Automation Workflows.
    workflows that are provisioned for specific client needs.
    TargetSmart Automation is based on SFTP instead of HTTP.
 
-   - `TargetSmart Developer API docs on docs.targetsmart.com  <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__
+   - `TargetSmart Developer API docs on docs.targetsmart.com <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__
    - `TargetSmart Automation docs on docs.targetsmart.com <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`__
 
    .. toctree::

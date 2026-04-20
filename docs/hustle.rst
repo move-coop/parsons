@@ -26,7 +26,8 @@ organizations, groups, leads, and tags, as well as creating and updating agents 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.hustle.hustle.Hustle` class, you can either store your Hustle client ID and secret as environmental variables
+To instantiate the :class:`~parsons.hustle.hustle.Hustle` class,
+you can either store your Hustle client ID and secret as environmental variables
 (``HUSTLE_CLIENT_ID`` and ``HUSTLE_CLIENT_SECRET``, respectively) or pass them in as keyword arguments.
 
 .. code-block:: python

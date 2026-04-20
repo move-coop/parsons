@@ -5,17 +5,19 @@ CapitolCanary
 Overview
 ========
 
-`CapitolCanary <https://capitolcanary.com/>`__ is a digital advocacy tool used by progressive organizations. This class
-allows you to interact with the tool by leveraging the `Phone2Docs API <https://docs.phone2action.com>`__.
+`CapitolCanary <https://capitolcanary.com/>`__ is a digital advocacy tool used by progressive organizations.
+This class allows you to interact with the tool by leveraging the `Phone2Docs API <https://docs.phone2action.com>`__.
 
 .. admonition:: Authentication
 
-   You will need to email CapitolCanary to request credentials to access the API. The credentials consist of an app ID and an app key.
+   You will need to email CapitolCanary to request credentials to access the API.
+   The credentials consist of an app ID and an app key.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.capitol_canary.capitol_canary.CapitolCanary` class, you can either pass in the app ID and app key as arguments or set the
+To instantiate the :class:`~parsons.capitol_canary.capitol_canary.CapitolCanary` class,
+you can either pass in the app ID and app key as arguments or set the
 ``CAPITOLCANARY_APP_ID`` and ``CAPITOLCANARY_APP_KEY`` environmental variables.
 
 .. code-block:: python

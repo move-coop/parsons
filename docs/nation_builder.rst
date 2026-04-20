@@ -5,16 +5,21 @@ NationBuilder
 Overview
 ========
 
-The NationBuilder class allows you to interact with the NationBuilder API. Users of this Parsons integration can download a full list of people, update and upsert people.
+The NationBuilder class allows you to interact with the NationBuilder API.
+Users of this Parsons integration can download a full list of people, update and upsert people.
 
 .. admonition:: Authentication
 
-   In order to use this class you need your nation slug and access token. To get your access token login to your nation and navigate to ``Settings > Developer > API Token`` and create a new token. You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`__.
+   In order to use this class you need your nation slug and access token.
+   To get your access token login to your nation and navigate to
+   ``Settings > Developer > API Token`` and create a new token.
+   You can get more info in the `NationBuilder API docs <https://nationbuilder.com/api_quickstart>`__.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.nation_builder.nation_builder.NationBuilder` class, you can either store your ``NB_SLUG`` and ``NB_ACCESS_TOKEN`` keys as environment
+To instantiate the :class:`~parsons.nation_builder.nation_builder.NationBuilder` class,
+you can either store your ``NB_SLUG`` and ``NB_ACCESS_TOKEN`` keys as environment
 variables or pass them in as arguments.
 
 .. code-block:: python
@@ -33,7 +38,8 @@ variables or pass them in as arguments.
    from parsons import NationBuilder
    nb = NationBuilder(slug='my-nation-slug', access_token='MY_ACCESS_TOKEN')
 
-You can then make a request to get all people and save its data to a Parsons table using the method, :meth:`~parsons.nation_builder.nation_builder.NationBuilder.get_people`:
+You can then make a request to get all people and save its data to a Parsons table using the method,
+:meth:`~parsons.nation_builder.nation_builder.NationBuilder.get_people`:
 
 .. code-block:: python
    :caption: Create Parsons table with people data from API

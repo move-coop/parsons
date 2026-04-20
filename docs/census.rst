@@ -10,7 +10,8 @@ It has been tested with the ACS and Economic Survey endpoints.
 
 .. admonition:: Authentication
 
-   The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`__ (click on the box that says "Request a KEY")
+   The API requires a key that you can get `here <https://www.census.gov/data/developers.html>`__
+   (click on the box that says "Request a KEY")
 
 Quickstart
 ==========

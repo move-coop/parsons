@@ -5,23 +5,26 @@ Redash
 Overview
 ========
 
-The :class:`~parsons.redash.redash.Redash` class allows you to interact with a `Redash server <https://redash.io/>`__ to fetch fresh or cached
+The :class:`~parsons.redash.redash.Redash` class allows you to interact with a
+`Redash server <https://redash.io/>`__ to fetch fresh or cached
 query results as a Parsons :ref:`Table`.
 
 .. admonition:: Authentication
 
    The `Redash API <https://redash.io/help/user-guide/integrations-and-api/api>`__ has two types of API keys:
-   *User API keys* which are found on user profile pages, and *Query API keys* which are found on query pages. The
-   :class:`~parsons.redash.redash.Redash` class supports fetching fresh queries with a User API Key, and cached queries with a Query API Key.
+   *User API keys* which are found on user profile pages, and *Query API keys* which are found on query pages.
+   The :class:`~parsons.redash.redash.Redash` class supports fetching fresh
+   queries with a User API Key, and cached queries with a Query API Key.
 
 Quickstart
 ==========
 
-When instantiating the :class:`~parsons.redash.redash.Redash` class, you must provide the base URL for your Redash instance, either as the
+When instantiating the :class:`~parsons.redash.redash.Redash` class,
+you must provide the base URL for your Redash instance, either as the
 environmental variable ``REDASH_BASE_URL`` or as a keyword argument.
 
-For fresh queries, a User API Key is also required, and can be specified with either the environmental variable
-``REDASH_USER_API_KEY`` or a keyword argument.
+For fresh queries, a User API Key is also required, and can be specified with either
+the environmental variable ``REDASH_USER_API_KEY`` or a keyword argument.
 
 .. code-block:: python
 
@@ -33,8 +36,8 @@ For fresh queries, a User API Key is also required, and can be specified with ei
    # Fetch fresh query results
    redash.load_to_table(query_id=1001, params={'datelimit': '2020-01-01'})
 
-To fetch cached queries, you must provide a Query API Key, either as the environmental variable ``REDASH_QUERY_API_KEY``
-or as a keyword argument. You do not need a User API Key to fetch a cached query.
+To fetch cached queries, you must provide a Query API Key, either as the environmental variable
+``REDASH_QUERY_API_KEY`` or as a keyword argument. You do not need a User API Key to fetch a cached query.
 
 Note that if you specify a Query API Key when loading a table, the method will fetch cached results even if you
 provided a User API Key when instantiating the class.

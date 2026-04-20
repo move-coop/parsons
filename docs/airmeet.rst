@@ -11,15 +11,20 @@ fetching events ("Airmeets"), sessions, participants, and other event data via t
 
 .. admonition:: Authentication
 
-   You must create an Access Key and Secret Key via the Airmeet website. These are used by the :class:`~parsons.airmeet.airmeet.Airmeet` class to fetch
-   an access token which is used for subsequent interactions with the API. There are three region-based API endpoints; see
-   the `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`__ for details.
+   You must create an Access Key and Secret Key via the Airmeet website.
+   These are used by the :class:`~parsons.airmeet.airmeet.Airmeet` class to fetch
+   an access token which is used for subsequent interactions with the API.
+   There are three region-based API endpoints; see the
+   `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`__
+   for details.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.airmeet.airmeet.Airmeet` class, you can either store your API endpoint, access key, and secret key as environmental
-variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``) or pass them in as arguments.
+To instantiate the :class:`~parsons.airmeet.airmeet.Airmeet` class,
+you can either store your API endpoint, access key, and secret key
+as environmental variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``)
+or pass them in as arguments.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables

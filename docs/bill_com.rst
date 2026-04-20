@@ -5,7 +5,8 @@ Bill.com
 Overview
 ========
 
-`Bill.com <https://www.bill.com>`__ is an online billing and invoicing tool. This class contains methods to:
+`Bill.com <https://www.bill.com>`__ is an online billing and invoicing tool.
+This class contains methods to:
 
 - Get lists of customers, users, and invoices
 - Read, create, and send invoices
@@ -16,8 +17,10 @@ For more information, see `Bill.com developer docs <https://developer.bill.com/d
 
 .. admonition:: Authentication
 
-   To instantiate the :class:`~parsons.bill_com.bill_com.BillCom` class, you must provide the username and password you used to sign
-   up for Bill.com, and the Organization ID and Dev Key you received when API access was granted.
+   To instantiate the :class:`~parsons.bill_com.bill_com.BillCom` class,
+   you must provide the username and password you used to sign
+   up for Bill.com, and the Organization ID and Dev Key
+   you received when API access was granted.
 
 Quickstart
 ==========

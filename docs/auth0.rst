@@ -6,12 +6,17 @@ Overview
 ========
 
 `Auth0 <https://auth0.com/>`__ is an authentication and authorization platform.
-This Parsons integration with the `Auth0 Management API <https://auth0.com/docs/api/management/v2>`__ supports fetching and deleting user records.
+This Parsons integration with the `Auth0 Management API <https://auth0.com/docs/api/management/v2>`__
+supports fetching and deleting user records.
 
 Quickstart
 ==========
 
-To instantiate the :class:`~parsons.auth0.auth0.Auth0` class, you can either store your Auth0 API client ID, client secret, and domain as environment variables (``AUTH0_CLIENT_ID``, ``AUTH0_CLIENT_SECRET``, and ``AUTH0_DOMAIN``, respectively) or pass in your client ID, client secret, and domain as arguments:
+To instantiate the :class:`~parsons.auth0.auth0.Auth0` class,
+you can either store your Auth0 API client ID,
+client secret, and domain as environment variables
+(``AUTH0_CLIENT_ID``, ``AUTH0_CLIENT_SECRET``, and ``AUTH0_DOMAIN``, respectively)
+or pass in your client ID, client secret, and domain as arguments:
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables

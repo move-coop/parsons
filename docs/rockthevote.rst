@@ -31,7 +31,8 @@ pass them in as arguments to the class.
    from parsons import RockTheVote
    rtv = RockTheVote(partner_id='123', partner_api_key='supersecretkey')
 
-To fetch a list of registrations submitted for the partner ID, use the :meth:`~parsons.rockthevote.rtv.RockTheVote.run_registration_report`
+To fetch a list of registrations submitted for the partner ID, use the
+:meth:`~parsons.rockthevote.rtv.RockTheVote.run_registration_report`
 method. It is possible to filter the results by providing a parameter to specify a start date
 for the registrations.
 
@@ -40,10 +41,10 @@ for the registrations.
 
    registrants = rtv.run_registration_report(since='2020-01-01')
 
-The :meth:`~parsons.rockthevote.rtv.RockTheVote.run_registration_report` will block as the report is being generated and downloaded from the
-Rocky API. For larger reports, this can take a long time. If you have other things you want to do
-while the report is running, you can break up the creation of the report from the fetching of the
-data.
+The :meth:`~parsons.rockthevote.rtv.RockTheVote.run_registration_report` will block as the report
+is being generated and downloaded from the Rocky API. For larger reports, this can take a long time.
+If you have other things you want to do while the report is running,
+you can break up the creation of the report from the fetching of the data.
 
 .. code-block:: python
    :caption: Create report of registrations since a specific date -- get report ID

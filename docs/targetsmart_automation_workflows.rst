@@ -5,20 +5,23 @@ TargetSmart Automation Workflows
 In addition to the :doc:`TargetSmart Developer API <../targetsmart_api>`,
 TargetSmart also provides a solution for executing custom data processing
 workflows that TargetSmart implements for specific client needs. The
-:class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation` class can be used to execute these workflows for
-common purposes such as customized list matching workflows. Workflow execution
-can take minutes to hours depending on the workflow type, size of data, and
-queuing.
+:class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation`
+class can be used to execute these workflows for common purposes such
+as customized list matching workflows. Workflow execution can take minutes
+to hours depending on the workflow type, size of data, and queuing.
 
 .. admonition:: Authentication
 
-   TargetSmart Automation workflows use SFTP. You will need to obtain SFTP credentials from TargetSmart to utilize the :class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation` class.
+   TargetSmart Automation workflows use SFTP.
+   You will need to obtain SFTP credentials from TargetSmart to utilize
+   :class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation`.
 
 Quickstart
 ==========
 
-To instantiate :class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation`, you can either store your SFTP username and password
-as the environmental variables ``TS_SFTP_USERNAME`` and ``TS_SFTP_PASSWORD``, or pass them in as
+To instantiate :class:`~parsons.targetsmart.targetsmart_automation.TargetSmartAutomation`,
+you can either store your SFTP username and password as the environmental variables
+``TS_SFTP_USERNAME`` and ``TS_SFTP_PASSWORD``, or pass them in as
 keyword arguments. Credentials for your account are provided by TargetSmart.
 
 .. code-block:: python
@@ -53,8 +56,9 @@ You can then call class methods:
        emails=['bob@example.com'],
    )
 
-   # Most Automation workflows perform list matching, but not all. The :meth:`~TargetSmartAutomation.execute`
-   # method is an alias for the :meth:`~TargetSmartAutomation.match` method to avoid confusion in these cases.
+   # Most Automation workflows perform list matching, but not all.
+   # The :meth:`~TargetSmartAutomation.execute` method is an alias for the
+   # :meth:`~TargetSmartAutomation.match` method to avoid confusion in these cases.
    # This is the equivalent to the above
    output_table = ts_auto.execute(
        input_table,

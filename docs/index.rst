@@ -18,7 +18,8 @@ was built and is maintained by The Movement Cooperative.
 The Movement Cooperative
 ------------------------
 
-The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community.
+The Movement Cooperative is a member led organization focused on providing
+data, tools and strategic support for the progressive community.
 Our mission is to break down technological barriers for organizations that fight for social justice.
 
 License and Usage
@@ -38,11 +39,12 @@ Installation
 ============
 
 You can install Parsons using ``pip install parsons``.
-We recommend using a `virtual environment <https://www.parsonsproject.org/pub/installation#setting-up-your-virtual-environment>`__.
 
-Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`__ on our website.
+Need more detail? We have a
+`comprehensive, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`__ on our website.
 
-We also have a Parsons Docker container hosted on `DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`__ for each release of Parsons.
+We also have a Parsons Docker container hosted on
+`DockerHub <https://hub.docker.com/r/movementcooperative/parsons>`__ for each release of Parsons.
 
 Quickstart
 ==========
@@ -114,7 +116,8 @@ By default, log output will go to the console and look like:
 
    parsons.modulename LOGLEVEL the specific log message
 
-In your scripts that use Parsons, if you want to override the default Parsons logging behavior, just grab the "parsons" logger and tweak it:
+In your scripts that use Parsons, if you want to override the default Parsons logging behavior,
+just grab the "parsons" logger and tweak it:
 
 .. code-block:: python
    :caption: Override the default Parsons logging behavior

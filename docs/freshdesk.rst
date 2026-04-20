@@ -12,7 +12,8 @@ as Parsons Tables.
 
 .. admonition:: Authentication
 
-   To use the :class:`~parsons.freshdesk.freshdesk.Freshdesk` class, you must provide the subdomain of your Freshdesk account and an API Key,
+   To use the :class:`~parsons.freshdesk.freshdesk.Freshdesk` class,
+   you must provide the subdomain of your Freshdesk account and an API Key,
    which can be found by logging into Freshdesk and following the instructions in the
    `API documentation <https://support.freshdesk.com/support/solutions/articles/215517-how-to-find-your-api-key>`__.
 

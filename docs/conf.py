@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path("../").absolute()))
 
 project = "Parsons"
-copyright = "2025, The Movement Cooperative"
+copyright = "2019-2026, The Movement Cooperative"
 author = "The Movement Cooperative"
 release = ""
 

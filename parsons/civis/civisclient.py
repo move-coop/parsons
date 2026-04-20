@@ -34,7 +34,9 @@ class CivisClient:
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`__.
         """
 
-    def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
+    def query(
+        self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True
+    ) -> Table | civis.futures.CivisFuture | None:
         """
         Execute a SQL statement as a Civis query.
 
@@ -55,9 +57,6 @@ class CivisClient:
             wait: bool
                 If ``True``, will wait for query to finish executing before exiting
                 the method. If ``False``, returns the future object.
-
-        Returns:
-            :ref:`Table` or `civis.CivisFuture`
 
         """
 
@@ -93,7 +92,7 @@ class CivisClient:
         sortkey2=None,
         wait=True,
         **civisargs,
-    ):
+    ) -> Table | civis.futures.CivisFuture:
         """
         Write the table to a Civis Redshift cluster. Additional key word
         arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
@@ -124,8 +123,6 @@ class CivisClient:
                 Wait for write job to complete before exiting method. If ``False``, returns
                 the future object.
 
-        Returns:
-            ``None`` or ``civis.CivisFuture``
         """
 
         fut = civis.io.dataframe_to_civis(

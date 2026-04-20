@@ -730,7 +730,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: LoadJobConfig | None = None,
         max_timeout: int = 21600,
         **load_kwargs,
-    ):
+    ) -> Table | None:
         """
         Copy a file from s3 to BigQuery.
 
@@ -777,10 +777,6 @@ class GoogleBigQuery(DatabaseConnector):
                 job_config values are preferred.
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
-
-        Returns:
-            :ref:`Table` or ``None``
-
 
         """
 

@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.blob import (
+    BlobClient,
     BlobSasPermissions,
     BlobServiceClient,
     ContentSettings,
@@ -13,6 +14,7 @@ from azure.storage.blob import (
     generate_blob_sas,
 )
 
+from parsons.etl.table import Table
 from parsons.utilities import check_env, files
 
 logger = logging.getLogger(__name__)
@@ -183,7 +185,7 @@ class AzureBlobStorage:
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
         return blobs
 
-    def blob_exists(self, container_name, blob_name):
+    def blob_exists(self, container_name, blob_name) -> bool:
         """
         Verify that a blob exists in the specified container
 
@@ -192,8 +194,6 @@ class AzureBlobStorage:
                 The container name
             blob_name: str
                 The blob name
-        Returns:
-            bool
 
         """
 
@@ -206,19 +206,8 @@ class AzureBlobStorage:
             logger.info(f"{blob_name} does not exist in {container_name} container.")
             return False
 
-    def get_blob(self, container_name, blob_name):
-        """
-        Get a blob object
-
-        Args:
-            container_name: str
-                The container name
-            blob_name: str
-                The blob name
-        Returns:
-            `BlobClient`
-
-        """
+    def get_blob(self, container_name: str, blob_name: str) -> BlobClient:
+        """Get a blob object."""
 
         blob_client = self.client.get_blob_client(container_name, blob_name)
         logger.info(f"Got {blob_name} blob from {container_name} container.")
@@ -399,24 +388,22 @@ class AzureBlobStorage:
         logger.info(f"{blob_name} blob in {container_name} container deleted.")
 
     def upload_table(
-        self, table, container_name, blob_name, data_type: Literal["csv", "json"] = "csv", **kwargs
-    ):
+        self,
+        table: Table,
+        container_name: str,
+        blob_name: str,
+        data_type: Literal["csv", "json"] = "csv",
+        **kwargs,
+    ) -> BlobClient:
         """
         Load the data from a Parsons table into a blob.
 
         Args:
-            table: obj
-                A :ref:`Table`
-            container_name: str
-                The container name to upload the data into
-            blob_name: str
-                The blob name to upload the data into
-            data_type: str
-                The file format to use when writing the data. One of: `csv` or `json`
-            kwargs:
-                Additional keyword arguments to supply to ``put_blob``
-        Returns:
-            `BlobClient`
+            table: The table to upload
+            container_name: The container name to upload the data into
+            blob_name: The blob name to upload the data into
+            data_type: The file format to use when writing the data. One of: `csv` or `json`
+            kwargs: Additional keyword arguments to supply to ``put_blob``
 
         """
 

@@ -213,7 +213,9 @@ class CrowdTangle:
         self._unpack(pt)
         return pt
 
-    def get_links(self, link, start_date=None, end_date=None, include_summary=None, platforms=None):
+    def get_links(
+        self, link, start_date=None, end_date=None, include_summary=None, platforms=None
+    ) -> Table:
         """
         Return up to 100 posts based on a specific link. It is strongly recommended to
         use the ``start_date`` parameter to limit queries to relevant dates.
@@ -241,8 +243,6 @@ class CrowdTangle:
             platforms: list
                 Filter by platforms
 
-        Returns:
-            :ref:`Table`
         """
 
         args = {

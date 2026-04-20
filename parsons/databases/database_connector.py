@@ -144,7 +144,8 @@ class DatabaseConnector(ABC):
     def copy(
         self, tbl: Table, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
     ):
-        """Copy a :ref:`Table` to the database.
+        """
+        Copy a :ref:`Table` to the database.
 
         Args:
             tbl (Table):

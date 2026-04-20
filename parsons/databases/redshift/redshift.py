@@ -300,7 +300,7 @@ class Redshift(
         template_table=None,
         encoding="utf-8",
         line_delimited=False,
-    ):
+    ) -> None:
         """
         Copy a file from s3 to Redshift.
 
@@ -395,9 +395,6 @@ class Redshift(
                 Instead of specifying columns, columntypes, and/or inference, if there
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
-
-        Returns:
-            :ref:`Table` or ``None``
 
         """
 
@@ -501,7 +498,7 @@ class Redshift(
         temp_bucket_region: str | None = None,
         strict_length: bool = True,
         csv_encoding: str = "utf-8",
-    ):
+    ) -> None:
         """
         Copy a :ref:`Table` to Redshift.
 
@@ -614,9 +611,6 @@ class Redshift(
             csv_ecoding: str
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.
-
-        Returns:
-            :ref:`Table` or ``None``
 
         """
 

@@ -11,12 +11,12 @@ The :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI` class provides 
 `TargetSmart Developer API <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__.
 Parsons provides the following methods as convenient wrappers for interacting with the corresponding TargetSmart HTTP services:
 
-* ``data_enhance``: Quickly retrieve voter and consumer data enrichment fields from TargetSmart’s platform database for a previously identified individual.
-* ``radius_search``: Search for individuals within a user specified geographic area defined by a radius centered around a latitude/longitude point.
-* ``phone``: Enrich a list of phone numbers with TargetSmart data
-* ``district``: Retrieve political district data using one of several lookup options
-* ``voter_registration_check``: Search TargetSmart’s service database of registered voters, to check if a voter is registered at a given address.
-* ``smartmatch``: Match CSV file records to TargetSmart's service database of voting age individuals. Multiple matching strategies are applied to find accurate matches and return enriched data. Read more about `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_, TargetSmart's list matching solution.
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.data_enhance`: Quickly retrieve voter and consumer data enrichment fields from TargetSmart’s platform database for a previously identified individual.
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.radius_search`: Search for individuals within a user specified geographic area defined by a radius centered around a latitude/longitude point.
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.phone`: Enrich a list of phone numbers with TargetSmart data
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.district`: Retrieve political district data using one of several lookup options
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.voter_registration_check`: Search TargetSmart’s service database of registered voters, to check if a voter is registered at a given address.
+* :meth:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI.smartmatch`: Match CSV file records to TargetSmart's service database of voting age individuals. Multiple matching strategies are applied to find accurate matches and return enriched data. Read more about `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_, TargetSmart's list matching solution.
 
 Some TargetSmart API services have not yet been implemented in Parsons.
 For more information, see the `API documentation <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`__.

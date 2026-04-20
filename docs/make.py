@@ -90,8 +90,8 @@ def test():
             "--fail-on-warning",
             "--nitpicky",
             "--fresh-env",
-            str(SOURCEDIR),
-            str(HTMLDIR),
+            SOURCEDIR,
+            BUILDDIR / "html_test",
         ]
     )
 
@@ -111,7 +111,7 @@ def build():
     logger.info("Re-using any existing builds with versions before v5.0.0.")
     reuse_builds_old_versions(keep_older_than="v5.0.0")
 
-    git_base = ["git", "-C", str(ROOT_DIR)]
+    git_base = ["git", "-C", ROOT_DIR]
 
     logger.info("Mapping `latest` to current directory...")
     run_command([*git_base, "branch", "-f", "latest"])
@@ -128,7 +128,7 @@ def build():
         run_command([*git_base, "branch", "-f", "stable", "latest"])
 
     logger.info("Building multiversion documentation...")
-    run_command(["sphinx-multiversion", str(SOURCEDIR), str(HTMLDIR)])
+    run_command(["sphinx-multiversion", SOURCEDIR, HTMLDIR])
 
     src_redirect = SOURCEDIR / "index-redirect.html"
     if src_redirect.exists():

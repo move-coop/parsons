@@ -30,6 +30,7 @@ templates_path = ["_templates"]
 primary_domain = "py"
 autodoc_member_order = "bysource"
 autosectionlabel_prefix_document = True
+googleanalytics_id = "G-L2YB7WHTRG"
 nitpick_ignore = {
     ("py:class", "petl.util.base.Table"),  # this class is not in petl's sphinx documentation
 }
@@ -39,6 +40,7 @@ nitpick_ignore_regex = {
     (r"py:.*", r"test\..+"),  # test files are currently not linkable
 }
 
+# -- Intersphinx Mapping -----------------------------------------------------
 intersphinx_mapping_core = {
     "petl": ("https://petl.readthedocs.io/latest/", None),
     "python": ("https://docs.python.org/3", None),
@@ -96,7 +98,6 @@ intersphinx_mapping = intersphinx_mapping_core | intersphinx_mapping_extras
 # -- HTML Output (Furo Theme) ------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
-googleanalytics_id = "G-L2YB7WHTRG"
 html_favicon = "_static/favicon.ico"
 
 html_sidebars = {
@@ -111,7 +112,7 @@ html_sidebars = {
 }
 
 
-# -- Sphinx-Multiversion Logic -----------------------------------------------
+# -- Sphinx Multiversion Tag Creation ----------------------------------------
 def get_git_tags() -> list[str]:
     try:
         tags = subprocess.check_output(

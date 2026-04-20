@@ -232,10 +232,3 @@ Indices and tables
 
    training_guides/getting_set_up
    training_guides/etl_best_practices
-
-.. toctree::
-   :hidden:
-   :name: hidden_pages
-
-   targetsmart_api
-   targetsmart_automation_workflows

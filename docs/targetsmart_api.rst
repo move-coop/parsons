@@ -30,7 +30,7 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
 
    Access to endpoints is individually provisioned.
    If you encounter errors accessing an endpoint,
-   please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`_
+   please contact `TargetSmart Client Services <mailto:support@targetsmart.com>`__
    to verify that your API key has been provisioned access.
 
 .. admonition:: Data Enrichment

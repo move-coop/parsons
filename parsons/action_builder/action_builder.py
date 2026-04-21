@@ -89,7 +89,7 @@ class ActionBuilder:
                 # Limit reached or exceeded, so return just the requested limit amount
                 return Table(return_list[0:limit])
 
-    def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
+    def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None) -> Table:
         """
         Retrieve all tags (i.e. custom field values) within provided limit and filters
 
@@ -106,7 +106,7 @@ class ActionBuilder:
                 When None, no filter is applied.
 
         Returns:
-            Parsons Table of full set of tags available in Action Builder.
+            Full set of tags available in Action Builder.
 
         """
 
@@ -114,7 +114,7 @@ class ActionBuilder:
             campaign, "tags", limit=limit, per_page=per_page, filter=filter
         )
 
-    def get_tag_by_name(self, tag_name, campaign=None):
+    def get_tag_by_name(self, tag_name, campaign=None) -> Table:
         """
         Convenience method to retrieve data on a single tag by its name/value
 
@@ -126,7 +126,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            Parsons Table of data found on tag in Action Builder from searching by name.
+            Data found on tag in Action Builder from searching by name.
 
         """
 
@@ -134,7 +134,7 @@ class ActionBuilder:
 
         return self.get_campaign_tags(campaign=campaign, filter=filter)
 
-    def insert_new_tag(self, tag_name, tag_field, tag_section, campaign=None):
+    def insert_new_tag(self, tag_name, tag_field, tag_section, campaign=None) -> dict | int | None:
         """
         Load a new tag value into Action Builder. Required before applying the value to any entity
         records.
@@ -151,8 +151,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            dict
-                Action Builder tag data.
+            Action Builder tag data.
 
         """
 
@@ -167,14 +166,14 @@ class ActionBuilder:
 
         return self.api.post_request(url=url, data=json.dumps(data))
 
-    def _upsert_entity(self, data, campaign):
+    def _upsert_entity(self, data, campaign) -> dict | int | None:
         # Internal method leveraging the record signup helper endpoint to upsert entity records
 
         url = f"campaigns/{campaign}/people"
 
         return self.api.post_request(url=url, data=json.dumps(data))
 
-    def insert_entity_record(self, entity_type, data=None, campaign=None):
+    def insert_entity_record(self, entity_type, data=None, campaign=None) -> dict | int | None:
         """
         Load a new entity record in Action Builder of the type provided.
 
@@ -192,8 +191,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            dict
-                Action Builder entity data.
+            Action Builder entity data.
 
         """
 
@@ -218,7 +216,7 @@ class ActionBuilder:
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def update_entity_record(self, identifier, data, campaign=None):
+    def update_entity_record(self, identifier, data, campaign=None) -> dict | int | None:
         """
         Update an entity record in Action Builder based on the identifier passed.
 
@@ -236,8 +234,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            dict
-                Action Builder entity data.
+            Action Builder entity data.
 
         """
 
@@ -261,7 +258,7 @@ class ActionBuilder:
 
         return self._upsert_entity(data=data, campaign=campaign)
 
-    def remove_entity_record_from_campaign(self, identifier, campaign=None):
+    def remove_entity_record_from_campaign(self, identifier, campaign=None) -> dict | int | None:
         """
         Remove an entity record from a campaign. Records cannot be permanently deleted, but a
         record that has been removed from a campaign will not appear in the UI.
@@ -274,10 +271,6 @@ class ActionBuilder:
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
-        Returns:
-            dict
-                HTTP response
-
         """
 
         campaign = self._campaign_check(campaign)
@@ -285,7 +278,9 @@ class ActionBuilder:
         url = f"campaigns/{campaign}/people/{identifier}"
         return self.api.delete_request(url=url)
 
-    def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
+    def add_section_field_values_to_record(
+        self, identifier, section, field_values, campaign=None
+    ) -> dict | int | None:
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
@@ -304,8 +299,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            dict
-                Action Builder entity data of the entity being tagged.
+            Action Builder entity data of the entity being tagged.
 
         """
 
@@ -329,7 +323,7 @@ class ActionBuilder:
         tag_name=None,
         tagging_id=None,
         campaign=None,
-    ):
+    ) -> dict | int | None:
         """
         Remove one or more tags (i.e. custom field value) from an existing entity or connection
         record in Action Builder. The basis for this end point is the combination of the tag's
@@ -405,7 +399,9 @@ class ActionBuilder:
             f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
-    def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
+    def upsert_connection(
+        self, identifiers, tag_data=None, campaign=None, reactivate=True
+    ) -> dict | int | None:
         """
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
@@ -427,8 +423,7 @@ class ActionBuilder:
                 if the Connection exists and has `inactive` set to True. True by default.
 
         Returns:
-            dict
-                Action Builder connection data.
+            Action Builder connection data.
 
         """
 
@@ -470,7 +465,7 @@ class ActionBuilder:
         connection_identifier=None,
         to_identifier=None,
         campaign=None,
-    ):
+    ) -> dict | int | None:
         """
         Deactivate an existing connection record in Action Builder between two existing entity
         records. Only one connection record is allowed per pair of entities, so this can be done
@@ -490,8 +485,7 @@ class ActionBuilder:
                 retrieved or edited. Not necessary if supplied when instantiating the class.
 
         Returns:
-            dict
-                Action Builder connection data.
+            Action Builder connection data.
 
         """
 

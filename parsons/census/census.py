@@ -26,7 +26,7 @@ class Census:
     def get_census(self, year=None, dataset_acronym=None, variables=None, location=None):
         """
         Pull census data. For background check out the `Census API Guide
-        <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
+        <https://www.census.gov/data/developers/guidance/api-user-guide.html>`__
 
         Args:
             year: 4-digit string or integer

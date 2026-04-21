@@ -12,7 +12,7 @@ participants of past meetings via the `Zoom API <https://developers.zoom.us/docs
 .. admonition:: Authentication
 
    The :class:`~parsons.zoom.zoom.Zoom` class uses server-to-server
-   `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`_
+   `Zoom Server-to-Server OAuth <https://developers.zoom.us/docs/internal-apps/s2s-oauth/>`__
    to authenticate queries to the Zoom API. You must create a server-to-server application at
    `Zoom App Marketplace - Create App <https://marketplace.zoom.us/develop/create>`__ to obtain an
    ``account_id``, ``client_id``, and ``client_secret`` key.

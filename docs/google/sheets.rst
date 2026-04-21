@@ -14,7 +14,7 @@ to the file as a string in the ``GOOGLE_DRIVE_CREDENTIALS`` environment variable
 
 You can follow these steps:
 
-- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`_
+- Go to the `Google Developer Console <https://console.cloud.google.com/apis/dashboard>`__
   and make sure the "Google Drive API" and the "Google Sheets API" are both enabled.
 - Go to the credentials page via the lefthand sidebar.
   On the credentials page, click "create credentials".

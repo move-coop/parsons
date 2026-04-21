@@ -13,7 +13,7 @@ This class contains methods to:
 - Read, create, and get customers
 - Check whether two customers are the same
 
-For more information, see `Bill.com developer docs <https://developer.bill.com/docs/home>`_
+For more information, see `Bill.com developer docs <https://developer.bill.com/docs/home>`__
 
 .. admonition:: Authentication
 

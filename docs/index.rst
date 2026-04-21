@@ -7,7 +7,7 @@
 About
 =====
 
-Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`_,
+Parsons, named after `Lucy Parsons <https://en.wikipedia.org/wiki/Lucy_Parsons>`__,
 is a Python package that contains a growing list of connectors and integrations to move data between various tools.
 Parsons is focused on integrations and connectors for tools utilized by the progressive community.
 
@@ -30,9 +30,9 @@ Usage of Parsons is governed by a `modified Apache License with author attributi
 Resources
 =========
 
-* Documentation: `<https://move-coop.github.io/parsons/>`_
-* Source Code: `<https://github.com/move-coop/parsons>`_
-* Project Website: `<https://www.parsonsproject.org/>`_
+* Documentation: `<https://move-coop.github.io/parsons/>`__
+* Source Code: `<https://github.com/move-coop/parsons>`__
+* Project Website: `<https://www.parsonsproject.org/>`__
 * Docker Image: `<https://hub.docker.com/r/movementcooperative/parsons>`_
 
 Installation

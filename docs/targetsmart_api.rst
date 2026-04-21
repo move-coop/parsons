@@ -30,7 +30,7 @@ ith the corresponding TargetSmart HTTP services:
   Match CSV file records to TargetSmart's service database of voting age individuals.
   Multiple matching strategies are applied to find accurate matches
   and return enriched data. Read more about
-  `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_,
+  `SmartMatch <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`__,
   TargetSmart's list matching solution.
 
 Some TargetSmart API services have not yet been implemented in Parsons.

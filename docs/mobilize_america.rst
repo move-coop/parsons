@@ -7,7 +7,7 @@ Overview
 
 `Mobilize America <https://join.mobilize.us/>`__ is an activist signup tool used by progressive organizations.
 This class provides several methods for fetching organizations, people, and events from their
-`API <https://github.com/mobilizeamerica/api/blob/main/README.md#mobilizeamerica-api>`_,
+`API <https://github.com/mobilizeamerica/api/blob/main/README.md#mobilizeamerica-api>`__,
 which is currently in alpha development.
 
 .. admonition:: Authentication

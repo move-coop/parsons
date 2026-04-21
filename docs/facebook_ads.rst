@@ -9,7 +9,7 @@ The :class:`~parsons.facebook_ads.facebook_ads.FacebookAds` class allows you to 
 Currently the connector provides methods for creating and deleting custom audiences, and for adding users to audiences.
 
 The :class:`~parsons.facebook_ads.facebook_ads.FacebookAds` connector is a thin wrapper around the
-`FB Business SDK <https://github.com/facebook/facebook-python-business-sdk>`_,
+`FB Business SDK <https://github.com/facebook/facebook-python-business-sdk>`__,
 so some of that SDK is exposed, e.g., you may see exceptions like ``FacebookRequestError``.
 
 Facebook's advertising and Pages systems are massive. Check out the overviews for more information:

@@ -95,7 +95,7 @@ class CivisClient:
     ) -> Table | civis.futures.CivisFuture:
         """
         Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
+        arguments can passed to `civis.io.dataframe_to_civis() <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`__
 
         Args:
             table_obj: obj

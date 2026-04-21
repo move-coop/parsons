@@ -26,11 +26,11 @@ except ImportError:
 
 def event_command(event, context):
     """
-    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_
+    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`__
     to add to the top lambda handler function to enable distributed tasks
 
     The rest of this library is compatible with zappa.async library.
-    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`_,
+    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`__,
     then you do NOT need to add this shim.
     """
     if not set(event).intersection({"task_path", "args", "kwargs"}):

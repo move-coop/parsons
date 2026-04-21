@@ -115,6 +115,7 @@ linkcheck_ignore_blocked_domains = [
 linkcheck_ignore_inaccessible_anchors = [
     r"https://api.bluevote.com/docs/index#.*",
     r"https://bloomerang.com/api/rest-api/#.*",
+    r"https://developer.sisense.com/guides/restApi/v1/#.*",
     r"https://docs.everyaction.com/reference/people-common-models#.*",
     r"https://docs.python.org/3/library/csv.html#.*",
     r"https://github.com/.*#.*",

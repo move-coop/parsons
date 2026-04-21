@@ -135,14 +135,14 @@ class SmartMatch:
         """Submit the contact list records available in the Parsons table ``input_table`` to
         TargetSmart SmartMatch.
 
-        * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_
-        * `SmartMatch API doc <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`_
-        * `Supported input header field identifiers <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_
+        * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`__
+        * `SmartMatch API doc <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`__
+        * `Supported input header field identifiers <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`__
 
         Your application provides a contact list which will be matched to
         TargetSmart’s database of voting age individuals.
 
-        `TargetSmart Client Services <mailto:support@targetsmart.com>`_
+        `TargetSmart Client Services <mailto:support@targetsmart.com>`__
         provisions SmartMatch for your API key, configuring the fields from the
         TargetSmart Data Dictionary that will be appended to each matched
         record.

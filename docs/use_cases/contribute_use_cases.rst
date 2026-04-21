@@ -31,7 +31,7 @@ Steps:
    Note that the syntax for RST files can be a little tricky!
 
 2. Test that your use case looks correct by
-   `building the parsons documentation <https://www.parsonsproject.org/pub/contributing-guide#build-the-docs-optional>`_.
+   `building the parsons documentation <https://www.parsonsproject.org/pub/contributing-guide#build-the-docs-optional>`__.
 
 3. Write up your sample script in a Python (``.py``) file, place it in ``useful_resources/sample_code``,
    and add it to the ``use_cases_and_sample_scripts`` section of the table of contents in ``index.rst``.

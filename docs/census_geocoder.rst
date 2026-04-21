@@ -7,7 +7,7 @@ Overview
 
 The US Census Geocoder leverages the US Census Geocoding service for single record and batch geocoding.
 The service enforces no limits and is free to US. More information can
-be found at the `US Census <https://geocoding.geo.census.gov/geocoder/>`_
+be found at the `US Census <https://geocoding.geo.census.gov/geocoder/>`__
 website. For multiple records, it is recommended that you use the
 :meth:`~parsons.geocode.census_geocoder.CensusGeocoder.geocode_address_batch` method.
 

@@ -29,5 +29,5 @@ Some questions to consider when you construct this table are:
   tool data or all phones associated with a given person?
 
 The code we used is available as a
-`sample script <https://github.com/move-coop/parsons/tree/master/useful_resources/sample_code/opt_outs_everyaction.py>`_
+`sample script <https://github.com/move-coop/parsons/blob/main/useful_resources/sample_code/opt_outs_everyaction.py>`__
 for you to view, re-use, or customize to fit your needs.

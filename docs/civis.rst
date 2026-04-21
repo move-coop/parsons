@@ -6,7 +6,7 @@ Overview
 ========
 
 The `Civis Platform <https://www.civisanalytics.com/platform/>`__ is a cloud-based data science platform.
-This Parsons connector utilizes the `Civis API Python client <https://civis-python.readthedocs.io/en/stable/user_guide.html>`_
+This Parsons connector utilizes the `Civis API Python client <https://civis-python.readthedocs.io/en/stable/user_guide.html>`__
 to interact with the Civis Platform. It supports executing Civis SQL queries and writing Parsons Tables to a Civis
 Redshift cluster.
 

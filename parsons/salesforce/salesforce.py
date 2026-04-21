@@ -255,7 +255,7 @@ class Salesforce:
     def client(self):
         """
         Get the Salesforce client to use for making all calls. For more information, check the
-        `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`_
+        `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`__
 
         Returns:
             `simple-salesforce Salesforce object`

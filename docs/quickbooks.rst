@@ -11,7 +11,7 @@ This integration allows you to pull time tracking data from Quickbooks Time into
 .. admonition:: Authentication
 
    You need to generate a Quickbooks Time API token to use this integration. See the
-   `Quickbooks Time API documentation <https://tsheetsteam.github.io/api_docs/#getting-started>`_
+   `Quickbooks Time API documentation <https://tsheetsteam.github.io/api_docs/#getting-started>`__
 
 Quickstart
 ==========

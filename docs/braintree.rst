@@ -18,7 +18,7 @@ methods for fetching disputes and transactions.
 .. admonition:: Authentication
 
    Braintree authentication requires a Merchant ID, Public Key, and Private Key. These can be obtained by logging
-   in to the Braintree `Control Panel <https://www.braintreegateway.com/login?_ga=1.85874009.1956923370.1599919088>`_,
+   in to the Braintree `Control Panel <https://www.braintreegateway.com/login?_ga=1.85874009.1956923370.1599919088>`__,
    clicking on the gear icon in the top right corner, and finding each of the credentials as follows:
 
    1. **Merchant ID:** Click 'Business' and find your Merchant ID at the top of this page.

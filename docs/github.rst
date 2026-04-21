@@ -8,7 +8,7 @@ Overview
 `GitHub <https://github.com>`__ is an online tool for software collaboration.
 
 This :class:`~parsons.github.github.GitHub` class uses the
-`PyGitHub library <https://pygithub.readthedocs.io/en/latest/introduction.html>`_
+`PyGitHub library <https://pygithub.readthedocs.io/en/latest/introduction.html>`__
 to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`__. The class provides methods to:
 
 - Get an individual user, organization, repo, issue, or pull request

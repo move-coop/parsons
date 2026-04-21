@@ -338,7 +338,7 @@ class FacebookAds:
         valid phone number.
 
         For details of the expected data formats for each column type, see
-        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`_,
+        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`__,
         under "Hashing and Normalization for Multi-Key".
 
         Note that you shouldn't have to do normalization on your data, as long as it's

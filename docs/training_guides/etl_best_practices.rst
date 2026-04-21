@@ -82,9 +82,9 @@ Google Sheets
 
 Setting up the Google Sheets connector takes several steps.
 
-First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`_
+First, you'll need to go to the `Google Developers Console <https://console.cloud.google.com/>`__
 and select the project you want to work with, or create a new one (recommended).
-Following `these instructions from Google <https://developers.google.com/workspace/drive/api/guides/enable-sdk>`_,
+Following `these instructions from Google <https://developers.google.com/workspace/drive/api/guides/enable-sdk>`__,
 click **APIs & Auth** and then **APIs**. Select the Drive API from among the API options, and click **enable**.
 
 Once you've created a project and enabled the API, you'll need to get the credentials that will allow you to access the API.
@@ -209,7 +209,7 @@ Fixing Dates + Times
 
 Let's make some fixes to our data. First off, those timeslot fields are confusing! What kind of date is ``1642865400``?
 
-(It's actually something called a `unix timestamp <https://www.unixtimestamp.com/>`_, which measures the total number of seconds since January 1st, 1970.
+(It's actually something called a `unix timestamp <https://www.unixtimestamp.com/>`__, which measures the total number of seconds since January 1st, 1970.
 Why January 1st, 1970? No real reason! They just needed to pick a date and I guess that seemed like a good one.)
 
 Let's convert these unix timestamps to something more readable. To do this, we define a function that takes in a value and returns a value
@@ -260,7 +260,7 @@ Then we can use a special Parsons method, :meth:`~parsons.etl.table.Table.unpack
 Aggregating Data Using PETL
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/latest/>`_
+Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/latest/>`__
 is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`__.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons :ref:`Table`.
@@ -363,10 +363,18 @@ feel free to suggest to us that we add it to the Parsons connector directly! Tha
 
 .. note::
 
-   What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`__.
-   Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`_, which means we have access to all the cool features that Google developers have added to that client.
-   Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`__ to make requests. It does not have any additional connector-specific features.
-   You can access the client on a connector, whatever kind it is, with the method ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets, the client has a different, custom name such as ``google_sheets.gspread_client``. We're trying to make everything consistent but we haven't quite managed it yet, alas!)
+   What is a client? A client is a tool that makes is easier to access APIs by handling all the
+   details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`__.
+   Many big software companies, such as Google, maintain clients in various languages to encourage
+   people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`__,
+   which means we have access to all the cool features that Google developers have added to that client.
+   Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients.
+   For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`__
+   to make requests. It does not have any additional connector-specific features.
+   You can access the client on a connector, whatever kind it is, with the method
+   ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets,
+   the client has a different, custom name such as ``google_sheets.gspread_client``.
+   We're trying to make everything consistent but we haven't quite managed it yet, alas!)
 
 Let's just re-write the code above to show you what it would look like if we were using the client to do it
 

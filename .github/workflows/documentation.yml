@@ -25,14 +25,14 @@ env:
     *.githubusercontent.com:443
 
 jobs:
-  build:
+  build-multiversion:
     runs-on: ubuntu-latest
 
     steps:
       - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: docs/html
-          key: sphinx-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements-dev.txt', 'docs/make.py', 'docs/conf.py') }}
+          key: sphinx-${{ hashFiles('docs/make.py', 'docs/conf.py') }}
 
       - run: make build_docs
         working-directory: docs
@@ -71,8 +71,8 @@ jobs:
           path: docs/html/
 
   deploy:
-    needs: build
-    # Don't run this job on pull requests
+    needs: build-multiversion
+
     if: github.event_name != 'pull_request'
 
     runs-on: ubuntu-latest

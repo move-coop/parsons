@@ -50,7 +50,7 @@ jobs:
           --group docs
           --all-extras
 
-      - run: make test
+      - run: make test ${{ runner.debug == '1' && '--verbose' || '' }}
         working-directory: docs
 
   build-multiversion:

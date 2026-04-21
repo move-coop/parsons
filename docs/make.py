@@ -82,6 +82,34 @@ def clean(extra_args: list[str]) -> None:
         logger.debug("Directory %s not found.", d)
 
 
+def test(extra_args: list[str]) -> None:
+    """Build sphinx documentation from latest code failing if there are syntax issues."""
+    check_dependencies()
+
+    extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
+    logger.info(
+        "Building single-version docs with strict syntax and reference checks%s.", extra_log_info
+    )
+
+    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
+
+    run_command(
+        [
+            SPHINXBUILD,
+            "--jobs=auto",
+            "--fail-on-warning",
+            "--nitpicky",
+            "--fresh-env",
+        ]
+        + extra_args
+        + [
+            SOURCEDIR,
+            BUILDDIR / "html_test",
+        ],
+        verbose=verbose,
+    )
+
+
 def linkcheck(extra_args: list[str]) -> None:
     """Build sphinx documentation, checking for broken links."""
     check_dependencies()
@@ -138,6 +166,7 @@ def build(extra_args: list[str]) -> None:
 if __name__ == "__main__":
     targets = {
         "clean": clean,
+        "test": test,
         "linkcheck": linkcheck,
         "build_docs": build,
         "help": lambda: run_command([SPHINXBUILD, "--help"]),

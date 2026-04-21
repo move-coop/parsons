@@ -13,7 +13,9 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
-    Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`__ authentication methods.
+    Supports the password and
+    `client_credentials <https://help.salesforce.com/s/articleView?language=en_US&id=xcloud.connected_app_client_credentials_setup.htm&type=5>`__
+    authentication methods.
 
     Args:
         username: str

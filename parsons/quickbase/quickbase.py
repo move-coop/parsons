@@ -39,8 +39,7 @@ class Quickbase:
     def get_app_tables(self, app_id=None):
         """
         Query records in a Quickbase table. This follows the patterns laid out
-        in Quickbase query documentaiton, located here:
-        https://help.quickbase.com/api-guide/componentsquery.html
+        in Quickbase query documentaiton, located here: `Quickbase API Components Query`_
 
         Args:
             app_id: str
@@ -56,9 +55,10 @@ class Quickbase:
 
     def query_records(self, table_from=None):
         """
-        Query records in a Quickbase table. This follows the patterns laid out
+        Query records in a Quickbase table.
+        This follows the patterns laid out
         in Quickbase query documentaiton, located here:
-        https://help.quickbase.com/api-guide/componentsquery.html
+        `Quickbase API Components Query`_
 
         Args:
             from: str

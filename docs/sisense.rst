@@ -17,7 +17,7 @@ fetching, posting, and deleting shared dashboards.
    Your site name and an authentication token are required to use the
    :class:`~parsons.sisense.sisense.Sisense` class. To obtain a token, log in to
    the Sisense Web Application and follow the instructions in the
-   `Sisense REST API documentation <https://sisense.dev/guides/rest/using-rest-api.html#authentication>`__.
+   `Sisense REST API Authentication documentation <https://developer.sisense.com/guides/restApi/v1/#/authentication>`__.
    Be sure to select version ``1.0`` of the API.
 
 Quickstart

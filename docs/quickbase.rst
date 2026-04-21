@@ -9,14 +9,12 @@ Quickbase is a workflow automation and data warehousing tool. This class allows 
 with select functions of the the `Quickbase API <https://developer.quickbase.com/>`__ .
 
 This Parsons connector provides methods to fetch lists of available tables in Quickbase, and to
-query those tables using `Quickbase's own query language
-<https://help.quickbase.com/api-guide/componentsquery.html>`__.
+query those tables using `Quickbase API Components Query`_.
 
 .. admonition:: Authentication
 
    A user token and app ID are required to instantiate the :class:`~parsons.quickbase.quickbase.Quickbase` class.
-   Details on how to create user tokens can be found `on the Quickbase website
-   <https://help.quickbase.com/user-assistance/create_user_tokens.html>`__.
+   For details, see the `Quickbase API User Tokens Documentation <https://help.quickbase.com/docs/user-tokens>`__.
 
 Quickstart
 ==========
@@ -52,3 +50,5 @@ API
 .. autoclass:: parsons.quickbase.quickbase.Quickbase
    :inherited-members:
    :members:
+
+.. _Quickbase API Components Query: https://help.quickbase.com/docs/components-of-a-query

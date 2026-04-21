@@ -23,7 +23,7 @@ class CensusGeocoder:
             but other options can found `here <https://geocoding.geo.census.gov/geocoder/benchmarks>`__.
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
-            other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+            other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?benchmark=4>`__.
 
     """
 

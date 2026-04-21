@@ -178,16 +178,15 @@ class Shopify:
 
         return self.base_url + f"{table}?{filters}"
 
-    def graphql(self, query):
+    def graphql(self, query: str) -> dict:
         """
-        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
+        Make GraphQL request.
+
+        Reference:
+            `Shopify GraphQL Admin API Documentation <https://shopify.dev/docs/api/admin-graphql/latest>`__
 
         Args:
-            query: str
-                GraphQL query.
-
-        Returns:
-            dict
+            query: GraphQL query
 
         """
         return (

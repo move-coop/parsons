@@ -35,7 +35,7 @@ def run_command(
     """Execute a shell command with error handling and output capture."""
     cmd_str = [str(arg) for arg in command]
     try:
-        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=verbose, text=True)
+        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=not verbose, text=True)
     except subprocess.CalledProcessError as e:
         logger.error("Command failed: %s", " ".join(cmd_str))
         if not verbose and e.stderr:
@@ -90,6 +90,9 @@ def test(extra_args: list[str]) -> None:
     logger.info(
         "Building single-version docs with strict syntax and reference checks%s.", extra_log_info
     )
+
+    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
+
     run_command(
         [
             SPHINXBUILD,
@@ -103,7 +106,7 @@ def test(extra_args: list[str]) -> None:
             SOURCEDIR,
             BUILDDIR / "html_test",
         ],
-        verbose=True,
+        verbose=verbose,
     )
 
 
@@ -113,9 +116,12 @@ def linkcheck(extra_args: list[str]) -> None:
 
     extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
     logger.info("Building single-version docs, checking all links for validity%s.", extra_log_info)
+
+    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
+
     run_command(
         [SPHINXBUILD, "--builder", "linkcheck"] + extra_args + [SOURCEDIR, BUILDDIR / "linkcheck"],
-        verbose=True,
+        verbose=verbose,
     )
 
 
@@ -168,8 +174,12 @@ if __name__ == "__main__":
 
     target = sys.argv[1] if len(sys.argv) > 1 else "help"
     extra_args = sys.argv[2:] if len(sys.argv) > 2 else []
+    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
 
     if target in targets:
         targets[target](extra_args)
     else:
-        run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR] + extra_args, verbose=True)
+        run_command(
+            [SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR] + extra_args,
+            verbose=verbose,
+        )

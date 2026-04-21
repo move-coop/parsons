@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
-def check_dependencies():
+def check_dependencies() -> None:
     """Verify that the required CLI tools are installed and available in the system PATH."""
     tools = ["git", SPHINXBUILD, "sphinx-multiversion"]
     for tool in tools:
@@ -43,7 +43,7 @@ def run_command(
         sys.exit(e.returncode)
 
 
-def reuse_builds_old_versions(keep_older_than: str | None = None):
+def reuse_builds_old_versions(keep_older_than: str | None = None) -> None:
     """Remove folders not starting with 'v' or with a version >= ``keep_older_than``, if provided."""
     if not HTMLDIR.exists():
         return
@@ -71,8 +71,10 @@ def reuse_builds_old_versions(keep_older_than: str | None = None):
             shutil.rmtree(item)
 
 
-def clean():
+def clean(extra_args: list[str]) -> None:
     """Delete the '_build' and 'html' directories if they exist."""
+    if extra_args:
+        logger.warning("Clean does not accept extra args: %s", extra_args)
     for d in [BUILDDIR, HTMLDIR]:
         if d.exists():
             logger.info("Deleting build files from %s...", d)
@@ -80,11 +82,14 @@ def clean():
         logger.debug("Directory %s not found.", d)
 
 
-def test():
+def test(extra_args: list[str]) -> None:
     """Build sphinx documentation from latest code failing if there are syntax issues."""
     check_dependencies()
 
-    logger.info("Building single-version docs with strict syntax and reference checks.")
+    extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
+    logger.info(
+        "Building single-version docs with strict syntax and reference checks%s.", extra_log_info
+    )
     run_command(
         [
             SPHINXBUILD,
@@ -92,6 +97,9 @@ def test():
             "--fail-on-warning",
             "--nitpicky",
             "--fresh-env",
+        ]
+        + extra_args
+        + [
             SOURCEDIR,
             BUILDDIR / "html_test",
         ],
@@ -99,17 +107,19 @@ def test():
     )
 
 
-def linkcheck():
+def linkcheck(extra_args: list[str]) -> None:
     """Build sphinx documentation, checking for broken links."""
     check_dependencies()
 
-    logger.info("Building single-version docs, checking all links for validity.")
+    extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
+    logger.info("Building single-version docs, checking all links for validity%s.", extra_log_info)
     run_command(
-        [SPHINXBUILD, "--builder", "linkcheck", SOURCEDIR, BUILDDIR / "linkcheck"], verbose=True
+        [SPHINXBUILD, "--builder", "linkcheck"] + extra_args + [SOURCEDIR, BUILDDIR / "linkcheck"],
+        verbose=True,
     )
 
 
-def build():
+def build(extra_args: list[str]) -> None:
     """Build multi-version sphinx documentation."""
     check_dependencies()
 
@@ -132,8 +142,9 @@ def build():
         logger.warning("No tags found. Mapping 'stable' to 'latest'.")
         run_command([*git_base, "branch", "-f", "stable", "latest"])
 
-    logger.info("Building multiversion documentation...")
-    run_command(["sphinx-multiversion", SOURCEDIR, HTMLDIR])
+    extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
+    logger.info("Building multiversion documentation%s...", extra_log_info)
+    run_command(["sphinx-multiversion"] + extra_args + [SOURCEDIR, HTMLDIR])
 
     src_redirect = SOURCEDIR / "index-redirect.html"
     if src_redirect.exists():
@@ -156,8 +167,9 @@ if __name__ == "__main__":
     }
 
     target = sys.argv[1] if len(sys.argv) > 1 else "help"
+    extra_args = sys.argv[2:] if len(sys.argv) > 2 else []
 
     if target in targets:
-        targets[target]()
+        targets[target](extra_args)
     else:
-        run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR], verbose=True)
+        run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR] + extra_args, verbose=True)

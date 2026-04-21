@@ -29,14 +29,16 @@ def check_dependencies():
     logger.debug("All required tools found in PATH.")
 
 
-def run_command(command: list[str | Path], cwd: Path = ROOT_DIR) -> subprocess.CompletedProcess:
+def run_command(
+    command: list[str | Path], cwd: Path = ROOT_DIR, *, verbose: bool = False
+) -> subprocess.CompletedProcess:
     """Execute a shell command with error handling and output capture."""
     cmd_str = [str(arg) for arg in command]
     try:
-        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=True, text=True)
+        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=verbose, text=True)
     except subprocess.CalledProcessError as e:
         logger.error("Command failed: %s", " ".join(cmd_str))
-        if e.stderr:
+        if not verbose and e.stderr:
             logger.error("Details: %s", e.stderr.strip())
         sys.exit(e.returncode)
 
@@ -92,7 +94,8 @@ def test():
             "--fresh-env",
             SOURCEDIR,
             BUILDDIR / "html_test",
-        ]
+        ],
+        verbose=True,
     )
 
 
@@ -101,7 +104,9 @@ def linkcheck():
     check_dependencies()
 
     logger.info("Building single-version docs, checking all links for validity.")
-    run_command([SPHINXBUILD, "-b", "linkcheck", SOURCEDIR, BUILDDIR / "linkcheck"])
+    run_command(
+        [SPHINXBUILD, "--builder", "linkcheck", SOURCEDIR, BUILDDIR / "linkcheck"], verbose=True
+    )
 
 
 def build():
@@ -155,4 +160,4 @@ if __name__ == "__main__":
     if target in targets:
         targets[target]()
     else:
-        run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR])
+        run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR], verbose=True)

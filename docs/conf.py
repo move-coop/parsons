@@ -1,10 +1,6 @@
 import subprocess
-import sys
-from pathlib import Path
 
 # -- Project Setup -----------------------------------------------------------
-sys.path.insert(0, str(Path("../").absolute()))
-
 project = "Parsons"
 copyright = "2019-2026, The Movement Cooperative"
 author = "The Movement Cooperative"

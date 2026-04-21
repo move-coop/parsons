@@ -7,8 +7,10 @@ Table
 Overview
 ========
 
-Most methods and functions in Parsons return a :ref:`Table`, which is a 2D list-like object similar to a Pandas Dataframe.
-You can call the following methods on the :ref:`Table` object to output it into a variety of formats or storage types.
+Most methods and functions in Parsons return a :ref:`Table`,
+which is a 2D list-like object similar to a Pandas Dataframe.
+You can call the following methods on the :ref:`Table` object
+to output it into a variety of formats or storage types.
 A full list of :ref:`Table` methods can be found in the API section.
 
 From Parsons Table

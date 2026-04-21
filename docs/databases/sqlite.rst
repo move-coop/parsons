@@ -2,7 +2,8 @@
 Sqlite
 ######
 
-SQLite is a performant flat-file database that's often touted as the "zero-config" database. The Parsons class uses the python3 built-in sqlite3 connector.
+SQLite is a performant flat-file database that's often touted as the "zero-config" database.
+The Parsons class uses the python3 built-in sqlite3 connector.
 
 Quickstart
 ==========

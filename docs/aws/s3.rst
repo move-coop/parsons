@@ -5,20 +5,24 @@ S3
 Overview
 ========
 
-The :class:`~parsons.aws.s3.S3` class allows interaction with Amazon Web Service's `object storage service <https://aws.amazon.com/s3/>`__
-to store and access data objects. It is a wrapper around the AWS SDK `boto3 <https://docs.aws.amazon.com/boto3/latest/>`__.
+The :class:`~parsons.aws.s3.S3` class allows interaction with Amazon Web Service's
+`object storage service <https://aws.amazon.com/s3/>`__ to store and access data objects.
+It is a wrapper around the AWS SDK `boto3 <https://docs.aws.amazon.com/boto3/latest/>`__.
 It provides methods to upload and download files from S3 as well as manipulate buckets.
 
 .. admonition:: Authentication
 
-   Access to S3 is controlled through AWS Identity and Access Management (IAM) users in the `AWS Managerment Console <https://aws.amazon.com/console/>`__.
-   Users can be granted granular access to AWS resources, including S3. IAM users are provisioned keys, which are required to access the S3 class.
+   Access to S3 is controlled through AWS Identity and Access Management (IAM)
+   users in the `AWS Managerment Console <https://aws.amazon.com/console/>`__.
+   Users can be granted granular access to AWS resources, including S3.
+   IAM users are provisioned keys, which are required to access the S3 class.
 
 Quickstart
 ==========
 
-S3 credentials can be passed as environmental variables (``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``),
-stored in an AWS CLI file ``~/.aws/credentials``, or passed as keyword arguments.
+S3 credentials can be passed as environmental variables
+(``AWS_ACCESS_KEY_ID`` and ``AWS_SECRET_ACCESS_KEY``), stored in an AWS CLI file
+``~/.aws/credentials``, or passed as keyword arguments.
 
 .. code-block:: python
    :caption: Pass API credentials via environmental variables or an AWS CLI file

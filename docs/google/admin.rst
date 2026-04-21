@@ -15,7 +15,9 @@ You must also provide an email address for
 Quickstart
 ==========
 
-To instantiate the GoogleAdmin class, you can either pass the constructor a dict containing your Google service account credentials or define the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to contain a JSON encoding of the dict.
+To instantiate the GoogleAdmin class, you can either pass the constructor a dict
+containing your Google service account credentials or define the environment variable
+``GOOGLE_APPLICATION_CREDENTIALS`` to contain a JSON encoding of the dict.
 
 .. code-block:: python
    :caption: Use API credentials via environmental variables

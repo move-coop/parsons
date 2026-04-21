@@ -5,8 +5,9 @@ SMTP
 Overview
 ========
 
-The SMTP module enables the sending of email through a generic SMTP server. If you have an email server other
-than Gmail this is likely the best way to send emails with Parsons.
+The SMTP module enables the sending of email through a generic SMTP server.
+If you have an email server other than Gmail,
+this is likely the best way to send emails with Parsons.
 
 .. admonition:: Credentials
 

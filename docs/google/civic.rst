@@ -15,7 +15,9 @@ key civic information such as personalized ballots and polling location informat
 Quickstart
 ==========
 
-To instantiate the GoogleCivic class, you can pass the constructor a string containing the Google Civic API key you've generated for your project, or set the environment variable ``GOOGLE_CIVIC_API_KEY`` to that value.
+To instantiate the GoogleCivic class, you can pass the constructor a string containing the
+Google Civic API key you've generated for your project, or set the
+environment variable ``GOOGLE_CIVIC_API_KEY`` to that value.
 
 .. code-block:: python
    :caption: Set the credentials as an environment variable

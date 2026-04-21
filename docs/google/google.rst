@@ -3,9 +3,10 @@ Google
 ######
 
 Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets)
-or query them as SQL database tables (via GoogleBigQuery). You can also upload/store/download them as
-binary objects (via GoogleCloudStorage). Google also offers an API for civic information using GoogleCivic and
-admin information using the Google Workspace Admin SDK.
+or query them as SQL database tables (via GoogleBigQuery).
+You can also upload/store/download them as binary objects (via GoogleCloudStorage).
+Google also offers an API for civic information using GoogleCivic and admin information
+using the Google Workspace Admin SDK.
 
 For all of these services you will need to enable the APIs for your Google Cloud account and
 obtain authentication tokens or other credentials to access them from your scripts.

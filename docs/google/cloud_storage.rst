@@ -5,20 +5,23 @@ Cloud Storage
 Overview
 ========
 Google Cloud Storage is a cloud file storage system. It uses buckets in which to
-store arbitrary files referred to as blobs. You may use this connector to upload Parsons tables as blobs, download them to files, and list available blobs.
+store arbitrary files referred to as blobs. You may use this connector to upload
+Parsons tables as blobs, download them to files, and list available blobs.
 
 To use the GoogleCloudStorage class, you will need Google service account credentials.
 If you are the administrator of your Google Cloud account, you can generate them at
 `Service accounts - IAM & Admin <https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts>`__
-Once signed in, select your project, then your project's email, then Keys, then ``Add key``, and select ``Create new key``.
+Once signed in, select your project, then your project's email, then Keys,
+then ``Add key``, and finally ``Create new key``.
 
 Quickstart
 ==========
 
-To instantiate the GoogleBigQuery class, you can pass the constructor a string containing either the name of your
-Google service account credentials file or a JSON string encoding those credentials.
-Alternatively, you can set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS``
-to be either of those strings and call the constructor without that argument.
+To instantiate the GoogleBigQuery class, you can pass the constructor a string containing
+either the name of your Google service account credentials file or a JSON string
+encoding those credentials. Alternatively, you can set the environment variable
+``GOOGLE_APPLICATION_CREDENTIALS`` to be either of those strings and
+call the constructor without that argument.
 
 .. code-block:: python
    :caption: Set the credentials as an environment variable

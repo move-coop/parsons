@@ -2,7 +2,8 @@
 MySQL
 #####
 
-MySQL is the world's most popular open source database. The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`__ python package.
+MySQL is the world's most popular open source database.
+The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`__ python package.
 
 Quickstart
 ==========

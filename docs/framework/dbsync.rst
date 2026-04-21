@@ -10,7 +10,8 @@ Currently supported database types are:
 * :ref:`databases/postgres:Postgres`
 * :ref:`aws/redshift:Redshift`
 
-The :class:`~parsons.databases.db_sync.DBSync` class is not a connector, but rather a class that joins in database classes and moves data seamlessly between them.
+The :class:`~parsons.databases.db_sync.DBSync` class is not a connector,
+but rather a class that joins in database classes and moves data seamlessly between them.
 
 Quickstart
 ==========

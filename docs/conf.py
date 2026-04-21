@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path("../").absolute()))
 
 project = "Parsons"
-copyright = "2025, The Movement Cooperative"
+copyright = "2019-2026, The Movement Cooperative"
 author = "The Movement Cooperative"
 release = ""
 
@@ -26,11 +26,11 @@ source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_template.rst"]
 templates_path = ["_templates"]
 autodoc_member_order = "bysource"
+googleanalytics_id = "G-L2YB7WHTRG"
 
 # -- HTML Output (Furo Theme) ------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]
-googleanalytics_id = "G-L2YB7WHTRG"
 html_favicon = "_static/favicon.ico"
 
 html_sidebars = {
@@ -45,7 +45,7 @@ html_sidebars = {
 }
 
 
-# -- Sphinx-Multiversion Logic -----------------------------------------------
+# -- Sphinx Multiversion Tag Creation ----------------------------------------
 def get_git_tags() -> list[str]:
     try:
         tags = subprocess.check_output(

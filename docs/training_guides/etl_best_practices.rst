@@ -38,7 +38,7 @@ but whose canvassing status was being tracked via Google Sheets.
 
 The example script can be found in full `on Github <https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348>`__.
 
-If you need help getting set up with Parsons so that you can run this script, check out our :ref:`training_guides/getting_set_up:Getting Set Up`_.
+If you need help getting set up with Parsons so that you can run this script, check out our :ref:`training_guides/getting_set_up:Getting Set Up`.
 
 Okay, let's proceed!
 
@@ -62,7 +62,7 @@ If you were able to get an API key, you can now save it as the environmental var
    set MOBILIZE_AMERICA_API_KEY=$API_KEY       # Windows
    export MOBILIZE_AMERICA_API_KEY=$API_KEY    # Linux/Mac
 
-(Not comfortable with the command line? Check out our :ref:`training_guides/getting_set_up:Getting Set Up`_.)
+(Not comfortable with the command line? Check out our :ref:`training_guides/getting_set_up:Getting Set Up`.)
 
 And that's it, you're done! When you instantiate the :class:`~parsons.mobilize_america.ma.MobilizeAmerica` connector,
 it will look in the environment for ``MOBILIZE_AMERICA_API_KEY``.

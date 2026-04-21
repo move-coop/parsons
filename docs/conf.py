@@ -95,6 +95,26 @@ intersphinx_mapping_extras = {
 }
 intersphinx_mapping = intersphinx_mapping_core | intersphinx_mapping_extras
 
+# -- Linkcheck ---------------------------------------------------------------
+linkcheck_ignore = [
+    r"https://api.bluevote.com/docs/index#.*",
+    r"https://bloomerang.com/api/rest-api/#.*",
+    r"https://business.facebook.com",
+    r"https://cloud.google.com/python/docs/reference/bigquery/latest#.*",
+    r"https://boto3.amazonaws.com/v1/documentation/api/.*",
+    r"https://developer.salesforce.com/docs/.*",
+    r"https://developers.facebook.com.*",
+    r"https://docs.everyaction.com/reference/people-common-models#.*",
+    r"https://docs.google.com/.*",
+    r"https://learn.microsoft.com/en-us/python/api/azure-storage-blob/.*",
+    r"https://secure.actblue.com/docs/csv_api#.*",
+    r"https://sisense.dev/guides/rest/using-rest-api.html#.*",
+    r"https://support.civisanalytics.com/hc/en-us/articles/.*",
+    r"https://www.alchemer.com.*",
+    r"https://www.parsonsproject.org/.*",
+    r"https://www.facebook.com/business/.*",
+]
+
 # -- HTML Output (Furo Theme) ------------------------------------------------
 html_theme = "furo"
 html_static_path = ["_static"]

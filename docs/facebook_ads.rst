@@ -14,9 +14,9 @@ so some of that SDK is exposed, e.g., you may see exceptions like ``FacebookRequ
 
 Facebook's advertising and Pages systems are massive. Check out the overviews for more information:
 
-* `Facebook Business Overview <https://www.facebook.com/business>`_
-* `Facebook Custom Audiences <https://www.facebook.com/business/a/custom-audiences>`_
-* `Facebook Marketing API <https://developers.facebook.com/docs/marketing-api>`_
+* `Facebook Business Overview <https://www.facebook.com/business>`__
+* `Facebook Custom Audiences <https://www.facebook.com/business/help/744354708981227>`__
+* `Facebook Marketing API <https://developers.facebook.com/docs/marketing-api>`__
 
 .. admonition:: Authentication
 

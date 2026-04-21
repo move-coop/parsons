@@ -1117,7 +1117,7 @@ class ETL:
         returned as one component per row. The :meth:`~parsons.etl.etl.ETL.reduce_rows` method can be used
         to reduce all those to a single row containg the entire query.
 
-        Based on the `rowreduce petl function <https://petl.readthedocs.io/en/stable/transform.html#petl.transform.reductions.rowreduce>`__.
+        Based on the `rowreduce petl function <https://petl.readthedocs.io/latest/transform.html#petl.transform.reductions.rowreduce>`__.
 
         .. code-block:: python
 

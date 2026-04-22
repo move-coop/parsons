@@ -9,7 +9,7 @@ import tempfile
 import time
 import urllib
 from pathlib import Path
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 
 from parsons import Table
 from parsons.sftp import SFTP
@@ -371,11 +371,22 @@ class CatalistMatch:
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
+
         temp_file_zip = self.sftp.get_file(
             remote_path=remote_filepath, export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE
         )
-        temp_dir = tempfile.mkdtemp()
 
+        if not is_zipfile(temp_file_zip):
+            raise RuntimeError(
+                f"Downloaded file for job {id} is not a valid zip file "
+                f"(size: {temp_file_zip.stat().st_size} bytes, remote path: {remote_filepath}). "
+                "The SFTP download may be corrupt or incomplete."
+            )
+
+        logger.debug(
+            f"Download complete for job {id} (local size: {temp_file_zip.stat().st_size} bytes)."
+        )
+        temp_dir = tempfile.mkdtemp()
         with ZipFile(temp_file_zip) as zf:
             zf.extractall(path=temp_dir)
 
@@ -387,7 +398,7 @@ class CatalistMatch:
     def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
         if template_id != "48827":
-            logger.warn(f"No validator implemented for template {template_id}.")
+            logger.warning(f"No validator implemented for template {template_id}.")
             return
 
         expected_table_columns = [

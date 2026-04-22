@@ -15,7 +15,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
         with:
           disable-sudo: true
           egress-policy: block
@@ -40,7 +40,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
         with:
           disable-sudo: true
           egress-policy: block
@@ -96,7 +96,7 @@ jobs:
     needs: label-from-checkboxes
 
     steps:
-      - uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
         with:
           disable-sudo: true
           egress-policy: block

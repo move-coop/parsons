@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +28,14 @@ class TestTableCreation:
         # Test Iterate and is list like
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
 
+    def test_from_list_of_ordered_dicts(self):
+        od1 = OrderedDict([("a", 1), ("b", 2), ("c", 3)])
+        od2 = OrderedDict([("c", 1), ("b", 3), ("a", 2)])
+        tbl = Table([od1, od2])
+
+        assert tbl[0] == {"a": 1, "b": 2, "c": 3}
+        assert tbl[1] == {"a": 2, "b": 3, "c": 1}
+
     def test_from_list_of_lists(self):
         list_of_lists = [
             ["a", "b", "c"],
@@ -36,6 +45,33 @@ class TestTableCreation:
         tbl = Table(list_of_lists)
 
         assert tbl[0] == {"a": 1, "b": 2, "c": 3}
+        assert tbl[1] == {"a": 4, "b": 5, "c": 6}
+
+    def test_from_generator(self):
+        expected_list = [
+            {"col1": 1, "col2": 3},
+            {"col1": 2, "col2": 1},
+            {"col1": 3, "col2": 2},
+        ]
+
+        def fun():
+            yield from expected_list
+
+        tbl = Table(fun())
+
+        for item_number, item_value in enumerate(expected_list):
+            assert tbl[item_number] == item_value
+
+    def test_from_map_iterator(self):
+        raw_data = [1, 2, 3]
+        data_map = map(lambda x: {"col1": x, "col2": x * 2}, raw_data)  # noqa C417 unnecessary-map
+
+        tbl = Table(data_map)
+
+        results = list(tbl.to_dicts())
+        assert len(results) == len(raw_data)
+        for item_number, item_value in enumerate(raw_data):
+            assert results[item_number] == {"col1": item_value, "col2": item_value * 2}
 
     def test_from_petl(self):
         nrows = 10
@@ -43,16 +79,30 @@ class TestTableCreation:
         tbl = Table(ptbl)
         assert tbl.num_rows == nrows
 
-    def test_from_invalid_list(self):
+    @pytest.mark.parametrize(
+        "list_of_invalid",
+        [
+            [1, 2, 3],
+            ["foo", "bar"],
+            [True, False],
+        ],
+        ids=["list[int]", "list[str]", "list[bool]"],
+    )
+    def test_from_invalid_list(self, list_of_invalid):
         # Tests that a table can't be created from a list of invalid items
-        list_of_invalid = [1, 2, 3]
-        with pytest.raises(ValueError, match="Could not create Table"):
+        with pytest.raises(
+            ValueError,
+            match=f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(list_of_invalid[0])}.",
+        ):
             Table(list_of_invalid)
 
     def test_from_empty_petl(self):
         # This test ensures that this would fail: Table(None)
         # Even while allowing Table() to work
-        with pytest.raises(ValueError, match="Could not initialize table from input type"):
+        with pytest.raises(
+            ValueError,
+            match=f"Could not initialize Table from input type. Expected list, tuple, generator, or petl Table, got {type(None)}.",
+        ):
             Table(None)
 
     @pytest.mark.parametrize(
@@ -89,6 +139,26 @@ class TestTableCreation:
         _ = tbl_materialized.materialize_to_file()
 
         assert_matching_tables(tbl, tbl_materialized)
+
+    def test_set_table_name(self):
+        tbl = Table()
+
+        assert not tbl.name
+
+        test_name = "testing table name"
+        tbl = Table(name=test_name)
+
+        assert tbl.name == test_name
+
+    def test_set_table_source(self):
+        tbl = Table()
+
+        assert not tbl.source
+
+        test_source = "ngpvan"
+        tbl = Table(source=test_source)
+
+        assert tbl.source == test_source
 
 
 class TestFileOperations:
@@ -985,7 +1055,7 @@ class TestTableTransformations:
         with pytest.raises(
             AttributeError, match="type object 'Table' has no attribute 'skipcomments'"
         ):
-            Table.skipcomments  # noqa: B018
+            Table.skipcomments  # noqa B018 useless-expression
 
         tbl = Table(
             [

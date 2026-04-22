@@ -5,7 +5,6 @@ import requests_mock
 
 from parsons import Donorbox, Table
 from parsons.donorbox.donorbox import URI
-from test.conftest import mark_live_test
 from test.test_donorbox import donorbox_test_data
 
 # NOTE: Donorbox does not provide free sandbox accounts to developers. To enable live tests,
@@ -43,7 +42,7 @@ class TestDonorbox(unittest.TestCase):
         assert len(result.columns) == len(columns)
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_campaigns_live_test(self):
         result = self.donorbox.get_campaigns()
         assert isinstance(result, Table)
@@ -75,7 +74,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.to_dicts()[0]["name"] == "Membership Campaign"
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_campaigns_with_id_filter_live_test(self):
         result = self.donorbox.get_campaigns(id=366590)
         assert isinstance(result, Table)
@@ -96,7 +95,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.to_dicts()[0]["name"] == "Membership Campaign"
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_campaigns_with_name_filter_live_test(self):
         result = self.donorbox.get_campaigns(name="Membership Campaign")
         assert isinstance(result, Table)
@@ -121,7 +120,7 @@ class TestDonorbox(unittest.TestCase):
         assert result["id"] == [366172, 366590]
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_campaigns_with_order_filter_live_test(self):
         # check order of the ids without looking at IDs. or maybe look at updated/created date
         result = self.donorbox.get_campaigns()
@@ -183,7 +182,7 @@ class TestDonorbox(unittest.TestCase):
         assert len(result.columns) == len(columns)
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donations_live_test(self):
         result = self.donorbox.get_donations()
         assert isinstance(result, Table)
@@ -229,7 +228,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.num_rows == 3
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donations_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
         result = self.donorbox.get_donations(date_from="2022-10-20")
@@ -240,11 +239,11 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_donations(date_from=date_string).num_rows == 1
         # Incorrect formats raise error
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.donorbox.get_donations(date_from="10 20 2022")
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donations_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
         result = self.donorbox.get_donations(date_to="2022-10-20")
@@ -255,7 +254,7 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_donations(date_to=date_string).num_rows == 2
         # Incorrect formats raise error
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.donorbox.get_donations(date_to="10 20 2022")
 
     @requests_mock.Mocker()
@@ -280,7 +279,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.num_rows == 0
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donations_with_amount_min_filter_live_test(self):
         result = self.donorbox.get_donations(amount_min="3")
         assert result.num_rows == 3
@@ -311,7 +310,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.num_rows == 0
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donations_with_amount_max_filter_live_test(self):
         result = self.donorbox.get_donations(amount_max="3")
         assert result.num_rows == 2
@@ -350,7 +349,7 @@ class TestDonorbox(unittest.TestCase):
         assert len(result.columns) == len(columns)
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_donors_live_test(self):
         result = self.donorbox.get_donors()
         assert isinstance(result, Table)
@@ -430,7 +429,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.num_rows == 3
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_plans_live_test(self):
         result = self.donorbox.get_plans()
         assert isinstance(result, Table)
@@ -451,7 +450,7 @@ class TestDonorbox(unittest.TestCase):
         assert result.num_rows == 3
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_plans_with_date_from_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
         result = self.donorbox.get_plans(date_from="2022-10-20")
@@ -462,11 +461,11 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_from=date_string).num_rows == 1
         # Incorrect formats raise error
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             result = self.donorbox.get_plans(date_from="10 20 2022")
 
     @unittest.skip("requires live account setup")
-    @mark_live_test
+    @pytest.mark.live
     def test_get_plans_with_date_to_filter_live_test(self):
         # Correct formats (YYYY-mm-dd YYYY/mm/dd YYYYmmdd dd-mm-YYYY) successfully filter
         result = self.donorbox.get_plans(date_to="2022-10-20")
@@ -477,7 +476,7 @@ class TestDonorbox(unittest.TestCase):
         for date_string in ["2022/10/20", "20221020", "20-10-2022"]:
             assert self.donorbox.get_plans(date_to=date_string).num_rows == 2
         # Incorrect formats raise error
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.donorbox.get_plans(date_to="10 20 2022")
 
     def test_date_format_helper(self):

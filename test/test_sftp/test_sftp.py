@@ -8,7 +8,7 @@ import pytest
 
 from parsons import SFTP, Table
 from parsons.utilities import files as file_util
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 #
 # Fixtures and constants
@@ -135,19 +135,19 @@ def test_credential_validation():
         SFTP(host=None, username="sam", password="abc123")
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_non_existent_directory(live_sftp):
     with pytest.raises(FileNotFoundError):
         live_sftp.list_directory("abc123")
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_directory_with_files(live_sftp):
     result = sorted(live_sftp.list_directory(REMOTE_DIR))
     assert result == [EMPTY, SUBDIR_A, SUBDIR_B, CSV, COMPRESSED_CSV]
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_non_existent_file(live_sftp):
     with pytest.raises(FileNotFoundError):
         live_sftp.get_file("abc123")
@@ -159,27 +159,27 @@ def assert_file_matches_table(local_path, table):
     assert_matching_tables(table, downloaded_tbl)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_file(live_sftp, simple_table):
     local_path = file_util.create_temp_file()
     live_sftp.get_file(CSV_PATH, local_path=local_path)
     assert_file_matches_table(local_path, simple_table)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_table(live_sftp, simple_table):
     file_util.create_temp_file()
     tbl = live_sftp.get_table(CSV_PATH)
     assert_matching_tables(tbl, simple_table)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_temp_file(live_sftp, simple_table):
     local_path = live_sftp.get_file(CSV_PATH)
     assert_file_matches_table(local_path, simple_table)
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize("compression", [None, "gzip"])
 def test_table_to_sftp_csv(live_sftp, simple_table, compression):
     host = os.environ["SFTP_HOST"]
@@ -216,25 +216,25 @@ def assert_has_calls(mock, calls):
     return all(assert_has_call(mock, c) for c in calls)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_files(live_sftp):
     result = sorted(live_sftp.list_files(REMOTE_DIR))
     assert result == [CSV_PATH, COMPRESSED_CSV_PATH]
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_files_with_pattern(live_sftp):
     result = live_sftp.list_files(REMOTE_DIR, pattern="gz")
     assert result == [COMPRESSED_CSV_PATH]
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_subdirectories(live_sftp):
     result = sorted(live_sftp.list_subdirectories(REMOTE_DIR))
     assert result == [EMPTY_PATH, SUBDIR_A_PATH, SUBDIR_B_PATH]
 
 
-@mark_live_test
+@pytest.mark.live
 def test_list_subdirectories_with_pattern(live_sftp):
     result = sorted(live_sftp.list_subdirectories(REMOTE_DIR, pattern="sub"))
     assert result == [SUBDIR_A_PATH, SUBDIR_B_PATH]
@@ -279,7 +279,7 @@ args_and_expected = {
 }
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_files_calls_get_to_write_to_provided_local_paths(
     live_sftp_with_mocked_get,
 ):
@@ -291,7 +291,7 @@ def test_get_files_calls_get_to_write_to_provided_local_paths(
     assert_results_match_expected(local_paths, results)
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(("kwargs", "expected"), args_and_expected["get_files"])
 def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get
@@ -301,20 +301,20 @@ def test_get_files_calls_get_to_write_temp_files(kwargs, expected, live_sftp_wit
     assert_has_calls(get, calls)
 
 
-@mark_live_test
+@pytest.mark.live
 def test_get_files_raises_error_when_no_file_source_is_provided(live_sftp):
-    with pytest.raises(ValueError):  # noqa: PT011
+    with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
         live_sftp.get_files()
 
 
-@mark_live_test
+@pytest.mark.live
 @patch("parsons.sftp.SFTP.get_file")
 def test_get_files_with_files_paths_mismatch(get_file, live_sftp):
     live_sftp.get_files(files_to_download=[CSV_A_PATH], local_paths=local_paths)
     assert get_file.call_args[1]["local_path"] is None
 
 
-@mark_live_test
+@pytest.mark.live
 @pytest.mark.parametrize(("args", "kwargs", "expected"), args_and_expected["walk_tree"])
 def test_walk_tree(args, kwargs, expected, live_sftp_with_mocked_get):
     live_sftp, get = live_sftp_with_mocked_get

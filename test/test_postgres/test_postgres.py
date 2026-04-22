@@ -4,7 +4,7 @@ import unittest
 import pytest
 
 from parsons import Postgres, Table
-from test.conftest import assert_matching_tables, mark_live_test
+from test.conftest import assert_matching_tables
 
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test"
@@ -149,7 +149,7 @@ class TestPostgresCreateStatement(unittest.TestCase):
 # These tests interact directly with the Postgres database
 
 
-@mark_live_test
+@pytest.mark.live
 class TestPostgresDB(unittest.TestCase):
     def setUp(self):
         self.temp_schema = TEMP_SCHEMA
@@ -220,11 +220,11 @@ class TestPostgresDB(unittest.TestCase):
         assert tbl.first == 6
 
         # Try to copy the table and ensure that default fail works.
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.pg.copy(self.tbl, f"{self.temp_schema}.test_copy")
 
         # Try to copy the table and ensure that explicit fail works.
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.pg.copy(
                 self.tbl,
                 f"{self.temp_schema}.test_copy",

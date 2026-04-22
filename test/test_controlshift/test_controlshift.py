@@ -1,13 +1,14 @@
 from unittest import TestCase
 
+import pytest
 import requests_mock
 
 from parsons import Controlshift
-from test.conftest import mark_live_test, validate_list
+from test.conftest import validate_list
 from test.test_controlshift import test_cs_data as test_data  # type: ignore
 
 
-@mark_live_test
+@pytest.mark.live
 class TestControlshiftLive(TestCase):
     def test_get_live_petitions(self):
         cs = Controlshift()

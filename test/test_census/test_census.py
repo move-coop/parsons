@@ -2,10 +2,10 @@ import os
 import unittest
 from unittest.mock import patch
 
+import pytest
 import requests_mock
 
 from parsons import Census, Table
-from test.conftest import mark_live_test
 
 
 class TestCensus(unittest.TestCase):
@@ -15,8 +15,7 @@ class TestCensus(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch.dict(os.environ, {"CENSUS_API_KEY": "mock_api_key"})
-    @mark_live_test
+    @pytest.mark.live
     def test_get_census_live_test(self):
         self.census = Census()
         year = "2019"

@@ -1,5 +1,6 @@
 import logging
 import pickle
+from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
 
@@ -48,9 +49,13 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: list | tuple | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        source: str | None = None,
+        name: str | None = None,
     ):
         self.table = None
+        self.source = source
+        self.name = name
 
         # Normally we would use None as the default argument here
         # Instead of using None, we use a sentinal
@@ -62,29 +67,37 @@ class Table(ETL, ToFrom):
 
         elif isinstance(lst, (list, tuple)):
             # Check for empty list
-            if not len(lst):
+            if not lst:
                 self.table = petl.fromdicts([])
             else:
-                row_type = type(lst[0])
+                first_row = lst[0]
                 # Check for list of dicts
-                if row_type is dict:
+                if isinstance(first_row, dict):
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
-                elif row_type in [list, tuple]:
+                elif isinstance(first_row, (list, tuple)):
                     self.table = petl.wrap(lst)
+                else:
+                    err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
+                    raise ValueError(err_msg)
 
         elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
 
+        elif isinstance(lst, Iterator):
+            # petl.fromdicts handles generators by using a temporary file cache
+            # to allow multiple passes over the data.
+            # unfortunately iterators like map don't work with this so we convert them to lists
+            self.table = petl.fromdicts(lst if isinstance(lst, Generator) else list(lst))
+
         else:
-            raise ValueError(
-                f"Could not initialize table from input type. "
-                f"Got {type(lst)}, expected list, tuple, or petl Table"
-            )
+            err_msg = f"Could not initialize Table from input type. Expected list, tuple, generator, or petl Table, got {type(lst)}."
+            raise ValueError(err_msg)
 
         if not self.is_valid_table():
-            raise ValueError("Could not create Table")
+            err_msg = "Could not initialize Table."
+            raise ValueError(err_msg)
 
         # Count how many times someone is indexing directly into this table, so we can warn
         # against inefficient usage.
@@ -273,7 +286,7 @@ class Table(ETL, ToFrom):
             return False
 
         try:
-            self.columns  # noqa: B018
+            self.columns  # noqa B018 useless-expression
         except StopIteration:
             return False
 

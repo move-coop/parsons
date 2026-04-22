@@ -1,10 +1,18 @@
 # Parsons
 
-[![Downloads](https://pepy.tech/badge/parsons)](https://pepy.tech/project/parsons)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons)](https://pypi.org/project/parsons/)
-[![PyPI](https://img.shields.io/pypi/v/parsons?color=blue)](https://pypi.org/project/parsons/)
-[![CircleCI](https://circleci.com/gh/move-coop/parsons/tree/main.svg?style=shield)](https://circleci.com/gh/move-coop/parsons/tree/main)
-[![Coverage badge](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
+[![Documentation - Latest Version](https://img.shields.io/github/v/tag/move-coop/parsons?sort=semver&filter=v*&label=Documentation)](https://move-coop.github.io/parsons/index.html/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons?label=Python)](https://pypi.org/project/parsons/)
+
+[![PyPI - Latest Version](https://img.shields.io/pypi/v/parsons?label=PyPI)](https://pypi.org/project/parsons/)
+[![PyPI - Total Downloads](https://static.pepy.tech/personalized-badge/parsons?period=total&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Total+PyPI+Downloads)](https://pepy.tech/projects/parsons)
+[![PyPI - Monthly Downloads](https://static.pepy.tech/personalized-badge/parsons?period=monthly&units=INTERNATIONAL_SYSTEM&left_color=GREY&right_color=BLUE&left_text=Monthly+PyPI+Downloads)](https://pepy.tech/projects/parsons)
+
+[![Docker Image Version](https://img.shields.io/docker/v/movementcooperative/parsons?label=Docker)](https://hub.docker.com/r/movementcooperative/parsons)
+[![Total Docker Pulls](https://img.shields.io/docker/pulls/movementcooperative/parsons?label=Total%20Docker%20Pulls)](https://hub.docker.com/r/movementcooperative/parsons)
+
+[![Build, Test, & Publish](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/release.yml?branch=main&label=Build%2C%20Test%2C%20%26%20Publish)](https://github.com/move-coop/parsons/actions/workflows/release.yml)
+[![Python Checks](https://img.shields.io/github/actions/workflow/status/move-coop/parsons/python-checks.yml?branch=main&label=Python%20Checks)](https://github.com/move-coop/parsons/actions/workflows/python-checks.yml)
+[![Coverage](https://raw.githubusercontent.com/move-coop/parsons/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/move-coop/parsons/blob/python-coverage-comment-action-data/htmlcov/index.html)
 
 A Python package that provides a simple interface to a variety of utilities and tools frequently used by progressive
 organizations, political and issue campaigns, activists, and other allied actors.
@@ -16,7 +24,7 @@ This project is maintained by [The Movement Cooperative](https://movementcoopera
 after [Lucy Parsons](https://en.wikipedia.org/wiki/Lucy_Parsons). The Movement Cooperative is a member-led organization
 focused on providing data, tools, and strategic support for the progressive community.
 
-Parsons is only supported for Python 3.10-13.
+Parsons is only supported for Python 3.10 - 3.13. Python 3.14 support is blocked by one of our dependencies.
 
 ## Table of Contents
 
@@ -34,7 +42,7 @@ a [modified Apache License with author attribution statement](https://github.com
 ## Documentation
 
 To gain a full understanding of all of the features of Parsons, please review the
-Parsons [documentation](https://move-coop.github.io/parsons/html/index.html).
+Parsons [documentation](https://move-coop.github.io/parsons/index.html).
 
 ## Installation
 

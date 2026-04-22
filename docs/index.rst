@@ -19,14 +19,17 @@ was built and is maintained by The Movement Cooperative.
 
 The Movement Cooperative
 ========================
+
 The Movement Cooperative is a member led organization focused on providing data, tools and strategic support for the progressive community. Our mission is to break down technological barriers for organizations that fight for social justice.
 
 License and Usage
 =================
+
 Usage of Parsons is governed by a `modified Apache License with author attribution statement <https://github.com/move-coop/parsons/blob/main/LICENSE.md>`_.
 
 Resources
 =========
+
 * Documentation: `<https://move-coop.github.io/parsons/html/index.html>`_
 * Source Code: `<https://github.com/move-coop/parsons>`_
 * Project Website: `<https://www.parsonsproject.org/>`_
@@ -45,21 +48,22 @@ QuickStart
 ==========
 
 .. code-block:: python
-
-  # VAN - Download activist codes to a CSV
+  :caption: VAN - Download activist codes to a CSV
 
   from parsons import VAN
   van = VAN(db='MyVoters')
   ac = van.get_activist_codes()
   ac.to_csv('my_activist_codes.csv')
 
-  # Redshift - Create a table from a CSV
+.. code-block:: python
+  :caption: Redshift - Create a table from a CSV
 
   from parsons import Table
   tbl = Table.from_csv('my_table.csv')
   tbl.to_redshift('my_schema.my_table')
 
-  # Redshift - Export from a query to CSV
+.. code-block:: python
+  :caption: Redshift - Export from a query to CSV
 
   from parsons import Redshift
   sql = 'select * from my_schema.my_table'
@@ -67,13 +71,15 @@ QuickStart
   tbl = rs.query(sql)
   tbl.to_csv('my_table.csv')
 
-  # Upload a file to S3
+.. code-block:: python
+  :caption: S3 - Upload a file
 
   from parsons import S3
   s3 = S3()
   s3.put_file('my_bucket','my_table.csv')
 
-  # TargetSmart - Append data to a record
+.. code-block:: python
+  :caption: TargetSmart - Append data to a record
 
   from parsons import TargetSmart
   ts = TargetSmart(api_key='MY_KEY')
@@ -81,14 +87,22 @@ QuickStart
 
 Design Goals
 ============
+
 The goal of Parsons is to make the movement of data between systems as easy and straightforward as possible. Simply put, we seek to reduce the lines of code that are written by the progressive community. Not only is this a waste of time, but we rarely have the capacity and resources to fully unittest our scripts.
 
-.. image:: /_static/parsons_diagram.png
+.. figure:: /_static/parsons_diagram_light.png
+   :align: center
+   :figclass: only-light
+
+.. figure:: /_static/parsons_diagram_dark.png
+   :align: center
+   :figclass: only-dark
 
 Parsons seeks to be flexible from a data ingestion and output perspective, while providing ETL tools that recognize that our data is **always** messy. Central to this concept is the :ref:`parsons-table` the table-like object that most methods return.
 
 Logging
 =======
+
 Parsons uses the `native python logging system <https://docs.python.org/3/howto/logging.html>`_. By default, log output will go to the console and look like:
 
 .. code-block:: none
@@ -104,64 +118,6 @@ In your scripts that use Parsons, if you want to override the default Parsons lo
    # parsons_logger.setLevel('DEBUG')
    # parsons_logger.addHandler(...)
    # parsons_logger.setFormatter(...)
-
-Integrating Parsons
-===================
-
-A primary goal of Parsons is to make installing and use as easy as possible. Many of the patterns
-and examples that we document are meant to show how easy it can be to use Parsons, but sometimes
-these patterns trade immediate accessibility against ease of integration.
-
-In environments where Parsons is not the primary application, or in scenarios where Parsons must
-run with limited resources, we recommend users install only the dependencies they need at loose
-version constraints. To do this, simply set two environment variables before installing Parsons
-and keep one while running:
-
-.. code-block:: bash
-
-   export PIP_NO_BINARY=parsons
-   export PARSONS_LIMITED_DEPENDENCIES=true
-   pip install parsons
-
-.. code-block:: bash
-
-   export PARSONS_LIMITED_DEPENDENCIES=true
-   python myparsons_script.py
-
-`PIP_NO_BINARY` tells pip to use the source distribution of Parsons, which then allows
-`PARSONS_LIMITED_DEPENDENCIES` to dynamically limit to the bare minimum dependencies needed to
-run Parsons.  Users may also install extra dependencies appropriate to their environment, e.g.
-
-.. code-block:: bash
-
-   export PIP_NO_BINARY=parsons
-   export PARSONS_LIMITED_DEPENDENCIES=true
-   pip install parsons[google]
-
-or
-
-.. code-block:: bash
-
-   export PIP_NO_BINARY=parsons
-   export PARSONS_LIMITED_DEPENDENCIES=true
-   pip install parsons[google,ngpvan]
-
-*** Don't import from the root Parsons package ***
-
-Throughout the Parsons documentation, users are encouraged to load Parsons classes like so:
-
-.. code-block:: python
-
-   from parsons import Table
-
-In order to support this pattern, Parsons imports all of its classes into the root `parsons`
-package. Due to how Python loads modules and packages, importing even one Parsons class results
-in ALL of them being loaded. The `PARSONS_LIMITED_DEPENDENCIES` variable tells Parsons to skip
-this; it will not import all of its classes into the root `parsons` package. Setting this
-environment variable means you will **NOT** be able to import using the `from parsons import X`
-pattern. Instead, you will need to import directly from the package where a class is defined
-(e.g. `from parsons.etl import Table`). Using this method, you may see as much as an 8x
-decrease in memory usage for Parsons!
 
 Indices and tables
 ==================

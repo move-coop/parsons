@@ -4,6 +4,7 @@ from typing import Any, Literal
 
 from requests import Response
 from requests import request as _request
+from requests.auth import HTTPBasicAuth
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 
@@ -36,7 +37,7 @@ class APIConnector:
         self,
         uri: str,
         headers: dict | None = None,
-        auth: dict | None = None,
+        auth: HTTPBasicAuth | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
     ):

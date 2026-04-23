@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Literal
 
 import requests
+from requests.auth import HTTPBasicAuth
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -43,7 +44,7 @@ class ActionKit:
 
     def _conn(self, default_headers=_default_headers):
         client = requests.Session()
-        client.auth = (self.username, self.password)
+        client.auth = HTTPBasicAuth(self.username, self.password)
         client.headers.update(default_headers)
         return client
 

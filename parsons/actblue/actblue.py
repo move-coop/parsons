@@ -2,6 +2,8 @@ import logging
 import time
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -55,7 +57,7 @@ class ActBlue:
         }
         self.client = APIConnector(
             self.uri,
-            auth=(self.actblue_client_uuid, self.actblue_client_secret),
+            auth=HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
         )
         self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)

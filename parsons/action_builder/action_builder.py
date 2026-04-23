@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -72,7 +73,7 @@ class ActionBuilder:
         # Keep getting the next page until record limit is exceeded or an empty result returns
         while True:
             # Get this page and increase page number to the next one
-            response = self._get_page(campaign, object_name, page, per_page, filter=filter)
+            response: dict = self._get_page(campaign, object_name, page, per_page, filter=filter)
             page = page + 1
 
             # Check that there's actually data
@@ -438,7 +439,7 @@ class ActionBuilder:
 
         url = f"campaigns/{campaign}/people/{identifiers[0]}/connections"
 
-        data = {
+        data: dict[str, Any] = {
             "connection": {
                 # person_id is used even if entity is not Person
                 "person_id": identifiers[1]

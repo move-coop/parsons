@@ -298,7 +298,8 @@ class APIConnector:
         """
         Check to determine if there is a next page.
 
-        This requires that the response json contains a pagination key that is empty if there is not a next page.
+        This requires that the response json contains a pagination key
+        that is empty if there is not a next page.
 
         """
 

@@ -2,29 +2,34 @@ import json
 import os
 from base64 import b64decode, b64encode
 from pathlib import Path
+from typing import Literal
 
 import click
 
 PREFIX = "PRSNSENV"
 
 
-def decode_credential(credential, save_path=None, export=True, echo=False):
-    """Decode an encoded credential to a Python object.
+def decode_credential(
+    credential: str, save_path: str | Path | None = None, export: bool = True, echo: bool = False
+) -> dict:
+    """
+    Decode an encoded credential to a Python object.
 
     Args:
-        credential: str
-            An encoded credential.
-        save_path: str
-            The path for where to save the decoded credential.
-        export: bool
+        credential: An encoded credential.
+        save_path: The path for where to save the decoded credential.
+        export:
             A flag for whether to export the decoded object to the environment.
             Defaults to true.
-        echo: bool
-            A flag for whether to print the decoded object. Defaults to False.
+        echo:
+            A flag for whether to print the decoded object.
+            Defaults to False.
 
     Returns:
-        dict
-            The decoded object.
+        The decoded object.
+
+    Raises:
+        ValueError: If the credential is not a valid Parsons variable.
 
     """
     x = len(PREFIX)
@@ -49,16 +54,15 @@ def decode_credential(credential, save_path=None, export=True, echo=False):
     return decoded_dict
 
 
-def encode_from_json_str(credential):
-    """Encode credential(s) from a json string.
+def encode_from_json_str(credential: str) -> str:
+    """
+    Encode credential(s) from a json string.
 
     Args:
-        credential: str
-            The credential json string to be encoded.
+        credential: The credential json string to be encoded.
 
     Returns:
-        str
-            The encoded credential.
+        The encoded credential.
 
     """
     data = json.loads(credential)
@@ -69,16 +73,15 @@ def encode_from_json_str(credential):
     return encoded_str
 
 
-def encode_from_json_file(credential_file):
-    """Encode credential(s) from a json file.
+def encode_from_json_file(credential_file: str | Path) -> str:
+    """
+    Encode credential(s) from a json file.
 
     Args:
-        credential_file: str
-            The path to the json file with the credential to be encoded.
+        credential_file: The path to the json file with the credential to be encoded.
 
     Returns:
-        str
-            The encoded credential.
+        The encoded credential.
 
     """
     with Path(credential_file).open(mode="r") as f:
@@ -90,16 +93,15 @@ def encode_from_json_file(credential_file):
     return encoded_str
 
 
-def encode_from_env(env_variables):
-    """Encode credential(s) from the current environment.
+def encode_from_env(env_variables: list[str]) -> str:
+    """
+    Encode credential(s) from the current environment.
 
     Args:
-        env_variables: list
-            The list of credentials from the environment to be encoded.
+        env_variables: Credentials from the environment to be encoded.
 
     Returns:
-        str
-            The encoded credential.
+        The encoded credential.
 
     """
     data = {}
@@ -112,16 +114,14 @@ def encode_from_env(env_variables):
     return encoded_str
 
 
-def encode_from_dict(credential):
+def encode_from_dict(credential: dict):
     """Encode credential(s) from a dictionary.
 
     Args:
-        credential: dict
-            The list of credentials from the environment to be encoded.
+        credential: Credentials from the environment to be encoded.
 
     Returns:
-        str
-            The encoded credential.
+        The encoded credential.
 
     """
     data_str = json.dumps(credential)
@@ -162,7 +162,14 @@ def encode_from_dict(credential):
     help=("Do not export the variable to the environment. Only valid with --decode."),
 )
 @click.option("-s", "suppress", is_flag=True, default=False, help=("Suppress the output."))
-def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=False):
+def main(
+    credential: str,
+    fn: Literal["encode", "decode"],
+    is_file: bool = False,
+    save_path: str = "",
+    no_export: bool = False,
+    suppress: bool = False,
+):
     r"""
     A command line tool to encode and decode credentials.
 
@@ -178,7 +185,10 @@ def main(credential, fn, is_file=False, save_path="", no_export=False, suppress=
     path to a josn file, or a list. If passing a list, comma-separate with no
     space, the names of the environment variables to encode.
 
-    Encoding examples:
+    Raises:
+        ValueError: If the encoding function is not ``encode`` or ``decode``.
+
+    Encoding Examples:
 
     .. code-block:: bash
        :caption: Encoding a json string. Note: this assumes the output of json.dumps(str).

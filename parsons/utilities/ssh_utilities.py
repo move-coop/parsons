@@ -15,7 +15,7 @@ def query_through_ssh(
     db_username,
     db_password,
     query,
-):
+) -> list | None:
     """
     Args:
         ssh_host:
@@ -40,7 +40,7 @@ def query_through_ssh(
             The SQL query to execute
 
     Returns:
-        A list of records resulting from the query or None if something went wrong
+        Records resulting from the query or ``None`` if something went wrong
 
     """
     output = None

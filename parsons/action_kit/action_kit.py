@@ -36,7 +36,9 @@ class ActionKit:
         "accepts": "application/json",
     }
 
-    def __init__(self, domain=None, username=None, password=None):
+    def __init__(
+        self, domain: str | None = None, username: str | None = None, password: str | None = None
+    ):
         self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
         self.username = check_env.check("ACTION_KIT_USERNAME", username)
         self.password = check_env.check("ACTION_KIT_PASSWORD", password)

@@ -3,17 +3,20 @@ import datetime
 from dateutil.parser import parse
 
 
-def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
-    """Convert any date value into a Unix timestamp.
+def date_to_timestamp(
+    value: int | str | datetime.datetime, tzinfo: datetime.timezone | None = datetime.timezone.utc
+) -> int | None:
+    """
+    Convert any date value into a Unix timestamp.
 
     Args:
-        value: int or str or datetime
-            Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
+        value: Value to parse
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to UTC.
 
     Returns:
-        Unix timestamp (int)
+        Unix timestamp
 
     """
 

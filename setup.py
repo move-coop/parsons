@@ -22,7 +22,7 @@ EXTRA_DEPENDENCIES = {
     "dbt-redshift": [
         "dbt-redshift >= 1.8",
         "dbt-core >= 1.8",
-        "lxml >= 6.0.1",
+        "lxml >= 6.1.0",
         "rich >= 14",
     ],
     "dbt-bigquery": ["dbt-bigquery >= 1.8", "dbt-core >= 1.8", "rich >= 14"],

@@ -339,7 +339,9 @@ class CatalistMatch:
         result = self.load_matches(id=id)
         return result
 
-    def fetch_zip_with_retry(self, remote_path, job_id, max_retries=3, backoff_factor=2):
+    def fetch_zip_with_retry(
+        self, remote_path: str, job_id: str, max_retries: int = 3, backoff_factor: int = 2
+    ):
         last_exception = None
 
         for attempt in range(1, max_retries + 1):

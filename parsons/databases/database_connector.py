@@ -130,12 +130,10 @@ class DatabaseConnector(ABC):
         """Check if a table or view exists in the database.
 
         Args:
-            table_name: str
-                The table name and schema (e.g. ``myschema.mytable``).
+            table_name: The table name and schema (e.g. ``myschema.mytable``).
 
         Returns:
-            bool
-                ``True`` if the table exists and ``False`` if it does not.
+            ``True`` if the table exists and ``False`` if it does not.
 
         """
         pass
@@ -143,28 +141,29 @@ class DatabaseConnector(ABC):
     @abstractmethod
     def copy(
         self, tbl: Table, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
-    ):
+    ) -> None:
         """
         Copy a :ref:`Table` to the database.
 
         Args:
-            tbl (Table):
-                Table containing the data to save.
-            table_name: str
-                The destination table name (ex. ``my_schema.my_table``).
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table.
+            tbl: Table containing the data to save.
+            table_name: The destination table name (ex. ``my_schema.my_table``).
+            if_exists:
+                If the table already exists,
+                either ``fail``, ``append``, ``drop`` or ``truncate`` the table.
 
         """
         pass
 
     @abstractmethod
     def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
-        """Execute a query against the database. Will return ``None`` if the query returns empty.
+        """
+        Execute a query against the database.
 
-        To include python variables in your query, it is recommended to pass them as parameters,
-        following the `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
+        Will return ``None`` if the query returns empty.
+
+        To include python variables in your query, it is recommended to pass them as parameters, following the
+        `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
         Examples:
@@ -185,13 +184,8 @@ class DatabaseConnector(ABC):
             db.query(sql, parameters=names)
 
         Args:
-            sql: str
-                A valid SQL statement
-            parameters: Optional[list]
-                A list of python variables to be converted into SQL values in your query
-
-        Returns:
-            :ref:`Table`
+            sql: A valid SQL statement
+            parameters: A list of python variables to be converted into SQL values in your query
 
         """
         pass

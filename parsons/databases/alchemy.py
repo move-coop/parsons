@@ -1,21 +1,24 @@
 import logging
 
 from sqlalchemy import MetaData, Table, create_engine
+from sqlalchemy.engine import Engine
 
 logger = logging.getLogger(__name__)
 
 
 class Alchemy:
-    def generate_engine(self):
+    def generate_engine(self) -> Engine:
         """Generate a SQL Alchemy engine."""
 
         alchemy_url = self.generate_alchemy_url()
         return create_engine(alchemy_url, echo=False, convert_unicode=True)
 
-    def generate_alchemy_url(self):
+    def generate_alchemy_url(self) -> str:
         """
-        Generate a SQL Alchemy engine
-        https://docs.sqlalchemy.org/en/20/core/engines_connections.html
+        Generate a SQL Alchemy engine.
+
+        `<https://docs.sqlalchemy.org/en/20/core/engines_connections.html>`__
+
         """
 
         if self.dialect == "redshift" or self.dialect == "postgres":
@@ -39,14 +42,14 @@ class Alchemy:
 
         return url
 
-    def get_table_object(self, table_name):
+    def get_table_object(self, table_name) -> Table:
         """Get a SQL Alchemy table object."""
 
         schema, table_name = self.split_table_name(table_name)
         db_meta = MetaData(bind=self.generate_engine(), schema=schema)
         return Table(table_name, db_meta, autoload=True)
 
-    def create_table(self, table_object, table_name):
+    def create_table(self, table_object, table_name) -> None:
         """Create a table based on table object data."""
 
         schema, table_name = self.split_table_name(table_name)
@@ -59,22 +62,18 @@ class Alchemy:
         table_object.metadata.create_all(self.generate_engine())
 
     @staticmethod
-    def split_table_name(full_table_name: str) -> tuple[str, str] | None:
-        """
-        Parse the schema and table name.
-
-        Returns:
-            tuple[str, str]
-
-        """
+    def split_table_name(full_table_name: str) -> tuple[str | None, str | None]:
+        """Parse the schema and table name."""
 
         if "." not in full_table_name:
             return "public", full_table_name
 
         try:
             schema, table = full_table_name.split(".")
+            return schema, table
+
         except ValueError as e:
             if "too many values to unpack" in str(e):
                 raise ValueError(f"Invalid database table {full_table_name}") from e
 
-        return schema, table
+        return None, None

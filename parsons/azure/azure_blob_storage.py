@@ -136,9 +136,7 @@ class AzureBlobStorage:
                 Settings for public access on the container, can be 'container' or 'blob' if not
                 ``None``
             kwargs:
-                Additional arguments to be supplied to the Azure Blob Storage API.
-                See `Azure SDK 'BlobServiceClient.create_container' Documentation <https://learn.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobserviceclient?view=azure-python#azure-storage-blob-blobserviceclient-create-container>`__
-                for more info.
+                Additional arguments to be supplied to :meth:`azure.storage.blob.BlobServiceClient.create_container`
 
         Returns:
             `ContainerClient`
@@ -313,9 +311,8 @@ class AzureBlobStorage:
             local_path: str
                 The local path of the file to upload
             kwargs:
-                Additional arguments to be supplied to the Azure Blob Storage API.
-                See `Azure SDK 'BlobClient.upload_blob' Documentation <https://learn.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient?view=azure-python#azure-storage-blob-blobclient-upload-blob>`__
-                for more info. Any keys that belong to the ``ContentSettings`` object will be
+                Additional arguments to be supplied to :meth:`azure.storage.blob.BlobClient.upload_blob`.
+                Any keys that belong to the ``ContentSettings`` object will be
                 provided to that class directly.
 
         Returns:

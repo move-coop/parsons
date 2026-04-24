@@ -118,10 +118,10 @@ Your imports should look like this
    from datetime import datetime
    from parsons import Table, MobilizeAmerica, GoogleSheets
 
-`json <https://docs.python.org/3/library/json.html>`__ is a Python module that helps us convert between data in a JSON format
+:mod:`json` is a Python module that helps us convert between data in a JSON format
 (which is a popular way to store and share data) and Python data structures.
 
-`datetime <https://docs.python.org/3/library/datetime.html>`__  is a Python module that helps us work more easily with dates and times.
+:mod:`datetime`  is a Python module that helps us work more easily with dates and times.
 
 Finally, from Parsons, we're importing the two connectors we're using, plus the Parsons :ref:`Table` object.
 The Parsons :ref:`Table` is the core data structure in Parsons. It's a standardized way to hold data,
@@ -144,9 +144,6 @@ We're going to extract some data on attendance from Mobilize. We can do that wit
 .. code-block:: python
 
    attendance_records = mobilize.get_attendances()
-
-If you weren't able to get an authenticated Mobilize account, you can use this
-`fake Mobilize data <https://docs.google.com/spreadsheets/d/1YZr6gXmptxfzqb_t58frwNHhVu_KMTQzvMpnNUZd47I/>`__
 
 .. code-block:: python
 
@@ -369,7 +366,7 @@ feel free to suggest to us that we add it to the Parsons connector directly! Tha
    people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`__,
    which means we have access to all the cool features that Google developers have added to that client.
    Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients.
-   For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`__
+   For those connectors, we use our own simple client :class:`~parsons.utilities.api_connector.APIConnector`
    to make requests. It does not have any additional connector-specific features.
    You can access the client on a connector, whatever kind it is, with the method
    ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets,

@@ -14,12 +14,7 @@ class Alchemy:
         return create_engine(alchemy_url, echo=False, convert_unicode=True)
 
     def generate_alchemy_url(self) -> str:
-        """
-        Generate a SQL Alchemy engine.
-
-        `<https://docs.sqlalchemy.org/en/20/core/engines_connections.html>`__
-
-        """
+        """Generate a SQL Alchemy :class:`~sqlalchemy.engine.Engine`."""
 
         if self.dialect == "redshift" or self.dialect == "postgres":
             connection_schema = "postgresql+psycopg2"
@@ -43,14 +38,14 @@ class Alchemy:
         return url
 
     def get_table_object(self, table_name) -> Table:
-        """Get a SQL Alchemy table object."""
+        """Get a SQL Alchemy :class:`sqlalchemy.schema.Table`."""
 
         schema, table_name = self.split_table_name(table_name)
         db_meta = MetaData(bind=self.generate_engine(), schema=schema)
         return Table(table_name, db_meta, autoload=True)
 
     def create_table(self, table_object, table_name) -> None:
-        """Create a table based on table object data."""
+        """Create a table based on :class:`sqlalchemy.schema.Table` data."""
 
         schema, table_name = self.split_table_name(table_name)
 

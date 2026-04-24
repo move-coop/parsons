@@ -78,8 +78,7 @@ class ToFrom:
                 created and returned, and that file will be removed automatically when the script
                 is done running.
             encoding:
-                The encoding type for
-                `csv.writer() <https://docs.python.org/3/library/csv.html#csv.writer/>`__
+                The encoding type for :func:`csv.writer`.
             errors: Raise an Error if encountered
             index_header:
                 Prepend index to column names.

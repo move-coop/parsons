@@ -191,8 +191,7 @@ class ETL:
     def convert_column(self, *column: str, **kwargs) -> Self:
         """
         Transform values under one or more fields via arbitrary functions, method
-        invocations or dictionary translations. This leverages the petl ``convert()``
-        method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
+        invocations or dictionary translations. This uses the petl :meth:`petl.transform.conversions.convert` method.
 
         Args:
             `*column`: A single column or multiple columns passed as a list
@@ -397,8 +396,7 @@ class ETL:
         r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
-        as regex. This method uses
-        `petl's transform.conversions.convert() method <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
+        as regex. This uses the petl :meth:`petl.transform.conversions.convert` method.
 
         Args:
             `*args`: The update function, method, or variable to process the update.
@@ -1013,7 +1011,7 @@ class ETL:
         returned as one component per row. The :meth:`~parsons.etl.etl.ETL.reduce_rows` method can be used
         to reduce all those to a single row containg the entire query.
 
-        Based on the `rowreduce petl function <https://petl.readthedocs.io/latest/transform.html#petl.transform.reductions.rowreduce>`__.
+        Based on petl's :meth:`petl.transform.reductions.rowreduce` method.
 
         .. code-block:: python
 

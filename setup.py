@@ -8,6 +8,7 @@ CORE_DEPENDENCIES = [
     "requests >= 2",
     "requests-oauthlib >= 1",
     "simplejson >= 3.18",
+    "typing-extensions >= 4",
 ]
 EXTRA_DEPENDENCIES = {
     "airtable": ["pyairtable >= 3"],

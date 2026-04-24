@@ -28,6 +28,8 @@ jobs:
   linkcheck:
     runs-on: ubuntu-latest
 
+    if: github.event_name != 'pull_request'
+
     steps:
       - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:

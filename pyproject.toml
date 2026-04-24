@@ -1,8 +1,8 @@
 [build-system]
 requires = [
-    "build>=1.4.0",
-    "setuptools>=80.10.2",
-    "twine>=6.2.0",
+    "build>=1.4",
+    "setuptools>=80.0",
+    "twine>=6.0",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -28,9 +28,144 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
-dynamic = [
-    "dependencies",
-    "optional-dependencies",
+dependencies = [
+    "petl >= 1.7.17",
+    "python-dateutil >= 2.0",
+    "requests >= 2.0",
+    "requests-oauthlib >= 1.0",
+    "simplejson >= 3.18",
+]
+
+[project.optional-dependencies]
+airtable = ["pyairtable >= 3.0"]
+alchemer = ["surveygizmo >= 1.0"]
+avro = ["fastavro >= 1.12"]
+azure = ["azure-storage-blob >= 12.0"]
+box = [
+    "boxsdk[jwt] >= 4.0",
+    "requests-toolbelt >= 1.0"
+]
+braintree = ["braintree >= 4.0"]
+catalist = ["paramiko >= 3.0"]
+civis = ["civis >= 2.0"]
+dbt-duckdb = [
+    "dbt-duckdb >= 1.8",
+    "dbt-core>=1.8",
+    "rich >= 14.0"
+]
+dbt-redshift = [
+    "dbt-redshift >= 1.8",
+    "dbt-core >= 1.8",
+    "lxml >= 6.0",
+    "rich >= 14.0",
+]
+dbt-bigquery = [
+    "dbt-bigquery >= 1.8",
+    "dbt-core >= 1.8",
+    "rich >= 14.0"
+]
+dbt-postgres = [
+    "dbt-postgres >= 1.8",
+    "dbt-core >= 1.8",
+    "rich >= 14.0"
+]
+dbt-snowflake = [
+    "dbt-snowflake >= 1.8",
+    "dbt-core >= 1.8",
+    "rich >= 14.0"
+]
+facebook = [
+    "joblib >= 1.0",
+    "facebook-business >= 20.0"
+]
+geocode = [
+    "censusgeocode >= 0.5",
+    "urllib3 >= 2.6",
+]
+github = ["PyGitHub >= 2.0"]
+google = [
+    "apiclient >= 1.0.4",
+    "google-api-python-client >= 2.150",
+    "google-cloud-bigquery >= 3.35",
+    "google-cloud-storage >= 3.1",
+    "google-cloud-storage-transfer >= 1.12",
+    "gspread >= 4.0",
+    "httplib2 >= 0.15",
+    "oauth2client >= 4.0",
+    "protobuf >= 6.0",
+    "validate-email >= 1.0",
+]
+mysql = [
+    "mysql-connector-python >= 7.0, != 9.7.0",
+    "sqlalchemy >= 1.4",
+]
+newmode = ["newmode >= 0.1.6"]
+ngpvan = ["suds >= 1"]
+mobilecommons = [
+    "beautifulsoup4 >= 4.0",
+    "xmltodict >= 1.0"
+]
+pandas = ["pandas >= 2.3"]
+postgres = [
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
+redshift = [
+    "boto3 >= 1.0",
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
+s3 = ["boto3 >= 1.0"]
+salesforce = ["simple-salesforce >= 1.0"]
+scytl = ["defusedxml >= 0.7"]
+sftp = ["paramiko >= 3.0"]
+slack = ["slack-sdk >= 3.26"]
+smtp = ["validate-email >= 1.0"]
+targetsmart = [
+    "defusedxml >= 0.7",
+    "paramiko >= 3.0",
+    "xmltodict >= 1.0"
+]
+twilio = ["twilio >= 9.0"]
+ssh = [
+    "sshtunnel >= 0.4",
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
+all = [
+    "parsons[airtable]",
+    "parsons[alchemer]",
+    "parsons[avro]",
+    "parsons[azure]",
+    "parsons[box]",
+    "parsons[braintree]",
+    "parsons[catalist]",
+    "parsons[civis]",
+    "parsons[dbt-duckdb]",
+    "parsons[dbt-redshift]",
+    "parsons[dbt-bigquery]",
+    "parsons[dbt-postgres]",
+    "parsons[dbt-snowflake]",
+    "parsons[facebook]",
+    "parsons[geocode]",
+    "parsons[github]",
+    "parsons[google]",
+    "parsons[mysql]",
+    "parsons[newmode]",
+    "parsons[ngpvan]",
+    "parsons[mobilecommons]",
+    "parsons[pandas]",
+    "parsons[postgres]",
+    "parsons[redshift]",
+    "parsons[s3]",
+    "parsons[salesforce]",
+    "parsons[scytl]",
+    "parsons[sftp]",
+    "parsons[slack]",
+    "parsons[smtp]",
+    "parsons[targetsmart]",
+    "parsons[twilio]",
+    "parsons[ssh]",
 ]
 
 [project.urls]

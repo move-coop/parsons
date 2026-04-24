@@ -96,7 +96,7 @@ google = [
     "validate-email >= 1.0",
 ]
 mysql = [
-    "mysql-connector-python >= 7.0",
+    "mysql-connector-python >= 7.0, != 9.7.0",
     "sqlalchemy >= 1.4",
 ]
 newmode = ["newmode >= 0.1.6"]

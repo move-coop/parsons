@@ -152,7 +152,7 @@ class RedshiftTableUtilities:
 
         Args:
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             table_name: str
                 The table to check
             if_exists: str

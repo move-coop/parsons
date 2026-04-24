@@ -167,9 +167,14 @@ def is_csv_path(path: str | Path) -> bool:
     return str(path)[-4:].lower() == ".csv"
 
 
-def suffix_for_compression_type(compression: str) -> Literal[".gz", ""]:
+def suffix_for_compression_type(
+    compression: Literal["gzip", "zip"] | str | None,
+) -> Literal[".gz", "zip", ""]:
     if compression == "gzip":
         return ".gz"
+
+    if compression == "zip":
+        return compression
 
     return ""
 
@@ -215,8 +220,10 @@ def read_file(path: str | Path):
 
 def string_to_temp_file(string: str, suffix: str | None = None) -> str:
     """
-    Create a temporary file from a string. Currently used for packages
-    that require credentials to be stored as a file.
+    Create a temporary file from a string.
+
+    Currently used for packages that require credentials to be stored as a file.
+
     """
 
     temp_file = Path(create_temp_file(suffix=suffix))
@@ -227,10 +234,7 @@ def string_to_temp_file(string: str, suffix: str | None = None) -> str:
 
 
 def zip_check(file_path, compression_type):
-    """
-    Check if the file suffix or the compression type indicates that it is
-    a zip file.
-    """
+    """Check if the file suffix or the compression type indicates that it is a zip file."""
 
     if file_path and file_path.split("/")[-1].split(".")[-1] == "zip":
         return True
@@ -238,15 +242,17 @@ def zip_check(file_path, compression_type):
     return compression_type == "zip"
 
 
-def extract_file_name(file_path=None, include_suffix=True):
+def extract_file_name(file_path: str | None = None, include_suffix: bool = True) -> str | None:
     """
     Extract the file name with the file path string.
 
-    file_path: str
-        The file path
-    include_suffix: bool
-        If True, includes full file name with suffix. If False returns the
-        file name without the suffix (e.g. "myfile.zip" vs. "myfile").
+    Args:
+        file_path:
+            The file path
+        include_suffix:
+            If True, includes full file name with suffix. If False returns the
+            file name without the suffix (e.g. "myfile.zip" vs. "myfile").
+
     """
 
     if not file_path:
@@ -327,9 +333,9 @@ class TempDirectory:
     """
     Class for creating and eventually cleaning up a temporary directory.
 
-    Creating the instance of the TempDirectory will create a uniquely named temporary dir. When the
-    instance is garbage collected (e.g., when the Python process closes) or when the remove method
-    is called explicitly, the temporary directory is removed from disk.
+    Creating the instance of the TempDirectory will create a uniquely named temporary dir.
+    When the instance is garbage collected (e.g., when the Python process closes)
+    or when the remove method is called explicitly, the temporary directory is removed from disk.
 
     Creating the instance will also create the directory itself, so files can be loaded immediately.
     """
@@ -353,8 +359,7 @@ class TempDirectory:
         So, we want to make sure we have a reference to the function saved somewhere.
 
         Args:
-            cleanup: Callable
-                Function to use for removing the file from disk.
+            cleanup: Function to use for removing the file from disk.
 
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.

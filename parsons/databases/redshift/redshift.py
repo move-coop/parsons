@@ -191,15 +191,14 @@ class Redshift(
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        Returns:
-            :ref:`Table`
-
         """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(
+        self, sql: str, connection, parameters: list | None = None, commit: bool = True
+    ) -> Table | None:
         """
         Execute a query against the Redshift database, with an existing connection.
         Useful for batching queries together. Will return ``None`` if the query
@@ -209,16 +208,13 @@ class Redshift(
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
             commit: bool
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
-
-        Returns:
-            :ref:`Table`
+                Whether to commit the transaction immediately.
+                If ``False`` the transaction will be committed when the connection goes out of scope
+                and is closed (or you can commit manually with ``connection.commit()``).
 
         """
 

@@ -313,7 +313,7 @@ class GoogleBigQuery(DatabaseConnector):
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
             commit: bool

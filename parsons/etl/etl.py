@@ -1,25 +1,21 @@
 import logging
-from typing import Literal
+from typing import Any, Literal
 
 import petl
+from typing_extensions import Self
 
 logger = logging.getLogger(__name__)
 
 
 class ETL:
-    def __init__(self):
-        pass
-
-    def head(self, n: int = 5):
+    def head(self, n: int = 5) -> Self:
         """
-        Return the first n rows of the table
+        Return the first n rows of the table.
 
         Args:
-            n: int
-                The number of rows to return. Defaults to 5.
-
-        Returns:
-            :ref:`Table`
+            n:
+                The number of rows to return.
+                Defaults to 5.
 
         """
 
@@ -27,7 +23,7 @@ class ETL:
 
         return self
 
-    def tail(self, n: int = 5):
+    def tail(self, n: int = 5) -> Self:
         """
         Return the last n rows of the table
 
@@ -36,34 +32,30 @@ class ETL:
                 The number of rows to return.
                 Defaults to 5.
 
-        Returns:
-            :ref:`Table`
-
         """
 
         self.table = petl.tail(self.table, n)
 
         return self
 
-    def add_column(self, column, value=None, index=None, if_exists: str = "fail"):
+    def add_column(
+        self,
+        column: str,
+        value: Any | None = None,
+        index: int | None = None,
+        if_exists: str = "fail",
+    ) -> Self:
         """
         Add a column to your table
 
         Args:
-            column: str
-                Name of column to add
-            value: optional
-                A fixed or calculated value
-            index: int, optional
-                The position of the new column in the table
-            if_exists: str (options: 'fail', 'replace')
+            column: Name of column to add
+            value: A fixed or calculated value
+            index: The position of the new column in the table
+            if_exists:
                 If set `replace`, this function will call `fill_column`
                 if the column already exists, rather than raising a `ValueError`
                 Defaults to "fail".
-
-        Returns:
-            :ref:`Table`
-                Also updates self
 
         """
 
@@ -78,17 +70,12 @@ class ETL:
 
         return self
 
-    def remove_column(self, *columns):
+    def remove_column(self, *columns: str) -> Self:
         r"""
         Remove a column from your table
 
         Args:
-            `*columns`: str
-                Column names
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            `*columns`: Column names
 
         """
 
@@ -96,18 +83,13 @@ class ETL:
 
         return self
 
-    def rename_column(self, column_name, new_column_name):
+    def rename_column(self, column_name: str, new_column_name: str) -> Self:
         """
         Rename a column
 
         Args:
-            column_name: str
-                The current column name
-            new_column_name: str
-                The new column name
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column_name: The current column name
+            new_column_name: The new column name
 
         """
 
@@ -118,7 +100,7 @@ class ETL:
 
         return self
 
-    def rename_columns(self, column_map):
+    def rename_columns(self, column_map: dict[str, str]) -> Self:
         """
         Rename multiple columns
 
@@ -130,10 +112,6 @@ class ETL:
                 Example dictionary:
                 {'old_name': 'new_name',
                 'old_name2': 'new_name2'}
-
-        Returns:
-            :ref:`Table`
-                Also updates self
 
         """
 
@@ -149,19 +127,13 @@ class ETL:
 
         return self
 
-    def fill_column(self, column_name, fill_value):
+    def fill_column(self, column_name: str, fill_value: Any) -> Self:
         """
-        Fill a column in a table
+        Fill a column in a table.
 
         Args:
-            column_name: str
-                The column to fill
-            fill_value:
-                A fixed or calculated value
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column_name: The column to fill
+            fill_value: A fixed or calculated value
 
         """
 
@@ -174,19 +146,13 @@ class ETL:
 
         return self
 
-    def fillna_column(self, column_name, fill_value):
+    def fillna_column(self, column_name: str, fill_value: Any) -> Self:
         """
         Fill None values in a column in a table
 
         Args:
-            column_name: str
-                The column to fill
-            fill_value:
-                A fixed or calculated value
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column_name: The column to fill
+            fill_value: A fixed or calculated value
 
         """
 
@@ -208,19 +174,13 @@ class ETL:
 
         return self
 
-    def move_column(self, column, index):
+    def move_column(self, column: str, index: int) -> Self:
         """
         Move a column
 
         Args:
-            column: str
-                The column name to move
-            index:
-                The new index for the column
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column: The column name to move
+            index: The new index for the column
 
         """
 
@@ -228,21 +188,15 @@ class ETL:
 
         return self
 
-    def convert_column(self, *column, **kwargs):
+    def convert_column(self, *column: str, **kwargs) -> Self:
         """
         Transform values under one or more fields via arbitrary functions, method
         invocations or dictionary translations. This leverages the petl ``convert()``
         method. Example usage can be found `here <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
 
         Args:
-            `*column`: str
-                A single column or multiple columns passed as a list
-            `**kwargs`: str, method or variable
-                The update function, method, or variable to process the update
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            `*column`: A single column or multiple columns passed as a list
+            `**kwargs`: The update function, method, or variable to process the update
 
         """
 
@@ -250,16 +204,12 @@ class ETL:
 
         return self
 
-    def get_column_max_width(self, column: str):
+    def get_column_max_width(self, column: str) -> int:
         """
         Return the maximum width of the column.
 
         Args:
-            column: str
-                The column name.
-
-        Returns:
-            int
+            column: The column name
 
         """
 
@@ -271,16 +221,8 @@ class ETL:
 
         return max_width
 
-    def convert_columns_to_str(self):
-        """
-        Convenience function to convert all non-string or mixed columns in a
-        Parsons table to string (e.g. for comparison)
-
-        Returns:
-            :ref:`Table`
-                Also updates self
-
-        """
+    def convert_columns_to_str(self) -> Self:
+        """Convert all non-string or mixed columns in a Parsons table to string (e.g. for comparison)"""
 
         # If we don't have any rows, don't bother trying to convert things
         if self.num_rows == 0:
@@ -301,23 +243,19 @@ class ETL:
 
         return self
 
-    def coalesce_columns(self, dest_column, source_columns, remove_source_columns=True):
+    def coalesce_columns(
+        self, dest_column: str, source_columns: list[str], remove_source_columns: bool = True
+    ) -> Self:
         """
         Coalesces values from one or more source columns into a destination column, by selecting
         the first non-empty value. If the destination column doesn't exist, it will be added.
 
         Args:
-            dest_column: str
-                Name of destination column
-            source_columns: list
-                List of source column names
-            remove_source_columns: bool
-                Whether to remove the source columns after the coalesce. If the destination
-                column is also one of the source columns, it will not be removed.
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            dest_column: Name of destination column
+            source_columns: List of source column names
+            remove_source_columns:
+                Whether to remove the source columns after the coalesce.
+                If the destination column is also one of the source columns, it will not be removed.
 
         """
 
@@ -348,7 +286,7 @@ class ETL:
 
         return self
 
-    def map_columns(self, column_map, exact_match=True):
+    def map_columns(self, column_map: dict, exact_match: bool = True) -> Self:
         """
         Standardizes column names based on multiple possible values. This method
         is helpful when your input table might have multiple and unknown column
@@ -373,15 +311,10 @@ class ETL:
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
 
         Args:
-            column_map: dict
-                A dictionary of columns and possible values that map to it
-            exact_match: bool
-                If ``True`` will only map if an exact match. If ``False`` will
-                ignore case, spaces and underscores.
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column_map: A dictionary of columns and possible values that map to it
+            exact_match:
+                If ``True`` will only map if an exact match.
+                If ``False`` will ignore case, spaces and underscores.
 
         """
 
@@ -395,7 +328,7 @@ class ETL:
 
         return self
 
-    def map_and_coalesce_columns(self, column_map):
+    def map_and_coalesce_columns(self, column_map: dict) -> Self:
         """
         Coalesces columns based on multiple possible values. The columns in the map
         do not need to be in your table, so you can create a map with all possibilities.
@@ -425,12 +358,7 @@ class ETL:
             >> {{'first_name': 'Jane', 'last_name': 'Doe', 'date_of_birth': '1908-01-01'}}
 
         Args:
-            column_map: dict
-                A dictionary of columns and possible values that map to it
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            column_map: A dictionary of columns and possible values that map to it
 
         """
 
@@ -449,39 +377,23 @@ class ETL:
 
         return self
 
-    def get_column_types(self, column):
+    def get_column_types(self, column: str) -> list[type]:
         """
         Return all of the Python types for values in a given column
 
         Args:
-            column: str
-                Name of the column to analyze
-
-        Returns:
-            list
-                A list of Python types
+            column: Name of the column to analyze
 
         """
 
         return list(petl.typeset(self.table, column))
 
-    def get_columns_type_stats(self):
-        """
-        Return descriptive stats for all columns
-
-        Returns:
-            list
-                A list of dicts
-
-        Returns:
-            list[dict]
-                A list of dicts, each containing a column 'name' and a 'type' list
-
-        """
+    def get_columns_type_stats(self) -> list[dict[str, list[type]]]:
+        """Return descriptive stats for python types of values in all columns"""
 
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
-    def convert_table(self, *args):
+    def convert_table(self, *args) -> Self:
         r"""
         Transform all cells in a table via arbitrary functions, method invocations or dictionary
         translations. This method is useful for cleaning fields and data hygiene functions such
@@ -489,12 +401,7 @@ class ETL:
         `petl's transform.conversions.convert() method <https://petl.readthedocs.io/latest/transform.html#petl.transform.conversions.convert>`__.
 
         Args:
-            `*args`: str, method or variable
-                The update function, method, or variable to process the update.
-
-        Returns:
-            :ref:`Table`
-                Also updates self
+            `*args`: The update function, method, or variable to process the update.
 
         """
 
@@ -504,35 +411,31 @@ class ETL:
 
     def unpack_dict(
         self,
-        column,
-        keys=None,
-        include_original=False,
-        sample_size=5000,
-        missing=None,
-        prepend=True,
-        prepend_value=None,
-    ):
+        column: str,
+        keys: list | None = None,
+        include_original: bool = False,
+        sample_size: int = 5000,
+        missing: str | None = None,
+        prepend: bool = True,
+        prepend_value: str | None = None,
+    ) -> Self:
         """
         Unpack dictionary values from one column into separate columns
 
         Args:
-            column: str
-                The column name to unpack
-            keys: list
-                The dict keys in the column to unpack. If ``None`` will unpack
-                all.
-            include_original: bool
-                Retain original column after unpacking
-            sample_size: int
-                Number of rows to sample before determining columns
-            missing: str
-                If a value is missing, the value to fill it with
+            column: The column name to unpack
+            keys:
+                The dict keys in the column to unpack.
+                If ``None`` will unpack all.
+            include_original: Retain original column after unpacking
+            sample_size: Number of rows to sample before determining columns
+            missing: If a value is missing, the value to fill it with
             prepend:
-                Prepend the column name of the unpacked values. Useful for
-                avoiding duplicate column names
+                Prepend the column name of the unpacked values.
+                Useful for avoiding duplicate column names
             prepend_value:
-                Value to prepend new columns if ``prepend=True``. If None, will
-                set to column name.
+                Value to prepend new columns if ``prepend=True``.
+                If None, will set to column name.
 
         """
 
@@ -557,15 +460,14 @@ class ETL:
 
     def unpack_list(
         self,
-        column,
-        include_original=False,
-        missing=None,
-        replace=False,
-        max_columns=None,
-    ):
+        column: str,
+        include_original: bool = False,
+        missing: str | None = None,
+        replace: bool = False,
+        max_columns: int | None = None,
+    ) -> Self | None:
         """
-        Unpack list values from one column into separate columns.
-        Numbers the columns.
+        Unpack list values from one column into separate numbered the columns.
 
         .. code-block:: python
 
@@ -587,18 +489,12 @@ class ETL:
             >>> {'id': '5421', 'name': 'Jane Green', 'phones_0': '512-699-3334', 'phones_1': '512-222-5478'}
 
         Args:
-            column: str
-                The column name to unpack
-            include_original: bool
-                Retain original column after unpacking
-            sample_size: int
-                Number of rows to sample before determining columns
-            missing: str
-                If a value is missing, the value to fill it with
-            replace: bool
-                Return new table or replace existing
-            max_columns: int
-                The maximum number of columns to unpack
+            column: The column name to unpack
+            include_original: Retain original column after unpacking
+            sample_size: Number of rows to sample before determining columns
+            missing: If a value is missing, the value to fill it with
+            replace: Return new table or replace existing
+            max_columns: The maximum number of columns to unpack
 
         """
 
@@ -636,27 +532,28 @@ class ETL:
         else:
             return tbl
 
-    def unpack_nested_columns_as_rows(self, column, key="id", expand_original: bool | int = False):
+    def unpack_nested_columns_as_rows(
+        self, column: str, key: str = "id", expand_original: bool | int = False
+    ) -> Self:
         """
         Unpack list or dict values from one column into separate rows.
         Not recommended for JSON columns (i.e. lists of dicts), but can handle columns
         with any mix of types. Makes use of PETL's `melt()` method.
 
         Args:
-            column: str
+            column:
                 The column name to unpack
-            key: str
+            key:
                 The column to use as a key when unpacking. Defaults to `id`
-            expand_original: bool or int
+            expand_original:
                 If `True`: Add resulting unpacked rows (with all other columns) to original
                 If `int`: Add to original unless the max added per key is above the given number
                 If `False` (default): Return unpacked rows (with `key` column only) as standalone
                 Removes packed list and dict rows from original either way.
 
         Returns:
-            :ref:`Table`
-                If `expand_original`, original table with packed rows replaced by unpacked rows.
-                Otherwise, standalone table with key column and unpacked values only
+            If `expand_original`, original table with packed rows replaced by unpacked rows.
+            Otherwise, standalone table with key column and unpacked values only
 
         """
 
@@ -750,7 +647,7 @@ class ETL:
         key_rename=None,
         retain_original=False,
         prepend=True,
-        prepend_value=None,
+        prepend_value: str | None = None,
     ):
         """
         Create a new long parsons table from a column, including the foreign
@@ -800,8 +697,7 @@ class ETL:
                 set to column name.
 
         Returns:
-            :ref:`Table`
-                The new long table
+            The new long table
 
         """
 
@@ -1219,17 +1115,13 @@ class ETL:
 
         return self
 
-    def set_header(self, new_header):
+    def set_header(self, new_header) -> Self:
         """
         Replace the header row of the table.
 
         Args:
             new_header: list
                 List of new header column names
-
-        Returns:
-            :ref:`Table`
-                Also updates self
 
         """
         self.table = petl.setheader(self.table, new_header)

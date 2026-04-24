@@ -9,7 +9,7 @@ import psycopg2
 import psycopg2.extras
 
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
-from parsons.etl.table import Table
+from parsons.etl.table import Table, ToFrom
 from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -66,7 +66,7 @@ class PostgresCore(PostgresCreateStatement):
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: list | None = None) -> Table | None:
+    def query(self, sql: str, parameters: list | None = None) -> type[ToFrom] | None:
         """
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
@@ -115,7 +115,7 @@ class PostgresCore(PostgresCreateStatement):
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
             commit: bool
@@ -175,7 +175,7 @@ class PostgresCore(PostgresCreateStatement):
 
         Args:
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             table_name: str
                 The table to check
             if_exists: str

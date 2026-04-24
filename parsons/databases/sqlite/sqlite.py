@@ -88,7 +88,7 @@ class Sqlite(DatabaseConnector):
 
         Args:
             sql: A valid SQL statement
-            connection: A connection object obtained from ``redshift.connection()``
+            connection: A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: A list of python variables to be converted into SQL values in your query
             commit:
                 Whether to commit the transaction immediately.
@@ -288,7 +288,7 @@ class Sqlite(DatabaseConnector):
         Helper to determine what to do when you need a table that may already exist.
 
         Args:
-            connection: A connection object obtained from ``redshift.connection()``
+            connection: A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             table_name: The table to check
             if_exists:
                 If the table already exists,

@@ -363,8 +363,19 @@ Quickstart
 API
 ====
 
+Materialize API
+---------------
+
+.. autoclass:: parsons.etl.table.Table
+   :inherited-members:
+   :members:
+
 To & From API
 -------------
+
+The following methods allow you to create Parsons Tables from other data types or
+convert Parsons Tables to other data types.
+These methods are included via inheritance in the :class:`~parsons.etl.table.Table` class.
 
 .. autoclass:: parsons.etl.tofrom.ToFrom
    :inherited-members:
@@ -374,15 +385,9 @@ Transformation API
 ------------------
 
 The following methods allow you to manipulate the Parsons table data.
+These methods are included via inheritance in the :class:`~parsons.etl.table.Table` class.
 
 .. autoclass:: parsons.etl.etl.ETL
-   :inherited-members:
-   :members:
-
-Materialize API
----------------
-
-.. autoclass:: parsons.etl.table.Table
    :inherited-members:
    :members:
 

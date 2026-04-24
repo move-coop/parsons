@@ -4,6 +4,7 @@ import logging
 import pickle
 import random
 import uuid
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Literal
@@ -12,7 +13,9 @@ import google
 import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
-from google.cloud.bigquery import ExtractJob, dbapi, job
+from google.cloud.bigquery import ExtractJob, SchemaField, dbapi, job
+from google.cloud.bigquery.client import Client
+from google.cloud.bigquery.dbapi import Connection
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 from google.oauth2.credentials import Credentials
 
@@ -68,11 +71,9 @@ def ends_with_semicolon(query: str) -> str:
     return query + ";"
 
 
-def map_column_headers_to_schema_field(schema_definition: list) -> list:
+def map_column_headers_to_schema_field(schema_definition: list) -> list[SchemaField]:
     """
-    Loops through a list of dictionaries and instantiates google.cloud.bigquery.SchemaField objects.
-    Useful docs from Google's API can be found here:
-    https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
+    Loops through a list of dictionaries and instantiates :class:`~google.cloud.bigquery.schema.SchemaField` objects.
 
     Args:
         schema_definition: list
@@ -98,8 +99,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
             ]
 
     Returns:
-        list[SchemaField]
-            List of instantiated `SchemaField` objects
+        List of instantiated :class:`~google.cloud.bigquery.schema.SchemaField` objects
 
     """
 
@@ -189,14 +189,8 @@ class GoogleBigQuery(DatabaseConnector):
         self.dialect = "bigquery"
 
     @property
-    def client(self):
-        """
-        Get the Google BigQuery client to use for making queries.
-
-        Returns:
-            `google.cloud.bigquery.client.Client`
-
-        """
+    def client(self) -> Client:
+        """Get the Google BigQuery client to use for making queries."""
         if not self._client:
             # Create a BigQuery client to use to make the query
             self._client = bigquery.Client(
@@ -209,9 +203,10 @@ class GoogleBigQuery(DatabaseConnector):
         return self._client
 
     @contextmanager
-    def connection(self):
+    def connection(self) -> Generator[Connection, None, None]:
         """
         Generate a BigQuery connection.
+
         The connection is set up as a python "context manager", so it will be closed
         automatically when the connection goes out of scope. Note that the BigQuery
         API uses jobs to run database operations and, as such, simply has a no-op for
@@ -219,14 +214,11 @@ class GoogleBigQuery(DatabaseConnector):
 
         If you would like to manage transactions, please use multi-statement queries
         as described in the `BigQuery transactions documentation`_
-        or utilize the `query_with_transaction` method on this class.
+        or utilize :meth:`~parsons.google.google_bigquery.GoogleBigQuery.query_with_transaction`.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
         ``with bq.connection() as conn:``
-
-        Yields:
-            Google BigQuery ``connection`` object
 
         """
         conn = self._dbapi.connect(self.client)
@@ -280,9 +272,6 @@ class GoogleBigQuery(DatabaseConnector):
             job_config: QueryJobConfig or None
                 An optional QueryJobConfig object for custom behavior.
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
-
-        Returns:
-            :ref:`Table`
 
         """
 
@@ -357,7 +346,10 @@ class GoogleBigQuery(DatabaseConnector):
 
             return final_table
 
-    def query_with_transaction(self, queries, parameters=None):
+    def query_with_transaction(
+        self, queries: list[str], parameters: list | dict | None = None
+    ) -> None:
+        """Perform a multi-statement transaction."""
         queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
         queries_on_newlines = "\n".join(queries_with_semicolons)
         queries_wrapped = f"""

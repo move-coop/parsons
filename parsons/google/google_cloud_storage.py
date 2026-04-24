@@ -192,9 +192,7 @@ class GoogleCloudStorage:
                 parameter runs on the full blob URI, include a preceding wildcard
                 value to account for nested files (*/ for one level, **/ for n levels)
             include_file_details: bool
-                If True, returns a list of `Blob` objects with accessible metadata. For
-                documentation of attributes associated with `Blob` objects see
-                `<https://docs.cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob>`__
+                If True, returns a list of :class:`~google.cloud.storage.blob.Blob` objects with accessible metadata.
 
         Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)

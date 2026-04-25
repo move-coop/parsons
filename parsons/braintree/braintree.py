@@ -34,9 +34,6 @@ class Braintree:
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
 
-    Returns:
-        Braintree class
-
     """
 
     query_types = {
@@ -216,23 +213,23 @@ class Braintree:
                 End date of the dispute range. Requires `start_date` arg. e.g. '2020-11-03'
             query_list: list of braintree.DisputeSearch
                 You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/dispute/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The start_date/end_date arguments are the same as
-                        {"effective_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The start_date/end_date arguments are the same as
+                    {"effective_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(
@@ -279,20 +276,20 @@ class Braintree:
                 e.g. '2020-11-03'
             query_list: list of braintree.SubscriptionSearch
                 You can use the `braintree.SubscriptionSearch
-                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/subscription/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The start_date/end_date arguments are the same as
-                        {"created_at": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The start_date/end_date arguments are the same as
+                    {"created_at": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
             include_transactions: bool
                 If this is true, include the full collection of transaction objects.
@@ -309,7 +306,7 @@ class Braintree:
                 when a search result returns 1000s of ids.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(
@@ -364,20 +361,20 @@ class Braintree:
                 e.g. '2020-11-03'
             query_list: list of braintree.TransactionSearch
                 You can use the `braintree.TransactionSearch
-                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/transaction/search/python>`__
                 to create a manual list of query parameters.
             query_dict: jsonable-dict
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The disbursement_start_date/disbursement_end_date arguments are the same as
-                        {"disbursement_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The disbursement_start_date/disbursement_end_date arguments are the same as
+                    {"disbursement_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
             just_ids: bool
                 While querying a list of transaction ids is a single, fast query to Braintree's API,
@@ -391,7 +388,7 @@ class Braintree:
                 when a search result returns 1000s of ids.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(

@@ -160,7 +160,7 @@ class GoogleCloudStorage:
         Args:
             bucket_name: str
                 The name of the bucket
-            delete_blobs: boolean
+            delete_blobs: bool
                 Delete blobs in the bucket, if it is not empty
 
         """
@@ -192,9 +192,8 @@ class GoogleCloudStorage:
                 parameter runs on the full blob URI, include a preceding wildcard
                 value to account for nested files (*/ for one level, **/ for n levels)
             include_file_details: bool
-                If True, returns a list of `Blob` objects with accessible metadata. For
-                documentation of attributes associated with `Blob` objects see
-                https://cloud.google.com/python/docs/reference/storage/latest/google.cloud.storage.blob.Blob
+                If True, returns a list of :class:`~google.cloud.storage.blob.Blob` objects with accessible metadata.
+
         Returns:
             A list of blob names (or `Blob` objects if `include_file_details` is invoked)
 
@@ -338,7 +337,7 @@ class GoogleCloudStorage:
 
         Args:
             table: obj
-                A :ref:`parsons-table`
+                A :ref:`Table`
             bucket_name: str
                 The name of the bucket to upload the data into.
             blob_name: str
@@ -399,8 +398,8 @@ class GoogleCloudStorage:
             expires_in: int
                 Minutes until the url expires
         Returns:
-            url:
-                A link to download the object
+            str:
+                URL of a link to download the object
 
         """
 
@@ -430,20 +429,20 @@ class GoogleCloudStorage:
         is passed.
 
         Args:
-            gcs_sink_bucket (str):
+            gcs_sink_bucket: str
                 Destination for the data transfer (located in GCS)
-            source (str):
+            source: str
                 File storge vendor [gcs or s3]
-            source_bucket (str):
+            source_bucket: str
                 Source bucket name
-            source_path (str):
+            source_path: str
                 Path in the source system pointing to the relevant keys
                 / files to sync. Must end in a '/'
-            aws_access_key_id (str):
+            aws_access_key_id: str
                 Access key to authenticate storage transfer
-            aws_secret_access_key (str):
+            aws_secret_access_key: str
                 Secret key to authenticate storage transfer
-            delete_objects_unique_in_sink (bool): Whether objects should be
+            delete_objects_unique_in_sink: bool Whether objects should be
                 deleted from the source after they are transferred to the sink.
                 Default is false.
 

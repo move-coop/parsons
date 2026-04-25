@@ -99,7 +99,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`_.
+        following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
@@ -127,8 +127,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -147,14 +146,13 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 A connection object obtained from ``mysql.connection()``
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
         with self.cursor(connection) as cursor:
@@ -207,7 +205,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         strict_length: bool = True,
     ):
         """
-        Copy a :ref:`parsons-table` to the database.
+        Copy a :ref:`Table` to the database.
 
         .. note::
 
@@ -321,7 +319,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 The table name
 
         Returns:
-            boolean
+            bool
                 ``True`` if the table exists and ``False`` if it does not.
 
         """

@@ -31,8 +31,8 @@ class SurveyQuestions:
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -60,8 +60,8 @@ class SurveyQuestions:
                 The survey question id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -97,7 +97,7 @@ class SurveyQuestions:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int

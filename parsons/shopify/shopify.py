@@ -93,7 +93,7 @@ class Shopify:
                 True if only getting completed orders, False otherwise.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         orders = []
@@ -178,16 +178,15 @@ class Shopify:
 
         return self.base_url + f"{table}?{filters}"
 
-    def graphql(self, query):
+    def graphql(self, query: str) -> dict:
         """
-        Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
+        Make GraphQL request.
+
+        Reference:
+            `Shopify GraphQL Admin API Documentation <https://shopify.dev/docs/api/admin-graphql/latest>`__
 
         Args:
-            query: str
-                GraphQL query.
-
-        Returns:
-            dict
+            query: GraphQL query
 
         """
         return (
@@ -244,7 +243,7 @@ class Shopify:
                 value as value
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return cls(subdomain, password, api_key, api_version).get_orders(

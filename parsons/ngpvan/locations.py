@@ -20,8 +20,8 @@ class Locations:
                 Filter locations by name.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

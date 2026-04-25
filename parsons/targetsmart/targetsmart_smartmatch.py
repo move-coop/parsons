@@ -135,14 +135,14 @@ class SmartMatch:
         """Submit the contact list records available in the Parsons table ``input_table`` to
         TargetSmart SmartMatch.
 
-        * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`_
-        * `SmartMatch API doc <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`_
-        * `Supported input header field identifiers <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_
+        * `SmartMatch overview <https://docs.targetsmart.com/my_tsmart/smartmatch/overview.html>`__
+        * `SmartMatch API doc <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html>`__
+        * `Supported input header field identifiers <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`__
 
         Your application provides a contact list which will be matched to
         TargetSmart’s database of voting age individuals.
 
-        `TargetSmart Client Services <mailto:support@targetsmart.com>`_
+        `TargetSmart Client Services <mailto:support@targetsmart.com>`__
         provisions SmartMatch for your API key, configuring the fields from the
         TargetSmart Data Dictionary that will be appended to each matched
         record.
@@ -153,15 +153,16 @@ class SmartMatch:
         TargetSmart system load. SmartMatch executions cannot be canceled once
         submitted to TargetSmart.
 
-        Since Parsons Petl tables are lazy, the SmartMatch output file is always
+        Since Parsons Petl :class:`~petl.util.base.Table` are lazy, the SmartMatch output file is always
         retained in ``tmp_location``. If your Parsons-based ETL workflow fails
         downstream it may be beneficial to recover the raw SmartMatch output
         from this location. You may delete this data when it is no longer
         needed.
 
         Args:
-            input_table: Parsons or Petl table
-                A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
+            input_table: Parsons or Petl :class:`~petl.util.base.Table`
+                Required. A Parsons table with
+                `supported header field names <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`__.
             disable_automatic_matchback_id_creation: bool
                 Set to True to disable auto creation of matchback_id. Default of False.
             max_matches: int
@@ -183,12 +184,12 @@ class SmartMatch:
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
         Returns:
-            Parsons Table
+            :ref:`Table`
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
-                See :ref:`parsons-table` for output options.
+
 
         """
 

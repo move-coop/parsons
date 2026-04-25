@@ -79,7 +79,7 @@ class ActionNetwork:
             A JSON with all of the advocacy_campaigns (letters) entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/advocacy_campaigns>`__
+            `ActionNetwork Advocacy Campaigns Documentation`_
 
         """
         if page:
@@ -96,7 +96,7 @@ class ActionNetwork:
             A JSON with advocacy_campaign entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/advocacy_campaigns>`__
+            `ActionNetwork Advocacy Campaigns Documentation`_
 
         """
         return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
@@ -121,7 +121,7 @@ class ActionNetwork:
             A JSON with all the attendances entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         if page:
@@ -147,7 +147,7 @@ class ActionNetwork:
             A JSON with the attendances entries related to the event
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         if page:
@@ -166,7 +166,7 @@ class ActionNetwork:
             A JSON with the attendance entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         return self.api.get_request(f"events/{event_id}/attendances/{attendance_id}")
@@ -183,7 +183,7 @@ class ActionNetwork:
             A JSON with the attendance entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         return self.api.get_request(f"people/{person_id}/attendances/{attendance_id}")
@@ -208,7 +208,7 @@ class ActionNetwork:
             A JSON response after creating the event attendance
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         return self.api.post_request(f"events/{event_id}/attendances", payload)
@@ -235,7 +235,7 @@ class ActionNetwork:
             A JSON response after updating the event attendance
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/attendances>`__
+            `ActionNetwork Attendances Documentation`_
 
         """
         return self.api.put_request(f"events/{event_id}/attendances/{attendance_id}", payload)
@@ -258,7 +258,7 @@ class ActionNetwork:
             A JSON with all of the campaigns entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/campaigns>`__
+            `ActionNetwork Campaigns Documentation`_
 
         """
         if page:
@@ -275,7 +275,7 @@ class ActionNetwork:
             A JSON with the campaign entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/campaigns>`__
+            `ActionNetwork Campaigns Documentation`_
 
         """
         return self.api.get_request(f"campaigns/{campaign_id}")
@@ -290,7 +290,7 @@ class ActionNetwork:
             A JSON with the custom_fields associated with your API key.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/custom_fields>`__
+            `ActionNetwork Custom Fields Documentation`_
 
         """
         return self.api.get_request("metadata/custom_fields")
@@ -305,7 +305,7 @@ class ActionNetwork:
             A JSON with donation data
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/donations>`__
+            `ActionNetwork Donations Documentation`_
 
         """
         return self.api.get_request(url=f"donations/{donation_id}")
@@ -327,7 +327,7 @@ class ActionNetwork:
             A JSON with all the donations entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/donations>`__
+            `ActionNetwork Donations Documentation`_
 
         """
         if page:
@@ -355,7 +355,7 @@ class ActionNetwork:
             A JSON with fundraising_page entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/donations>`__
+            `ActionNetwork Donations Documentation`_
 
         """
         if page:
@@ -391,7 +391,7 @@ class ActionNetwork:
             A JSON with all donations related to person
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/donations>`__
+            `ActionNetwork Donations Documentation`_
 
         """
         if page:
@@ -435,7 +435,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the donation
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/donations>`__
+            `ActionNetwork Donations Documentation`_
 
         """
         return self.api.post_request(
@@ -455,7 +455,7 @@ class ActionNetwork:
             A JSON with the embeds (for you to be able to embed action outside of ActionNetwork).
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/embeds>`__
+            `ActionNetwork Embeds Documentation`_
 
         """
         return self.api.get_request(f"{action_type}/{action_id}/embed")
@@ -478,7 +478,7 @@ class ActionNetwork:
             A JSON with all the event_campaigns entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/event_campaigns>`__
+            `ActionNetwork Event Campaigns Documentation`_
 
         """
         if page:
@@ -495,7 +495,7 @@ class ActionNetwork:
             A JSON with event_campaign entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/event_campaigns>`__
+            `ActionNetwork Event Campaigns Documentation`_
 
         """
         return self.api.get_request(f"event_campaigns/{event_campaign_id}")
@@ -517,7 +517,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the event campaign
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/event_campaigns>`__
+            `ActionNetwork Event Campaigns Documentation`_
 
         """
         return self.api.post_request("event_campaigns", payload)
@@ -541,7 +541,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the event in the event campaign
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/event_campaigns>`__
+            `ActionNetwork Event Campaigns Documentation`_
 
         """
         return self.api.post_request(f"event_campaigns/{event_campaign_id}/events", payload)
@@ -564,7 +564,7 @@ class ActionNetwork:
             A JSON response confirming Update of the event campaign
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/event_campaigns>`__
+            `ActionNetwork Event Campaigns Documentation`_
 
         """
         return self.api.put_request(f"event_campaigns/{event_campaign_id}", payload)
@@ -587,7 +587,7 @@ class ActionNetwork:
              A JSON with all the events entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/events>`__
+            `ActionNetwork Events Documentation`_
 
         """
         if page:
@@ -604,7 +604,7 @@ class ActionNetwork:
             A JSON with event entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/events>`__
+            `ActionNetwork Events Documentation`_
 
         """
         return self.api.get_request(f"events/{event_id}")
@@ -630,7 +630,7 @@ class ActionNetwork:
             A JSON with all the eventes related to the event_campaign entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/events>`__
+            `ActionNetwork Events Documentation`_
 
         """
         if page:
@@ -669,10 +669,11 @@ class ActionNetwork:
                     }
 
         Returns:
-            Dict of Action Network Event data.
+            dict
+                Action Network Event data.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/events>`__
+            `ActionNetwork Events Documentation`_
 
         """
 
@@ -700,7 +701,7 @@ class ActionNetwork:
             event_id: str
                 Unique ID of the event
             payload: dict
-                Payload containing event data (see `<https://actionnetwork.org/docs/v2/events>`__)
+                Payload containing event data (see `ActionNetwork Events Documentation`_)
 
                 .. code-block::python
 
@@ -713,7 +714,7 @@ class ActionNetwork:
             A JSON response confirming Update of the event
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/events>`__
+            `ActionNetwork Events Documentation`_
 
         """
         return self.api.put_request(f"events/{event_id}", payload)
@@ -736,7 +737,7 @@ class ActionNetwork:
             A JSON with all the forms entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/forms>`__
+            `ActionNetwork Forms Documentation`_
 
         """
         if page:
@@ -753,7 +754,7 @@ class ActionNetwork:
             A JSON with form entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/forms>`__
+            `ActionNetwork Forms Documentation`_
 
         """
         return self.api.get_request(f"forms/{form_id}")
@@ -777,7 +778,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the form
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/forms>`__
+            `ActionNetwork Forms Documentation`_
 
         """
         return self.api.post_request("forms", payload)
@@ -790,7 +791,7 @@ class ActionNetwork:
             form_id:
                 Unique ID of the form
             payload: dict
-                Payload containing form data (see `<https://actionnetwork.org/docs/v2/forms>`__)
+                Payload containing form data (see `ActionNetwork Forms Documentation`_)
 
                 .. code-block::python
 
@@ -803,7 +804,7 @@ class ActionNetwork:
             A JSON response confirming Update of the form
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/forms>`__
+            `ActionNetwork Forms Documentation`_
 
         """
         return self.api.put_request(f"forms/{form_id}", payload)
@@ -819,7 +820,7 @@ class ActionNetwork:
             A JSON with fundraising_page entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
+            `ActionNetwork Fundraising Pages Documentation`_
 
         """
         return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
@@ -841,7 +842,7 @@ class ActionNetwork:
             A JSON with all the fundraising_pages entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
+            `ActionNetwork Fundraising Pages Documentation`_
 
         """
         if page:
@@ -870,7 +871,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the fundraising page
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
+            `ActionNetwork Fundraising Pages Documentation`_
 
         """
         return self.api.post_request("fundraising_pages", payload)
@@ -896,7 +897,7 @@ class ActionNetwork:
             A JSON response confirming Update of the fundraising page
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
+            `ActionNetwork Fundraising Pages Documentation`_
 
         """
         return self.api.put_request(f"fundraising_pages/{fundraising_page_id}", payload)
@@ -921,7 +922,7 @@ class ActionNetwork:
             A JSON with all the list item entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/items>`__
+            `ActionNetwork Items Documentation`_
 
         """
         if page:
@@ -940,7 +941,7 @@ class ActionNetwork:
             A JSON with the item entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/items>`__
+            `ActionNetwork Items Documentation`_
 
         """
         return self.api.get_request(f"lists/{list_id}/items/{item_id}")
@@ -963,7 +964,7 @@ class ActionNetwork:
             A JSON with all the list entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/lists>`__
+            `ActionNetwork Lists Documentation`_
 
         """
         if page:
@@ -980,7 +981,7 @@ class ActionNetwork:
             A JSON with the list entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/lists>`__
+            `ActionNetwork Lists Documentation`_
 
         """
         return self.api.get_request(f"lists/{list_id}")
@@ -1007,7 +1008,7 @@ class ActionNetwork:
             A Parsons Table with all the messages related entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/messages>`__
+            `ActionNetwork Messages Documentation`_
 
         """
         if page:
@@ -1028,7 +1029,7 @@ class ActionNetwork:
             A JSON with the signature entry.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/messages>`__
+            `ActionNetwork Messages Documentation`_
 
         """
         return self.api.get_request(f"messages/{message_id}")
@@ -1064,7 +1065,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the message
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/messages>`__
+            `ActionNetwork Messages Documentation`_
 
         """
         return self.api.post_request("messages", json=payload)
@@ -1090,7 +1091,7 @@ class ActionNetwork:
             A JSON response confirming Update of the message
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/messages>`__
+            `ActionNetwork Messages Documentation`_
 
         """
         return self.api.put_request(f"messages/{message_id}", json=payload)
@@ -1110,7 +1111,7 @@ class ActionNetwork:
             A JSON response confirming the scheduling
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/schedule_helper>`__
+            `ActionNetwork Schedule Helper Documentation`_
 
         """
         return self.api.post_request(
@@ -1130,7 +1131,7 @@ class ActionNetwork:
             A JSON response confirming the message was sent
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/send_helper>`__
+            `ActionNetwork Send Helper Documentation`_
 
         """
         return self.api.post_request(f"messages/{message_id}/send/", {})
@@ -1145,7 +1146,7 @@ class ActionNetwork:
             A JSON with the metadata entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/metadata>`__
+            `ActionNetwork Metadata Documentation`_
 
         """
         return self.api.get_request("metadata")
@@ -1172,7 +1173,7 @@ class ActionNetwork:
            A JSON with all the outreaches entries related to the advocacy_campaign_id
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         if page:
@@ -1208,7 +1209,7 @@ class ActionNetwork:
             A JSON with all the outreaches entries related to our group
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         if page:
@@ -1227,7 +1228,7 @@ class ActionNetwork:
             A JSON with the outreach entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         return self.api.get_request(
@@ -1246,7 +1247,7 @@ class ActionNetwork:
             A JSON with the outreach entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         return self.api.get_request(f"people/{person_id}/outreaches/{outreach_id}")
@@ -1279,7 +1280,7 @@ class ActionNetwork:
             A JSON response confirming the creation of the outreach
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         return self.api.post_request(
@@ -1308,7 +1309,7 @@ class ActionNetwork:
             A JSON response confirming Update of the outreach
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/outreaches>`__
+            `ActionNetwork Outreaches Documentation`_
 
         """
         return self.api.put_request(
@@ -1334,7 +1335,7 @@ class ActionNetwork:
             A list of JSONs of people stored in Action Network.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/people>`__
+            `ActionNetwork People Documentation`_
 
         """
         if page:
@@ -1352,7 +1353,7 @@ class ActionNetwork:
             ``{'error': 'Couldn't find person with id = <id>'}``.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/people>`__
+            `ActionNetwork People Documentation`_
 
         """
         return self.api.get_request(url=f"people/{person_id}")
@@ -1417,7 +1418,7 @@ class ActionNetwork:
             postal_addresses:
                 Optional field. A list of dictionaries.
                 For details, see Action Network's documentation:
-                `<https://actionnetwork.org/docs/v2/person_signup_helper>`__
+                `ActionNetwork Person Signup Helper Documentation`_
             mobile_number:
                 Either email_address or mobile_number are required. Can be any of the following
 
@@ -1443,13 +1444,13 @@ class ActionNetwork:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
-                `<https://actionnetwork.org/docs/v2/#background-processing>`__
+                `ActionNetwork Background Processing Documentation`_
             `**kwargs`:
                 Any additional fields to store about the person. Action Network allows
                 any custom field.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/people>`__
+            `ActionNetwork People Documentation`_
 
         """
         email_addresses_field: list[dict] | None = None
@@ -1579,7 +1580,7 @@ class ActionNetwork:
     def update_person(self, entry_id, background_processing=False, **kwargs):
         """
         Updates a person's data in Action Network, given their Action Network ID. Note that you
-        can't alter a person's tags with this method. Instead, use upsert_person.
+        can't alter a person's tags with this method. Instead, use :meth:`~ActionNetwork.upsert_person`.
 
         Args:
             entry_id:
@@ -1588,7 +1589,7 @@ class ActionNetwork:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
-                `<https://actionnetwork.org/docs/v2/#background-processing>`__
+                For details, see `ActionNetwork Background Processing Documentation`_
             `**kwargs`:
                 Fields to be updated. The possible fields are
 
@@ -1617,13 +1618,12 @@ class ActionNetwork:
                       Optional field. A list of strings of the languages spoken by the person
                 - postal_addresses:
                       Optional field. A list of dictionaries.
-                      For details, see Action Network's documentation:
-                      `<https://actionnetwork.org/docs/v2/people#put>`__
+                      For details, see `ActionNetwork People Documentation`_
                 - custom_fields:
                       A dictionary of any other fields to store about the person.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/people>`__
+            `ActionNetwork People Documentation`_
 
         """
         data = {**kwargs}
@@ -1656,7 +1656,7 @@ class ActionNetwork:
             A JSON with all of the petitions entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/petitions>`__
+            `ActionNetwork Petitions Documentation`_
 
         """
         if page:
@@ -1673,7 +1673,7 @@ class ActionNetwork:
             A JSON with the petition entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/petitions>`__
+            `ActionNetwork Petitions Documentation`_
 
         """
         return self.api.get_request(f"petitions/{petition_id}")
@@ -1698,7 +1698,7 @@ class ActionNetwork:
             A JSON with the response from the API
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/petitions>`__
+            `ActionNetwork Petitions Documentation`_
 
         """
         data = {
@@ -1745,7 +1745,7 @@ class ActionNetwork:
             A JSON with the response from the API
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/petitions>`__
+            `ActionNetwork Petitions Documentation`_
 
         """
         data = {
@@ -1782,7 +1782,7 @@ class ActionNetwork:
             A JSON with all the query entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/queries>`__
+            `ActionNetwork Queries Documentation`_
 
         """
         if page:
@@ -1799,7 +1799,7 @@ class ActionNetwork:
             A JSON with the query entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/queries>`__
+            `ActionNetwork Queries Documentation`_
 
         """
         return self.api.get_request(f"queries/{query_id}")
@@ -1824,7 +1824,7 @@ class ActionNetwork:
             A JSON with all the signatures related to the petition entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         if page:
@@ -1850,7 +1850,7 @@ class ActionNetwork:
             A JSON with all the signatures related to the petition entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         if page:
@@ -1869,7 +1869,7 @@ class ActionNetwork:
             A JSON with the signature entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
@@ -1886,7 +1886,7 @@ class ActionNetwork:
             A JSON with the signature entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")
@@ -1895,24 +1895,24 @@ class ActionNetwork:
         """
         Args:
             petition_id:
-               Unique ID of the petition
+                Unique ID of the petition
             data:
-               Payload for creating the signature
+                Payload for creating the signature
 
                 .. code-block:: python
 
-                   {
-                       "comments" : "Stop doing the thing",
-                       "_links" : {
-                           "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
-                       }
-                   }
+                    {
+                        "comments" : "Stop doing the thing",
+                        "_links" : {
+                            "osdi:person" : { "href" : "https://actionnetwork.org/api/v2/people/id" }
+                        }
+                    }
 
         Returns:
             A JSON with the created signature entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         return self.api.post_request(f"petitions/{petition_id}/signatures", data)
@@ -1937,7 +1937,7 @@ class ActionNetwork:
             A JSON with Updated signature entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/signatures>`__
+            `ActionNetwork Signatures Documentation`_
 
         """
         return self.api.put_request(f"petitions/{petition_id}/signatures/{signature_id}", data)
@@ -1962,7 +1962,7 @@ class ActionNetwork:
             A JSON with all the submissions entries related to the form
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         if page:
@@ -1988,7 +1988,7 @@ class ActionNetwork:
             A JSON with all the submissions entries related with our group
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         if page:
@@ -2007,7 +2007,7 @@ class ActionNetwork:
             A JSON with the submission entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         return self.api.get_request(f"forms/{form_id}/submissions/{submission_id}")
@@ -2024,7 +2024,7 @@ class ActionNetwork:
             A JSON with the submission entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         return self.api.get_request(f"people/{person_id}/submissions/{submission_id}")
@@ -2041,7 +2041,7 @@ class ActionNetwork:
             A JSON response indicating the success or failure of the submission creation
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         payload = {
@@ -2073,7 +2073,7 @@ class ActionNetwork:
             A JSON with Updated submission entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/submissions>`__
+            `ActionNetwork Submissions Documentation`_
 
         """
         return self.api.put_request(
@@ -2108,7 +2108,7 @@ class ActionNetwork:
             A JSON with the survey entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/surveys>`__
+            `ActionNetwork Surveys Documentation`_
 
         """
         return self.api.get_request(f"surveys/{survey_id}")
@@ -2145,7 +2145,7 @@ class ActionNetwork:
             A JSON with the created survey entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/surveys>`__
+            `ActionNetwork Surveys Documentation`_
 
         """
         return self.api.post_request("surveys", data=json.dumps(data))
@@ -2169,7 +2169,7 @@ class ActionNetwork:
             A JSON with Updated survey entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/surveys>`__
+            `ActionNetwork Surveys Documentation`_
 
         """
         return self.api.post_request(f"surveys/{survey_id}", data=json.dumps(data))
@@ -2187,7 +2187,7 @@ class ActionNetwork:
             A list of JSONs of tags in Action Network.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/tags>`__
+            `ActionNetwork Tags Documentation`_
 
         """
         if per_page:
@@ -2209,7 +2209,7 @@ class ActionNetwork:
             "{'error': 'Couldn't find tag with id = <id>'}"
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/tags>`__
+            `ActionNetwork Tags Documentation`_
 
         """
         return self.api.get_request(url=f"tags/{tag_id}")
@@ -2223,7 +2223,7 @@ class ActionNetwork:
                 Tag's name. This is the ONLY editable field
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/tags>`__
+            `ActionNetwork Tags Documentation`_
 
         """
         data = {"name": name}
@@ -2255,7 +2255,7 @@ class ActionNetwork:
             A JSON with all the tagging entries associated with the tag_id
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/taggings>`__
+            `ActionNetwork Taggings Documentation`_
 
         """
         if page:
@@ -2274,7 +2274,7 @@ class ActionNetwork:
             A JSON with the tagging entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/taggings>`__
+            `ActionNetwork Taggings Documentation`_
 
         """
         return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
@@ -2299,13 +2299,13 @@ class ActionNetwork:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
-                `<https://actionnetwork.org/docs/v2/#background-processing>`__
+                `ActionNetwork Background Processing Documentation`_
 
         Returns:
             A JSON response after creating the tagging
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/taggings>`__
+            `ActionNetwork Taggings Documentation`_
 
         """
         url = f"tags/{tag_id}/taggings"
@@ -2324,13 +2324,13 @@ class ActionNetwork:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
-                `<https://actionnetwork.org/docs/v2/#background-processing>`__
+                `ActionNetwork Background Processing Documentation`_
 
         Returns:
             A JSON response after deleting the tagging
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/taggings>`__
+            `ActionNetwork Taggings Documentation`_
 
         """
         url = f"tags/{tag_id}/taggings/{tagging_id}"
@@ -2356,7 +2356,7 @@ class ActionNetwork:
             A JSON with all the wrapper entries
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/wrappers>`__
+            `ActionNetwork Wrappers Documentation`_
 
         """
         if page:
@@ -2375,7 +2375,7 @@ class ActionNetwork:
             A JSON with the wrapper entry
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/wrappers>`__
+            `ActionNetwork Wrappers Documentation`_
 
         """
         return self.api.get_request(f"wrappers/{wrapper_id}")
@@ -2398,7 +2398,7 @@ class ActionNetwork:
             A JSON response with Unique ID lists.
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
+            `ActionNetwork Unique ID Lists Documentation`_
 
         """
         if page:
@@ -2415,7 +2415,7 @@ class ActionNetwork:
             A JSON response with Unique ID list details
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
+            `ActionNetwork Unique ID Lists Documentation`_
 
         """
         return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
@@ -2432,7 +2432,7 @@ class ActionNetwork:
             A JSON response with Unique ID list details
 
         Documentation Reference:
-            `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
+            `ActionNetwork Unique ID Lists Documentation`_
 
         """
         return self.api.post_request(

@@ -13,7 +13,7 @@ class BaseTable:
 
     sql_placeholder: str = "%s"
 
-    def __init__(self, database_connection, table_name):
+    def __init__(self, database_connection, table_name: str) -> None:
         self.table = table_name
         self.db = database_connection
         self._columns = None
@@ -24,7 +24,7 @@ class BaseTable:
 
         return self.db.query(f"SELECT COUNT(*) FROM {self.table}").first
 
-    def max_primary_key(self, primary_key):
+    def max_primary_key(self, primary_key: str):
         """Get the maximum primary key in the table."""
 
         return self.db.query(
@@ -36,7 +36,7 @@ class BaseTable:
         """
         ).first
 
-    def distinct_primary_key(self, primary_key):
+    def distinct_primary_key(self, primary_key: str) -> bool:
         """Check if the passed primary key column is distinct."""
 
         sql = f"""
@@ -63,7 +63,9 @@ class BaseTable:
 
         return self.db.table_exists(self.table)
 
-    def get_rows(self, offset=0, chunk_size=None, order_by=None):
+    def get_rows(
+        self, offset: str | int = 0, chunk_size: str | None = None, order_by: str | None = None
+    ):
         """Get rows from a table."""
 
         sql = f"SELECT * FROM {self.table}"
@@ -79,11 +81,8 @@ class BaseTable:
 
         return self.db.query(sql)
 
-    def get_new_rows_count(self, primary_key_col, start_value=None):
-        """
-        Get a count of rows that have a greater primary key value
-        than the one provided.
-        """
+    def get_new_rows_count(self, primary_key_col: str, start_value: int | None = None):
+        """Get a count of rows that have a greater primary key value than the one provided."""
 
         sql = f"""
                SELECT
@@ -100,10 +99,15 @@ class BaseTable:
 
         return self.db.query(sql, params).first
 
-    def get_new_rows(self, primary_key, cutoff_value, offset=0, chunk_size=None):
+    def get_new_rows(
+        self,
+        primary_key: str,
+        cutoff_value: int | None = None,
+        offset: str | int = 0,
+        chunk_size: str | None = None,
+    ):
         """
-        Get rows that have a greater primary key value than the one
-        provided.
+        Get rows that have a greater primary key value than the one provided.
 
         It will select every value greater than the provided value.
         """
@@ -130,7 +134,7 @@ class BaseTable:
 
         return self.db.query(sql, parameters)
 
-    def drop(self, cascade=False):
+    def drop(self, cascade: bool = False) -> None:
         """Drop the table."""
 
         sql = f"DROP TABLE {self.table}"
@@ -140,7 +144,7 @@ class BaseTable:
         self.db.query(sql)
         logger.info(f"{self.table} dropped.")
 
-    def truncate(self):
+    def truncate(self) -> None:
         """Truncate the table."""
 
         self.db.query(f"TRUNCATE TABLE {self.table}")

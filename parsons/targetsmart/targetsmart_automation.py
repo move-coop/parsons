@@ -45,8 +45,8 @@ logger = logging.getLogger(__name__)
 # https://docs.targetsmart.com/my_tsmart/automation/developer.html.
 class TargetSmartAutomation:
     """
-    * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
-    * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
+    * `Automation overview <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`__
+    * `Automation integration doc <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`__
     """
 
     def __init__(self, sftp_username=None, sftp_password=None):
@@ -84,7 +84,7 @@ class TargetSmartAutomation:
               non-optimal results. You can obtain the layout requirements and
               other information about a workflow by visiting the Automation
               console in My TargetSmart. Contact `TargetSmart Client Services
-              <mailto:support@targetsmart.com>`_ for support.
+              <mailto:support@targetsmart.com>`__ for support.
 
         Args:
             table: Parsons Table Object
@@ -104,9 +104,9 @@ class TargetSmartAutomation:
                 is useful in debugging failed jobs.
             call_back: str
                 A callback url to which the status will be posted. See
-                `TargetSmart documentation <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`_
+                `TargetSmart documentation <https://docs.targetsmart.com/my_tsmart/automation/developer.html>`__
                 for more details.
-            remove_files: boolean
+            remove_files: bool
                 Remove the configuration, file to be matched and matched file from
                 the TargetSmart SFTP upon completion or failure of match.
 

@@ -1,7 +1,8 @@
 import urllib.parse
-from typing import Literal
+from typing import Any, Literal
 
-from oauthlib.oauth2 import BackendApplicationClient
+from oauthlib.oauth2 import BackendApplicationClient, OAuth2Token
+from requests import Response
 from requests_oauthlib import OAuth2Session
 
 from parsons.utilities.api_connector import APIConnector
@@ -10,30 +11,25 @@ from parsons.utilities.api_connector import APIConnector
 class OAuth2APIConnector(APIConnector):
     """
     The OAuth2API Connector is a low level class for authenticated API requests using OAuth2.
-    It extends APIConnector by wrapping the request methods in a server-side OAuth2 client
-    and otherwise provides the same interface as APIConnector.
+
+    It extends APIConnector by wrapping the request methods in a server-side
+    OAuth2 client and otherwise provides the same interface as APIConnector.
 
     Args:
-        uri: str
-            The base uri for the api. Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
-        client_id: str
-            The client id for acquiring and exchanging tokens from the OAuth2 application
-        client_secret: str
-            The client secret for acquiring and exchanging tokens  from the OAuth2 application
-        token_url: str
-            The URL for acquiring new tokens from the OAuth2 Application
-        auto_refresh_url: str
-            If provided, the URL for refreshing tokens from the OAuth2 Application
-        headers: dict
-            The request headers
-        pagination_key: str
-            The name of the key in the response json where the pagination url is
-            located. Required for pagination.
-        data_key: str
-            The name of the key in the response json where the data is contained. Required
-            if the data is nested in the response json
-    Returns:
-        OAuthAPIConnector class
+        uri:
+            The base uri for the api.
+            Must include a trailing '/' (e.g. ``http://myapi.com/v1/``)
+        client_id: The client id for acquiring and exchanging tokens from the OAuth2 application
+        client_secret: The client secret for acquiring and exchanging tokens from the OAuth2 application
+        token_url: The URL for acquiring new tokens from the OAuth2 Application
+        auto_refresh_url: If provided, the URL for refreshing tokens from the OAuth2 Application
+        headers: The request headers
+        pagination_key:
+            The name of the key in the response json where the pagination url is located.
+            Required for pagination.
+        data_key:
+            The name of the key in the response json where the data is contained.
+            Required if the data is nested in the response json
 
     """
 
@@ -48,8 +44,8 @@ class OAuth2APIConnector(APIConnector):
         pagination_key: str | None = None,
         data_key: str | None = None,
         grant_type: str = "client_credentials",
-        authorization_kwargs: dict[str, str] | None = None,
-    ):
+        authorization_kwargs: dict[str, Any] | None = None,
+    ) -> None:
         super().__init__(
             uri,
             headers=headers,
@@ -79,32 +75,30 @@ class OAuth2APIConnector(APIConnector):
 
     def request(
         self,
-        url,
+        url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        json=None,
-        data=None,
-        params=None,
-    ):
+        json: dict | None = None,
+        data: str | bytes | dict | None = None,
+        params: dict | None = None,
+    ) -> Response:
         """
         Base request using requests libary.
 
         Args:
             url: str
-                The url request string; if ``url`` is a relative URL, it will be joined with
-                the ``uri`` of the ``OAuthAPIConnector`; if ``url`` is an absolute URL, it will
-                be used as is.
+                The url request string.
+                If ``url`` is a relative URL, it will be joined with the ``uri`` of the ``OAuthAPIConnector`.
+                if ``url`` is an absolute URL, it will be used as is.
             req_type: str
-                The request type. One of GET, POST, PUT, PATCH, DELETE, OPTIONS
-            json: dict
-                The payload of the request object. By using json, it will automatically
-                serialize the dictionary
-            data: str or byte or dict
-                The payload of the request object. Use instead of json in some instances.
-            params: dict
-                The parameters to append to the url (e.g. http://myapi.com/things?id=1)
-
-        Returns:
-            requests response
+                The request type.
+                One of GET, POST, PUT, PATCH, DELETE, OPTIONS
+            json:
+                The payload of the request object.
+                By using `json`, it will automatically serialize the dictionary
+            data:
+                The payload of the request object.
+                Used instead of `json` in some instances.
+            params: The parameters to append to the url (e.g. http://myapi.com/things?id=1)
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
@@ -118,5 +112,5 @@ class OAuth2APIConnector(APIConnector):
             params=params,
         )
 
-    def token_saver(self, token):
+    def token_saver(self, token: OAuth2Token):
         self.token = token

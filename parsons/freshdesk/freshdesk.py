@@ -119,12 +119,12 @@ class Freshdesk:
                 Filter by company_id.
             updated_since: str
                 Earliest date to include in results.
-            expand_custom_fields: boolean
+            expand_custom_fields: bool
                 Expand nested custom fields to their own columns.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -157,16 +157,23 @@ class Freshdesk:
         for more information.
 
         Args:
-            email (str): Filter by email address.
-            mobile (str): Filter by mobile phone number.
-            phone (str): Filter by phone number.
-            company_id (int): Filter by company ID.
-            state (str): Filter by state.
-            updated_since (str): Earliest date to include in results.
-            expand_custom_fields (bool): Expand nested custom fields to their own columns.
+            email: str
+                Filter by email address.
+            mobile: str
+                Filter by mobile phone number.
+            phone: str
+                Filter by phone number.
+            company_id: int
+                Filter by company ID.
+            state: str
+                Filter by state.
+            updated_since: str
+                Earliest date to include in results.
+            expand_custom_fields: bool
+                Expand nested custom fields to their own columns.
 
         Returns:
-            parsons.Table: See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -191,12 +198,12 @@ class Freshdesk:
         for more information.
 
         Args:
-            expand_custom_fields: boolean
+            expand_custom_fields: bool
                 Expand nested custom fields to their own columns.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -221,8 +228,8 @@ class Freshdesk:
             state: str
                 Filter by state
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

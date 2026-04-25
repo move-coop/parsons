@@ -439,7 +439,8 @@ class Box:
                 running.
 
         Returns:
-            Path: The Path of the new file.
+            Path
+                The new file
 
         """
 

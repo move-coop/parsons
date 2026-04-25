@@ -21,8 +21,8 @@ class Scores:
         Get all scores.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -59,8 +59,8 @@ class Scores:
                 format.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -82,7 +82,7 @@ class Scores:
         Get a score update object
 
         Args:
-            score_update_id : int
+            score_update_id: int
                 The score update id
 
         Returns:
@@ -154,21 +154,21 @@ class Scores:
                     * - ``score_id``
                       - The score slot id.
 
-        Example:
+                Example:
 
                 .. code-block:: python
 
                     [
-                        {'score1_id' : int, score1_column': str},
-                        {'score2_id' : int, score2_column': str}
+                        {'score1_id': int, score1_column': str},
+                        {'score2_id': int, score2_column': str}
                     ]
 
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             email: str
                 An email address to send job load status updates.
-            auto_approve: boolean
+            auto_approve: bool
                 If the scores are within the expected tolerance of deviation from the
                 average values provided, then score will be automatically approved.
             approve_tolderance: float
@@ -176,7 +176,7 @@ class Scores:
                 approve the score. Maximum of .1.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             int
@@ -258,7 +258,7 @@ class FileLoadingJobs:
     ):
         """
         .. warning::
-           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
+           .. deprecated:: 0.7 Use :meth:`~parsons.ngpvan.scores.Scores.upload_scores` instead.
 
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.
@@ -353,30 +353,30 @@ class FileLoadingJobs:
     ):
         """
         .. warning::
-           .. deprecated:: 0.7 Use :func:`parsons.VAN.upload_scores` instead.
+           .. deprecated:: 0.7 Use :meth:`~parsons.ngpvan.scores.Scores.upload_scores` instead.
 
-        An iteration of the :meth:`file_load` method that allows you to load multiple scores
+        An iteration of the :meth:`create_file_load` method that allows you to load multiple scores
         at the same time.
 
         Args:
-            file_name : str
+            file_name: str
                 The name of the file contained in the zip file.
-            file_url : str
+            file_url: str
                 The url path to directly download the file. Can also be a path to an FTP site.
             columns: list
                 A list of column names contained in the file.
-            id_column : str
+            id_column: str
                 The column name of the id column in the file.
-            id_type : str
+            id_type: str
                 A valid primary key, such as `VANID` or `DWID`. Varies by VAN instance.
-            score_map : list
+            score_map: list
                 A list of dicts that adheres to the following syntax
 
                 .. code-block:: python
 
                     [
                         {
-                            'score_id' : int,
+                            'score_id': int,
                             'score_column': str,
                             'auto_average': float,
                             'auto_tolerance': float

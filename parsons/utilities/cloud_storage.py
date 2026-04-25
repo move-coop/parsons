@@ -10,8 +10,12 @@ Amazon S3 and Google Cloud Storage.
 
 
 def post_file(
-    tbl, type: Literal["S3", "GCS"], file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args
-):
+    tbl,
+    type: Literal["S3", "GCS"],
+    file_path: str | None = None,
+    quoting: int = csv.QUOTE_MINIMAL,
+    **file_storage_args,
+) -> str | None:
     """
     This utility method is a generalizable method for moving files to an
     online file storage class. It is used by methods that require access
@@ -20,20 +24,16 @@ def post_file(
     **S3 is the only option allowed.**
 
     Args:
-        tbl: object
-            parsons.Table
-        type: str
-            `S3` or `GCS` (Google Cloud Storage)
-        file_path: str
-            The file path to store the file. Not required if provided with
-            the `**file_storage_args`.
-        quoting: attr
-            The type of quoting to use for the csv.
-        `**file_storage_args`: kwargs
-            Optional arguments specific to the file storage.
+        tbl: parsons.Table
+        type: ``S3`` or ``GCS`` (Google Cloud Storage)
+        file_path:
+            The file path to store the file.
+            Not required if provided with the `**file_storage_args`.
+        quoting: The type of quoting to use for the csv.
+        `**file_storage_args`: Optional arguments specific to the file storage.
 
-    Returns:
-        ``None``
+    Raises:
+        ValueError: If the type is not ``S3`` or ``GCS``.
 
     """
 
@@ -44,10 +44,9 @@ def post_file(
 
         return tbl.to_s3_csv(public_url=True, key=file_path, quoting=quoting, **file_storage_args)
 
-    elif type.upper() == "GCS":
+    if type.upper() == "GCS":
         return tbl.to_gcs_csv(
             public_url=True, blob_name=file_path, quoting=quoting, **file_storage_args
         )
 
-    else:
-        raise ValueError("Type must be S3 or GCS.")
+    raise ValueError("Type must be S3 or GCS.")

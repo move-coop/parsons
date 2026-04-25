@@ -44,8 +44,7 @@ class Events:
                 ``onlineForms``.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -96,8 +95,7 @@ class Events:
                 ``ticketCategories``, ``voterRegistrationBatches``.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -173,11 +171,11 @@ class Events:
 
             description: str
                 An optional description for this Event, no longer than 500 characters.
-            editable: boolean
+            editable: bool
                 If ``True``, prevents modification of this event by any users other than the
                 user associated the API key. Setting this to true effectively makes
                 the event read-only in the VAN interface.
-            publicly_viewable: boolean
+            publicly_viewable: bool
                 Used by NGP VAN’s website platform to indicate whether this event can be
                 viewed publicly.
             location_ids: list
@@ -277,8 +275,7 @@ class Events:
         Get event types.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 

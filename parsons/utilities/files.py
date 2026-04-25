@@ -4,6 +4,8 @@ import gzip
 import os
 import shutil
 import tempfile
+from collections.abc import Callable, Iterator
+from typing import Literal
 
 __all__ = [
     "create_temp_file",
@@ -34,16 +36,15 @@ _temp_files = []
 _temp_directories = []
 
 
-def create_temp_file(suffix=None):
+def create_temp_file(suffix: str | None = None) -> str:
     """
     Create a temp file that will exist as long as the current script is running.
 
     Args:
-        suffix: str
-            A suffix/extension to add to the end of the temp file name
+        suffix: A suffix/extension to add to the end of the temp file name
+
     Returns:
-        str
-            The path of the temp file
+        The path of the temp file
 
     """
     temp_file = TempFile(suffix=suffix)
@@ -51,13 +52,12 @@ def create_temp_file(suffix=None):
     return temp_file.name
 
 
-def create_temp_directory():
+def create_temp_directory() -> str:
     """
     Create a temp directory that will exist as long as the current script is running.
 
     Returns:
-        str
-            The path of the temp directory
+        The path of the temp directory
 
     """
     temp_dir = TempDirectory()
@@ -65,18 +65,16 @@ def create_temp_directory():
     return temp_dir.name
 
 
-def create_temp_file_for_path(path):
+def create_temp_file_for_path(path: str | Path) -> str:
     """
-    Creates a temp file that will exist as long as the current script is running, and with
-    a file name mimicking that of the provided path.
+    Creates a temp file that will exist as long as the current script is running,
+    and with a file name mimicking that of the provided path.
 
     Args:
-        path: str
-            Path (or just file name) of the file you want the temp file to mimick.
+        path: Path or file name of the file you want the temp file to mimick.
 
     Returns:
-        str
-            The path of the temp file
+        The path of the temp file
 
     """
 
@@ -87,7 +85,7 @@ def create_temp_file_for_path(path):
     return create_temp_file(suffix=suffix)
 
 
-def close_temp_file(path):
+def close_temp_file(path: str | Path) -> bool:
     """
     Force closes a Parsons temp file, which will cause it to be deleted immediately.
 
@@ -96,16 +94,15 @@ def close_temp_file(path):
     descriptors.
 
     Args:
-        path: str
-            Path of a temp file created by ``create_temp_file``
+        path: Path of a temp file created by :func:`create_temp_file`
+
     Returns:
-        bool
-            Whether the temp file was found and closed
+        Whether the temp file was found and closed
 
     """
 
     for temp_file in _temp_files:
-        if temp_file.name == path:
+        if temp_file.name == str(path):
             # Call remove explicitly to clean up, because we can't always assume that de-refencing
             # will necessarily result in the TempFile being cleaned up (depends on platform)
             temp_file.remove()
@@ -115,7 +112,7 @@ def close_temp_file(path):
     return False
 
 
-def cleanup_temp_directory(path):
+def cleanup_temp_directory(path: str | Path) -> bool:
     """
     Force closes a Parsons temp directory, which will cause it and its files to be deleted.
 
@@ -124,16 +121,15 @@ def cleanup_temp_directory(path):
     descriptors.
 
     Args:
-        path: str
-            Path of a temp directory created by ``create_temp_directory``
+        path: Path of a temp directory created by :func:`create_temp_directory`
+
     Returns:
-        bool
-            Whether the temp directory was found and closed
+        Whether the temp directory was found and closed
 
     """
 
     for temp_dir in _temp_directories:
-        if temp_dir.name == path:
+        if temp_dir.name == str(path):
             # Call remove explicitly to clean up, because we can't always assume that de-refencing
             # will necessarily result in the TempDirectory being cleaned up (depends on platform)
             temp_dir.remove()
@@ -143,43 +139,47 @@ def cleanup_temp_directory(path):
     return False
 
 
-def track_temp_file(path):
+def track_temp_file(path: str | Path) -> str | Path:
     """
     Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
 
     Args:
-        path: str
-            The path of the file to start tracking
+        path: The path of the file to start tracking
+
     Returns:
-        str
-            The path of the file to start tracking
+        The path of the file to start tracking
 
     """
-    temp_file = TempFile(path)
+    temp_file = TempFile(str(path))
     _temp_files.append(temp_file)
     return path
 
 
-def is_gzip_path(path):
-    return path[-3:] == ".gz"
+def is_gzip_path(path: str | Path) -> bool:
+    return str(path)[-3:] == ".gz"
 
 
-def is_zip_path(path):
-    return path[-4:] == ".zip"
+def is_zip_path(path: str | Path) -> bool:
+    return str(path)[-4:] == ".zip"
 
 
-def is_csv_path(path):
-    return path[-4:].lower() == ".csv"
+def is_csv_path(path: str | Path) -> bool:
+    return str(path)[-4:].lower() == ".csv"
 
 
-def suffix_for_compression_type(compression):
+def suffix_for_compression_type(
+    compression: Literal["gzip", "zip"] | str | None,
+) -> Literal[".gz", "zip", ""]:
     if compression == "gzip":
         return ".gz"
+
+    if compression == "zip":
+        return compression
 
     return ""
 
 
-def compression_type_for_path(path):
+def compression_type_for_path(path: str | Path) -> Literal["gzip", "zip"] | None:
     if is_gzip_path(path):
         return "gzip"
 
@@ -189,23 +189,23 @@ def compression_type_for_path(path):
     return None
 
 
-def valid_table_suffix(path):
-    # Checks if the suffix is valid for conversions to a Parsons table.
+def valid_table_suffix(path: str | Path) -> bool:
+    """Checks if the suffix is valid for conversions to a Parsons table."""
 
     return bool(is_csv_path(path) or is_gzip_path(path) or is_zip_path(path))
 
 
-def read_file(path):
+def read_file(path: str | Path):
     """
-    Return the contents of file. Currently support `.gz` compressed files.
+    Return the contents of file.
+
+    Currently support `.gz` compressed files.
 
     Args:
-        path: str
-            The path to the file to read.
+        path: The path to the file to read.
 
     Returns:
-        str
-            The contents of a files.
+        The contents of a files.
 
     """
     compression = compression_type_for_path(path)
@@ -218,10 +218,12 @@ def read_file(path):
         return fp.read()
 
 
-def string_to_temp_file(string, suffix=None):
+def string_to_temp_file(string: str, suffix: str | None = None) -> str:
     """
-    Create a temporary file from a string. Currently used for packages
-    that require credentials to be stored as a file.
+    Create a temporary file from a string.
+
+    Currently used for packages that require credentials to be stored as a file.
+
     """
 
     temp_file = Path(create_temp_file(suffix=suffix))
@@ -232,10 +234,7 @@ def string_to_temp_file(string, suffix=None):
 
 
 def zip_check(file_path, compression_type):
-    """
-    Check if the file suffix or the compression type indicates that it is
-    a zip file.
-    """
+    """Check if the file suffix or the compression type indicates that it is a zip file."""
 
     if file_path and file_path.split("/")[-1].split(".")[-1] == "zip":
         return True
@@ -243,15 +242,17 @@ def zip_check(file_path, compression_type):
     return compression_type == "zip"
 
 
-def extract_file_name(file_path=None, include_suffix=True):
+def extract_file_name(file_path: str | None = None, include_suffix: bool = True) -> str | None:
     """
     Extract the file name with the file path string.
 
-    file_path: str
-        The file path
-    include_suffix: boolean
-        If True, includes full file name with suffix. If False returns the
-        file name without the suffix (e.g. "myfile.zip" vs. "myfile").
+    Args:
+        file_path:
+            The file path
+        include_suffix:
+            If True, includes full file name with suffix. If False returns the
+            file name without the suffix (e.g. "myfile.zip" vs. "myfile").
+
     """
 
     if not file_path:
@@ -263,39 +264,38 @@ def extract_file_name(file_path=None, include_suffix=True):
     return file_path.split("/")[-1].split(".")[0]
 
 
-def has_data(file_path):
+def has_data(file_path: str | Path) -> bool:
     """
     Check if a file has any data in it.
 
-    Args:
-        file_path: str
-            The file path.
-
     Returns:
-        boolean
-            ``True`` if data in the file and ``False`` if not.
+        ``True`` if data in the file and ``False`` if not.
 
     """
 
     return Path(file_path).stat().st_size != 0
 
 
-def generate_tempfile(suffix=None, create=False):
+def generate_tempfile(suffix: str | None = None, create: bool = False) -> str:
     """
     Create a new temp file with a unique filename.
 
     Args:
-        suffix: str
+        suffix:
             The suffix to give the file path in order to advertise the file/mime type of the file.
-    `Returns`
-        str
-            The path of the newly created temp file.
+
+    Returns:
+        The path of the newly created temp file.
+
+    Raises:
+        FileExistsError:
+            If the file already exists and `create` is ``False``.
 
     """
     # _get_candidate_names gives us an iterator that will keep trying to generate a random filename.
     # It's not ideal to use a "protected" function from another module, but this function does some
     # heavy lifting for us.
-    names = tempfile._get_candidate_names()
+    names: Iterator = tempfile._get_candidate_names()
     temp_dir = tempfile.gettempdir()
 
     # Try multiple times to create a temp file, just in case (however unlikely) we have some
@@ -333,24 +333,24 @@ class TempDirectory:
     """
     Class for creating and eventually cleaning up a temporary directory.
 
-    Creating the instance of the TempDirectory will create a uniquely named temporary dir. When the
-    instance is garbage collected (e.g., when the Python process closes) or when the remove method
-    is called explicitly, the temporary directory is removed from disk.
+    Creating the instance of the TempDirectory will create a uniquely named temporary dir.
+    When the instance is garbage collected (e.g., when the Python process closes)
+    or when the remove method is called explicitly, the temporary directory is removed from disk.
 
     Creating the instance will also create the directory itself, so files can be loaded immediately.
     """
 
-    def __init__(self, mkdir=os.makedirs):
+    def __init__(self, mkdir: Callable = os.makedirs) -> None:
         self.remove_called = False
         self.name = generate_tempfile()
 
         mkdir(self.name)
 
-    def __del__(self):
+    def __del__(self) -> None:
         # When we are being cleaned up, call remove to make sure the file is removed from disk.
         self.remove()
 
-    def remove(self, cleanup=shutil.rmtree):
+    def remove(self, cleanup: Callable = shutil.rmtree) -> None:
         """
         Remove the file from disk.
 
@@ -359,8 +359,7 @@ class TempDirectory:
         So, we want to make sure we have a reference to the function saved somewhere.
 
         Args:
-            unlink: function
-                Function to use for removing the file from disk.
+            cleanup: Function to use for removing the file from disk.
 
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.
@@ -390,20 +389,20 @@ class TempFile:
     file handle.
 
     Args:
-        suffix: str
-            The suffix to give the file path in order to advertise the file/mime type of the file.
+        name: The path of a temporary file. If not provided, will generate file based on suffix.
+        suffix: The suffix to give the file path in order to advertise the file/mime type of the file.
 
     """
 
-    def __init__(self, name=None, suffix=None):
+    def __init__(self, name: str | None = None, suffix: str | None = None) -> None:
         self.remove_called = False
         self.name = name or generate_tempfile(suffix)
 
-    def __del__(self):
+    def __del__(self) -> None:
         # When we are being cleaned up, call remove to make sure the file is removed from disk.
         self.remove()
 
-    def remove(self, unlink=os.unlink):
+    def remove(self, unlink: Callable = os.unlink) -> None:
         """
         Remove the file from disk.
 
@@ -412,8 +411,7 @@ class TempFile:
         So, we want to make sure we have a reference to the function saved somewhere.
 
         Args:
-            unlink: function
-                Function to use for removing the file from disk.
+            unlink: Function to use for removing the file from disk.
 
         """
         # Only try to unlink if we have a valid file path and we haven't yet called close.

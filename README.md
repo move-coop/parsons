@@ -1,6 +1,6 @@
 # Parsons
 
-[![Documentation - Latest Version](https://img.shields.io/github/v/tag/move-coop/parsons?sort=semver&filter=v*&label=Documentation)](https://move-coop.github.io/parsons/index.html/)
+[![Documentation - Latest Version](https://img.shields.io/github/v/tag/move-coop/parsons?sort=semver&filter=v*&label=Documentation)](https://move-coop.github.io/parsons/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/parsons?label=Python)](https://pypi.org/project/parsons/)
 
 [![PyPI - Latest Version](https://img.shields.io/pypi/v/parsons?label=PyPI)](https://pypi.org/project/parsons/)
@@ -42,7 +42,7 @@ a [modified Apache License with author attribution statement](https://github.com
 ## Documentation
 
 To gain a full understanding of all of the features of Parsons, please review the
-Parsons [documentation](https://move-coop.github.io/parsons/index.html).
+Parsons [documentation](https://move-coop.github.io/parsons/).
 
 ## Installation
 

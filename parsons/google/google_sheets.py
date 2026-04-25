@@ -22,7 +22,7 @@ class GoogleSheets:
             A dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console. Required if env variable
             ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
-        subject: string
+        subject: str
             In order to use account impersonation, pass in the email address of the account to be
             impersonated as a string.
 
@@ -104,7 +104,7 @@ class GoogleSheets:
 
     def get_worksheet(self, spreadsheet_id, worksheet=0, skip_header_rows: int = 0):
         """
-        Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
+        Create a `:ref:`Table`` from a sheet in a Google spreadsheet, given the sheet index.
 
         Args:
             spreadsheet_id: str
@@ -114,8 +114,8 @@ class GoogleSheets:
                 0.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -149,11 +149,11 @@ class GoogleSheets:
             role: str
                 The primary role for this user. Allowed values are: ``owner``,
                 ``writer``, ``reader``.
-            notify: boolean
+            notify: bool
                 Whether to send an email to the target user/domain.
             email_message: str
                 The email to be sent if notify kwarg set to True.
-            with_link: boolean
+            with_link: bool
                 Whether a link is required for this permission.
 
         """
@@ -178,8 +178,8 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -438,7 +438,7 @@ class GoogleSheets:
                 The cell range to format. E.g. ``"A2"`` or ``"A2:B100"``
             cell_format: dict
                 The formatting to apply to the range. Full options are specified in
-                the GoogleSheets `API documentation <https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat>`_.
+                the `CellFormat documentation <https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/cells#cellformat>`__.
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.

@@ -73,7 +73,7 @@ class Auth0:
                 The user email of the record to get.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         url = f"{self.base_url}/api/v2/users-by-email"

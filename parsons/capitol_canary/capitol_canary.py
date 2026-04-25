@@ -160,17 +160,16 @@ class CapitolCanary:
                 Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
             zip: int
                 Filter by 5 digit zip code
-            include_generic: boolean
+            include_generic: bool
                 When filtering by state or ZIP code, include unrestricted campaigns
-            include_private: boolean
+            include_private: bool
                 If true, will include private campaigns in results
-            include_content: boolean
+            include_content: bool
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -214,8 +213,7 @@ class CapitolCanary:
         the email address or phone number (accordingly).
 
         The list of arguments only partially covers the fields that can be set on the advocate.
-        For a complete list of fields that can be updated, see
-        `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
             campaigns: list
@@ -240,18 +238,18 @@ class CapitolCanary:
                 `Optional`; The state of the advocates address
             zip5: str
                 `Optional`; The 5 digit Zip code of the advocate
-            sms_optin: boolean
+            sms_optin: bool
                 `Optional`; Whether to opt the advocate into receiving text messages; an SMS
                 confirmation text message will be sent. You must provide values for the ``phone``
                 and ``campaigns`` arguments.
-            email_optin: boolean
+            email_optin: bool
                 `Optional`; Whether to opt the advocate into receiving emails. You must provide
                 values for the ``email`` and ``campaigns`` arguments.
-            sms_optout: boolean
+            sms_optout: bool
                 `Optional`; Whether to opt the advocate out of receiving text messages. You must
                 provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            email_optout: boolean
+            email_optout: bool
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
@@ -334,8 +332,7 @@ class CapitolCanary:
         the email address or phone number along with a list of campaigns.
 
         The list of arguments only partially covers the fields that can be updated on the advocate.
-        For a complete list of fields that can be updated, see
-        `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
             advocate_id: integer
@@ -346,18 +343,18 @@ class CapitolCanary:
                 `Optional`; An email address to add for the advocate (or to use when opting in/out)
             phone: str
                 `Optional`; An phone # to add for the advocate (or to use when opting in/out)
-            sms_optin: boolean
+            sms_optin: bool
                 `Optional`; Whether to opt the advocate into receiving text messages; an SMS
                 confirmation text message will be sent. You must provide values for the ``phone``
                 and ``campaigns`` arguments.
-            email_optin: boolean
+            email_optin: bool
                 `Optional`; Whether to opt the advocate into receiving emails. You must provide
                 values for the ``email`` and ``campaigns`` arguments.
-            sms_optout: boolean
+            sms_optout: bool
                 `Optional`; Whether to opt the advocate out of receiving text messages. You must
                 provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            email_optout: boolean
+            email_optout: bool
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.

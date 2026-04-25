@@ -1,4 +1,4 @@
-# Adapted from Gmail API tutorial https://developers.google.com/gmail/api
+# Adapted from Gmail API tutorial https://developers.google.com/workspace/gmail/api/guides/sending?hl=en#python
 import io
 import logging
 import mimetypes

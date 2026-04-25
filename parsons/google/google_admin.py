@@ -77,7 +77,7 @@ class GoogleAdmin:
         Get aliases for a group.
 
         `Google Admin API Documentation -- groups.aliases/list
-        <https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups.aliases/list>`_
+        <https://developers.google.com/workspace/admin/directory/reference/rest/v1/groups.aliases/list>`__
 
         Args:
             group_key: str
@@ -86,7 +86,7 @@ class GoogleAdmin:
                 A dictionary of fields for the GET request
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups/" + group_key + "/aliases", "aliases", params)
@@ -96,7 +96,7 @@ class GoogleAdmin:
         Get all members in a group.
 
         `Google Admin API Documentation -- manage-group-members#get_all_members
-        <https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members#get_all_members>`_
+        <https://developers.google.com/workspace/admin/directory/v1/guides/manage-group-members#get_all_members>`__
 
         Args:
             group_key: str
@@ -105,7 +105,7 @@ class GoogleAdmin:
                 A dictionary of fields for the GET request
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups/" + group_key + "/members", "members", params)
@@ -115,14 +115,14 @@ class GoogleAdmin:
         Get all groups in a domain or account.
 
         `Google Admin API Documentation -- manage-groups#get_all_domain_groups
-        <https://developers.google.com/admin-sdk/directory/v1/guides/manage-groups#get_all_domain_groups>`_
+        <https://developers.google.com/workspace/admin/directory/v1/guides/manage-groups#get_all_domain_groups>`__
 
         Args:
             params: dict
                 A dictionary of fields for the GET request.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         return self._paginate_request("groups", "groups", params)

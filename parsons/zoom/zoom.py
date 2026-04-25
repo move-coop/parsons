@@ -75,7 +75,7 @@ class ZoomV1:
                 Additional request parameters, defaults to None
 
         Returns:
-            Parsons Table of API responses
+            :ref:`Table` of API responses
 
         """
 
@@ -120,7 +120,7 @@ class ZoomV1:
                 Column name of nested JSON
 
         Returns:
-            Parsons Table
+            :ref:`Table`
 
         """
         if version == 2:
@@ -142,7 +142,7 @@ class ZoomV1:
                 Table of poll results derived from Zoom API request
 
         Returns:
-            Parsons Table
+            :ref:`Table`
 
         """
         if tbl.num_rows == 0:
@@ -185,8 +185,8 @@ class ZoomV1:
                 Filter by the user role.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -237,8 +237,8 @@ class ZoomV1:
                 Optional end date for the range of meetings to retrieve.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         params: dict[str, str] = {"type": meeting_type}
@@ -259,8 +259,8 @@ class ZoomV1:
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -276,8 +276,8 @@ class ZoomV1:
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -293,8 +293,8 @@ class ZoomV1:
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -310,8 +310,8 @@ class ZoomV1:
             user_id: str
                 The user id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -327,8 +327,8 @@ class ZoomV1:
             webinar_id: str
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -345,8 +345,8 @@ class ZoomV1:
             webinar_id: str
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -362,8 +362,8 @@ class ZoomV1:
             webinar_id: str
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -386,7 +386,7 @@ class ZoomV1:
                 Unique identifier for poll
 
         Returns:
-            Parsons Table of all polling responses
+            :ref:`Table` of all polling responses
 
         """
 
@@ -418,7 +418,7 @@ class ZoomV1:
                 Unique identifier for Zoom meeting
 
         Returns:
-            Parsons Table of all polling responses
+            :ref:`Table` of all polling responses
 
         """
 
@@ -444,7 +444,7 @@ class ZoomV1:
                 The meeting's ID or universally unique ID (UUID).
 
         Returns:
-            Parsons Table of poll results
+            :ref:`Table` of poll results
 
         """
 
@@ -477,7 +477,7 @@ class ZoomV1:
                 Unique identifier for poll
 
         Returns:
-            Parsons Table of all polling responses
+            :ref:`Table` of all polling responses
 
         """
 
@@ -505,7 +505,7 @@ class ZoomV1:
                 Unique identifier for Zoom webinar
 
         Returns:
-            Parsons Table of all polling responses
+            :ref:`Table` of all polling responses
 
         """
 
@@ -531,7 +531,7 @@ class ZoomV1:
                 The webinar's ID or universally unique ID (UUID).
 
         Returns:
-            Parsons Table of all polling responses
+            :ref:`Table` of all polling responses
 
         """
 
@@ -642,8 +642,8 @@ class ZoomV2(ZoomV1):
                 Additional request parameters, defaults to None
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -684,8 +684,8 @@ class ZoomV2(ZoomV1):
             user_id: str
                 The user id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -701,8 +701,8 @@ class ZoomV2(ZoomV1):
             webinar_id: int
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         tbl = self._get_request(f"webinars/{webinar_id}/", "occurrences")
@@ -717,8 +717,8 @@ class ZoomV2(ZoomV1):
             webinar_id: int
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         tbl = self._get_request(f"past_webinars/{webinar_id}/instances", "webinars")
@@ -739,8 +739,8 @@ class ZoomV2(ZoomV1):
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -756,8 +756,8 @@ class ZoomV2(ZoomV1):
             webinar_id: int
                 The webinar id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -773,8 +773,8 @@ class ZoomV2(ZoomV1):
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
@@ -790,8 +790,8 @@ class ZoomV2(ZoomV1):
             meeting_id: int
                 The meeting id
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         tbl = self._get_request(f"past_meetings/{meeting_id}/instances", "meetings")
@@ -819,8 +819,8 @@ class ZoomV2(ZoomV1):
                 all previous occurrences of a recurring meeting.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -845,8 +845,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom poll
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -871,8 +871,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom meeting
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -895,8 +895,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom meeting
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -922,8 +922,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom poll
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -948,8 +948,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom webinar
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -972,8 +972,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom webinar
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -996,8 +996,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom meeting
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1020,8 +1020,8 @@ class ZoomV2(ZoomV1):
                 Unique identifier for Zoom webinar
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

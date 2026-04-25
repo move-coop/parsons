@@ -4,6 +4,7 @@ import logging
 import pickle
 import random
 import uuid
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Literal
@@ -12,7 +13,9 @@ import google
 import petl
 from google.api_core import exceptions
 from google.cloud import bigquery
-from google.cloud.bigquery import ExtractJob, dbapi, job
+from google.cloud.bigquery import ExtractJob, SchemaField, dbapi, job
+from google.cloud.bigquery.client import Client
+from google.cloud.bigquery.dbapi import Connection
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 from google.oauth2.credentials import Credentials
 
@@ -68,11 +71,9 @@ def ends_with_semicolon(query: str) -> str:
     return query + ";"
 
 
-def map_column_headers_to_schema_field(schema_definition: list) -> list:
+def map_column_headers_to_schema_field(schema_definition: list) -> list[SchemaField]:
     """
-    Loops through a list of dictionaries and instantiates google.cloud.bigquery.SchemaField objects.
-    Useful docs from Google's API can be found here:
-    https://cloud.google.com/python/docs/reference/bigquery/latest/google.cloud.bigquery.schema.SchemaField
+    Loops through a list of dictionaries and instantiates :class:`~google.cloud.bigquery.schema.SchemaField` objects.
 
     Args:
         schema_definition: list
@@ -98,7 +99,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
             ]
 
     Returns:
-        List of instantiated `SchemaField` objects
+        List of instantiated :class:`~google.cloud.bigquery.schema.SchemaField` objects
 
     """
 
@@ -188,14 +189,8 @@ class GoogleBigQuery(DatabaseConnector):
         self.dialect = "bigquery"
 
     @property
-    def client(self):
-        """
-        Get the Google BigQuery client to use for making queries.
-
-        Returns:
-            `google.cloud.bigquery.client.Client`
-
-        """
+    def client(self) -> Client:
+        """Get the Google BigQuery client to use for making queries."""
         if not self._client:
             # Create a BigQuery client to use to make the query
             self._client = bigquery.Client(
@@ -208,24 +203,22 @@ class GoogleBigQuery(DatabaseConnector):
         return self._client
 
     @contextmanager
-    def connection(self):
+    def connection(self) -> Generator[Connection, None, None]:
         """
         Generate a BigQuery connection.
+
         The connection is set up as a python "context manager", so it will be closed
         automatically when the connection goes out of scope. Note that the BigQuery
         API uses jobs to run database operations and, as such, simply has a no-op for
         a "commit" function.
 
         If you would like to manage transactions, please use multi-statement queries
-        as [outlined here](https://cloud.google.com/bigquery/docs/transactions)
-        or utilize the `query_with_transaction` method on this class.
+        as described in the `BigQuery transactions documentation`_
+        or utilize :meth:`~parsons.google.google_bigquery.GoogleBigQuery.query_with_transaction`.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
         ``with bq.connection() as conn:``
-
-        Yields:
-            Google BigQuery ``connection`` object
 
         """
         conn = self._dbapi.connect(self.client)
@@ -280,10 +273,6 @@ class GoogleBigQuery(DatabaseConnector):
                 An optional QueryJobConfig object for custom behavior.
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
         """
 
         with self.connection() as connection:
@@ -313,18 +302,18 @@ class GoogleBigQuery(DatabaseConnector):
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Must be true. BigQuery
             job_config: QueryJobConfig or None
                 An optional QueryJobConfig object for custom behavior.
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -334,8 +323,8 @@ class GoogleBigQuery(DatabaseConnector):
                 BigQuery implementation uses an API client which always auto-commits.
                 If you wish to wrap multiple queries in a transaction, use
                 Mulit-Statement transactions within a single query as outlined
-                here: https://cloud.google.com/bigquery/docs/transactions or use the
-                `query_with_transaction` method on the BigQuery connector.
+                here: https://docs.cloud.google.com/bigquery/docs/transactions/ or use the
+                `query_with_transaction` method of the GoogleBigQuery connector.
             """
             )
 
@@ -357,7 +346,10 @@ class GoogleBigQuery(DatabaseConnector):
 
             return final_table
 
-    def query_with_transaction(self, queries, parameters=None):
+    def query_with_transaction(
+        self, queries: list[str], parameters: list | dict | None = None
+    ) -> None:
+        """Perform a multi-statement transaction."""
         queries_with_semicolons = [ends_with_semicolon(q) for q in queries]
         queries_on_newlines = "\n".join(queries_with_semicolons)
         queries_wrapped = f"""
@@ -730,7 +722,7 @@ class GoogleBigQuery(DatabaseConnector):
         job_config: LoadJobConfig | None = None,
         max_timeout: int = 21600,
         **load_kwargs,
-    ):
+    ) -> Table | None:
         """
         Copy a file from s3 to BigQuery.
 
@@ -777,10 +769,6 @@ class GoogleBigQuery(DatabaseConnector):
                 job_config values are preferred.
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
-
-        `Returns`
-            Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
 
         """
 
@@ -839,7 +827,7 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a :ref:`parsons-table` into Google BigQuery
+        Copy a :ref:`Table` into Google BigQuery
         directly. This will work well for smaller data. For larger
         data, use the :meth:`copy` method which stages the upload through CloudStorage.
 
@@ -934,7 +922,7 @@ class GoogleBigQuery(DatabaseConnector):
         **load_kwargs,
     ):
         """
-        Copy a :ref:`parsons-table` into Google BigQuery via Google Cloud Storage.
+        Copy a :ref:`Table` into Google BigQuery via Google Cloud Storage.
 
         Args:
             tbl: obj
@@ -1115,7 +1103,7 @@ class GoogleBigQuery(DatabaseConnector):
             if_exists: str
                 If the table already exists, either ``fail``, ``replace``, or
                 ``ignore`` the operation.
-            drop_source_table: boolean
+            drop_source_table: bool
                 Drop the source table
 
         """
@@ -1146,7 +1134,7 @@ class GoogleBigQuery(DatabaseConnector):
         from_s3=False,
         **copy_args,
     ):
-        r"""
+        """
         Preform an upsert on an existing table. An upsert is a function in which rows
         in a table are updated and inserted at the same time.
 
@@ -1157,16 +1145,16 @@ class GoogleBigQuery(DatabaseConnector):
                 The schema and table name to upsert
             primary_key: str or list
                 The primary key column(s) of the target table
-            distinct_check: boolean
+            distinct_check: bool
                 Check if the primary key column is distinct. Raise error if not.
-            cleanup_temp_table: boolean
+            cleanup_temp_table: bool
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
-            from_s3: boolean
+            from_s3: bool
                 Instead of specifying a table_obj (set the first argument to None),
-                set this to True and include :func:`~parsons.databases.bigquery.Bigquery.copy_s3`
+                set this to True and include :func:`~parsons.google.google_bigquery.GoogleBigQuery.copy_s3`
                 arguments to upsert a pre-existing s3 file into the target_table
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.bigquery.BigQuery.copy` for options.
+                See :func:`~parsons.google.google_bigquery.GoogleBigQuery.copy` for options.
 
         """
         if not self.table_exists(target_table):
@@ -1268,6 +1256,7 @@ class GoogleBigQuery(DatabaseConnector):
         Args:
             table_name: str
                 The name of the BigQuery table to check for
+
         Returns:
             bool
                 True if the table exists in the specified dataset, false otherwise
@@ -1290,9 +1279,10 @@ class GoogleBigQuery(DatabaseConnector):
                 Filter by a schema
             table_name: str
                 Filter by a table name
+
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1312,8 +1302,8 @@ class GoogleBigQuery(DatabaseConnector):
             view: str
                 Filter by a table name
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -1379,7 +1369,8 @@ class GoogleBigQuery(DatabaseConnector):
                 The table name
 
         Returns:
-            A list of column names
+            list[str]
+                Column names
 
         """
 
@@ -1522,7 +1513,7 @@ class GoogleBigQuery(DatabaseConnector):
                 Optionally supplied GCS `LoadJobConfig` object
 
         Returns:
-            A `LoadJobConfig` object
+            `LoadJobConfig`
 
         """
 

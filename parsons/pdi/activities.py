@@ -14,7 +14,7 @@ class Activities:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return self._request(self.url_activites, limit=limit)
@@ -42,7 +42,7 @@ class Activities:
                 The Activity id
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return self._request(f"{self.url_activites}/{id}")

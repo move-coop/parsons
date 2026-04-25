@@ -20,9 +20,9 @@ class Empower:
                 required if ``EMPOWER_API_KEY`` env variable set.
             empower_uri: str
                 The URI to access the Empower API. The default is currently set to
-                https://api.getempower.com/v1/export. You can set an ``EMPOWER_URI`` env
+                ``https://api.getempower.com/v1/export``. You can set an ``EMPOWER_URI`` env
                 variable or use this URI parameter if a different endpoint is necessary.
-            cache: boolean
+            cache: bool
                 The Empower API returns all account data after each call. Setting cache
                 to ``True`` stores the blob and then extracts Parsons tables for each method.
                 Setting cache to ``False`` will download all account data for each method call.
@@ -62,8 +62,8 @@ class Empower:
         Get Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -78,8 +78,8 @@ class Empower:
         Get active ctas assigned to Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -91,8 +91,8 @@ class Empower:
         Get Empower regions.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -105,8 +105,8 @@ class Empower:
         Get Empower call to action results.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -156,8 +156,8 @@ class Empower:
         Get Empower calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -168,8 +168,8 @@ class Empower:
         Get Empower calls to action prompts.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -180,8 +180,8 @@ class Empower:
         Get Empower calls to action prompt answers.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -192,8 +192,8 @@ class Empower:
         Get a list of regions that each call to active is active in.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -205,8 +205,8 @@ class Empower:
         Get a list of shareables associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -218,8 +218,8 @@ class Empower:
         Get a list prioritizations associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -231,8 +231,8 @@ class Empower:
         Get outreach entries.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         if self._empty_obj("outreachEntries"):
@@ -254,8 +254,8 @@ class Empower:
         Meant to facilitate pure ELT pipelines
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

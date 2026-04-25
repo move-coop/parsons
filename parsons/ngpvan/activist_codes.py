@@ -18,8 +18,8 @@ class ActivistCodes:
         Get activist codes.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -85,7 +85,7 @@ class ActivistCodes:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-            omit_contact: boolean
+            omit_contact: bool
                 If set to false the contact history will be updated with a contact
                 attempt.
 

@@ -26,8 +26,8 @@ class Codes:
                 Filter by code type.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -52,8 +52,8 @@ class Codes:
                 The code id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -98,7 +98,7 @@ class Codes:
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
                 .. code-block:: python
 
@@ -165,7 +165,7 @@ class Codes:
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
                 .. code-block:: python
 

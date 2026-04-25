@@ -49,22 +49,22 @@ class Formstack:
             their API.
 
         Args:
-            url: string
+            url: str
                 Relative URL (from the Formstack base URL) to make the request.
 
-            data_key: string
+            data_key: str
                 JSON key that will hold the data in the response body.
 
-            params: Dictionary, optional
-                Params to pass to the request.
+            params: dict, optional
+                    Params to pass to the request.
 
             large_request: Boolean, optional
                 If the response is likely to include a large number of pages. Defaults to `False`.
-                In rare cases the API will return more pages than `parsons.Table` is able to handle.
+                In rare cases the API will return more pages than :ref:`Table` is able to handle.
                 Pass `True` to enable a workaround for these endpoints.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A table with the returned data.
 
         """
@@ -92,7 +92,7 @@ class Formstack:
         Get all folders on your account and their subfolders.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the folders data.
 
         """
@@ -123,13 +123,13 @@ class Formstack:
         Get all forms on your account.
 
         Args:
-            form_name: string, optional
+            form_name: str, optional
                 Search by form name.
             folder_id: int, optional
                 Return forms in the specified folder.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A table with the forms data.
 
         """
@@ -176,7 +176,7 @@ class Formstack:
                 Query arguments to pass to the form/submissions endpoint.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the submission data for the form.
 
         """
@@ -195,7 +195,7 @@ class Formstack:
                 The form ID for the form of the submissions.
 
         Returns:
-            Table Class
+            :ref:`Table`
                 A Table with the fields on the form.
 
         """

@@ -161,7 +161,7 @@ def distribute_task(
         table: Parsons Table
            Table of data you wish to distribute processing across Lambda invocations
            of `func_to_run` argument.
-        func_to_run: function
+        func_to_run: Callable
            The function you want to run whose
            first argument will be a subset of table
         bucket: str

@@ -6,20 +6,20 @@ from parsons.utilities.files import create_temp_directory
 
 
 def create_archive(
-    archive_path, file_path, file_name=None, if_exists: Literal["replace", "append"] = "replace"
-):
+    archive_path: str,
+    file_path: str,
+    file_name: str | None = None,
+    if_exists: Literal["replace", "append"] = "replace",
+) -> str:
     """
     Create and fill an archive.
 
     Args:
-        archive_path: str
-            The file name of zip archive
-        file_path: str
-            The path of the file
-        file_name: str
-            The name of the file in the archive
-        if_exists: str
-            If archive already exists, one of 'replace' or 'append'
+        archive_path: The file name of zip archive
+        file_path: The path of the file
+        file_name: The name of the file in the archive
+        if_exists: If archive already exists, one of 'replace' or 'append'
+
     Returns:
         Zip archive path
 
@@ -36,16 +36,18 @@ def create_archive(
     return archive_path
 
 
-def unzip_archive(archive_path, destination=None):
+def unzip_archive(archive_path: str, destination: str | None = None) -> str:
     """
-    Unzip an archive. Only returns the path of the first
-    file in the archive.
+    Unzip an archive.
+
+    Only returns the path of the first file in the archive.
 
     Args:
-        archive_path: str
-            Path to the ZIP archive
-        destination: str
-            `Optional`; path to unzip the archive into; if not specified, the
+        archive_path: Path to the ZIP archive
+        destination:
+            Path to unzip the archive into
+            If not specified, the archive will be unzipped into a temporary directory.
+
     Returns:
         Extracted file path.
 

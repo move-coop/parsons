@@ -1,65 +1,76 @@
+#######
 Airmeet
-=======
+#######
 
-********
 Overview
-********
+========
 
-`Airmeet <https://www.airmeet.com/>`_ is a webinar platform. This connector supports
+`Airmeet <https://www.airmeet.com/>`__ is a webinar platform. This connector supports
 fetching events ("Airmeets"), sessions, participants, and other event data via the
-`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+`Airmeet Public API for Event Details <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`__.
 
-.. note::
+.. admonition:: Authentication
 
-  Authentication
-    You must create an Access Key and Secret Key via the Airmeet website. These are used by the ``Airmeet`` class to fetch
-    an access token which is used for subsequent interactions with the API. There are three region-based API endpoints; see
-    the `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`_ for details.
+   You must create an Access Key and Secret Key via the Airmeet website.
+   These are used by the :class:`~parsons.airmeet.airmeet.Airmeet` class to fetch
+   an access token which is used for subsequent interactions with the API.
+   There are three region-based API endpoints; see the
+   `Airmeet API documentation <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api#3.-Authentication%C2%A0>`__
+   for details.
 
-***********
-Quick Start
-***********
+Quickstart
+==========
 
-To instantiate the ``Airmeet`` class, you can either store your API endpoint, access key, and secret key as environmental
-variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``) or pass them in as arguments.
+To instantiate the :class:`~parsons.airmeet.airmeet.Airmeet` class,
+you can either store your API endpoint, access key, and secret key
+as environmental variables (``AIRMEET_URI``, ``AIRMEET_ACCESS_KEY``, ``AIRMEET_SECRET_KEY``)
+or pass them in as arguments.
 
 .. code-block:: python
+   :caption: Use API credentials via environmental variables
 
-  from parsons import Airmeet
+   from parsons import Airmeet
+   airmeet = Airmeet()
 
-  # First approach: Use API credentials via environmental variables
-  airmeet = Airmeet()
+.. code-block:: python
+   :caption: Pass API credentials as arguments (airmeet_uri is optional)
 
-  # Second approach: Pass API credentials as arguments (airmeet_uri is optional)
-  airmeet = Airmeet(
-    airmeet_uri='https://api-gateway.airmeet.com/prod',
-    airmeet_access_key="my_access_key",
-    airmeet_secret_key="my_secret_key
-  )
+   from parsons import Airmeet
+   airmeet = Airmeet(
+      airmeet_uri='https://api-gateway.airmeet.com/prod',
+      airmeet_access_key="my_access_key",
+      airmeet_secret_key="my_secret_key
+   )
 
 You can then call various endpoints:
 
 .. code-block:: python
+   :caption: Fetch the list of Airmeets
 
-  # Fetch the list of Airmeets.
-  events_tbl = airmeet.list_airmeets()
+   events_tbl = airmeet.list_airmeets()
 
-  # Fetch the list of sessions in an Airmeet.
-  sessions_tbl = airmeet.fetch_airmeet_sessions("my_airmeet_id")
+.. code-block:: python
+   :caption: Fetch the list of sessions in an Airmeet
 
-  # Fetch the list of registrations for an Airmeet, sorted in order
-  # of registration date.
-  participants_tbl = airmeet.fetch_airmeet_participants(
-    "my_airmeet_id", sorting_direction="ASC"
-  )
+   sessions_tbl = airmeet.fetch_airmeet_sessions("my_airmeet_id")
 
-  # Fetch the list of session attendees.
-  session_attendees_tbl = airmeet.fetch_session_attendance("my_session_id")
+.. code-block:: python
+   :caption: Fetch the list of registrations for an Airmeet, sorted in order of registration date
 
-***
+   participants_tbl = airmeet.fetch_airmeet_participants(
+      "my_airmeet_id", sorting_direction="ASC"
+   )
+
+.. code-block:: python
+   :caption: Fetch the list of session attendees
+
+   session_attendees_tbl = airmeet.fetch_session_attendance("my_session_id")
+
 API
-***
+====
 
 .. autoclass:: parsons.airmeet.airmeet.Airmeet
    :inherited-members:
    :members:
+
+.. _Airmeet Event Details API Documentation: https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api

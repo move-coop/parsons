@@ -13,7 +13,9 @@ class Salesforce:
     """
     Instantiate the Salesforce class
 
-    Supports the password and `client_credentials <https://help.salesforce.com/s/articleView?id=xcloud.connected_app_client_credentials_setup.htm&type=5>`_ authentication methods.
+    Supports the password and
+    `client_credentials <https://help.salesforce.com/s/articleView?language=en_US&id=xcloud.connected_app_client_credentials_setup.htm&type=5>`__
+    authentication methods.
 
     Args:
         username: str
@@ -37,9 +39,6 @@ class Salesforce:
             url for the salesforce instance. Used in the 'client_credentials' auth method
         authentication_method: str
             the method to use for authentication. defaults to "password". Not required if ``SALESFORCE_AUTHENTICATION_METHOD`` env variable is passed.
-
-    Returns:
-        Salesforce class
 
     """
 
@@ -89,7 +88,8 @@ class Salesforce:
                 The API name of the type of record to describe. Note that custom object names end
                 in `__c`
         Returns:
-            Ordered Dict of all the object's meta data in Salesforce
+            OrderedDict
+                All the object's metadata in Salesforce
 
         """
 
@@ -113,10 +113,11 @@ class Salesforce:
         Args:
             soql: str
                 The desired query in Salesforce SOQL language (SQL with additional limitations).
-                For reference, see the `Salesforce SOQL documentation <https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm>`_.
+                For reference, see the `Salesforce SOQL Documentation`_.
 
         Returns:
-            list of dicts with Salesforce data
+            list[dict]
+                Salesforce data
 
         """
 
@@ -139,11 +140,11 @@ class Salesforce:
                 names end in `__c`.
 
         Returns:
-            list of dicts that have the following data:
-            * success: boolean
-            * created: boolean (if new record is created)
-            * id: str (id of record created, if successful)
-            * errors: list of dicts (with error details)
+            list[dict[str, bool | str | list[dict]]]
+                * success: bool
+                * created: bool (if new record is created)
+                * id: str (id of record created, if successful)
+                * errors: list of dicts (with error details)
 
         """
 
@@ -168,9 +169,9 @@ class Salesforce:
                 not match. Note that custom field names end in `__c`.
 
         Returns:
-                list of dicts that have the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+            list[dict[str, bool | str | list[dict]]]
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record altered, if successful)
                 * errors: list of dicts (with error details)
 
@@ -200,9 +201,9 @@ class Salesforce:
                 records are new/inserted.
 
         Returns:
-                list of dicts that have the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+            list[dict[str, bool | str | list[dict]]]
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record created or altered, if successful)
                 * errors: list of dicts (with error details)
 
@@ -226,14 +227,14 @@ class Salesforce:
             id_table: obj
                 Parsons Table of record IDs to delete.
                 Note that 'Id' is the default Salesforce record ID field name.
-            hard_delete: boolean
+            hard_delete: bool
                 If true, will permanently delete record instead of moving it to trash
 
         Returns:
-            list[dict]
+            list[dict[str, bool | str | list[dict]]]
                 Each list has the following data:
-                * success: boolean
-                * created: boolean (if new record is created)
+                * success: bool
+                * created: bool (if new record is created)
                 * id: str (id of record deleted, if successful)
                 * errors: list of dicts (with error details)
 
@@ -254,7 +255,7 @@ class Salesforce:
     def client(self):
         """
         Get the Salesforce client to use for making all calls. For more information, check the
-        `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`_
+        `Simple Salesforce Documentation <https://simple-salesforce.readthedocs.io/en/latest/>`__
 
         Returns:
             `simple-salesforce Salesforce object`

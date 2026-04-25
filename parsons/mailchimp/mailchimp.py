@@ -62,32 +62,32 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            before_date_created: string
+            before_date_created: str
                 Restrict response to lists created before the set date. We
                 recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_date_created: string
+            since_date_created: str
                 Restrict results to lists created after the set date. We
                 recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            before_campaign_last_sent: string
+            before_campaign_last_sent: str
                 Restrict results to lists created before the last campaign send
                 date. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            since_campaign_last_sent: string
+            since_campaign_last_sent: str
                 Restrict results to lists created after the last campaign send
                 date. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            email: string
+            email: str
                 Restrict results to lists that include a specific subscriber's
                 email address.
-            sort_field: string
+            sort_field: str
                 Can only be 'date_created' or None
                 Returns files sorted by the specified field.
-            sort_dir: string
+            sort_dir: str
                 Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -149,41 +149,41 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            type: string
+            type: str
                 Can only be 'regular', 'plaintext', 'absplit', 'rss', 'variate', or None
                 The campaign type.
-            status: string
+            status: str
                 Can only be 'save', 'paused', 'schedule', 'sending', 'sent', or None
                 The status of the campaign.
-            before_send_time: string
+            before_send_time: str
                 Restrict the response to campaigns sent before the set time. We
                 recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_send_time: string
+            since_send_time: str
                 Restrict the response to campaigns sent after the set time. We
                 recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            before_create_time: string
+            before_create_time: str
                 Restrict the response to campaigns created before the set time.
                 We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            since_create_time: string
+            since_create_time: str
                 Restrict the response to campaigns created after the set time.
                 We recommend ISO 8601 time format: 2015-10-21T15:41:36+00:00.
-            list_id: string
+            list_id: str
                 The unique id for the list.
-            folder_id: string
+            folder_id: str
                 The unique folder id.
-            member_id: string
+            member_id: str
                 Retrieve campaigns sent to a particular list member. Member ID
                 is The MD5 hash of the lowercase version of the list member’s
                 email address.
-            sort_field: string
+            sort_field: str
                 Can only be 'create_time', 'send_time', or None
                 Returns files sorted by the specified field.
-            sort_dir: string
+            sort_dir: str
                 Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -244,7 +244,7 @@ class Mailchimp:
         documentation.
 
         Args:
-            list_id: string
+            list_id: str
                 The unique ID of the list to fetch members from.
             fields: list[str]
                 A comma-separated list of fields to return. Reference
@@ -259,66 +259,66 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            email_type: string
+            email_type: str
                 The email type.
-            status: string
+            status: str
                 Can only be 'subscribed', 'unsubscribed', 'cleaned', 'pending', 'transactional', 'archived', or None
                 The subscriber's status.
-            since_timestamp_opt: string
+            since_timestamp_opt: str
                 Restrict results to subscribers who opted-in after the set
                 timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            before_timestamp_opt: string
+            before_timestamp_opt: str
                 Restrict results to subscribers who opted-in before the set
                 timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            since_last_changed: string
+            since_last_changed: str
                 Restrict results to subscribers whose information changed after
                 the set timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            before_last_changed: string
+            before_last_changed: str
                 Restrict results to subscribers whose information changed
                 before the set timeframe. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
-            unique_email_id: string
+            unique_email_id: str
                 A unique identifier for the email address across all Mailchimp
                 lists. This parameter can be found in any links with Ecommerce
                 Tracking enabled.
-            vip_only: boolean
+            vip_only: bool
                 A filter to return only the list's VIP members. Passing true
                 will restrict results to VIP list members, passing false will
                 return all list members.
-            interest_category_id: string
+            interest_category_id: str
                 The unique id for the interest category.
             interest_ids: list[str]
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_match. The value must be a
                 comma separated list of interest ids present for any supplied
                 interest categories.
-            interest_match: string
+            interest_match: str
                 Can only be 'any', 'all', 'none', or None
                 Used to filter list members by interests. Must be accompanied
                 by interest_category_id and interest_ids. "any" will match a
                 member with any of the interest supplied, "all" will only match
                 members with every interest supplied, and "none" will match
                 members without any of the interest supplied.
-            sort_field: string
+            sort_field: str
                 Can only be 'timestamp_opt', 'timestamp_signup', 'last_changed', or None
                 Returns files sorted by the specified field.
-            sort_dir: string
+            sort_dir: str
                 Can only be 'ASC', 'DESC', or None
                 Determines the order direction for sorted results.
-            since_last_campaign: string
+            since_last_campaign: str
                 Filter subscribers by those
                 subscribed/unsubscribed/pending/cleaned since last email
                 campaign send. Member status is required to use this filter.
-            unsubscribed_since: string
+            unsubscribed_since: str
                 Filter subscribers by those unsubscribed since a specific date.
                 Using any status other than unsubscribed with this filter will
                 result in an error.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -366,7 +366,7 @@ class Mailchimp:
         Mailchimp's official API documentation.
 
         Args:
-            campaign_id: string
+            campaign_id: str
                 The unique ID of the campaign to fetch emails from.
             fields: list[str]
                 A comma-separated list of fields to return. Reference
@@ -381,13 +381,13 @@ class Mailchimp:
                 The number of records from a collection to skip. Iterating over
                 large collections with this parameter can be slow. Default
                 value is 0.
-            since: string
+            since: str
                 Restrict results to email activity events that occur after a
                 specific time. We recommend ISO 8601 time format:
                 2015-10-21T15:41:36+00:00.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {
@@ -414,7 +414,7 @@ class Mailchimp:
         Mailchimp's official API documentation.
 
         Args:
-            campaign_id: string
+            campaign_id: str
                 The unique ID of the campaign to fetch unsubscribes from.
             fields: list[str]
                 A comma-separated list of fields to return. Reference
@@ -431,7 +431,7 @@ class Mailchimp:
                 value is 0.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         params = {

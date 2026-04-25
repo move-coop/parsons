@@ -20,8 +20,8 @@ class CustomFields:
                 ``contributions``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -43,8 +43,8 @@ class CustomFields:
                 ``contributions``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

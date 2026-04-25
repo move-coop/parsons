@@ -67,8 +67,8 @@ class Twilio:
                 Filter to an account status of ``active``, ``closed`` or ``suspended``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -93,7 +93,7 @@ class Twilio:
         Args:
             category: str
                 Filter to a specific type of usage category. The list of possibilities can be found
-                `here <https://www.twilio.com/docs/usage/api/usage-record?code-sample=code-last-months-usage-for-all-usage-categories-4&code-language=Python&code-sdk-version=5.x#usage-all-categories>`_.
+                `here <https://www.twilio.com/docs/usage/api/usage-record#usage-all-categories>`__.
             start_date: str
                 Filter to usage from a specific start date (ex. ``2019-01-01``).
             end_date: str
@@ -104,12 +104,12 @@ class Twilio:
             group_by: str
                 The time interval to group usage by. Can be one of ``daily``, ``monthly`` or
                 ``yearly``.
-            exclude_null: boolean
+            exclude_null: bool
                 Exclude rows that have no usage.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 
@@ -168,8 +168,8 @@ class Twilio:
                 Filter to messages only sent after the specified date (ex. ``2019-01-01``).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
 

@@ -73,7 +73,7 @@ class Airtable:
                 ``COLUMN_A`` isn't empty, pass in: ``"NOT({COLUMN_A}='')"``
 
                 For more information see
-                `Airtable Docs on formulas. <https://airtable.com/api>`_
+                `Airtable API Documentation`_
 
                 Usage - Text Column is not empty:
 
@@ -97,8 +97,7 @@ class Airtable:
                 Number of rows to sample before determining columns
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -139,7 +138,7 @@ class Airtable:
         Args:
             row: dict
                 Fields to insert. Must be dictionary with Column names as Key.
-            typecast: boolean
+            typecast: bool
                 Automatic data conversion from string values.
 
         Returns:
@@ -161,7 +160,7 @@ class Airtable:
         Args:
             table: A Parsons Table or list of dicts
                 Insert a Parsons table or list
-            typecast: boolean
+            typecast: bool
                 Automatic data conversion from string values.
 
         Returns:
@@ -188,9 +187,9 @@ class Airtable:
                 The Airtable record `id`
             fields: dict
                 Fields to insert. Must be dictionary with Column names as Key.
-            typecast: boolean
+            typecast: bool
                 Automatic data conversion from string values.
-            replace: boolean
+            replace: bool
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
@@ -215,9 +214,9 @@ class Airtable:
             table: A Parsons Table or list of dicts
                 Insert a Parsons table or list. Record must contain the record `id` column
                 and columns containing the fields to update
-            typecast: boolean
+            typecast: bool
                 Automatic data conversion from string values.
-            replace: boolean
+            replace: bool
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
@@ -229,7 +228,7 @@ class Airtable:
         """
 
         # the update/upsert API call expects a dict/object shape of:
-        # { id: string, fields: { column_name: value, ... } }
+        # { id: str, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
         # columns/keys into this nested structure
         table = list(map(map_update_fields, table))
@@ -252,9 +251,9 @@ class Airtable:
             key_fields: list[str]
                 Field names that Airtable should use to match records in the input
                 with existing records.
-            typecast: boolean
+            typecast: bool
                 Automatic data conversion from string values.
-            replace: boolean
+            replace: bool
                 Only provided fields are updated. If `True`, record is replaced in its
                 entirety by provided fields; if a field is not included its value
                 will bet set to null.
@@ -268,7 +267,7 @@ class Airtable:
         """
 
         # the update/upsert API call expects a dict/object shape of:
-        # { id: string, fields: { column_name: value, ... } }
+        # { id: str, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
         # columns/keys into this nested structure
         table = list(map(map_update_fields, table))

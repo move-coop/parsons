@@ -98,7 +98,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefind>`__.
+            `here <https://docs.ngpvan.com/reference/peoplefind>`__.
 
         Args:
             match_json: dict
@@ -186,7 +186,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplevanid>`__.
+            `here <https://docs.ngpvan.com/reference/peoplevanid>`__.
 
         Args:
             id: str
@@ -295,7 +295,7 @@ class People:
         .. note::
 
             A full list of possible values for the json, and its structure can be found
-            `here <https://docs.ngpvan.com/reference/people#peoplefindorcreate>`__. `vanId` can
+            `here <https://docs.ngpvan.com/reference/peoplefindorcreate>`__. `vanId` can
             be passed to ensure the correct record is updated.
 
         .. warning::
@@ -522,7 +522,7 @@ class People:
                 A valid person id
             result_code_id : int
                 Specifies the result code of the attempt. Valid ids can be found
-                by using the :meth:`get_canvass_responses_result_codes`
+                by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
@@ -577,7 +577,7 @@ class People:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id: int
                 `Optional`; A valid contact type id
             input_type_id: int
@@ -620,6 +620,24 @@ class People:
         conform to the VAN API `response object
         format <https://docs.ngpvan.com/reference/canvass-responses>`__.
 
+        Example:
+
+            .. code-block:: python
+
+                response = [
+                    {
+                        "activistCodeId": 18917,
+                        "action": "Apply",
+                        "type": "ActivistCode"
+                    },
+                    {
+                        "surveyQuestionId": 109149,
+                        "surveyResponseId": 465468,
+                        "type": "SurveyResponse"
+                    }
+                ]
+                van.apply_response(5222, response)
+
         Args:
             id: str
                 A valid person id
@@ -632,14 +650,14 @@ class People:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
-            omit_contact: boolean
+            omit_contact: bool
                 Omit adding contact history to the response. This is particularly
                 useful when adding activist codes that are not based on contact
                 attempts.
@@ -647,27 +665,11 @@ class People:
                 `Optional`; Phone number of any type (Work, Cell, Home)
             campaignId: int
                 `Optional`; a valid Campaign ID.
-            skip_matching: boolean
+            skip_matching: bool
                 `Optional`; if set to true, skips matching/de-duping of contact history. Defaults to a null value, aka false.
 
         Returns:
             ``True`` if successful
-
-        .. code-block:: python
-
-            response = [
-                {
-                    "activistCodeId": 18917,
-                    "action": "Apply",
-                    "type": "ActivistCode"
-                },
-                {
-                    "surveyQuestionId": 109149,
-                    "surveyResponseId": 465468,
-                    "type": "SurveyResponse"
-                }
-            ]
-            van.apply_response(5222, response)
 
         """
 

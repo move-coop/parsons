@@ -25,9 +25,6 @@ class Copper:
             The Copper provided application key. Not required if ``COPPER_API_KEY``
             env. variable set.
 
-    Returns:
-        Copper Class
-
     """
 
     def __init__(self, user_email=None, api_key=None):
@@ -112,17 +109,18 @@ class Copper:
         Get people
 
         Args:
-            `filters: dict`
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`__ for choices
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/people/list-people-search.html>`__ for choices
+            tidy: bool | int
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * people
                 * people_emails
                 * people_phone_numbers
@@ -139,17 +137,18 @@ class Copper:
         Get companies
 
         Args:
-            `filters: dict`
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`__ for choices
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/companies/list-companies-search.html>`__ for choices
+            tidy: bool | int
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * companies
                 * companies_phone_numbers
                 * companies_custom_fields
@@ -165,16 +164,17 @@ class Copper:
         Get activities
 
         Args:
-            `filters: dict`
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9>`__ for choices
+                See `Copper documentation <https://developer.copper.com/activities/list-activities-search.html>`__ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * activities
 
         """
@@ -186,16 +186,17 @@ class Copper:
         Get opportunities (i.e. donations)
 
         Args:
-            `filters: dict`
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57>`__ for choices
+                See `Copper documentation <https://developer.copper.com/opportunities/list-opportunities-search.html>`__ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * opportunities
                 * opportunities_custom_fields
 
@@ -216,12 +217,13 @@ class Copper:
         Get custom fields
 
         Args:
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#bf389290-0c19-46a7-85bf-f5e6884fa4e1>`__ for choices
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/custom-fields/general/list-custom-field-definitions.html>`__ for choices
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
@@ -237,12 +239,13 @@ class Copper:
         Get activity types
 
         Args:
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#6bd339f1-f0de-48b4-8c34-5a5e245e036f>`__ for choices
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/activities/list-activity-types.html>`__ for choices
 
         Returns:
-            List of dicts of Parsons Tables:
+            list[dict[str, str | Table]]
+                List of dicts of Parsons Tables:
                 * activitiy_types
 
         """
@@ -262,13 +265,12 @@ class Copper:
         Get contact types
 
         Args:
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#8b6e6ed8-c594-4eed-a2af-586aa2100f09>`__ for choices
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/people/list-contact-types.html>`__ for choices
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            list[dict[str, str | :ref:`Table`]]
 
         """
 

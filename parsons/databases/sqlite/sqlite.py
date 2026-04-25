@@ -61,18 +61,14 @@ class Sqlite(DatabaseConnector):
 
     def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         """
-        Execute a query against the database, using the existing connection within the Sqlite object.
+        Execute a query against the database,
+        using the existing connection within the Sqlite object.
+
         Will return ``None`` if the query returns zero rows.
 
         Args:
-            sql: str
-                A valid SQL statement
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-
-        Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            sql: A valid SQL statement
+            parameters: A list of python variables to be converted into SQL values in your query
 
         """
         with self.connection() as connection:
@@ -82,29 +78,22 @@ class Sqlite(DatabaseConnector):
         self,
         sql: str,
         connection: sqlite3.Connection,
-        parameters: list | dict | None = None,
+        parameters: list | dict | tuple = (),
         commit: bool = True,
         return_values: bool = True,
-    ):
+    ) -> Table | None:
         """
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
         Args:
-            sql: str
-                A valid SQL statement
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-            commit: boolean
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
-
-        Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            sql: A valid SQL statement
+            connection: A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
+            parameters: A list of python variables to be converted into SQL values in your query
+            commit:
+                Whether to commit the transaction immediately.
+                If ``False`` the transaction will be committed when the connection goes
+                out of scope and is closed (or you can commit manually with ``connection.commit()``).
 
         """
         # sqlite3 cursor cannot take None for parameters
@@ -144,6 +133,8 @@ class Sqlite(DatabaseConnector):
 
                 logger.debug(f"Query returned {final_tbl.num_rows} rows.")
                 return final_tbl
+
+            return None
 
     def generate_data_types(self, table: Table) -> dict[str, str]:
         """Generate column data types"""
@@ -197,25 +188,25 @@ class Sqlite(DatabaseConnector):
         if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
         force_python_sdk: bool = False,
-    ):
+    ) -> None:
         """
-        Copy a :ref:`parsons-table` to Sqlite.
+        Copy a :ref:`Table` to Sqlite.
 
         Args:
-            tbl: parsons.Table
-                A Parsons table object
-            table_name: str
-                The destination schema and table (e.g. ``my_schema.my_table``)
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table.
-            strict_length: bool
+            tbl: A Parsons table object
+            table_name: The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists:
+                If the table already exists,
+                either ``fail``, ``append``, ``drop`` or ``truncate`` the table.
+            strict_length:
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. Defaults to ``False``.
-            force_python_sdk: bool
-                Use the python SDK to import data to sqlite3, even if the sqlite3 cli utility is available for more efficient loading. Defaults to False.
+            force_python_sdk:
+                Use the python SDK to import data to sqlite3,
+                even if the sqlite3 cli utility is available for more efficient loading.
+                Defaults to False.
 
         """
 
@@ -238,9 +229,10 @@ class Sqlite(DatabaseConnector):
         logger.info(f"{len(tbl)} rows copied to {table_name}.")
 
     def import_table_iteratively(
-        self, tbl: Table, table_name: str, if_exists: str, chunksize=10000
+        self, tbl: Table, table_name: str, if_exists: str, chunksize: int = 10000
     ) -> None:
-        """Import a CSV row by row using the python sqlite3 API.
+        """
+        Import a CSV row by row using the python sqlite3 API.
 
         Iterates over chunks of length `chunksize`
 
@@ -262,7 +254,8 @@ class Sqlite(DatabaseConnector):
                 )
 
     def _cli_command(self, command: str) -> None:
-        """Use the sqlite3 command line utility to run a command.
+        """
+        Use the sqlite3 command line utility to run a command.
 
         Certain commands are only possible via the shell utility and
         not via the python API, such as the CSV import command.
@@ -271,6 +264,10 @@ class Sqlite(DatabaseConnector):
         utility is not available by default on all systems. Windows
         machines in particular generally don't have the sqlite3
         utility unless it is explicitly installed.
+
+        Raises:
+            RuntimeError: If the command fails, include the error output.
+
         """
         db_path = Path(self.db_path).resolve()
         full_command = ["sqlite3", str(db_path), command]
@@ -280,27 +277,25 @@ class Sqlite(DatabaseConnector):
         )
         if resp.stderr:
             raise RuntimeError(resp.stderr.decode())
+
         if resp.returncode:
             raise RuntimeError(resp.stdout.decode())
 
     def _create_table_precheck(
-        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+        self, connection, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
     ) -> bool:
         """
         Helper to determine what to do when you need a table that may already exist.
 
         Args:
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            table_name: str
-                The table to check
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``,
-                or ``truncate`` the table.
+            connection: A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
+            table_name: The table to check
+            if_exists:
+                If the table already exists,
+                either ``fail``, ``append``, ``drop``, or ``truncate`` the table.
 
         Returns:
-            bool
-                True if the table needs to be created, False otherwise.
+            ``True`` if the table needs to be created, ``False`` otherwise.
 
         """
 
@@ -333,14 +328,13 @@ class Sqlite(DatabaseConnector):
         Check if a table or view exists in the database.
 
         Args:
-            table_name: str
-                The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
-                Check to see if a view exists by the same name. Defaults to ``False``.
+            table_name: The table name and schema (e.g. ``myschema.mytable``).
+            view:
+                Check to see if a view exists by the same name.
+                Defaults to ``False``.
 
         Returns:
-            boolean
-                ``True`` if the table exists and ``False`` if it does not.
+            ``True`` if the table exists and ``False`` if it does not.
 
         """
         # Check in pg tables for the table

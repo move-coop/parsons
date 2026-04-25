@@ -17,7 +17,7 @@ class RedshiftTableUtilities:
         Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
+            view: bool
                 Check to see if a view exists by the same name
 
         Returns:
@@ -87,7 +87,7 @@ class RedshiftTableUtilities:
         .. note::
 
             You cannot move schemas when renaming a table. Instead, utilize
-            the :meth:`table_duplicate()`. method.
+            the :meth:`~.duplicate_table` method.
 
         Args:
             table_name: str
@@ -114,7 +114,7 @@ class RedshiftTableUtilities:
                 Name of existing schema and table (e.g. ``my_schema.old_table``)
             new_table: str
                 New name of schema and table (e.g. ``my_schema.newtable``)
-            drop_source_table: boolean
+            drop_source_table: bool
                 Drop the source table.
 
         """
@@ -152,7 +152,7 @@ class RedshiftTableUtilities:
 
         Args:
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             table_name: str
                 The table to check
             if_exists: str
@@ -254,7 +254,7 @@ class RedshiftTableUtilities:
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-            drop_source_table: boolean
+            drop_source_table: bool
                 Drop the source table
 
         """
@@ -288,10 +288,10 @@ class RedshiftTableUtilities:
                 The new table and schema (e.g. ``myschema.newtable``)
             tables: list
                 A list of tables to union
-            union_all: boolean
+            union_all: bool
                 If ``False`` will deduplicate rows. If ``True`` will include
                 duplicate rows.
-            view: boolean
+            view: bool
                 Create a view rather than a static table
 
         """
@@ -320,8 +320,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -351,8 +350,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -463,8 +461,7 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -490,8 +487,7 @@ class RedshiftTableUtilities:
             Must be a Redshift superuser to run this method.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 

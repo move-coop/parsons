@@ -3,6 +3,7 @@ import pickle
 from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
+from typing import Literal
 
 import petl
 
@@ -33,9 +34,9 @@ _EMPTYDEFAULT = _EmptyDefault.token
 class Table(ETL, ToFrom):
     """
     Create a Parsons Table. Accepts one of the following:
-    - A list of lists, with list[0] holding field names, and the other lists holding data
-    - A list of dicts
-    - A petl table
+    - A `list[list]`, with list[0] holding field names, and the other lists holding data
+    - A `list[dict]`
+    - A petl :class:`~petl.util.base.Table`
 
     Args:
         lst: list
@@ -49,7 +50,7 @@ class Table(ETL, ToFrom):
 
     def __init__(
         self,
-        lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        lst: list | tuple | Iterator | petl.Table | Literal[_EmptyDefault.token] = _EMPTYDEFAULT,
         source: str | None = None,
         name: str | None = None,
     ):
@@ -81,7 +82,7 @@ class Table(ETL, ToFrom):
                     err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
                     raise ValueError(err_msg)
 
-        elif isinstance(lst, petl.util.base.Table):
+        elif isinstance(lst, petl.Table):
             # Create from a petl table
             self.table = lst
 
@@ -138,6 +139,8 @@ class Table(ETL, ToFrom):
     @property
     def num_rows(self):
         """
+        Count the number of rows in the table.
+
         Returns:
             int
                 Number of rows in the table
@@ -150,15 +153,14 @@ class Table(ETL, ToFrom):
 
     @property
     def data(self):
-        """
-        Returns an iterable object for iterating over the raw data rows as tuples
-        (without field names)
-        """
+        """Returns an iterable object for iterating over the raw data rows as tuples (without field names)."""
         return petl.data(self.table)
 
     @property
     def columns(self):
         """
+        List the table's column names.
+
         Returns:
             list
                 List of the table's column names
@@ -168,10 +170,7 @@ class Table(ETL, ToFrom):
 
     @property
     def first(self):
-        """
-        Returns the first value in the table. Useful for database queries that only
-        return a single value.
-        """
+        """Returns the first value in the table. Useful for database queries that only return a single value."""
 
         try:
             return self.data[0][0]
@@ -282,7 +281,7 @@ class Table(ETL, ToFrom):
 
         """
 
-        if not isinstance(self.table, petl.util.base.Table):
+        if not isinstance(self.table, petl.Table):
             return False
 
         try:

@@ -1,4 +1,4 @@
-def arg_format(arg):
+def arg_format(arg: str) -> str:
     """
     Many APIs require arguments to formatted like this 'thisTypeConfig' which is not the standard
     for python so this method takes an argument 'this_type_config' and returns it as
@@ -12,7 +12,7 @@ def arg_format(arg):
     return "".join(arg_list)
 
 
-def remove_empty_keys(dirty_dict):
+def remove_empty_keys(dirty_dict: dict) -> dict:
     """
     Remove empty keys from a dictionary. This method is useful when passing jsons
     in which a null field will update the value to null and you don't want that.
@@ -27,11 +27,13 @@ def remove_empty_keys(dirty_dict):
     return clean_dict
 
 
-def flatten_json(json):
+def flatten_json(json: dict | list[dict]) -> dict:
     """
-    Flatten nested json to return a dict without nested values. Lists without nested values will
-    be ignored, and lists of dicts will only return the first key value pair for each key. Useful
-    for passing nested json to validation methods.
+    Flatten nested json to return a dict without nested values.
+
+    Lists without nested values will be ignored, and lists of dicts
+    will only return the first key value pair for each key.
+    Useful for passing nested json to validation methods.
     """
     out = {}
 

@@ -57,13 +57,10 @@ class S3:
         aws_session_token: str
             The AWS session token. Optional. Can also be stored in the ``AWS_SESSION_TOKEN``
             env variable. Used for accessing S3 with temporary credentials.
-        use_env_token: boolean
+        use_env_token: bool
             Controls use of the ``AWS_SESSION_TOKEN`` environment variable. Defaults
             to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
-
-    Returns:
-        S3 class.
 
     """
 
@@ -149,9 +146,7 @@ class S3:
             date_modified_after: datetime.datetime
                 Limits the response to keys with date modified after
             kwargs:
-                Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
-                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.list_objects_v2>`_
-                for more info.
+                Additional arguments for the S3 :meth:`S3.Client.list_objects_v2` call.
 
         Returns:
             dict
@@ -258,7 +253,7 @@ class S3:
             you may be mis-using S3, and should consider using the same bucket for multiple tasks.
             There is no limit on the number of objects in a bucket.
             See `AWS bucket restrictions
-            <https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html>`_ for more
+            <https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html>`__ for more
             info.
 
         .. warning::
@@ -289,9 +284,7 @@ class S3:
             acl: str
                 The S3 permissions on the file
             kwargs:
-                Additional arguments for the S3 API call. See `AWS Put Object documentation
-                <https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html>`_ for more
-                info.
+                Additional arguments for the S3 :meth:`S3.Object.put` call.
 
         """
 
@@ -325,8 +318,7 @@ class S3:
             key: str
                 The object key
             kwargs:
-                Additional arguments for the S3 API call. See `AWS download_file documentation
-                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.download_file>`_
+                Additional arguments for the S3 :meth:`S3.Object.download_file` call.
                 for more info.
 
         Returns:
@@ -354,8 +346,8 @@ class S3:
             expires_in: int
                 The time, in seconds, until the url expires
         Returns:
-            Url:
-                A link to download the object
+            str:
+                A url to download the object
 
         """
 
@@ -405,9 +397,7 @@ class S3:
             remove_original: bool
                 If the original keys should be removed after transfer
             kwargs:
-                Additional arguments for the S3 API call. See `AWS download_file docs
-                <https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html#S3.Client.copy>`_
-                for more info.
+                Additional arguments for the S3 :meth:`S3.Client.copy` call.
 
         """
 

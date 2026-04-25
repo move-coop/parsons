@@ -23,7 +23,7 @@ class Flags:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         try:
@@ -46,18 +46,18 @@ class Flags:
         Args:
             flag_list: list[dict]
 
-            .. code-block:: python
+                .. code-block:: python
 
-                [
-                    {
-                        "pdiId": "string",
-                        "flagEntryDate": "An end date formatted like yyyy-MM-dd.",
-                        "acquisitionTypeId": "string",
-                        "flagId": "string",
-                        "questionId": "string",
-                        "contactId": "string"
-                    }
-                ]
+                    [
+                        {
+                            "pdiId": "string",
+                            "flagEntryDate": "An end date formatted like yyyy-MM-dd.",
+                            "acquisitionTypeId": "string",
+                            "flagId": "string",
+                            "questionId": "string",
+                            "contactId": "string"
+                        }
+                    ]
 
         """
         if "pdiId" not in list(flag_list[0].keys()):

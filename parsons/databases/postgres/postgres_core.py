@@ -9,7 +9,7 @@ import psycopg2
 import psycopg2.extras
 
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
-from parsons.etl.table import Table
+from parsons.etl.table import Table, ToFrom
 from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -66,12 +66,12 @@ class PostgresCore(PostgresCreateStatement):
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: list | None = None) -> Table | None:
+    def query(self, sql: str, parameters: list | None = None) -> type[ToFrom] | None:
         """
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
+        following the `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
@@ -99,8 +99,7 @@ class PostgresCore(PostgresCreateStatement):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -116,17 +115,16 @@ class PostgresCore(PostgresCreateStatement):
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
+            commit: bool
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
 
@@ -177,7 +175,7 @@ class PostgresCore(PostgresCreateStatement):
 
         Args:
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             table_name: str
                 The table to check
             if_exists: str
@@ -221,7 +219,7 @@ class PostgresCore(PostgresCreateStatement):
         Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
+            view: bool
                 Check to see if a view exists by the same name. Defaults to ``True``.
 
         Returns:

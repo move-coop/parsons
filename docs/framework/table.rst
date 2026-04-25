@@ -48,8 +48,8 @@ From Parsons Table
       - Civis Redshift Database
       - Write a table to Civis platform database
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_petl`
-      - Petl table object
-      - Convert a table a Petl table object
+      - Petl :class:`~petl.util.base.Table` object
+      - Convert a :class:`~parsons.etl.table.Table` a Petl :class:`~petl.util.base.Table` object
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_json`
       - JSON file
       - Write a table to a local JSON file
@@ -116,7 +116,7 @@ Create Parsons :ref:`Table` object using the following methods.
 
 .. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
 
-You can also use the :ref:`Table` constructor to create a :ref:`Table` from a python list or petl table:
+You can also use the :ref:`Table` constructor to create a :ref:`Table` from a python list or petl :class:`~petl.util.base.Table`.
 
 .. code-block:: python
    :caption: From a list of dicts
@@ -280,8 +280,8 @@ so any data transformations can be applied efficiently.
 PETL
 ----
 
-The Parsons :meth:`~parsons.etl.table.Table` relies heavily on the `petl <https://petl.readthedocs.io/latest/>`__
-Python package. You can always access the underlying petl table, :meth:`~parsons.etl.etl.ETL`, which will
+The Parsons :class:`~parsons.etl.table.Table` relies heavily on the `petl <https://petl.readthedocs.io/latest/>`__
+Python package. You can always access the underlying petl :class:`~petl.util.base.Table`, :class:`~parsons.etl.etl.ETL`, which will
 allow you to perform any petl-supported ETL operations. Additionally, you can use the helper method,
 :meth:`~parsons.etl.etl.ETL.use_petl`, to conveniently perform the same operations on a parsons
 :meth:`~parsons.etl.table.Table`. For example:

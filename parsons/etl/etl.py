@@ -1165,7 +1165,7 @@ class ETL:
                 If ``True``, updates the :ref:`Table`. Defaults to
                 ``False``.
             to_petl: bool
-                If ``True``, returns a petl table, otherwise a :ref:`Table`.
+                If ``True``, returns a petl :class:`~petl.util.base.Table`, otherwise a :ref:`Table`.
                 Defaults to ``False``.
             `*args`: Any
                 The arguements to pass to the petl function.
@@ -1173,7 +1173,7 @@ class ETL:
                 The keyword arguements to pass to the petl function.
 
         Returns:
-            :ref:`Table` or `petl` table
+            :ref:`Table` or :class:`~petl.util.base.Table`
 
         """
         update_table = kwargs.pop("update_table", False)
@@ -1189,7 +1189,7 @@ class ETL:
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
 
-    def deduplicate(self, keys=None, presorted=False):
+    def deduplicate(self, keys=None, presorted=False) -> Self:
         """
         Deduplicates table based on an optional ``keys`` argument,
         which can contain any number of keys or None.
@@ -1266,10 +1266,6 @@ class ETL:
                 keys to deduplicate (and optionally sort) on.
             presorted: bool
                 If false, the row will be sorted.
-
-        Returns:
-            :ref:`Table`
-                Also updates self
 
         """
 

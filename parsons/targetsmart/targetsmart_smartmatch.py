@@ -153,14 +153,14 @@ class SmartMatch:
         TargetSmart system load. SmartMatch executions cannot be canceled once
         submitted to TargetSmart.
 
-        Since Parsons Petl tables are lazy, the SmartMatch output file is always
+        Since Parsons Petl :class:`~petl.util.base.Table` are lazy, the SmartMatch output file is always
         retained in ``tmp_location``. If your Parsons-based ETL workflow fails
         downstream it may be beneficial to recover the raw SmartMatch output
         from this location. You may delete this data when it is no longer
         needed.
 
         Args:
-            input_table: Parsons or Petl table
+            input_table: Parsons or Petl :class:`~petl.util.base.Table`
                 Required. A Parsons table with
                 `supported header field names <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`__.
             disable_automatic_matchback_id_creation: bool

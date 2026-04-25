@@ -793,7 +793,7 @@ class ToFrom:
         bq.copy(self, table_name=table_name, **kwargs)
 
     def to_petl(self) -> petl.Table:
-        """Access as PETL table."""
+        """Access as PETL :class:`~petl.util.base.Table`."""
         return self.table
 
     def to_civis(

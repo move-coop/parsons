@@ -34,9 +34,9 @@ _EMPTYDEFAULT = _EmptyDefault.token
 class Table(ETL, ToFrom):
     """
     Create a Parsons Table. Accepts one of the following:
-    - A list of lists, with list[0] holding field names, and the other lists holding data
-    - A list of dicts
-    - A petl table
+    - A `list[list]`, with list[0] holding field names, and the other lists holding data
+    - A `list[dict]`
+    - A petl :class:`~petl.util.base.Table`
 
     Args:
         lst: list

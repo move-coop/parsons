@@ -261,7 +261,7 @@ Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.
 is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`__.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons :ref:`Table`.
-Just convert your Parsons table to a PETL table with the :meth:`~parsons.etl.table.Table` method
+Just convert your Parsons :ref:`Table` to a PETL :class:`~petl.util.base.Table` with the :meth:`~parsons.etl.table.Table` method
 
 .. code-block:: python
 

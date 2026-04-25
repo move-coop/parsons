@@ -876,7 +876,7 @@ class TestTableTransformations:
         assert_matching_tables(desired_tbl, tbl)
 
         # Test disable fuzzy matching, and fail due due to the missing cols
-        with pytest.raises(TypeError, match="Table is missing column"):
+        with pytest.raises(ValueError, match="Table is missing column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,
@@ -884,7 +884,7 @@ class TestTableTransformations:
             )
 
         # Test disable fuzzy matching, and fail due to the extra cols
-        with pytest.raises(TypeError, match="Table has extra column"):
+        with pytest.raises(ValueError, match="Table has extra column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,

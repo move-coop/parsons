@@ -62,7 +62,7 @@ intersphinx_mapping_extras = {
     ),
     "google-cloud-storage": (
         "https://cloud.google.com/python/docs/reference/storage/latest/",
-        "https://googleapis.dev/python/storage/latest/objects.inv",
+        "_intersphinx/google.cloud.storage-3.10.0.objects.inv",
     ),
     "google-cloud-storage-transfer": (
         "https://cloud.google.com/python/docs/reference/storagetransfer/latest/",

@@ -14,26 +14,30 @@ logger = logging.getLogger(__name__)
 
 class Postgres(PostgresCore, Alchemy, DatabaseConnector):
     """
-    A Postgres class to connect to database. Credentials can be passed from a ``.pgpass`` file
+    A Postgres class to connect to database.
+
+    Credentials can be passed from a ``.pgpass`` file
     stored in your home directory or with environmental variables.
 
     Args:
-        username: str
-            Required if env variable ``PGUSER`` not populated
-        password: str
-            Required if env variable ``PGPASSWORD`` not populated
-        host: str
-            Required if env variable ``PGHOST`` not populated
-        db: str
-            Required if env variable ``PGDATABASE`` not populated
-        port: int
-            Required if env variable ``PGPORT`` not populated.
-        timeout: int
-            Seconds to timeout if connection not established.
+        username: Required if env variable ``PGUSER`` not populated
+        password: Required if env variable ``PGPASSWORD`` not populated
+        host: Required if env variable ``PGHOST`` not populated
+        db: Required if env variable ``PGDATABASE`` not populated
+        port: Required if env variable ``PGPORT`` not populated.
+        timeout: Seconds to timeout if connection not established.
 
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
+    def __init__(
+        self,
+        username: str | None = None,
+        password: str | None = None,
+        host: str | None = None,
+        db: str | None = None,
+        port: int = 5432,
+        timeout: int = 10,
+    ) -> None:
         super().__init__()
 
         self.username = username or os.environ.get("PGUSER")
@@ -48,8 +52,8 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 
         if not any([self.username, self.password, self.host, self.db]) and not pgpass:
             raise ValueError(
-                "Connection arguments missing. Please pass as a pgpass file, kwargs",
-                "or env variables.",
+                "Connection arguments missing. "
+                "Please pass as a pgpass file, kwargs, or env variables.",
             )
 
         self.timeout = timeout
@@ -61,7 +65,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         table_name: str,
         if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
-    ):
+    ) -> None:
         """
         Copy a :ref:`Table` to Postgres.
 
@@ -97,7 +101,7 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 cursor.copy_expert(sql, f)
                 logger.info(f"{tbl.num_rows} rows copied to {table_name}.")
 
-    def table(self, table_name):
+    def table(self, table_name) -> "PostgresTable":
         # Return a Postgres table object
 
         return PostgresTable(self, table_name)

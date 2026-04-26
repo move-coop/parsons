@@ -26,7 +26,8 @@ DESTINATION_BUCKET = None
 
 import os  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import S3, logger, utilities  # noqa E402 module-import-not-at-top-of-file
+from parsons import S3, logger  # noqa E402 module-import-not-at-top-of-file
+from parsons.utilities import files  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 
@@ -54,4 +55,4 @@ for bucket in bucket_guide:
     for key in keys:
         temp_file = s3_source.get_file(bucket, key)
         s3_destination.put_file(DESTINATION_BUCKET, key, temp_file)
-        utilities.files.close_temp_file(temp_file)
+        files.close_temp_file(temp_file)

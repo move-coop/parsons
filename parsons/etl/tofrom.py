@@ -21,6 +21,10 @@ if TYPE_CHECKING:
 
 
 class ToFrom:
+    table: petl.util.base.Table
+    columns: list[str]
+    num_rows: int
+
     def to_dataframe(
         self,
         index: str | list[str] | None = None,
@@ -735,7 +739,7 @@ class ToFrom:
         db=None,
         port=None,
         **copy_args,
-    ):
+    ) -> None:
         r"""
         Write a table to a Postgres database.
 
@@ -970,7 +974,7 @@ class ToFrom:
         host: str | None = None,
         db: str | None = None,
         port: int | None = None,
-    ) -> Table:
+    ) -> Table | None:
         """
         Create a `:ref:`Table`` from a Redshift query.
 

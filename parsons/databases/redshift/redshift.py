@@ -42,54 +42,51 @@ class Redshift(
     A Redshift class to connect to database.
 
     Args:
-        username: str
-            Required if env variable ``REDSHIFT_USERNAME`` not populated
-        password: str
-            Required if env variable ``REDSHIFT_PASSWORD`` not populated
-        host: str
-            Required if env variable ``REDSHIFT_HOST`` not populated
-        db: str
-            Required if env variable ``REDSHIFT_DB`` not populated
-        port: int
-            Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-        timeout: int
-            Seconds to timeout if connection not established
-        s3_temp_bucket: str
+        username: Required if env variable ``REDSHIFT_USERNAME`` not populated
+        password: Required if env variable ``REDSHIFT_PASSWORD`` not populated
+        host: Required if env variable ``REDSHIFT_HOST`` not populated
+        db: Required if env variable ``REDSHIFT_DB`` not populated
+        port:
+            Required if env variable ``REDSHIFT_PORT`` not populated.
+            Port 5439 is typical.
+        timeout: Seconds to timeout if connection not established
+        s3_temp_bucket:
             Name of the S3 bucket that will be used for storing data during bulk transfers.
             Required if you intend to perform bulk data transfers (eg. the :meth:`.copy_s3` method),
             and env variable ``S3_TEMP_BUCKET`` is not populated.
-        aws_access_key_id: str
+        aws_access_key_id:
             The default AWS access key id for copying data from S3 into Redshift
             when running copy/upsert/etc methods.
             This will default to environment variable AWS_ACCESS_KEY_ID.
-        aws_secret_access_key: str
+        aws_secret_access_key:
             The default AWS secret access key for copying data from S3 into Redshift
             when running copy/upsert/etc methods.
             This will default to environment variable AWS_SECRET_ACCESS_KEY.
-        iam_role: str
+        iam_role:
             AWS IAM Role ARN string -- an optional, different way for credentials to
             be provided in the Redshift copy command that does not require an access key.
-        use_env_token: bool
-            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
-            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+        use_env_token:
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3.
+            Defaults to ``True``.
+            Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
 
     """
 
     def __init__(
         self,
-        username=None,
-        password=None,
-        host=None,
-        db=None,
-        port=None,
-        timeout=10,
-        s3_temp_bucket=None,
-        aws_access_key_id=None,
-        aws_secret_access_key=None,
-        iam_role=None,
-        use_env_token=True,
-    ):
+        username: str | None = None,
+        password: str | None = None,
+        host: str | None = None,
+        db: str | None = None,
+        port: int | None = None,
+        timeout: int | None = 10,
+        s3_temp_bucket: str | None = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
+        iam_role: str | None = None,
+        use_env_token: bool = True,
+    ) -> None:
         super().__init__()
 
         try:
@@ -127,7 +124,10 @@ class Redshift(
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
-        ``with rs.connection() as conn:``
+
+        .. code-block:: python
+
+            with rs.connection() as conn:
 
         Yields:
             Psycopg2 ``connection`` object

@@ -156,7 +156,7 @@ class DatabaseConnector(ABC):
         pass
 
     @abstractmethod
-    def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
+    def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
         Execute a query against the database.
 

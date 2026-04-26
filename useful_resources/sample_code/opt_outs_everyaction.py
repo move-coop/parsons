@@ -51,7 +51,7 @@ rs = Redshift()
 
 
 def attempt_optout(
-    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
+    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left: bool = 3
 ):
     vanid = row["vanid"]
     phone = row["phone"]

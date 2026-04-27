@@ -25,6 +25,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "_template.rst"]
 templates_path = ["_templates"]
 primary_domain = "py"
 autodoc_member_order = "bysource"
+autodoc_typehints = "both"
 autosectionlabel_prefix_document = True
 googleanalytics_id = "G-L2YB7WHTRG"
 nitpick_ignore = {

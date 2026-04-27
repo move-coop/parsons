@@ -47,8 +47,8 @@ def test_upload_flow(client):
     tbl = Table([{"first_name": "John", "last_name": "Doe"}])
 
     response = client.upload(tbl, description="test_job")
-
     assert response["id"] == "999"
+
     uploaded_files = list((client.sftp.root / "myUploads").glob("*.csv.gz"))
     assert len(uploaded_files) == 1
 

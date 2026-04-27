@@ -29,9 +29,15 @@ autodoc_typehints = "both"
 autosectionlabel_prefix_document = True
 googleanalytics_id = "G-L2YB7WHTRG"
 nitpick_ignore = {
-    ("py:class", "petl.util.base.Table"),  # this class is not in petl's sphinx documentation
+    ("py:exc", "exceptions.NotFound"),  # just can't find this for some reason
 }
 nitpick_ignore_regex = {
+    (
+        "py:class",
+        r"google.cloud.bigquery.[a-zA-Z]+..+",
+    ),  # bigquery references (no linkable sphinx documentation)
+    ("py:class", r"petl.util.base.[a-zA-Z]+"),  # these classes are not in petl documentation
+    (r"py:.*", r"mysql\..+"),  # mysql references (no linkable sphinx documentation)
     (r"py:.*", r"box_sdk_gen\..+"),  # box references (no linkable sphinx documentation)
     (r"py:.*", r"dbt\..+"),  # dbt references (no linkable sphinx documentation)
     (r"py:.*", r"test\..+"),  # test files are currently not linkable
@@ -57,16 +63,17 @@ intersphinx_mapping_extras = {
     "civis": ("https://civis-python.readthedocs.io/en/stable/", None),
     "fastavro": ("https://fastavro.readthedocs.io/en/latest/", None),
     "google-auth": ("https://googleapis.dev/python/google-auth/latest/", None),
+    "google-api-core": ("https://googleapis.dev/python/google-api-core/latest/", None),
     "google-cloud-bigquery": (
-        "https://cloud.google.com/python/docs/reference/bigquery/latest/",
+        "https://docs.cloud.google.com/python/docs/reference/bigquery/latest/",
         "https://googleapis.dev/python/bigquery/latest/objects.inv",
     ),
     "google-cloud-storage": (
-        "https://cloud.google.com/python/docs/reference/storage/latest/",
+        "https://docs.cloud.google.com/python/docs/reference/storage/latest/",
         "_intersphinx/google.cloud.storage-3.10.0.objects.inv",
     ),
     "google-cloud-storage-transfer": (
-        "https://cloud.google.com/python/docs/reference/storagetransfer/latest/",
+        "https://docs.cloud.google.com/python/docs/reference/storagetransfer/latest/",
         "https://googleapis.dev/python/storagetransfer/latest/objects.inv",
     ),
     "gspread": ("https://docs.gspread.org/en/latest/", None),

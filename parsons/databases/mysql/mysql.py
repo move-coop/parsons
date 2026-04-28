@@ -261,12 +261,10 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         else:
             values = [str(row) for row in tbl.data]
 
-        # Create full insert statement
-        sql = f"""INSERT INTO {table_name}
+        # Return full insert statement
+        return f"""INSERT INTO {table_name}
                   ({",".join(tbl.columns)})
                   VALUES {",".join(values)};"""
-
-        return sql
 
     def _create_table_precheck(
         self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]

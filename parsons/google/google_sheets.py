@@ -308,9 +308,9 @@ class GoogleSheets:
                 sheet_row_num = existing_table.num_rows + row_num + 2
                 cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))
 
-        value_input_option = "RAW"
+        value_input_option = gspread.utils.ValueInputOption.raw
         if user_entered_value:
-            value_input_option = "USER_ENTERED"
+            value_input_option = gspread.utils.ValueInputOption.user_entered
 
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
@@ -408,9 +408,9 @@ class GoogleSheets:
             logger.warning("No data provided, worksheet is empty.")
             return
 
-        value_input_option = "RAW"
+        value_input_option = gspread.utils.ValueInputOption.raw
         if user_entered_value:
-            value_input_option = "USER_ENTERED"
+            value_input_option = gspread.utils.ValueInputOption.user_entered
 
         # Add header row
         sheet.append_row(table.columns, value_input_option=value_input_option)

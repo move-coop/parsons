@@ -454,7 +454,7 @@ class GoogleCloudStorage:
 
         client = storage_transfer.StorageTransferServiceClient()
 
-        now = datetime.datetime.utcnow()
+        now = datetime.datetime.now(datetime.timezone.utc)
         # Setting the start date and the end date as
         # the same time creates a one-time transfer
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}

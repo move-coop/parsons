@@ -51,7 +51,7 @@ class Box:
         corresponding folder_id/file_id methods for each function.
 
     Args:
-        auth: Authentication
+        auth:
             Box Authentication -- usually constructed as an access token of 32
             characters, alphanumeric. Note that this is only valid for developer
             use only, and should not be used when creating and maintaining access
@@ -76,11 +76,10 @@ class Box:
         Replace the back slashes in a string with forward slashes.
 
         Args:
-            path: str
-               Box path str that may need slashes replaced.
+            path: Box path str that may need slashes replaced.
 
         Returns:
-            str: A string for a Box path str with back slashes replaced by forward slashes.
+            A string for a Box path str with back slashes replaced by forward slashes.
 
         """
         if path is not None and "\\" in path:
@@ -94,11 +93,10 @@ class Box:
         Parse a file name out from a string representing a Box path.
 
         Args:
-            path: str
-               A Box path str.
+            path: A Box path str.
 
         Returns:
-            tuple[str, str, str]: The item parent, item name, and item id for the path.
+            The item parent, item name, and item id for the path.
 
         """
         new_path = self.__replace_backslashes(path)
@@ -139,14 +137,13 @@ class Box:
         Create a Box folder.
 
         Args:
-            folder_name: str
-               The name to give to the new folder.
-            parent_folder_id: str
-               Folder id of the parent folder in which to create the new folder. If
-               omitted, the default folder will be used.
+            folder_name: The name to give to the new folder.
+            parent_folder_id:
+                Folder id of the parent folder in which to create the new folder.
+                If omitted, the default folder will be used.
 
         Returns:
-            str: The Box id of the newly-created folder.
+            The Box id of the newly-created folder.
 
         """
         parent = CreateFolderParent(id=parent_folder_id)
@@ -158,9 +155,9 @@ class Box:
         Delete a Box folder.
 
         Args:
-            folder_id: str
-               Box path str to the folder to delete. Any back slashes will be treated
-               as forward slashes.
+            folder_id:
+                Box path str to the folder to delete.
+                Any back slashes will be treated as forward slashes.
 
         """
         new_path = self.__replace_backslashes(path)
@@ -172,8 +169,7 @@ class Box:
         Delete a Box folder.
 
         Args:
-            folder_id: str
-               The Box id of the folder to delete.
+            folder_id: The Box id of the folder to delete.
 
         """
         self.client.folders.delete_folder_by_id(folder_id=folder_id, recursive=True)
@@ -183,9 +179,9 @@ class Box:
         Delete a Box file.
 
         Args:
-            path: str
-              Box path str to the file to delete. Any back slashes will be treated as
-              forward slashes.
+            path:
+                Box path str to the file to delete.
+                Any back slashes will be treated as forward slashes.
 
         """
         file_id = self.get_item_id(path)
@@ -196,8 +192,7 @@ class Box:
         Delete a Box file.
 
         Args:
-            file_id: str
-              The Box id of the file to delete.
+            file_id: The Box id of the file to delete.
 
         """
         self.client.files.delete_file_by_id(file_id=file_id)
@@ -209,16 +204,17 @@ class Box:
         Return a Table of Box files and/or folders found at a path.
 
         Args:
-            path: str
+            path:
                If specified, Box path str of the folder to be listed.
                If omitted, the default folder will be used.
-            item_type: str
-               Optionally which type of items should be returned, typically either
-               `file` or `folder`. If omitted, all items will be returned. Any back
-               slashes will be treated as forward slashes.
+            item_type:
+               Optionally which type of items should be returned,
+               typically either `file` or `folder`.
+               If omitted, all items will be returned.
+               Any back slashes will be treated as forward slashes.
 
         Returns:
-            Table: A Parsons table of items in the folder and their attributes.
+            :ref:`Table` of items in the folder and their attributes.
 
         """
         folder_id = DEFAULT_FOLDER_ID if path is None else self.get_item_id(path)
@@ -231,14 +227,13 @@ class Box:
         Return a Table of Box files and/or folders found in a folder.
 
         Args:
-            folder_id: str
-              The Box id of the folder to list items for.
-            item_type: str
+            folder_id: The Box id of the folder to list items for.
+            item_type:
                Optionally which type of items should be returned, typically either
                `file` or `folder`. If omitted, all items will be returned.
 
         Returns:
-            Table: A Parsons table of items in the folder and their attributes.
+            :ref:`Table` of items in the folder and their attributes.
 
         """
         folder_items = self.client.folders.get_folder_items(folder_id)
@@ -258,13 +253,12 @@ class Box:
         List all Box files in a folder.
 
         Args:
-            folder_id: str
-               The Box id of the folder in which to search. If omitted,
-               search in the default folder.
+            folder_id:
+                The Box id of the folder in which to search.
+                If omitted, search in the default folder.
 
         Returns:
-            Table: A Parsons table of files and their attributes. The Box id of the folder in
-            which to search. If omitted, search in the default folder.
+            :ref:`Table` of files and their attributes.
 
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
@@ -275,11 +269,11 @@ class Box:
 
         Args:
             folder_id: str
-               The Box id of the folder in which to search. If omitted,
-               search in the default folder.
+               The Box id of the folder in which to search.
+               If omitted, search in the default folder.
 
         Returns:
-            Table: A Parsons table of folders and their attributes.
+            :ref:`Table` of folders and their attributes.
 
         """
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
@@ -289,16 +283,18 @@ class Box:
         Save the passed table to Box.
 
         Args:
-            table: Table
+            table:
                The Parsons table to be saved.
-            path: str
+            path:
                Box path str where table should be saved. Any back
                slashes will be treated as forward slashes.
-            format: str
-               For now, only 'csv' and 'json'; format in which to save table. Defaults to 'csv'.
+            format:
+                Format in which Table has been saved.
+                For now, only ``csv`` or ``json``.
+                Defaults to ``csv``.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         """
         folder_parent_name, table_name, folder_id = self.__getPathFromString(path)
@@ -317,18 +313,18 @@ class Box:
         Save the passed table to Box.
 
         Args:
-            table: Table
-               The Parsons table to be saved.
-            file_name: str
-               The filename under which it should be saved in Box.
-            folder_id: str
-               Optionally, the id of the subfolder in which it should be saved. If
-               omitted, the default folder will be used.
-            format: str
-               For now, only 'csv' and 'json'; format in which to save table. Defaults to 'csv'.
+            table: The Parsons table to be saved.
+            file_name: The filename under which it should be saved in Box.
+            folder_id:
+                Optionally, the id of the subfolder in which it should be saved.
+                If omitted, the default folder will be used.
+            format:
+                Format in which to save table.
+                For now, only ``csv`` and ``json``.
+                Defaults to ``csv``.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         Raises:
             ValueError: Value for format argument not allowed.
@@ -364,15 +360,14 @@ class Box:
         Save the passed file to Box.
 
         Args:
-            file: Path
-               The local file to be saved to Box.
-            path: str
-               Optionally, Box path str where table should be saved. Any back
-               slashes will be treated as forward slashes. Defaults to default folder with
-               a name matching the file name.
+            file: The local file to be saved to Box.
+            path:
+               Box path str where table should be saved.
+               Any back slashes will be treated as forward slashes.
+               Defaults to default folder with a name matching the file name.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         """
         if path is not None:
@@ -389,16 +384,14 @@ class Box:
         Save the passed file to Box.
 
         Args:
-            file: Path
-               The local file to be saved to Box.
-            file_name: str
-               Optionally, the filename under which it should be saved in Box. Defaults to
-               the file name.
-            folder_id: str
-               Optionally, the id of the subfolder in which it should be saved.
+            file: The local file to be saved to Box.
+            file_name:
+                The filename under which it should be saved in Box.
+                Defaults to the file name.
+            folder_id: Optionally, the id of the subfolder in which it should be saved.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         Raises:
             SystemError: Invalid response from box upload.
@@ -443,18 +436,16 @@ class Box:
         Download a Box object to a local file.
 
         Args:
-            path: str
-                The Box path str. Any back slashes will be
-                treated as forward slashes.
-            local_path: Path
-                The local path where the file will be downloaded. If not
-                specified, a temporary file will be created and returned, and
-                that file will be removed automatically when the script is done
-                running.
+            path:
+                The Box path str.
+                Any back slashes will be treated as forward slashes.
+            local_path:
+                The local path where the file will be downloaded.
+                If not specified, a temporary file will be created and returned,
+                and that file will be removed automatically when the script is done running.
 
         Returns:
-            Path
-                The new file
+            The new file path
 
         """
 
@@ -475,14 +466,13 @@ class Box:
         Get a table that has been saved to Box in csv or JSON format.
 
         Args:
-            path: str
-                The slash-separated Box path str to the file containing the table. Any back
-                slashes will be treated as forward slashes.
-            format: str
-                 Format in which Table has been saved; for now, only 'csv' or 'json'. Defaults to 'csv'.
-
-        Returns:
-            Table: A Parsons Table.
+            path:
+                The slash-separated Box path str to the file containing the table.
+                Any back slashes will be treated as forward slashes.
+            format:
+                Format in which Table has been saved.
+                For now, only ``csv`` or ``json``.
+                Defaults to ``csv``.
 
         """
         file_id = self.get_item_id(path)
@@ -493,14 +483,12 @@ class Box:
         Get a table that has been saved to Box in csv or JSON format.
 
         Args:
-            file_id: str
+            file_id:
                 The Box file_id of the table to be retrieved.
-            format: str
-                Format in which Table has been saved; for now, only 'csv' or 'json'.
-                Defaults to 'csv'.
-
-        Returns:
-            Table: A Parsons Table.
+            format:
+                Format in which Table has been saved.
+                For now, only ``csv`` or ``json``.
+                Defaults to ``csv``.
 
         Raises:
             ValueError:
@@ -543,16 +531,16 @@ class Box:
             containing very many items.
 
         Args:
-            path: str
+            path:
                 A slash-separated Box path str from the base folder to the file or
                 folder in question. Any back slashes will be treated as forward
                 slashes.
-            base_folder_id: str
-                What to use as the base folder for the path. If omitted, the default
-                folder will be used.
+            base_folder_id:
+                What to use as the base folder for the path.
+                If omitted, the default folder will be used.
 
         Returns:
-            str: A Box File object's id.
+            A Box File object's id.
 
         Raises:
             ValueError: Trailing slash in file path.

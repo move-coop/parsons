@@ -3,7 +3,7 @@ from __future__ import annotations
 import gzip
 import io
 import json
-from pathlib import Path
+import pathlib
 from typing import TYPE_CHECKING, Literal
 
 import petl
@@ -60,7 +60,7 @@ class ToFrom:
 
     def to_html(
         self,
-        local_path: str | None = None,
+        local_path: pathlib.Path | str | None = None,
         encoding: str | None = None,
         errors: str = "strict",
         index_header: bool = False,
@@ -78,9 +78,9 @@ class ToFrom:
 
         Args:
             local_path:
-                The path to write the html locally. If not specified, a temporary file will be
-                created and returned, and that file will be removed automatically when the script
-                is done running.
+                The path to write the html locally.
+                If not specified, a temporary file will be created and returned,
+                and that file will be removed automatically when the script is done running.
             encoding:
                 The encoding type for :func:`csv.writer`.
             errors: Raise an Error if encountered
@@ -98,11 +98,11 @@ class ToFrom:
         """
 
         if not local_path:
-            local_path = files.create_temp_file(suffix=".html")
+            local_path = pathlib.Path(files.create_temp_file(suffix=".html"))
 
         petl.tohtml(
             self.table,
-            source=local_path,
+            source=str(local_path),
             encoding=encoding,
             errors=errors,
             caption=caption,
@@ -112,7 +112,7 @@ class ToFrom:
             truncate=truncate,
         )
 
-        return local_path
+        return str(local_path)
 
     def to_avro(
         self,
@@ -244,7 +244,7 @@ class ToFrom:
 
     def to_csv(
         self,
-        local_path: str | None = None,
+        local_path: pathlib.Path | str | None = None,
         temp_file_compression: Literal["gzip", "zip"] | None = None,
         encoding: str | None = None,
         errors: str = "strict",
@@ -306,17 +306,21 @@ class ToFrom:
         # Create normal csv/.gzip
         petl.tocsv(
             self.table,
-            source=local_path,
+            source=str(local_path),
             encoding=encoding,
             errors=errors,
             write_header=write_header,
             **csvargs,
         )
 
-        return local_path
+        return str(local_path)
 
     def append_csv(
-        self, local_path: str, encoding: str | None = None, errors: str = "strict", **csvargs
+        self,
+        local_path: pathlib.Path | str,
+        encoding: str | None = None,
+        errors: str = "strict",
+        **csvargs,
     ) -> str:
         r"""
         Appends table to an existing CSV.
@@ -339,12 +343,14 @@ class ToFrom:
 
         """
 
-        petl.appendcsv(self.table, source=local_path, encoding=encoding, errors=errors, **csvargs)
-        return local_path
+        petl.appendcsv(
+            self.table, source=str(local_path), encoding=encoding, errors=errors, **csvargs
+        )
+        return str(local_path)
 
     def to_zip_csv(
         self,
-        archive_path: str | None = None,
+        archive_path: pathlib.Path | str | None = None,
         csv_name: str | None = None,
         encoding: str | None = None,
         errors: str = "strict",
@@ -388,7 +394,7 @@ class ToFrom:
         """
 
         if not archive_path:
-            archive_path = files.create_temp_file(suffix=".zip")
+            archive_path = pathlib.Path(files.create_temp_file(suffix=".zip"))
 
         cf = self.to_csv(encoding=encoding, errors=errors, write_header=write_header, **csvargs)
 
@@ -404,7 +410,7 @@ class ToFrom:
 
     def to_json(
         self,
-        local_path: str | None = None,
+        local_path: pathlib.Path | str | None = None,
         temp_file_compression: Literal["gzip"] | None = None,
         line_delimited: bool = False,
     ) -> str:
@@ -463,7 +469,7 @@ class ToFrom:
             if not line_delimited:
                 file.write("]")
 
-        return local_path
+        return str(local_path)
 
     def to_dicts(self) -> list[dict]:
         """Output table as a list of dicts."""
@@ -738,32 +744,25 @@ class ToFrom:
 
     def to_postgres(
         self,
-        table_name,
-        username=None,
-        password=None,
-        host=None,
-        db=None,
-        port=None,
+        table_name: str,
+        username: str | None = None,
+        password: str | None = None,
+        host: str | None = None,
+        db: str | None = None,
+        port: int | None = None,
         **copy_args,
     ) -> None:
         r"""
         Write a table to a Postgres database.
 
         Args:
-            table_name: str
-                The table name and schema (``my_schema.my_table``) to point the file.
-            username: str
-                Required if env variable ``PGUSER`` not populated
-            password: str
-                Required if env variable ``PGPASSWORD`` not populated
-            host: str
-                Required if env variable ``PGHOST`` not populated
-            db: str
-                Required if env variable ``PGDATABASE`` not populated
-            port: int
-                Required if env variable ``PGPORT`` not populated.
-            `**copy_args`: kwargs
-                See :meth:`~parsons.databases.postgres.postgres.Postgres.copy` for options.
+            table_name: The table name and schema (``my_schema.my_table``) to point the file.
+            username: Required if env variable ``PGUSER`` not populated
+            password: Required if env variable ``PGPASSWORD`` not populated
+            host: Required if env variable ``PGHOST`` not populated
+            db: Required if env variable ``PGDATABASE`` not populated
+            port: Required if env variable ``PGPORT`` not populated.
+            `**copy_args`: See :meth:`~parsons.databases.postgres.postgres.Postgres.copy` for options.
 
         """
 
@@ -783,15 +782,16 @@ class ToFrom:
         Write a table to BigQuery
 
         Args:
-            table_name: str
-                Table name to write to in BigQuery; this should be in `schema.table` format
-            app_creds: str
-                A credentials json string or a path to a json file. Not required
-                if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
-            project: str
-                The project which the client is acting on behalf of. If not passed
-                then will use the default inferred environment.
-            `**kwargs`: kwargs
+            table_name:
+                Table name to write to in BigQuery.
+                This should be in `schema.table` format
+            app_creds:
+                A credentials json string or a path to a json file.
+                Not required if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            project:
+                The project which the client is acting on behalf of.
+                If not passed then will use the default inferred environment.
+            `**kwargs`:
                 Additional keyword arguments passed into
                 :meth:`~parsons.google.google_bigquery.GoogleBigQuery.copy` (`if_exists`, `max_errors`, etc.)
 
@@ -869,7 +869,7 @@ class ToFrom:
 
     @classmethod
     def from_avro(
-        cls, local_path: str, limit: int | None = None, skips: int = 0, **avro_args
+        cls, local_path: pathlib.Path | str, limit: int | None = None, skips: int = 0, **avro_args
     ) -> Self:
         r"""
         Create a `:ref:`Table`` from an Avro file.
@@ -886,10 +886,10 @@ class ToFrom:
 
         """
 
-        return cls(petl.fromavro(local_path, limit=limit, skips=skips, **avro_args))
+        return cls(petl.fromavro(str(local_path), limit=limit, skips=skips, **avro_args))
 
     @classmethod
-    def from_csv(cls, local_path: str, **csvargs) -> Self:
+    def from_csv(cls, local_path: pathlib.Path | str, **csvargs) -> Self:
         r"""
         Create a `:ref:`Table`` object from a CSV file
 
@@ -905,12 +905,12 @@ class ToFrom:
         """
 
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
-        is_remote_file = bool(any(map(local_path.startswith, remote_prefixes)))
+        is_remote_file = bool(any(map(str(local_path).startswith, remote_prefixes)))
 
         if not is_remote_file and not files.has_data(local_path):
             raise ValueError("CSV file is empty")
 
-        return cls(petl.fromcsv(local_path, **csvargs))
+        return cls(petl.fromcsv(str(local_path), **csvargs))
 
     @classmethod
     def from_csv_string(cls, str: str, **csvargs) -> Self:
@@ -944,7 +944,10 @@ class ToFrom:
 
     @classmethod
     def from_json(
-        cls, local_path: str, header: list[str] | None = None, line_delimited: bool = False
+        cls,
+        local_path: pathlib.Path | str,
+        header: list[str] | None = None,
+        line_delimited: bool = False,
     ) -> Self:
         """
         Create a `:ref:`Table`` from a json file
@@ -969,7 +972,7 @@ class ToFrom:
             return cls(rows)
 
         else:
-            return cls(petl.fromjson(local_path, header=header))
+            return cls(petl.fromjson(str(local_path), header=header))
 
     @classmethod
     def from_redshift(
@@ -1059,7 +1062,7 @@ class ToFrom:
         s3 = S3(aws_access_key_id, aws_secret_access_key)
 
         if from_manifest:
-            with Path(s3.get_file(bucket, key)).open() as fd:
+            with pathlib.Path(s3.get_file(bucket, key)).open() as fd:
                 manifest = json.load(fd)
 
             s3_keys = [x["url"] for x in manifest["entries"]]

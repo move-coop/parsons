@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+from pathlib import Path
 
 import boto3
 from botocore.client import ClientError
@@ -270,25 +271,27 @@ class S3:
 
         self.client.create_bucket(Bucket=bucket)
 
-    def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
+    def put_file(
+        self,
+        bucket: str,
+        key: str,
+        local_path: Path | str,
+        acl: str = "bucket-owner-full-control",
+        **kwargs,
+    ):
         """
         Uploads an object to an S3 bucket
 
         Args:
-            bucket: str
-                The bucket name
-            key: str
-                The object key
-            local_path: str
-                The local path of the file to upload
-            acl: str
-                The S3 permissions on the file
-            kwargs:
-                Additional arguments for the S3 :meth:`S3.Object.put` call.
+            bucket: The bucket name
+            key: The object key
+            local_path: The local path of the file to upload
+            acl: The S3 permissions on the file
+            kwargs: Additional arguments for :meth:`S3.Object.put`.
 
         """
 
-        self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
+        self.client.upload_file(str(local_path), bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
     def remove_file(self, bucket, key):
         """
@@ -304,35 +307,32 @@ class S3:
 
         self.client.delete_object(Bucket=bucket, Key=key)
 
-    def get_file(self, bucket, key, local_path=None, **kwargs):
+    def get_file(self, bucket, key, local_path: Path | str | None = None, **kwargs):
         """
         Download an object from S3 to a local file
 
         Args:
-            local_path: str
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
+            local_path:
+                The local path where the file will be downloaded.
+                If not specified, a temporary file will be created and returned
+                and that file will be removed automatically
                 when the script is done running.
-            bucket: str
-                The bucket name
-            key: str
-                The object key
+            bucket: The bucket name
+            key: The object key
             kwargs:
-                Additional arguments for the S3 :meth:`S3.Object.download_file` call.
-                for more info.
+                Additional arguments for :meth:`S3.Object.download_file`.
 
         Returns:
-            str
-                The path of the new file
+            The path of the new file
 
         """
 
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
-        self.s3.Object(bucket, key).download_file(local_path, ExtraArgs=kwargs)
+        self.s3.Object(bucket, key).download_file(str(local_path), ExtraArgs=kwargs)
 
-        return local_path
+        return str(local_path)
 
     def get_url(self, bucket, key, expires_in=3600):
         """

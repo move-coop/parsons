@@ -1,5 +1,6 @@
 import gzip
 import re
+from pathlib import Path
 from zipfile import ZipFile
 
 import pytest
@@ -8,7 +9,7 @@ from parsons import CatalistMatch, Table
 
 
 @pytest.fixture
-def client(mocker, tmp_path, requests_mock):
+def client(mocker, tmp_path, requests_mock) -> CatalistMatch:
     requests_mock.post(
         "https://auth.catalist.us/oauth/token",
         json={"access_token": "fake_token", "expires_in": 3600},
@@ -42,7 +43,7 @@ def client(mocker, tmp_path, requests_mock):
     return CatalistMatch("id", "secret", "user", "pass")
 
 
-def test_upload_flow(client):
+def test_upload_flow(client: CatalistMatch):
     """Verify that upload() hits the API and puts a GZipped file on SFTP."""
     tbl = Table([{"first_name": "John", "last_name": "Doe"}])
 
@@ -56,7 +57,7 @@ def test_upload_flow(client):
         assert "John,Doe" in f.read()
 
 
-def test_load_matches_unzip(client, tmp_path):
+def test_load_matches_unzip(client: CatalistMatch, tmp_path: Path):
     """Verify that load_matches correctly pulls from SFTP and parses the TSV."""
     job_id = "999"
     results_csv = tmp_path / "results.csv"
@@ -72,7 +73,7 @@ def test_load_matches_unzip(client, tmp_path):
     assert table.columns == ["COL1-first_name", "DWID"]
 
 
-def test_validate_table_logic(client):
+def test_validate_table_logic(client: CatalistMatch):
     """Ensure validation catches missing required columns."""
     bad_tbl = Table([{"first_name": "OnlyName"}])  # Missing last_name
 
@@ -80,7 +81,7 @@ def test_validate_table_logic(client):
         client.validate_table(bad_tbl)
 
 
-def test_load_table_to_sftp_with_subfolder(client):
+def test_load_table_to_sftp_with_subfolder(client: CatalistMatch):
     """Verify that specifying a subfolder creates the dir and places the file there."""
     tbl = Table([{"first_name": "John", "last_name": "Doe"}])
     subfolder = "campaign_2024"
@@ -97,7 +98,7 @@ def test_load_table_to_sftp_with_subfolder(client):
     assert uploaded_files[0].exists()
 
 
-def test_load_table_to_sftp_subfolder_already_exists(client):
+def test_load_table_to_sftp_subfolder_already_exists(client: CatalistMatch):
     """Verify it doesn't fail if the subfolder already exists."""
     tbl = Table([{"first_name": "Jane", "last_name": "Doe"}])
     subfolder = "existing_folder"

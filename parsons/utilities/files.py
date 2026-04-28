@@ -65,7 +65,7 @@ def create_temp_directory() -> str:
     return temp_dir.name
 
 
-def create_temp_file_for_path(path: str | Path) -> str:
+def create_temp_file_for_path(path: Path | str) -> str:
     """
     Creates a temp file that will exist as long as the current script is running,
     and with a file name mimicking that of the provided path.
@@ -85,7 +85,7 @@ def create_temp_file_for_path(path: str | Path) -> str:
     return create_temp_file(suffix=suffix)
 
 
-def close_temp_file(path: str | Path) -> bool:
+def close_temp_file(path: Path | str) -> bool:
     """
     Force closes a Parsons temp file, which will cause it to be deleted immediately.
 
@@ -112,7 +112,7 @@ def close_temp_file(path: str | Path) -> bool:
     return False
 
 
-def cleanup_temp_directory(path: str | Path) -> bool:
+def cleanup_temp_directory(path: Path | str) -> bool:
     """
     Force closes a Parsons temp directory, which will cause it and its files to be deleted.
 
@@ -139,7 +139,7 @@ def cleanup_temp_directory(path: str | Path) -> bool:
     return False
 
 
-def track_temp_file(path: str | Path) -> str | Path:
+def track_temp_file(path: Path | str) -> str | Path:
     """
     Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
 
@@ -155,15 +155,15 @@ def track_temp_file(path: str | Path) -> str | Path:
     return path
 
 
-def is_gzip_path(path: str | Path) -> bool:
-    return str(path)[-3:] == ".gz"
+def is_gzip_path(path: Path | str) -> bool:
+    return str(path)[-3:].lower() == ".gz"
 
 
-def is_zip_path(path: str | Path) -> bool:
-    return str(path)[-4:] == ".zip"
+def is_zip_path(path: Path | str) -> bool:
+    return str(path)[-4:].lower() == ".zip"
 
 
-def is_csv_path(path: str | Path) -> bool:
+def is_csv_path(path: Path | str) -> bool:
     return str(path)[-4:].lower() == ".csv"
 
 
@@ -179,7 +179,7 @@ def suffix_for_compression_type(
     return ""
 
 
-def compression_type_for_path(path: str | Path) -> Literal["gzip", "zip"] | None:
+def compression_type_for_path(path: Path | str) -> Literal["gzip", "zip"] | None:
     if is_gzip_path(path):
         return "gzip"
 
@@ -189,13 +189,13 @@ def compression_type_for_path(path: str | Path) -> Literal["gzip", "zip"] | None
     return None
 
 
-def valid_table_suffix(path: str | Path) -> bool:
+def valid_table_suffix(path: Path | str) -> bool:
     """Checks if the suffix is valid for conversions to a Parsons table."""
 
     return bool(is_csv_path(path) or is_gzip_path(path) or is_zip_path(path))
 
 
-def read_file(path: str | Path):
+def read_file(path: Path | str):
     """
     Return the contents of file.
 
@@ -233,25 +233,27 @@ def string_to_temp_file(string: str, suffix: str | None = None) -> str:
     return str(temp_file)
 
 
-def zip_check(file_path, compression_type):
+def zip_check(file_path: Path | str | None, compression_type: str | None) -> bool:
     """Check if the file suffix or the compression type indicates that it is a zip file."""
 
-    if file_path and file_path.split("/")[-1].split(".")[-1] == "zip":
+    if file_path and str(file_path).split("/")[-1].split(".")[-1] == "zip":
         return True
 
     return compression_type == "zip"
 
 
-def extract_file_name(file_path: str | None = None, include_suffix: bool = True) -> str | None:
+def extract_file_name(
+    file_path: Path | str | None = None, include_suffix: bool = True
+) -> str | None:
     """
     Extract the file name with the file path string.
 
     Args:
-        file_path:
-            The file path
+        file_path: The file path
         include_suffix:
-            If True, includes full file name with suffix. If False returns the
-            file name without the suffix (e.g. "myfile.zip" vs. "myfile").
+            If True, includes full file name with suffix.
+            If False returns the file name without the suffix
+            (e.g. "myfile.zip" vs. "myfile").
 
     """
 
@@ -259,12 +261,12 @@ def extract_file_name(file_path: str | None = None, include_suffix: bool = True)
         return None
 
     if include_suffix:
-        return file_path.split("/")[-1]
+        return str(file_path).split("/")[-1]
 
-    return file_path.split("/")[-1].split(".")[0]
+    return str(file_path).split("/")[-1].split(".")[0]
 
 
-def has_data(file_path: str | Path) -> bool:
+def has_data(file_path: Path | str) -> bool:
     """
     Check if a file has any data in it.
 

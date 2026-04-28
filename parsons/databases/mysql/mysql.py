@@ -1,12 +1,15 @@
 import logging
 import os
 import pickle
+from collections.abc import Generator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Literal
 
 import mysql.connector as mysql
 import petl
+from mysql.connector.abstracts import MySQLConnectionAbstract
+from mysql.connector.pooling import PooledMySQLConnection
 
 from parsons import Table
 from parsons.databases.alchemy import Alchemy
@@ -51,7 +54,9 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         self.port = port or os.environ.get("MYSQL_PORT")
 
     @contextmanager
-    def connection(self):
+    def connection(
+        self,
+    ) -> Generator[PooledMySQLConnection | MySQLConnectionAbstract, None, None]:
         """
         Generate a MySQL connection.
 
@@ -61,9 +66,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
         ``with mysql.connection() as conn:``
-
-        Yields:
-            MySQL `connection` object
 
         """
 
@@ -95,7 +97,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         finally:
             cur.close()
 
-    def query(self, sql, parameters=None):
+    def query(self, sql: str, parameters: list[str] | None = None) -> Table | None:
         """
         Execute a query against the database.
 
@@ -123,38 +125,34 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 mysql.query(sql, parameters=names)
 
         Args:
-            sql: str
-                A valid SQL statement
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-
-        Returns:
-            :ref:`Table`
+            sql: A valid SQL statement
+            parameters: A list of python variables to be converted into SQL values in your query
 
         """
 
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(
+        self,
+        sql: str,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
+        parameters: list[str] | None = None,
+        commit: bool = True,
+    ) -> Table | None:
         """
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
         Args:
-            sql: str
-                A valid SQL statement
-            connection: obj
-                A connection object obtained from ``mysql.connection()``
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
-            commit: bool
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
-
-        Returns:
-            :ref:`Table`
+            sql: A valid SQL statement
+            connection: A connection object obtained from ``mysql.connection()``
+            parameters: A list of python variables to be converted into SQL values in your query
+            commit:
+                Whether to commit the transaction immediately.
+                If ``False`` the transaction will be committed when
+                the connection goes out of scope and is closed
+                (or you can commit manually with ``connection.commit()``).
 
         """
         with self.cursor(connection) as cursor:
@@ -216,16 +214,13 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             loaded. It results in a minor performance hit compared to `LOAD DATA`.
 
         Args:
-            tbl: parsons.Table
-                A Parsons table object
-            table_name: str
-                The destination schema and table (e.g. ``my_schema.my_table``)
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table.
-            chunk_size: int
-                The number of rows to insert per query.
-            strict_length: bool
+            tbl: A Parsons table object
+            table_name: The destination schema and table (e.g. ``my_schema.my_table``)
+            if_exists:
+                If the table already exists,
+                either ``fail``, ``append``, ``drop`` or ``truncate`` the table.
+            chunk_size: The number of rows to insert per query.
+            strict_length:
                 If the database table needs to be created, strict_length determines whether
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
@@ -250,7 +245,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 sql = self._insert_statement(t, table_name)
                 self.query_with_connection(sql, connection, commit=False)
 
-    def _insert_statement(self, tbl, table_name):
+    def _insert_statement(self, tbl: Table, table_name: str) -> str:
         """Convert the table data into a string for bulk importing."""
 
         # Single column tables
@@ -267,23 +262,23 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                   VALUES {",".join(values)};"""
 
     def _create_table_precheck(
-        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
-    ):
+        self,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
+        table_name: str,
+        if_exists: Literal["fail", "append", "drop", "truncate"],
+    ) -> bool:
         """
         Helper to determine what to do when you need a table that may already exist.
 
         Args:
-            connection: obj
-                A connection object obtained from ``mysql.connection()``
-            table_name: str
-                The table to check
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``,
-                or ``truncate`` the table.
+            connection: A connection object obtained from ``mysql.connection()``
+            table_name: The table to check
+            if_exists:
+                If the table already exists,
+                either ``fail``, ``append``, ``drop``, or ``truncate`` the table.
 
         Returns:
-            bool
-                True if the table needs to be created, False otherwise.
+            ``True`` if the table needs to be created, ``False`` otherwise.
 
         """
 
@@ -310,17 +305,14 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         else:
             return True
 
+        return False
+
     def table_exists(self, table_name: str) -> bool:
         """
         Check if a table or view exists in the database.
 
-        Args:
-            table_name: str
-                The table name
-
         Returns:
-            bool
-                ``True`` if the table exists and ``False`` if it does not.
+            ``True`` if the table exists and ``False`` if it does not.
 
         """
 

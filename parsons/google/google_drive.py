@@ -4,7 +4,7 @@ import uuid
 from pathlib import Path
 from typing import Literal
 
-from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
@@ -21,7 +21,7 @@ class GoogleDrive:
     A connector for Google Drive
 
     Args:
-        app_creds: dict | str | Credentials
+        app_creds:
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
             saved on disk, or a :class:`google.oauth2.service_account.Credentials` object.
@@ -31,13 +31,13 @@ class GoogleDrive:
 
     def __init__(
         self,
-        app_creds: str | dict | Credentials | None = None,
-    ):
+        app_creds: service_account.Credentials | str | Path | dict | None = None,
+    ) -> None:
         scopes = [
             "https://www.googleapis.com/auth/drive",
         ]
 
-        if isinstance(app_creds, Credentials):
+        if isinstance(app_creds, service_account.Credentials):
             credentials = app_creds
         else:
             env_credentials_path = str(uuid.uuid4())
@@ -256,17 +256,16 @@ class GoogleDrive:
     ) -> list[dict]:
         """
         Args:
-            file_id: str
-                this is the ID of the object you are hoping to share
-            email_addresses: list
+            file_id: this is the ID of the object you are hoping to share
+            email_addresses:
                 this is the list of the email addresses you want to share;
                 set to a list of domains like `['domain']` if you choose `type='domain'`;
                 set to `None` if you choose `type='anyone'`
-            role: str
+            role:
                 Options are -- owner, organizer, fileOrganizer, writer, commenter, reader
                 `<https://developers.google.com/workspace/drive/api/guides/ref-roles>`__
-            type: str
-                Options are -- user, group, domain, anyone
+            type: Options are -- user, group, domain, anyone
+
         Returns:
             List of permission objects
 
@@ -285,10 +284,7 @@ class GoogleDrive:
             )
 
         if type not in ["user", "group", "domain", "anyone"]:
-            raise Exception(
-                f"{type} not from the allowed list of: \
-                                user, group, domain, anyone"
-            )
+            raise Exception(f"{type} not from the allowed list of: user, group, domain, anyone")
 
         if type == "domain":
             permissions = [

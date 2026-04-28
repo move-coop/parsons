@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
@@ -7,8 +8,10 @@ from urllib.parse import urlparse
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.blob import (
     BlobClient,
+    BlobProperties,
     BlobSasPermissions,
     BlobServiceClient,
+    ContainerClient,
     ContentSettings,
     PublicAccess,
     generate_blob_sas,
@@ -25,18 +28,17 @@ class AzureBlobStorage:
     Instantiate AzureBlobStorage Class for a given Azure storage account.
 
     Args:
-        account_name: str
-            The name of the Azure storage account to use. Not required if ``AZURE_ACCOUNT_NAME``
-            environment variable is set, or if ``account_url`` is supplied.
-        credential: str
-            An account shared access key with access to the Azure storage account, an SAS token
-            string, or an instance of a TokenCredentials class. Not required if ``AZURE_CREDENTIAL``
-            environment variable is set.
-        account_domain: str
+        account_name:
+            The name of the Azure storage account to use.
+            Not required if ``AZURE_ACCOUNT_NAME`` environment variable is set, or if ``account_url`` is supplied.
+        credential:
+            An account shared access key with access to the Azure storage account,
+            an SAS token string, or an instance of a TokenCredentials class.
+            Not required if ``AZURE_CREDENTIAL`` environment variable is set.
+        account_domain:
             The domain of the Azure storage account, defaults to "blob.core.windows.net".
-            Not required if ``AZURE_ACCOUNT_DOMAIN`` environment variable is set or if
-            ``account_url`` is supplied.
-        account_url: str
+            Not required if ``AZURE_ACCOUNT_DOMAIN`` environment variable is set or if ``account_url`` is supplied.
+        account_url:
             The account URL for the Azure storage account including the account name and domain.
             Not required if ``AZURE_ACCOUNT_URL`` environment variable is set.
 
@@ -44,10 +46,10 @@ class AzureBlobStorage:
 
     def __init__(
         self,
-        account_name=None,
-        credential=None,
-        account_domain="blob.core.windows.net",
-        account_url=None,
+        account_name: str | None = None,
+        credential: str | None = None,
+        account_domain: str = "blob.core.windows.net",
+        account_url: str | None = None,
     ):
         self.account_url = os.getenv("AZURE_ACCOUNT_URL", account_url)
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
@@ -64,31 +66,15 @@ class AzureBlobStorage:
             self.account_domain = ".".join(parsed_url.netloc.split(".")[1:])
         self.client = BlobServiceClient(account_url=self.account_url, credential=self.credential)
 
-    def list_containers(self):
-        """
-        Returns a list of container names for the storage account
-
-        Returns:
-            list[str]
-                List of container names
-
-        """
+    def list_containers(self) -> list[str]:
+        """Returns a list of container names for the storage account."""
 
         container_names = [container.name for container in self.client.list_containers()]
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
 
-    def container_exists(self, container_name):
-        """
-        Verify that a container exists within the storage account
-
-        Args:
-            container_name: str
-                The name of the container
-        Returns:
-            bool
-
-        """
+    def container_exists(self, container_name: str) -> bool:
+        """Verify that a container exists within the storage account."""
 
         container_client = self.get_container(container_name)
         try:
@@ -99,44 +85,30 @@ class AzureBlobStorage:
             logger.info(f"{container_name} does not exist.")
             return False
 
-    def get_container(self, container_name):
-        """
-        Returns a container client
-
-        Args:
-            container_name: str
-                The name of the container
-        Returns:
-            `ContainerClient`
-
-        """
+    def get_container(self, container_name: str) -> ContainerClient:
+        """Returns a container client."""
 
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
     def create_container(
         self,
-        container_name,
-        metadata=None,
-        public_access: PublicAccess | Literal["container", "blob"] = None,
+        container_name: str,
+        metadata: dict[str, str] | None = None,
+        public_access: PublicAccess | Literal["container", "blob"] | None = None,
         **kwargs,
-    ):
+    ) -> ContainerClient:
         """
         Create a container.
 
         Args:
-            container_name: str
-                The name of the container
-            metadata: Optional[dict[str, str]]
-                A dict with metadata to associated with the container.
-            public_access: Optional[Union[PublicAccess, str]]
-                Settings for public access on the container, can be 'container' or 'blob' if not
-                ``None``
+            container_name: The name of the container
+            metadata: A dict with metadata to associated with the container.
+            public_access:
+                Settings for public access on the container,
+                can be ``container`` or ``blob`` if not ``None``
             kwargs:
                 Additional arguments to be supplied to :meth:`azure.storage.blob.BlobServiceClient.create_container`
-
-        Returns:
-            `ContainerClient`
 
         """
 
@@ -146,32 +118,24 @@ class AzureBlobStorage:
         logger.info(f"Created {container_name} container.")
         return container_client
 
-    def delete_container(self, container_name):
-        """
-        Delete a container.
-
-        Args:
-            container_name: str
-                The name of the container
-
-        """
+    def delete_container(self, container_name: str) -> None:
+        """Delete a container."""
 
         self.client.delete_container(container_name)
         logger.info(f"{container_name} container deleted.")
 
-    def list_blobs(self, container_name, name_starts_with=None):
+    def list_blobs(
+        self, container_name: str, name_starts_with: str | None = None
+    ) -> list[BlobProperties]:
         """
         List all of the names of blobs in a container
 
         Args:
-            container_name: str
-                The name of the container
-            name_starts_with: Optional[str]
-                A prefix to filter blob names
+            container_name: The name of the container
+            name_starts_with: A prefix to filter blob names
 
         Returns:
-            list[str]
-                A list of blob names
+            A list of blob names
 
         """
 
@@ -180,17 +144,8 @@ class AzureBlobStorage:
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
         return blobs
 
-    def blob_exists(self, container_name, blob_name) -> bool:
-        """
-        Verify that a blob exists in the specified container
-
-        Args:
-            container_name: str
-                The container name
-            blob_name: str
-                The blob name
-
-        """
+    def blob_exists(self, container_name: str, blob_name: str) -> bool:
+        """Verify that a blob exists in the specified container."""
 
         blob_client = self.get_blob(container_name, blob_name)
         try:
@@ -210,37 +165,36 @@ class AzureBlobStorage:
 
     def get_blob_url(
         self,
-        container_name,
-        blob_name,
-        account_key=None,
-        permission: BlobSasPermissions | Literal["r", "a", "c", "w", "d"] = None,
-        expiry=None,
-        start=None,
-    ):
+        container_name: str,
+        blob_name: str,
+        account_key: str | None = None,
+        permission: BlobSasPermissions | Literal["r", "a", "c", "w", "d"] | None = None,
+        expiry: datetime | str | None = None,
+        start: datetime | str | None = None,
+    ) -> str:
         """
         Get a URL with a shared access signature for a blob
 
         Args:
-            container_name: str
-                The container name
-            blob_name: str
-                The blob name
-            account_key: Optional[str]
-                An account shared access key for the storage account. Will default to the key used
-                on initialization if one was provided as the credential, but required if it was not.
-            permission: Optional[Union[BlobSasPermissions, str]]
-                Permissions associated with the blob URL. Can be either a BlobSasPermissions object
-                or a string where 'r', 'a', 'c', 'w', and 'd' correspond to read, add, create,
-                write, and delete permissions respectively.
-            expiry: Optional[Union[datetime, str]]
+            container_name: The container name
+            blob_name: The blob name
+            account_key:
+                An account shared access key for the storage account.
+                Will default to the key used on initialization if one was provided as the credential,
+                but required if it was not.
+            permission:
+                Permissions associated with the blob URL.
+                Can be either :class:`azure.storage.blob.BlobSasPermissions` or a string where
+                ``r``, ``a``, ``c``, ``w``, and ``d`` correspond to read, add, create, write, and delete permissions respectively.
+            expiry:
                 The datetime when the URL should expire. Defaults to UTC.
-            start: Optional[Union[datetime, str]]
-                The datetime when the URL should become valid. Defaults to UTC. If it is ``None``,
-                the URL becomes active when it is first created.
+            start:
+                The datetime when the URL should become valid.
+                Defaults to UTC.
+                If it is ``None``, the URL becomes active when it is first created.
 
         Returns:
-            str
-                URL with shared access signature for blob
+            URL with shared access signature for blob
 
         """
 
@@ -296,24 +250,20 @@ class AzureBlobStorage:
 
         return content_settings, kwargs_copy
 
-    def put_blob(self, container_name, blob_name, local_path, **kwargs):
+    def put_blob(
+        self, container_name: str, blob_name: str, local_path: Path | str, **kwargs
+    ) -> BlobClient:
         """
         Puts a blob (aka file) in a bucket
 
         Args:
-            container_name: str
-                The name of the container to store the blob
-            blob_name: str
-                The name of the blob to be stored
-            local_path: str
-                The local path of the file to upload
+            container_name: The name of the container to store the blob
+            blob_name: The name of the blob to be stored
+            local_path: The local path of the file to upload
             kwargs:
                 Additional arguments to be supplied to :meth:`azure.storage.blob.BlobClient.upload_blob`.
                 Any keys that belong to the ``ContentSettings`` object will be
                 provided to that class directly.
-
-        Returns:
-            `BlobClient`
 
         """
 
@@ -333,23 +283,23 @@ class AzureBlobStorage:
         # Return refreshed BlobClient object
         return self.get_blob(container_name, blob_name)
 
-    def download_blob(self, container_name, blob_name, local_path=None):
+    def download_blob(
+        self, container_name: str, blob_name: str, local_path: Path | str | None = None
+    ) -> str:
         """
         Downloads a blob from a container into the specified file path or a temporary file path
 
         Args:
-            container_name: str
-                The container name
-            blob_name: str
-                The blob name
-            local_path: Optional[str]
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
+            container_name: The container name
+            blob_name: The blob name
+            local_path:
+                The local path where the file will be downloaded.
+                If not specified, a temporary file will be created and returned,
+                and that file will be removed automatically
                 when the script is done running.
 
         Returns:
-            str
-                The path of the downloaded file
+            The path of the downloaded file
 
         """
 
@@ -363,19 +313,10 @@ class AzureBlobStorage:
             blob_client.download_blob().readinto(f)
         logger.info(f"{blob_name} blob saved to {local_path}.")
 
-        return local_path
+        return str(local_path)
 
-    def delete_blob(self, container_name, blob_name):
-        """
-        Delete a blob in a specified container.
-
-        Args:
-            container_name: str
-                The container name
-            blob_name: str
-                The blob name
-
-        """
+    def delete_blob(self, container_name: str, blob_name: str) -> None:
+        """Delete a blob in a specified container."""
 
         blob_client = self.get_blob(container_name, blob_name)
         blob_client.delete_blob()
@@ -396,7 +337,9 @@ class AzureBlobStorage:
             table: The table to upload
             container_name: The container name to upload the data into
             blob_name: The blob name to upload the data into
-            data_type: The file format to use when writing the data. One of: `csv` or `json`
+            data_type:
+                The file format to use when writing the data.
+                One of ``csv`` or ``json``.
             kwargs: Additional keyword arguments to supply to ``put_blob``
 
         Raises:
@@ -405,10 +348,10 @@ class AzureBlobStorage:
         """
 
         if data_type == "csv":
-            local_path = table.to_csv()
+            local_path = Path(table.to_csv())
             content_type = "text/csv"
         elif data_type == "json":
-            local_path = table.to_json()
+            local_path = Path(table.to_json())
             content_type = "application/json"
         else:
             raise ValueError(f"Unknown data_type value ({data_type}): must be one of: csv or json")

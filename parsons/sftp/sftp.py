@@ -152,37 +152,33 @@ class SFTP:
 
     def get_file(
         self,
-        remote_path,
-        local_path=None,
+        remote_path: str,
+        local_path: Path | str | None = None,
         connection=None,
         export_chunk_size: int | None = None,
-    ):
+    ) -> str:
         """
         Download a file from the SFTP server
 
         Args:
-            remote_path: str
+            remote_path:
                 The remote path of the file to download
-
-            local_path: str
+            local_path:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-
-            connection: obj
+            connection:
                 An SFTP connection object
-
-            export_chunk_size: int
-                Optional. Size in bytes to iteratively export from the remote server.
+            export_chunk_size:
+                Size in bytes to iteratively export from the remote server.
 
         Returns:
-            str
-                The path of the local file
+            The path of the local file
 
         """
 
         if not local_path:
-            local_path = file_utilities.create_temp_file_for_path(remote_path)
+            local_path = Path(file_utilities.create_temp_file_for_path(remote_path))
 
         if connection:
             if export_chunk_size:
@@ -193,7 +189,7 @@ class SFTP:
                     export_chunk_size=export_chunk_size,
                 )
             else:
-                connection.get(remote_path, local_path)
+                connection.get(remote_path, str(local_path))
 
         else:
             with self.create_connection() as connection:
@@ -205,29 +201,26 @@ class SFTP:
                         export_chunk_size=export_chunk_size,
                     )
                 else:
-                    connection.get(remote_path, local_path)
+                    connection.get(remote_path, str(local_path))
 
-        return local_path
+        return str(local_path)
 
     def __get_file_in_chunks(
-        self, remote_path: str, local_path: str, connection, export_chunk_size: int
+        self, remote_path: str, local_path: Path | str, connection, export_chunk_size: int
     ) -> None:
         """
         Download a file in chunked-increments from the remote host to the local path
 
         Args:
-            remote_path: str
+            remote_path:
                 The remote path of the file to download
-
-            local_path: str
+            local_path:
                 The local path where the file will be downloaded. If not specified, a temporary
                 file will be created and returned, and that file will be removed automatically
                 when the script is done running.
-
-            connection: obj
+            connection:
                 An SFTP connection object
-
-            export_chunk_size: int
+            export_chunk_size:
                 Optional. Size in bytes to iteratively export from the remote server.
 
         """
@@ -253,33 +246,31 @@ class SFTP:
     @connect
     def get_files(
         self,
-        files_to_download=None,
-        remote=None,
+        files_to_download: list[str] | None = None,
+        remote: str | list[str] | None = None,
         connection=None,
-        pattern=None,
-        local_paths=None,
-    ):
+        pattern: str = None,
+        local_paths: list[Path | str] | None = None,
+    ) -> list[str]:
         """
         Download a list of files, either by providing the list explicitly, providing directories
         that contain files to download, or both.
 
         Args:
-            files_to_download: list
-                A list of full remote paths (can be relative) to files to download
-            remote: str or list
-                A path to a remote directory or a list of paths
-            connection: obj
-                An SFTP connection object
-            pattern: str
-                A regex pattern with which to select file names. Defaults to None, in which case
-                all files will be selected.
-            local_paths: list
-                A list of paths to which to save the selected files. Defaults to None. If it is not
-                the same length as the files to be fetched, temporary files are used instead.
+            files_to_download: A list of full remote paths (can be relative) to files to download
+            remote: str or A path to a remote directory or a list of paths
+            connection: An SFTP connection object
+            pattern:
+                A regex pattern with which to select file names.
+                Defaults to None, in which case all files will be selected.
+            local_paths:
+                A list of paths to which to save the selected files.
+                Defaults to None.
+                If it is not the same length as the files to be fetched,
+                temporary files are used instead.
 
         Returns:
-            list
-                Local paths where the files are saved.
+            Local paths where the files are saved.
 
         """
 
@@ -361,28 +352,26 @@ class SFTP:
         )
 
     def put_file(
-        self, local_path: str, remote_path: str, connection=None, verbose: bool = True
+        self, local_path: Path | str, remote_path: str, connection=None, verbose: bool = True
     ) -> None:
         """
         Put a file on the SFTP server
 
         Args:
-            local_path: str
-                The local path of the source file
-            remote_path: str
-                The remote path of the new file
-            connection: obj
-                An SFTP connection object
-            verbose: bool
-                Log progress every 5MB. Defaults to True.
+            local_path: The local path of the source file
+            remote_path: The remote path of the new file
+            connection: An SFTP connection object
+            verbose:
+                Log progress every 5MB.
+                Defaults to True.
 
         """
         callback = self._progress if verbose else None
         if connection:
-            connection.put(local_path, remote_path, callback=callback)
+            connection.put(str(local_path), remote_path, callback=callback)
         else:
             with self.create_connection() as connection:
-                connection.put(local_path, remote_path, callback=callback)
+                connection.put(str(local_path), remote_path, callback=callback)
 
     def remove_file(self, remote_path, connection=None):
         """

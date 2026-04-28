@@ -87,14 +87,28 @@ class CatalistMatch:
         myUploads directory in the SFTP server.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             input_subfolder: str
-                 Optional. If specified, the file will be uploaded to a subfolder of the
-                 myUploads directory in the SFTP server.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            input_subfolder:
+                If specified, the file will be uploaded to a subfolder of the
+                myUploads directory in the SFTP server.
 
         """
         local_path = table.to_csv(temp_file_compression="gzip")
@@ -130,26 +144,33 @@ class CatalistMatch:
          6 hours or more depending on concurrent traffic.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             export: bool
-                 Defaults to False
-             description: str
-                 Optional. Description for the match job.
-             export_filename_suffix: str
-                 Optional. Adds a suffix to the result filename in the SFTP server.
-             input_subfolder: str
-                 Optional. Adds a prefix to the filepath of the uploaded input file in
-                 the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
-             static_values: dict
-                  Optional. Any included values are mapped to every row of the input table.
-             wait: int
-                  Seconds to poll, defaults to 30.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            export: Defaults to False
+            description: Description for the match job.
+            export_filename_suffix: Adds a suffix to the result filename in the SFTP server.
+            input_subfolder:
+                Adds a prefix to the filepath of the uploaded input file in the SFTP server.
+            copy_to_sandbox: Defaults to False.
+            static_values: Any included values are mapped to every row of the input table.
+            wait: Seconds to poll, defaults to 30.
 
         """
         response = self.upload(
@@ -178,27 +199,35 @@ class CatalistMatch:
         """Load table to the Catalist Match API, returns response with job metadata.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             template_id: str
-                 Defaults to 48827, currently the only available template for working
-                 with the Match API.
-             export: bool
-                 Defaults to False
-             description: str
-                 Optional. Description for the match job.
-             export_filename_suffix: str
-                 Optional. Adds a suffix to the result filename in the SFTP server.
-             input_subfolder: str
-                 Optional. Adds a prefix to the filepath of the uploaded input file in
-                 the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
-             static_values: dict
-                  Optional. Any included values are mapped to every row of the input table.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            template_id:
+                Currently the only available template for working with the Match API.
+                Defaults to 48827.
+            export: Defaults to False
+            description: Description for the match job.
+            export_filename_suffix: Adds a suffix to the result filename in the SFTP server.
+            input_subfolder:
+                Adds a prefix to the filepath of the uploaded input file in the SFTP server.
+            copy_to_sandbox: Defaults to False.
+            static_values: Any included values are mapped to every row of the input table.
 
         """
 
@@ -261,18 +290,20 @@ class CatalistMatch:
         action has been queued.
 
         Args:
-             file_ids: str or list[str]
-                 one or more file_ids (found in the `id` key of responses from the
-                 upload() or status() methods)
-             match: bool
-                 Optional. Defaults to False. If True, will initiate matching.
-             export: bool
-                 Optional. Defaults to False. If True, will initiate export.
-             export_filename_suffix: str
-                 Optional. If included, adds a suffix to the filepath of the exported
-                 file in the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
+            file_ids:
+                One or more file_ids, found in the ``id`` key of
+                responses from :meth:`.upload` or :meth:`.status`.
+            match:
+                If ``True``, will initiate matching.
+                Defaults to ``False``.
+            export:
+                If ``True``, will initiate export.
+                Defaults to ``False``.
+            export_filename_suffix:
+                If included, adds a suffix to the
+                filepath of the exported file in the SFTP server.
+            copy_to_sandbox:
+                Defaults to ``False``.
 
         """
         actions = ["publish"]

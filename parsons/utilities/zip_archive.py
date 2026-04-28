@@ -6,7 +6,7 @@ from parsons.utilities.files import create_temp_directory
 
 
 def create_archive(
-    archive_path: str,
+    archive_path: Path | str,
     file_path: str,
     file_name: str | None = None,
     if_exists: Literal["replace", "append"] = "replace",
@@ -33,10 +33,10 @@ def create_archive(
     with zipfile.ZipFile(archive_path, write_type) as z:
         z.write(file_path, arcname=file_name, compress_type=zipfile.ZIP_STORED)
 
-    return archive_path
+    return str(archive_path)
 
 
-def unzip_archive(archive_path: str, destination: str | None = None) -> str:
+def unzip_archive(archive_path: Path | str, destination: str | None = None) -> str:
     """
     Unzip an archive.
 

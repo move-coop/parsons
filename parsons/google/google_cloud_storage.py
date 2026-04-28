@@ -7,11 +7,12 @@ import zipfile
 from pathlib import Path
 from typing import Literal
 
-import google
 import petl
+from google.api_core import exceptions
 from google.cloud import storage, storage_transfer
-from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 
+from parsons import Table
 from parsons.google.utilities import (
     load_google_application_credentials,
     setup_google_application_credentials,
@@ -51,21 +52,22 @@ class GoogleCloudStorage:
         gcs = GoogleCloudStorage(app_creds=app_creds)
 
     Args:
-        app_creds: str, dict, or google.oauth2.credentials.Credentials object
-            A credentials json string or a path to a json file. Not required
-            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also
-            pass a google oauth2 Credentials object directly.
-        project: str
-            The project which the client is acting on behalf of. If not passed
-            then will use the default inferred environment.
-
-    Returns:
-        GoogleCloudStorage Class
+        app_creds:
+            A credentials json string or a path to a json file.
+            Not required if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
+            Can also pass :class:`google.oauth2.service_account.Credentials` directly.
+        project:
+            The project which the client is acting on behalf of.
+            If not passed then will use the default inferred environment.
 
     """
 
-    def __init__(self, app_creds: str | dict | Credentials | None = None, project=None):
-        if isinstance(app_creds, Credentials):
+    def __init__(
+        self,
+        app_creds: service_account.Credentials | str | Path | dict | None = None,
+        project: str | None = None,
+    ) -> None:
+        if isinstance(app_creds, service_account.Credentials):
             credentials = app_creds
         else:
             env_credentials_path = str(uuid.uuid4())
@@ -85,28 +87,19 @@ class GoogleCloudStorage:
         else:
             self.client = storage.Client(credentials=credentials, project=self.project)
 
-    def list_buckets(self):
-        """
-        Returns a list of buckets
-
-        Returns:
-            List of buckets
-
-        """
+    def list_buckets(self) -> list[str]:
+        """Returns a list of bucket names."""
 
         buckets = [b.name for b in self.client.list_buckets()]
         logger.info(f"Found {len(buckets)}.")
         return buckets
 
-    def bucket_exists(self, bucket_name):
+    def bucket_exists(self, bucket_name: str) -> bool:
         """
         Verify that a named bucket exists.
 
         Args:
-            bucket_name: str
-                The name of the bucket
-        Returns:
-            boolean
+            bucket_name: The name of the bucket
 
         """
 
@@ -117,33 +110,32 @@ class GoogleCloudStorage:
             logger.debug(f"{bucket_name} does not exist.")
             return False
 
-    def get_bucket(self, bucket_name):
+    def get_bucket(self, bucket_name: str) -> storage.Bucket:
         """
         Returns a :class:`~google.cloud.storage.bucket.Bucket`.
 
         Args:
-            bucket_name: str
-                The name of bucket
-        Returns:
-            GoogleCloud Storage bucket
+            bucket_name: The name of bucket
+
+        Raises:
+            exceptions.NotFound: If the bucket is not found.
 
         """
 
         if self.client.lookup_bucket(bucket_name):
             bucket = self.client.get_bucket(bucket_name)
         else:
-            raise google.cloud.exceptions.NotFound("Bucket not found")
+            raise exceptions.NotFound("Bucket not found")
 
         logger.debug(f"Returning {bucket_name} object")
         return bucket
 
-    def create_bucket(self, bucket_name):
+    def create_bucket(self, bucket_name: str) -> None:
         """
         Create a bucket.
 
         Args:
-            bucket_name: str
-                A globally unique name for the bucket.
+            bucket_name: A globally unique name for the bucket.
 
         """
 
@@ -176,7 +168,7 @@ class GoogleCloudStorage:
         prefix=None,
         match_glob=None,
         include_file_details=False,
-    ):
+    ) -> list[str] | list[storage.Blob]:
         """
         List all of the blobs in a bucket
 
@@ -209,19 +201,8 @@ class GoogleCloudStorage:
 
         return lst
 
-    def blob_exists(self, bucket_name, blob_name):
-        """
-        Verify that a blob exists in the specified bucket
-
-        Args:
-            bucket_name: str
-                The bucket name
-            blob_name: str
-                The name of the blob
-        Returns:
-            boolean
-
-        """
+    def blob_exists(self, bucket_name: str, blob_name: str) -> bool:
+        """Verify that a blob exists in the specified bucket."""
 
         if blob_name in self.list_blobs(bucket_name):
             logger.debug(f"{blob_name} exists.")
@@ -230,36 +211,22 @@ class GoogleCloudStorage:
             logger.debug(f"{blob_name} does not exist.")
             return False
 
-    def get_blob(self, bucket_name, blob_name):
-        """
-        Get a blob object
-
-        Args:
-            bucket_name: str
-                A bucket name
-            blob_name: str
-                A blob name
-        Returns:
-            A Google Storage blob object
-
-        """
+    def get_blob(self, bucket_name: str, blob_name: str) -> storage.Blob | None:
+        """Get a blob object."""
 
         bucket = self.get_bucket(bucket_name)
         blob = bucket.get_blob(blob_name)
         logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
         return blob
 
-    def put_blob(self, bucket_name, blob_name, local_path, **kwargs):
+    def put_blob(self, bucket_name: str, blob_name: str, local_path: Path | str, **kwargs) -> None:
         """
         Puts a blob (aka file) in a bucket
 
         Args:
-            bucket_name:
-                The name of the bucket to store the blob
-            blob_name:
-                The name of blob to be stored in the bucket
-            local_path: str
-                The local path of the file to upload
+            bucket_name: The name of the bucket to store the blob
+            blob_name: The name of blob to be stored in the bucket
+            local_path: The local path of the file to upload
 
         """
 
@@ -271,50 +238,44 @@ class GoogleCloudStorage:
 
         logger.info(f"{blob_name} put in {bucket_name} bucket.")
 
-    def download_blob(self, bucket_name, blob_name, local_path=None):
+    def download_blob(
+        self, bucket_name: str, blob_name: str, local_path: Path | str | None = None
+    ) -> str:
         """
         Gets a blob from a bucket
 
         Args:
-            bucket_name: str
-                The name of the bucket
-            blob_name: str
-                The name of the blob
-            local_path: str
-                The local path where the file will be downloaded. If not specified, a temporary
-                file will be created and returned, and that file will be removed automatically
+            bucket_name: The name of the bucket
+            blob_name: The name of the blob
+            local_path:
+                The local path where the file will be downloaded.
+                If not specified, a temporary file will be created and returned,
+                and that file will be removed automatically
                 when the script is done running.
 
         Returns:
-            str
-                The path of the downloaded file
+            The path of the downloaded file
 
         """
 
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPTHING")
 
+        if isinstance(local_path, str):
+            local_path = Path(local_path)
+
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
         logger.debug(f"Downloading {blob_name} from {bucket_name} bucket.")
-        with Path(local_path).open(mode="wb") as f:
+        with local_path.open(mode="wb") as f:
             blob.download_to_file(f, client=self.client)
         logger.debug(f"{blob_name} saved to {local_path}.")
 
-        return local_path
+        return str(local_path)
 
-    def delete_blob(self, bucket_name, blob_name):
-        """
-        Delete a blob
-
-        Args:
-            bucket_name: str
-                The bucket name
-            blob_name: str
-                The blob name
-
-        """
+    def delete_blob(self, bucket_name: str, blob_name: str) -> None:
+        """Delete a blob."""
 
         blob = self.get_blob(bucket_name, blob_name)
         if blob:
@@ -325,30 +286,30 @@ class GoogleCloudStorage:
 
     def upload_table(
         self,
-        table,
-        bucket_name,
-        blob_name,
+        table: Table,
+        bucket_name: str,
+        blob_name: str,
         data_type: Literal["csv", "json"] = "csv",
         default_acl=None,
         timeout: int = 60,
-    ):
+    ) -> str:
         """
         Load the data from a Parsons table into a blob.
 
         Args:
-            table: obj
-                A :ref:`Table`
-            bucket_name: str
-                The name of the bucket to upload the data into.
-            blob_name: str
-                The name of the blob to upload the data into.
-            data_type: str
-                The file format to use when writing the data. One of: `csv` or `json`
-            default_acl:
-                ACL desired for newly uploaded table
+            table: A :ref:`Table`
+            bucket_name: The name of the bucket to upload the data into.
+            blob_name: The name of the blob to upload the data into.
+            data_type:
+                The file format to use when writing the data.
+                One of ``csv`` or ``json``.
+            default_acl: ACL desired for newly uploaded table
 
         Returns:
             String representation of file URI in GCS
+
+        Raises:
+            ValueError: If the data type is not ``csv`` or ``json``.
 
         """
         bucket = storage.Bucket(self.client, name=bucket_name)
@@ -415,7 +376,7 @@ class GoogleCloudStorage:
     def copy_bucket_to_gcs(
         self,
         gcs_sink_bucket: str,
-        source: str,
+        source: Literal["gcs", "s3"],
         source_bucket: str,
         destination_path: str = "",
         source_path: str = "",
@@ -429,22 +390,27 @@ class GoogleCloudStorage:
         is passed.
 
         Args:
-            gcs_sink_bucket: str
+            gcs_sink_bucket:
                 Destination for the data transfer (located in GCS)
-            source: str
-                File storge vendor [gcs or s3]
-            source_bucket: str
+            source:
+                File storge vendor [``gcs`` or ``s3``]
+            source_bucket:
                 Source bucket name
-            source_path: str
-                Path in the source system pointing to the relevant keys
-                / files to sync. Must end in a '/'
-            aws_access_key_id: str
+            source_path:
+                Path in the source system pointing to the relevant keys / files to sync.
+                Must end in a ``/``.
+            aws_access_key_id:
                 Access key to authenticate storage transfer
-            aws_secret_access_key: str
+            aws_secret_access_key:
                 Secret key to authenticate storage transfer
-            delete_objects_unique_in_sink: bool Whether objects should be
-                deleted from the source after they are transferred to the sink.
+            delete_objects_unique_in_sink:
+                Whether objects should be deleted from the source
+                after they are transferred to the sink.
                 Default is false.
+
+        Raises:
+            ValueError: If `source` is not ``gcs`` or ``s3``.
+            ValueError: If `source_path` does not end in a ``/``.
 
         """
         if source not in ["gcs", "s3"]:
@@ -554,15 +520,13 @@ class GoogleCloudStorage:
             wait_time += wait_between_attempts_in_sec
             time.sleep(wait_between_attempts_in_sec)
 
-    def format_uri(self, bucket: str, name: str):
+    def format_uri(self, bucket: str, name: str) -> str:
         """
         Represent a GCS URI as a string
 
         Args:
-            bucket: str
-                GCS bucket name
-            name: str
-                Filename in bucket
+            bucket: GCS bucket name
+            name: Filename in bucket
 
         Returns:
             String represetnation of URI
@@ -570,13 +534,12 @@ class GoogleCloudStorage:
         """
         return f"gs://{bucket}/{name}"
 
-    def split_uri(self, gcs_uri: str):
+    def split_uri(self, gcs_uri: str) -> tuple[str, str]:
         """
         Split a GCS URI into a bucket and blob name.
 
         Args:
-            gcs_uri: str
-                GCS URI
+            gcs_uri: GCS URI
 
         Returns:
             Tuple of strings with bucket_name and blob_name
@@ -603,20 +566,13 @@ class GoogleCloudStorage:
         parameter is provided.
 
         Args:
-            bucket_name: str
-                GCS bucket name
-
-            blob_name: str
-                Blob name in GCS bucket
-
-            compression_type: str
-                Either `zip` or `gzip`
-
-            new_filename: str
+            bucket_name: GCS bucket name
+            blob_name: Blob name in GCS bucket
+            compression_type: Either `zip` or `gzip`
+            new_filename:
                 If provided, replaces the existing blob name
-                when the decompressed file is uploaded
-
-            new_file_extension: str
+                when the decompressed file is uploaded.
+            new_file_extension:
                 If provided, replaces the file extension
                 when the decompressed file is uploaded.
 

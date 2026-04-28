@@ -27,7 +27,8 @@ logger = logging.getLogger(__name__)
 
 
 class SendMail(ABC):
-    """SendMail base class for sending emails.
+    """
+    SendMail base class for sending emails.
 
     This class is not designed to be used directly,
     as it has useful methods for composing messages and validating emails
@@ -51,8 +52,9 @@ class SendMail(ABC):
     def _send_message(self, message):
         pass
 
-    def _create_message_simple(self, sender, to, subject, message_text):
-        """Create a text-only message for an email.
+    def _create_message_simple(self, sender: str, to: str, subject: str, message_text: str):
+        """
+        Create a text-only message for an email.
 
         Args:
             sender: str
@@ -77,8 +79,11 @@ class SendMail(ABC):
 
         return message
 
-    def _create_message_html(self, sender, to, subject, message_text, message_html):
-        """Create an html message for an email.
+    def _create_message_html(
+        self, sender: str, to: str, subject: str, message_text: str, message_html: str
+    ) -> MIMEMultipart:
+        """
+        Create an html message for an email.
 
         Args:
             sender: str
@@ -109,9 +114,16 @@ class SendMail(ABC):
         return message
 
     def _create_message_attachments(
-        self, sender, to, subject, message_text, files, message_html=None
-    ):
-        """Create a message for an email that includes an attachment.
+        self,
+        sender: str,
+        to: str,
+        subject: str,
+        message_text: str,
+        files: list[str],
+        message_html: str | None = None,
+    ) -> MIMEMultipart:
+        """
+        Create a message for an email that includes an attachment.
 
         Args:
             sender: str
@@ -124,8 +136,8 @@ class SendMail(ABC):
                 The text of the email message.
             files: list
                 The path(s) to the file(s) to be attached.
-            message_html: str
-                Optional; The html formatted text of the email message.
+            message_html: str, optional
+                The html formatted text of the email message.
 
         Returns:
             An object passable to send_message to send
@@ -147,7 +159,6 @@ class SendMail(ABC):
 
         for f in files:
             filename = getattr(f, "name", "file")
-            file_bytes = b""
 
             if isinstance(f, io.StringIO):
                 file_bytes = f.getvalue().encode()
@@ -158,7 +169,7 @@ class SendMail(ABC):
                 file_bytes = Path(f).read_bytes()
 
             content_type, encoding = mimetypes.guess_type(filename)
-            self.log.debug(f"(File: {f}, Content-type: {content_type}, Encoding: {encoding})")
+            self.log.debug("(File: %s, Content-type: %s, Encoding: %s)", f, content_type, encoding)
 
             if content_type is None or encoding is not None:
                 content_type = "application/octet-stream"
@@ -193,33 +204,41 @@ class SendMail(ABC):
 
         return message
 
-    def _validate_email_string(self, str):
-        self.log.debug(f"Validating email {str}...")
-        realname, email_addr = parseaddr(str)
+    def _validate_email_string(self, email_address: str) -> bool:
+        self.log.debug("Validating email %s...", email_address)
+        realname, email_addr = parseaddr(email_address)
 
         if not email_addr or not validate_email(email_addr):
             raise ValueError("Invalid email address.")
 
         return True
 
-    def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
-        """Send an email message.
+    def send_email(
+        self,
+        sender: str,
+        to: str | list[str],
+        subject: str,
+        message_text: str,
+        message_html: str | None = None,
+        files: str | list[str] | None = None,
+    ):
+        """
+        Send an email message.
 
         Args:
             sender: str
                 Email address of the sender.
             to: str or list
-                Email address(es) of the receiver(s). Must be in correct email
-                string syntax. For example, `name@email.com` or
-                `"Name" <email@email.com>`.
+                Email address(es) of the receiver(s). Must be in correct email string
+                syntax. For example, `name@email.com` or `"Name" <email@email.com>`.
             subject: str
                 The subject of the email message.
             message_text: str
                 The text of the email message.
-            message_html: str
-                The html formatted text of the email message. If ommitted, the
-                email is sent a text-only body.
-            files: str or list
+            message_html: str, optional
+                The html-formatted text of the email message.
+                If ommitted, the email is sent with a text-only body.
+            files: str or list, optional
                 The path to the file(s) to be attached.
 
         """
@@ -254,14 +273,14 @@ class SendMail(ABC):
                 sender, to, subject, message_text, files, message_html
             )
 
-        self.log.info(f"Sending a(n) {msg_type} email...")
+        self.log.info("Sending a(n) %s email...", msg_type)
 
         self._send_message(msg)
 
-        self.log.info("Email sent succesfully.")
+        self.log.info("Email sent successfully.")
 
 
 class EmptyListError(IndexError):
-    """Throw when a list is empty that should contain at least 1 element."""
+    """Throw when a list of recipients is empty, but should contain at least 1 recipient."""
 
     pass

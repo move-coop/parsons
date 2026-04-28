@@ -116,13 +116,32 @@ class TestSendMailCreateMessageAttachments:
 
 
 class TestSendMailValidateEmailString:
-    @pytest.mark.parametrize("bad_email", ["a", "a@", "a+b", "@b.com"])
-    def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email):
-        with pytest.raises(ValueError, match="Invalid email address"):
+    @pytest.mark.parametrize(
+        ("bad_email", "error_match"),
+        [
+            ("a", "An email address must have an @-sign."),
+            ("a@", "Invalid email address, could not parse 'a@'."),
+            ("a@b", "The part after the @-sign is not valid. It should have a period."),
+            ("a@.com", "An email address cannot have a period immediately after the @-sign."),
+            ("", "Invalid email address, could not parse ''."),
+            ("@", "Invalid email address, could not parse '@'."),
+            ("@a", "There must be something before the @-sign."),
+            ("@.com", "There must be something before the @-sign."),
+            ("@a.com", "There must be something before the @-sign."),
+            ("a+b", "An email address must have an @-sign."),
+            ("a+b@", r"Invalid email address, could not parse 'a\+b@'."),
+            ("a+b@c", "The part after the @-sign is not valid. It should have a period."),
+            ("a+b@.com", "An email address cannot have a period immediately after the @-sign."),
+        ],
+    )
+    def test_errors_with_invalid_emails(self, dummy_sendmail, bad_email: str, error_match: str):
+        with pytest.raises(ValueError, match=error_match):
             dummy_sendmail._validate_email_string(bad_email)
 
-    @pytest.mark.parametrize("good_email", ["a@b", "a+b@c", "a@d.com", "a@b.org"])
-    def test_passes_valid_emails(self, dummy_sendmail, good_email):
+    @pytest.mark.parametrize(
+        "good_email", ["a@b.com", "a+b@c.com", "a@b.org", "a@b.c.org", "a+b@c.d.net", "á@ḅ.co"]
+    )
+    def test_passes_valid_emails(self, dummy_sendmail, good_email: str):
         dummy_sendmail._validate_email_string(good_email)
 
 
@@ -147,13 +166,13 @@ class TestSendMailSendEmail:
         assert patched_sendmail.message.get("to") == "to1@to1.com, to2@to2.com"
 
     def test_errors_if_an_email_in_a_list_doesnt_validate(self, patched_sendmail):
-        with pytest.raises(ValueError, match="Invalid email address"):
+        with pytest.raises(ValueError, match="An email address must have an @-sign"):
             patched_sendmail.send_email(
                 "from", ["to1@to1.com", "invalid", "to2@to2.com"], "subject", "text"
             )
 
     def test_errors_if_no_to_email_is_specified(self, patched_sendmail):
-        with pytest.raises(EmptyListError, match="Must contain at least 1 email"):
+        with pytest.raises(EmptyListError, match="Must provide at least 1 email"):
             patched_sendmail.send_email("from", [], "subject", "text")
 
     def test_appropriately_dispatches_html_email(self, patched_sendmail):

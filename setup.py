@@ -47,7 +47,7 @@ EXTRA_DEPENDENCIES = {
         "email-validator >= 2.2",
     ],
     "mysql": [
-        "mysql-connector-python >= 7",
+        "mysql-connector-python >= 7, != 9.7.0",
         "sqlalchemy >= 1.4",
     ],
     "newmode": ["newmode >= 0.1.6"],

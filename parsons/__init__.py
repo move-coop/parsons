@@ -57,7 +57,6 @@ _CONNECTORS = {
     "Community": "parsons.community.community",
     "Controlshift": "parsons.controlshift.controlshift",
     "Copper": "parsons.copper.copper",
-    "CrowdTangle": "parsons.crowdtangle.crowdtangle",
     "DatabaseConnector": "parsons.databases.database_connector",
     "DBSync": "parsons.databases.db_sync",
     "discover_database": "parsons.databases.discover_database",

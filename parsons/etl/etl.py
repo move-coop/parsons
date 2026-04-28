@@ -15,10 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 class ETL:
-    table: petl.util.base.Table
-    columns: list[str]
-    num_rows: int
-
     def head(self, n: int = 5) -> Self:
         """
         Return the first n rows of the table.

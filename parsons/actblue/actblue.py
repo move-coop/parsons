@@ -78,7 +78,6 @@ class ActBlue:
         Args:
             csv_type:
                 Type of CSV you are requesting.
-                Options:
 
                 - 'paid_contributions': contains paid, non-refunded contributions to the entity
                   (campaign or organization) you created the credential for, during the specified

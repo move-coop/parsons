@@ -375,9 +375,10 @@ class ZoomV1:
         self, meeting_id: int, poll_id: int, version: Literal[1, 2] = 1
     ) -> Table:
         """
-        Get metadata about a specific poll for a given meeting ID
+        Get metadata about a specific poll for a given meeting ID.
 
-        Required scopes: `meeting:read`
+        Required Scopes:
+            ``meeting:read``
 
         Args:
             meeting_id: int
@@ -585,8 +586,9 @@ class ZoomV1:
 
 class ZoomV2(ZoomV1):
     """
-    Version 2 implementation of a Parsons connector. Designed to involve minimal
-    transformation logic and clearer naming conventions.
+    Version 2 implementation of a Parsons connector.
+
+    Designed to involve minimal transformation logic and clearer naming conventions.
 
     Inherits the following methods from version 1:
     - get_users
@@ -610,9 +612,6 @@ class ZoomV2(ZoomV1):
     - get_past_webinar_poll_metadata
     - get_meeting_poll_results
     - get_webinar_poll_results
-
-    Args:
-        ZoomV1 (cls): version 1 Zoom connector class
 
     """
 
@@ -965,7 +964,7 @@ class ZoomV2(ZoomV1):
 
     def get_past_webinar_poll_results(self, webinar_id: int) -> Table:
         """
-        Get results for all polls for a given past webinar ID
+        Get results for all polls for a given past webinar ID.
 
         Args:
             webinar_id: str
@@ -989,7 +988,7 @@ class ZoomV2(ZoomV1):
 
     def get_meeting_poll_reports(self, meeting_id: int) -> Table:
         """
-        Get polls reports for a given past meeting ID
+        Get polls reports for a given past meeting ID.
 
         Args:
             meeting_id: str
@@ -1013,7 +1012,7 @@ class ZoomV2(ZoomV1):
 
     def get_webinar_poll_reports(self, webinar_id: int) -> Table:
         """
-        Get results for all polls for a given past webinar ID
+        Get results for all polls for a given past webinar ID.
 
         Args:
             webinar_id: str
@@ -1043,23 +1042,29 @@ class Zoom:
         client_id: str | None = None,
         client_secret: str | None = None,
         parsons_version: Literal["v1", "v2"] | None = None,
-    ) -> ZoomV1:
+    ):
         """
-        Create and return Zoom instance base on chosen version (1 or 2)
+        Create and return Zoom instance base on chosen version (1 or 2).
 
-        API Documentation: https://developers.zoom.us/docs/api/
+        API Documentation:
+            `<https://developers.zoom.us/docs/api/>`__
 
         Args:
-            account_id: str
-                A valid Zoom account id. Not required if ``ZOOM_ACCOUNT_ID`` env
-                variable set.
-            client_id: str
-                A valid Zoom client id. Not required if ``ZOOM_CLIENT_ID`` env
-                variable set.
-            client_secret: str
-                A valid Zoom client secret. Not required if `ZOOM_CLIENT_SECRET` env
-                variable set.
-            parsons_version (str, optional): Parsons version of the Zoom connector. Defaults to v1.
+            account_id:
+                A valid Zoom account id.
+                Not required if ``ZOOM_ACCOUNT_ID`` env variable set.
+            client_id:
+                A valid Zoom client id.
+                Not required if ``ZOOM_CLIENT_ID`` env variable set.
+            client_secret:
+                A valid Zoom client secret.
+                Not required if `ZOOM_CLIENT_SECRET` env variable set.
+            parsons_version:
+                Parsons version of the Zoom connector.
+                Defaults to v1.
+
+        Raises:
+            ValueError: If ``parsons_version`` is not "v1" or "v2".
 
         """
         if not parsons_version:

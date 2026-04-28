@@ -12,9 +12,31 @@ def setup_google_application_credentials(
     env_var_name: str = "GOOGLE_APPLICATION_CREDENTIALS",
     target_env_var_name: str | None = None,
 ) -> None:
-    # Detect if app_creds is a dict, path string or json string, and if it is a
-    # json string, then convert it to a temporary file. Then set the
-    # environmental variable.
+    """
+    Set up Google service account credentials.
+
+    1. Detect if app_creds is a dict, path string or json string.
+    2. If it is none of these, try loading it from the environment variable.
+    3. If it is a dict, convert it to a json string.
+    4. If it is a json string, convert it to a temporary file.
+    5. Set the file path to the requested environmental variable.
+
+    Args:
+        app_creds:
+            Google service account credentials.
+            If ``None``, try to load from `env_var_name` environment variable.
+        env_var_name:
+            Name of the environment variable to load from if `app_creds` is ``None``.
+            Defaults to ``GOOGLE_APPLICATION_CREDENTIALS``.
+        target_env_var_name:
+            Name of the environment variable to set the credentials path to.
+            If ``None``, use the value of `env_var_name`.
+
+    Raises:
+        ValueError: If no credentials are provided or found in the environment.
+        ValueError: If the credentials file path cannot be set to environment variable.
+
+    """
     credentials = check_env.check(env_var_name, app_creds)
     try:
         if type(credentials) is dict:

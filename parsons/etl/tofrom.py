@@ -140,25 +140,26 @@ class ToFrom:
         Args:
             target:
                 The file path for creating the avro file.
-                Note that if a file already exists at the given location, it will be
-                overwritten.
+                Note that if a file already exists at the given location,
+                it will be overwritten.
             schema:
                 Defines the rows field structure of the file.
                 Check `fastavro documentation`_ and `Avro schema reference`_ for details.
             sample:
-                Defines how many rows are inspected
-                for discovering the field types and building a schema for the avro file
-                when the `schema` argument is not passed. Default is 9.
+                Defines how many rows are inspected for discovering the field types and building
+                a schema for the avro file when the `schema` argument is not passed.
+                Default is 9.
             codec:
-                The `codec` argument (string, optional) sets the compression codec used to
-                shrink data in the file. It can be 'null', 'deflate' (default), 'bzip2' or
-                'snappy', 'zstandard', 'lz4', 'xz' (if installed)
+                The `codec` argument (string, optional) sets the
+                compression codec used to shrink data in the file.
+                It can be ``null``, ``deflate`` (default), ``bzip2`` or ``snappy``,
+                ``zstandard``, ``lz4``, ``xz`` (if installed)
             compression_level:
                 Sets the level of compression to use with the specified codec (if the codec supports it)
             `**avro_args`:
                 Additionally there are support for passing extra options in the
-                argument `**avro_args` that are fowarded directly to fastavro. Check the
-                `fastavro documentation`_ for reference.
+                argument `**avro_args` that are fowarded directly to fastavro.
+                Check the `fastavro documentation`_ for reference.
 
         Example usage for writing files::
 
@@ -251,7 +252,7 @@ class ToFrom:
         csv_name: str | None = None,
         **csvargs,
     ) -> str:
-        r"""
+        """
         Outputs table to a CSV.
 
         Additional key word arguments are passed to :func:`csv.writer`.
@@ -265,13 +266,14 @@ class ToFrom:
         Args:
             local_path:
                 The path to write the csv locally.
-                If it ends in ".gz" or ".zip", the file will be compressed.
+                If it ends in ``.gz`` or ``.zip``, the file will be compressed.
                 If not specified, a temporary file will be created and returned,
                 and that file will be removed automatically when the script is done running.
             temp_file_compression:
-                If a temp file is requested (ie. no ``local_path`` is specified), the compression
-                type for that file. Currently "None", "gzip" or "zip" are supported.
-                If a ``local_path`` is specified, this argument is ignored.
+                If a temp file is requested (ie. no `local_path` is specified),
+                the compression type for that file.
+                Currently ``None``, ``gzip`` or ``zip`` are supported.
+                If a `local_path` is specified, this argument is ignored.
             encoding:
                 The CSV encoding type for :func:`csv.writer`.
             errors: Raise an Error if encountered
@@ -326,7 +328,7 @@ class ToFrom:
         Args:
             local_path:
                 The local path of an existing CSV file.
-                If it ends in ".gz", the file will be compressed.
+                If it ends in ``.gz``, the file will be compressed.
             encoding:
                 The CSV encoding type for :func:`csv.writer`.
             errors: Raise an Error if encountered
@@ -373,7 +375,7 @@ class ToFrom:
             errors: Raise an Error if encountered
             write_header: Include header in output
             if_exists:
-                If archive already exists, one of 'replace' or 'append'.
+                If archive already exists, one of ``replace`` or ``append``.
                 See :func:`parsons.utilities.zip_archive.create_archive`.
             `**csvargs`: :func:`csv.writer` optional arguments
 
@@ -416,14 +418,14 @@ class ToFrom:
         Args:
             local_path:
                 The path to write the JSON locally.
-                If it ends in ".gz", it will be compressed first.
+                If it ends in ``.gz``, it will be compressed first.
                 If not specified, a temporary file will be created and returned,
                 and that file will be removed automatically when the script is done running.
             temp_file_compression:
-                If a temp file is requested (ie. no ``local_path`` is specified),
+                If a temp file is requested (ie. no `local_path` is specified),
                 the compression type for that file.
-                Currently "None" and "gzip" are supported.
-                If a ``local_path`` is specified, this argument is ignored.
+                Currently ``None`` and ``gzip`` are supported.
+                If a `local_path` is specified, this argument is ignored.
             line_delimited:
                 Whether the file will be line-delimited JSON (with a row on each line),
                 or a proper JSON file.
@@ -488,7 +490,7 @@ class ToFrom:
         Args:
             remote_path:
                 The remote path of the file.
-                If it ends in '.gz', the file will be compressed.
+                If it ends in ``.gz``, the file will be compressed.
             host: The remote host
             username: The username to access the SFTP server
             password: The password to access the SFTP server
@@ -542,14 +544,15 @@ class ToFrom:
                 The s3 bucket to upload to
             key: str
                 The s3 key to name the file.
-                If it ends in '.gz' or '.zip', the file will be compressed.
+                If it ends in ``.gz`` or ``.zip``, the file will be compressed.
             aws_access_key_id: str
                 Required if not included as environmental variable
             aws_secret_access_key: str
                 Required if not included as environmental variable
             compression: str
-                The compression type for the s3 object. Currently "None", "zip" and "gzip" are
-                supported. If specified, will override the key suffix.
+                The compression type for the s3 object.
+                Currently ``None``, ``zip`` and ``gzip`` are supported.
+                If specified, will override the key suffix.
             encoding: str
                 The CSV encoding type for :func:`csv.writer`.
             errors: str
@@ -563,9 +566,10 @@ class ToFrom:
             acl: str
                 The S3 permissions on the file
             use_env_token: bool
-                Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
-                to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` env
-                variable even if the ``aws_session_token`` argument was not passed in.
+                Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3.
+                Defaults to ``True``.
+                Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN``
+                env variable even if the ``aws_session_token`` argument was not passed in.
             `**csvargs`: kwargs
                 :func:`csv.writer` optional arguments.
 
@@ -632,7 +636,8 @@ class ToFrom:
             bucket_name: str
                 The bucket to upload to
             blob_name: str
-                The blob to name the file. If it ends in '.gz' or '.zip', the file will be compressed.
+                The blob to name the file.
+                If it ends in ``.gz`` or ``.zip``, the file will be compressed.
             app_creds: str
                 A credentials json string or a path to a json file. Not required
                 if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set.
@@ -640,8 +645,9 @@ class ToFrom:
                 The project which the client is acting on behalf of. If not passed
                 then will use the default inferred environment.
             compression: str
-                The compression type for the csv. Currently "None", "zip" and "gzip" are
-                supported. If specified, will override the key suffix.
+                The compression type for the csv.
+                Currently ``None``, ``zip`` and ``gzip`` are supported.
+                If specified, will override the key suffix.
             encoding: str
                 The CSV encoding type for :func:`csv.writer`.
             errors: str
@@ -821,8 +827,8 @@ class ToFrom:
 
         Args:
             table:
-                The schema and table you want to upload to. E.g. 'scratch.table'.
-                Schemas or tablenames with periods must be double quoted, e.g. 'scratch."my.table"'.
+                The schema and table you want to upload to. E.g. ``scratch.table``.
+                Schemas or tablenames with periods must be double quoted, e.g. ``scratch."my.table"``.
             api_key:
                 Your Civis API key.
                 If not given, the CIVIS_API_KEY environment variable will be used.
@@ -833,11 +839,11 @@ class ToFrom:
                 The maximum number of rows with errors to remove from the import before failing.
             diststyle:
                 The distribution style for the table.
-                One of `'even'`, `'all'` or `'key'`.
+                One of ``even``, ``all`` or ``key``.
             existing_table_rows:
                 The behaviour if a table with the requested name already exists.
-                One of `'fail'`, `'truncate'`, `'append'` or `'drop'`.
-                Defaults to `'fail'`.
+                One of ``fail``, ``truncate``, ``append`` or ``drop``.
+                Defaults to ``fail``.
             distkey: The column to use as the distkey for the table.
             sortkey1: The column to use as the sortkey for the table.
             sortkey2: The second column in a compound sortkey for the table.
@@ -890,7 +896,7 @@ class ToFrom:
         Args:
             local_path:
                 A csv formatted local path, url or ftp.
-                If this is a file path that ends in ".gz", the file will be decompressed first.
+                If this is a file path that ends in ``.gz``, the file will be decompressed first.
             `**csvargs`: :func:`csv.reader` optional arguments
 
         Raises:
@@ -946,7 +952,7 @@ class ToFrom:
         Args:
             local_path:
                 A JSON formatted local path, url or ftp.
-                If this is a file path that ends in ".gz", the file will be decompressed first.
+                If this is a file path that ends in ``.gz``, the file will be decompressed first.
             header:
                 List of columns to use for the destination table.
                 If omitted, columns will be inferred from the initial data in the file.

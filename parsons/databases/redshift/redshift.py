@@ -312,7 +312,8 @@ class Redshift(
             data_type: str
                 The data type of the file. Only ``csv`` supported currently.
             csv_delimiter: str
-                The delimiter of the ``csv``. Only relevant if data_type is ``csv``.
+                The delimiter of the ``csv``.
+                Only relevant if data_type is ``csv``.
             compression: str
                 If specified (``gzip``), will attempt to decompress the file.
             if_exists: str

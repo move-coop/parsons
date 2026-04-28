@@ -39,7 +39,16 @@ DEFAULT_FOLDER_ID = "0"
 
 
 class Box:
-    """Box is a file storage provider.
+    """
+    Box is a file storage provider.
+
+    .. note::
+
+        All path-based methods in this class use an intermediate
+        method that looks up the relevant folder/file id by successive API
+        calls. This can be slow for long paths or intermediate folders
+        that contain many items. If performance is an issue, please use the
+        corresponding folder_id/file_id methods for each function.
 
     Args:
         auth: Authentication
@@ -48,15 +57,6 @@ class Box:
             use only, and should not be used when creating and maintaining access
             for typical users. If not passed, will attempt to grab an access token
             from the environment variable named "BOX_ACCESS_TOKEN".
-
-    Returns:
-        Box: Box class.
-
-    *NOTE*: All path-based methods in this class use an intermediate
-    method that looks up the relevant folder/file id by successive API
-    calls. This can be slow for long paths or intermediate folders
-    that contain many items. If performance is an issue, please use the
-    corresponding folder_id/file_id methods for each function.
 
     """
 
@@ -72,7 +72,8 @@ class Box:
             self.client = BoxClient(auth=auth)
 
     def __replace_backslashes(self, path: str) -> str:
-        """Replace the back slashes in a string with forward slashes.
+        """
+        Replace the back slashes in a string with forward slashes.
 
         Args:
             path: str
@@ -89,7 +90,8 @@ class Box:
             return path
 
     def __getPathFromString(self, path: str) -> tuple[str, str, str]:
-        """Parse a file name out from a string representing a Box path.
+        """
+        Parse a file name out from a string representing a Box path.
 
         Args:
             path: str
@@ -114,7 +116,8 @@ class Box:
         return item_path, item_name, item_id
 
     def create_folder(self, path: str) -> str:
-        """Create a Box folder.
+        """
+        Create a Box folder.
 
         Args:
             path: str
@@ -132,7 +135,8 @@ class Box:
     def create_folder_by_id(
         self, folder_name: str, parent_folder_id: str = DEFAULT_FOLDER_ID
     ) -> str:
-        """Create a Box folder.
+        """
+        Create a Box folder.
 
         Args:
             folder_name: str
@@ -150,7 +154,8 @@ class Box:
         return subfolder.id
 
     def delete_folder(self, path: str) -> None:
-        """Delete a Box folder.
+        """
+        Delete a Box folder.
 
         Args:
             folder_id: str
@@ -163,7 +168,8 @@ class Box:
         self.delete_folder_by_id(folder_id=folder_id)
 
     def delete_folder_by_id(self, folder_id: str) -> None:
-        """Delete a Box folder.
+        """
+        Delete a Box folder.
 
         Args:
             folder_id: str
@@ -173,7 +179,8 @@ class Box:
         self.client.folders.delete_folder_by_id(folder_id=folder_id, recursive=True)
 
     def delete_file(self, path: str) -> None:
-        """Delete a Box file.
+        """
+        Delete a Box file.
 
         Args:
             path: str
@@ -185,7 +192,8 @@ class Box:
         self.delete_file_by_id(file_id=file_id)
 
     def delete_file_by_id(self, file_id: str) -> None:
-        """Delete a Box file.
+        """
+        Delete a Box file.
 
         Args:
             file_id: str
@@ -197,7 +205,8 @@ class Box:
     def list(
         self, path: str | None = None, item_type: Literal["file", "folder"] | None = None
     ) -> Table:
-        """Return a Table of Box files and/or folders found at a path.
+        """
+        Return a Table of Box files and/or folders found at a path.
 
         Args:
             path: str
@@ -218,7 +227,8 @@ class Box:
     def list_items_by_id(
         self, folder_id: str = DEFAULT_FOLDER_ID, item_type: Literal["file", "folder"] | None = None
     ) -> Table:
-        """Return a Table of Box files and/or folders found in a folder.
+        """
+        Return a Table of Box files and/or folders found in a folder.
 
         Args:
             folder_id: str
@@ -244,7 +254,8 @@ class Box:
         return items
 
     def list_files_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
-        """List all Box files in a folder.
+        """
+        List all Box files in a folder.
 
         Args:
             folder_id: str
@@ -259,7 +270,8 @@ class Box:
         return self.list_items_by_id(folder_id=folder_id, item_type="file")
 
     def list_folders_by_id(self, folder_id: str = DEFAULT_FOLDER_ID) -> Table:
-        """List all Box folders.
+        """
+        List all Box folders.
 
         Args:
             folder_id: str
@@ -273,7 +285,8 @@ class Box:
         return self.list_items_by_id(folder_id=folder_id, item_type="folder")
 
     def upload_table(self, table: Table, path: str, format: Literal["csv", "json"] = "csv") -> str:
-        """Save the passed table to Box.
+        """
+        Save the passed table to Box.
 
         Args:
             table: Table
@@ -300,7 +313,8 @@ class Box:
         folder_id: str = DEFAULT_FOLDER_ID,
         format: Literal["csv", "json"] = "csv",
     ) -> str:
-        """Save the passed table to Box.
+        """
+        Save the passed table to Box.
 
         Args:
             table: Table
@@ -317,10 +331,8 @@ class Box:
             str: The uploaded Box File object's id.
 
         Raises:
-            ValueError:
-                Value for format argument not allowed.
-            SystemError:
-                Value for format argument not allowed.
+            ValueError: Value for format argument not allowed.
+            SystemError: Value for format argument not allowed.
 
         """
         if format not in self.ALLOWED_FILE_FORMATS:
@@ -348,7 +360,8 @@ class Box:
         return new_file
 
     def upload_file(self, file: Path, path: str | None = None) -> str:
-        """Save the passed file to Box.
+        """
+        Save the passed file to Box.
 
         Args:
             file: Path
@@ -372,7 +385,8 @@ class Box:
     def upload_file_to_folder_id(
         self, file: Path, file_name: str | None = None, folder_id: str = DEFAULT_FOLDER_ID
     ) -> str:
-        """Save the passed file to Box.
+        """
+        Save the passed file to Box.
 
         Args:
             file: Path
@@ -387,8 +401,7 @@ class Box:
             str: The uploaded Box File object's id.
 
         Raises:
-            SystemError:
-                Invalid response from box upload.
+            SystemError: Invalid response from box upload.
 
         """
         use_file_name = file.name if file_name is None else file_name
@@ -426,7 +439,8 @@ class Box:
         return new_file.id
 
     def download_file(self, path: str, local_path: Path | None = None) -> Path:
-        """Download a Box object to a local file.
+        """
+        Download a Box object to a local file.
 
         Args:
             path: str
@@ -457,7 +471,8 @@ class Box:
         return use_local_path
 
     def get_table(self, path: str, format: Literal["csv", "json"] = "csv") -> Table:
-        """Get a table that has been saved to Box in csv or JSON format.
+        """
+        Get a table that has been saved to Box in csv or JSON format.
 
         Args:
             path: str
@@ -474,7 +489,8 @@ class Box:
         return self.get_table_by_file_id(file_id=file_id, format=format)
 
     def get_table_by_file_id(self, file_id: str, format: Literal["csv", "json"] = "csv") -> Table:
-        """Get a table that has been saved to Box in csv or JSON format.
+        """
+        Get a table that has been saved to Box in csv or JSON format.
 
         Args:
             file_id: str
@@ -516,12 +532,15 @@ class Box:
             )  # pragma: no cover
 
     def get_item_id(self, path: str, base_folder_id: str = DEFAULT_FOLDER_ID) -> str:
-        """Given a Box path str, try to return the id for the file or
+        """
+        Given a Box path str, try to return the id for the file or
         folder at the end of the str.
 
-        *NOTE*: This method makes one API call for each level in
-        `path`, so can be slow for long paths or intermediate folders
-        containing very many items.
+        .. note::
+
+            This method makes one API call for each level in `path`,
+            so can be slow for long paths or intermediate folders
+            containing very many items.
 
         Args:
             path: str
@@ -536,8 +555,8 @@ class Box:
             str: A Box File object's id.
 
         Raises:
-            ValueError:
-                Trailing slash or file / folder not found.
+            ValueError: Trailing slash in file path.
+            ValueError: File / folder not found.
 
         """
         try:

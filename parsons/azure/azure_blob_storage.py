@@ -40,9 +40,6 @@ class AzureBlobStorage:
             The account URL for the Azure storage account including the account name and domain.
             Not required if ``AZURE_ACCOUNT_URL`` environment variable is set.
 
-    Returns:
-        `AzureBlobStorage`
-
     """
 
     def __init__(
@@ -125,7 +122,7 @@ class AzureBlobStorage:
         **kwargs,
     ):
         """
-        Create a container
+        Create a container.
 
         Args:
             container_name: str
@@ -401,6 +398,9 @@ class AzureBlobStorage:
             blob_name: The blob name to upload the data into
             data_type: The file format to use when writing the data. One of: `csv` or `json`
             kwargs: Additional keyword arguments to supply to ``put_blob``
+
+        Raises:
+            ValueError: If an unknown data_type value is provided
 
         """
 

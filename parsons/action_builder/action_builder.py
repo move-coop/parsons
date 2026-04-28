@@ -52,8 +52,8 @@ class ActionBuilder:
         if per_page > 25:
             per_page = 25
             logger.info(
-                "Action Builder's API will not return more than 25 entries per page. \
-            Changing per_page parameter to 25."
+                "Action Builder's API will not return more than 25 entries per page. "
+                "Changing per_page parameter to 25."
             )
 
         params = {"page": page, "per_page": per_page, "filter": filter}
@@ -117,7 +117,7 @@ class ActionBuilder:
 
     def get_tag_by_name(self, tag_name, campaign=None) -> Table:
         """
-        Convenience method to retrieve data on a single tag by its name/value
+        Convenience method to retrieve data on a single tag by its name/value.
 
         Args:
             tag_name: str
@@ -137,8 +137,9 @@ class ActionBuilder:
 
     def insert_new_tag(self, tag_name, tag_field, tag_section, campaign=None) -> dict | int | None:
         """
-        Load a new tag value into Action Builder. Required before applying the value to any entity
-        records.
+        Load a new tag value into Action Builder.
+
+        Required before applying the value to any entity records.
 
         Args:
             tag_name: str
@@ -261,8 +262,10 @@ class ActionBuilder:
 
     def remove_entity_record_from_campaign(self, identifier, campaign=None) -> dict | int | None:
         """
-        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
-        record that has been removed from a campaign will not appear in the UI.
+        Remove an entity record from a campaign.
+
+        Records cannot be permanently deleted, but a record that has been
+        removed from a campaign will not appear in the UI.
 
         Args:
             identifier: str
@@ -283,9 +286,8 @@ class ActionBuilder:
         self, identifier, section, field_values, campaign=None
     ) -> dict | int | None:
         """
-        Add one or more tags (i.e. custom field value) to an existing entity record in Action
-        Builder. The tags, along with their field and section, must already exist (except for
-        date fields).
+        Add one or more tags (i.e. custom field value) to an existing entity record in Action Builder.
+        The tags, along with their field and section, must already exist (except for date fields).
 
         Args:
             identifier: str
@@ -326,10 +328,13 @@ class ActionBuilder:
         campaign=None,
     ) -> dict | int | None:
         """
-        Remove one or more tags (i.e. custom field value) from an existing entity or connection
-        record in Action Builder. The basis for this end point is the combination of the tag's
-        interact ID and that of the specific tagging. The tag ID can usually be determined from
-        the tag's name, and the tagging ID can be derived if the identifier of the entity or
+        Remove one or more tags (i.e. custom field value) from
+        an existing entity or connection record in Action Builder.
+
+        The basis for this end point is the combination of the tag's
+        interact ID and that of the specific tagging.
+        The tag ID can usually be determined from the tag's name,
+        and the tagging ID can be derived if the identifier of the entity or
         connection record is supplied instead.
 
         Args:
@@ -405,6 +410,7 @@ class ActionBuilder:
     ) -> dict | int | None:
         """
         Load or update a connection record in Action Builder between two existing entity records.
+
         Only one connection record is allowed per pair of entities, so if the connection already
         exists, this method will update, but will otherwise create a new connection record.
 
@@ -468,8 +474,9 @@ class ActionBuilder:
         campaign=None,
     ) -> dict | int | None:
         """
-        Deactivate an existing connection record in Action Builder between two existing entity
-        records. Only one connection record is allowed per pair of entities, so this can be done
+        Deactivate an existing connection record in Action Builder between two existing entity records.
+
+        Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
 
         Args:

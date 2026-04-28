@@ -53,9 +53,10 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
     @contextmanager
     def connection(self):
         """
-        Generate a MySQL connection. The connection is set up as a python "context manager", so
-        it will be closed automatically (and all queries committed) when the connection goes out
-        of scope.
+        Generate a MySQL connection.
+
+        The connection is set up as a python "context manager", so it will be closed automatically
+        (and all queries committed) when the connection goes out of scope.
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
@@ -96,29 +97,30 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
     def query(self, sql, parameters=None):
         """
-        Execute a query against the database. Will return ``None`` if the query returns zero rows.
+        Execute a query against the database.
+
+        Will return ``None`` if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
         following the `mysql style <https://security.openstack.org/guidelines/dg_parameterize-database-queries.html>`__.
-        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
-        injection attacks.
+        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
-        **Parameter Examples**
+        Parameter Examples:
 
-        .. code-block:: python
+            .. code-block:: python
 
-            # Note that the name contains a quote, which could break your query if not escaped
-            # properly.
-            name = "Beatrice O'Brady"
-            sql = "SELECT * FROM my_table WHERE name = %s"
-            mysql.query(sql, parameters=[name])
+                # Note that the name contains a quote, which could break your query if not escaped
+                # properly.
+                name = "Beatrice O'Brady"
+                sql = "SELECT * FROM my_table WHERE name = %s"
+                mysql.query(sql, parameters=[name])
 
-        .. code-block:: python
+            .. code-block:: python
 
-            names = ["Allen Smith", "Beatrice O'Brady", "Cathy Thompson"]
-            placeholders = ', '.join('%s' for item in names)
-            sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
-            mysql.query(sql, parameters=names)
+                names = ["Allen Smith", "Beatrice O'Brady", "Cathy Thompson"]
+                placeholders = ', '.join('%s' for item in names)
+                sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
+                mysql.query(sql, parameters=names)
 
         Args:
             sql: str

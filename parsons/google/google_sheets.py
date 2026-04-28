@@ -262,8 +262,10 @@ class GoogleSheets:
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
     ):
         """
-        Append data from a Parsons table to a Google sheet. Note that the table's columns are
-        ignored, as we'll be keeping whatever header row already exists in the Google sheet.
+        Append data from a Parsons table to a Google sheet.
+
+        Note that the table's columns are ignored,
+        as we'll be keeping whatever header row already exists in the Google sheet.
 
         Args:
             spreadsheet_id: str
@@ -377,8 +379,8 @@ class GoogleSheets:
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
     ):
         """
-        Replace the data in a Google sheet with a Parsons table, using the table's columns as the
-        first row.
+        Replace the data in a Google sheet with a Parsons table,
+        using the table's columns as the first row.
 
         Args:
             spreadsheet_id: str

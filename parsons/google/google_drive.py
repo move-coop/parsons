@@ -24,8 +24,8 @@ class GoogleDrive:
         app_creds: dict | str | Credentials
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
-            saved on disk, or a google.oauth2.credentials.Credentials object. Required
-            if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+            saved on disk, or a :class:`google.oauth2.service_account.Credentials` object.
+            Required if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
 
     """
 
@@ -280,8 +280,8 @@ class GoogleDrive:
             "reader",
         ]:
             raise Exception(
-                f"{role} not from the allowed list of: \
-                                owner, organizer, fileOrganizer, writer, commenter, reader"
+                f"{role} not from the allowed list of: "
+                "owner, organizer, fileOrganizer, writer, commenter, reader"
             )
 
         if type not in ["user", "group", "domain", "anyone"]:

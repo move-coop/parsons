@@ -48,9 +48,9 @@ class GoogleCivic:
 
         return Table((self.request(url))["elections"])
 
-    def _get_voter_info(self, election_id, address):
-        # Internal method to call voter info end point. Portions of this are
-        # parsed for other methods.
+    def _get_voter_info(self, election_id: int, address: str):
+        # Internal method to call voter info end point.
+        # Portions of this are parsed for other methods.
 
         url = self.uri + "voterinfo"
 

@@ -33,10 +33,7 @@ _EMPTYDEFAULT = _EmptyDefault.token
 
 class Table(ETL, ToFrom):
     """
-    Create a Parsons Table. Accepts one of the following:
-    - A `list[list]`, with list[0] holding field names, and the other lists holding data
-    - A `list[dict]`
-    - A petl :class:`~petl.util.base.Table`
+    Create a Parsons Table.
 
     Args:
         lst: list
@@ -170,7 +167,11 @@ class Table(ETL, ToFrom):
 
     @property
     def first(self):
-        """Returns the first value in the table. Useful for database queries that only return a single value."""
+        """
+        Returns the first value in the table.
+
+        Useful for database queries that only return a single value.
+        """
 
         try:
             return self.data[0][0]
@@ -271,13 +272,11 @@ class Table(ETL, ToFrom):
 
         return file_path
 
-    def is_valid_table(self):
+    def is_valid_table(self) -> bool:
         """
-        Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
-        table within the Parsons Table.
+        Performs some simple checks on a Table.
 
-        Returns:
-            bool
+        Specifically, verifies that we have a valid petl table within the Parsons Table.
 
         """
 
@@ -291,16 +290,15 @@ class Table(ETL, ToFrom):
 
         return True
 
-    def empty_column(self, column):
+    def empty_column(self, column: str) -> bool:
         """
-        Checks if a given column is empty. Returns ``True`` if empty and ``False``
-        if not empty.
+        Checks if a given column is empty.
 
         Args:
-            column: str
-                The column name
+            column: The column name
+
         Returns:
-            bool
+            ``True`` if empty and ``False`` if not empty.
 
         """
 

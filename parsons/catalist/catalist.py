@@ -1,4 +1,5 @@
-"""Utilities for working with the Catalist Match API
+"""
+Utilities for working with the Catalist Match API
 
 Install dependencies with `pip install parsons[catalist]`
 """
@@ -22,11 +23,12 @@ DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
 
 
 class CatalistMatch:
-    """Connector for working with the Catalist Match API.
+    """
+    Connector for working with the Catalist Match API.
 
-    This API allows a trusted third party to submit new files for processing, and/or
-    reprocess existing files. It also allows retrieval of processing status. Initial
-    setup of template(s) via the M Tool UI will be required.
+    This API allows a trusted third party to submit new files for processing,
+    and/or reprocess existing files. It also allows retrieval of processing status.
+    Initial setup of template(s) via the M Tool UI will be required.
 
     The Catalist Match tool requires OAuth2.0 client credentials for the API as well as
     credentials for accessing the Catalist sftp bucket. Each Catalist client is given
@@ -36,24 +38,25 @@ class CatalistMatch:
     Accessing the Catalist sftp bucket and Match API both require the source IP address
     to be explicitly white-listed by Catalist.
 
-    .. highlight:: python
+    Example:
 
-    Example usage::
+        .. code-block:: python
 
-        tbl = Table.from_csv(...)
-        client = CatalistMatch(...)
-        match_result = client.match(tbl)
+            tbl = Table.from_csv(...)
+            client = CatalistMatch(...)
+            match_result = client.match(tbl)
 
-    Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
-    you may want to think strategically about how to await completion without straining
-    your compute resources on idling.
+        Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
+        you may want to think strategically about how to await completion without straining
+        your compute resources on idling.
 
-    To separate submitting the job and fetching the result::
+        .. code-block:: python
+            :caption: Separate submitting the job and fetching the result
 
-        tbl = Table.from_csv(...)
-        client = CatalistMatch(...)
-        response = client.upload(tbl)
-        match_result = client.await_completion(response["id"])
+            tbl = Table.from_csv(...)
+            client = CatalistMatch(...)
+            response = client.upload(tbl)
+            match_result = client.await_completion(response["id"])
 
     """
 
@@ -250,7 +253,8 @@ class CatalistMatch:
         export_filename_suffix: str | None = None,
         copy_to_sandbox: bool = False,
     ) -> list[dict]:
-        """Perform actions on existing files.
+        """
+        Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
         must mapped against the same template. The request will return as soon as the
@@ -340,11 +344,13 @@ class CatalistMatch:
         return result
 
     def load_matches(self, id: str) -> Table:
-        """Take a completed job ID, download and open the match file as a Table.
+        """
+        Take a completed job ID, download and open the match file as a Table.
 
-        Result will be a Table with all the original columns along with columns 'DWID',
-        'CONFIDENCE', 'ZIP9', and 'STATE'. The original column headers will be prepended
-        with 'COL#-'.
+        Result will be a Table with all the original columns
+        along with columns ``DWID``, ``CONFIDENCE``, ``ZIP9``, and ``STATE``.
+        The original column headers will be prepended with 'COL#-'.
+
         """
         # Validate that the job is complete
         response = self.status(str(id))

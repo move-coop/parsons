@@ -73,7 +73,7 @@ def ends_with_semicolon(query: str) -> str:
 
 def map_column_headers_to_schema_field(schema_definition: list) -> list[SchemaField]:
     """
-    Loops through a list of dictionaries and instantiates :class:`~google.cloud.bigquery.schema.SchemaField` objects.
+    Instantiates :class:`~google.cloud.bigquery.schema.SchemaField` objects.
 
     Args:
         schema_definition: list
@@ -142,7 +142,7 @@ class GoogleBigQuery(DatabaseConnector):
             Can be set to None if these permissions are not desired
         tmp_gcs_bucket: str, optional
             Name of the GCS bucket that will be used for storing data during bulk transfers.
-            Required if you intend to perform bulk data transfers (eg. the copy_from_gcs method),
+            Required if you intend to perform bulk data transfers (eg. :meth:`.copy_from_gcs`),
             and env variable ``GCS_TEMP_BUCKET`` is not populated.
 
     """
@@ -250,19 +250,19 @@ class GoogleBigQuery(DatabaseConnector):
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
-        **Parameter Examples**
+        Parameter Examples:
 
-        .. code-block:: python
+            .. code-block:: python
 
-           name = "Beatrice O'Brady"
-           sql = 'SELECT * FROM my_table WHERE name = %s'
-           rs.query(sql, parameters=[name])
+                name = "Beatrice O'Brady"
+                sql = 'SELECT * FROM my_table WHERE name = %s'
+                rs.query(sql, parameters=[name])
 
-        .. code-block:: python
+            .. code-block:: python
 
-           name = "Beatrice O'Brady"
-           sql = "SELECT * FROM my_table WHERE name = %(name)s"
-           rs.query(sql, parameters={'name': name})
+                name = "Beatrice O'Brady"
+                sql = "SELECT * FROM my_table WHERE name = %(name)s"
+                rs.query(sql, parameters={'name': name})
 
         Args:
             sql: str
@@ -295,8 +295,9 @@ class GoogleBigQuery(DatabaseConnector):
     ):
         """
         Execute a query against the BigQuery database, with an existing connection.
-        Useful for batching queries together. Will return ``None`` if the query
-        returns zero rows.
+
+        Useful for batching queries together.
+        Will return ``None`` if the query returns zero rows.
 
         Args:
             sql: str
@@ -412,11 +413,10 @@ class GoogleBigQuery(DatabaseConnector):
                 set to "truncate" or "append".
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table. This maps to `write_disposition` in the
-                `LoadJobConfig` class.
+                or ``truncate`` the table. This maps to `write_disposition` in :class:`google.cloud.bigquery.job.LoadJobConfig`.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
-                the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
+                the job fails. This maps to `max_bad_records` in :class:`google.cloud.bigquery.job.LoadJobConfig`.
             data_type: str
                 Denotes whether target file is a JSON or CSV
             csv_delimiter: str
@@ -463,8 +463,7 @@ class GoogleBigQuery(DatabaseConnector):
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
             `**load_kwargs`: kwargs
-                Other arguments to pass to the underlying load_table_from_uri
-                call on the BigQuery client.
+                Other arguments to pass to :meth:`google.cloud.bigquery.client.Client.load_table_from_uri`.
 
         """
         self._validate_copy_inputs(
@@ -596,12 +595,11 @@ class GoogleBigQuery(DatabaseConnector):
                 if no custom schema or template table are supplied and the if_exists is
                 set to "truncate" or "append".
             if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``
-                or ``truncate`` the table. This maps to `write_disposition` in the
-                `LoadJobConfig` class.
+                If the table already exists, either ``fail``, ``append``, ``drop`` or ``truncate`` the table.
+                This maps to `write_disposition` in :class:`google.cloud.bigquery.job.LoadJobConfig`.
             max_errors: int
                 The maximum number of rows that can error and be skipped before
-                the job fails. This maps to `max_bad_records` in the `LoadJobConfig` class.
+                the job fails. This maps to `max_bad_records` in :class:`google.cloud.bigquery.job.LoadJobConfig`.
             data_type: str
                 Denotes whether target file is a JSON or CSV
             csv_delimiter: str
@@ -645,8 +643,7 @@ class GoogleBigQuery(DatabaseConnector):
             max_timeout: int
                 The maximum number of seconds to wait for a request before the job fails.
             `**load_kwargs`: kwargs
-                Other arguments to pass to the underlying load_table_from_uri call on the BigQuery
-                client.
+                Other arguments to pass to the :meth:`google.cloud.bigquery.client.Client.load_table_from_uri`.
 
         """
 
@@ -1505,6 +1502,7 @@ class GoogleBigQuery(DatabaseConnector):
     ) -> LoadJobConfig:
         """
         Internal function to neatly process a user-supplied job configuration object.
+
         As a convention, if both the job_config and keyword arguments specify a value,
         we defer to the job_config.
 

@@ -22,23 +22,23 @@ logger = logging.getLogger(__name__)
 
 
 class GoogleCloudStorage:
-    """Google Cloud Storage connector utility
+    """
+    Google Cloud Storage connector utility.
 
-    This class requires application credentials in the form of a
-    json or google oauth2 Credentials object. It can be passed in the
-    following ways:
+    Requires application credentials json or a :class:`google.oauth2.service_account.Credentials` object.
+    It can be passed in the following ways:
 
     * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the
       local path to the credentials json.
 
       Example: ``GOOGLE_APPLICATION_CREDENTALS='path/to/creds.json'``
 
-    * Pass in the path to the credentials using the ``app_creds`` argument.
+    * Pass in the credential file path using the `app_creds` argument.
 
-    * Pass in a json string using the ``app_creds`` argument.
+    * Pass in credentials as a json string using the `app_creds` argument.
 
-    * Generate the google credentials object directly, pass in using the
-      ``app_creds`` argument.
+    * Generate :class:`google.oauth2.service_account.Credentials` directly,
+      and pass in using the `app_creds` argument.
 
     For example, to pass in credentials from a parent shell that is
     authenticated with gcloud auth:
@@ -100,7 +100,7 @@ class GoogleCloudStorage:
 
     def bucket_exists(self, bucket_name):
         """
-        Verify that a bucket exists
+        Verify that a named bucket exists.
 
         Args:
             bucket_name: str
@@ -119,7 +119,7 @@ class GoogleCloudStorage:
 
     def get_bucket(self, bucket_name):
         """
-        Returns a bucket object
+        Returns a :class:`~google.cloud.storage.bucket.Bucket`.
 
         Args:
             bucket_name: str
@@ -195,7 +195,7 @@ class GoogleCloudStorage:
                 If True, returns a list of :class:`~google.cloud.storage.blob.Blob` objects with accessible metadata.
 
         Returns:
-            A list of blob names (or `Blob` objects if `include_file_details` is invoked)
+            A list of blob names (or :class:`~google.cloud.storage.blob.Blob` objects if `include_file_details` is invoked)
 
         """
 
@@ -578,7 +578,7 @@ class GoogleCloudStorage:
 
     def split_uri(self, gcs_uri: str):
         """
-        Split a GCS URI into a bucket and blob name
+        Split a GCS URI into a bucket and blob name.
 
         Args:
             gcs_uri: str
@@ -624,7 +624,7 @@ class GoogleCloudStorage:
 
             new_file_extension: str
                 If provided, replaces the file extension
-                when the decompressed file is uploaded
+                when the decompressed file is uploaded.
 
         Returns:
             String representation of decompressed GCS URI
@@ -667,11 +667,8 @@ class GoogleCloudStorage:
 
         return self.format_uri(bucket=bucket_name, name=decompressed_blob_name)
 
-    def __gzip_decompress_and_write_to_gcs(self, **kwargs):
-        """
-        Handles `.gzip` decompression and streams blob contents
-        to a decompressed storage object
-        """
+    def __gzip_decompress_and_write_to_gcs(self, **kwargs) -> None:
+        """Handles ``.gzip`` decompression and streams blob contents to a decompressed storage object"""
 
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
@@ -683,11 +680,8 @@ class GoogleCloudStorage:
             blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
             blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
 
-    def __zip_decompress_and_write_to_gcs(self, **kwargs):
-        """
-        Handles `.zip` decompression and streams blob contents
-        to a decompressed storage object
-        """
+    def __zip_decompress_and_write_to_gcs(self, **kwargs) -> None:
+        """Handles ``.zip`` decompression and streams blob contents to a decompressed storage object"""
 
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")

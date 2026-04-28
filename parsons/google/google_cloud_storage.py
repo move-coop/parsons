@@ -459,12 +459,8 @@ class GoogleCloudStorage:
         # the same time creates a one-time transfer
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}
 
-        if source == "gcs":
-            description = f"""One time GCS to GCS Transfer
-            [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"""
-        elif source == "s3":
-            description = f"""One time S3 to GCS Transfer
-            [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"""
+        description = f"""One time {source.upper()} to GCS Transfer
+        [{source_bucket} -> {gcs_sink_bucket}] - {uuid.uuid4()}"""
 
         transfer_job_config = {
             "project_id": self.project,
@@ -478,7 +474,6 @@ class GoogleCloudStorage:
 
         # Setup transfer job configuration based on user imput
         if source == "s3":
-            blob_storage = "S3"
             transfer_job_config["transfer_spec"] = {
                 "aws_s3_data_source": {
                     "bucket_name": source_bucket,
@@ -497,7 +492,6 @@ class GoogleCloudStorage:
                 ),
             }
         elif source == "gcs":
-            blob_storage = "GCS"
             transfer_job_config["transfer_spec"] = {
                 "gcs_data_source": {
                     "bucket_name": source_bucket,
@@ -542,7 +536,7 @@ class GoogleCloudStorage:
                     error_output = operation_metadata.error_breakdowns
                     if len(error_output) != 0:
                         raise Exception(
-                            f"""{blob_storage} to GCS Transfer Job
+                            f"""{source.upper()} to GCS Transfer Job
                             {create_result.name} failed with error: {error_output}"""
                         )
                     else:

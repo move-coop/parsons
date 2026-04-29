@@ -1,6 +1,6 @@
 import logging
 import urllib.parse
-from typing import Any, Literal
+from typing import Any, Literal, overload
 
 from requests import Response
 from requests import request as _request
@@ -92,12 +92,23 @@ class APIConnector:
             params=params,
         )
 
+    @overload
+    def get_request(
+        self, url: str, *, params: dict | None = None, return_format: Literal["json"] = "json"
+    ) -> dict[str, Any]: ...
+
+    @overload
+    def get_request(
+        self, url: str, *, params: dict | None = None, return_format: Literal["content"]
+    ) -> bytes: ...
+
     def get_request(
         self,
         url: str,
+        *,
         params: dict | None = None,
         return_format: Literal["json", "content"] = "json",
-    ) -> bytes | dict:
+    ) -> dict | bytes:
         """
         Make a GET request and return response.content.
 
@@ -105,18 +116,21 @@ class APIConnector:
             url: A complete and valid url for the api request
             params: The request parameters
 
+        Raises:
+            ValueError: If return_format is not "json" or "content"
+
         """
 
         r = self.request(url, "GET", params=params)
         self.validate_response(r)
 
         if return_format == "json":
-            logger.debug(r.json())
             return r.json()
-        elif return_format == "content":
+
+        if return_format == "content":
             return r.content
-        else:
-            raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
+
+        raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
 
     def post_request(
         self,
@@ -262,13 +276,19 @@ class APIConnector:
             else:
                 message = f"HTTP error occurred ({resp.status_code})"
 
-            # Some errors return JSONs with useful info about the error. Return it if exists.
+            # Some errors return JSONs with useful info about the error.
             if self.json_check(resp):
                 raise HTTPError(f"{message}, json: {resp.json()}")
             else:
                 raise HTTPError(message)
 
-    def data_parse(self, resp: dict | list) -> dict | list | None:
+    @overload
+    def data_parse(self, resp: dict) -> dict: ...
+
+    @overload
+    def data_parse(self, resp: list) -> list: ...
+
+    def data_parse(self, resp: dict | list) -> dict | list:
         """
         Determines if the response json has nested data.
 

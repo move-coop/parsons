@@ -99,7 +99,7 @@ class ActionNetwork:
             `ActionNetwork Advocacy Campaigns Documentation`_
 
         """
-        return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
+        return self.api.get_request(url=f"advocacy_campaigns/{advocacy_campaign_id}")
 
     # Attendances
     def get_person_attendances(self, person_id, limit=None, per_page=25, page=None, filter=None):
@@ -169,7 +169,7 @@ class ActionNetwork:
             `ActionNetwork Attendances Documentation`_
 
         """
-        return self.api.get_request(f"events/{event_id}/attendances/{attendance_id}")
+        return self.api.get_request(url=f"events/{event_id}/attendances/{attendance_id}")
 
     def get_person_attendance(self, person_id, attendance_id):
         """
@@ -186,7 +186,7 @@ class ActionNetwork:
             `ActionNetwork Attendances Documentation`_
 
         """
-        return self.api.get_request(f"people/{person_id}/attendances/{attendance_id}")
+        return self.api.get_request(url=f"people/{person_id}/attendances/{attendance_id}")
 
     def create_attendance(self, event_id, payload):
         """
@@ -278,7 +278,7 @@ class ActionNetwork:
             `ActionNetwork Campaigns Documentation`_
 
         """
-        return self.api.get_request(f"campaigns/{campaign_id}")
+        return self.api.get_request(url=f"campaigns/{campaign_id}")
 
     # Custom Fields
     def get_custom_fields(self):
@@ -293,7 +293,7 @@ class ActionNetwork:
             `ActionNetwork Custom Fields Documentation`_
 
         """
-        return self.api.get_request("metadata/custom_fields")
+        return self.api.get_request(url="metadata/custom_fields")
 
     # Donations
     def get_donation(self, donation_id):
@@ -458,7 +458,7 @@ class ActionNetwork:
             `ActionNetwork Embeds Documentation`_
 
         """
-        return self.api.get_request(f"{action_type}/{action_id}/embed")
+        return self.api.get_request(url=f"{action_type}/{action_id}/embed")
 
     # Event Campaigns
     def get_event_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -498,7 +498,7 @@ class ActionNetwork:
             `ActionNetwork Event Campaigns Documentation`_
 
         """
-        return self.api.get_request(f"event_campaigns/{event_campaign_id}")
+        return self.api.get_request(url=f"event_campaigns/{event_campaign_id}")
 
     def create_event_campaign(self, payload):
         """
@@ -607,7 +607,7 @@ class ActionNetwork:
             `ActionNetwork Events Documentation`_
 
         """
-        return self.api.get_request(f"events/{event_id}")
+        return self.api.get_request(url=f"events/{event_id}")
 
     def get_event_campaign_events(
         self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
@@ -757,7 +757,7 @@ class ActionNetwork:
             `ActionNetwork Forms Documentation`_
 
         """
-        return self.api.get_request(f"forms/{form_id}")
+        return self.api.get_request(url=f"forms/{form_id}")
 
     def create_form(self, payload):
         """
@@ -944,7 +944,7 @@ class ActionNetwork:
             `ActionNetwork Items Documentation`_
 
         """
-        return self.api.get_request(f"lists/{list_id}/items/{item_id}")
+        return self.api.get_request(url=f"lists/{list_id}/items/{item_id}")
 
     # Lists
     def get_lists(self, limit=None, per_page=25, page=None, filter=None):
@@ -984,7 +984,7 @@ class ActionNetwork:
             `ActionNetwork Lists Documentation`_
 
         """
-        return self.api.get_request(f"lists/{list_id}")
+        return self.api.get_request(url=f"lists/{list_id}")
 
     # Messages
     def get_messages(
@@ -1032,7 +1032,7 @@ class ActionNetwork:
             `ActionNetwork Messages Documentation`_
 
         """
-        return self.api.get_request(f"messages/{message_id}")
+        return self.api.get_request(url=f"messages/{message_id}")
 
     def create_message(self, payload):
         """
@@ -1149,7 +1149,7 @@ class ActionNetwork:
             `ActionNetwork Metadata Documentation`_
 
         """
-        return self.api.get_request("metadata")
+        return self.api.get_request(url="metadata")
 
     # Outreaches
     def get_advocacy_campaign_outreaches(
@@ -1250,7 +1250,7 @@ class ActionNetwork:
             `ActionNetwork Outreaches Documentation`_
 
         """
-        return self.api.get_request(f"people/{person_id}/outreaches/{outreach_id}")
+        return self.api.get_request(url=f"people/{person_id}/outreaches/{outreach_id}")
 
     def create_outreach(self, advocacy_campaign_id, payload):
         """
@@ -1676,7 +1676,7 @@ class ActionNetwork:
             `ActionNetwork Petitions Documentation`_
 
         """
-        return self.api.get_request(f"petitions/{petition_id}")
+        return self.api.get_request(url=f"petitions/{petition_id}")
 
     def create_petition(
         self, title, description, petition_text, target, background_processing=False
@@ -1802,7 +1802,7 @@ class ActionNetwork:
             `ActionNetwork Queries Documentation`_
 
         """
-        return self.api.get_request(f"queries/{query_id}")
+        return self.api.get_request(url=f"queries/{query_id}")
 
     # Signatures
     def get_petition_signatures(self, petition_id, limit=None, per_page=25, page=None, filter=None):
@@ -1872,7 +1872,7 @@ class ActionNetwork:
             `ActionNetwork Signatures Documentation`_
 
         """
-        return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
+        return self.api.get_request(url=f"petitions/{petition_id}/signatures/{signature_id}")
 
     def get_person_signature(self, person_id, signature_id):
         """
@@ -1889,7 +1889,7 @@ class ActionNetwork:
             `ActionNetwork Signatures Documentation`_
 
         """
-        return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")
+        return self.api.get_request(url=f"people/{person_id}/signatures/{signature_id}")
 
     def create_signature(self, petition_id, data):
         """
@@ -2010,7 +2010,7 @@ class ActionNetwork:
             `ActionNetwork Submissions Documentation`_
 
         """
-        return self.api.get_request(f"forms/{form_id}/submissions/{submission_id}")
+        return self.api.get_request(url=f"forms/{form_id}/submissions/{submission_id}")
 
     def get_person_submission(self, person_id, submission_id):
         """
@@ -2027,7 +2027,7 @@ class ActionNetwork:
             `ActionNetwork Submissions Documentation`_
 
         """
-        return self.api.get_request(f"people/{person_id}/submissions/{submission_id}")
+        return self.api.get_request(url=f"people/{person_id}/submissions/{submission_id}")
 
     def create_submission(self, form_id, person_id):
         """
@@ -2111,7 +2111,7 @@ class ActionNetwork:
             `ActionNetwork Surveys Documentation`_
 
         """
-        return self.api.get_request(f"surveys/{survey_id}")
+        return self.api.get_request(url=f"surveys/{survey_id}")
 
     def create_survey(self, data):
         """
@@ -2277,7 +2277,7 @@ class ActionNetwork:
             `ActionNetwork Taggings Documentation`_
 
         """
-        return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
+        return self.api.get_request(url=f"tags/{tag_id}/taggings/{tagging_id}")
 
     def create_tagging(self, tag_id, payload, background_processing=False):
         """
@@ -2378,7 +2378,7 @@ class ActionNetwork:
             `ActionNetwork Wrappers Documentation`_
 
         """
-        return self.api.get_request(f"wrappers/{wrapper_id}")
+        return self.api.get_request(url=f"wrappers/{wrapper_id}")
 
     # Unique ID Lists
     def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
@@ -2418,7 +2418,7 @@ class ActionNetwork:
             `ActionNetwork Unique ID Lists Documentation`_
 
         """
-        return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+        return self.api.get_request(url=f"unique_id_lists/{unique_id_list_id}")
 
     def create_unique_id_list(self, list_name, unique_ids):
         """

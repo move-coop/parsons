@@ -94,7 +94,7 @@ class NationBuilder:
         while True:
             try:
                 logging.debug(f"sending request {url}")
-                response = self.client.get_request(url)
+                response = self.client.get_request(url=url)
 
                 res = response.get("results", None)
 

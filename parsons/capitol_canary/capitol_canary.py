@@ -55,7 +55,7 @@ class CapitolCanary:
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-            r = self.client.get_request(r["pagination"]["next_url"], args)
+            r = self.client.get_request(r["pagination"]["next_url"], params=args)
             json.extend(r["data"])
 
         return json
@@ -180,7 +180,7 @@ class CapitolCanary:
             "includePrivate": str(include_private),
         }
 
-        tbl = Table(self.client.get_request("campaigns", params=args))
+        tbl = Table(self.client.get_request(url="campaigns", params=args))
         if tbl:
             tbl.unpack_dict("updated_at")
             if include_content:

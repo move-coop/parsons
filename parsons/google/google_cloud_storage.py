@@ -118,7 +118,7 @@ class GoogleCloudStorage:
             bucket_name: The name of bucket
 
         Raises:
-            exceptions.NotFound: If the bucket is not found.
+            google.api_core.exceptions.NotFound: If the bucket is not found.
 
         """
 

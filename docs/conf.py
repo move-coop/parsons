@@ -28,9 +28,6 @@ autodoc_member_order = "bysource"
 autodoc_typehints = "both"
 autosectionlabel_prefix_document = True
 googleanalytics_id = "G-L2YB7WHTRG"
-nitpick_ignore = {
-    ("py:exc", "exceptions.NotFound"),  # just can't find this for some reason
-}
 nitpick_ignore_regex = {
     (
         "py:class",

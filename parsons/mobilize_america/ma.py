@@ -2,6 +2,7 @@ import collections.abc
 import logging
 import os
 import re
+from typing import overload
 
 import petl
 from requests import request as _request
@@ -66,34 +67,40 @@ class MobilizeAmerica:
 
         return json
 
-    def _time_parse(self, time_arg):
-        # Parse the date filters
+    @overload
+    def _time_parse(self, time_arg: None) -> None: ...
+
+    @overload
+    def _time_parse(self, time_arg: str) -> str: ...
+
+    def _time_parse(self, time_arg: str | None) -> str | None:
+        """Parse the date filters."""
+        if not time_arg:
+            return time_arg
+
+        match = re.search("<=|<|>=|>", time_arg)
+        if not match:
+            raise ValueError(
+                f"No valid time operator (>=, <, etc.) found in argument: '{time_arg}'"
+            )
+
+        time_filter = match.group()
+        time_str = re.sub("<=|<|>=|>", "", time_arg).strip()
+        timestamp = date_to_timestamp(time_str)
 
         trans = [(">=", "gte_"), (">", "gt_"), ("<=", "lte_"), ("<", "lt_")]
+        for op, prefix in trans:
+            if time_filter == op:
+                return f"{prefix}{timestamp}"
 
-        if time_arg:
-            time = re.sub("<=|<|>=|>", "", time_arg)
-            time = date_to_timestamp(time)
-            time_filter = re.search("<=|<|>=|>", time_arg).group()
+        raise ValueError("Invalid time operator. Must be one of >=, >, <= or >.")
 
-            for i in trans:
-                if time_filter == i[0]:
-                    return i[1] + str(time)
-
-            raise ValueError("Invalid time operator. Must be one of >=, >, <= or >.")
-
-        return time_arg
-
-    def get_organizations(self, updated_since=None):
+    def get_organizations(self, updated_since: str | None = None) -> Table:
         """
         Return all active organizations on the platform.
 
         Args:
-            updated_since: str
-                Filter to organizations updated since given date (ISO Date)
-
-        Returns:
-            :ref:`Table`
+            updated_since: Filter to organizations updated since given date (ISO Date).
 
         """
 

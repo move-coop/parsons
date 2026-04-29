@@ -520,8 +520,8 @@ class ActionBuilder:
                 The unique identifier for an entity or connection record being updated.
                 If omitted, `to_identifier` must be provided.
             to_identifier:
-                The second entity with a connection to `from_entity`. If omitted,
-                `connection_identifier` must be provided.
+                The second entity with a connection to `from_entity`.
+                If omitted, `connection_identifier` must be provided.
             campaign:
                 The 36-character ``interact ID`` of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -539,7 +539,7 @@ class ActionBuilder:
 
         url = f"campaigns/{campaign}/people/{from_identifier}/connections"
 
-        data = {"connection": {"inactive": True}}
+        data: dict[str, dict[str, Any]] = {"connection": {"inactive": True}}
 
         # Prioritize connection ID to avoid potential confusion if to_identifier is also provided
         # to_identifier entity could have duplicates, connection ID is more specific

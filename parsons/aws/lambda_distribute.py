@@ -3,7 +3,9 @@ import logging
 import sys
 import time
 import traceback
+from collections.abc import Callable
 from io import BytesIO, StringIO, TextIOWrapper
+from typing import Any, Literal
 
 from parsons.aws.aws_async import (
     get_func_task_path,
@@ -24,13 +26,13 @@ class DistributeTaskException(Exception):
 
 
 class TestStorage:
-    def __init__(self):
+    def __init__(self) -> None:
         self.data = {}
 
-    def put_object(self, bucket, key, object_bytes):
+    def put_object(self, bucket: str, key: str, object_bytes: bytes) -> None:
         self.data[key] = object_bytes
 
-    def get_range(self, bucket, key, rangestart, rangeend):
+    def get_range(self, bucket: str, key: str, rangestart: int, rangeend: int) -> dict:
         return self.data[key][rangestart:rangeend]
 
 
@@ -40,13 +42,13 @@ class S3Storage:
     inside this file rather than s3.py
     """
 
-    def __init__(self, use_env_token=True):
+    def __init__(self, use_env_token: bool = True) -> None:
         self.s3 = S3(use_env_token=use_env_token)
 
-    def put_object(self, bucket, key, object_bytes, **kwargs):
+    def put_object(self, bucket: str, key: str, object_bytes: bytes, **kwargs):
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
-    def get_range(self, bucket, key, rangestart, rangeend):
+    def get_range(self, bucket: str, key: str, rangestart: int, rangeend: int):
         """Gets an explicit byte-range of an S3 file"""
         # bytes is INCLUSIVE for the rangeend parameter, unlike python
         # so e.g. while python returns 2 bytes for data[2:4]
@@ -62,18 +64,18 @@ S3_TEMP_KEY_PREFIX = "Parsons_DistributeTask"
 
 
 def distribute_task_csv(
-    csv_bytes_utf8,
-    func_to_run,
-    bucket,
-    header=None,
-    func_kwargs=None,
+    csv_bytes_utf8: bytes,
+    func_to_run: Callable,
+    bucket: str,
+    header: list[str] | None = None,
+    func_kwargs: dict[str, str] | None = None,
     func_class=None,
-    func_class_kwargs=None,
-    catch=False,
-    group_count=100,
-    storage="s3",
-    use_s3_env_token=True,
-):
+    func_class_kwargs: dict | None = None,
+    catch: bool = False,
+    group_count: int = 100,
+    storage: Literal["s3", "local"] = "s3",
+    use_s3_env_token: bool = True,
+) -> dict[str, Any]:
     """
     The same as distribute_task, but instead of a table, the
     first argument is bytes of a csv encoded into utf8.
@@ -143,31 +145,31 @@ def distribute_task_csv(
 
 
 def distribute_task(
-    table,
-    func_to_run,
-    bucket=None,
-    func_kwargs=None,
+    table: Table,
+    func_to_run: Callable,
+    bucket: str | None = None,
+    func_kwargs: dict[str, Any] | None = None,
     func_class=None,
-    func_class_kwargs=None,
-    catch=False,
-    group_count=100,
-    storage="s3",
-    use_s3_env_token=True,
-):
+    func_class_kwargs: dict | None = None,
+    catch: bool = False,
+    group_count: int = 100,
+    storage: Literal["s3", "local"] = "s3",
+    use_s3_env_token: bool = True,
+) -> dict[str, Any]:
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
 
     Args:
-        table: Parsons Table
+        table:
            Table of data you wish to distribute processing across Lambda invocations
            of `func_to_run` argument.
-        func_to_run: Callable
+        func_to_run:
            The function you want to run whose
            first argument will be a subset of table
-        bucket: str
+        bucket:
            The bucket name to use for s3 upload to process the whole table
            Not required if you set environment variable ``S3_TEMP_BUCKET``
-        func_kwargs: dict
+        func_kwargs:
            If the function has other arguments to pass along with `table`
            then provide them as a dict here. They must all be JSON-able.
         func_class: class
@@ -175,25 +177,25 @@ def distribute_task(
            then pass the pure class here.
            E.g. If you passed `ActionKit.bulk_upload_table`,
            then you would pass `ActionKit` here.
-        func_class_kwargs: dict
+        func_class_kwargs:
            If it is a class function, and the class must be instantiated,
            then pass the kwargs to instantiate the class here.
            E.g. If you passed `ActionKit.bulk_upload_table` as the function,
            then you would pass {'domain': ..., 'username': ... etc} here.
            This must all be JSON-able data.
-        catch: bool
+        catch:
            Lambda will retry running an event three times if there's an
            exception -- if you want to prevent this, set `catch=True`
            and then it will catch any errors and stop retries.
            The error will be in CloudWatch logs with string "Distribute Error"
            This might be important if row-actions are not idempotent and your
            own function might fail causing repeats.
-        group_count: int
+        group_count:
            Set this to how many rows to process with each Lambda invocation (Default: 100)
-        storage: str
+        storage:
            Debugging option: Defaults to "s3". To test distribution locally without s3,
            set to "local".
-        use_s3_env_token: str
+        use_s3_env_token:
            If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
 
     Returns:
@@ -223,18 +225,18 @@ def distribute_task(
 
 
 def process_task_portion(
-    bucket,
-    storagekey,
-    rangestart,
-    rangeend,
-    func_name,
-    header,
-    storage="s3",
-    func_kwargs=None,
-    catch=False,
-    func_class_kwargs=None,
-    use_s3_env_token=True,
-):
+    bucket: str,
+    storagekey: str,
+    rangestart: int,
+    rangeend: int,
+    func_name: str,
+    header: list[str],
+    storage: Literal["s3", "local"] = "s3",
+    func_kwargs: dict[str, Any] | None = None,
+    catch: bool = False,
+    func_class_kwargs: dict | None = None,
+    use_s3_env_token: bool = True,
+) -> dict[str, Any] | None:
     global FAKE_STORAGE
 
     logger.debug(

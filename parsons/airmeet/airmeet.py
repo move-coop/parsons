@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Any, Literal
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -25,18 +25,20 @@ class Airmeet:
 
     """
 
-    def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
+    def __init__(
+        self,
+        airmeet_uri: str | None = None,
+        airmeet_access_key: str | None = None,
+        airmeet_secret_key: str | None = None,
+    ) -> None:
         """
         Authenticate with the Airmeet API and update the connection headers
         with the access token.
 
         Args:
-            airmeet_uri: str
-                The Airmeet API endpoint.
-            airmeet_access_key: str
-                The Airmeet API access key.
-            airmeet_secret_key: str
-                The Airmeet API secret key.
+            airmeet_uri: The Airmeet API endpoint.
+            airmeet_access_key: The Airmeet API access key.
+            airmeet_secret_key: The Airmeet API secret key.
 
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
@@ -56,17 +58,17 @@ class Airmeet:
             "X-Airmeet-Access-Token": self.token,
         }
 
-    def _get_all_pages(self, url, page_size=50, **kwargs) -> Table:
+    def _get_all_pages(self, url: str, page_size: int = 50, **kwargs) -> Table:
         """
-        Get all the results from an Airmeet API url, handling pagination based
-        on the returned pageCount.
+        Get all the results from an Airmeet API url,
+        handling pagination based on the returned pageCount.
 
         Args:
-            page_size: 50
-                The number of items to get per page. The max allowed varies by
-                API call. For details, see ``Airmeet Event Details API Documentation`_.
-            `**kwargs`:
-                Additional parameters to include in the request.
+            page_size:
+                The number of items to get per page.
+                The max allowed varies by API call.
+                For details, see ``Airmeet Event Details API Documentation`_.
+            `**kwargs`: Additional parameters to include in the request.
 
         """
         results = []
@@ -98,39 +100,37 @@ class Airmeet:
 
     def list_airmeets(self) -> Table:
         """
-        Get the list of Airmeets. The API excludes any Airmeets that are
-        Archived (Deleted).
+        Get the list of Airmeets.
+
+        The API excludes any Airmeets that are Archived (Deleted).
 
         Returns:
-            Parsons.Table
-                List of Airmeets
+            List of Airmeets
 
         """
         return self._get_all_pages(url="airmeets", page_size=500)
 
     def fetch_airmeet_participants(
         self,
-        airmeet_id,
+        airmeet_id: str,
         sorting_key: Literal["name", "email", "registrationDate"] = "registrationDate",
         sorting_direction: Literal["ASC", "DESC"] = "DESC",
     ) -> Table:
         """
-        Get all participants (registrations) for a specific Airmeet, handling
-        pagination based on the returned totalUserCount. This API doesn't use
-        cursors for paging, so we can't use _get_all_pages() here.
+        Get all participants (registrations) for a specific Airmeet,
+        handling pagination based on the returned totalUserCount.
+
+        This API doesn't use cursors for paging, so we can't use _get_all_pages() here.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
-            sorting_key: str
-                The key to sort the participants by. Can be 'name', 'email', or
-                'registrationDate' (the default).
-            sorting_direction: str
-                Can be either 'ASC' or 'DESC' (the default).
+            airmeet_id: The id of the Airmeet.
+            sorting_key:
+                The key to sort the participants by.
+                Can be ``name``, ``email``, or ``registrationDate`` (the default).
+            sorting_direction: Can be either ``ASC`` or ``DESC`` (the default).
 
         Returns:
-            Parsons.Table
-                List of participants for the Airmeet event
+            List of participants for the Airmeet event
 
         """
         participants = []  # List to hold all participants
@@ -167,36 +167,29 @@ class Airmeet:
 
         return Table(participants)
 
-    def fetch_airmeet_sessions(self, airmeet_id) -> Table:
+    def fetch_airmeet_sessions(self, airmeet_id: str) -> Table:
         """
         Get the list of sessions for an Airmeet.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of sessions for this Airmeet event
+            List of sessions for this Airmeet event
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
         return Table(response["sessions"])
 
-    def fetch_airmeet_info(self, airmeet_id, lists_to_tables=False):
+    def fetch_airmeet_info(self, airmeet_id: str, lists_to_tables: bool = False) -> dict[str, Any]:
         """
         Get the data for an Airmeet (event), which include the list of
         sessions, session hosts/cohosts, and various other info.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
-            lists_to_tables: bool
-                If True, will convert any dictionary values that are lists
-                to Tables.
-
-        Returns:
-            dict
+            airmeet_id: The id of the Airmeet.
+            lists_to_tables:
+                If ``True``, will convert any dictionary values that are lists to Tables.
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/info")
@@ -206,45 +199,41 @@ class Airmeet:
                     response[k] = Table(response[k])
         return response
 
-    def fetch_airmeet_custom_registration_fields(self, airmeet_id) -> Table:
+    def fetch_airmeet_custom_registration_fields(self, airmeet_id: str) -> Table:
         """
         Get the list of custom registration fields for an Airmeet.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of custom registration fields for this Airmeet event
+            List of custom registration fields for this Airmeet event
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/custom-fields")
         return Table(response["customFields"])
 
-    def fetch_event_attendance(self, airmeet_id) -> Table:
+    def fetch_event_attendance(self, airmeet_id: str) -> Table:
         """
         Get all attendees for an Airmeet, handling pagination based on the
         returned pageCount.
 
-        Results include attendance only from sessions with a status of
-        `FINISHED`. Maximum number of results per page = 50.
+        Results include attendance only from sessions with a status of `FINISHED`.
+        Maximum number of results per page = 50.
 
-        "This is an Asynchronous API. If you get a 202 code in response,
-        please try again after 5 minutes."
+        This is an Asynchronous API.
+        If you get a 202 code in response, please try again after 5 minutes.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of attendees for this Airmeet event
+            List of attendees for this Airmeet event
 
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/attendees", page_size=50)
 
-    def fetch_session_attendance(self, session_id) -> Table:
+    def fetch_session_attendance(self, session_id: str) -> Table:
         """
         Get all attendees for a specific Airmeet session, handling pagination
         based on the returned pageCount.
@@ -252,40 +241,38 @@ class Airmeet:
         Results are available only for sessions with a status of `FINISHED`.
         Maximum number of results per page = 50.
 
-        "This is an Asynchronous API. If you get a 202 code in response,
-        please try again after 5 minutes."
+        This is an Asynchronous API.
+        If you get a 202 code in response, please try again after 5 minutes.
 
         Args:
-            session_id: str
-                The id of the session.
+            session_id: The id of the session.
 
         Returns:
-            Parsons.Table
-                List of attendees for this session
+            List of attendees for this session
 
         """
         return self._get_all_pages(url=f"session/{session_id}/attendees", page_size=50)
 
-    def fetch_airmeet_booths(self, airmeet_id) -> Table:
+    def fetch_airmeet_booths(self, airmeet_id: str) -> Table:
         """
         Get the list of booths for a specific Airmeet by ID.
 
-        `CAUTION: This method is untested. Booths are available only in
-        certain Airmeet plans.`
+        .. warning::
+
+            This method is untested.
+            Booths are available only in certain Airmeet plans.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of booths for this Airmeet
+            List of booths for this Airmeet
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/booths")
         return Table(response["booths"] or [])
 
-    def fetch_booth_attendance(self, airmeet_id, booth_id) -> Table:
+    def fetch_booth_attendance(self, airmeet_id: str, booth_id: str) -> Table:
         """
         Get all attendees for a specific Airmeet booth, handling pagination
         based on the returned pageCount.
@@ -293,28 +280,27 @@ class Airmeet:
         Results are available only for events with a status of `FINISHED`.
         Maximum number of results per page = 50.
 
-        "This is an Asynchronous API. If you get a 202 code in response,
-        please try again after 5 minutes."
+        This is an Asynchronous API.
+        If you get a 202 code in response, please try again after 5 minutes.
 
-        `CAUTION: This method is untested. Booths are available only in
-        certain Airmeet plans.`
+        .. warning::
+
+            This method is untested.
+            Booths are available only in certain Airmeet plans.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
-            booth_id: str
-                The id of the booth.
+            airmeet_id: The id of the Airmeet.
+            booth_id: The id of the booth.
 
         Returns:
-            Parsons.Table
-                List of attendees for this booth
+            List of attendees for this booth
 
         """
         return self._get_all_pages(
             url=f"airmeet/{airmeet_id}/booth/{booth_id}/booth-attendance", page_size=50
         )
 
-    def fetch_poll_responses(self, airmeet_id) -> Table:
+    def fetch_poll_responses(self, airmeet_id: str) -> Table:
         """
         Get a list of the poll responses in an Airmeet, handling pagination
         based on the returned pageCount.
@@ -322,54 +308,52 @@ class Airmeet:
         Maximum number of results per page = 50.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of users. For each user, the value for the "polls"
-                key is a list of poll questions and answers for that user.
+            List of users.
+            For each user, the value for the "polls" key is a
+            list of poll questions and answers for that user.
 
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/polls", page_size=50)
 
-    def fetch_questions_asked(self, airmeet_id) -> Table:
+    def fetch_questions_asked(self, airmeet_id: str) -> Table:
         """
         Get a list of the questions asked in an Airmeet.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of users. For each user, the value for the "questions"
-                key is a list of that user's questions.
+            List of users.
+            For each user, the value for the "questions" key is a
+            list of that user's questions.
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/questions")
         return Table(response["data"])
 
-    def fetch_event_tracks(self, airmeet_id) -> Table:
+    def fetch_event_tracks(self, airmeet_id: str) -> Table:
         """
         Get a list of the tracks in a specific Airmeet by ID.
 
-        `CAUTION: This method is untested. Event tracks are available only in
-        certain Airmeet plans.`
+        .. warning::
+
+            This method is untested.
+            Event tracks are available only in certain Airmeet plans.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of event tracks
+            List of event tracks
 
         """
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/tracks")
         return Table(response["tracks"])
 
-    def fetch_registration_utms(self, airmeet_id) -> Table:
+    def fetch_registration_utms(self, airmeet_id: str) -> Table:
         """
         Get all the UTM parameters captured during registration, handling
         pagination based on the returned pageCount.
@@ -377,21 +361,19 @@ class Airmeet:
         Maximum number of results per page = ?? (documentation doesn't say,
         but assume 50 like the other asynchronous APIs).
 
-        "This is an Asynchronous API. If you get a 202 code in response,
-        please try again after 5 minutes."
+        This is an Asynchronous API.
+        If you get a 202 code in response, please try again after 5 minutes.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
+            airmeet_id: The id of the Airmeet.
 
         Returns:
-            Parsons.Table
-                List of UTM parameters captured during registration
+            List of UTM parameters captured during registration
 
         """
         return self._get_all_pages(url=f"airmeet/{airmeet_id}/utms", page_size=50)
 
-    def download_session_recordings(self, airmeet_id, session_id=None) -> Table:
+    def download_session_recordings(self, airmeet_id: str, session_id: str | None = None) -> Table:
         """
         Get a list of recordings for a specific Airmeet (and optionally a
         specific session in that Airmeet). The data for each recording
@@ -403,15 +385,12 @@ class Airmeet:
         need to be updated if it is.
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
-            session_id: str
-                (optional) If provided, limits results to only the recording
-                of the specified session.
+            airmeet_id: The id of the Airmeet.
+            session_id:
+                If provided, limits results to only the recording of the specified session.
 
         Returns:
-            Parsons.Table
-                List of session recordings
+            List of session recordings
 
         """
         kwargs = {}
@@ -420,7 +399,9 @@ class Airmeet:
         response = self.client.get_request(url=f"airmeet/{airmeet_id}/session-recordings", **kwargs)
         return Table(response["recordings"])
 
-    def fetch_event_replay_attendance(self, airmeet_id, session_id=None) -> Table:
+    def fetch_event_replay_attendance(
+        self, airmeet_id: str, session_id: str | None = None
+    ) -> Table:
         """
         Get all replay attendees for a specific Airmeet (and optionally a
         specific session in that Airmeet), handling pagination based on the
@@ -433,15 +414,12 @@ class Airmeet:
         please try again after 5 minutes."
 
         Args:
-            airmeet_id: str
-                The id of the Airmeet.
-            session_id: str
-                (optional) If provided, limits results to only attendees of
-                the specified session.
+            airmeet_id: The id of the Airmeet.
+            session_id:
+                If provided, limits results to only attendees of the specified session.
 
         Returns:
-            Parsons.Table
-                List of event replay attendees
+            List of event replay attendees
 
         """
         attendees = self._get_all_pages(

@@ -3,7 +3,7 @@ import pickle
 from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
 import petl
 
@@ -112,7 +112,7 @@ class Table(ETL, ToFrom):
     def __iter__(self) -> Iterator:
         return iter(petl.dicts(self.table))
 
-    def __getitem__(self, index) -> list | dict[str, Any]:
+    def __getitem__(self, index) -> list | dict:
         if isinstance(index, int):
             return self.row_data(index)
 

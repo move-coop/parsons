@@ -1481,7 +1481,7 @@ class ActionNetwork:
                     {"number": re.sub("[^0-9]", "", cell)} for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
-            if isinstance(mobile_number[0], int):
+            elif isinstance(mobile_number[0], int):
                 mobile_numbers_field = [{"number": cell} for cell in mobile_number]
                 mobile_numbers_field[0]["primary"] = True
 

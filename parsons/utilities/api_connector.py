@@ -55,9 +55,9 @@ class APIConnector:
         self,
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        json: dict | None = None,
+        json: dict[str, Any] | None = None,
         data: str | bytes | dict | None = None,
-        params: dict | None = None,
+        params: dict[str, Any] | None = None,
     ) -> Response:
         """
         Base request using requests libary.
@@ -94,19 +94,23 @@ class APIConnector:
 
     @overload
     def get_request(
-        self, url: str, *, params: dict | None = None, return_format: Literal["json"] = "json"
+        self,
+        url: str,
+        *,
+        params: dict[str, Any] | None = None,
+        return_format: Literal["json"] = "json",
     ) -> dict[str, Any]: ...
 
     @overload
     def get_request(
-        self, url: str, *, params: dict | None = None, return_format: Literal["content"]
+        self, url: str, *, params: dict[str, Any] | None = None, return_format: Literal["content"]
     ) -> bytes: ...
 
     def get_request(
         self,
         url: str,
         *,
-        params: dict | None = None,
+        params: dict[str, Any] | None = None,
         return_format: Literal["json", "content"] = "json",
     ) -> dict | bytes:
         """
@@ -135,11 +139,11 @@ class APIConnector:
     def post_request(
         self,
         url: str,
-        params: dict | None = None,
+        params: dict[str, Any] | None = None,
         data: str | bytes | dict | None = None,
-        json: dict | None = None,
+        json: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Make a POST request.
 
@@ -168,7 +172,7 @@ class APIConnector:
                 return r.status_code
 
     def delete_request(
-        self, url: str, params: dict | None = None, success_codes: list[int] | None = None
+        self, url: str, params: dict[str, Any] | None = None, success_codes: list[int] | None = None
     ) -> dict | int | None:
         """
         Make a DELETE request.
@@ -198,8 +202,8 @@ class APIConnector:
         self,
         url: str,
         data: str | bytes | dict | None = None,
-        json: dict | None = None,
-        params: dict | None = None,
+        json: dict[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
     ) -> dict | int | None:
         """
@@ -229,9 +233,9 @@ class APIConnector:
     def patch_request(
         self,
         url: str,
-        params: dict | None = None,
+        params: dict[str, Any] | None = None,
         data: str | bytes | dict | None = None,
-        json: dict | None = None,
+        json: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
     ) -> dict | int | None:
         """

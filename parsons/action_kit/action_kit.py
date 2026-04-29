@@ -937,28 +937,29 @@ class ActionKit:
 
     def paginated_get_custom_limit(
         self,
-        object_type,
-        limit=None,
-        threshold_field=None,
-        threshold_value=None,
+        object_type: str,
+        limit: int | None = None,
+        threshold_field: str | None = None,
+        threshold_value: str | None = None,
         ascdesc: Literal["asc", "desc"] = "asc",
         **kwargs,
-    ):
-        """Get multiple objects of a given type, stopping based on the value of a field.
+    ) -> Table:
+        """
+        Get multiple objects of a given type, stopping based on the value of a field.
 
         Args:
-            object_type: str
+            object_type:
                 The type of object to search for.
-            limit: int
-                The maximum number of objects to return. Even if the threshold
-                value is not reached, if the limit is set, then at most this many
-                objects will be returned.
-            threshold_field: str
+            limit:
+                The maximum number of objects to return.
+                Even if the threshold value is not reached, if the limit is set,
+                then at most this many objects will be returned.
+            threshold_field:
                 The field used to determine when to stop.
                 Must be one of the options for ordering by.
-            threshold_value: str
+            threshold_value:
                 The value of the field to stop at.
-            ascdesc: str
+            ascdesc:
                 If "asc" (the default), return all objects below the threshold value.
                 If "desc", return all objects above the threshold value.
             `**kwargs`:
@@ -970,18 +971,14 @@ class ActionKit:
                     ak.paginated_get(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
-                The objects data.
+            The objects data.
 
         """
         # "The maximum number of objects returned per request is 100. Use paging
         # to get more objects."
         # (https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering)
         kwargs["_limit"] = min(100, limit or 1_000_000_000)
-        if ascdesc == "asc":
-            kwargs["order_by"] = threshold_field
-        else:
-            kwargs["order_by"] = "-" + threshold_field
+        kwargs["order_by"] = ("" if ascdesc == "asc" else "-") + threshold_field
         json_data = self._base_get(object_type, params=kwargs)
         data = json_data["objects"]
         next_url = json_data.get("meta", {}).get("next")
@@ -1442,12 +1439,12 @@ class ActionKit:
 
     def bulk_upload_table(
         self,
-        table,
-        import_page,
-        autocreate_user_fields=0,
-        no_overwrite_on_empty=False,
-        set_only_columns=None,
-    ):
+        table: Table,
+        import_page: str,
+        autocreate_user_fields: bool = False,
+        no_overwrite_on_empty: bool = False,
+        set_only_columns: list[str] | None = None,
+    ) -> dict[str, bool | list[dict]]:
         """
         Bulk upload a table of new users or user updates.
         For more, see the `ActionKit API Uploads Documentation`_
@@ -1462,30 +1459,30 @@ class ActionKit:
             which is more likely to return the proper 400 with a useful error message
 
         Args:
-            import_page: str
-                The page to post the action. The page short name.
-            table: parsons.Table
+            table:
                 A Table of user data to bulk upload
                 A user_id or email column is required.
-            autocreate_user_fields: bool
+            import_page:
+                The page to post the action. The page short name.
+            autocreate_user_fields:
                 When True, columns starting with ``user_`` will be uploaded as user fields.
                 For more, see the `ActionKit API autocreate_user_fields Documentation`_.
-            no_overwrite_on_empty: bool
+            no_overwrite_on_empty:
                 When uploading user data, ActionKit will, by default, take a blank value
                 and overwrite existing data for that user.
                 This can be undesirable, if the goal is to only send updates.
                 Setting this to True will divide up the table into multiple upload
                 batches, changing the columns uploaded based on permutations of
                 empty columns.
-            set_only_columns: list
+            set_only_columns:
                 This is similar to no_overwrite_on_empty but restricts to a specific set of columns
                 which, if blank, should not be overwritten.
 
         Returns:
-            dict[str, bool | list[dict]]
-                success: bool -- whether upload was successful (individual rows may not have been)
-                results: [dict] -- This is a list of the full results.
-                progress_url and res for any results
+            Dictionary Contents
+
+            - success (bool) -- whether overall upload was successful (individual rows may not have been)
+            - results (list[dict[str, Unknown]]) -- full results, with ``progress_url`` and ``res`` for each result
 
         """
 
@@ -1495,8 +1492,8 @@ class ActionKit:
         )
         results = []
         for tbl in upload_tables:
-            user_fields_only = int(
-                not any(h for h in tbl.columns if h != "email" and not h.startswith("user_"))
+            user_fields_only = not any(
+                h for h in tbl.columns if h != "email" and not h.startswith("user_")
             )
             results.append(
                 self.bulk_upload_csv(

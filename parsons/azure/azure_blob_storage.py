@@ -2,7 +2,7 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 from urllib.parse import urlparse
 
 from azure.core.exceptions import ResourceNotFoundError
@@ -50,7 +50,7 @@ class AzureBlobStorage:
         credential: str | None = None,
         account_domain: str = "blob.core.windows.net",
         account_url: str | None = None,
-    ):
+    ) -> None:
         self.account_url = os.getenv("AZURE_ACCOUNT_URL", account_url)
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
         if not self.account_url:
@@ -108,7 +108,8 @@ class AzureBlobStorage:
                 Settings for public access on the container,
                 can be ``container`` or ``blob`` if not ``None``
             kwargs:
-                Additional arguments to be supplied to :meth:`azure.storage.blob.BlobServiceClient.create_container`
+                Additional arguments to be supplied to
+                :meth:`azure.storage.blob.BlobServiceClient.create_container`
 
         """
 
@@ -128,7 +129,7 @@ class AzureBlobStorage:
         self, container_name: str, name_starts_with: str | None = None
     ) -> list[BlobProperties]:
         """
-        List all of the names of blobs in a container
+        List all of the names of blobs in a container.
 
         Args:
             container_name: The name of the container
@@ -173,7 +174,7 @@ class AzureBlobStorage:
         start: datetime | str | None = None,
     ) -> str:
         """
-        Get a URL with a shared access signature for a blob
+        Get a URL with a shared access signature for a blob.
 
         Args:
             container_name: The container name
@@ -184,8 +185,9 @@ class AzureBlobStorage:
                 but required if it was not.
             permission:
                 Permissions associated with the blob URL.
-                Can be either :class:`azure.storage.blob.BlobSasPermissions` or a string where
-                ``r``, ``a``, ``c``, ``w``, and ``d`` correspond to read, add, create, write, and delete permissions respectively.
+                Can be either :class:`azure.storage.blob.BlobSasPermissions`
+                or a string where ``r``, ``a``, ``c``, ``w``, and ``d``
+                correspond to read, add, create, write, and delete permissions respectively.
             expiry:
                 The datetime when the URL should expire. Defaults to UTC.
             start:
@@ -216,17 +218,18 @@ class AzureBlobStorage:
         )
         return f"{self.account_url}/{container_name}/{blob_name}?sas={sas}"
 
-    def _get_content_settings_from_dict(self, kwargs_dict):
+    def _get_content_settings_from_dict(
+        self, kwargs_dict: dict[str, Any]
+    ) -> tuple[ContentSettings | None, dict[str, Any]]:
         """
         Removes any keys for ``ContentSettings`` from a dict and returns a tuple of the generated
         settings or ``None`` and a dict with the settings keys removed.
 
         Args:
-            kwargs_dict: dict
-                A dict which should be processed and may have keys for ``ContentSettings``
+            kwargs_dict: A dict which should be processed and may have keys for ``ContentSettings``
+
         Returns:
-            tuple[Optional[ContentSettings], dict]
-                Any created settings or ``None`` and the dict with settings keys remvoed
+            Any created settings or ``None`` and the dict with settings keys remvoed
 
         """
 
@@ -254,7 +257,7 @@ class AzureBlobStorage:
         self, container_name: str, blob_name: str, local_path: Path | str, **kwargs
     ) -> BlobClient:
         """
-        Puts a blob (aka file) in a bucket
+        Puts a blob (aka file) in a bucket.
 
         Args:
             container_name: The name of the container to store the blob

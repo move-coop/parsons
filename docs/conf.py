@@ -37,6 +37,7 @@ nitpick_ignore_regex = {
         r"google.cloud.bigquery.[a-zA-Z]+..+",
     ),  # bigquery references (no linkable sphinx documentation)
     ("py:class", r"petl.util.base.[a-zA-Z]+"),  # these classes are not in petl documentation
+    (r"py:.*", r"braintree\..+"),  # braintree references (no linkable sphinx documentation)
     (r"py:.*", r"mysql\..+"),  # mysql references (no linkable sphinx documentation)
     (r"py:.*", r"box_sdk_gen\..+"),  # box references (no linkable sphinx documentation)
     (r"py:.*", r"dbt\..+"),  # dbt references (no linkable sphinx documentation)

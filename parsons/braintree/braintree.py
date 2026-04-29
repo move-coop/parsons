@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class ParsonsBraintreeError(Exception):
+    """Error to be raised during failed query operations."""
+
     pass
 
 

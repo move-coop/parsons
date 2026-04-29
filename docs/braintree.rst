@@ -64,3 +64,7 @@ API
 .. autoclass:: parsons.braintree.braintree.Braintree
    :inherited-members:
    :members:
+
+.. autoexception:: parsons.braintree.braintree.ParsonsBraintreeError
+   :inherited-members:
+   :members:

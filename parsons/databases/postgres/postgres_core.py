@@ -126,7 +126,7 @@ class PostgresCore(PostgresCreateStatement):
         """
 
         with self.cursor(connection) as cursor:
-            logger.debug(f"SQL Query: {sql}")
+            logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
 
             if commit:
@@ -154,14 +154,14 @@ class PostgresCore(PostgresCreateStatement):
                         if not batch:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def _create_table_precheck(

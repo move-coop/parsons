@@ -541,7 +541,7 @@ class GoogleBigQuery(DatabaseConnector):
                     max_timeout=max_timeout,
                 )
             elif "Schema has no field" in str(e):
-                logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
+                logger.debug("%s is empty, skipping file", gcs_blob_uri.split("/")[-1])
                 return "Empty file"
 
             else:
@@ -674,7 +674,7 @@ class GoogleBigQuery(DatabaseConnector):
                 compression_type=compression_type,
             )
 
-            logger.debug(f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}...")
+            logger.debug("Loading uncompressed uri into BigQuery %s...", uncompressed_gcs_uri)
             table_ref = self.get_table_ref(table_name=table_name)
             return self._load_table_from_uri(
                 source_uris=uncompressed_gcs_uri,

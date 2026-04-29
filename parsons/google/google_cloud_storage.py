@@ -104,10 +104,10 @@ class GoogleCloudStorage:
         """
 
         if bucket_name in self.list_buckets():
-            logger.debug(f"{bucket_name} exists.")
+            logger.debug("%s exists.", bucket_name)
             return True
         else:
-            logger.debug(f"{bucket_name} does not exist.")
+            logger.debug("%s does not exist.", bucket_name)
             return False
 
     def get_bucket(self, bucket_name: str) -> storage.Bucket:
@@ -127,7 +127,7 @@ class GoogleCloudStorage:
         else:
             raise exceptions.NotFound("Bucket not found")
 
-        logger.debug(f"Returning {bucket_name} object")
+        logger.debug("Returning %s object", bucket_name)
         return bucket
 
     def create_bucket(self, bucket_name: str) -> None:
@@ -205,10 +205,10 @@ class GoogleCloudStorage:
         """Verify that a blob exists in the specified bucket."""
 
         if blob_name in self.list_blobs(bucket_name):
-            logger.debug(f"{blob_name} exists.")
+            logger.debug("%s exists.", blob_name)
             return True
         else:
-            logger.debug(f"{blob_name} does not exist.")
+            logger.debug("%s does not exist.", blob_name)
             return False
 
     def get_blob(self, bucket_name: str, blob_name: str) -> storage.Blob | None:
@@ -216,7 +216,7 @@ class GoogleCloudStorage:
 
         bucket = self.get_bucket(bucket_name)
         blob = bucket.get_blob(blob_name)
-        logger.debug(f"Got {blob_name} object from {bucket_name} bucket.")
+        logger.debug("Got %s object from %s bucket.", blob_name, bucket_name)
         return blob
 
     def put_blob(self, bucket_name: str, blob_name: str, local_path: Path | str, **kwargs) -> None:
@@ -267,10 +267,10 @@ class GoogleCloudStorage:
         bucket = storage.Bucket(self.client, name=bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
-        logger.debug(f"Downloading {blob_name} from {bucket_name} bucket.")
+        logger.debug("Downloading %s from %s bucket.", blob_name, bucket_name)
         with local_path.open(mode="wb") as f:
             blob.download_to_file(f, client=self.client)
-        logger.debug(f"{blob_name} saved to {local_path}.")
+        logger.debug("%s saved to %s.", blob_name, local_path)
 
         return str(local_path)
 
@@ -625,7 +625,7 @@ class GoogleCloudStorage:
         bucket_name = kwargs.pop("bucket_name")
 
         with gzip.open(compressed_filepath, "rb") as f_in:
-            logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+            logger.debug("Uploading uncompressed file to GCS: %s", decompressed_blob_name)
             bucket = self.get_bucket(bucket_name=bucket_name)
             blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
             blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)
@@ -642,7 +642,7 @@ class GoogleCloudStorage:
             zipfile.ZipFile(compressed_filepath) as path_,
             path_.open(decompressed_blob_in_archive) as f_in,
         ):
-            logger.debug(f"Uploading uncompressed file to GCS: {decompressed_blob_name}")
+            logger.debug("Uploading uncompressed file to GCS: %s", decompressed_blob_name)
             bucket = self.get_bucket(bucket_name=bucket_name)
             blob = storage.Blob(name=decompressed_blob_name, bucket=bucket)
             blob.upload_from_file(file_obj=f_in, rewind=True, timeout=3600)

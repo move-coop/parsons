@@ -303,7 +303,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            logger.debug("No poll data returned for poll ID %s", poll_id)
             return tbl
 
         logger.info(
@@ -335,7 +335,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            logger.debug("No poll data returned for meeting ID %s", meeting_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
@@ -361,7 +361,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            logger.debug("No poll data returned for meeting ID %s", meeting_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {meeting_id}")
@@ -394,7 +394,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for poll ID {poll_id}")
+            logger.debug("No poll data returned for poll ID %s", poll_id)
             return tbl
 
         logger.info(
@@ -422,7 +422,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            logger.debug("No poll data returned for webinar ID %s", webinar_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
@@ -448,7 +448,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            logger.debug("No poll data returned for webinar ID %s", webinar_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} polls for meeting ID {webinar_id}")
@@ -466,7 +466,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for meeting ID {meeting_id}")
+            logger.debug("No poll data returned for meeting ID %s", meeting_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for meeting ID {meeting_id}")
@@ -484,7 +484,7 @@ class ZoomV1:
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
         if tbl.num_rows == 0:
-            logger.debug(f"No poll data returned for webinar ID {webinar_id}")
+            logger.debug("No poll data returned for webinar ID %s", webinar_id)
             return tbl
 
         logger.info(f"Retrieved {tbl.num_rows} reults for webinar ID {webinar_id}")

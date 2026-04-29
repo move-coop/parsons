@@ -264,7 +264,7 @@ class CatalistMatch:
         if export_filename_suffix:
             query_params["subClientName"] = export_filename_suffix
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         endpoint = endpoint + "?" + urllib.parse.urlencode(query_params)
 
@@ -324,7 +324,7 @@ class CatalistMatch:
 
         endpoint = "/".join(endpoint_params)
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         query_params = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:

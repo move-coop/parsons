@@ -162,7 +162,7 @@ class DatabaseCreateStatement:
 
         else:
             # Need to determine who makes it all the way down here
-            logger.debug(f"Unexpected object type: {type(value)}")
+            logger.debug("Unexpected object type: %s", type(value))
             result = cmp_type
 
         return result

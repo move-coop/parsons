@@ -1522,8 +1522,8 @@ class ActionKit:
             subset_table = Table(subset)
             if blanks:
                 subset_table.table = subset_table.table.cutout(*blanks)
-            logger.debug(f"Column Upload Blanks: {blanks}")
-            logger.debug(f"Column Upload Columns: {subset_table.columns}")
+            logger.debug("Column Upload Blanks: %s", blanks)
+            logger.debug("Column Upload Columns: %s", subset_table.columns)
             if not {"user_id", "email"}.intersection(subset_table.columns):
                 logger.warning(
                     f"Upload will fail without user_id or email. "
@@ -1578,7 +1578,7 @@ class ActionKit:
                             "_offset": page * limit,
                         },
                     )
-                    logger.debug(f"error collect result: {error_data}")
+                    logger.debug("error collect result: %s", error_data)
                     errors.extend(error_data.get("objects", []))
 
         return errors

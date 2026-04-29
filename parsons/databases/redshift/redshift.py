@@ -223,7 +223,7 @@ class Redshift(
 
         with self.cursor(connection) as cursor:
             if "credentials" not in sql:
-                logger.debug(f"SQL Query: {sql}")
+                logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
 
             if commit:
@@ -251,14 +251,14 @@ class Redshift(
                         if not batch:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def copy_s3(
@@ -676,7 +676,7 @@ class Redshift(
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
                 sql_censored = sql_helpers.redact_credentials(sql)
 
-                logger.debug(f"Copy SQL command: {sql_censored}")
+                logger.debug("Copy SQL command: %s", sql_censored)
                 self.query_with_connection(sql, connection, commit=False)
 
                 logger.info(f"Data copied to {table_name}.")
@@ -1095,7 +1095,7 @@ class Redshift(
                        WHERE {where_clause}
                        """
                 self.query_with_connection(sql, connection, commit=False)
-                logger.debug(f"Target rows deleted from {target_table}.")
+                logger.debug("Target rows deleted from %s.", target_table)
 
                 # Insert rows
                 # ALTER TABLE APPEND would be more efficient, but you can't run it in a

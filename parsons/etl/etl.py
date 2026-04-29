@@ -289,7 +289,7 @@ class ETL:
                         return row[source_col]
                 return None
 
-            logger.debug(f"Coalescing {source_columns} into {dest_column}")
+            logger.debug("Coalescing %s into %s", source_columns, dest_column)
             self.convert_column(dest_column, convert_fn, pass_row=True)
 
         else:
@@ -300,7 +300,7 @@ class ETL:
                         return row[source_col]
                 return None
 
-            logger.debug(f"Creating new column {dest_column} from {source_columns}")
+            logger.debug("Creating new column %s from %s", dest_column, source_columns)
             self.add_column(dest_column, add_fn)
 
         if remove_source_columns:

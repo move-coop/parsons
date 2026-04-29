@@ -160,7 +160,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             # break up each statement and execute them separately.
             for s in sql.strip().split(";"):
                 if len(s) != 0:
-                    logger.debug(f"SQL Query: {sql}")
+                    logger.debug("SQL Query: %s", sql)
                     cursor.execute(s, parameters)
 
             if commit:
@@ -186,14 +186,14 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                         if len(batch) == 0:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(row, f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def copy(

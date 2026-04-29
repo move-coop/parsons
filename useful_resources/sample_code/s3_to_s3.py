@@ -45,13 +45,13 @@ s3_destination = S3(
 
 # Get Source Bucket Information
 bucket_guide = s3_source.list_buckets()
-logger.info(f"We will be getting data from {len(bucket_guide)} buckets...")
+logger.info("We will be getting data from %s buckets...", len(bucket_guide))
 
 # Moving Files from Source s3 Bucket to Destination s3 Bucket
 for bucket in bucket_guide:
-    logger.info(f"Working on files for {bucket}...")
+    logger.info("Working on files for %s...", bucket)
     keys = s3_source.list_keys(bucket)
-    logger.info(f"Found {len(keys)}.")
+    logger.info("Found %s.", len(keys))
     for key in keys:
         temp_file = s3_source.get_file(bucket, key)
         s3_destination.put_file(DESTINATION_BUCKET, key, temp_file)

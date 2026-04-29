@@ -49,7 +49,7 @@ s3_files = keys.keys()
 if len(keys) == 0:
     logger.info("No files to sync today!")
 else:
-    logger.info(f"Pulling {str(len(s3_files))} files down from s3...")
+    logger.info("Pulling %s files down from s3...", str(len(s3_files)))
     for x in s3_files:
         file = s3.get_file(bucket, x)
         table = Table.from_csv(file, encoding="ISO-8859-1")

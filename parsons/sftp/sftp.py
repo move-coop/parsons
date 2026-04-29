@@ -241,7 +241,7 @@ class SFTP:
 
                 # Write to the destination file
                 Path(local_path).write_bytes(response)
-                logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
+                logger.debug("Successfully read %s rows to %s", export_chunk_size, local_path)
 
     @connect
     def get_files(

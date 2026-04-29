@@ -108,7 +108,7 @@ class Formstack:
                 subfolders += f_subfolders
 
         tbl = Table(response_data["folders"] + subfolders)
-        logger.debug(f"Found {tbl.num_rows} folders.")
+        logger.debug("Found %s folders.", tbl.num_rows)
 
         if tbl.num_rows == 0:
             return Table()

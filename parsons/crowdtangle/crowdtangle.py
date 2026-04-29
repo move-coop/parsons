@@ -55,7 +55,7 @@ class CrowdTangle:
 
     def _base_unpack(self, ParsonsTable):
         logger.debug("Working to unpack the Parsons Table...")
-        logger.debug(f"Starting with {len(ParsonsTable.columns)} columns...")
+        logger.debug("Starting with %s columns...", len(ParsonsTable.columns))
         sample = ParsonsTable[0]
 
         col_dict = {}

@@ -116,8 +116,7 @@ class BillCom:
         Args:
             data:
                 A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
+                The dev_key and sessionId should not be included as they are dealt with separately.
             action:
                 The action to be taken on the given object.
                 Possible values are ``List``, ``Read``, ``Create``, and ``Send``.

@@ -17,14 +17,14 @@ def _add_timezone_if_not_specified(date_time: datetime, tz: timezone) -> datetim
 @overload
 def date_to_timestamp(
     value: datetime | int,
-    tzinfo: timezone = timezone.utc,
+    tzinfo: timezone = ...,
 ) -> int: ...
 
 
 @overload
 def date_to_timestamp(
     value: str | datetime | int | None,
-    tzinfo: timezone = timezone.utc,
+    tzinfo: timezone = ...,
 ) -> int | None: ...
 
 
@@ -39,7 +39,7 @@ def date_to_timestamp(
         value: Date to parse.
         tzinfo:
             Timezone for the datetime, if not contained in value.
-            Defaults to :const:`datetime.timezone.utc`.
+            Defaults to :attr:`datetime.timezone.utc`.
 
     Returns:
         Unix timestamp
@@ -68,10 +68,10 @@ def convert_unix_to_readable(ts: int | str, tzinfo: timezone = timezone.utc) -> 
         value: Datetime to parse.
         tzinfo:
             Timezone for the datetime.
-            Defaults to :const:`datetime.timezone.utc`.
+            Defaults to :attr:`datetime.timezone.utc`.
 
     Returns:
-        Timestamp formatted as "%Y-%m-%d %H:%M:%S %Z"
+        Timestamp formatted as ``%Y-%m-%d %H:%M:%S %Z``
 
     """
 
@@ -91,7 +91,7 @@ def parse_date(
         value: Date to parse.
         tzinfo:
             Timezone for the datetime, if not contained in value.
-            Defaults to :const:`datetime.timezone.utc`.
+            Defaults to :attr:`datetime.timezone.utc`.
 
     Raises:
         TypeError: If `value` is not a string, int, or datetime.

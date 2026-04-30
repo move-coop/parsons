@@ -1,9 +1,10 @@
+import logging
 from datetime import date, datetime, timezone
 from typing import overload
 
 from dateutil.parser import ParserError, parse
 
-from parsons import logger
+logger = logging.getLogger(__name__)
 
 
 def _add_timezone_if_not_specified(date_time: datetime, tz: timezone) -> datetime:

@@ -4,8 +4,9 @@ import collections
 import warnings
 
 from dbt.artifacts.resources.types import NodeType
+from dbt.artifacts.schemas.freshness import SourceFreshnessResult
+from dbt.artifacts.schemas.results import NodeResult, NodeStatus
 from dbt.artifacts.schemas.run import RunExecutionResult
-from dbt.contracts.results import NodeResult, NodeStatus, SourceFreshnessResult
 
 
 class Manifest:
@@ -19,7 +20,7 @@ class Manifest:
         dbt_manifest: RunExecutionResult | None = None,
     ) -> None:
         self.command = command
-        self.run_execution_result = run_execution_result
+        self.run_execution_result: RunExecutionResult = run_execution_result
         if self.run_execution_result is None and dbt_manifest is not None:
             self.run_execution_result = dbt_manifest
             warnings.warn(
@@ -27,6 +28,7 @@ class Manifest:
                 category=DeprecationWarning,
                 stacklevel=2,
             )
+
         if self.run_execution_result is None:
             raise Exception("missing run_execution_result")
 
@@ -35,8 +37,10 @@ class Manifest:
         metadata = getattr(res, "metadata", None)
         if metadata is not None and hasattr(metadata, key):
             return getattr(metadata, key)
+
         try:
             return getattr(res, key)
+
         except AttributeError:
             raise AttributeError(
                 f"'{type(self).__name__}' object has no attribute '{key}'"
@@ -51,6 +55,7 @@ class Manifest:
             metadata = getattr(res, "metadata", None)
             if metadata:
                 attrs.update(attr for attr in dir(metadata) if not attr.startswith("_"))
+
         return sorted(attrs)
 
     def filter_results(self, **kwargs) -> list[NodeResult]:
@@ -61,6 +66,7 @@ class Manifest:
             if isinstance(result, NodeResult)
             and all(str(getattr(result, key)) == value for key, value in kwargs.items())
         ]
+
         return filtered_results
 
     @property
@@ -71,6 +77,7 @@ class Manifest:
             category=DeprecationWarning,
             stacklevel=2,
         )
+
         return self.run_execution_result
 
     @property
@@ -82,12 +89,15 @@ class Manifest:
         """
         if self.errors or self.fails:
             return NodeStatus.Error
+
         if self.warnings:
             return NodeStatus.Warn
+
         success_keys = (NodeStatus.Success, NodeStatus.Pass)
         has_success = any(self.summary.get(k, 0) > 0 for k in success_keys)
         if self.skips and not has_success:
             return NodeStatus.Skipped
+
         return NodeStatus.Success
 
     @property
@@ -139,4 +149,5 @@ class EnhancedNodeResult(NodeResult):
             result = f"No new records for {int(self.age / 86400)} days, {self.status} after {time_config.count} {time_config.period}s."
         else:
             result = self.message
+
         return result

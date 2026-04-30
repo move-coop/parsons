@@ -53,7 +53,7 @@ class ActionBuilder:
         page,
         per_page: int = 25,
         filter: str | None = None,
-    ):
+    ) -> dict[str, Any]:
         # Returns data from one page of results
 
         campaign = self._campaign_check(campaign)
@@ -161,7 +161,7 @@ class ActionBuilder:
 
     def insert_new_tag(
         self, tag_name: str, tag_field: str, tag_section: str, campaign: str | None = None
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Load a new tag value into Action Builder.
 
@@ -191,7 +191,7 @@ class ActionBuilder:
 
         return self.api.post_request(url=url, data=json.dumps(data))
 
-    def _upsert_entity(self, data, campaign) -> dict | int | None:
+    def _upsert_entity(self, data, campaign) -> dict[str, Any] | int | None:
         # Internal method leveraging the record signup helper endpoint to upsert entity records
 
         url = f"campaigns/{campaign}/people"
@@ -200,7 +200,7 @@ class ActionBuilder:
 
     def insert_entity_record(
         self, entity_type: str, data: dict | None = None, campaign: str | None = None
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Load a new entity record in Action Builder of the type provided.
 
@@ -245,7 +245,7 @@ class ActionBuilder:
 
     def update_entity_record(
         self, identifier: str, data: dict | None = None, campaign: str | None = None
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Update an entity record in Action Builder based on the identifier passed.
 
@@ -289,7 +289,7 @@ class ActionBuilder:
 
     def remove_entity_record_from_campaign(
         self, identifier: str, campaign: str | None = None
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Remove an entity record from a campaign.
 
@@ -313,7 +313,7 @@ class ActionBuilder:
 
     def add_section_field_values_to_record(
         self, identifier: str, section: str, field_values: dict, campaign: str | None = None
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action Builder.
         The tags, along with their field and section, must already exist (except for date fields).
@@ -355,7 +355,7 @@ class ActionBuilder:
         tag_name: str | None = None,
         tagging_id: str | None = None,
         campaign: str | None = None,
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Remove one or more tags (i.e. custom field value) from
         an existing entity or connection record in Action Builder.
@@ -440,7 +440,7 @@ class ActionBuilder:
         tag_data: list | None = None,
         campaign: str | None = None,
         reactivate: bool = True,
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Load or update a connection record in Action Builder between two existing entity records.
 
@@ -506,7 +506,7 @@ class ActionBuilder:
         connection_identifier: str | None = None,
         to_identifier: str | None = None,
         campaign: str | None = None,
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         Deactivate an existing connection record in Action Builder between two existing entity records.
 

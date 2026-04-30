@@ -120,7 +120,10 @@ class Bloomerang:
         )
 
     def _base_get(
-        self, endpoint, entity_id: str | int | None = None, params: dict[str, Any] | None = None
+        self,
+        endpoint,
+        entity_id: str | int | None = None,
+        params: dict[str, str | int] | None = None,
     ) -> dict[str, Any]:
         return self.conn.get_request(url=self._base_endpoint(endpoint, entity_id), params=params)
 

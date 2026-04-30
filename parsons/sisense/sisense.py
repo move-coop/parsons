@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -14,59 +15,53 @@ class Sisense:
     Instantiate the Sisense class.
 
     Args:
-        site_name: str
-            The name of the site. Not required if the ``SISENSE_SITE_NAME``
-            environmental variable is set.
-        api_key: str
-            The Sisense API Key. Not required if the ``SISENSE_API_KEY``
-            environmental variable is set.
-
-    Returns:
-        Sisense class
+        site_name:
+            The name of the site.
+            Not required if the ``SISENSE_SITE_NAME`` environmental variable is set.
+        api_key:
+            The Sisense API Key.
+            Not required if the ``SISENSE_API_KEY`` environmental variable is set.
 
     """
 
-    def __init__(self, site_name: str = None, api_key: str = None):
-        self.site_name = check_env.check("SISENSE_SITE_NAME", site_name)
-        self.api_key = check_env.check("SISENSE_API_KEY", api_key)
+    def __init__(self, site_name: str | None = None, api_key: str | None = None) -> None:
+        self.site_name: str = check_env.check("SISENSE_SITE_NAME", site_name)
+        self.api_key: str = check_env.check("SISENSE_API_KEY", api_key)
         self.uri = URI
         self.api = self._api()
 
-    def _api(self):
+    def _api(self) -> APIConnector:
         headers = {"HTTP-X-PARTNER-AUTH": self.site_name + ":" + self.api_key}
         return APIConnector(uri=self.uri, headers=headers)
 
     def publish_shared_dashboard(
-        self, dashboard_id: str | int, chart_id: str | int = None, **kwargs
-    ):
+        self, dashboard_id: str | int, chart_id: str | int | None = None, **kwargs
+    ) -> dict[str, Any] | int | None:
         """
         This method publishes a dashboard or chart using the provided arguments.
-        For available options, see the `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`__.
+        For available options, see the
+        `API documentation <https://dtdocs.sisense.com/article/embed-api-options>`__.
 
         Args:
-            dashboard_id: str | int
-                The ID of the dashboard (required).
-            chart_id: str | int
+            dashboard_id: The ID of the dashboard.
+            chart_id:
                 The ID of the chart.
                 Only required for publishing individual charts.
-            `**kwargs`:
-                Optional arguments
+            `**kwargs`: Optional arguments
 
         Returns:
-            dict | int
-                Response (dict containing the URL) or an error
+            Response (dict containing the URL) or an error
 
         """
         payload = {"dashboard": dashboard_id, "chart": chart_id, **kwargs}
         return self.api.post_request("shared_dashboard/create", data=json.dumps(payload))
 
-    def list_shared_dashboards(self, dashboard_id: str | int):
+    def list_shared_dashboards(self, dashboard_id: str | int) -> dict[str, Any] | int | None:
         """
         List all shares of a given dashboard.
 
         Args:
-            dashboard_id: str | int
-                The ID the dashboard (required).
+            dashboard_id: The ID the dashboard.
 
         Returns:
             Response or an error
@@ -75,7 +70,7 @@ class Sisense:
         payload = {"dashboard": dashboard_id}
         return self.api.post_request("shared_dashboard/list", data=json.dumps(payload))
 
-    def delete_shared_dashboard(self, token: str | int):
+    def delete_shared_dashboard(self, token: str | int) -> dict[str, Any] | int | None:
         """
         Delete a shared dashboard.
 
@@ -85,8 +80,7 @@ class Sisense:
         The token is `9dda9dda-9dda-9dda-9dda-9dda9dda9dda`.
 
         Args:
-            token: str | int
-                The token of the shared dashboard (required)
+            token: The token of the shared dashboard.
 
         Returns:
             Response or an error

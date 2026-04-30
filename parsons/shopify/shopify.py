@@ -8,28 +8,25 @@ from parsons.utilities.api_connector import APIConnector
 
 class Shopify:
     """
-    Instantiate the Shopify class
+    Instantiate the Shopify class.
 
     Args:
-        subdomain: str
-            The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if
-            ``SHOPIFY_SUBDOMAIN`` env variable set.
-        password: str
-            The Shopify account password. Not required if ``SHOPIFY_PASSWORD`` env
-            variable set.
-        api_key: str
-            The Shopify account API key. Not required if ``SHOPIFY_API_KEY`` env variable
-            set.
-        api_version: str
-            The Shopify API version. Not required if ``SHOPIFY_API_VERSION`` env variable
-            set.
-        access_token: str
-            The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
-            variable set. If argument or env variable is set, password and api_key
-            are ignored.
-
-    Returns:
-        Shopify Class
+        subdomain:
+            The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
+            Not required if ``SHOPIFY_SUBDOMAIN`` env variable set.
+        password:
+            The Shopify account password.
+            Not required if ``SHOPIFY_PASSWORD`` env variable set.
+        api_key:
+            The Shopify account API key.
+            Not required if ``SHOPIFY_API_KEY`` env variable set.
+        api_version:
+            The Shopify API version.
+            Not required if ``SHOPIFY_API_VERSION`` env variable set.
+        access_token:
+            The Shopify access token.
+            Not required if ``SHOPIFY_ACCESS_TOKEN`` env variable set.
+            If argument or env variable is set, password and api_key are ignored.
 
     """
 
@@ -41,11 +38,13 @@ class Shopify:
         api_version=None,
         access_token=None,
     ):
-        self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
-        self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
-        self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
-        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
-        self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
+        self.subdomain: str = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
+        self.access_token: str = check_env.check(
+            "SHOPIFY_ACCESS_TOKEN", access_token, optional=True
+        )
+        self.password: str = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
+        self.api_key: str = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
+        self.api_version: str = check_env.check("SHOPIFY_API_VERSION", api_version)
         self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
         if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
@@ -56,21 +55,23 @@ class Shopify:
         else:
             self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
 
-    def get_count(self, query_date=None, since_id=None, table_name=None):
+    def get_count(
+        self,
+        query_date: str | None = None,
+        since_id: str | None = None,
+        table_name: str | None = None,
+    ) -> int:
         """
         Get the count of rows in a table.
 
         Args:
-            query_date: str
-                Filter query by a date that rows were created. This filter is ignored if value
-                is None.
-            since_id: str
-                Filter query by a minimum ID. This filter is ignored if value is None.
-            table_name: str
-                The name of the Shopify table to query.
-
-        Returns:
-            int
+            query_date:
+                Filter query by a date that rows were created.
+                This filter is ignored if value is None.
+            since_id:
+                Filter query by a minimum ID.
+                This filter is ignored if value is None.
+            table_name: The name of the Shopify table to query.
 
         """
         return (
@@ -79,21 +80,22 @@ class Shopify:
             .get("count", 0)
         )
 
-    def get_orders(self, query_date=None, since_id=None, completed=True):
+    def get_orders(
+        self, query_date: str | None = None, since_id: str | None = None, completed: bool = True
+    ) -> Table:
         """
         Get Shopify orders.
 
         Args:
-            query_date: str
-                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
-                is ignored if value is None.
-            since_id: str
-                Filter query by a minimum ID. This filter is ignored if value is None.
-            completed: bool
-                True if only getting completed orders, False otherwise.
-
-        Returns:
-            :ref:`Table`
+            query_date:
+                Filter query by a date that rows were created.
+                Format: ``yyyy-mm-dd``.
+                This filter is ignored if value is ``None``.
+            since_id:
+                Filter query by a minimum ID.
+                This filter is ignored if value is ``None``.
+            completed:
+                ``True`` if only getting completed orders, ``False`` otherwise.
 
         """
         orders = []
@@ -142,23 +144,28 @@ class Shopify:
 
         return Table(orders)
 
-    def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
+    def get_query_url(
+        self,
+        query_date: str | None = None,
+        since_id: str | None = None,
+        table_name: str | None = None,
+        count: bool = True,
+    ) -> str:
         """
         Get the URL of a Shopify API request
 
         Args:
-            query_date: str
-                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
-                is ignored if value is None.
-            since_id: str
-                Filter query by a minimum ID. This filter is ignored if value is None.
-            table_name: str
+            query_date:
+                Filter query by a date that rows were created.
+                Format: ``yyyy-mm-dd``.
+                This filter is ignored if value is ``None``.
+            since_id:
+                Filter query by a minimum ID.
+                This filter is ignored if value is ``None``.
+            table_name:
                 The name of the Shopify table to query.
-            count: bool
-                True if refund should be included in Table, False otherwise.
-
-        Returns:
-            str
+            count:
+                ``True`` if refund should be included in Table, ``False`` otherwise.
 
         """
         filters = "limit=250&status=any"
@@ -198,13 +205,13 @@ class Shopify:
     @classmethod
     def load_to_table(
         cls,
-        subdomain=None,
-        password=None,
-        api_key=None,
-        api_version=None,
-        query_date=None,
-        since_id=None,
-        completed=True,
+        subdomain: str | None = None,
+        password: str | None = None,
+        api_key: str | None = None,
+        api_version: str | None = None,
+        query_date: str | None = None,
+        since_id: str | None = None,
+        completed: bool = True,
     ):
         """
         Fast classmethod so you can get the data all at once.
@@ -225,25 +232,19 @@ class Shopify:
         table based on which arguments are supplied.
 
         Args:
-            subdomain: str
-                The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
-            password: str
-                The Shopify account password.
-            api_key: str
-                The Shopify account API key.
-            api_version: str
-                The Shopify API version.
-            query_date: str
-                Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
-                is ignored if value is None.
-            since_id: str
-                Filter query by a minimum ID. This filter is ignored if value is None.
-            completed: bool
-                True if only getting completed orders, False otherwise.
-                value as value
-
-        Returns:
-            :ref:`Table`
+            subdomain: The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
+            password: The Shopify account password.
+            api_key: The Shopify account API key.
+            api_version: The Shopify API version.
+            query_date:
+                Filter query by a date that rows were created.
+                Format: ``yyyy-mm-dd``.
+                This filter is ignored if value is ``None``.
+            since_id:
+                Filter query by a minimum ID.
+                This filter is ignored if value is ``None``.
+            completed:
+                ``True`` if only getting completed orders, ``False`` otherwise.
 
         """
         return cls(subdomain, password, api_key, api_version).get_orders(

@@ -3,7 +3,7 @@ import logging
 import math
 import time
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -50,7 +50,7 @@ class ActionKit:
         client.headers.update(default_headers)
         return client
 
-    def _base_endpoint(self, endpoint, entity_id=None):
+    def _base_endpoint(self, endpoint: str, entity_id: str | None = None) -> str:
         # Create the base endpoint URL
 
         url = f"https://{self.domain}/rest/v1/{endpoint}/"
@@ -59,7 +59,13 @@ class ActionKit:
             return url + f"{entity_id}/"
         return url
 
-    def _base_get(self, endpoint, entity_id=None, exception_message=None, params=None):
+    def _base_get(
+        self,
+        endpoint: str,
+        entity_id: str | None = None,
+        exception_message: str | None = None,
+        params: dict[str, str | int] | None = None,
+    ) -> dict[str, Any]:
         # Make a general get request to ActionKit
 
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)

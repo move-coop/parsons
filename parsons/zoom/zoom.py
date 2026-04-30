@@ -39,9 +39,9 @@ class ZoomV1:
                 Not required if `ZOOM_CLIENT_SECRET` env variable set.
 
         """
-        self.account_id = check_env.check("ZOOM_ACCOUNT_ID", account_id)
-        self.client_id = check_env.check("ZOOM_CLIENT_ID", client_id)
-        self.__client_secret = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
+        self.account_id: str = check_env.check("ZOOM_ACCOUNT_ID", account_id)
+        self.client_id: str = check_env.check("ZOOM_CLIENT_ID", client_id)
+        self.__client_secret: str = check_env.check("ZOOM_CLIENT_SECRET", client_secret)
         self.client = self.get_oauth_client()
 
     def get_oauth_client(self) -> OAuth2APIConnector:

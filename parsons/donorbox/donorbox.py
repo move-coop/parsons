@@ -193,12 +193,11 @@ class Donorbox:
         data = self.client.get_request(url="plans", params=kwargs)
         return Table(data)
 
-    def _check_date_helper(self, params):
+    def _check_date_helper(self, params: dict[str, str]):
         """Searches through params for a date parameter and if found, calls format helper.
 
         Args:
-            params: dict
-                Required. Dictionary of parameters to be passed to endpoint.
+            params: Dictionary of parameters to be passed to endpoint.
 
         """
         if "date_from" in params and params["date_from"] is not None:

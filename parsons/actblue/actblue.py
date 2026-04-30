@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import Literal
+from typing import Any, Literal
 
 from requests.auth import HTTPBasicAuth
 
@@ -71,7 +71,7 @@ class ActBlue:
         | None = None,
         date_range_start: str | None = None,
         date_range_end: str | None = None,
-    ) -> dict | int | None:
+    ) -> dict[str, Any] | int | None:
         """
         POST request to ActBlue API to begin generating the CSV.
 
@@ -92,8 +92,8 @@ class ActBlue:
             date_range_end: End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
 
         Returns:
-            Response of POST request; a successful response includes 'id', a unique identifier for
-            the CSV being generated.
+            Response of POST request.
+            A successful response includes 'id', a unique identifier for the CSV being generated.
 
         """
 

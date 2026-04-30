@@ -214,7 +214,7 @@ Let's convert these unix timestamps to something more readable. To do this, we d
 .. code-block:: python
 
    def convert_to_legible_date(unix_date):
-       return datetime.utcfromtimestamp(int(unix_date)).strftime('%Y-%m-%d %H:%M:%S')
+       return datetime.datetime.fromtimestamp((int(unix_date).strftime('%Y-%m-%d %H:%M:%S'), tz=datetime.timezone.utc)
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format.
 For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970),

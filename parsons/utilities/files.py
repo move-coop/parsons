@@ -5,7 +5,7 @@ import os
 import shutil
 import tempfile
 from collections.abc import Callable, Iterator
-from typing import Literal
+from typing import Literal, overload
 
 __all__ = [
     "create_temp_file",
@@ -49,6 +49,7 @@ def create_temp_file(suffix: str | None = None) -> str:
     """
     temp_file = TempFile(suffix=suffix)
     _temp_files.append(temp_file)
+
     return temp_file.name
 
 
@@ -62,6 +63,7 @@ def create_temp_directory() -> str:
     """
     temp_dir = TempDirectory()
     _temp_directories.append(temp_dir)
+
     return temp_dir.name
 
 
@@ -82,6 +84,7 @@ def create_temp_file_for_path(path: Path | str) -> str:
     # file's extension will know that it is compressed.
     # TODO Make this more robust, maybe even using the entire remote file name as the suffix.
     suffix = ".gz" if is_gzip_path(path) else None
+
     return create_temp_file(suffix=suffix)
 
 
@@ -89,9 +92,9 @@ def close_temp_file(path: Path | str) -> bool:
     """
     Force closes a Parsons temp file, which will cause it to be deleted immediately.
 
-    Useful for when you don't want to wait until the end of your script's execution for temp
-    files to be closed and deleted. Eg. If you're running into system limits on open file
-    descriptors.
+    Useful for when you don't want to wait until the end of your script's
+    execution for temp files to be closed and deleted.
+    Eg. If you're running into system limits on open file descriptors.
 
     Args:
         path: Path of a temp file created by :func:`create_temp_file`
@@ -107,6 +110,7 @@ def close_temp_file(path: Path | str) -> bool:
             # will necessarily result in the TempFile being cleaned up (depends on platform)
             temp_file.remove()
             _temp_files.remove(temp_file)
+
             return True
 
     return False
@@ -134,12 +138,21 @@ def cleanup_temp_directory(path: Path | str) -> bool:
             # will necessarily result in the TempDirectory being cleaned up (depends on platform)
             temp_dir.remove()
             _temp_directories.remove(temp_dir)
+
             return True
 
     return False
 
 
-def track_temp_file(path: Path | str) -> str | Path:
+@overload
+def track_temp_file(path: Path) -> Path: ...
+
+
+@overload
+def track_temp_file(path: str) -> str: ...
+
+
+def track_temp_file(path: Path | str) -> Path | str:
     """
     Start tracking a file as a "temp" file that needs to be cleaned up by Parsons.
 
@@ -150,8 +163,9 @@ def track_temp_file(path: Path | str) -> str | Path:
         The path of the file to start tracking
 
     """
-    temp_file = TempFile(str(path))
+    temp_file = TempFile(path)
     _temp_files.append(temp_file)
+
     return path
 
 
@@ -284,7 +298,8 @@ def generate_tempfile(suffix: str | None = None, create: bool = False) -> str:
 
     Args:
         suffix:
-            The suffix to give the file path in order to advertise the file/mime type of the file.
+            The suffix to give the file path in order to
+            advertise the file/mime type of the file.
 
     Returns:
         The path of the newly created temp file.
@@ -295,8 +310,8 @@ def generate_tempfile(suffix: str | None = None, create: bool = False) -> str:
 
     """
     # _get_candidate_names gives us an iterator that will keep trying to generate a random filename.
-    # It's not ideal to use a "protected" function from another module, but this function does some
-    # heavy lifting for us.
+    # It's not ideal to use a "protected" function from another module,
+    # but this function does some heavy lifting for us.
     names: Iterator = tempfile._get_candidate_names()
     temp_dir = tempfile.gettempdir()
 
@@ -396,9 +411,9 @@ class TempFile:
 
     """
 
-    def __init__(self, name: str | None = None, suffix: str | None = None) -> None:
+    def __init__(self, name: Path | str | None = None, suffix: str | None = None) -> None:
         self.remove_called = False
-        self.name = name or generate_tempfile(suffix)
+        self.name = str(name or generate_tempfile(suffix))
 
     def __del__(self) -> None:
         # When we are being cleaned up, call remove to make sure the file is removed from disk.

@@ -91,7 +91,7 @@ class OAuth2APIConnector(APIConnector):
                 if ``url`` is an absolute URL, it will be used as is.
             req_type: str
                 The request type.
-                One of GET, POST, PUT, PATCH, DELETE, OPTIONS
+                One of ``GET``, ``POST``, ``PUT``, ``PATCH``, ``DELETE``, or ``OPTIONS``.
             json:
                 The payload of the request object.
                 By using `json`, it will automatically serialize the dictionary
@@ -102,6 +102,7 @@ class OAuth2APIConnector(APIConnector):
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
+
         return self.client.request(
             req_type,
             full_url,
@@ -112,5 +113,5 @@ class OAuth2APIConnector(APIConnector):
             params=params,
         )
 
-    def token_saver(self, token: OAuth2Token):
+    def token_saver(self, token: OAuth2Token) -> None:
         self.token = token

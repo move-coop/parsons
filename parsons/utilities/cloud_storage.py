@@ -1,30 +1,31 @@
 import csv
 from typing import Literal
 
+from parsons import Table
+
 """
-This utility method is a generalizable method for moving files to an
-online file storage class. It is used by methods that require access
-to a file via a public url (e.g. VAN). Currently only includes
-Amazon S3 and Google Cloud Storage.
+Generalizable module for moving files to an online file storage class.
+
+It is used by processes that require access to a file via a public url (e.g. VAN).
+Currently only includes Amazon S3 and Google Cloud Storage.
 """
 
 
 def post_file(
-    tbl,
+    tbl: Table,
     type: Literal["S3", "GCS"],
     file_path: str | None = None,
     quoting: int = csv.QUOTE_MINIMAL,
     **file_storage_args,
 ) -> str | None:
     """
-    This utility method is a generalizable method for moving files to an
-    online file storage class. It is used by methods that require access
-    to a file via a public url (e.g. VAN).
+    This utility function is a generalizable way of moving files
+    to an online file storage class.
 
-    **S3 is the only option allowed.**
+    It is used by processes that require access to a file via a public url (e.g. VAN).
 
     Args:
-        tbl: parsons.Table
+        tbl: Data to post to online file storage.
         type: ``S3`` or ``GCS`` (Google Cloud Storage)
         file_path:
             The file path to store the file.

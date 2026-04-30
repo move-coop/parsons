@@ -114,7 +114,7 @@ def encode_from_env(env_variables: list[str]) -> str:
     return encoded_str
 
 
-def encode_from_dict(credential: dict):
+def encode_from_dict(credential: dict) -> str:
     """Encode credential(s) from a dictionary.
 
     Args:
@@ -169,7 +169,7 @@ def main(
     save_path: str = "",
     no_export: bool = False,
     suppress: bool = False,
-):
+) -> None:
     r"""
     A command line tool to encode and decode credentials.
 

@@ -57,4 +57,5 @@ def unzip_archive(archive_path: Path | str, destination: str | None = None) -> s
     with zipfile.ZipFile(archive_path, "r") as z:
         file_name = z.namelist()[0]
         z.extractall(path=destination)
-        return str(Path(destination) / file_name)
+
+    return str(Path(destination) / file_name)

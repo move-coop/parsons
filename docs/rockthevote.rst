@@ -62,3 +62,7 @@ API
 .. autoclass:: parsons.rockthevote.rtv.RockTheVote
    :inherited-members:
    :members:
+
+.. autoexception:: parsons.rockthevote.rtv.RTVFailure
+   :inherited-members:
+   :members:

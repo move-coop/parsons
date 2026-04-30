@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import overload
 
 from dateutil.parser import ParserError, parse
@@ -78,6 +78,19 @@ def convert_unix_to_readable(ts: int | str, tzinfo: timezone = timezone.utc) -> 
     timestamp: datetime = datetime.fromtimestamp(int(ts) / 1000, tzinfo)
 
     return timestamp.strftime("%Y-%m-%d %H:%M:%S %Z")
+
+
+@overload
+def convert_date_to_iso(obj: None) -> None: ...
+
+
+@overload
+def convert_date_to_iso(obj: str | date | datetime) -> str: ...
+
+
+def convert_date_to_iso(obj: str | date | datetime | None) -> str | None:
+    """Ensure that dates/datetimes are provided as strings."""
+    return obj.isoformat() if isinstance(obj, date) else obj
 
 
 def parse_date(

@@ -29,11 +29,15 @@ autodoc_typehints = "both"
 autosectionlabel_prefix_document = True
 googleanalytics_id = "G-L2YB7WHTRG"
 nitpick_ignore_regex = {
+    ("py:class", r"petl.util.base.[a-zA-Z]+"),  # these classes are not in petl documentation
     (
-        "py:class",
+        r"py:class",
+        r"simple_salesforce.api.Salesforce",
+    ),  # this class is not in the petl documentation simple_salesforce
+    (
+        "py:.*",
         r"google.cloud.bigquery.[a-zA-Z]+..+",
     ),  # bigquery references (no linkable sphinx documentation)
-    ("py:class", r"petl.util.base.[a-zA-Z]+"),  # these classes are not in petl documentation
     (r"py:.*", r"braintree\..+"),  # braintree references (no linkable sphinx documentation)
     (r"py:.*", r"mysql\..+"),  # mysql references (no linkable sphinx documentation)
     (r"py:.*", r"box_sdk_gen\..+"),  # box references (no linkable sphinx documentation)

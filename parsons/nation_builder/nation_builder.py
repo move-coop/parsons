@@ -1,7 +1,7 @@
 import json
 import logging
 import time
-from typing import Any, cast
+from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -16,24 +16,26 @@ class NationBuilder:
     Instantiate the NationBuilder class
 
     Args:
-        slug: str
-            The Nation Builder slug Not required if ``NB_SLUG`` env variable set. The slug is the
-            nation slug of the nation from which your application is requesting approval to retrieve
-            data via the NationBuilder API. For example, your application's user could provide this
-            slug via a text field in your application.
-        access_token: str
-            The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
+        slug:
+            The Nation Builder slug.
+            The slug is the nation slug of the nation from which your application is
+            requesting approval to retrieve data via the NationBuilder API.
+            For example, your application's user could provide this slug via a text field in your application.
+            Not required if ``NB_SLUG`` env variable set.
+        access_token:
+            The Nation Builder access_token.
+            Not required if ``NB_ACCESS_TOKEN`` env variable set.
 
     """
 
     def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
-        slug = check_env.check("NB_SLUG", slug)
-        token = check_env.check("NB_ACCESS_TOKEN", access_token)
+        self.slug: str = check_env.check("NB_SLUG", slug)
+        self.token: str = check_env.check("NB_ACCESS_TOKEN", access_token)
 
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
-        headers.update(NationBuilder.get_auth_headers(token))
+        headers.update(self.get_auth_headers(self.token))
 
-        self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
+        self.client = APIConnector(NationBuilder.get_uri(self.slug), headers=headers)
 
     @classmethod
     def get_uri(cls, slug: str | None) -> str:
@@ -81,11 +83,7 @@ class NationBuilder:
         return f"{original_url}?limit=100&__nonce={nonce}&__token={token}"
 
     def get_people(self) -> Table:
-        """
-        Returns:
-            A Table of all people stored in Nation Builder.
-
-        """
+        """Get the data of all people stored in Nation Builder."""
         data = []
         original_url = "people"
 
@@ -121,20 +119,28 @@ class NationBuilder:
 
     def update_person(self, person_id: str, person: dict[str, Any]) -> dict[str, Any]:
         """
-        This method updates a person with the provided id to have the provided data. It returns a
-        full representation of the updated person.
+        This method updates a person with the provided id to have the provided data.
+
+        It returns a full representation of the updated person.
 
         Args:
-            person_id: str
-                Nation Builder person id.
-            data: dict
+            person_id: Nation Builder person id.
+            data:
                 Nation builder person object.
-                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
-                Docs: https://nationbuilder.com/people_api
+                For example ``{"email": "user@example.com", "tags": ["foo", "bar"]}``
+                Docs: `<https://nationbuilder.com/people_api>`__
+
         Returns:
-            A person object with the updated data.
+            All of the data for the updated person.
+
+        Raises:
+            ValueError: If `person` is not a dictionary.
+            ValueError: If `person_id` is ``None``, not a string, or empty.
 
         """
+        if not isinstance(person, dict):
+            raise ValueError("person must be a dict")
+
         if person_id is None:
             raise ValueError("person_id can't be None")
 
@@ -144,42 +150,43 @@ class NationBuilder:
         if len(person_id.strip()) == 0:
             raise ValueError("person_id can't be an empty str")
 
-        if not isinstance(person, dict):
-            raise ValueError("person must be a dict")
-
         url = f"people/{person_id}"
-        response = self.client.put_request(url, data=json.dumps({"person": person}))
-        response = cast("dict[str, Any]", response)
-
-        return response
+        return self.client.put_request(url, data=json.dumps({"person": person}))
 
     def upsert_person(self, person: dict[str, Any]) -> tuple[bool, dict[str, Any] | None]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 
-        This method attempts to match the input person resource to a person already in the
-        nation. If a match is found, the matched person is updated. If a match is not found, a new
-        person is created. Matches are found by including one of the following IDs in the request:
+        This method attempts to match the input person resource to a person already in the nation.
+        If a match is found, the matched person is updated.
+        If a match is not found, a new person is created.
 
-            - civicrm_id
-            - county_file_id
-            - dw_id
-            - external_id
-            - email
-            - facebook_username
-            - ngp_id
-            - salesforce_id
-            - twitter_login
-            - van_id
+        Matches are found by including one of the following IDs in the request:
+
+        - civicrm_id
+        - county_file_id
+        - dw_id
+        - external_id
+        - email
+        - facebook_username
+        - ngp_id
+        - salesforce_id
+        - twitter_login
+        - van_id
 
         Args:
-            data: dict
+            data:
                 Nation builder person object.
-                For example {"email": "user@example.com", "tags": ["foo", "bar"]}
-                Docs: https://nationbuilder.com/people_api
+                For example ``{"email": "user@example.com", "tags": ["foo", "bar"]}``
+                Docs: `<https://nationbuilder.com/people_api>`__
+
         Returns:
-            A tuple of `created` and `person` object with the updated data. If the request fails
-            the method will return a tuple of `False` and `None`.
+            A tuple of ``created`` and ``person`` objects with the updated data.
+            If the request fails the method will return a tuple of ``False`` and ``None``.
+
+        Raises:
+            ValueError: If the person argument is not a dict.
+            ValueError: If the person dict is missing required keys.
 
         """
 

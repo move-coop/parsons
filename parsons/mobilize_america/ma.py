@@ -1,13 +1,14 @@
 import collections.abc
 import logging
-import os
 import re
-from typing import overload
+from typing import Any, Literal, overload
 
 import petl
+from requests import Response
 from requests import request as _request
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 from parsons.utilities.datetime import date_to_timestamp
 
 logger = logging.getLogger(__name__)
@@ -17,38 +18,41 @@ MA_URI = "https://api.mobilize.us/v1/"
 
 class MobilizeAmerica:
     """
-    Instantiate MobilizeAmerica Class
+    Instantiate MobilizeAmerica Class.
 
-    api_key: str
-        An api key issued by Mobilize America. This is required to access some private methods.
-
-    Returns:
-        MobilizeAmerica Class
+    api_key:
+        An api key issued by Mobilize America.
+        This is required to access some private methods.
 
     """
 
-    def __init__(self, api_key=None):
+    def __init__(self, api_key: str | None = None):
         self.uri = MA_URI
-        self.api_key = api_key or os.environ.get("MOBILIZE_AMERICA_API_KEY")
+        self.api_key = check_env.check("MOBILIZE_AMERICA_API_KEY", api_key, optional=True)
 
         if not self.api_key:
             logger.info(
-                "Mobilize America API Key missing. Calling methods that rely on private"
-                " endpoints will fail."
+                "Mobilize America API Key missing. "
+                "Calling methods that rely on private endpoints will fail."
             )
 
-    def _request(self, url, req_type="GET", post_data=None, args=None, auth=False):
+    def _request(
+        self,
+        url: str,
+        req_type: Literal["GET", "OPTIONS", "HEAD", "POST", "PUT", "PATCH", "DELETE"] = "GET",
+        post_data=None,
+        args: dict[str, Any] | None = None,
+        auth: bool = False,
+    ) -> Response:
         if auth:
             if not self.api_key:
                 raise TypeError("This method requires an api key.")
-            else:
-                header = {"Authorization": "Bearer " + self.api_key}
+            header = {"Authorization": "Bearer " + self.api_key}
 
         else:
             header = None
 
         r = _request(req_type, url, json=post_data, params=args, headers=header)
-
         r.raise_for_status()
 
         if "error" in r.json():
@@ -56,7 +60,13 @@ class MobilizeAmerica:
 
         return r
 
-    def _request_paginate(self, url, req_type="GET", args=None, auth=False):
+    def _request_paginate(
+        self,
+        url: str,
+        req_type: Literal["GET", "OPTIONS", "HEAD", "POST", "PUT", "PATCH", "DELETE"] = "GET",
+        args: dict[str, Any] | None = None,
+        auth: bool = False,
+    ):
         r = self._request(url, req_type=req_type, args=args, auth=auth)
 
         json = r.json()["data"]
@@ -111,7 +121,7 @@ class MobilizeAmerica:
             )
         )
 
-    def get_promoted_organizations(self, organization_id):
+    def get_promoted_organizations(self, organization_id: str | int) -> Table:
         """
         Return all organizations promoted by the given organization.
 
@@ -119,40 +129,35 @@ class MobilizeAmerica:
             organization_id: int
                 ID of the organization to query.
 
-        Returns:
-            :ref:`Table`
-
         """
         url = self.uri + "organizations/" + str(organization_id) + "/promoted_organizations"
         return Table(self._request_paginate(url, auth=True))
 
     def get_events(
         self,
-        organization_id=None,
-        updated_since=None,
-        timeslot_start=None,
-        timeslot_end=None,
-        timeslots_table=False,
-        max_timeslots=None,
-    ):
+        organization_id: str | int | list[str | int] | None = None,
+        updated_since: str | None = None,
+        timeslot_start: str | None = None,
+        timeslot_end: str | None = None,
+        timeslots_table: bool = False,
+        max_timeslots: int | None = None,
+    ) -> Table | dict[str, Table]:
         """
         Fetch all public events on the platform.
 
         Args:
-            organization_id: list or int
-                Filter events by a single or multiple organization ids
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-            timeslot_start: str
+            organization_id: Filter events by a single or multiple organization ids
+            updated_since: Filter to events updated since given date (ISO Date)
+            timeslot_start:
                 Filter by a timeslot start of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_end: str
+            timeslot_end:
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: bool
-                Return timeslots as a separate long table. Useful for extracting
-                to databases.
-            max_timeslots: int
+            timeslot_table:
+                Return timeslots as a separate long table.
+                Useful for extracting to databases.
+            max_timeslots:
                 If not returning a timeslot table, will unpack time slots. If do not
                 set this kwarg, it will add a column for each time slot. The argument
                 limits the number of columns and discards any additional timeslots
@@ -165,10 +170,7 @@ class MobilizeAmerica:
                 This is helpful in situations where you have a regular sync
                 running and want to ensure that the column headers remain static.
 
-                If ``max_timeslots`` is 0, no timeslot columns will be included.
-
-        Returns:
-            Table, dict, list[Table]
+                If `max_timeslots` is 0, no timeslot columns will be included.
 
         """
 
@@ -191,7 +193,7 @@ class MobilizeAmerica:
             tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
-                timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
+                timeslots_tbl = tbl.long_table(["id"], "timeslots", {"id": "event_id"})
                 return {"events": tbl, "timeslots": timeslots_tbl}
 
             elif max_timeslots == 0:
@@ -209,16 +211,18 @@ class MobilizeAmerica:
 
     def get_events_organization(
         self,
-        organization_id,
-        updated_since=None,
-        timeslot_start=None,
-        timeslot_end=None,
-        timeslots_table=False,
-        max_timeslots=None,
-    ):
+        organization_id: int | str,
+        updated_since: str | None = None,
+        timeslot_start: str | None = None,
+        timeslot_end: str | None = None,
+        timeslots_table: bool = False,
+        max_timeslots: int | None = None,
+    ) -> Table | dict[str, Table]:
         """
-        Fetch all public events for an organization. This includes both events owned
-        by the organization (as indicated by the organization field on the event object)
+        Fetch all public events for an organization.
+
+        This includes both events owned by the organization
+        (as indicated by the organization field on the event object)
         and events of other organizations promoted by this specified organization.
 
         .. note::
@@ -226,40 +230,39 @@ class MobilizeAmerica:
             API Key Required
 
         Args:
-            organization_id: int or str
-                Organization ID for the organization.
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-            timeslot_start: str
+            organization_id: Organization ID for the organization.
+            updated_since: Filter to events updated since given date (ISO Date).
+            timeslot_start:
                 Filter by a timeslot start of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_end: str
+            timeslot_end:
                 Filter by a timeslot end of events using ``>``,``>=``,``<``,``<=``
                 operators and ISO date (ex. ``<=2018-12-13 05:00:00PM``)
-            timeslot_table: bool
-                Return timeslots as a separate long table. Useful for extracting
-                to databases.
-            zipcode: str
-                Filter by a Events' Locations' postal code. If present, returns Events
-                sorted by distance from zipcode. If present, virtual events will not be returned.
-            max_dist: str
-                Filter Events' Locations' distance from provided zipcode.
-            visibility: str
-                Either `PUBLIC` or `PRIVATE`. Private events only return if user is authenticated;
+            timeslot_table:
+                Return timeslots as a separate long table.
+                Useful for extracting to databases.
+            zipcode:
+                Filter by a Events' Locations' postal code.
+                If present, returns Events sorted by distance from zipcode.
+                If present, virtual events will not be returned.
+            max_dist: Filter Events' Locations' distance from provided zipcode.
+            visibility:
+                Either ``PUBLIC`` or ``PRIVATE``.
+                Private events only return if user is authenticated;
                 if `visibility=PRIVATE` and user doesn't have permission, no events returned.
-            exclude_full: bool
-                If `exclude_full=true`, filter out full Timeslots (and Events if all of an Event's
-                Timeslots are full)
-            is_virtual: bool
+            exclude_full:
+                If ``exclude_full=True``, filter out full Timeslots.
+                Also filter out Events if all of an Event's Timeslots are full.
+            is_virtual:
                 `is_virtual=false` will return only in-person events, while `is_virtual=true` will
                 return only virtual events. If excluded, return virtual and in-person events. Note
                 that providing a zipcode also implies `is_virtual=false`.
-            event_types:enum
+            event_types:
                 The type of the event, one of: `CANVASS`, `PHONE_BANK`, `TEXT_BANK`, `MEETING`,
                 `COMMUNITY`, `FUNDRAISER`, `MEET_GREET`, `HOUSE_PARTY`, `VOTER_REG`, `TRAINING`,
                 `FRIEND_TO_FRIEND_OUTREACH`, `DEBATE_WATCH_PARTY`, `ADVOCACY_CALL`, `OTHER`.
                 This list may expand in the future.
-            max_timeslots: int
+            max_timeslots:
                 If not returning a timeslot table, will unpack time slots. If do not
                 set this arg, it will add a column for each time slot. The argument
                 limits the number of columns and discards any additional timeslots
@@ -273,9 +276,6 @@ class MobilizeAmerica:
                 running and want to ensure that the column headers remain static.
 
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
-
-        Returns:
-            Table, dict, list[Table]
 
         """
 
@@ -300,7 +300,7 @@ class MobilizeAmerica:
             tbl.table = petl.convert(tbl.table, "address_lines", lambda v: " ".join(v))
 
             if timeslots_table:
-                timeslots_tbl = tbl.long_table(["id"], "timeslots", "event_id")
+                timeslots_tbl = tbl.long_table(["id"], "timeslots", {"id": "event_id"})
                 return {"events": tbl, "timeslots": timeslots_tbl}
 
             elif max_timeslots == 0:
@@ -316,18 +316,17 @@ class MobilizeAmerica:
 
         return tbl
 
-    def get_events_deleted(self, organization_id=None, updated_since=None):
+    def get_events_deleted(
+        self,
+        organization_id: int | str | list[int | str] | None = None,
+        updated_since: str | None = None,
+    ) -> Table:
         """
         Fetch deleted public events on the platform.
 
         Args:
-            organization_id: list or int
-                Filter events by a single or multiple organization ids
-            updated_since: str
-                Filter to events updated since given date (ISO Date)
-
-        Returns:
-            :ref:`Table`
+            organization_id: Filter events by a single or multiple organization ids.
+            updated_since: Filter to events updated since given date (ISO Date).
 
 
         """
@@ -342,7 +341,11 @@ class MobilizeAmerica:
 
         return Table(self._request_paginate(self.uri + "events/deleted", args=args))
 
-    def get_people(self, organization_id, updated_since=None):
+    def get_people(
+        self,
+        organization_id: int | str | list[int | str] | None = None,
+        updated_since: str | None = None,
+    ) -> Table:
         """
         Fetch all people (volunteers) who are affiliated with an organization(s).
 
@@ -351,13 +354,8 @@ class MobilizeAmerica:
             API Key Required
 
         Args:
-            organization_id: Iterable or int
-                Request people associated with a single or multiple organization ids
-            updated_since: str
-                Filter to people updated since given date (ISO Date)
-
-        Returns:
-            :ref:`Table`
+            organization_id: Request people associated with a single or multiple organization ids.
+            updated_since: Filter to people updated since given date (ISO Date).
 
 
         """
@@ -371,7 +369,11 @@ class MobilizeAmerica:
             args = {"updated_since": date_to_timestamp(updated_since)}
             return Table(self._request_paginate(url, args=args, auth=True))
 
-    def get_attendances(self, organization_id, updated_since=None):
+    def get_attendances(
+        self,
+        organization_id: int | str | list[int | str] | None = None,
+        updated_since: str | None = None,
+    ) -> Table:
         """
         Fetch all attendances which were either promoted by the organization or
         were for events owned by the organization.
@@ -381,13 +383,8 @@ class MobilizeAmerica:
             API Key Required
 
         Args:
-            organization_id: int
-                Filter attendances by an organization id
-            updated_since: str
-                Filter to attendances updated since given date (ISO Date)
-
-        Returns:
-            :ref:`Table`
+            organization_id: Filter attendances by an organization id.
+            updated_since: Filter to attendances updated since given date (ISO Date).
 
 
         """

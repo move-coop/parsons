@@ -1,5 +1,6 @@
 import datetime
 import logging
+from typing import Any
 
 from requests.auth import HTTPBasicAuth
 
@@ -32,13 +33,18 @@ class CapitolCanary:
         cc_app_id = check_env.check("CAPITOLCANARY_APP_ID", None, optional=True)
         cc_app_key = check_env.check("CAPITOLCANARY_APP_KEY", None, optional=True)
 
-        self.app_id = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
-        self.app_key = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
+        self.app_id: str = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
+        self.app_key: str = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
         self.auth = HTTPBasicAuth(self.app_id, self.app_key)
         self.client = APIConnector(CAPITOL_CANARY_URI, auth=self.auth)
 
-    def _paginate_request(self, url: str, args: dict | None = None, page: int | None = None):
+    def _paginate_request(
+        self, url: str, args: dict[str, Any] | None = None, page: int | None = None
+    ):
         # Internal pagination method
+
+        if not args:
+            args = {}
 
         if page is not None:
             args["page"] = page
@@ -146,7 +152,7 @@ class CapitolCanary:
         include_generic: bool = False,
         include_private: bool = False,
         include_content: bool = True,
-    ) -> Table:
+    ) -> Table | None:
         """
         Returns a list of campaigns
 
@@ -171,7 +177,7 @@ class CapitolCanary:
             "includePrivate": str(include_private),
         }
 
-        tbl = Table(self.client.get_request(url="campaigns", params=args))
+        tbl = self.client.convert_to_table(self.client.get_request(url="campaigns", params=args))
         if tbl:
             tbl.unpack_dict("updated_at")
             if include_content:

@@ -61,7 +61,7 @@ class APIConnector:
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         json: dict[str, Any] | None = None,
-        data: str | bytes | dict | None = None,
+        data: str | bytes | dict | list[tuple] | None = None,
         params: dict[str, str | int] | None = None,
     ) -> Response:
         """
@@ -109,7 +109,7 @@ class APIConnector:
         self,
         url: ...,
         *,
-        params: ...,
+        params: ... = ...,
         return_format: Literal["json"] = "json",
     ) -> dict[str, Any]: ...
 
@@ -118,7 +118,7 @@ class APIConnector:
         self,
         url: ...,
         *,
-        params: ...,
+        params: ... = ...,
         return_format: Literal["content"],
     ) -> bytes: ...
 
@@ -155,7 +155,7 @@ class APIConnector:
         self,
         url: str,
         params: dict[str, Any] | None = None,
-        data: str | bytes | dict | None = None,
+        data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
     ) -> dict[str, Any] | int | None:
@@ -219,7 +219,7 @@ class APIConnector:
     def put_request(
         self,
         url: str,
-        data: str | bytes | dict | None = None,
+        data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,
         params: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
@@ -252,7 +252,7 @@ class APIConnector:
         self,
         url: str,
         params: dict[str, Any] | None = None,
-        data: str | bytes | dict | None = None,
+        data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
     ) -> dict[str, Any] | int | None:
@@ -353,6 +353,6 @@ class APIConnector:
         except JSONDecodeError:
             return False
 
-    def convert_to_table(self, data: list | Any) -> Table:
+    def convert_to_table(self, data: list | dict | Any) -> Table:
         """Internal method to create a Parsons table from a data element."""
         return Table(data) if isinstance(data, list) else Table([data])

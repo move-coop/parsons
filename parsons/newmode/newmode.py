@@ -1,5 +1,5 @@
 import logging
-from typing import Any
+from typing import Any, Literal, overload
 
 from Newmode import Client
 from oauthlib.oauth2 import TokenExpiredError
@@ -34,15 +34,15 @@ class NewmodeV1:
     ):
         """
         Args:
-            api_user: str
-                The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
-                passed.
-            api_password: str
-                The Newmode api password. Not required if ``NEWMODE_API_PASSWORD`` env variable is
-                passed.
-            api_version: str
-                The Newmode api version. Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION``
-                env variable.
+            api_user:
+                The Newmode api user.
+                Not required if ``NEWMODE_API_USER`` env variable is passed.
+            api_password:
+                The Newmode api password.
+                Not required if ``NEWMODE_API_PASSWORD`` env variable is passed.
+            api_version:
+                The Newmode api version.
+                Defaults to "v1.0" or the value of ``NEWMODE_API_VERSION`` env variable.
 
         """
         logger.warning(
@@ -50,8 +50,10 @@ class NewmodeV1:
         )
         self.api_user: str = check_env.check("NEWMODE_API_USER", api_user)
         self.api_password: str = check_env.check("NEWMODE_API_PASSWORD", api_password)
-        self.api_version: str | None = api_version
-        self.client: Client = Client(api_user, api_password, api_version)
+        self.api_version: str = (
+            check_env.check("NEWMODE_API_VERSION", api_version, optional=True) or "v1.0"
+        )
+        self.client: Client = Client(api_user, api_password, self.api_version)
 
     def convert_to_table(self, data: list[dict[str, Any]] | dict[str, Any]) -> Table:
         # Internal method to create a Parsons table from a data element.
@@ -65,8 +67,7 @@ class NewmodeV1:
         Get existing tools.
 
         Args:
-            params:
-                Extra parameters sent to New/Mode library.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Tools information as table.
@@ -88,10 +89,8 @@ class NewmodeV1:
         Get specific tool.
 
         Args:
-            tool_id:
-                The id of the tool to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            tool_id: The id of the tool to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Tool information.
@@ -113,20 +112,20 @@ class NewmodeV1:
         params: dict[str, Any] | None = None,
     ) -> Table:
         """
-        Lookup targets for a given tool
+        Lookup targets for a given tool.
 
         Args:
-            tool_id:
-                The tool to lookup targets.
+            tool_id: The tool to lookup targets.
             search:
-                The search criteria. It could be:
-                - Empty: If empty, return custom targets associated to the tool.
-                - Postal code: Return targets matched by postal code.
-                - Lat/Long: Latitude and Longitude pair separated by '::'.
-                Ex. 45.451596::-73.59912099999997. It will return targets
-                matched for those coordinates.
-                - Search term: For your csv tools, this will return targets
-                matched by given valid search term.
+                The search criteria can be
+
+                - Empty -- If empty, return custom targets associated to the tool.
+                - Postal code -- Return targets matched by postal code.
+                - Lat/Long -- Latitude and Longitude pair separated by ``::``.
+                  Ex. ``45.451596::-73.59912099999997``.
+                  It will return targets matched for those coordinates.
+                - Search term -- For your csv tools, this will return targets
+                  matched by given valid search term.
 
         Returns:
             Targets information as table.
@@ -152,10 +151,8 @@ class NewmodeV1:
         Get the action information for a given tool.
 
         Args:
-            tool_id:
-                The id of the tool to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            tool_id: The id of the tool to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Tool action information.
@@ -180,13 +177,11 @@ class NewmodeV1:
         Run specific action with given payload.
 
         Args:
-            tool_id:
-                The id of the tool to run.
+            tool_id: The id of the tool to run.
             payload:
-                Payload data used to run the action. Structure will depend
-                on the stuff returned by get_action.
-            params:
-                Extra parameters sent to New/Mode library.
+                Payload data used to run the action.
+                Structure will depend on the stuff returned by get_action.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Action link (if otl) or sid.
@@ -211,10 +206,8 @@ class NewmodeV1:
         Get specific target.
 
         Args:
-            target_id:
-                The id of the target to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            target_id: The id of the target to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Target information.
@@ -231,11 +224,10 @@ class NewmodeV1:
 
     def get_targets(self, params: dict[str, Any] | None = None) -> Table | None:
         """
-        Get all targets
+        Get all targets.
 
         Args:
-            params: dict
-                Extra paramaters sent to New/Mode library
+            params: Extra paramaters sent to New/Mode library
 
         Returns:
             Target information
@@ -258,8 +250,7 @@ class NewmodeV1:
         Get existing campaigns.
 
         Args:
-            params:
-                Extra parameters sent to New/Mode library.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Campaigns information as table.
@@ -281,10 +272,8 @@ class NewmodeV1:
         Get specific campaign.
 
         Args:
-            campaign_id:
-                The id of the campaign to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            campaign_id: The id of the campaign to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Campaign information.
@@ -304,8 +293,7 @@ class NewmodeV1:
         Get existing organizations.
 
         Args:
-            params:
-                Extra parameters sent to New/Mode library.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Organizations information as table.
@@ -327,10 +315,8 @@ class NewmodeV1:
         Get specific organization.
 
         Args:
-            organization_id:
-                The id of the organization to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            organization_id: The id of the organization to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Organization information.
@@ -350,8 +336,7 @@ class NewmodeV1:
         Get existing services.
 
         Args:
-            params:
-                Extra parameters sent to New/Mode library.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Services information as table.
@@ -373,10 +358,8 @@ class NewmodeV1:
         Get specific service.
 
         Args:
-            service_id:
-                The id of the service to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            service_id: The id of the service to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Service information.
@@ -396,10 +379,8 @@ class NewmodeV1:
         Get existing outreaches for a given tool.
 
         Args:
-            tool_id:
-                Tool to return outreaches.
-            params:
-                Extra parameters sent to New/Mode library.
+            tool_id: Tool to return outreaches.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Outreaches information as table.
@@ -421,10 +402,8 @@ class NewmodeV1:
         Get specific outreach.
 
         Args:
-            outreach_id:
-                The id of the outreach to return.
-            params:
-                Extra parameters sent to New/Mode library.
+            outreach_id: The id of the outreach to return.
+            params: Extra parameters sent to New/Mode library.
 
         Returns:
             Outreach information.
@@ -446,23 +425,26 @@ class NewmodeV2:
         self,
         client_id: str | None = None,
         client_secret: str | None = None,
-        api_version: str = "v2.1",
+        api_version: str | None = None,
     ):
         """
-        Instantiate Class
+        Instantiate New/Mode Connector.
+
         Args:
-            client_id: str
-                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
-                env variable set.
-            client_secret: str
-                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``
-                env variable set.
-            api_version: str
-                The api version to use. Defaults to v2.1
-        Returns:
-            NewMode Class
+            client_id:
+                The client id to use for the API requests.
+                Not required if ``NEWMODE_API_CLIENT_ID`` env variable set.
+            client_secret:
+                The client secret to use for the API requests.
+                Not required if ``NEWMODE_API_CLIENT_SECRET`` env variable set.
+            api_version:
+                The Newmode api version.
+                Defaults to "v2.1" or the value of ``NEWMODE_API_VERSION`` env variable.
+
         """
-        self.api_version: str = api_version
+        self.api_version: str = (
+            check_env.check("NEWMODE_API_VERSION", api_version, optional=True) or "v2.1"
+        )
         self.base_url: str = V2_API_URL
         self.client_id: str = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
         self.client_secret: str = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
@@ -506,7 +488,7 @@ class NewmodeV2:
 
     def base_request(
         self,
-        method: str,
+        method: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         url: str,
         retries: int = 2,
         use_campaigns_client: bool = False,
@@ -550,10 +532,10 @@ class NewmodeV2:
 
     def paginate_request(
         self,
-        method: str,
+        method: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         endpoint: str,
         use_campaigns_client: bool = False,
-        data_key: str = RESPONSE_DATA_KEY,
+        data_key: str | None = RESPONSE_DATA_KEY,
         data: dict[str, Any] | None = None,
         json: dict[str, Any] | None = None,
         params: dict[str, Any] | None = None,
@@ -562,8 +544,6 @@ class NewmodeV2:
         retries: int = 2,
     ) -> list[dict[str, Any]]:
         """Wrapper method to handle pagination for API requests."""
-        if params is None:
-            params = {}
         results = []
         api_version = override_api_version if override_api_version else self.api_version
         url = f"{api_version}/{endpoint}" if supports_version else endpoint
@@ -574,7 +554,7 @@ class NewmodeV2:
                 use_campaigns_client=use_campaigns_client,
                 data=data,
                 json=json,
-                params=params,
+                params=params or {},
                 retries=retries,
             )
             if data_key and response:
@@ -584,6 +564,7 @@ class NewmodeV2:
                 results.extend(data_to_add)
             else:
                 results.append(response)
+
             # Check for pagination
             url = None
             if response:
@@ -593,10 +574,45 @@ class NewmodeV2:
 
         return results
 
+    @overload
+    def converted_request(
+        self,
+        endpoint: ...,
+        method: ...,
+        *,
+        retries: ... = ...,
+        supports_version: ... = ...,
+        data: ... = ...,
+        json: ... = ...,
+        params: ... = ...,
+        convert_to_table: Literal[True] = True,
+        data_key: ... = ...,
+        use_campaigns_client: ... = ...,
+        override_api_version: ... = ...,
+    ) -> Table: ...
+
+    @overload
+    def converted_request(
+        self,
+        endpoint: ...,
+        method: ...,
+        *,
+        retries: ... = ...,
+        supports_version: ... = ...,
+        data: ... = ...,
+        json: ... = ...,
+        params: ... = ...,
+        convert_to_table: Literal[False],
+        data_key: ... = ...,
+        use_campaigns_client: ... = ...,
+        override_api_version: ... = ...,
+    ) -> list[dict[str, Any]]: ...
+
     def converted_request(
         self,
         endpoint: str,
-        method: str,
+        method: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        *,
         retries: int = 2,
         supports_version: bool = True,
         data: dict[str, Any] | None = None,
@@ -606,16 +622,13 @@ class NewmodeV2:
         data_key: str | None = None,
         use_campaigns_client: bool = False,
         override_api_version: str | None = None,
-    ) -> Table | dict[str, Any]:
+    ) -> list[dict[str, Any]] | Table:
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
-
-        if params is None:
-            params = {}
         response = self.paginate_request(
             method=method,
             json=json,
             data=data,
-            params=params,
+            params=params or {},
             data_key=data_key,
             supports_version=supports_version,
             endpoint=endpoint,
@@ -623,11 +636,11 @@ class NewmodeV2:
             override_api_version=override_api_version,
             retries=retries,
         )
-        if response:
-            if convert_to_table:
-                return self.default_client.convert_to_table(data=response)
-            else:
-                return response
+
+        if not response:
+            raise ValueError("No response from API.")
+
+        return self.default_client.convert_to_table(data=response) if convert_to_table else response
 
     def get_campaign(
         self,
@@ -641,13 +654,11 @@ class NewmodeV2:
         In v2, a campaign is equivalent to Tools or Actions in V1.
 
         Args:
-            campaign_id: str
-                The ID of the campaign to retrieve.
-            params: dict
-                Query parameters to include in the request.
+            campaign_id: The ID of the campaign to retrieve.
+            params: Query parameters to include in the request.
 
         Returns:
-            Parsons Table containing campaign data.
+            Campaign data.
 
         """
         if params is None:
@@ -668,10 +679,8 @@ class NewmodeV2:
         In v2, a campaign is equivalent to Tools or Actions in V1.
 
         Args:
-            organization_id: str
-                ID of organization
-            params: dict
-                Query parameters to include in the request.
+            organization_id: ID of organization
+            params: Query parameters to include in the request.
 
         Returns:
             List containing all campaign ids.
@@ -820,38 +829,45 @@ class Newmode:
         client_secret: str | None = None,
         api_user: str | None = None,
         api_password: str | None = None,
-        api_version: str = "v1.0",
+        api_version: str | None = None,
     ) -> NewmodeV1 | NewmodeV2:
         """
         Create and return Newmode instance based on chosen version (V1 or V2)
 
         Args:
             api_user: str
-                The Newmode api user. Not required if ``NEWMODE_API_USER`` env variable is
-                passed. Needed for V1.
+                The Newmode api user.
+                Not required if ``NEWMODE_API_USER`` env variable is passed.
+                Needed for V1.
             api_password: str
-                The Newmode api password. Not required if ``NEWMODE_API_PASSWORD`` env variable is
-                passed. Needed for V1.
+                The Newmode api password.
+                Not required if ``NEWMODE_API_PASSWORD`` env variable is passed.
+                Needed for V1.
             client_id: str
-                The client id to use for the API requests. Not required if ``NEWMODE_API_CLIENT_ID``
-                env variable set. Needed for V2.
+                The client id to use for the API requests.
+                Not required if ``NEWMODE_API_CLIENT_ID`` env variable set.
+                Needed for V2.
             client_secret: str
-                The client secret to use for the API requests. Not required if ``NEWMODE_API_CLIENT_SECRET``
-                env variable set. Needed for V2.
+                The client secret to use for the API requests.
+                Not required if ``NEWMODE_API_CLIENT_SECRET`` env variable set.
+                Needed for V2.
             api_version: str
-                The api version to use. Defaults to v1.0.
-
-        Returns:
-            NewMode Class
+                The api version to use.
+                Not required if ``NEWMODE_API_VERSION`` env variable set.
+                Defaults to v1.0.
 
         """
-        api_version = check_env.check("NEWMODE_API_VERSION", api_version)
-        if api_version.startswith("v2"):
+        newmode_version: str = (
+            check_env.check("NEWMODE_API_VERSION", api_version, optional=True) or "v1.0"
+        )
+        if newmode_version.startswith("v2"):
             return NewmodeV2(
                 client_id=client_id,
                 client_secret=client_secret,
                 api_version=api_version,
             )
-        if api_version.startswith("v1"):
-            return NewmodeV1(api_user=api_user, api_password=api_password, api_version=api_version)
+        if newmode_version.startswith("v1"):
+            return NewmodeV1(
+                api_user=api_user, api_password=api_password, api_version=newmode_version
+            )
         raise ValueError(f"{api_version} not supported.")

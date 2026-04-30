@@ -2,6 +2,8 @@ import logging
 import re
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -27,7 +29,7 @@ class Mailchimp:
         self.api_key = check_env.check("MAILCHIMP_API_KEY", api_key)
         self.domain = re.findall("(?<=-).+$", self.api_key)[0]
         self.uri = f"https://{self.domain}.api.mailchimp.com/3.0/"
-        self.client = APIConnector(self.uri, auth=("x", self.api_key))
+        self.client = APIConnector(self.uri, auth=HTTPBasicAuth("x", self.api_key))
 
     def get_lists(
         self,

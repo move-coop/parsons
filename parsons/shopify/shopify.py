@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+from requests.auth import HTTPBasicAuth
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -53,7 +55,9 @@ class Shopify:
                 self.base_url, headers={"X-Shopify-Access-Token": access_token}
             )
         else:
-            self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
+            self.client = APIConnector(
+                self.base_url, auth=HTTPBasicAuth(self.api_key, self.password)
+            )
 
     def get_count(
         self,

@@ -1,9 +1,11 @@
 import logging
+from datetime import date, datetime
 from typing import Literal
 
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.datetime import convert_date_to_iso
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -15,24 +17,29 @@ class QuickBooksTime:
     """
     Instantiate the QuickBooksTime class.
 
-    Args:
-        token: str
-            A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env
-            variable set. Learn how to obtain a token
-            `here <https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0>`__
+    Reference Documentation:
+        `QuickBooksTime API Documentation <https://tsheetsteam.github.io/api_docs/#introduction>`__
 
-            `QuickBooksTime API Documentation <https://tsheetsteam.github.io/api_docs/#introduction>`__
+    Args:
+        token:
+            A valid QuickBooksTime Auth Token.
+            Not required if ``QB_AUTH_TOKEN`` env variable set.
+
+            Learn how to obtain a token
+            `here <https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0>`__
 
     """
 
-    def __init__(self, token=None):
-        self.token = check_env.check("QB_AUTH_TOKEN", token)
+    def __init__(self, token: str | None = None) -> None:
+        self.token: str = check_env.check("QB_AUTH_TOKEN", token)
         self.headers = {"Authorization": "Bearer " + self.token}
         self.client = APIConnector(QB_URI, headers=self.headers)
 
     # Helper functions
 
-    def qb_get_request(self, end_point: str, querystring=None):
+    def qb_get_request(
+        self, end_point: str, querystring: dict[str, str | int | list[str | int]] | None = None
+    ) -> Table:
         """This function handles the pagination of the request"""
 
         # If no querystring is provided, initialize it as an empty dictionary
@@ -42,7 +49,7 @@ class QuickBooksTime:
         output_list = []  # This list will hold the results
 
         # Handle page parameter
-        page = querystring.get("page", 1)
+        page: int = querystring.get("page", 1)
 
         more = True  # This flag indicates if there are more pages to fetch
         while more:
@@ -79,64 +86,54 @@ class QuickBooksTime:
 
     def get_groups(
         self,
-        ids=None,
-        active=None,
-        manager_ids=None,
-        name=None,
-        modified_before=None,
-        modified_since=None,
+        ids: list[int | str] | None = None,
+        active: Literal["yes", "no", "both"] = "yes",
+        manager_ids: list[int | str] | None = None,
+        name: str | None = None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> Table:
         """
-            This function allows you to call the /groups endpoint of the QuickBooksTime Time API.
-            All Args are optional.
+        This function allows you to call the
+        ``/groups`` endpoint of the QuickBooksTime Time API.
 
         Args:
-                ids: Int
-                    Comma separated list of one or more group ids you'd like to filter on.
-
-                active: String
-                    'yes', 'no', or 'both'. Default is 'yes'.
-
-                manager_ids: Int
-                    Comma separated list of one or more manager ids you'd like to filter on.
-
-                name: String
-                    Comma separated list of one or more group names you'd like to filter on.
-
-                modified_before: String
-                    Only groups modified before this date/time will be returned,
-                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
-
-                modified_since: String
-                    Only groups modified since this date/time will be returned,
-                    in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm)
-
-                supplemental_data: String
-                    'yes' or 'no'. Default is 'yes'.
-                    Indicates whether supplemental data should be returned.
-
-                limit: Int
-                    Represents how many results you'd like to retrieve per request (page).
-                    Default is 200. Max is 200.
-
-                page: Int
-                    Represents the page of results you'd like to retrieve.
-
-        Returns:
-            Table
+            ids:
+                Comma separated list of one or more group ids you'd like to filter on.
+            active:
+                ``yes``, ``no``, or ``both``.
+                Default is ``yes``.
+            manager_ids:
+                Comma separated list of one or more manager ids you'd like to filter on.
+            name:
+                Comma separated list of one or more group names you'd like to filter on.
+            modified_before:
+                Only groups modified before this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            modified_since:
+                Only groups modified since this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            supplemental_data:
+                Indicates whether supplemental data should be returned.
+                May be ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
+                Represents how many results you'd like to retrieve per request (page).
+                Default is 200.
+                Max is 200.
+            page: Represents the page of results you'd like to retrieve.
 
         """
-
         querystring = {
             "ids": ids,
             "active": active,
             "manager_ids": manager_ids,
             "name": name,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
             "page": page,
@@ -146,35 +143,32 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point="groups", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} groups.")
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()
 
     def get_jobcodes(
         self,
-        ids=None,
-        parent_ids=None,
-        name=None,
+        ids: list[int | str] | None = None,
+        parent_ids: list[int | str] | None = None,
+        name: str | None = None,
         type: Literal["regular", "pto", "paid_break", "unpaid_break", "all"] | None = None,
         active: Literal["yes", "no", "both"] | None = None,
-        customfields=None,
-        modified_before=None,
-        modified_since=None,
+        customfields: bool | None = None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> Table:
         """
-        This function allows you to call the /jobcodes endpoint of the QuickBooksTime Time API.
+        This function allows you to call the
+        ``/jobcodes`` endpoint of the QuickBooksTime Time API.
 
         Args:
-            ids: Int
+            ids:
                 Comma separated list of one or more jobcode ids you'd like to filter on.
                 Only jobcodes with an id set to one of these values will be returned.
                 If omitted, all jobcodes matching other specified filters are returned.
-
-            parent_ids: Int
+            parent_ids:
                 Default is -1 (meaning all jobcodes will be returned regardless of parent_id).
                 Comma separated list of one or more jobcode parent_ids you'd like to filter on.
                 Only jobcodes with a parent_id set to one of these values will be returned.
@@ -188,47 +182,40 @@ class QuickBooksTime:
                 This is especially useful when combined with the modified_since filter.
                 When parent_ids is -1, you'll have the jobcode records needed to trace each result
                 back to it's top level parent in the supplemental_data section of the response.
-
-            name: String
+            name:
                 ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
-
-            type: String
-                Indicates jobcode type. One of 'regular', 'pto', 'paid_break', 'unpaid_break',
-                or 'all'. Default is 'regular'.
-
-            active: String
-                'yes', 'no', or 'both'. Default is 'yes'. If a jobcode is active,
-                it is available for selection during time entry.
-
-            customfields: Boolean
-                true or false. If true, custom fields for this jobcode will be returned.
-                If false, the customfields object will be omitted.
-
-            modified_before: String
-                Only jobcodes modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            modified_since: String
-                Only jobcodes modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+            type:
+                Indicates jobcode type.
+                One of ``regular``, ``pto``, ``paid_break``, ``unpaid_break``, or ``all``.
+                Default is ``regular``.
+            active:
+                If a jobcode is active, it is available for selection during time entry.
+                May be ``yes``, ``no``, or ``both``.
+                Default is ``yes``.
+            customfields:
+                ``True`` or ``False``.
+                If ``True``, custom fields for this jobcode will be returned.
+                If ``False``, the customfields object will be omitted.
+            modified_before:
+                Only jobcodes modified before this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            modified_since:
+                Only jobcodes modified since this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            supplemental_data:
                 Indicates whether supplemental data should be returned.
-
-            limit: Int
+                May be ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
-
-        Returns:
-            Table
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         """
-
         querystring = {
             "ids": ids,
             "parent_ids": parent_ids,
@@ -236,8 +223,8 @@ class QuickBooksTime:
             "customfields": customfields,
             "active": active,
             "type": type,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
             "page": page,
@@ -247,112 +234,98 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point="jobcodes", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} jobs.")
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()
 
     def get_timesheets(
         self,
-        ids=None,
-        jobcode_ids=None,
-        payroll_ids=None,
-        user_ids=None,
-        group_ids=None,
-        end_date=None,
-        on_the_clock=None,
-        jobcode_type=None,
-        modified_before=None,
-        modified_since=None,
+        ids: list[int | str] | None = None,
+        jobcode_ids: list[int | str] | None = None,
+        payroll_ids: list[int | str] | None = None,
+        user_ids: list[int | str] | None = None,
+        group_ids: list[int | str] | None = None,
+        end_date: date | str | None = None,
+        on_the_clock: Literal["yes", "no", "both"] = "no",
+        jobcode_type: Literal["regular", "pto", "paid_break", "unpaid_break", "all"] = "all",
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-        start_date="1900-01-01",
-    ):
+        limit: int = 200,
+        page: int = 1,
+        start_date: date | str | None = "1900-01-01",
+    ) -> Table:
         """
-        This function allows you to call the /timesheets endpoint of the QuickBooksTime Time API.
+        This function allows you to call the
+        ``/timesheets`` endpoint of the QuickBooksTime Time API.
 
         Params:
-            ids: Int
+            ids:
                 required (unless modified_before, modified_since, or start_date are set)
                 Comma separated list of one or more timesheet ids you'd like to filter on.
                 Only timesheets with an id set to one of these values will be returned.
                 If omitted, all timesheets matching other specified filters are returned.
-
-            start_date: String
+            start_date:
                 required (unless modified_before, modified_since, or ids is set)
-                YYYY-MM-DD formatted date.
+                ``YYYY-MM-DD`` formatted date.
                 Any timesheets with a date falling on or after this date will be returned.
-
-            end_date: String
-                YYYY-MM-DD formatted date.
+            end_date:
+                ``YYYY-MM-DD`` formatted date.
                 Any timesheets with a date falling on or before this date will be returned.
-
-            jobcode_ids: Int
+            jobcode_ids:
                 A comma-separated string of jobcode ids.
                 Only time recorded against these jobcodes or one of their children will be returned.
-
-            payroll_ids: Int
+            payroll_ids:
                 A comma-separated string of payroll ids.
                 Only time recorded against users with these payroll ids will be returned.
-
-            user_ids: Int
+            user_ids:
                 A comma-separated list of user ids.
                 Only timesheets linked to these users will be returned.
-
-            group_ids: Int
+            group_ids:
                 A comma-separated list of group ids.
                 Only timesheets linked to users from these groups will be returned.
-
-            on_the_clock: String
-                'yes', 'no', or 'both'. Default is 'no'.
+            on_the_clock:
                 If a timesheet is on_the_clock, it means the user is currently working
                 (has not clocked out yet).
-
-            jobcode_type: String
-                'regular', 'pto', 'paid_break', 'unpaid_break', or 'all'. Default is 'all'.
+                May be ``yes``, ``no``, or ``both``.
+                Default is ``no``.
+            jobcode_type:
                 Only timesheets linked to a jobcode of the given type are returned.
-
-            modified_before: String
-                required (unless modified_since, ids, or start_date are set)
+                May be ``regular``, ``pto``, ``paid_break``, ``unpaid_break``, or ``all``.
+                Default is ``all``.
+            modified_before:
+                required (unless `modified_since`, `ids`, or `start_date` are set)
                 Only timesheets modified before this date/time will be returned,
                 in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            modified_since: String
+            modified_since:
                 required (unless modified_before, ids, or start_date are set)
                 Only timesheets modified since this date/time will be returned,
                 in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+            supplemental_data:
                 Indicates whether supplemental data should be returned.
-
-            limit: Int
+                May be ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
-
-        Returns:
-            Table
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         """
-
         querystring = {
             "ids": ids,
             "jobcode_ids": jobcode_ids,
             "payroll_ids": payroll_ids,
             "user_ids": user_ids,
             "group_ids": group_ids,
-            "end_date": end_date,
+            "end_date": convert_date_to_iso(end_date),
             "on_the_clock": on_the_clock,
             "jobcode_type": jobcode_type,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
-            "start_date": start_date,
+            "start_date": convert_date_to_iso(start_date),
             "page": page,
         }
 
@@ -360,93 +333,76 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point="timesheets", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} timesheets.")
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()
 
     def get_users(
         self,
-        ids=None,
-        not_ids=None,
-        employee_numbers=None,
-        usernames=None,
-        group_ids=None,
-        not_group_ids=None,
-        payroll_ids=None,
-        active=None,
-        first_name=None,
-        last_name=None,
-        modified_before=None,
-        modified_since=None,
+        ids: list[int | str] | None = None,
+        not_ids: list[int | str] | None = None,
+        employee_numbers: list[int] | None = None,
+        usernames: list[int] | None = None,
+        group_ids: list[int | str] | None = None,
+        not_group_ids: list[int | str] | None = None,
+        payroll_ids: list[int | str] | None = None,
+        active: Literal["yes", "no", "both"] = "yes",
+        first_name: str | None = None,
+        last_name: str | None = None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> Table:
         """
-        This function allows you to call the /users endpoint of the QuickBooksTime Time API.
+        This function allows you to call the
+        ``/users`` endpoint of the QuickBooksTime Time API.
 
         Args:
-            ids: Int
+            ids:
                 Comma separated list of one or more user ids you'd like to filter on.
-
-            not_ids: Int
+            not_ids:
                 Comma separated list of one or more user ids you'd like to filter on.
                 Specifically, the user ids you'd like to exclude.
-
-            employee_numbers: Int
+            employee_numbers:
                 Comma separated list of one or more employee numbers you'd like to filter on.
-
-            usernames: Str
+            usernames:
                 Comma separated list of one or more usernames you'd like to filter on.
-
-            group_ids: Int
+            group_ids:
                 Comma separated list of one or more group ids you'd like to filter on.
-
-            not_group_ids: Int
+            not_group_ids:
                 Comma separated list of one or more group ids you'd like to filter on.
                 Specifically, the group ids you'd like to exclude.
-
-            payroll_ids: String
+            payroll_ids:
                 A comma-separated string of payroll ids.
                 Only users with these payroll ids will be returned.
-
-            active: String
-                'yes', 'no', or 'both'. Default is 'yes'.
-
-            first_name: String
+            active:
+                May be ``yes``, ``no``, or ``both``.
+                Default is ``yes``.
+            first_name:
                 ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
-
-            last_name: String
+            last_name:
                 ``*`` will be interpreted as a wild card.
                 Starts matching from the beginning of the string.
-
-            modified_before: String
-                Only users modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            modified_since: String
-                Only users modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+            modified_before:
+                Only users modified before this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            modified_since:
+                Only users modified since this date/time will be returned.
+                In ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            supplemental_data:
                 Indicates whether supplemental data should be returned.
-
-            limit: Int
+                May be ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
-
-        Returns:
-            Table
-                See Parsons Table for output options.
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         """
-
         querystring = {
             "ids": ids,
             "not_ids": not_ids,
@@ -458,8 +414,8 @@ class QuickBooksTime:
             "active": active,
             "first_name": first_name,
             "last_name": last_name,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
             "page": page,
@@ -469,61 +425,55 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point="users", querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} users.")
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()
 
     def get_schedule_calendars_list(
         self,
-        ids=None,
-        modified_before=None,
-        modified_since=None,
+        ids: list[int | str] | None = None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> list[int]:
         """
-        This function allows you to call the /schedule_calendars endpoint
-        of the QuickBooksTime Time API.
+        This function allows you to call the
+        ``/schedule_calendars`` endpoint of the QuickBooksTime Time API.
 
         Args:
-            ids: Int
+            ids:
                 Comma separated list of one or more schedule calendar ids you'd like to filter on.
                 Only schedule calendars with an id set to one of these values will be returned.
-
-            modified_before: String
+            modified_before:
                 Only schedule calendars modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            modified_since: String
-                required (unless ids, modified_before, or start are set)
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            modified_since:
+                required (unless `ids`, `modified_before`, or ``start`` are set)
                 Only schedule calendars modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            supplemental_data:
+                ``yes`` or ``no``.
+                Default is ``yes``.
                 Indicates whether supplemental data should be returned.
-
-            limit: Int
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         Returns:
             List of integers of schedules calendar ids.
-            Needed for calling the /schedule_events endpoint
+            Needed for calling the ``/schedule_events`` endpoint
 
         """
-
         endpoint = "schedule_calendars"
 
         querystring = {
             "ids": ids,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
             "page": page,
@@ -537,108 +487,92 @@ class QuickBooksTime:
         ]  # Creates list of integers of the schedule_calendar_ids
 
         logger.info(f"Found {tbl.num_rows} schedule calendars.")
-
         return schedule_calendar_ids_list
 
     def get_schedule_events(
         self,
-        ids=None,
-        users_ids=None,
-        schedule_calendar_ids=None,
-        jobcode_ids=None,
-        start="1970-01-01T00:00:00+00:00",
-        end=None,
+        ids: list[int | str] | None = None,
+        users_ids: list[int | str] | None = None,
+        schedule_calendar_ids: list[int | str] | None = None,
+        jobcode_ids: list[int | str] | None = None,
+        start: datetime | str = "1970-01-01T00:00:00+00:00",
+        end: datetime | str | None = None,
         active_users: Literal[0, -1, 1] = 1,
-        active=None,
+        active: Literal["yes", "no", "both"] = "both",
         draft: Literal["yes", "no", "both"] = "no",
         team_events: Literal["base", "instance"] = "instance",
-        modified_before=None,
-        modified_since=None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> Table:
         """
         This function allows you to call the /schedule_events endpoint
         of the QuickBooksTime Time API.
 
         Args:
-            ids: Int
-                required (unless modified_before, modified_since, or start are set)
+            ids:
+                required (unless `modified_before`, `modified_since`, or `start` are set)
                 Comma separated list of one or more schedule event ids you'd like to filter on.
                 Only schedule events with an id set to one of these values will be returned.
-
-            users_ids: Int
+            users_ids:
                 Comma-separated list of one or more user ids to retrieve schedule events for.
-
-            schedule_calendar_ids: Int
-                Required.
+            schedule_calendar_ids:
                 Comma separated list of one or more schedule calendar ids you'd like to filter on.
                 Only schedule events with a schedule calendar id
                 set to one of these values will be returned.
-
-            jobcode_ids: Int
+            jobcode_ids:
                 A comma-separated string of jobcode ids.
                 Only schedule events with these jobcodes will be returned.
-
-            start: String
-                required (unless ids, modified_before, or modified_since are set)
+            start:
+                required (unless `ids`, `modified_before`, or `modified_since` are set)
                 Only schedule events starting on or after this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            end: String
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            end:
                 Only schedule events ending on or before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            active: String
-                'yes', 'no' or 'both'. Default is 'both'.
-                Only schedule events whose active state match the requested filter will be returned.
-
-            active_users: Int
-                '0', '-1' or '1' . Default is '1'.
-                Only schedule events whose users are active will be returned by default.
-                0 will return events for inactive users.
-                -1 will return events for active and inactive users.
-
-            draft: String
-                'yes', 'no' or 'both'. Default is 'no'.
-                Only schedule events whose draft state match the requested filter will be returned.
-
-            team_events: String
-                'base' or 'instance'. Default is 'instance'.
-                If 'instance' is specified,
-                events that are assigned to multiple users will be returned
-                as individual single events for each assigned user. If 'base' is specified,
-                events that are assigned to multiple users will be returned as one combined event
-                for all assignees.
-
-            modified_before: String
-                required (unless ids, modified_since, or start are set)
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            active:
+                Only ``schedule events`` whose active state match the requested filter will be returned.
+                ``yes``, ``no`` or ``both``.
+                Default is ``both``.
+            active_users:
+                Get ``schedule events`` for users based on activity status.
+                ``1`` will return events for active users.
+                ``0`` will return events for inactive users.
+                ``-1`` will return events for active and inactive users.
+                Default is ``1``.
+            draft:
+                Only ``schedule events`` whose draft state match the requested filter will be returned.
+                ``yes``, ``no`` or ``both``.
+                Default is ``no``.
+            team_events:
+                If ``instance`` is specified, events that are assigned to multiple users
+                will be returned as individual single events for each assigned user.
+                If 'base' is specified, events that are assigned to multiple users
+                will be returned as one combined event for all assignees.
+                Default is ``instance``.
+            modified_before:
+                required (unless `ids`, `modified_since`, or `start` are set)
                 Only schedule events modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            modified_since: String
-                required (unless ids, modified_before, or start are set)
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            modified_since:
+                required (unless `ids`, `modified_before`, or `start` are set)
                 Only schedule events modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
-
-            supplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
+            supplemental_data:
                 Indicates whether supplemental data should be returned.
-
-            limit: Int
+                ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
-
-        Returns:
-            Table
-                See Parsons Table for output options.
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         """
-
         if schedule_calendar_ids is None:
             schedule_calendar_ids = self.get_schedule_calendars_list()
 
@@ -649,14 +583,14 @@ class QuickBooksTime:
             "users_ids": users_ids,
             "schedule_calendar_ids": schedule_calendar_ids,
             "jobcode_ids": jobcode_ids,
-            "start": start,
-            "end": end,
+            "start": convert_date_to_iso(start),
+            "end": convert_date_to_iso(end),
             "active": active,
             "active_users": active_users,
             "draft": draft,
             "team_events": team_events,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "supplemental_data": supplemental_data,
             "limit": limit,
             "page": page,
@@ -666,65 +600,60 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} schedules.")
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()
 
     def get_geolocations(
         self,
-        ids=None,
-        modified_before=None,
-        modified_since=None,
-        user_ids=None,
-        group_ids=None,
+        ids: list[int | str] | None = None,
+        modified_before: datetime | str | None = None,
+        modified_since: datetime | str | None = None,
+        user_ids: list[int | str] | None = None,
+        group_ids: list[int | str] | None = None,
         supplemental_data: Literal["yes", "no"] = "yes",
-        limit=None,
-        page=1,
-    ):
+        limit: int = 200,
+        page: int = 1,
+    ) -> Table:
         """
         This function allows you to call the /geolocations endpoint of the QuickBooksTime Time API.
 
         Args:
-            ids: Int
+            ids:
                 Comma separated list of one or more geolocation ids you'd like to filter on.
                 Only geolocations with an id set to one of these values will be returned.
                 Required (unless modified_before, modified_since is set)
-            modified_before: String
+            modified_before:
                 Only geolocations modified before this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
                 Required (unless ids or modified_since is set)
-            modified_since: String
+            modified_since:
                 Only geolocations modified since this date/time will be returned,
-                in ISO 8601 format (YYYY-MM-DDThh:mm:ss±hh:mm).
+                in ISO 8601 format (``YYYY-MM-DDThh:mm:ss±hh:mm``).
                 Required (unless ids or modified_before is set)
-            user_ids: Int
+            user_ids:
                 Comma separated list of one or more user ids you'd like to filter on.
                 Only geolocations with a user id set to one of these values will be returned.
-            group_ids: Int
+            group_ids:
                 Comma separated list of one or more group ids you'd like to filter on.
                 Only geolocations with a group id set to one of these values will be returned.
-            suplemental_data: String
-                'yes' or 'no'. Default is 'yes'.
+            suplemental_data:
                 Indicates whether supplemental data should be returned.
-            limit: Int
+                ``yes`` or ``no``.
+                Default is ``yes``.
+            limit:
                 Represents how many results you'd like to retrieve per request (page).
-                Default is 200. Max is 200.
-            page: Int
-                Represents the page of results you'd like to retrieve. Default is 1.
-
-        Returns:
-            Table
-                See Parsons Table for output options.
+                Default is 200.
+                Max is 200.
+            page:
+                Represents the page of results you'd like to retrieve.
+                Default is 1.
 
         """
-
         endpoint = "geolocations"
 
         querystring = {
             "ids": ids,
-            "modified_before": modified_before,
-            "modified_since": modified_since,
+            "modified_before": convert_date_to_iso(modified_before),
+            "modified_since": convert_date_to_iso(modified_since),
             "user_ids": user_ids,
             "group_ids": group_ids,
             "supplemental_data": supplemental_data,
@@ -736,8 +665,4 @@ class QuickBooksTime:
         tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
         logger.info(f"Found {tbl.num_rows} geolocations.")
-
-        if tbl.num_rows > 0:
-            return tbl
-        else:
-            return Table()
+        return tbl if tbl.num_rows > 0 else Table()

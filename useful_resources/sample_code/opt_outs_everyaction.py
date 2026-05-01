@@ -1,11 +1,14 @@
 import datetime
 import json
+import logging
 import os
 import time
 
 import requests
 
-from parsons import VAN, Redshift, Table, logger
+from parsons import VAN, Redshift, Table
+
+logger = logging.getLogger(__name__)
 
 # Committee Information and Credentials
 

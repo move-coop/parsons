@@ -40,6 +40,7 @@ nitpick_ignore_regex = {
     ),  # bigquery references (no linkable sphinx documentation)
     (r"py:.*", r"braintree\..+"),  # braintree references (no linkable sphinx documentation)
     (r"py:.*", r"mysql\..+"),  # mysql references (no linkable sphinx documentation)
+    (r"py:.*", r"censusgeocode\..+"),  # censusgeocode references (no linkable sphinx documentation)
     (r"py:.*", r"box_sdk_gen\..+"),  # box references (no linkable sphinx documentation)
     (r"py:.*", r"dbt\..+"),  # dbt references (no linkable sphinx documentation)
     (r"py:.*", r"test\..+"),  # test files are currently not linkable
@@ -111,6 +112,7 @@ linkcheck_ignore_blocked_domains = [
     r"https://console..*.google.com/.*",
     r"https://developer.salesforce.com/docs/.*",
     r"https://developers.facebook.com.*",
+    r"https://docs.cloud.google.com/.*",
     r"https://docs.google.com/.*",
     r"https://hub.docker.com/repository/docker/.*",
     r"https://learn.microsoft.com/en-us/python/api/azure-storage-blob/.*",

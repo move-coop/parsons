@@ -129,7 +129,6 @@ class Copper:
                 * people_websites
 
         """
-
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
     def get_companies(self, filters=None, tidy=False):
@@ -156,7 +155,6 @@ class Copper:
                 * companies_websites
 
         """
-
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
     def get_activities(self, filters=None, tidy=False):
@@ -178,7 +176,6 @@ class Copper:
                 * activities
 
         """
-
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
     def get_opportunities(self, filters=None, tidy=False):
@@ -201,7 +198,6 @@ class Copper:
                 * opportunities_custom_fields
 
         """
-
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
     def get_standard_object(self, object_name, filters=None, tidy=False):
@@ -229,7 +225,6 @@ class Copper:
                 * custom_fields_options
 
         """
-
         logger.info("Retrieving custom fields.")
         blob = self.paginate_request("/custom_field_definitions/", req_type="GET")
         return self.process_custom_fields(blob)
@@ -249,7 +244,6 @@ class Copper:
                 * activitiy_types
 
         """
-
         logger.info("Retrieving activity types.")
 
         response = self.paginate_request("/activity_types/", req_type="GET")
@@ -273,7 +267,6 @@ class Copper:
             list[dict[str, str | :ref:`Table`]]
 
         """
-
         response = self.paginate_request("/contact_types/", req_type="GET")
         return Table(response)
 

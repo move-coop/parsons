@@ -35,7 +35,6 @@ class SurveyQuestions:
 
 
         """
-
         if statuses is None:
             statuses = ["Active"]
         params = {
@@ -64,7 +63,6 @@ class SurveyQuestions:
 
 
         """
-
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
         logger.info(f"Found survey question {survey_question_id}.")
         return r
@@ -106,7 +104,6 @@ class SurveyQuestions:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         """
-
         response = {
             "surveyQuestionId": survey_question_id,
             "surveyResponseId": survey_response_id,

@@ -74,6 +74,7 @@ class Formstack:
         """
         if params is None:
             params = {}
+
         data = Table()
         page = 1
         pages = None
@@ -120,6 +121,7 @@ class Formstack:
         tbl.convert_column("id", int)
         tbl.convert_column("parent", lambda p: None if p == "0" else int(p))
         tbl.remove_column("subfolders")
+
         return tbl
 
     def get_forms(self, form_name: str | None = None, folder_id: int | None = None) -> Table:

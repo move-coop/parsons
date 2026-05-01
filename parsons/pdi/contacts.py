@@ -227,7 +227,6 @@ class Contacts:
                 Response from PDI
 
         """
-
         payload = {
             "phoneNumber": phone_number,
             "phoneType": phone_type,
@@ -259,7 +258,6 @@ class Contacts:
             dict: Response from PDI
 
         """
-
         payload = {"emailAddress": email, "isPrimary": primary}
 
         response = self._request(

@@ -272,7 +272,6 @@ class GoogleBigQuery(DatabaseConnector):
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(
                 sql,
@@ -307,7 +306,6 @@ class GoogleBigQuery(DatabaseConnector):
                 See https://cloud.google.com/python/docs/reference/bigquery/latest#google.cloud.bigquery.job.QueryJobConfig
 
         """
-
         if not commit:
             raise ValueError(
                 """
@@ -636,7 +634,6 @@ class GoogleBigQuery(DatabaseConnector):
                 Other arguments to pass to the :meth:`google.cloud.bigquery.client.Client.load_table_from_uri`.
 
         """
-
         self._validate_copy_inputs(
             if_exists=if_exists,
             data_type=data_type,
@@ -851,7 +848,6 @@ class GoogleBigQuery(DatabaseConnector):
                 Arguments to pass to the :meth:`google.cloud.bigquery.client.Client.load_table_from_uri`.
 
         """
-
         if convert_dict_list_columns_to_json:
             tbl = self._stringify_records(tbl)
 
@@ -1278,7 +1274,6 @@ class GoogleBigQuery(DatabaseConnector):
 
 
         """
-
         logger.debug("Retrieving tables info.")
         sql = f"select * from {schema}.INFORMATION_SCHEMA.TABLES"
         if table_name:
@@ -1299,7 +1294,6 @@ class GoogleBigQuery(DatabaseConnector):
 
 
         """
-
         logger.debug("Retrieving views info.")
         sql = f"""
               select
@@ -1329,7 +1323,6 @@ class GoogleBigQuery(DatabaseConnector):
             The extra info is a dict with format
 
         """
-
         base_query = f"""
         SELECT
             *
@@ -1366,7 +1359,6 @@ class GoogleBigQuery(DatabaseConnector):
                 Column names
 
         """
-
         table_ref = self.client.get_table(table=f"{schema}.{table_name}")
 
         return [schema_ref.name for schema_ref in table_ref.schema]
@@ -1389,7 +1381,6 @@ class GoogleBigQuery(DatabaseConnector):
             Row count of the target table
 
         """
-
         sql = f"SELECT COUNT(*) AS row_count FROM `{schema}.{table_name}`"
         result = self.query(sql=sql)
 
@@ -1503,7 +1494,6 @@ class GoogleBigQuery(DatabaseConnector):
         we defer to the job_config.
 
         """
-
         if not job_config:
             job_config = bigquery.LoadJobConfig()
 
@@ -1738,7 +1728,6 @@ class GoogleBigQuery(DatabaseConnector):
                 Action if table exists {'fail', 'overwrite'}
 
         """
-
         destination_table_id = (
             destination_project + "." + destination_dataset + "." + destination_table
         )
@@ -1798,10 +1787,8 @@ class BigQueryTable(BaseTable):
 
     def drop(self, cascade=False):
         """Drop the table."""
-
         self.db.delete_table(self.table)
 
     def truncate(self):
         """Truncate the table."""
-
         self.db.query(f"TRUNCATE TABLE {self.table}")

@@ -29,7 +29,6 @@ class Targets:
 
 
         """
-
         tbl = Table(self.connection.get_request("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
@@ -47,7 +46,6 @@ class Targets:
                 The target
 
         """
-
         r = self.connection.get_request(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
@@ -61,7 +59,6 @@ class Targets:
 
 
         """
-
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":

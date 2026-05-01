@@ -54,7 +54,6 @@ class Empower:
 
     def _empty_obj(self, obj_name):
         """Determine if a dict object is empty."""
-
         return len(self.data[obj_name]) == 0
 
     def get_profiles(self):
@@ -66,7 +65,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["profiles"])
         for col in ["createdMts", "lastUsedEmpowerMts", "updatedMts"]:
             tbl.convert_column(col, lambda x: convert_unix_to_readable(x))
@@ -82,7 +80,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["profiles"]).long_table("eid", "activeCtaIds")
         return tbl
 
@@ -95,7 +92,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["regions"])
         tbl.convert_column("inviteCodeCreatedMts", lambda x: convert_unix_to_readable(x))
         return tbl
@@ -109,7 +105,6 @@ class Empower:
 
 
         """
-
         # unpacks answerIdsByPromptId into standalone rows
         tbl = Table(self.data["ctaResults"])
         tbl.convert_column("contactedMts", lambda x: convert_unix_to_readable(x))
@@ -125,7 +120,6 @@ class Empower:
 
     def _split_ctas(self):
         """Internal method to split CTA objects into tables."""
-
         ctas = Table(self.data["ctas"])
         for col in [
             "createdMts",
@@ -160,7 +154,6 @@ class Empower:
 
 
         """
-
         return self._split_ctas()["ctas"]
 
     def get_cta_prompts(self):
@@ -172,7 +165,6 @@ class Empower:
 
 
         """
-
         return self._split_ctas()["cta_prompts"]
 
     def get_cta_prompt_answers(self):
@@ -184,7 +176,6 @@ class Empower:
 
 
         """
-
         return self._split_ctas()["cta_prompt_answers"]
 
     def get_cta_regions(self):
@@ -196,7 +187,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "regionIds")
         return tbl
 
@@ -209,7 +199,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "shareables")
         return tbl
 
@@ -222,7 +211,6 @@ class Empower:
 
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "prioritizations")
         return tbl
 
@@ -258,6 +246,5 @@ class Empower:
 
 
         """
-
         tbl = Table([self.data])
         return tbl

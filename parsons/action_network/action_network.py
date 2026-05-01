@@ -676,7 +676,6 @@ class ActionNetwork:
             `ActionNetwork Events Documentation`_
 
         """
-
         data = {"title": title}
 
         if start_date:

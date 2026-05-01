@@ -133,7 +133,6 @@ class Redshift(
             Psycopg2 ``connection`` object
 
         """
-
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -192,7 +191,6 @@ class Redshift(
                 A list of python variables to be converted into SQL values in your query
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -217,7 +215,6 @@ class Redshift(
                 and is closed (or you can commit manually with ``connection.commit()``).
 
         """
-
         # To Do: Have it return an ordered dict to return the
         #        rows in the correct order
 
@@ -394,7 +391,6 @@ class Redshift(
                 table name as the schema for the new table.
 
         """
-
         with self.connection() as connection:
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
@@ -610,7 +606,6 @@ class Redshift(
                 Defaults to 'utf-8'.
 
         """
-
         # Specify the columns for a copy statement.
         cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
@@ -763,7 +758,6 @@ class Redshift(
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
         """
-
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
         # https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters
@@ -914,7 +908,6 @@ class Redshift(
             ``dict`` of manifest
 
         """
-
         from parsons.aws import S3
 
         s3 = S3(
@@ -1004,7 +997,6 @@ class Redshift(
                 See :meth:`.copy` for options.
 
         """
-
         primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
@@ -1173,7 +1165,6 @@ class Redshift(
                 The target table name (e.g. ``my_schema.my_table``)
 
         """
-
         # Make the Parsons table column names match valid Redshift names
         tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
 
@@ -1213,7 +1204,6 @@ class Redshift(
         varchar_width:
             The new width of the column if of type varchar.
         """
-
         sql = f"ALTER TABLE {table_name} ALTER COLUMN {column_name} TYPE {data_type}"
 
         if varchar_width:

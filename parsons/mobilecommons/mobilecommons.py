@@ -72,7 +72,6 @@ class MobileCommons:
             Parsons table with requested data
 
         """
-
         # Create a table to compile results from different pages in
         final_table = Table()
         # Max page_limit is 1000 for MC
@@ -215,7 +214,6 @@ class MobileCommons:
             xml response parsed into list or dictionary
 
         """
-
         response = self.client.request(endpoint, "POST", params=params)
 
         response_dict = xmltodict.parse(
@@ -250,7 +248,6 @@ class MobileCommons:
             Parsons table with requested broadcasts
 
         """
-
         params = {
             "start_time": _format_date(first_date),
             "end_time": _format_date(last_date),
@@ -300,7 +297,6 @@ class MobileCommons:
             Parsons table with requested broadcasts
 
         """
-
         params = {
             "campaign_id": campaign_id,
             "from": _format_date(first_date),
@@ -352,7 +348,6 @@ class MobileCommons:
             Parsons table with requested broadcasts
 
         """
-
         custom_cols = "true" if include_custom_columns else "false"
         subscriptions = "true" if include_subscriptions else "false"
 
@@ -421,7 +416,6 @@ class MobileCommons:
             ID of created/updated  profile
 
         """
-
         params = {
             "phone_number": phone,
             "first_name": first_name,

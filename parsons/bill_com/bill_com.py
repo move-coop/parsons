@@ -73,7 +73,6 @@ class BillCom:
             The JSON response from the post request.
 
         """
-
         if action == "Read":
             url = f"{self.api_url}Crud/{action}/{object_name}.json"
         elif action == "Create":
@@ -154,7 +153,6 @@ class BillCom:
             object_name: Name of the object being listed
 
         """
-
         r_table = Table(response)
         max_ct = data["max"]
 

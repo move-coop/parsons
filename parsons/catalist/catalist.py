@@ -230,7 +230,6 @@ class CatalistMatch:
             static_values: Any included values are mapped to every row of the input table.
 
         """
-
         self.validate_table(table, template_id)
 
         # upload table to s3 temp location
@@ -360,7 +359,6 @@ class CatalistMatch:
         depending on concurrent traffic. Consider your strategy for polling for
         completion.
         """
-
         while True:
             response = self.status(id)
             status = response["process"]["processState"]

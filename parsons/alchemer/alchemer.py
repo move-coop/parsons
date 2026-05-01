@@ -69,7 +69,6 @@ class Alchemer:
                 If not given, then all pages are retrieved.
 
         """
-
         r = self._client.api.survey.list(page)
         data = r["data"]
 
@@ -97,7 +96,6 @@ class Alchemer:
                 If not given, then all pages are retrieved.
 
         """
-
         r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r["data"]

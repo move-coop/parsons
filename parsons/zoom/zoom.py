@@ -76,7 +76,6 @@ class ZoomV1:
             API responses
 
         """
-
         logger.warning("This version of the Zoom connector uses a deprecated pagination method.")
         logger.info("Consider switching to V2!")
         logger.info(
@@ -176,7 +175,6 @@ class ZoomV1:
             ValueError: If ``status`` is not one of ``active``, ``inactive``, or ``pending``.
 
         """
-
         if status not in ["active", "inactive", "pending"]:
             raise ValueError("Invalid status type provided.")
 
@@ -233,35 +231,30 @@ class ZoomV1:
 
     def get_past_meeting(self, meeting_uuid: str) -> Table:
         """Get metadata regarding a past meeting."""
-
         tbl = self._get_request(f"past_meetings/{meeting_uuid}", None)
         logger.info(f"Retrieved meeting {meeting_uuid}.")
         return tbl
 
     def get_past_meeting_participants(self, meeting_id: str) -> Table:
         """Get past meeting participants."""
-
         tbl = self._get_request(f"report/meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
     def get_meeting_registrants(self, meeting_id: str) -> Table:
         """Get meeting registrants."""
-
         tbl = self._get_request(f"meetings/{meeting_id}/registrants", "registrants")
         logger.info(f"Retrieved {tbl.num_rows} registrants.")
         return tbl
 
     def get_user_webinars(self, user_id: str) -> Table:
         """Get meeting registrants."""
-
         tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
 
     def get_past_webinar_report(self, webinar_id: str) -> dict | None:
         """Get past meeting participants."""
-
         dic = self._get_request(endpoint=f"report/webinars/{webinar_id}", data_key=None)
         if dic:
             logger.info(f"Retrieved webinar_report for webinar: {webinar_id}.")
@@ -269,14 +262,12 @@ class ZoomV1:
 
     def get_past_webinar_participants(self, webinar_id: str) -> Table:
         """Get past meeting participants."""
-
         tbl = self._get_request(f"report/webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} webinar participants.")
         return tbl
 
     def get_webinar_registrants(self, webinar_id: str) -> Table:
         """Get past meeting participants."""
-
         tbl = self._get_request(f"webinars/{webinar_id}/registrants", "registrants")
         logger.info(f"Retrieved {tbl.num_rows} webinar registrants.")
         return tbl
@@ -298,7 +289,6 @@ class ZoomV1:
             All polling responses
 
         """
-
         endpoint = f"meetings/{meeting_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -330,7 +320,6 @@ class ZoomV1:
             All polling responses
 
         """
-
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
@@ -356,7 +345,6 @@ class ZoomV1:
             Poll results
 
         """
-
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -389,7 +377,6 @@ class ZoomV1:
             All polling responses
 
         """
-
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -417,7 +404,6 @@ class ZoomV1:
             :ref:`Table` of all polling responses
 
         """
-
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
 
@@ -443,7 +429,6 @@ class ZoomV1:
             :ref:`Table` of all polling responses
 
         """
-
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -461,7 +446,6 @@ class ZoomV1:
 
         Required scopes: `report:read:admin`
         """
-
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -479,7 +463,6 @@ class ZoomV1:
 
         Required scopes: `report:read:admin`
         """
-
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="questions")
 
@@ -547,7 +530,6 @@ class ZoomV2(ZoomV1):
             params: Additional request parameters, defaults to None
 
         """
-
         if params is None:
             params = {}
         if not params:
@@ -579,7 +561,6 @@ class ZoomV2(ZoomV1):
 
     def get_webinars(self, user_id: str) -> Table:
         """Get webinars scheduled by or on behalf of a webinar host."""
-
         tbl = self._get_request(f"users/{user_id}/webinars", "webinars")
         logger.info(f"Retrieved {tbl.num_rows} webinars.")
         return tbl
@@ -604,14 +585,12 @@ class ZoomV2(ZoomV1):
 
     def get_past_meeting_participants(self, meeting_id: str) -> Table:
         """Get past meeting participants."""
-
         tbl = self._get_request(f"past_meetings/{meeting_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
 
     def get_past_webinar_participants(self, webinar_id: str) -> Table:
         """Get past webinar participants."""
-
         tbl = self._get_request(f"past_webinars/{webinar_id}/participants", "participants")
         logger.info(f"Retrieved {tbl.num_rows} participants.")
         return tbl
@@ -651,7 +630,6 @@ class ZoomV2(ZoomV1):
                 all previous occurrences of a recurring meeting.
 
         """
-
         endpoint = f"meetings/{meeting_id}"
         params = {
             "occurrence_id": occurrence_id,
@@ -672,7 +650,6 @@ class ZoomV2(ZoomV1):
             poll_id: Unique identifier for Zoom poll
 
         """
-
         endpoint = f"meetings/{meeting_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, meeting {meeting_id}]")
@@ -696,7 +673,6 @@ class ZoomV2(ZoomV1):
             meeting_id: Unique identifier for Zoom meeting
 
         """
-
         endpoint = f"meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
         logger.info(f"Retrieved {tbl.num_rows} meeting polls for meeting {meeting_id}")
@@ -717,7 +693,6 @@ class ZoomV2(ZoomV1):
             meeting_id: Unique identifier for Zoom meeting
 
         """
-
         endpoint = f"past_meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} meeting poll results")
@@ -740,7 +715,6 @@ class ZoomV2(ZoomV1):
             poll_id: Unique identifier for Zoom poll
 
         """
-
         endpoint = f"webinars/{webinar_id}/polls/{poll_id}"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} for [poll {poll_id}, webinar {webinar_id}]")
@@ -764,7 +738,6 @@ class ZoomV2(ZoomV1):
             webinar_id: Unique identifier for Zoom webinar
 
         """
-
         endpoint = f"webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key="polls")
         logger.info(f"Retrieved {tbl.num_rows} polls for webinar ID {webinar_id}")
@@ -785,7 +758,6 @@ class ZoomV2(ZoomV1):
             webinar_id: Unique identifier for Zoom webinar
 
         """
-
         endpoint = f"past_webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} poll results for webinar ID {webinar_id}")
@@ -806,7 +778,6 @@ class ZoomV2(ZoomV1):
             meeting_id: Unique identifier for Zoom meeting
 
         """
-
         endpoint = f"report/meetings/{meeting_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} poll reports for meeting ID {meeting_id}")
@@ -825,7 +796,6 @@ class ZoomV2(ZoomV1):
             webinar_id: Unique identifier for Zoom webinar
 
         """
-
         endpoint = f"report/webinars/{webinar_id}/polls"
         tbl = self._get_request(endpoint=endpoint, data_key=None)
         logger.info(f"Retrieved {tbl.num_rows} poll reports for webinar ID {webinar_id}")

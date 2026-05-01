@@ -31,7 +31,6 @@ class PrintedLists:
 
 
         """
-
         params = {
             "generatedAfter": generated_after,
             "generatedBefore": generated_before,
@@ -58,7 +57,6 @@ class PrintedLists:
             dict
 
         """
-
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

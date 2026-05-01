@@ -64,7 +64,6 @@ class Email:
             dict
 
         """
-
         params = {
             "$expand": (
                 "emailMessageContent, EmailMessageContentDistributions" if expand else None
@@ -97,7 +96,6 @@ class Email:
                 unsubscribeCount, subject
 
         """
-
         email_list = []
 
         final_email_list = []

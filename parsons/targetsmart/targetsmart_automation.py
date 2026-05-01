@@ -111,7 +111,6 @@ class TargetSmartAutomation:
                 the TargetSmart SFTP upon completion or failure of match.
 
         """
-
         # Generate a match job
         job_name = job_name or str(uuid.uuid1())
 

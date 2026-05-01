@@ -113,7 +113,6 @@ class MobilizeAmerica:
             updated_since: Filter to organizations updated since given date (ISO Date).
 
         """
-
         return Table(
             self._request_paginate(
                 self.uri + "organizations",
@@ -173,7 +172,6 @@ class MobilizeAmerica:
                 If `max_timeslots` is 0, no timeslot columns will be included.
 
         """
-
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 
@@ -278,7 +276,6 @@ class MobilizeAmerica:
                 If ``max_timeslots`` is 0, no timeslot columns will be included.
 
         """
-
         args = {
             "updated_since": date_to_timestamp(updated_since),
             "timeslot_start": self._time_parse(timeslot_start),
@@ -330,7 +327,6 @@ class MobilizeAmerica:
 
 
         """
-
         if isinstance(organization_id, (str, int)):
             organization_id = [organization_id]
 

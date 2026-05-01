@@ -20,7 +20,6 @@ class SupporterGroups:
 
 
         """
-
         tbl = Table(self.connection.get_request("supporterGroups"))
         logger.info(f"Found {tbl.num_rows} supporter groups.")
         return tbl
@@ -37,7 +36,6 @@ class SupporterGroups:
             dict
 
         """
-
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Found supporter group {supporter_group_id}.")
         return r
@@ -57,7 +55,6 @@ class SupporterGroups:
             and description
 
         """
-
         json = {"name": name, "description": description}
         r = self.connection.post_request("supporterGroups", json=json)
         return r
@@ -71,7 +68,6 @@ class SupporterGroups:
                 The supporter group id
 
         """
-
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Deleted supporter group {supporter_group_id}.")
         return r
@@ -87,7 +83,6 @@ class SupporterGroups:
                 The vanid of the person to apply
 
         """
-
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
         return r
@@ -103,7 +98,6 @@ class SupporterGroups:
                 The vanid of the person to remove
 
         """
-
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
         return r

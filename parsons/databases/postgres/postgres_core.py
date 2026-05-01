@@ -36,7 +36,6 @@ class PostgresCore(PostgresCreateStatement):
             Psycopg2 `connection` object
 
         """
-
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -100,7 +99,6 @@ class PostgresCore(PostgresCreateStatement):
             Will return ``None`` if the query returns zero rows.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -124,7 +122,6 @@ class PostgresCore(PostgresCreateStatement):
                 scope and is closed (or you can commit manually with ``connection.commit()``).
 
         """
-
         with self.cursor(connection) as cursor:
             logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
@@ -185,7 +182,6 @@ class PostgresCore(PostgresCreateStatement):
             ValueError: If the table already exists and `if_exists` is set to ``fail``.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 

@@ -156,7 +156,6 @@ class CrowdTangle:
             :ref:`Table`
 
         """
-
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -200,7 +199,6 @@ class CrowdTangle:
         Returns:
             :ref:`Table`
         """
-
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -244,7 +242,6 @@ class CrowdTangle:
                 Filter by platforms
 
         """
-
         args = {
             "link": link,
             "startDate": start_date,

@@ -89,7 +89,6 @@ class GoogleCloudStorage:
 
     def list_buckets(self) -> list[str]:
         """Returns a list of bucket names."""
-
         buckets = [b.name for b in self.client.list_buckets()]
         logger.info(f"Found {len(buckets)}.")
         return buckets
@@ -102,7 +101,6 @@ class GoogleCloudStorage:
             bucket_name: The name of the bucket
 
         """
-
         if bucket_name in self.list_buckets():
             logger.debug("%s exists.", bucket_name)
             return True
@@ -121,7 +119,6 @@ class GoogleCloudStorage:
             google.api_core.exceptions.NotFound: If the bucket is not found.
 
         """
-
         if self.client.lookup_bucket(bucket_name):
             bucket = self.client.get_bucket(bucket_name)
         else:
@@ -138,7 +135,6 @@ class GoogleCloudStorage:
             bucket_name: A globally unique name for the bucket.
 
         """
-
         # TODO: Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
@@ -156,7 +152,6 @@ class GoogleCloudStorage:
                 Delete blobs in the bucket, if it is not empty
 
         """
-
         bucket = self.get_bucket(bucket_name)
         bucket.delete(force=delete_blobs)
         logger.info(f"{bucket_name} bucket deleted.")
@@ -190,7 +185,6 @@ class GoogleCloudStorage:
             A list of blob names (or :class:`~google.cloud.storage.blob.Blob` objects if `include_file_details` is invoked)
 
         """
-
         blobs = self.client.list_blobs(
             bucket_name, max_results=max_results, prefix=prefix, match_glob=match_glob
         )
@@ -203,7 +197,6 @@ class GoogleCloudStorage:
 
     def blob_exists(self, bucket_name: str, blob_name: str) -> bool:
         """Verify that a blob exists in the specified bucket."""
-
         if blob_name in self.list_blobs(bucket_name):
             logger.debug("%s exists.", blob_name)
             return True
@@ -213,7 +206,6 @@ class GoogleCloudStorage:
 
     def get_blob(self, bucket_name: str, blob_name: str) -> storage.Blob | None:
         """Get a blob object."""
-
         bucket = self.get_bucket(bucket_name)
         blob = bucket.get_blob(blob_name)
         logger.debug("Got %s object from %s bucket.", blob_name, bucket_name)
@@ -229,7 +221,6 @@ class GoogleCloudStorage:
             local_path: The local path of the file to upload
 
         """
-
         bucket = self.get_bucket(bucket_name)
         blob = storage.Blob(blob_name, bucket)
 
@@ -257,7 +248,6 @@ class GoogleCloudStorage:
             The path of the downloaded file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPTHING")
 
@@ -276,7 +266,6 @@ class GoogleCloudStorage:
 
     def delete_blob(self, bucket_name: str, blob_name: str) -> None:
         """Delete a blob."""
-
         blob = self.get_blob(bucket_name, blob_name)
         if blob:
             blob.delete()
@@ -363,7 +352,6 @@ class GoogleCloudStorage:
                 URL of a link to download the object
 
         """
-
         bucket = self.client.bucket(bucket_name)
         blob = bucket.blob(blob_name)
         url = blob.generate_signed_url(
@@ -580,7 +568,6 @@ class GoogleCloudStorage:
             String representation of decompressed GCS URI
 
         """
-
         compression_params = {
             "zip": {
                 "file_extension": ".zip",
@@ -619,7 +606,6 @@ class GoogleCloudStorage:
 
     def __gzip_decompress_and_write_to_gcs(self, **kwargs) -> None:
         """Handles ``.gzip`` decompression and streams blob contents to a decompressed storage object"""
-
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         bucket_name = kwargs.pop("bucket_name")
@@ -632,7 +618,6 @@ class GoogleCloudStorage:
 
     def __zip_decompress_and_write_to_gcs(self, **kwargs) -> None:
         """Handles ``.zip`` decompression and streams blob contents to a decompressed storage object"""
-
         compressed_filepath = kwargs.pop("compressed_filepath")
         decompressed_blob_name = kwargs.pop("decompressed_blob_name")
         decompressed_blob_in_archive = decompressed_blob_name.split("/")[-1]

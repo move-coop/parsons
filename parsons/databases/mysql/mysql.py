@@ -68,7 +68,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         ``with mysql.connection() as conn:``
 
         """
-
         # Create a mysql connection and cursor
         connection = mysql.connect(
             host=self.host,
@@ -129,7 +128,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             parameters: A list of python variables to be converted into SQL values in your query
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -227,7 +225,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 then the current dataset. defaults to ``True``
 
         """
-
         if tbl.num_rows == 0:
             logger.info("Parsons table is empty. Table will not be created.")
             return None
@@ -247,7 +244,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
     def _insert_statement(self, tbl: Table, table_name: str) -> str:
         """Convert the table data into a string for bulk importing."""
-
         # Single column tables
         if len(tbl.columns) == 1:
             values = [f"({row[0]})" for row in tbl.data]
@@ -281,7 +277,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             ``True`` if the table needs to be created, ``False`` otherwise.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -315,7 +310,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             ``True`` if the table exists and ``False`` if it does not.
 
         """
-
         return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name
 
     def table(self, table_name):

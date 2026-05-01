@@ -99,7 +99,6 @@ class Phone2Action:
 
 
         """
-
         return self.capitol_canary.get_campaigns(
             state, zip, include_generic, include_private, include_content
         )

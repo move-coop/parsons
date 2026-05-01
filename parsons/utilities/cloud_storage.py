@@ -37,7 +37,6 @@ def post_file(
         ValueError: If the type is not ``S3`` or ``GCS``.
 
     """
-
     if type.upper() == "S3":
         # Overwrite the file_path if key is passed
         if "key" in file_storage_args:

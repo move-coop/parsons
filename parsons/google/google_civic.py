@@ -34,7 +34,6 @@ class GoogleCivic:
 
     def get_elections(self) -> Table:
         """Get a collection of information about elections and voter information."""
-
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
@@ -60,7 +59,6 @@ class GoogleCivic:
             address: A valid US address in a single string.
 
         """
-
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
@@ -79,7 +77,6 @@ class GoogleCivic:
             address_field: The name of the column where the address is stored.
 
         """
-
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -166,7 +163,6 @@ class GoogleCivic:
             ValueError: If the response contains "error".
 
         """
-
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

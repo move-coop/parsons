@@ -41,7 +41,6 @@ class QuickBooksTime:
         self, end_point: str, querystring: dict[str, str | int | list[str | int]] | None = None
     ) -> Table:
         """This function handles the pagination of the request"""
-
         # If no querystring is provided, initialize it as an empty dictionary
         if querystring is None:
             querystring = {}

@@ -75,7 +75,6 @@ def convert_unix_to_readable(ts: int | str, tzinfo: timezone = timezone.utc) -> 
         Timestamp formatted as ``%Y-%m-%d %H:%M:%S %Z``
 
     """
-
     timestamp: datetime = datetime.fromtimestamp(int(ts) / 1000, tzinfo)
 
     return timestamp.strftime("%Y-%m-%d %H:%M:%S %Z")

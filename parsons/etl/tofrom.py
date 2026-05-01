@@ -49,7 +49,6 @@ class ToFrom:
                 become all-NA columns)
 
         """
-
         return petl.todataframe(
             self.table,
             index=index,
@@ -96,7 +95,6 @@ class ToFrom:
             The path of the new file
 
         """
-
         if not local_path:
             local_path = pathlib.Path(files.create_temp_file(suffix=".html"))
 
@@ -203,7 +201,6 @@ class ToFrom:
             +-------+---------+-----+
 
         """
-
         petl.toavro(
             self.table,
             target,
@@ -239,7 +236,6 @@ class ToFrom:
                 Check the `fastavro documentation`_ for reference.
 
         """
-
         return petl.appendavro(self.table, target, schema=schema, sample=sample, **avro_args)
 
     def to_csv(
@@ -287,7 +283,6 @@ class ToFrom:
             The path of the new file
 
         """
-
         # If a zip archive.
         if files.zip_check(local_path, temp_file_compression):
             return self.to_zip_csv(
@@ -342,7 +337,6 @@ class ToFrom:
             The path of the file
 
         """
-
         petl.appendcsv(
             self.table, source=str(local_path), encoding=encoding, errors=errors, **csvargs
         )
@@ -392,7 +386,6 @@ class ToFrom:
             ValueError: If CSV file name could not be extracted from the archive path.
 
         """
-
         if not archive_path:
             archive_path = pathlib.Path(files.create_temp_file(suffix=".zip"))
 
@@ -440,7 +433,6 @@ class ToFrom:
             The path of the new file
 
         """
-
         if not local_path:
             suffix = ".json" + files.suffix_for_compression_type(temp_file_compression)
             local_path = files.create_temp_file(suffix=suffix)
@@ -473,7 +465,6 @@ class ToFrom:
 
     def to_dicts(self) -> list[dict]:
         """Output table as a list of dicts."""
-
         return list(petl.dicts(self.table))
 
     def to_sftp_csv(
@@ -510,7 +501,6 @@ class ToFrom:
             `**csvargs`: :func:`csv.writer` optional arguments.
 
         """
-
         from parsons.sftp import SFTP
 
         sftp = SFTP(host, username, password, port, rsa_private_key_file)
@@ -586,7 +576,6 @@ class ToFrom:
             ValueError: If the CSV file name could not be extracted from the s3 key.
 
         """
-
         compression = compression or files.compression_type_for_path(key)
 
         csv_name = files.extract_file_name(key, include_suffix=False)
@@ -674,7 +663,6 @@ class ToFrom:
             ValueError: If the CSV file name could not be extracted from the blob name.
 
         """
-
         compression = compression or files.compression_type_for_path(blob_name)
 
         csv_name = files.extract_file_name(blob_name, include_suffix=False)
@@ -736,7 +724,6 @@ class ToFrom:
                 See :meth:`~parsons.databases.redshift.redshift.Redshift.copy` for options.
 
         """
-
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -765,7 +752,6 @@ class ToFrom:
             `**copy_args`: See :meth:`~parsons.databases.postgres.postgres.Postgres.copy` for options.
 
         """
-
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -796,7 +782,6 @@ class ToFrom:
                 :meth:`~parsons.google.google_bigquery.GoogleBigQuery.copy` (`if_exists`, `max_errors`, etc.)
 
         """
-
         from parsons import GoogleBigQuery as BigQuery
 
         bq = BigQuery(app_creds=app_creds, project=project)
@@ -850,7 +835,6 @@ class ToFrom:
             wait: Wait for write job to complete before exiting method.
 
         """
-
         from parsons.civis.civisclient import CivisClient
 
         civis = CivisClient(db=db, api_key=api_key)
@@ -885,7 +869,6 @@ class ToFrom:
             `**avro_args`: Additional arguments passed to :class:`fastavro._read_py.reader`.
 
         """
-
         return cls(petl.fromavro(str(local_path), limit=limit, skips=skips, **avro_args))
 
     @classmethod
@@ -903,7 +886,6 @@ class ToFrom:
             ValueError: If the CSV file is empty.
 
         """
-
         remote_prefixes = ["http://", "https://", "ftp://", "s3://"]
         is_remote_file = bool(any(map(str(local_path).startswith, remote_prefixes)))
 
@@ -922,7 +904,6 @@ class ToFrom:
             `**csvargs`: :func:`csv.reader` optional arguments
 
         """
-
         bytesio = io.BytesIO(str.encode("utf-8"))
         memory_source = petl.io.sources.MemorySource(bytesio.read())
         return cls(petl.fromcsv(memory_source, **csvargs))
@@ -939,7 +920,6 @@ class ToFrom:
                 If not specified, will use dummy column names
 
         """
-
         return cls(petl.fromcolumns(cols, header=header))
 
     @classmethod
@@ -963,7 +943,6 @@ class ToFrom:
                 Whether the file is line-delimited JSON (with a row on each line), or a proper JSON file.
 
         """
-
         if line_delimited:
             open_fn = gzip.open if files.is_gzip_path(local_path) else open
 
@@ -1000,7 +979,6 @@ class ToFrom:
                 Port 5439 is typical.
 
         """
-
         from parsons.databases.redshift import Redshift
 
         rs = Redshift(username=username, password=password, host=host, db=db, port=port)
@@ -1026,7 +1004,6 @@ class ToFrom:
             port: Required if env variable ``PGPORT`` not populated.
 
         """
-
         from parsons.databases.postgres import Postgres
 
         pg = Postgres(username=username, password=password, host=host, db=db, port=port)
@@ -1056,7 +1033,6 @@ class ToFrom:
             `**csvargs`: :func:`csv.reader` optional arguments
 
         """
-
         from parsons.aws import S3
 
         s3 = S3(aws_access_key_id, aws_secret_access_key)
@@ -1119,5 +1095,4 @@ class ToFrom:
             include_index: Include index column
 
         """
-
         return cls(petl.fromdataframe(dataframe, include_index=include_index))

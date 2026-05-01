@@ -73,7 +73,6 @@ class Person:
 
 
         """
-
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
             raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
@@ -180,7 +179,6 @@ class Person:
 
 
         """
-
         if (latitude is None or longitude is None) and address is None:
             raise ValueError("Lat/Long or Address required")
 
@@ -231,7 +229,6 @@ class Person:
             See :ref:`Table` for output options.
 
         """
-
         url = self.connection.uri + "person/phone-search"
 
         args = {"phones": list(petl.values(table.table, 0))}
@@ -255,7 +252,6 @@ class Person:
             ValueError: If the input is a negative number.
 
         """
-
         if not isinstance(vanid, int) and not isinstance(vanid, str):
             raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
 
@@ -292,7 +288,6 @@ class Person:
             ValueError: If the URL is invalid, missing parameters, or fails checksum.
 
         """
-
         if not isinstance(profile_url, str):
             raise TypeError(f"url must be a string. Got {type(profile_url).__name__}")
 
@@ -385,7 +380,6 @@ class Service:
 
 
         """
-
         if search_type == "zip" and None in [zip5, zip4]:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
@@ -472,7 +466,6 @@ class Voter:
 
 
         """
-
         url = self.connection.uri + "voter/voter-registration-check"
 
         if None in [first_name, last_name, state]:

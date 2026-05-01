@@ -24,7 +24,6 @@ class Locations:
 
 
         """
-
         tbl = Table(self.connection.get_request("locations", params={"name": name}))
         logger.info(f"Found {tbl.num_rows} locations.")
         return self._unpack_loc(tbl)
@@ -41,7 +40,6 @@ class Locations:
             dict
 
         """
-
         r = self.connection.get_request(f"locations/{location_id}")
         logger.info(f"Found location {location_id}.")
         return r
@@ -77,7 +75,6 @@ class Locations:
                     A location id.
 
         """
-
         location = {
             "name": name,
             "address": {
@@ -102,7 +99,6 @@ class Locations:
                 The location id
 
         """
-
         r = self.connection.delete_request(f"locations/{location_id}")
         logger.info(f"Location {location_id} deleted.")
         return r

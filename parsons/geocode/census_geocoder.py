@@ -47,7 +47,6 @@ class CensusGeocoder:
             dict
 
         """
-
         geo = self.cg.onelineaddress(address, returntype=return_type)
         self._log_result(geo)
         return geo
@@ -111,7 +110,6 @@ class CensusGeocoder:
             A Parsons table
 
         """
-
         logger.info(f"Geocoding {table.num_rows} records.")
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (

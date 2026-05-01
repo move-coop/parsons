@@ -109,7 +109,6 @@ class Auth0:
                 Error message will contain response json.
 
         """
-
         if user_metadata is None:
             user_metadata = {}
         if app_metadata is None:

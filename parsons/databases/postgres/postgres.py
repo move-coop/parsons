@@ -84,7 +84,6 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 then the current dataset. Defaults to ``False``.
 
         """
-
         with self.connection() as connection:
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):

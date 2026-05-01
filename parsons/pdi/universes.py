@@ -19,7 +19,6 @@ class Universes:
             :ref:`Table`
 
         """
-
         return self._request(self.url_universes, limit=limit)
 
     def get_universe(self, id: str):

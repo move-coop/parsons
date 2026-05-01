@@ -73,7 +73,6 @@ class DBSync:
             ValueError: If ``if_exists`` is not a supported value.
 
         """
-
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -141,7 +140,6 @@ class DBSync:
                 If the ``destination_table`` ``primary_key`` is greater than the ``source_table`` ``primary_key``.
 
         """
-
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -220,7 +218,6 @@ class DBSync:
             `**kwargs`: Optional copy arguments for destination database.
 
         """
-
         # Create the table objects
         source_table = self.source_db.table(source_table_name)
 
@@ -310,7 +307,6 @@ class DBSync:
     @staticmethod
     def _check_column_match(source_table_obj, destination_table_obj) -> None:
         """Ensure that the columns from each table match"""
-
         if source_table_obj.columns != destination_table_obj.columns:
             raise ValueError(
                 "Destination table columns do not match source table columns. "
@@ -320,7 +316,6 @@ class DBSync:
     @staticmethod
     def _row_count_verify(source_table_obj, destination_table_obj) -> bool:
         """Ensure the the rows of the source table and the destination table match"""
-
         source_row_count = source_table_obj.num_rows
         dest_row_count = destination_table_obj.num_rows
 
@@ -340,7 +335,6 @@ class DBSync:
 
         This method utilizes the Alchemy subclass.
         """
-
         # Try to create the destination using the source table's schema; if that doesn't work,
         # then we will lean on "copy" when loading the data to create the destination
         try:

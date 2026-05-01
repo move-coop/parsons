@@ -22,7 +22,6 @@ class ActivistCodes:
 
 
         """
-
         tbl = Table(self.connection.get_request("activistCodes"))
         logger.info(f"Found {tbl.num_rows} activist codes.")
         return tbl
@@ -40,7 +39,6 @@ class ActivistCodes:
                 The activist code
 
         """
-
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
         logger.info(f"Found activist code {activist_code_id}.")
         return r
@@ -90,7 +88,6 @@ class ActivistCodes:
                 attempt.
 
         """
-
         return self.toggle_activist_code(
             id, activist_code_id, "Apply", id_type=id_type, omit_contact=omit_contact
         )
@@ -109,5 +106,4 @@ class ActivistCodes:
                 such as ``dwid``
 
         """
-
         return self.toggle_activist_code(id, activist_code_id, "Remove", id_type=id_type)

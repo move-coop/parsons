@@ -233,7 +233,6 @@ class NewmodeV1:
             Target information
 
         """
-
         if params is None:
             params = {}
         targets = self.client.getTargets(params=params)
@@ -776,7 +775,6 @@ class NewmodeV2:
             Parsons Table containing submit data.
 
         """
-
         if params is None:
             params = {}
         response = self.converted_request(

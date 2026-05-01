@@ -24,7 +24,6 @@ class CustomFields:
 
 
         """
-
         params = {"customFieldsGroupType": field_type.capitalize()}
 
         tbl = Table(self.connection.get_request("customFields", params=params))
@@ -47,7 +46,6 @@ class CustomFields:
 
 
         """
-
         tbl = self.get_custom_fields()
 
         # Some custom fields do no have associated values. If this is the case then
@@ -81,7 +79,6 @@ class CustomFields:
             A json.
 
         """
-
         r = self.connection.get_request(f"customFields/{custom_field_id}")
         logger.info(f"Found custom field {custom_field_id}.")
         return r

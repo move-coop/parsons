@@ -229,7 +229,6 @@ class GoogleDrive:
             permission dict
 
         """
-
         p = self.client.permissions().list(fileId=file_id).execute()
 
         return p

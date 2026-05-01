@@ -58,7 +58,6 @@ class CivisClient:
                 the method. If ``False``, returns the future object.
 
         """
-
         fut = civis.io.query_civis(
             sql,
             self.db,
@@ -126,7 +125,6 @@ class CivisClient:
                 If ``False``, returns the future object.
 
         """
-
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),
             database=self.db,

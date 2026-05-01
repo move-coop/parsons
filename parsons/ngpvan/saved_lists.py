@@ -29,7 +29,6 @@ class SavedLists:
             :ref:`Table`
 
         """
-
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
@@ -46,7 +45,6 @@ class SavedLists:
             dict
 
         """
-
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
         logger.info(f"Found saved list {saved_list_id}.")
         return r
@@ -64,7 +62,6 @@ class SavedLists:
 
 
         """
-
         ej = ExportJobs(self.connection)
         job = ej.export_job_create(saved_list_id)
 
@@ -298,7 +295,6 @@ class Folders:
 
 
         """
-
         tbl = Table(self.connection.get_request("folders"))
         logger.info(f"Found {tbl.num_rows} folders.")
         return tbl
@@ -316,7 +312,6 @@ class Folders:
 
 
         """
-
         r = self.connection.get_request(f"folders/{folder_id}")
         logger.info(f"Found folder {folder_id}.")
         return r
@@ -335,7 +330,6 @@ class ExportJobs:
 
 
         """
-
         tbl = Table(self.connection.get_request("exportJobTypes"))
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
@@ -361,7 +355,6 @@ class ExportJobs:
                 The export job object
 
         """
-
         json = {
             "savedListId": str(list_id),
             "type": str(export_type),
@@ -385,7 +378,6 @@ class ExportJobs:
 
 
         """
-
         r = self.connection.get_request(f"exportJobs/{export_job_id}")
         logger.info(f"Found export job {export_job_id}.")
         return r

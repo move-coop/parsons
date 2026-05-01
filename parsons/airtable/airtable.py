@@ -42,7 +42,6 @@ class Airtable:
             record_id: The Airtable record `id`
 
         """
-
         return self.client.get(record_id)
 
     def get_records(
@@ -103,7 +102,6 @@ class Airtable:
                 Number of rows to sample before determining columns
 
         """
-
         if isinstance(fields, str):
             fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
@@ -148,7 +146,6 @@ class Airtable:
             Inserted row
 
         """
-
         resp = self.client.create(row, typecast=typecast)
         logger.info("Record inserted")
         return resp
@@ -171,7 +168,6 @@ class Airtable:
             Inserted rows
 
         """
-
         if isinstance(table, Table):
             table = table.to_dicts()
 
@@ -202,7 +198,6 @@ class Airtable:
             Updated row
 
         """
-
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
@@ -231,7 +226,6 @@ class Airtable:
             Updated records
 
         """
-
         # the update/upsert API call expects a dict/object shape of:
         # { id: str, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -279,7 +273,6 @@ class Airtable:
             - ``records``, a list of records
 
         """
-
         # the update/upsert API call expects a dict/object shape of:
         # { id: str, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -309,7 +302,6 @@ class Airtable:
             record_id: The Airtable record `id`
 
         """
-
         resp = self.client.delete(record_id)
         logger.info(f"{record_id} updated")
         return resp
@@ -324,7 +316,6 @@ class Airtable:
             table: A Parsons Table or list containing each record `id` to delete.
 
         """
-
         if isinstance(table, Table):
             table: list[dict[str, Any]] = table.to_dicts()
 

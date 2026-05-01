@@ -32,7 +32,6 @@ class Events:
                 All requested events data.
 
         """
-
         params = {
             "startDate": first_event_date,
             "endDate": last_event_date,
@@ -54,7 +53,6 @@ class Events:
                 All requested event invitation data.
 
         """
-
         params = {"expand": expand}
 
         return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
@@ -109,7 +107,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         payload = {
             "locationId": location_id,
             "recurrenceType": recurrencetype,
@@ -282,7 +279,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_activity_payload = {
             "CalendarId": calendar_id,
             "EventId": event_id,
@@ -339,7 +335,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_invitation_payload = {
             "contactId": contact_id,
             "rsvpStatus": status,
@@ -394,7 +389,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_invitation_payload = {"contactId": contact_id}
 
         if status:
@@ -447,7 +441,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         assignment_payload = {
             "rsvpStatus": status,
             "isConfirmed": confirmed,
@@ -502,7 +495,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         assignment_payload = {
             "contactId": contact_id,
             "eventActivityId": eventactivityid,
@@ -550,7 +542,6 @@ class Events:
             `<https://api.bluevote.com/docs/index#/EventActivityAssignments>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -579,7 +570,6 @@ class Events:
             `<https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -602,7 +592,6 @@ class Events:
             `<https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 

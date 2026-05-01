@@ -189,7 +189,6 @@ class NationBuilder:
             ValueError: If the person dict is missing required keys.
 
         """
-
         _required_keys = [
             "civicrm_id",
             "county_file_id",

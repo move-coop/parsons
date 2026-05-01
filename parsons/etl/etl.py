@@ -25,7 +25,6 @@ class ETL:
                 Defaults to 5.
 
         """
-
         self.table = petl.head(self.table, n)
 
         return self
@@ -40,7 +39,6 @@ class ETL:
                 Defaults to 5.
 
         """
-
         self.table = petl.tail(self.table, n)
 
         return self
@@ -68,7 +66,6 @@ class ETL:
             ValueError: If the column already exists and ``if_exists`` is not set to ``replace``.
 
         """
-
         if column in self.columns:
             if if_exists == "replace":
                 self.fill_column(column, value)
@@ -88,7 +85,6 @@ class ETL:
             `*columns`: Column names
 
         """
-
         self.table = petl.cutout(self.table, *columns)
 
         return self
@@ -105,7 +101,6 @@ class ETL:
             ValueError: If the new column name already exists.
 
         """
-
         if new_column_name in self.columns:
             raise ValueError(f"Column {new_column_name} already exists")
 
@@ -135,7 +130,6 @@ class ETL:
             ValueError: If a new column name already exists in the table.
 
         """
-
         # Check if old column name exists and new column name does not exist
         for old_name, new_name in column_map.items():
             if old_name not in self.table.columns():
@@ -157,7 +151,6 @@ class ETL:
             fill_value: A fixed or calculated value
 
         """
-
         if callable(fill_value):
             self.table = petl.convert(
                 self.table, column_name, lambda _, r: fill_value(r), pass_row=True
@@ -176,7 +169,6 @@ class ETL:
             fill_value: A fixed or calculated value
 
         """
-
         if callable(fill_value):
             self.table = petl.convert(
                 self.table,
@@ -204,7 +196,6 @@ class ETL:
             index: The new index for the column
 
         """
-
         self.table = petl.movefield(self.table, column, index)
 
         return self
@@ -221,7 +212,6 @@ class ETL:
             `**kwargs`: The update function, method, or variable to process the update
 
         """
-
         self.table = petl.convert(self.table, *column, **kwargs)
 
         return self
@@ -234,7 +224,6 @@ class ETL:
             column: The column name
 
         """
-
         max_width = 0
 
         for v in petl.values(self.table, column):
@@ -245,7 +234,6 @@ class ETL:
 
     def convert_columns_to_str(self) -> Self:
         """Convert all non-string or mixed columns in a Parsons table to string (e.g. for comparison)"""
-
         # If we don't have any rows, don't bother trying to convert things
         if self.num_rows == 0:
             return self
@@ -280,7 +268,6 @@ class ETL:
                 If the destination column is also one of the source columns, it will not be removed.
 
         """
-
         if dest_column in self.columns:
 
             def convert_fn(value, row) -> Any | None:
@@ -343,7 +330,6 @@ class ETL:
                 If ``False`` will ignore case, spaces and underscores.
 
         """
-
         for col in self.columns:
             cleaned_col = col.lower().replace("_", "").replace(" ", "") if not exact_match else col
 
@@ -392,7 +378,6 @@ class ETL:
             column_map: A dictionary of columns and possible values that map to it
 
         """
-
         for key, value in column_map.items():
             # if the column in the mapping dict isn't actually in the table,
             # remove it from the list of columns to coalesce
@@ -416,12 +401,10 @@ class ETL:
             column: Name of the column to analyze
 
         """
-
         return list(petl.typeset(self.table, column))
 
     def get_columns_type_stats(self) -> list[dict[str, list[type]]]:
         """Return descriptive stats for python types of values in all columns"""
-
         return [{"name": col, "type": self.get_column_types(col)} for col in self.table.columns()]
 
     def convert_table(self, *args: Any) -> Self:
@@ -436,7 +419,6 @@ class ETL:
             `*args`: The update function, method, or variable to process the update.
 
         """
-
         self.convert_column(self.columns, *args)
 
         return self
@@ -470,7 +452,6 @@ class ETL:
                 If None, will set to column name.
 
         """
-
         if prepend:
             if prepend_value is None:
                 prepend_value = column
@@ -531,7 +512,6 @@ class ETL:
             max_columns: The maximum number of columns to unpack
 
         """
-
         # Convert all column values to list to avoid unpack errors
         self.table = petl.convert(
             self.table, column, lambda v: [v] if not isinstance(v, list) else v
@@ -590,7 +570,6 @@ class ETL:
             Otherwise, standalone table with key column and unpacked values only
 
         """
-
         if isinstance(expand_original, int) and expand_original is not True:
             lengths = {len(row[column]) for row in self if isinstance(row[column], (dict, list))}
             max_len = sorted(lengths, reverse=True)[0]
@@ -732,7 +711,6 @@ class ETL:
             The new long table
 
         """
-
         if type(key) is str:
             key = [key]
 
@@ -768,7 +746,6 @@ class ETL:
             Selected columnns
 
         """
-
         from parsons.etl.table import Table
 
         return Table(petl.cut(self.table, *columns))
@@ -807,7 +784,6 @@ class ETL:
             The selected rows
 
         """
-
         from parsons.etl.table import Table
 
         return Table(petl.select(self.table, *filters))
@@ -855,7 +831,6 @@ class ETL:
             missing: The value to use when padding missing values
 
         """
-
         flattened_tables: list[Table] = []
         for item in tables:
             if isinstance(item, (list, tuple)):
@@ -879,7 +854,6 @@ class ETL:
             missing: The value to use when padding missing values
 
         """
-
         flattened_tables: list[Table] = []
         for item in tables:
             if isinstance(item, (list, tuple)):
@@ -901,7 +875,6 @@ class ETL:
             rows: The number of rows of each new Parsons table
 
         """
-
         from parsons.etl import Table
 
         return [
@@ -918,7 +891,6 @@ class ETL:
             Normalized column name
 
         """
-
         column_name = column_name.lower().strip()
         return "".join(c for c in column_name if c.isalnum())
 
@@ -957,7 +929,6 @@ class ETL:
             ValueError: If ``if_extra_columns`` contains an invalid value.
 
         """
-
         from parsons.etl import Table  # Just trying to avoid recursive imports.
 
         normalize_fn = Table.get_normalized_column_name if fuzzy_match else (lambda s: s)
@@ -1114,7 +1085,6 @@ class ETL:
             Also updates self
 
         """
-
         self.table = petl.rowreduce(
             self.table,
             columns,
@@ -1137,7 +1107,6 @@ class ETL:
             reverse: Sort rows in reverse order.
 
         """
-
         self.table = petl.sort(self.table, key=columns, reverse=reverse)
 
         return self
@@ -1296,7 +1265,6 @@ class ETL:
             presorted: If false, the row will be sorted.
 
         """
-
         deduped = petl.transform.distinct(self.table, key=keys, presorted=presorted)
         self.table = deduped
 

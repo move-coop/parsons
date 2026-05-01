@@ -47,7 +47,6 @@ class Events:
             :ref:`Table`
 
         """
-
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -98,7 +97,6 @@ class Events:
             :ref:`Table`
 
         """
-
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -191,7 +189,6 @@ class Events:
               The event code.
 
         """
-
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -239,7 +236,6 @@ class Events:
                 The event id.
 
         """
-
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
@@ -263,7 +259,6 @@ class Events:
               The shift id.
 
         """
-
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -278,7 +273,6 @@ class Events:
             :ref:`Table`
 
         """
-
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

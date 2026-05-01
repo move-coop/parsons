@@ -89,7 +89,6 @@ class S3:
 
     def list_buckets(self) -> list[str]:
         """List all buckets to which you have access."""
-
         return [bucket.name for bucket in self.s3.buckets.all()]
 
     def bucket_exists(self, bucket: str) -> bool:
@@ -103,7 +102,6 @@ class S3:
             ``True`` if the bucket exists and ``False`` if not.
 
         """
-
         try:
             # If we can list the keys, the bucket definitely exists. We do this check since
             # it will account for buckets that live on other AWS accounts and that we
@@ -142,7 +140,6 @@ class S3:
             The info includes 'LastModified', 'Size', and 'Owner'.
 
         """
-
         keys_dict = {}
         logger.debug("Fetching keys in %s bucket", bucket)
 
@@ -219,7 +216,6 @@ class S3:
             ``True`` if key exists and ``False`` if not.
 
         """
-
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
@@ -258,7 +254,6 @@ class S3:
             bucket: The name of the bucket to create
 
         """
-
         self.client.create_bucket(Bucket=bucket)
 
     def put_file(
@@ -280,7 +275,6 @@ class S3:
             kwargs: Additional arguments for :meth:`S3.Object.put`.
 
         """
-
         self.client.upload_file(str(local_path), bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
     def remove_file(self, bucket: str, key: str) -> None:
@@ -292,7 +286,6 @@ class S3:
             key: The object key
 
         """
-
         self.client.delete_object(Bucket=bucket, Key=key)
 
     def get_file(
@@ -316,7 +309,6 @@ class S3:
             The path of the new file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
@@ -337,7 +329,6 @@ class S3:
             A url to download the object
 
         """
-
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": bucket, "Key": key},
@@ -377,7 +368,6 @@ class S3:
             kwargs: Additional arguments for the S3 :meth:`S3.Client.copy` call.
 
         """
-
         # If prefix, get all files for the prefix
         if origin_key.endswith("/"):
             resp = self.list_keys(
@@ -430,7 +420,6 @@ class S3:
             list of buckets
 
         """
-
         all_buckets = self.list_buckets()
         buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
 

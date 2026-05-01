@@ -25,7 +25,6 @@ class Scores:
 
 
         """
-
         tbl = Table(self.connection.get_request("scores"))
         logger.info(f"Found {tbl.num_rows} scores.")
         return tbl
@@ -41,7 +40,6 @@ class Scores:
             dict
 
         """
-
         r = self.connection.get_request(f"scores/{score_id}")
         logger.info(f"Found score {score_id}.")
         return r
@@ -63,7 +61,6 @@ class Scores:
 
 
         """
-
         params = {
             "createdBefore": created_before,
             "createdAfter": created_after,
@@ -89,7 +86,6 @@ class Scores:
             dict
 
         """
-
         r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
         logger.info(f"Returning score update {score_update_id}.")
         return r
@@ -108,7 +104,6 @@ class Scores:
                 One of 'pending approval', 'approved', 'disapproved'
 
         """
-
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
             raise ValueError(
                 """Valid inputs for status are, 'pending approval','approved','disapproved','canceled'"""
@@ -186,7 +181,6 @@ class Scores:
            on their servers.
 
         """
-
         # Move to cloud storage
         file_name = str(uuid.uuid1())
         url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
@@ -294,7 +288,6 @@ class FileLoadingJobs:
                 The file load id
 
         """
-
         columns = [{"name": c} for c in columns]
 
         # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
@@ -390,7 +383,6 @@ class FileLoadingJobs:
             The file load job id
 
         """
-
         columns = [{"name": c} for c in columns]
 
         # To Do: Validate that it is a .zip file. Not entirely sure if this is possible

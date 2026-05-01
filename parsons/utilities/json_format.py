@@ -10,7 +10,6 @@ def arg_format(arg: str) -> str:
     like ``this_type_config`` and returns it like ``thisTypeConfig``.
 
     """
-
     arg_list = arg.split("_")
     arg_list = [a.capitalize() for a in arg_list]
     arg_list[0] = arg_list[0].lower()
@@ -26,7 +25,6 @@ def remove_empty_keys(dirty_dict: dict) -> dict:
     will update the value to null and you don't want that.
 
     """
-
     clean_dict = {}
 
     for k, v in dirty_dict.items():

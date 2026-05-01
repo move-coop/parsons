@@ -99,7 +99,6 @@ class CapitolCanary:
             * advocates
 
         """
-
         # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
         updated_since = date_to_timestamp(updated_since)
 
@@ -169,7 +168,6 @@ class CapitolCanary:
                 This may cause sync errors.
 
         """
-
         args = {
             "state": state,
             "zip": zip,
@@ -252,7 +250,6 @@ class CapitolCanary:
             ValueError: If no valid email or phone and campaigns are provided during opt-in/out.
 
         """
-
         # Validate the passed in arguments
 
         if not campaigns:
@@ -348,7 +345,6 @@ class CapitolCanary:
             `**kwargs`: Additional fields on the advocate to update
 
         """
-
         # Validate the passed in arguments
         if (sms_optin or sms_optout) and not (phone and campaigns):
             raise ValueError(

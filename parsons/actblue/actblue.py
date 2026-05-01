@@ -96,7 +96,6 @@ class ActBlue:
             A successful response includes 'id', a unique identifier for the CSV being generated.
 
         """
-
         body = {
             "csv_type": csv_type,
             "date_range_start": date_range_start,
@@ -138,7 +137,6 @@ class ActBlue:
             it expires, it could be used by anyone to download the CSV.
 
         """
-
         logger.info("Request received. Please wait while ActBlue generates this data.")
         download_url = None
         tries = 0
@@ -288,7 +286,6 @@ class ActBlue:
             - Managed Entity Committee Name
 
         """
-
         post_request_response = self.post_request(csv_type, date_range_start, date_range_end)
         csv_id = post_request_response["id"]
         download_url = self.poll_for_download_url(csv_id)

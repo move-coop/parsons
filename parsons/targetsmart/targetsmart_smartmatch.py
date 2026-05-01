@@ -192,7 +192,6 @@ class SmartMatch:
 
 
         """
-
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table

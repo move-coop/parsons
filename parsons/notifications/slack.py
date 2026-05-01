@@ -92,7 +92,6 @@ class Slack:
 
 
         """
-
         if fields is None:
             fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
         tbl = self._paginate_request("users_list", "members", include_locale=True)
@@ -157,7 +156,6 @@ class Slack:
                 A response json
 
         """
-
         if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",

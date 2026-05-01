@@ -448,7 +448,6 @@ class Box:
             The new file path
 
         """
-
         # Temp file will be around as long as enclosing process is running,
         # which we need, because the Table we return will continue to use it.
         use_local_path = Path(create_temp_file_for_path(path)) if local_path is None else local_path

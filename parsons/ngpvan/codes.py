@@ -30,7 +30,6 @@ class Codes:
 
 
         """
-
         params = {
             "name": name,
             "supportedEntities": supported_entities,
@@ -56,7 +55,6 @@ class Codes:
 
 
         """
-
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
@@ -71,7 +69,6 @@ class Codes:
                 A list of code types.
 
         """
-
         lst = self.connection.get_request("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
@@ -116,7 +113,6 @@ class Codes:
                     ]
 
         """
-
         json = {
             "parentCodeId": parent_code_id,
             "name": name,
@@ -183,7 +179,6 @@ class Codes:
                     ]
 
         """
-
         post_data = {}
 
         if name:
@@ -219,7 +214,6 @@ class Codes:
                 The code id.
 
         """
-
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")
         return r
@@ -233,7 +227,6 @@ class Codes:
                 A list of code supported entities.
 
         """
-
         lst = self.connection.get_request("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

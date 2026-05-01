@@ -71,8 +71,10 @@ class Freshdesk:
 
         """
         url = self.uri + endpoint
+
         r = self.client.request(url, "POST", json=data)
         self.client.validate_response(r)
+
         return r.json()
 
     @staticmethod
@@ -139,6 +141,7 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("tickets", params=params))
+
         logger.info(f"Found {tbl.num_rows} tickets.")
         return self._transform_table(tbl, expand_custom_fields)
 
@@ -189,6 +192,7 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("contacts", params=params))
+
         logger.info(f"Found {tbl.num_rows} contacts.")
         return self._transform_table(tbl, expand_custom_fields)
 
@@ -238,6 +242,7 @@ class Freshdesk:
         params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
         tbl = Table(self._get_request("agents", params=params))
         logger.info(f"Found {tbl.num_rows} agents.")
+
         tbl = self._transform_table(tbl)
         tbl = tbl.unpack_dict("contact", prepend=False)
         tbl.remove_column("signature")  # Removing since raw HTML might cause issues.

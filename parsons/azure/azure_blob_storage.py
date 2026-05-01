@@ -68,14 +68,12 @@ class AzureBlobStorage:
 
     def list_containers(self) -> list[str]:
         """Returns a list of container names for the storage account."""
-
         container_names = [container.name for container in self.client.list_containers()]
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
 
     def container_exists(self, container_name: str) -> bool:
         """Verify that a container exists within the storage account."""
-
         container_client = self.get_container(container_name)
         try:
             container_client.get_container_properties()
@@ -87,7 +85,6 @@ class AzureBlobStorage:
 
     def get_container(self, container_name: str) -> ContainerClient:
         """Returns a container client."""
-
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
@@ -112,7 +109,6 @@ class AzureBlobStorage:
                 :meth:`azure.storage.blob.BlobServiceClient.create_container`
 
         """
-
         container_client = self.client.create_container(
             container_name, metadata=metadata, public_access=public_access, **kwargs
         )
@@ -121,7 +117,6 @@ class AzureBlobStorage:
 
     def delete_container(self, container_name: str) -> None:
         """Delete a container."""
-
         self.client.delete_container(container_name)
         logger.info(f"{container_name} container deleted.")
 
@@ -139,7 +134,6 @@ class AzureBlobStorage:
             A list of blob names
 
         """
-
         container_client = self.get_container(container_name)
         blobs = list(container_client.list_blobs(name_starts_with=name_starts_with))
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
@@ -147,7 +141,6 @@ class AzureBlobStorage:
 
     def blob_exists(self, container_name: str, blob_name: str) -> bool:
         """Verify that a blob exists in the specified container."""
-
         blob_client = self.get_blob(container_name, blob_name)
         try:
             blob_client.get_blob_properties()
@@ -159,7 +152,6 @@ class AzureBlobStorage:
 
     def get_blob(self, container_name: str, blob_name: str) -> BlobClient:
         """Get a blob object."""
-
         blob_client = self.client.get_blob_client(container_name, blob_name)
         logger.info(f"Got {blob_name} blob from {container_name} container.")
         return blob_client
@@ -199,7 +191,6 @@ class AzureBlobStorage:
             URL with shared access signature for blob
 
         """
-
         if not account_key:
             if not self.credential:
                 raise ValueError(
@@ -232,7 +223,6 @@ class AzureBlobStorage:
             Any created settings or ``None`` and the dict with settings keys remvoed
 
         """
-
         kwargs_copy = {**kwargs_dict}
         content_settings = None
         content_settings_dict = {}
@@ -269,7 +259,6 @@ class AzureBlobStorage:
                 provided to that class directly.
 
         """
-
         blob_client = self.get_blob(container_name, blob_name)
 
         # Move all content_settings keys into a ContentSettings object
@@ -305,7 +294,6 @@ class AzureBlobStorage:
             The path of the downloaded file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPFILEAZURE")
 
@@ -320,7 +308,6 @@ class AzureBlobStorage:
 
     def delete_blob(self, container_name: str, blob_name: str) -> None:
         """Delete a blob in a specified container."""
-
         blob_client = self.get_blob(container_name, blob_name)
         blob_client.delete_blob()
         logger.info(f"{blob_name} blob in {container_name} container deleted.")
@@ -349,7 +336,6 @@ class AzureBlobStorage:
             ValueError: If an unknown data_type value is provided
 
         """
-
         if data_type == "csv":
             local_path = Path(table.to_csv())
             content_type = "text/csv"

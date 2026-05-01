@@ -209,7 +209,6 @@ class Sqlite(DatabaseConnector):
                 Defaults to False.
 
         """
-
         with self.connection() as connection:
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -298,7 +297,6 @@ class Sqlite(DatabaseConnector):
             ``True`` if the table needs to be created, ``False`` otherwise.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 

@@ -1,9 +1,10 @@
+import io
 import json
 import logging
 import math
 import time
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, TypedDict, overload
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -14,20 +15,38 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
+class BulkCSVUploadResult(TypedDict):
+    res: requests.Response
+    success: bool
+    id: str | None
+    progress_url: str | None
+
+
+class BulkTableUploadResults(TypedDict):
+    success: bool
+    results: list[BulkCSVUploadResult]
+
+
+class UploadErrorResult(TypedDict):
+    message: str
+    upload: str
+    id: int
+
+
 class ActionKit:
     """
     Instantiate the ActionKit class
 
     Args:
-        domain: str
-            The ActionKit domain (e.g. ``myorg.actionkit.com``) Not required if
-            ``ACTION_KIT_DOMAIN`` env variable set.
-        username: str
-            The authorized ActionKit username. Not required if ``ACTION_KIT_USERNAME`` env
-            variable set.
-        password: str
-            The authorized ActionKit user password. Not required if ``ACTION_KIT_PASSWORD``
-            env variable set.
+        domain:
+            The ActionKit domain (e.g. ``myorg.actionkit.com``).
+            Not required if ``ACTION_KIT_DOMAIN`` env variable set.
+        username:
+            The authorized ActionKit username.
+            Not required if ``ACTION_KIT_USERNAME`` env variable set.
+        password:
+            The authorized ActionKit user password.
+            Not required if ``ACTION_KIT_PASSWORD`` env variable set.
 
     """
 
@@ -38,51 +57,51 @@ class ActionKit:
 
     def __init__(
         self, domain: str | None = None, username: str | None = None, password: str | None = None
-    ):
-        self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
-        self.username = check_env.check("ACTION_KIT_USERNAME", username)
-        self.password = check_env.check("ACTION_KIT_PASSWORD", password)
+    ) -> None:
+        self.domain: str = check_env.check("ACTION_KIT_DOMAIN", domain)
+        self.username: str = check_env.check("ACTION_KIT_USERNAME", username)
+        self.password: str = check_env.check("ACTION_KIT_PASSWORD", password)
         self.conn = self._conn()
 
-    def _conn(self, default_headers=_default_headers):
+    def _conn(self, default_headers: dict[str, str] = _default_headers) -> requests.Session:
         client = requests.Session()
         client.auth = HTTPBasicAuth(self.username, self.password)
         client.headers.update(default_headers)
+
         return client
 
-    def _base_endpoint(self, endpoint: str, entity_id: str | None = None) -> str:
-        # Create the base endpoint URL
-
+    def _base_endpoint(self, endpoint: str, entity_id: str | int | None = None) -> str:
+        """Create the base endpoint URL."""
         url = f"https://{self.domain}/rest/v1/{endpoint}/"
 
         if entity_id:
             return url + f"{entity_id}/"
+
         return url
 
     def _base_get(
         self,
         endpoint: str,
-        entity_id: str | None = None,
+        entity_id: str | int | None = None,
         exception_message: str | None = None,
         params: dict[str, str | int] | None = None,
-    ) -> dict[str, Any]:
-        # Make a general get request to ActionKit
-
+    ) -> dict[Literal["fields", "is_completed", "has_errors"] | str, Any]:
+        """Make a general get request to ActionKit."""
         resp = self.conn.get(self._base_endpoint(endpoint, entity_id), params=params)
+
         if exception_message and resp.status_code == 404:
             raise Exception(self.parse_error(resp, exception_message))
+
         return resp.json()
 
     def _base_post(self, endpoint, exception_message, return_full_json=False, **kwargs):
-        # Make a general post request to ActionKit
-
+        """Make a general post request to ActionKit."""
         resp = self.conn.post(self._base_endpoint(endpoint), data=json.dumps(kwargs))
 
         if resp.status_code != 201:
             raise Exception(self.parse_error(resp, exception_message))
 
-        # Some of the methods should just return pointer to location of created
-        # object.
+        # Some of the methods should just return pointer to location of created object.
         if "headers" in resp.__dict__ and not return_full_json:
             return resp.__dict__["headers"]["Location"]
 
@@ -93,10 +112,14 @@ class ActionKit:
         except ValueError:
             return None
 
-    def parse_error(self, resp, exception_message):
-        # AK provides some pretty robust/helpful error reporting. We should surface them with
-        # our exceptions.
+    def parse_error(self, resp, exception_message: str) -> str | None:
+        """
+        Extract error message from response json.
 
+        AK provides some pretty robust/helpful error reporting.
+        We should surface them with our exceptions.
+
+        """
         if "errors" in resp.json():
             if isinstance(resp.json()["errors"], list):
                 exception_message += "\n" + ",".join(resp.json()["errors"])
@@ -106,13 +129,12 @@ class ActionKit:
 
         return exception_message
 
-    def get_user(self, user_id):
+    def get_user(self, user_id: int) -> dict[str, Any]:
         """
         Get a user.
 
         Args:
-            user_id: int
-                The user id of the record to get.
+            user_id: The user id of the record to get.
 
         Returns:
             User json object
@@ -122,7 +144,7 @@ class ActionKit:
             endpoint="user", entity_id=user_id, exception_message="User not found"
         )
 
-    def get_user_fields(self):
+    def get_user_fields(self) -> list[str]:
         """
         Get list of valid user fields that can be passed with the
         :meth:`ActionKit.create_user` method.
@@ -135,16 +157,16 @@ class ActionKit:
 
         return list(resp["fields"].keys())
 
-    def create_user(self, email, **kwargs):
+    def create_user(self, email: str, **kwargs):
         """
         Create a user.
 
         Args:
-            email: str
-                Email for the user
+            email: Email for the user
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             User json object
@@ -157,17 +179,14 @@ class ActionKit:
             **kwargs,
         )
 
-    def add_phone(self, user_id, phone_type, phone):
+    def add_phone(self, user_id: int, phone_type: str, phone: str):
         """
         Add a phone number to a user.
 
         Args:
-            user_id: str
-                The id of the user
-            phone_type: str
-                The type of the phone (e.g. "Home")
-            phone: str
-                The phone number
+            user_id: The id of the user
+            phone_type: The type of the phone (e.g. "Home")
+            phone: The phone number
 
         Returns:
             Phone json object
@@ -181,31 +200,27 @@ class ActionKit:
             phone=phone,
         )
 
-    def delete_actionfield(self, actionfield_id):
+    def delete_actionfield(self, actionfield_id: int) -> None:
         """
         Delete an actionfield.
 
         Args:
-            actionfield_id: int
-                The id of the actionfield to delete
+            actionfield_id: The id of the actionfield to delete
 
         """
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
         logger.info(f"{resp.status_code}: {actionfield_id}")
 
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id: int, **kwargs) -> requests.Response:
         """
         Update a user.
 
         Args:
-            user_id: int
-                The user id of the person to update
+            user_id: The user id of the person to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
-
-        Returns:
-            ``HTTP response from the patch request``
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
@@ -213,19 +228,16 @@ class ActionKit:
 
         return resp
 
-    def update_phone(self, phone_id, **kwargs):
+    def update_phone(self, phone_id: int, **kwargs) -> requests.Response:
         """
         Update a phone record.
 
         Args:
-            phone_id: int
-                The phone id of the phone to update
+            phone_id: The phone id of the phone to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                at the /rest/v1/phone/schema/ path on any ActionKit instance.
-
-        Returns:
-            ``HTTP response from the patch request``
+                Optional arguments and fields to pass to the client.
+                A full list can be found at the ``/rest/v1/phone/schema/``
+                path on any ActionKit instance.
 
         """
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
@@ -233,71 +245,71 @@ class ActionKit:
 
         return resp
 
-    def get_event(self, event_id):
-        """Get an event.
+    def get_event(self, event_id: int) -> dict[str, Any]:
+        """
+        Get an event.
 
         Args:
-            event_id: int
-                The id for the event.
+            event_id: The id for the event.
 
         Returns:
-            dict
-                Event json object.
+            Event json object.
 
         """
         return self._base_get(f"event/{event_id}")
 
-    def get_events(self, limit=None, **kwargs):
-        """Get multiple events.
+    def get_events(self, limit: int | None = None, **kwargs) -> Table:
+        """
+        Get multiple events.
 
         Args:
-            limit: int
-                The number of events to return. If omitted, all events are returned.
+            limit:
+                The number of events to return.
+                If omitted, all events are returned.
             `**kwargs`:
-                Optional arguments to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
-                Additionally, expressions to filter the data can also be provided. For addition
-                info, visit `Django Field Lookup Documentation`_.
+                Additionally, expressions to filter the data can also be provided.
+                For addition info, visit `Django Field Lookup Documentation`_.
 
                 .. code-block:: python
 
                     ak.get_events(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
-                The events data.
+            The events data.
 
         """
         return self.paginated_get("event", limit=limit, **kwargs)
 
-    def update_event(self, event_id, **kwargs):
+    def update_event(self, event_id: int, **kwargs) -> None:
         """
         Update an event.
 
         Args:
-            event_id: int
-                The event id of the event to update
+            event_id: The event id of the event to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {event_id}")
 
-    def create_event_field(self, event_id, name, value):
+    def create_event_field(self, event_id: int, name: str, value: str):
         """
-        Create an event field (custom field on an event). Note that if an event
-        field with this name already exists, this will add a second record.
+        Create an event field (custom field on an event).
+
+        Note that if an event field with this name already exists,
+        this will add a second record.
 
         Args:
-            event_id: int
-                The id for the event.
-            name: str
-                The name of the event field.
-            value: str
-                The value of the event field.
+            event_id: The id for the event.
+            name: The name of the event field.
+            value: The value of the event field.
 
         Returns:
             Event field json object
@@ -311,17 +323,14 @@ class ActionKit:
             value=value,
         )
 
-    def update_event_field(self, eventfield_id, name, value):
+    def update_event_field(self, eventfield_id: int, name: str, value: str) -> None:
         """
         Update an event field.
 
         Args:
-            eventfield_id: int
-                The id of the event field to update.
-            name: str
-                The name of the event field.
-            value: str
-                The value of the event field.
+            eventfield_id: The id of the event field to update.
+            name: The name of the event field.
+            value: The value of the event field.
 
         """
         resp = self.conn.patch(
@@ -335,31 +344,34 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {eventfield_id}")
 
-    def get_blackholed_email(self, email):
+    def get_blackholed_email(self, email: str) -> Table:
         """
-        Get a blackholed email. A blackholed email is an email that has been prevented from
+        Get a blackholed email.
+
+        A blackholed email is an email that has been prevented from
         receiving bulk and transactional emails from ActionKit.
-        For more, see the `ActionKit Email Blackhole Documentation`_.
+
+        Reference Documentation:
+            `ActionKit Email Blackhole Documentation`_.
 
         Args:
-            email: str
-                Blackholed email of the record to get.
+            email: Blackholed email of the record to get.
 
         Returns:
-            Parsons.Table
-                The blackholed email data.
+            The blackholed email data.
 
         """
         return self.paginated_get("blackholedemail", email=email)
 
-    def blackhole_email(self, email):
+    def blackhole_email(self, email: str):
         """
         Prevent an email from receiving bulk and transactional emails from ActionKit.
-        For more, see the `ActionKit Email Blackhole Documentation`_.
+
+        Reference Documentation:
+            `ActionKit Email Blackhole Documentation`_.
 
         Args:
-            user_id: str
-                Email to blackhole
+            email: Email to blackhole
 
         Returns:
             API location of new resource
@@ -371,16 +383,16 @@ class ActionKit:
             email=email,
         )
 
-    def delete_user_data(self, email, **kwargs):
+    def delete_user_data(self, email: str, **kwargs):
         """
         Delete user data.
 
         Args:
-            email: str
-                Email of user to delete data
+            email: Email of user for whom to delete data
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Users Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Users Documentation`_.
 
         Returns:
             API location of anonymized user
@@ -393,25 +405,23 @@ class ActionKit:
             **kwargs,
         )
 
-    def delete_user(self, user_id):
+    def delete_user(self, user_id: int) -> None:
         """
         Delete a user.
 
         Args:
-            user_id: int
-                The user id of the person to delete
+            user_id: The user id of the person to delete
 
         """
         resp = self.conn.delete(self._base_endpoint("user", user_id))
         logger.info(f"{resp.status_code}: {user_id}")
 
-    def get_campaign(self, campaign_id):
+    def get_campaign(self, campaign_id: int) -> dict[str, Any]:
         """
         Get a campaign.
 
         Args:
-            campaign_id: int
-                The campaign id of the record.
+            campaign_id: The campaign id of the record.
 
         Returns:
             Campaign json object
@@ -423,11 +433,11 @@ class ActionKit:
             exception_message="Campaign not found",
         )
 
-    def get_campaign_fields(self):
+    def get_campaign_fields(self) -> list[str]:
         """
         Get list of valid campaign fields that can be passed with the
-        :meth:`parsons.action_kit.action_kit.ActionKit.create_campaign`
-        and :meth:`~parsons.action_kit.action_kit.ActionKit.update_campaign` methods.
+        :meth:`parsons.action_kit.action_kit.ActionKit.create_campaign` and
+        :meth:`~parsons.action_kit.action_kit.ActionKit.update_campaign` methods.
 
         Returns:
             List of campaign fields
@@ -436,16 +446,16 @@ class ActionKit:
         resp = self._base_get(endpoint="campaign/schema")
         return list(resp["fields"].keys())
 
-    def create_campaign(self, name, **kwargs):
+    def create_campaign(self, name: str, **kwargs):
         """
         Create a campaign.
 
         Args:
-            name: str
-                The name of the campaign to create
+            name: The name of the campaign to create
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -458,37 +468,35 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_campaign(self):
+    def update_campaign(self) -> None:
         """Update a campaign (NOT IMPLEMENTED)"""
         err_msg = "ActionKit.update_campaign() is not implemented"
         raise NotImplementedError(err_msg)
 
     def search_events_in_campaign(
         self,
-        campaign_id,
-        limit=None,
-        order_by="id",
+        campaign_id: int,
+        limit: int | None = None,
+        order_by: str = "id",
         ascdesc: Literal["asc", "desc"] = "asc",
-        filters=None,
-        exclude=None,
+        filters: dict[str, str | int] | None = None,
+        exclude: dict[str, str | int] | None = None,
         **kwargs,
-    ):
+    ) -> Table:
         """
         Get events in a campaign, with optional search filters.
 
         Args:
-            campaign_id: int
-                The id of the event campaign.
-            limit: int
-                The maximum number of objects to return.
-            order_by: str
-                Event attribute to order the results by. Defaults to id, which will normally
-                be equivalent to ordering by created_at.
+            campaign_id: The id of the event campaign.
+            limit: The maximum number of objects to return.
+            order_by:
+                Event attribute to order the results by.
+                Defaults to ``id``, which will normally be equivalent to ordering by ``created_at``.
                 For more, see the `ActionKit API Ordering Documentation`_.
-            ascdesc: str
-                If "asc" (the default), returns events ordered by the attribute specified by
-                the order_by parameter. If "desc", returns events in reverse order.
-            filters: dict
+            ascdesc:
+                If ``asc``, returns events ordered by the attribute specified by the `order_by` parameter.
+                If ``desc``, returns events in reverse order.
+            filters:
                 A dictionary for filtering by the attributes of the event or related object.
                 Not all attributes are available for filtering, but an eventfield will work.
                 For additional info, visit `Django Field Lookup Documentation`_ and
@@ -502,40 +510,35 @@ class ActionKit:
                         "field__value": "Example event field value",
                     }
 
-            exclude: dict
+            exclude:
                 A dictionary for excluding by the attributes of the event or related object.
                 Uses the same format as the filters argument.
             `**kwargs`:
-                A dictionary of other options for filtering. For more, see the `ActionKit API Event Search Examples`_
+                A dictionary of other options for filtering.
+                For more, see the `ActionKit API Event Search Examples`_
 
         Returns:
-            Parsons.Table
-                The list of events.
+            The list of events.
 
         """
-        if filters:
-            for field, value in filters.items():
-                kwargs[f"filter[{field}]"] = value
-        if exclude:
-            for field, value in exclude.items():
-                kwargs[f"exclude[{field}]"] = value
-        if ascdesc == "asc":
-            kwargs["order_by"] = order_by
-        else:
-            kwargs["order_by"] = f"-{order_by}"
+        for prefix, source in [("filter", filters), ("exclude", exclude)]:
+            if source:
+                kwargs.update({f"{prefix}[{field}]": v for field, v in source.items()})
+
+        kwargs["order_by"] = ("" if ascdesc == "asc" else "-") + order_by
+
         return self.paginated_get(
             f"campaign/{campaign_id}/event_search",
             limit=limit,
             **kwargs,
         )
 
-    def get_event_create_page(self, event_create_page_id):
+    def get_event_create_page(self, event_create_page_id: int) -> dict[str, Any]:
         """
         Get a event create page.
 
         Args:
-            event_create_page_id: int
-                The event create page id of the record to get.
+            event_create_page_id: The event create page id of the record to get.
 
         Returns:
             Event create page json object
@@ -547,7 +550,7 @@ class ActionKit:
             exception_message="Event create page not found",
         )
 
-    def get_event_create_page_fields(self):
+    def get_event_create_page_fields(self) -> list[str]:
         """
         Get list of event create page fields that can be passed with the
         :meth:`parsons.action_kit.action_kit.ActionKit.create_event_create_page`.
@@ -557,22 +560,21 @@ class ActionKit:
 
         """
         resp = self._base_get(endpoint="eventcreatepage/schema")
+
         return list(resp["fields"].keys())
 
-    def create_event_create_page(self, name, campaign_id, title, **kwargs):
+    def create_event_create_page(self, name: str, campaign_id: int, title: str, **kwargs):
         """
         Add an event page to a campaign.
 
         Args:
-            campaign_id: int
-                The campaign to assoicate page with
-            name: str
-                The name of the page to create
-            title: str
-                The title of the page to create
+            name: The name of the page to create
+            campaign_id: The campaign to assoicate page with
+            title: The title of the page to create
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -587,13 +589,12 @@ class ActionKit:
             **kwargs,
         )
 
-    def get_event_create_form(self, event_create_form_id):
+    def get_event_create_form(self, event_create_form_id: int) -> dict[str, Any]:
         """
         Get a event create form.
 
         Args:
-            event_create_form_id: int
-                The event create form id of the record to get.
+            event_create_form_id: The event create form id of the record to get.
 
         Returns:
             Event create form json object
@@ -605,7 +606,7 @@ class ActionKit:
             exception_message="Event create page not found",
         )
 
-    def get_event_create_form_fields(self):
+    def get_event_create_form_fields(self) -> list[str]:
         """
         Get list of valid event create form fields that can be passed with the
         :meth:`parsons.action_kit.action_kit.ActionKit.create_event_create_form` method.
@@ -615,20 +616,20 @@ class ActionKit:
 
         """
         resp = self._base_get(endpoint="eventcreateform/schema")
+
         return list(resp["fields"].keys())
 
-    def create_event_create_form(self, page_id, thank_you_text, **kwargs):
+    def create_event_create_form(self, page_id: int, thank_you_text: str, **kwargs):
         """
         Create a event create form.
 
         Args:
-            page_id: int
-                The page to associate the form with
-            thank_you_text: str
-                Free form thank you text
+            page_id: The page to associate the form with
+            thank_you_text: Free form thank you text
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -642,13 +643,12 @@ class ActionKit:
             **kwargs,
         )
 
-    def get_event_signup_page(self, event_signup_page_id):
+    def get_event_signup_page(self, event_signup_page_id: int) -> dict[str, Any]:
         """
         Get event signup page.
 
         Args:
-            event_signup_page_id: int
-                The event signup page id of the record to get.
+            event_signup_page_id: The event signup page id of the record to get.
 
         Returns:
             Event signup page json object
@@ -660,7 +660,7 @@ class ActionKit:
             exception_message="User page signup page not found",
         )
 
-    def get_event_signup_page_fields(self):
+    def get_event_signup_page_fields(self) -> list[str]:
         """
         Get list of valid event signup page fields that can be passed with the
         :meth:`parsons.action_kit.action_kit.ActionKit.create_event_signup_page` method.
@@ -670,22 +670,21 @@ class ActionKit:
 
         """
         resp = self._base_get(endpoint="eventsignuppage/schema")
+
         return list(resp["fields"].keys())
 
-    def create_event_signup_page(self, name, campaign_id, title, **kwargs):
+    def create_event_signup_page(self, name: str, campaign_id: int, title: str, **kwargs):
         """
         Add an event signup page to a campaign.
 
         Args:
-            campaign_id: int
-                The campaign to assoicate page with
-            name: str
-                The name of the page to create
-            title: str
-                The title of the page to create
+            name: The name of the page to create
+            campaign_id: The campaign to assoicate page with
+            title: The title of the page to create
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -700,13 +699,12 @@ class ActionKit:
             **kwargs,
         )
 
-    def get_event_signup_form(self, event_signup_form_id):
+    def get_event_signup_form(self, event_signup_form_id: str) -> dict[str, Any]:
         """
         Get a user.
 
         Args:
-            event_signup_form_id: str
-                The event signup form id of the record to get.
+            event_signup_form_id: The event signup form id of the record to get.
 
         Returns:
             Event signup form json object
@@ -718,7 +716,7 @@ class ActionKit:
             exception_message="User page signup form not found",
         )
 
-    def get_event_signup_form_fields(self):
+    def get_event_signup_form_fields(self) -> list[str]:
         """
         Get list of valid event signup form fields that can be passed with the
         :meth:`parsons.action_kit.action_kit.ActionKit.create_event_signup_form` method.
@@ -728,20 +726,20 @@ class ActionKit:
 
         """
         resp = self._base_get(endpoint="eventsignupform/schema")
+
         return list(resp["fields"].keys())
 
-    def create_event_signup_form(self, page_id, thank_you_text, **kwargs):
+    def create_event_signup_form(self, page_id: int, thank_you_text: str, **kwargs):
         """
         Create a event signup form.
 
         Args:
-            page_id: int
-                The page to associate the form with
-            thank_you_text: str
-                Free form thank you text
+            page_id: The page to associate the form with
+            thank_you_text: Free form thank you text
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -755,18 +753,18 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_event_signup(self, event_signup_id, **kwargs):
+    def update_event_signup(self, event_signup_id: int, **kwargs) -> None:
         """
         Update an event signup.
 
         Args:
             event_signup_id: int
                 The id of the event signup to update
-            event_signup_dict: dict
+            event_signup_dict (dict):
                 A dictionary of fields to update for the event signup.
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(
@@ -774,13 +772,12 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {event_signup_id}")
 
-    def get_mailer(self, entity_id):
+    def get_mailer(self, entity_id: int) -> dict[str, Any]:
         """
         Get a mailer.
 
         Args:
-            entity_id: int
-                The entity id of the record to get.
+            entity_id: The entity id of the record to get.
 
         Returns:
             Mailer json object
@@ -794,7 +791,8 @@ class ActionKit:
 
         Args:
             `**kwargs`:
-                Arguments and fields to pass to the client. A full list can be found in the
+                Arguments and fields to pass to the client.
+                A full list can be found in the
                 `ActionKit API Mailer Documentation`_.
 
         Returns:
@@ -805,40 +803,32 @@ class ActionKit:
             endpoint="mailer", exception_message="Could not create mailer", **kwargs
         )
 
-    def copy_mailer(self, mailer_id):
-        """
-        Copy a mailer
-        returns new copy of mailer which should be updatable.
-        """
-        resp = self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")
-        return resp
+    def copy_mailer(self, mailer_id: int) -> requests.Response:
+        """Copy a mailer returns new copy of mailer which should be updatable."""
+        return self.conn.post(self._base_endpoint("mailer", entity_id=mailer_id) + "/copy")
 
-    def update_mailing(self, mailer_id, **kwargs):
+    def update_mailing(self, mailer_id: int, **kwargs) -> requests.Response:
         """
         Update a mailing.
 
         Args:
-            mailing_id: int
-                The id of the mailing to update
+            mailing_id: The id of the mailing to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
-
-        Returns:
-            ``HTTP response from the patch request``
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {mailer_id}")
         return resp
 
-    def rebuild_mailer(self, mailing_id):
+    def rebuild_mailer(self, mailing_id: int):
         """
         Rebuild a mailer.
 
         Args:
-            mailing_id: int
-                Id of the mailer.
+            mailing_id: Id of the mailer.
 
         Returns:
             URI to poll for progress
@@ -849,13 +839,12 @@ class ActionKit:
             exception_message="Could not rebuild mailer",
         )
 
-    def queue_mailer(self, mailing_id):
+    def queue_mailer(self, mailing_id: int):
         """
         Queue a mailer.
 
         Args:
-            mailing_id: int
-                Id of the mailer.
+            mailing_id: Id of the mailer.
 
         Returns:
             URI to poll for progress
@@ -866,28 +855,29 @@ class ActionKit:
             exception_message="Could not queue mailer",
         )
 
-    def paginated_get(self, object_type, limit=None, **kwargs):
-        """Get multiple objects of a given type.
+    def paginated_get(self, object_type: str, limit: int | None = None, **kwargs) -> Table:
+        """
+        Get multiple objects of a given type.
 
         Args:
-            object_type: str
-                The type of object to search for.
-            limit: int
-                The number of objects to return. If omitted, all objects are returned.
+            object_type: The type of object to search for.
+            limit:
+                The number of objects to return.
+                If omitted, all objects are returned.
             `**kwargs`:
-                Optional arguments to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
-                Additionally, expressions to filter the data can also be provided. For addition
-                info, visit `Django Field Lookup Documentation`_.
+                Additionally, expressions to filter the data can also be provided.
+                For addition info, visit `Django Field Lookup Documentation`_.
 
                 .. code-block:: python
 
                     ak.paginated_get(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
-                The objects data.
+            The objects data.
 
         """
         # "The maximum number of objects returned per request is 100. Use paging
@@ -912,7 +902,7 @@ class ActionKit:
         self,
         object_type: str,
         limit: int | None = None,
-        threshold_field: str | None = None,
+        threshold_field: str | None = None,  # TODO: this is actually required
         threshold_value: str | None = None,
         ascdesc: Literal["asc", "desc"] = "asc",
         **kwargs,
@@ -921,8 +911,7 @@ class ActionKit:
         Get multiple objects of a given type, stopping based on the value of a field.
 
         Args:
-            object_type:
-                The type of object to search for.
+            object_type: The type of object to search for.
             limit:
                 The maximum number of objects to return.
                 Even if the threshold value is not reached, if the limit is set,
@@ -930,14 +919,15 @@ class ActionKit:
             threshold_field:
                 The field used to determine when to stop.
                 Must be one of the options for ordering by.
-            threshold_value:
-                The value of the field to stop at.
+            threshold_value: The value of the field to stop at.
             ascdesc:
-                If "asc" (the default), return all objects below the threshold value.
-                If "desc", return all objects above the threshold value.
+                If ``asc``, return all objects below the threshold value.
+                If ``desc``, return all objects above the threshold value.
             `**kwargs`:
-                You can also add expressions to filter the data beyond the limit/threshold values
-                above. For additional info, visit `Django Field Lookup Documentation`_.
+                You can also add expressions to filter the data
+                beyond the limit/threshold values above.
+
+                For additional info, visit `Django Field Lookup Documentation`_.
 
                 .. code-block:: python
 
@@ -952,8 +942,10 @@ class ActionKit:
         # (https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering)
         kwargs["_limit"] = min(100, limit or 1_000_000_000)
         kwargs["order_by"] = ("" if ascdesc == "asc" else "-") + threshold_field
+
         json_data = self._base_get(object_type, params=kwargs)
         data = json_data["objects"]
+
         next_url = json_data.get("meta", {}).get("next")
         while next_url:
             last = data[-1].get(threshold_field)
@@ -966,6 +958,7 @@ class ActionKit:
             next_url = resp.json().get("meta", {}).get("next")
             if limit and len(data) >= limit:
                 break
+
         # This could be more efficient but it's still O(n) so no big deal
         i = len(data) - 1  # start at the end; 0-indexed means the end is length - 1
         if ascdesc == "asc":
@@ -975,15 +968,15 @@ class ActionKit:
             while data[i].get(threshold_field) < threshold_value:
                 i = i - 1
         data = data[:i]
+
         return Table(data[:limit])
 
-    def get_order(self, order_id):
+    def get_order(self, order_id: int) -> dict[str, Any]:
         """
         Get an order.
 
         Args:
-            order_id: int
-                The order id of the record to get.
+            order_id: The order id of the record to get.
 
         Returns:
             User json object
@@ -993,34 +986,30 @@ class ActionKit:
             endpoint="order", entity_id=order_id, exception_message="Order not found"
         )
 
-    def update_order(self, order_id, **kwargs):
+    def update_order(self, order_id: int, **kwargs) -> None:
         """
         Update an order.
 
         Args:
-            order_id: int
-                The id of the order to update
+            order_id: The id of the order to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {order_id}")
 
-    def update_order_user_detail(self, user_detail_id, **kwargs):
+    def update_order_user_detail(self, user_detail_id: int, **kwargs) -> requests.Response:
         """
         Update an order user detail.
 
         Args:
-            user_detail_id: int
-                The id of the order user detail to update
+            user_detail_id: The id of the order user detail to update
             `**kwargs`:
                 Optional arguments and fields to pass to the client. A full list can be found
                 at the /rest/v1/orderuserdetail/schema/ path on any ActionKit instance.
-
-        Returns:
-            ``HTTP response from the patch request``
 
         """
         resp = self.conn.patch(
@@ -1030,13 +1019,12 @@ class ActionKit:
 
         return resp
 
-    def get_orderrecurring(self, orderrecurring_id):
+    def get_orderrecurring(self, orderrecurring_id: int) -> dict[str, Any]:
         """
         Get an orderrecurring.
 
         Args:
-            orderrecurring_id: int
-                The orderrecurring id of the record to get.
+            orderrecurring_id: The orderrecurring id of the record to get.
 
         Returns:
             User json object
@@ -1048,29 +1036,30 @@ class ActionKit:
             exception_message="Orderrecurring not found",
         )
 
-    def cancel_orderrecurring(self, recurring_id):
+    def cancel_orderrecurring(self, recurring_id: int) -> requests.Response:
         """
         Cancel a recurring order.
 
         Args:
-            recurring_id: int
-                The id of the recurring order to update (NOT the order_id)
+            recurring_id:
+                The id of the recurring order to update (NOT the ``order_id``)
 
         """
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
         logger.info(f"{resp.status_code}: {recurring_id}")
+
         return resp
 
-    def update_orderrecurring(self, orderrecurring_id, **kwargs):
+    def update_orderrecurring(self, orderrecurring_id: int, **kwargs) -> None:
         """
         Update a recurring order.
 
         Args:
-            orderrecurring_id: int
-                The id of the orderrecurring to update
+            orderrecurring_id: The id of the orderrecurring to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(
@@ -1079,43 +1068,42 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {orderrecurring_id}")
 
-    def get_orders(self, limit=None, **kwargs):
-        """Get multiple orders.
+    def get_orders(self, limit: int | None = None, **kwargs) -> Table:
+        """
+        Get multiple orders.
 
         Args:
-            limit: int
-                The number of orders to return. If omitted, all orders are returned.
+            limit:
+                The number of orders to return.
+                If omitted, all orders are returned.
             `**kwargs`:
-                Optional arguments to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
-                Additionally, expressions to filter the data can also be provided. For addition
-                info, visit `Django Field Lookup Documentation`_.
+                Additionally, expressions to filter the data can also be provided.
+                For addition info, visit `Django Field Lookup Documentation`_.
 
                 .. code-block:: python
 
                     ak.get_orders(import_id="my-import-123")
 
         Returns:
-            Parsons.Table
-                The orders data.
+            The orders data.
 
         """
         return self.paginated_get("order", limit=limit, **kwargs)
 
-    def update_paymenttoken(self, paymenttoken_id, **kwargs):
+    def update_paymenttoken(self, paymenttoken_id: int, **kwargs) -> requests.Response:
         """
         Update a saved payment token.
 
         Args:
-            paymenttoken_id: int
-                The id of the payment token to update
+            paymenttoken_id: The id of the payment token to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
-
-        Returns:
-            ``HTTP response``
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(
@@ -1123,15 +1111,15 @@ class ActionKit:
             data=json.dumps(kwargs),
         )
         logger.info(f"{resp.status_code}: {paymenttoken_id}")
+
         return resp
 
-    def get_page_followup(self, page_followup_id):
+    def get_page_followup(self, page_followup_id: int) -> dict[str, Any]:
         """
         Get a page followup.
 
         Args:
-            page_followup_id: int
-                The user id of the record to get.
+            page_followup_id: The user id of the record to get.
 
         Returns:
             Page followup json object
@@ -1143,7 +1131,7 @@ class ActionKit:
             exception_message="Page followup not found",
         )
 
-    def get_page_followup_fields(self):
+    def get_page_followup_fields(self) -> list[str]:
         """
         Get list of valid page followup fields that can be passed with the
         :meth:`parsons.action_kit.action_kit.ActionKit.create_page_followup` method.
@@ -1153,20 +1141,19 @@ class ActionKit:
 
         """
         resp = self._base_get(endpoint="pagefollowup/schema")
+
         return list(resp["fields"].keys())
 
-    def create_page_followup(self, signup_page_id, url, **kwargs):
+    def create_page_followup(self, signup_page_id: int, url: str, **kwargs):
         """
         Add a page followup.
 
         Args:
-            signup_page_id: int
-                The signup page to associate the followup page with
-            url: str
-                URL of the folloup page
+            signup_page_id: The signup page to associate the followup page with
+            url: URL of the followup page
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the `ActionKit API Action Processing Documentation`_.
 
         Returns:
             API location of new resource
@@ -1180,13 +1167,12 @@ class ActionKit:
             **kwargs,
         )
 
-    def get_survey_question(self, survey_question_id):
+    def get_survey_question(self, survey_question_id: int) -> dict[str, Any]:
         """
         Get a survey question.
 
         Args:
-            survey_question_id: int
-                The survey question id of the record to get.
+            survey_question_id: The survey question id of the record to get.
 
         Returns:
             Survey question json object
@@ -1198,18 +1184,17 @@ class ActionKit:
             exception_message="Survey question not found",
         )
 
-    def update_survey_question(self, survey_question_id, **kwargs):
+    def update_survey_question(self, survey_question_id: int, **kwargs) -> None:
         """
         Update a survey question.
 
         Args:
-            survey_question_id: int
-                The id of the survey question to update
-            survey_question_dict: dict
+            survey_question_id: The id of the survey question to update
+            survey_question_dict (dict):
                 A dictionary of fields to update for the survey question.
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(
@@ -1223,8 +1208,7 @@ class ActionKit:
         Create a transaction.
 
         Args:
-            `**kwargs`:
-                Optional arguments and fields to pass to the client.
+            `**kwargs`: Optional arguments and fields to pass to the client.
 
         Returns:
             Transaction json object
@@ -1236,16 +1220,15 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_transaction(self, transaction_id, **kwargs):
+    def update_transaction(self, transaction_id: int, **kwargs) -> None:
         """
         Update a transaction.
 
         Args:
-            transaction_id: int
-                The id of the transaction to update
+            transaction_id: The id of the transaction to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the `ActionKit API Action Processing Documentation`_.
 
         """
         resp = self.conn.patch(
@@ -1253,48 +1236,65 @@ class ActionKit:
         )
         logger.info(f"{resp.status_code}: {transaction_id}")
 
-    def get_transactions(self, limit=None, **kwargs):
-        """Get multiple transactions.
+    def get_transactions(self, limit: int | None = None, **kwargs) -> Table:
+        """
+        Get multiple transactions.
 
         Args:
-            limit: int
-                The number of transactions to return. If omitted, all transactions are returned.
+            limit:
+                The number of transactions to return.
+                If omitted, all transactions are returned.
             `**kwargs`:
-                Optional arguments to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
-                Additionally, expressions to filter the data can also be provided. For addition
-                info, visit `Django Field Lookup Documentation`_.
+                Additionally, expressions to filter the data can also be provided.
+                For addition info, visit `Django Field Lookup Documentation`_.
 
                 .. code-block:: python
 
                     ak.get_transactions(order="order-1")
 
         Returns:
-            Parsons.Table
-                The transactions data.
+            The transactions data.
 
         """
         return self.paginated_get("transaction", limit=limit, **kwargs)
 
-    def create_generic_action(self, page, email=None, ak_id=None, **kwargs):
+    @overload
+    def create_generic_action(
+        self, page: str, email: str, ak_id: None = None, **kwargs
+    ) -> dict[str, Any] | None: ...
+
+    @overload
+    def create_generic_action(
+        self, page: str, email: None, ak_id: int, **kwargs
+    ) -> dict[str, Any] | None: ...
+
+    def create_generic_action(
+        self, page: str, email: str | None = None, ak_id: int | None = None, **kwargs
+    ) -> dict[str, Any] | None:
         """
-        Post a generic action. One of ``ak_id`` or ``email`` is a required argument.
+        Post a generic action.
+
+        Must provide one of `ak_id` or `email`.
 
         Args:
             page:
-                The page to post the action. The page short name.
-            email:
-                The email address of the user to post the action.
-            ak_id:
-                The action kit id of the record.
+                The short name of the page to post the action.
+            email: The email address of the user to post the action.
+            ak_id: The action kit id of the record.
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                in the `ActionKit API Action Processing Documentation`_.
+                Optional arguments and fields to pass to the client.
+                A full list can be found in the
+                `ActionKit API Action Processing Documentation`_.
 
         Returns:
-            dict
-                The response json
+            The response json
+
+        Raises:
+            ValueError: If neither `email` nor `ak_id` is provided.
 
         """
         if not email or ak_id:
@@ -1309,19 +1309,16 @@ class ActionKit:
             **kwargs,
         )
 
-    def update_import_action(self, action_id, **kwargs):
+    def update_import_action(self, action_id: int, **kwargs) -> requests.Response:
         """
         Update an import action.
 
         Args:
-            action_id: int
-                The action id of the import action to update
+            action_id: The action id of the import action to update
             `**kwargs`:
-                Optional arguments and fields to pass to the client. A full list can be found
-                at the /rest/v1/importaction/schema/ path on any ActionKit instance.
-
-        Returns:
-            ``HTTP response from the patch request``
+                Optional arguments and fields to pass to the client.
+                A full list can be found at the ``/rest/v1/importaction/schema/``
+                path on any ActionKit instance.
 
         """
         resp = self.conn.patch(
@@ -1333,46 +1330,53 @@ class ActionKit:
 
     def bulk_upload_csv(
         self,
-        csv_file,
-        import_page,
-        autocreate_user_fields=False,
-        user_fields_only=False,
-    ):
+        csv_file: Path | str | io.BufferedReader,
+        import_page: str,
+        autocreate_user_fields: bool = False,
+        user_fields_only: bool = False,
+    ) -> BulkCSVUploadResult:
         """
         Bulk upload a csv file of new users or user updates.
+
         If you are uploading a table object, use bulk_upload_table instead.
         For more, see the `ActionKit API Uploads Documentation`_
-        Be careful that blank values in columns will overwrite existing data.
+
+        .. warning::
+
+            Blank values in columns will overwrite existing data.
 
         If you get a 500 error, try sending a much smaller file (say, one row),
         which is more likely to return the proper 400 with a useful error message
 
         Args:
-            import_page: str
-                The page to post the action. The page short name.
-            csv_file: str or buffer
+            csv_file:
                 The csv (optionally zip'd) file path or a file buffer object
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
-            autocreate_user_fields: bool
+            import_page:
+                The page to post the action. The page short name.
+            autocreate_user_fields:
                 When True, columns starting with ``user_`` will be uploaded as user fields.
                 For more, see the `ActionKit API autocreate_user_fields Documentation`_.
-            user_fields_only: bool
+            user_fields_only:
                 When uploading only an email/user_id column and ``user_`` user fields,
                 ActionKit has a fast processing path.
                 This doesn't work, if you upload a zipped csv though.
 
         Returns:
-            dict[str, bool | str | requests.Response]
-                success: whether upload was successful
-                progress_url: an API URL to get progress on upload processing
-                res: requests http response object
+            Dictionary Contents
+
+            - res: requests http response object
+            - success: whether upload was successful
+            - id: the upload id extracted from the progress_url
+            - progress_url: an API URL to get progress on upload processing
 
         """
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
+
         # TODO: use context manager or close file when done
-        if isinstance(csv_file, str):
+        if isinstance(csv_file, (Path, str)):
             csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115 open-file-with-context-handler
 
         url = self._base_endpoint("upload")
@@ -1384,7 +1388,7 @@ class ActionKit:
         }
         with upload_client.post(url, files=files, data=data) as res:
             progress_url = res.headers.get("Location")
-            rv = {
+            rv: BulkCSVUploadResult = {
                 "res": res,
                 "success": res.status_code == 201,
                 "id": progress_url.split("/")[-2] if progress_url else None,
@@ -1396,13 +1400,14 @@ class ActionKit:
     def bulk_upload_table(
         self,
         table: Table,
-        import_page: str,
+        import_page: str | None = None,
         autocreate_user_fields: bool = False,
         no_overwrite_on_empty: bool = False,
         set_only_columns: list[str] | None = None,
-    ) -> dict[str, bool | list[dict]]:
+    ) -> BulkTableUploadResults:
         """
         Bulk upload a table of new users or user updates.
+
         For more, see the `ActionKit API Uploads Documentation`_
         Be careful that blank values in columns will overwrite existing data.
 
@@ -1417,33 +1422,34 @@ class ActionKit:
         Args:
             table:
                 A Table of user data to bulk upload
-                A user_id or email column is required.
+                A ``user_id`` or ``email`` column is required.
             import_page:
                 The page to post the action. The page short name.
+                Not required if the ``ACTION_KIT_IMPORTPAGE`` environment variable is set.
             autocreate_user_fields:
-                When True, columns starting with ``user_`` will be uploaded as user fields.
+                When ``True``, columns starting with ``user_`` will be uploaded as user fields.
                 For more, see the `ActionKit API autocreate_user_fields Documentation`_.
             no_overwrite_on_empty:
-                When uploading user data, ActionKit will, by default, take a blank value
-                and overwrite existing data for that user.
+                When uploading user data, ActionKit will, by default,
+                take a blank value and overwrite any existing data for that user.
                 This can be undesirable, if the goal is to only send updates.
-                Setting this to True will divide up the table into multiple upload
-                batches, changing the columns uploaded based on permutations of
-                empty columns.
+
+                Setting this to ``True`` will divide up the table into multiple upload batches,
+                changing the columns uploaded based on permutations of empty columns.
             set_only_columns:
-                This is similar to no_overwrite_on_empty but restricts to a specific set of columns
-                which, if blank, should not be overwritten.
+                This is similar to `no_overwrite_on_empty`, but restricts it to a specific set of columns.
+                If these columns are blank, they will not be overwritten.
 
         Returns:
             Dictionary Contents
 
-            - success (bool) -- whether overall upload was successful (individual rows may not have been)
-            - results (list[dict[str, Unknown]]) -- full results, with ``progress_url`` and ``res`` for each result
+            - success -- whether overall upload was successful (individual rows may not have been)
+            - results -- full results, with ``progress_url`` and ``res`` for each result
 
         """
-        import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
+        import_pg: str = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
         upload_tables = self._split_tables_no_empties(
-            table, no_overwrite_on_empty, set_only_columns
+            table, no_overwrite_on_empty=no_overwrite_on_empty, set_only_columns=set_only_columns
         )
         results = []
         for tbl in upload_tables:
@@ -1453,17 +1459,40 @@ class ActionKit:
             results.append(
                 self.bulk_upload_csv(
                     tbl.to_csv(),
-                    import_page,
+                    import_pg,
                     autocreate_user_fields=autocreate_user_fields,
                     user_fields_only=user_fields_only,
                 )
             )
+
         return {"success": all(r["success"] for r in results), "results": results}
 
-    def _split_tables_no_empties(self, table, no_overwrite_on_empty, set_only_columns):
+    @overload
+    def _split_tables_no_empties(
+        self,
+        table: Table,
+        no_overwrite_on_empty: Literal[True],
+        set_only_columns: ... = None,
+    ) -> list[Table]: ...
+
+    @overload
+    def _split_tables_no_empties(
+        self,
+        table: Table,
+        no_overwrite_on_empty: Literal[False] = False,
+        set_only_columns: list[str] | None = None,
+    ) -> list[Table]: ...
+
+    def _split_tables_no_empties(
+        self,
+        table: Table,
+        no_overwrite_on_empty: bool = False,
+        set_only_columns: list[str] | None = None,
+    ) -> list[Table]:
         table_groups = {}
         # uploading combo of user_id and email column should be mutually exclusive
         blank_columns_test = table.columns
+
         if not no_overwrite_on_empty:
             blank_columns_test = set(["user_id", "email"] + (set_only_columns or [])).intersection(
                 table.columns
@@ -1472,38 +1501,47 @@ class ActionKit:
             blanks = tuple(k for k in blank_columns_test if row.get(k) in (None, ""))
             grp = table_groups.setdefault(blanks, [])
             grp.append(row)
+
         results = []
         for blanks, subset in table_groups.items():
             subset_table = Table(subset)
+
             if blanks:
                 subset_table.table = subset_table.table.cutout(*blanks)
-            logger.debug("Column Upload Blanks: %s", blanks)
+                logger.debug("Column Upload Blanks: %s", blanks)
+
             logger.debug("Column Upload Columns: %s", subset_table.columns)
+
             if not {"user_id", "email"}.intersection(subset_table.columns):
                 logger.warning(
                     f"Upload will fail without user_id or email. "
                     f"Rows: {subset_table.num_rows}, Columns: {subset_table.columns}"
                 )
+
             results.append(subset_table)
+
         return results
 
-    def collect_upload_errors(self, result_array):
+    def collect_upload_errors(
+        self, result_array: list[BulkCSVUploadResult]
+    ) -> list[UploadErrorResult]:
         """
-        Collect any upload errors as a list of objects from bulk_upload_table 'results' key value.
+        Collect any upload errors as a list of objects from :meth:`bulk_upload_table` 'results' key value.
+
         This waits for uploads to complete, so it may take some time if you uploaded a large file.
 
         Args:
-            result_array: list
-                After receiving a dict back from bulk_upload_table you may want to see if there
-                were any errors in the uploads.  If you call collect_upload_errors(result_array)
-                it will iterate across each of the uploads fetching the final result of e.g.
-                /rest/v1/uploaderror?upload=123
+            result_array:
+                After receiving a dict back from bulk_upload_table,
+                you may want to see if there were any errors in the uploads.
+                Call ``collect_upload_errors(result_array)`` to iterate across each of the
+                uploads fetching the final result of e.g. ``/rest/v1/uploaderror?upload=123``.
 
         Returns:
-            [dict]
-                message: str -- error message
-                upload: str -- upload progress API path e.g. "/rest/v1/upload/123456/"
-                id: int -- upload error record id (different than upload id)
+            Dictionary Contents
+            - message: str -- error message
+            - upload: str -- upload progress API path e.g. ``/rest/v1/upload/123456/``
+            - id: int -- upload error record id (different than upload id)
 
         """
         errors = []
@@ -1520,7 +1558,7 @@ class ActionKit:
 
                 # ActionKit limits length of error list returned
                 # Iterate until all errors are gathered
-                error_count = upload.get("has_errors")
+                error_count: int = upload.get("has_errors")
                 limit = 20
 
                 error_pages = math.ceil(error_count / limit)

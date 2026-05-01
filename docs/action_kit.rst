@@ -66,6 +66,15 @@ API
    :inherited-members:
    :members:
 
+.. autoclass:: parsons.action_kit.action_kit.BulkCSVUploadResult
+   :members:
+
+.. autoclass:: parsons.action_kit.action_kit.BulkTableUploadResults
+   :members:
+
+.. autoclass:: parsons.action_kit.action_kit.UploadErrorResult
+   :members:
+
 .. _ActionKit API Authentication Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#authentication
 .. _ActionKit API Action processing Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/actionprocessing.html
 .. _ActionKit API Ordering Documentation: https://roboticdogs.actionkit.com/docs/manual/api/rest/overview.html#ordering

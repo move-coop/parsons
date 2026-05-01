@@ -17,8 +17,10 @@ class ActionBuilder:
         api_token: The OSDI API token
         subdomain: The part of the web app URL preceding ``.actionbuilder.org``
         campaign:
-            The 36-character ``interact ID`` of the campaign whose data is to be retrieved or edited.
-            Can also be supplied in individual methods in case multiple campaigns need to be referenced.
+            The 36-character ``interact ID`` of the campaign
+            whose data is to be retrieved or edited.
+            Can also be supplied in individual methods
+            in case multiple campaigns need to be referenced.
 
     """
 
@@ -38,8 +40,7 @@ class ActionBuilder:
         self.campaign = campaign
 
     def _campaign_check(self, campaign: str | None) -> str:
-        # Raise an error if campaign is not provided via instatiation nor method argument
-
+        """Raise an error if campaign is not provided via instatiation nor method argument."""
         final_campaign = campaign or self.campaign
         if not final_campaign:
             raise ValueError("No campaign provided!")
@@ -188,7 +189,7 @@ class ActionBuilder:
 
         return self.api.post_request(url=url, data=json.dumps(data))
 
-    def _upsert_entity(self, data, campaign) -> dict[str, Any] | int | None:
+    def _upsert_entity(self, data: dict[str, Any], campaign) -> dict[str, Any] | int | None:
         # Internal method leveraging the record signup helper endpoint to upsert entity records
 
         url = f"campaigns/{campaign}/people"
@@ -196,7 +197,7 @@ class ActionBuilder:
         return self.api.post_request(url=url, data=json.dumps(data))
 
     def insert_entity_record(
-        self, entity_type: str, data: dict | None = None, campaign: str | None = None
+        self, entity_type: str, data: dict[str, Any] | None = None, campaign: str | None = None
     ) -> dict[str, Any] | int | None:
         """
         Load a new entity record in Action Builder of the type provided.
@@ -207,7 +208,7 @@ class ActionBuilder:
                 Required if identifiers are not provided.
             data:
                 The details to include on the record being upserted, to be included as the value
-                of the `person` key. See the `ActionBuilder Person Signup Helper Documentation`_
+                of the ``person`` key. See the `ActionBuilder Person Signup Helper Documentation`_
                 for examples, and the `ActionBuilder Person Endpoint Documentation_`
                 for full entity object composition.
             campaign:
@@ -217,13 +218,18 @@ class ActionBuilder:
         Returns:
             Action Builder entity data.
 
+        Raises:
+            TypeError: If ``data`` is not a dictionary.
+            ValueError: If ``data`` does not contain a name or given_name key.
+
         """
         name_keys = ("name", "action_builder:name", "given_name")
-        error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
-            raise ValueError(error)
+            error = "Data must be provided as a dict"
+            raise TypeError(error)
         name_check = [key for key in data.get("person", {}) if key in name_keys]
         if not name_check:
+            error = "Must provide data with name or given_name when inserting new record"
             raise ValueError(error)
 
         campaign = self._campaign_check(campaign)
@@ -252,7 +258,7 @@ class ActionBuilder:
                 followed by a colon, e.g. ``action_builder:abc123-...``.
             data:
                 The details to include on the record being upserted, to be included as the value
-                of the `person` key. See the `ActionBuilder Person Signup Helper Documentation`_
+                of the ``person`` key. See the `ActionBuilder Person Signup Helper Documentation`_
                 for examples, and the `ActionBuilder Person Endpoint Documentation_`
                 for full entity object composition.
             campaign:
@@ -306,7 +312,11 @@ class ActionBuilder:
         return self.api.delete_request(url=url)
 
     def add_section_field_values_to_record(
-        self, identifier: str, section: str, field_values: dict, campaign: str | None = None
+        self,
+        identifier: str,
+        section: str,
+        field_values: dict[str, Any],
+        campaign: str | None = None,
     ) -> dict[str, Any] | int | None:
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action Builder.
@@ -316,10 +326,8 @@ class ActionBuilder:
             identifier:
                 The unique identifier for a record being updated. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. ``action_builder:abc123-...``.
-            section:
-                The name of the tag section, i.e. the custom field group name.
-            field_values:
-                A collection of field names and tags stored as keys and values.
+            section: The name of the tag section, i.e. the custom field group name.
+            field_values: A collection of field names and tags stored as keys and values.
             campaign:
                 The 36-character ``interact ID`` of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -380,6 +388,12 @@ class ActionBuilder:
         Returns:
             API response JSON which contains
             `{'message': 'Tag has been removed from Taggable Logbook'}` if successful.
+
+        Raises:
+            ValueError: If `tag_name` and `tag_id` are both ``None``.
+            ValueError: If `identifier` and `tagging_id` are both ``None``.
+            ValueError: If `tag_name` found more than one matching tag.
+            ValueError: If `tagging_id` was provided without `tag_id`.
 
         """
         if {tag_name, tag_id} == {None}:
@@ -505,8 +519,7 @@ class ActionBuilder:
         by supplying the ID for the connection record, or for the two connected entity records.
 
         Args:
-            from_identifier:
-                Unique identifier for one of the two entities with a connection.
+            from_identifier: Unique identifier for one of the two entities with a connection.
             connection_identifier:
                 The unique identifier for an entity or connection record being updated.
                 If omitted, `to_identifier` must be provided.

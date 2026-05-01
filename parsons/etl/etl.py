@@ -200,19 +200,21 @@ class ETL:
 
         return self
 
-    def convert_column(self, *column: str | list[str], **kwargs) -> Self:
+    def convert_column(
+        self, column: str | list[str], converter: Callable | dict | str | Any, **kwargs
+    ) -> Self:
         """
         Transform values under one or more fields via arbitrary functions
         method invocations or dictionary translations.
 
-        This uses :func:`petl.transform.conversions.convert`.
-
         Args:
-            `*column`: A single column or multiple columns passed as a list
-            `**kwargs`: The update function, method, or variable to process the update
+            column: A single column or multiple columns passed as a list
+            converter: The update function, method, or variable to process the update
+            `**kwargs`:
+                Additional keyword arguments to pass to :func:`petl.transform.conversions.convert`
 
         """
-        self.table = petl.convert(self.table, *column, **kwargs)
+        self.table = petl.convert(self.table, column, converter, **kwargs)
 
         return self
 

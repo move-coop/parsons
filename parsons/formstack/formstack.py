@@ -14,14 +14,14 @@ class Formstack:
     Instantiate Formstack class.
 
     Args:
-            api_token:
-                API token to access the Formstack API. Not required if the
-                ``FORMSTACK_API_TOKEN`` env variable is set.
+        api_token:
+            API token to access the Formstack API.
+            Not required if the ``FORMSTACK_API_TOKEN`` env variable is set.
 
     """
 
     def __init__(self, api_token: str | None = None):
-        self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
+        self.api_token: str = check_env.check("FORMSTACK_API_TOKEN", api_token)
         headers = {
             "Accept": "application/json",
             "Authorization": f"Bearer {self.api_token}",
@@ -36,40 +36,36 @@ class Formstack:
         large_request: bool = False,
     ) -> Table:
         """
-        Make a GET request for any endpoint that returns a list of data. Will check pagination.
+        Make a GET request for any endpoint that returns a list of data.
 
-        This is suitable for endpoints like `GET /form`, which gets all forms. It is not suitable
-        for endpoints like `GET /form/:id`, which returns the data for one particular form,
-        and is never paginated.
+        Will check pagination.
+        This is suitable for endpoints like ``GET /form``, which gets all forms.
+        It is not suitable for endpoints like ``GET /form/:id``,
+        which returns the data for one particular form, and is never paginated.
 
-        Author's note: I have observed some inconsistency in how Formstack is paginating its
-            its endpoints. For example, the /form endpoint (mentioned above) is documented as
+        .. admonition:: Author's note
+
+            I have observed some inconsistency in how Formstack is paginating its
+            its endpoints. For example, the ``/form`` endpoint (mentioned above) is documented as
             if it follows Formstack's standard pagination scheme. However, it seems to just
             return all of your form data and does not include the pagination keys at all.
             So for developing this connector, I'm just experimenting with endpoints as I write
-            the methods for them and using `_get_paginated_request` as needed. Fortunately using
+            the methods for them and using :meth:`_get_paginated_request` as needed. Fortunately, using
             the connector will remove the need to worry about this from the caller, and we can
             udated the methods in this class as needed when/if Formstack changes pagination on
             their API.
 
         Args:
-            url: str
-                Relative URL (from the Formstack base URL) to make the request.
-
-            data_key: str
-                JSON key that will hold the data in the response body.
-
-            params: dict, optional
-                    Params to pass to the request.
-
-            large_request: Boolean, optional
-                If the response is likely to include a large number of pages. Defaults to `False`.
+            url: Relative URL (from the Formstack base URL) to make the request.
+            data_key: JSON key that will hold the data in the response body.
+            params: Params to pass to the request.
+            large_request:
+                If the response is likely to include a large number of pages.
                 In rare cases the API will return more pages than :ref:`Table` is able to handle.
-                Pass `True` to enable a workaround for these endpoints.
+                Pass `True` to enable a workaround for these endpoints (loading all data into memory).
 
         Returns:
-            :ref:`Table`
-                A table with the returned data.
+            A table with the returned data.
 
         """
         if params is None:
@@ -97,8 +93,7 @@ class Formstack:
         Get all folders on your account and their subfolders.
 
         Returns:
-            :ref:`Table`
-                A Table with the folders data.
+            A Table with the folders data.
 
         """
         response_data = self.client.get_request(url="folder")

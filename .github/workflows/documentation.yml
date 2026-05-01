@@ -8,7 +8,7 @@ on:
       - main
       - major-release
     tags:
-      - 'v*'
+      - "v*"
 permissions: read-all
 
 env:
@@ -29,6 +29,10 @@ jobs:
     runs-on: ubuntu-latest
 
     if: github.event_name != 'pull_request'
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
 
     steps:
       - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
@@ -89,6 +93,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+
     steps:
       - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
         with:
@@ -134,9 +142,13 @@ jobs:
   deploy:
     needs: build-multiversion
 
+    runs-on: ubuntu-latest
+
     if: github.event_name != 'pull_request'
 
-    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
 
     permissions:
       pages: write

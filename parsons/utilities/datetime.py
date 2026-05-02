@@ -8,11 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 def _add_timezone_if_not_specified(date_time: datetime, tz: timezone) -> datetime:
-    if date_time.tzinfo is None:
-        logger.debug("Date '%s' has no timezone, assuming '%s'.", date_time, tz)
-        return date_time.replace(tzinfo=tz)
+    if date_time.tzinfo is not None:
+        return date_time
 
-    return date_time
+    logger.debug("Date '%s' has no timezone, assuming '%s'.", date_time, tz)
+    return date_time.replace(tzinfo=tz)
 
 
 @overload
@@ -89,8 +89,27 @@ def convert_date_to_iso(obj: str | date | datetime) -> str: ...
 
 
 def convert_date_to_iso(obj: str | date | datetime | None) -> str | None:
-    """Ensure that dates/datetimes are provided as strings."""
+    """Ensure that date/datetime is provided as ISO string."""
     return obj.isoformat() if isinstance(obj, date) else obj
+
+
+@overload
+def convert_date_to_simple(obj: None) -> None: ...
+
+
+@overload
+def convert_date_to_simple(obj: str | date | datetime) -> str: ...
+
+
+def convert_date_to_simple(obj: str | date | datetime | None) -> str | None:
+    """Ensure that date/datetime is provided as simple date string."""
+    if not obj:
+        return obj
+
+    if isinstance(obj, str):
+        obj = parse_date(obj)
+
+    return obj.strftime("%Y-%m-%d")
 
 
 def parse_date(

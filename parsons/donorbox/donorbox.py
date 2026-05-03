@@ -111,7 +111,7 @@ class Donorbox:
         if "donation_id" in kwargs:
             kwargs["id"] = kwargs.pop("donation_id")
         self._check_date_helper(kwargs)
-        data = self.client.get_request("donations", params=kwargs)
+        data = self.client.get_request(url="donations", params=kwargs)
         return Table(data)
 
     def get_donors(self, **kwargs):
@@ -145,7 +145,7 @@ class Donorbox:
         """
         if "donor_id" in kwargs:
             kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name
-        data = self.client.get_request("donors", params=kwargs)
+        data = self.client.get_request(url="donors", params=kwargs)
         return Table(data)
 
     def get_plans(self, **kwargs):
@@ -190,7 +190,7 @@ class Donorbox:
 
         """
         self._check_date_helper(kwargs)
-        data = self.client.get_request("plans", params=kwargs)
+        data = self.client.get_request(url="plans", params=kwargs)
         return Table(data)
 
     def _check_date_helper(self, params):

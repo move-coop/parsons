@@ -76,7 +76,7 @@ class Formstack:
 
         while pages is None or page <= pages:
             req_params = {**params, "page": page}
-            response_data = self.client.get_request(url, req_params)
+            response_data = self.client.get_request(url=url, params=req_params)
             pages = response_data["pages"]
             data.concat(Table(response_data[data_key]))
 
@@ -96,7 +96,7 @@ class Formstack:
                 A Table with the folders data.
 
         """
-        response_data = self.client.get_request("folder")
+        response_data = self.client.get_request(url="folder")
         logger.debug(response_data)
 
         # The API returns folders in a tree structure that doesn't fit well
@@ -138,7 +138,7 @@ class Formstack:
             params["search"] = form_name
         if folder_id:
             params["folder"] = folder_id
-        response_data = self.client.get_request("form", params)
+        response_data = self.client.get_request(url="form", params=params)
         logger.debug(response_data)
         return Table(response_data["forms"])
 
@@ -155,7 +155,7 @@ class Formstack:
                 Submission data.
 
         """
-        response_data = self.client.get_request(f"submission/{id}")
+        response_data = self.client.get_request(url=f"submission/{id}")
         logger.debug(response_data)
         return response_data
 
@@ -199,7 +199,7 @@ class Formstack:
                 A Table with the fields on the form.
 
         """
-        response_data = self.client.get_request(f"form/{form_id}/field")
+        response_data = self.client.get_request(url=f"form/{form_id}/field")
         logger.debug(response_data)
         tbl = Table(response_data)
         return tbl

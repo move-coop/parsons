@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.google.google_admin import GoogleAdmin
 from test.conftest import assert_matching_tables
 

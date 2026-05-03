@@ -1,7 +1,7 @@
 import logging
 from typing import Literal
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +20,10 @@ class CustomFields:
                 ``contributions``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         params = {"customFieldsGroupType": field_type.capitalize()}
 
         tbl = Table(self.connection.get_request("customFields", params=params))
@@ -43,11 +42,10 @@ class CustomFields:
                 ``contributions``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         tbl = self.get_custom_fields()
 
         # Some custom fields do no have associated values. If this is the case then
@@ -81,7 +79,6 @@ class CustomFields:
             A json.
 
         """
-
         r = self.connection.get_request(f"customFields/{custom_field_id}")
         logger.info(f"Found custom field {custom_field_id}.")
         return r

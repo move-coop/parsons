@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.capitol_canary import CapitolCanary
 
 logger = logging.getLogger(__name__)
@@ -8,22 +9,19 @@ logger = logging.getLogger(__name__)
 
 class Phone2Action:
     """
-    Instantiate Phone2Action Class
+    Instantiate Phone2Action Class.
 
     Args:
-        app_id: str
-            The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``
-            env variable set.
-        app_key: str
-            The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
-            env variable set.
-
-    Returns:
-        Phone2Action Class
+        app_id:
+            The Phone2Action provided application id.
+            Not required if ``PHONE2ACTION_APP_ID`` env variable set.
+        app_key:
+            The Phone2Action provided application key.
+            Not required if ``PHONE2ACTION_APP_KEY`` env variable set.
 
     """
 
-    def __init__(self, app_id=None, app_key=None):
+    def __init__(self, app_id: str | None = None, app_key: str | None = None) -> None:
         self.capitol_canary = CapitolCanary(app_id, app_key)
         logger.warning("The Phone2Action class is being deprecated and replaced by CapitalCanary")
 
@@ -35,11 +33,11 @@ class Phone2Action:
 
     def get_advocates(
         self,
-        state=None,
-        campaign_id=None,
+        state: str | None = None,
+        campaign_id: int | None = None,
         updated_since: str | int | datetime | None = None,
-        page=None,
-    ):
+        page: int | None = None,
+    ) -> dict[str, Table]:
         """
         Return advocates (person records).
 
@@ -47,83 +45,82 @@ class Phone2Action:
         advocates.
 
         Args:
-            state: str
-                Filter by US postal abbreviation for a state
-                or territory e.g., "CA" "NY" or "DC"
-            campaign_id: int
-                Filter to specific campaign
-            updated_since: str or int or datetime
-                Fetch all advocates updated since the date provided; this can be a datetime
-                object, a UNIX timestamp, or a date string (ex. '2014-01-05 23:59:43')
-            page: int
-                Page number of data to fetch; if this is specified, call will only return one
-                page.
+            state:
+                Filter by US postal abbreviation for a state or territory.
+                E.g. ``CA``, ``NY``, or ``DC``.
+            campaign_id:
+                Filter to specific campaign.
+            updated_since:
+                Fetch all advocates updated since the date provided.
+                This can be a datetime object, a UNIX timestamp,
+                or a date string (ex. ``2014-01-05 23:59:43``)
+            page:
+                Page number of data to fetch.
+                If this is specified, call will only return one page.
 
         Returns:
-            A dict of parsons tables:
-                * emails
-                * phones
-                * memberships
-                * tags
-                * ids
-                * fields
-                * advocates
+            A dict of parsons tables.
+
+            * emails
+            * phones
+            * memberships
+            * tags
+            * ids
+            * fields
+            * advocates
 
         """
         return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
     def get_campaigns(
         self,
-        state=None,
-        zip=None,
-        include_generic=False,
-        include_private=False,
-        include_content=True,
-    ):
+        state: str | None = None,
+        zip: int | None = None,
+        include_generic: bool = False,
+        include_private: bool = False,
+        include_content: bool = True,
+    ) -> Table:
         """
         Returns a list of campaigns
 
         Args:
-            state: str
-                Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
-            zip: int
-                Filter by 5 digit zip code
-            include_generic: boolean
-                When filtering by state or ZIP code, include unrestricted campaigns
-            include_private: boolean
-                If true, will include private campaigns in results
-            include_content: boolean
-                If true, include campaign content fields, which may vary. This may cause
-                sync errors.
+            state:
+                Filter by US postal abbreviation for a state or territory.
+                E.g. ``CA``, ``NY`` or ``DC``.
+            zip:
+                Filter by 5 digit zip code.
+            include_generic:
+                When filtering by state or ZIP code, include unrestricted campaigns.
+            include_private:
+                If ``True``, will include private campaigns in results.
+            include_content:
+                If ``True``, include campaign content fields, which may vary.
+                This may cause sync errors.
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
 
         """
-
         return self.capitol_canary.get_campaigns(
             state, zip, include_generic, include_private, include_content
         )
 
     def create_advocate(
         self,
-        campaigns,
-        first_name=None,
-        last_name=None,
-        email=None,
-        phone=None,
-        address1=None,
-        address2=None,
-        city=None,
-        state=None,
-        zip5=None,
-        sms_optin=None,
-        email_optin=None,
-        sms_optout=None,
-        email_optout=None,
+        campaigns: list,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        email: str | None = None,
+        phone: str | None = None,
+        address1: str | None = None,
+        address2: str | None = None,
+        city: str | None = None,
+        state: str | None = None,
+        zip5: str | None = None,
+        sms_optin: bool | None = None,
+        email_optin: bool | None = None,
+        sms_optout: bool | None = None,
+        email_optout: bool | None = None,
         **kwargs,
-    ):
+    ) -> int:
         """
         Create an advocate.
 
@@ -131,51 +128,42 @@ class Phone2Action:
         the email address or phone number (accordingly).
 
         The list of arguments only partially covers the fields that can be set on the advocate.
-        For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
-            campaigns: list
-                The ID(s) of campaigns to add the advocate to
-            first_name: str
-                `Optional`; The first name of the advocate
-            last_name: str
-                `Optional`; The last name of the advocate
-            email: str
-                `Optional`; An email address to add for the advocate. One of ``email`` or ``phone``
-                is required.
-            phone: str
-                `Optional`; An phone # to add for the advocate. One of ``email`` or ``phone`` is
-                required.
-            address1: str
-                `Optional`; The first line of the advocates' address
-            address2: str
-                `Optional`; The second line of the advocates' address
-            city: str
-                `Optional`; The city of the advocates address
-            state: str
-                `Optional`; The state of the advocates address
-            zip5: str
-                `Optional`; The 5 digit Zip code of the advocate
-            sms_optin: boolean
-                `Optional`; Whether to opt the advocate into receiving text messages; an SMS
-                confirmation text message will be sent. You must provide values for the ``phone``
-                and ``campaigns`` arguments.
-            email_optin: boolean
-                `Optional`; Whether to opt the advocate into receiving emails. You must provide
-                values for the ``email`` and ``campaigns`` arguments.
-            sms_optout: boolean
-                `Optional`; Whether to opt the advocate out of receiving text messages. You must
-                provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
-                opted out, they cannot be opted back in.
-            email_optout: boolean
-                `Optional`; Whether to opt the advocate out of receiving emails. You must
-                provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
-                opted out, they cannot be opted back in.
-            `**kwargs`:
-                Additional fields on the advocate to update
+            campaigns: The ID(s) of campaigns to add the advocate to
+            first_name: The first name of the advocate
+            last_name: The last name of the advocate
+            email:
+                An email address to add for the advocate.
+                One of ``email`` or ``phone`` is required.
+            phone:
+                An phone # to add for the advocate.
+                One of ``email`` or ``phone`` is required.
+            address1: The first line of the advocates' address
+            address2: The second line of the advocates' address
+            city: The city of the advocates address
+            state: The state of the advocates address
+            zip5: The 5 digit Zip code of the advocate
+            sms_optin:
+                Whether to opt the advocate into receiving text messages.
+                An SMS confirmation text message will be sent.
+                You must provide values for the `phone` and `campaigns` arguments.
+            email_optin:
+                Whether to opt the advocate into receiving emails.
+                You must provide values for the `email` and `campaigns` arguments.
+            sms_optout:
+                Whether to opt the advocate out of receiving text messages.
+                You must provide values for the `phone` and `campaigns` arguments.
+                Once an advocate is opted out, they cannot be opted back in.
+            email_optout:
+                Whether to opt the advocate out of receiving emails.
+                You must provide values for the `email` and `campaigns` arguments.
+                Once an advocate is opted out, they cannot be opted back in.
+            `**kwargs`: Additional fields on the advocate to update
+
         Returns:
-            The int ID of the created advocate.
+            ID of the created advocate.
 
         """
         return self.capitol_canary.create_advocate(
@@ -198,16 +186,16 @@ class Phone2Action:
 
     def update_advocate(
         self,
-        advocate_id,
-        campaigns=None,
-        email=None,
-        phone=None,
-        sms_optin=None,
-        email_optin=None,
-        sms_optout=None,
-        email_optout=None,
+        advocate_id: int,
+        campaigns: list | None = None,
+        email: str | None = None,
+        phone: str | None = None,
+        sms_optin: bool | None = None,
+        email_optin: bool | None = None,
+        sms_optout: bool | None = None,
+        email_optout: bool | None = None,
         **kwargs,
-    ):
+    ) -> None:
         """
         Update the fields of an advocate.
 
@@ -215,38 +203,32 @@ class Phone2Action:
         the email address or phone number along with a list of campaigns.
 
         The list of arguments only partially covers the fields that can be updated on the advocate.
-        For a complete list of fields that can be updated, see
-        `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
+        For a complete list of fields that can be updated, see the `Phone2Action API Create Advocate Documentation`_.
 
         Args:
-            advocate_id: integer
-                The ID of the advocate being updates
-            campaigns: list
-                `Optional`; The ID(s) of campaigns to add the user to
-            email: str
-                `Optional`; An email address to add for the advocate (or to use when opting in/out)
-            phone: str
-                `Optional`; An phone # to add for the advocate (or to use when opting in/out)
-            sms_optin: boolean
-                `Optional`; Whether to opt the advocate into receiving text messages; an SMS
-                confirmation text message will be sent. You must provide values for the ``phone``
-                and ``campaigns`` arguments.
-            email_optin: boolean
-                `Optional`; Whether to opt the advocate into receiving emails. You must provide
-                values for the ``email`` and ``campaigns`` arguments.
-            sms_optout: boolean
-                `Optional`; Whether to opt the advocate out of receiving text messages. You must
-                provide values for the ``phone`` and ``campaigns`` arguments. Once an advocate is
-                opted out, they cannot be opted back in.
-            email_optout: boolean
-                `Optional`; Whether to opt the advocate out of receiving emails. You must
-                provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
-                opted out, they cannot be opted back in.
-            `**kwargs`:
-                Additional fields on the advocate to update
+            advocate_id: The ID of the advocate being updates
+            campaigns: The ID(s) of campaigns to add the user to
+            email: An email address to add for the advocate (or to use when opting in/out)
+            phone: An phone # to add for the advocate (or to use when opting in/out)
+            sms_optin:
+                Whether to opt the advocate into receiving text messages.
+                An SMS confirmation text message will be sent.
+                You must provide values for the ``phone`` and ``campaigns`` arguments.
+            email_optin:
+                Whether to opt the advocate into receiving emails.
+                You must provide values for the ``email`` and ``campaigns`` arguments.
+            sms_optout:
+                Whether to opt the advocate out of receiving text messages.
+                You must provide values for the ``phone`` and ``campaigns`` arguments.
+                Once an advocate is opted out, they cannot be opted back in.
+            email_optout:
+                Whether to opt the advocate out of receiving emails.
+                You must provide values for the ``email`` and ``campaigns`` arguments.
+                Once an advocate is opted out, they cannot be opted back in.
+            `**kwargs`: Additional fields on the advocate to update
 
         """
-        return self.capitol_canary.update_advocate(
+        self.capitol_canary.update_advocate(
             advocate_id,
             campaigns,
             email,

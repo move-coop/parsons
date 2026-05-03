@@ -24,17 +24,18 @@ except ImportError:
     zappa_run = None
 
 
-def event_command(event, context):
+def event_command(event, context) -> bool:
     """
-    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`_
+    Minimal `shim <https://en.wikipedia.org/wiki/Shim_(computing)>`__
     to add to the top lambda handler function to enable distributed tasks
 
     The rest of this library is compatible with zappa.async library.
-    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`_,
+    If you have deployed your app with `Zappa <https://github.com/Miserlou/Zappa>`__,
     then you do NOT need to add this shim.
     """
     if not set(event).intersection({"task_path", "args", "kwargs"}):
         return False  # did not match an event command
+
     func = import_and_get_task(event["task_path"], event.get("func_class_init_kwargs"))
     # if the func was decorated with zappa.async.task then run the real function
     func = getattr(func, "sync", func)
@@ -130,7 +131,7 @@ def import_and_get_task(task_path, instance_init_kwargs=None):
     return init_and_run
 
 
-def get_func_task_path(func, method_class=None):
+def get_func_task_path(func, method_class=None) -> str:
     """Format the modular task path for a function via inspection."""
     module_path = inspect.getmodule(method_class or func).__name__
     func_name = func.__name__
@@ -140,13 +141,12 @@ def get_func_task_path(func, method_class=None):
     # Then we record that info with |'s to be decoded in import_and_get_task
     # classmethod format: "Foo|method|"
     # instance method format: "Foo|method"
-    task_path = "{}.{}{}{}".format(
+    return "{}.{}{}{}".format(
         module_path,
         f"{method_class.__name__}|" if method_class else "",
         func_name,
         "|" if method_class and "of <class" in repr(func) else "",
     )
-    return task_path
 
 
 class AsyncException(Exception):

@@ -2,7 +2,7 @@
 
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -31,11 +31,10 @@ class SurveyQuestions:
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         if statuses is None:
             statuses = ["Active"]
         params = {
@@ -60,11 +59,10 @@ class SurveyQuestions:
                 The survey question id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
         logger.info(f"Found survey question {survey_question_id}.")
         return r
@@ -97,7 +95,7 @@ class SurveyQuestions:
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int
@@ -106,7 +104,6 @@ class SurveyQuestions:
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
 
         """
-
         response = {
             "surveyQuestionId": survey_question_id,
             "surveyResponseId": survey_response_id,

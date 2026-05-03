@@ -23,10 +23,10 @@ class Community:
                 variable set.
             community_uri: str
                 The URI to access the  API. Not required, default is
-                `<https://dl.community.com/download/v1/files/>`_. You can set an ``COMMUNITY_URL`` env
+                `<https://dl.community.com/download/v1/files/>`__. You can set an ``COMMUNITY_URL`` env
                 variable or use this URI parameter if a different endpoint is necessary.
 
-    `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`_
+    `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`__
 
     """
 
@@ -80,7 +80,6 @@ class Community:
             Response of GET request; a successful response returns the CSV formatted data
 
         """
-
         logger.info(f"Requesting {filename}")
         url = (
             f"{filename}.csv.gz"
@@ -123,7 +122,6 @@ class Community:
             Contents of the generated contribution CSV as a Parsons table.
 
         """
-
         get_request_response = self.get_request(filename=filename)
         response_string = get_request_response.decode("utf-8")
         table = Table.from_csv_string(response_string)

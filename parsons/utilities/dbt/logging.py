@@ -51,14 +51,14 @@ class dbtLogger(ABC):
 
     @abstractmethod
     def send(self, manifests: list[Manifest]) -> None:
-        """The send method is called to execute logging.
+        """
+        The send method is called to execute logging.
 
-        manifests are passed to this method directly (rather
-        than on initialization) so that the logger class can be
-        initialized before the dbt commands have been run. This is
-        mostly necessary for loggers that need to be initialized with
-        credentials or options before being provided to the
-        run_dbt_commands method.
+        Manifests are passed to this method directly (rather than on initialization)
+        so that the logger class can be initialized before the dbt commands have been run.
+        This is mostly necessary for loggers that need to be initialized with
+        credentials or options before being provided to the run_dbt_commands method.
+
         """
         self.commands = manifests
         log_text = self.format_result()  # noqa F841 unused-variable
@@ -85,9 +85,11 @@ class dbtLoggerMarkdown(dbtLogger):
 
         if isinstance(manifest, Manifest):
             key = manifest.overall_status if manifest else NodeStatus.Success
+
         elif isinstance(manifest, list) and all(isinstance(m, Manifest) for m in manifest):
             statuses = {m.overall_status for m in manifest}
             key = next((p for p in priority if p in statuses), NodeStatus.Success)
+
         else:
             raise TypeError(manifest)
 
@@ -126,8 +128,10 @@ class dbtLoggerMarkdown(dbtLogger):
 
     def format_result(self) -> str:
         """
-        Aggregates results from multiple dbt commands into a single
-        report, determining an overall 'worst-case' status for the header.
+        Aggregate results from multiple dbt commands into a single report.
+
+        Includes an overall 'worst-case' status for the header.
+
         """
         assets = self._get_status_assets(self.commands)
         now = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
@@ -184,10 +188,11 @@ class dbtLoggerSlack(dbtLoggerMarkdown):
 
 
 class dbtLoggerDatabase(dbtLogger, ABC):
-    """Log dbt artifacts by loading to a database.
+    """
+    Log dbt artifacts by loading to a database.
 
-    This class is an abstract base class for logging dbt artifacts to
-    a database.
+    This class is an abstract base class for logging dbt artifacts to a database.
+
     """
 
     def __init__(
@@ -198,10 +203,11 @@ class dbtLoggerDatabase(dbtLogger, ABC):
         extra_run_table_fields: dict,
         **copy_kwargs,
     ) -> None:
-        """Initialize the logger.
+        """
+        Initialize the logger.
 
         Args:
-            database_connector: A DatabaseConnector object.
+            database_connector: A :class:`~.DatabaseConnector` object.
             destination_table_runs: The name of the table to log run information.
             destination_table_nodes: The name of the table to log node information.
             extra_run_table_fields: A dictionary of additional fields to include in the run table.
@@ -253,6 +259,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
             node_rows.append(node_row)
 
         nodes_tbl = Table(node_rows)
+
         return run_tbl, nodes_tbl
 
     def format_result(self) -> tuple[Table, Table]:
@@ -266,6 +273,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
 
         all_runs_tbl = Table(run_rows)
         all_nodes_tbl = Table(node_rows)
+
         return all_runs_tbl, all_nodes_tbl
 
     def send(self, manifests: list[Manifest]) -> None:
@@ -279,6 +287,7 @@ class dbtLoggerDatabase(dbtLogger, ABC):
                 if_exists="append",
                 **self.copy_kwargs,
             )
+
         if len(nodes_tbl):
             self.db_connector.copy(
                 nodes_tbl,

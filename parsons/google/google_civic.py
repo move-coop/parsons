@@ -9,48 +9,38 @@ URI = "https://www.googleapis.com/civicinfo/v2/"
 class GoogleCivic:
     """
     Args:
-        api_key : str
-            A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``
-            env variable set.
-
-    Returns:
-        class
+        api_key:
+            A valid Google api key.
+            Not required if ``GOOGLE_CIVIC_API_KEY`` env variable set.
 
     """
 
-    def __init__(self, api_key=None):
+    def __init__(self, api_key: str | None = None):
         self.api_key = check_env.check("GOOGLE_CIVIC_API_KEY", api_key)
         self.uri = URI
 
-    def request(self, url, args=None):
+    def request(self, url: str, args: dict[str, str] | None = None):
         # Internal request method
 
         if not args:
             args = {}
 
-        args["key"] = self.api_key
+        if self.api_key:
+            args["key"] = self.api_key
 
         r = requests.get(url, params=args)
 
         return r.json()
 
-    def get_elections(self):
-        """
-        Get a collection of information about elections and voter information.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+    def get_elections(self) -> Table:
+        """Get a collection of information about elections and voter information."""
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
 
-    def _get_voter_info(self, election_id, address):
-        # Internal method to call voter info end point. Portions of this are
-        # parsed for other methods.
+    def _get_voter_info(self, election_id: int, address: str):
+        # Internal method to call voter info end point.
+        # Portions of this are parsed for other methods.
 
         url = self.uri + "voterinfo"
 
@@ -58,46 +48,35 @@ class GoogleCivic:
 
         return self.request(url, args=args)
 
-    def get_polling_location(self, election_id, address):
+    def get_polling_location(self, election_id: int, address: str):
         """
         Get polling location information for a given address.
 
         Args:
-            election_id: int
-                A valid election id. Election ids can be found by running the
-                :meth:`get_elections` method.
-            address: str
-                A valid US address in a single string.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            election_id:
+                A valid election id.
+                Election ids can be found by running :meth:`.get_elections`.
+            address: A valid US address in a single string.
 
         """
-
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
 
-    def get_polling_locations(self, election_id, table, address_field="address"):
+    def get_polling_locations(
+        self, election_id: int, table: Table, address_field: str = "address"
+    ) -> Table:
         """
         Get polling location information for a table of addresses.
 
         Args:
-            election_id: int
-                A valid election id. Election ids can be found by running the
-                :meth:`get_elections` method.
-            address: str
-                A valid US address in a single string.
-            address_field: str
-                The name of the column where the address is stored.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            election_id:
+                A valid election id.
+                Election ids can be found by running :meth:`.get_elections`.
+            table: A :ref:`Table` containing valid US address in single strings.
+            address_field: The name of the column where the address is stored.
 
         """
-
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -125,7 +104,11 @@ class GoogleCivic:
         return tbl
 
     def get_representative_info_by_address(
-        self, address: str, include_offices=True, levels=None, roles=None
+        self,
+        address: str,
+        include_offices: bool = True,
+        levels: list[str] | None = None,
+        roles: list[str] | None = None,
     ):
         """
         Get representative information for a given address.
@@ -133,15 +116,14 @@ class GoogleCivic:
         This method returns the raw JSON response from the Google Civic API.
         It is a complex response that is not easily parsed into a table.
         Here is the information on how to parse the response:
-        https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
+        `<https://developers.google.com/resources/api-libraries/documentation/civicinfo/v2/python/latest/civicinfo_v2.representatives.html#representativeInfoByAddress>`__
 
         Args:
-            address: str
-                A valid US address in a single string.
-            include_offices: bool
+            address: A valid US address in a single string.
+            include_offices:
                 Whether to return information about offices and officials.
                 If false, only the top-level district information will be returned. (Default: True)
-            levels: list of str
+            levels:
                 A list of office levels to filter by.
                 Only offices that serve at least one of these levels will be returned.
                 Divisions that don't contain a matching office will not be returned.
@@ -157,7 +139,7 @@ class GoogleCivic:
                 - "subLocality1"
                 - "subLocality2"
 
-            roles: list of str
+            roles:
                 A list of office roles to filter by.
                 Only offices fulfilling one of these roles will be returned.
                 Divisions that don't contain a matching office will not be returned.
@@ -175,12 +157,12 @@ class GoogleCivic:
                 - "schoolBoard"
                 - "specialPurposeOfficer"
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Raises:
+            ValueError: If levels or roles is not a list of strings.
+            ValueError: If address is not a string.
+            ValueError: If the response contains "error".
 
         """
-
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

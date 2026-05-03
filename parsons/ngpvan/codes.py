@@ -2,7 +2,7 @@
 
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -26,11 +26,10 @@ class Codes:
                 Filter by code type.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         params = {
             "name": name,
             "supportedEntities": supported_entities,
@@ -52,11 +51,10 @@ class Codes:
                 The code id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
@@ -71,7 +69,6 @@ class Codes:
                 A list of code types.
 
         """
-
         lst = self.connection.get_request("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
@@ -98,7 +95,7 @@ class Codes:
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
                 .. code-block:: python
 
@@ -116,7 +113,6 @@ class Codes:
                     ]
 
         """
-
         json = {
             "parentCodeId": parent_code_id,
             "name": name,
@@ -165,7 +161,7 @@ class Codes:
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
                 .. code-block:: python
 
@@ -183,7 +179,6 @@ class Codes:
                     ]
 
         """
-
         post_data = {}
 
         if name:
@@ -219,7 +214,6 @@ class Codes:
                 The code id.
 
         """
-
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")
         return r
@@ -233,7 +227,6 @@ class Codes:
                 A list of code supported entities.
 
         """
-
         lst = self.connection.get_request("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

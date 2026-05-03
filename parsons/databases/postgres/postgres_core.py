@@ -8,8 +8,8 @@ import petl
 import psycopg2
 import psycopg2.extras
 
+from parsons import Table
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
-from parsons.etl.table import Table
 from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -36,7 +36,6 @@ class PostgresCore(PostgresCreateStatement):
             Psycopg2 `connection` object
 
         """
-
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -68,70 +67,63 @@ class PostgresCore(PostgresCreateStatement):
 
     def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
-        Execute a query against the database. Will return ``None`` if the query returns zero rows.
+        Execute a query against the database.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
-        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
-        injection attacks.
+        following the `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
+        Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL injection attacks.
 
-        **Parameter Examples**
+        Parameter Examples:
 
-        .. code-block:: python
+            .. code-block:: python
 
-            # Note that the name contains a quote, which could break your query if not escaped
-            # properly.
-            name = "Beatrice O'Brady"
-            sql = "SELECT * FROM my_table WHERE name = %s"
-            rs.query(sql, parameters=[name])
+                # Note that the name contains a quote,
+                # which could break your query if not escaped properly.
+                name = "Beatrice O'Brady"
+                sql = "SELECT * FROM my_table WHERE name = %s"
+                rs.query(sql, parameters=[name])
 
-        .. code-block:: python
+            .. code-block:: python
 
-            names = ["Allen Smith", "Beatrice O'Brady", "Cathy Thompson"]
-            placeholders = ', '.join('%s' for item in names)
-            sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
-            rs.query(sql, parameters=names)
+                names = ["Allen Smith", "Beatrice O'Brady", "Cathy Thompson"]
+                placeholders = ', '.join('%s' for item in names)
+                sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
+                rs.query(sql, parameters=names)
 
         Args:
-            sql: str
-                A valid SQL statement
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
+            sql: A valid SQL statement.
+            parameters: A list of python variables to be converted into SQL values in your query.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Results of query.
+            Will return ``None`` if the query returns zero rows.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(self, sql, connection, parameters=None, commit=True) -> Table | None:
         """
-        Execute a query against the database, with an existing connection. Useful for batching
-        queries together. Will return ``None`` if the query returns zero rows.
+        Execute a query against the database, with an existing connection.
+
+        Useful for batching queries together.
+        Will return ``None`` if the query returns zero rows.
 
         Args:
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            commit: bool
+                Whether to commit the transaction immediately.
+                If ``False`` the transaction will be committed when the connection goes out of
+                scope and is closed (or you can commit manually with ``connection.commit()``).
 
         """
-
         with self.cursor(connection) as cursor:
-            logger.debug(f"SQL Query: {sql}")
+            logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
 
             if commit:
@@ -159,37 +151,37 @@ class PostgresCore(PostgresCreateStatement):
                         if not batch:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def _create_table_precheck(
-        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
-    ):
+        self, connection, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ) -> bool:
         """
         Helper to determine what to do when you need a table that may already exist.
 
         Args:
-            connection: obj
-                A connection object obtained from ``redshift.connection()``
-            table_name: str
-                The table to check
-            if_exists: str
-                If the table already exists, either ``fail``, ``append``, ``drop``,
-                or ``truncate`` the table.
+            connection:
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`.
+            table_name: The table to check.
+            if_exists:
+                If the table already exists, either ``fail``, ``append``, ``drop``, or ``truncate`` the table.
 
         Returns:
-            bool
-                True if the table needs to be created, False otherwise.
+            True if the table needs to be created, False otherwise.
+
+        Raises:
+            ValueError: If the `if_exists` argument has an invalid value.
+            ValueError: If the table already exists and `if_exists` is set to ``fail``.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -219,14 +211,13 @@ class PostgresCore(PostgresCreateStatement):
         Check if a table or view exists in the database.
 
         Args:
-            table_name: str
-                The table name and schema (e.g. ``myschema.mytable``).
-            view: boolean
-                Check to see if a view exists by the same name. Defaults to ``True``.
+            table_name: The table name and schema (e.g. ``myschema.mytable``).
+            view:
+                Check to see if a view exists by the same name.
+                Defaults to ``True``.
 
         Returns:
-            boolean
-                ``True`` if the table exists and ``False`` if it does not.
+            ``True`` if the table exists and ``False`` if it does not.
 
         """
         with self.connection() as connection:

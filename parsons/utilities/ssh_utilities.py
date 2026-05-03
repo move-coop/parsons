@@ -5,47 +5,39 @@ import sshtunnel
 
 
 def query_through_ssh(
-    ssh_host,
-    ssh_port,
-    ssh_username,
-    ssh_password,
-    db_host,
-    db_port,
-    db_name,
-    db_username,
-    db_password,
-    query,
-):
+    ssh_host: str,
+    ssh_port: int | str,
+    ssh_username: str,
+    ssh_password: str,
+    db_host: str,
+    db_port: int | str,
+    db_name: str,
+    db_username: str,
+    db_password: str,
+    query: str,
+) -> list[tuple] | None:
     """
     Args:
-        ssh_host:
-            The host for the SSH connection
-        ssh_port:
-            The port for the SSH connection
-        ssh_username:
-            The username for the SSH connection
-        ssh_password:
-            The password for the SSH connection
-        db_host:
-            The host for the db connection
-        db_port:
-            The port for the db connection
-        db_name:
-            The name of the db database
-        db_username:
-            The username for the db database
-        db_password:
-            The password for the db database
-        query:
-            The SQL query to execute
+        ssh_host: The host for the SSH connection
+        ssh_port: The port for the SSH connection
+        ssh_username: The username for the SSH connection
+        ssh_password: The password for the SSH connection
+        db_host: The host for the db connection
+        db_port: The port for the db connection
+        db_name: The name of the db database
+        db_username: The username for the db database
+        db_password: The password for the db database
+        query: The SQL query to execute
 
     Returns:
-        A list of records resulting from the query or None if something went wrong
+        Records resulting from the query.
+        ``None`` if something went wrong.
 
     """
     output = None
     server = None
     con = None
+
     try:
         server = sshtunnel.SSHTunnelForwarder(
             (ssh_host, int(ssh_port)),
@@ -70,9 +62,11 @@ def query_through_ssh(
         records = cursor.fetchall()
         output = records
         logging.info(f"Query executed successfully: {records}")
+
     except Exception as e:
         logging.error(f"Error during query execution: {e}")
         raise e
+
     finally:
         if con:
             con.close()
@@ -80,4 +74,5 @@ def query_through_ssh(
         if server:
             server.stop()
             logging.info("SSH tunnel closed.")
+
     return output

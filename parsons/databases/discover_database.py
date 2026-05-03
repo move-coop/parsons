@@ -10,7 +10,8 @@ from parsons.google.google_bigquery import GoogleBigQuery as BigQuery
 def discover_database(
     default_connector: type[DatabaseConnector] | list[type[DatabaseConnector]] | None = None,
 ) -> DatabaseConnector:
-    """Create an appropriate ``DatabaseConnector`` based on environmental variables.
+    """
+    Create an appropriate :class:`~parsons.databases.database_connector.DatabaseConnector` based on environmental variables.
 
     Will search the environmental variables for the proper credentials for the
     Redshift, MySQL, Postgres, and BigQuery connectors. See the documentation
@@ -26,12 +27,19 @@ def discover_database(
     new database connector is added, ``discover_database`` should be updated
 
     Args:
-        default_connector: Optional, single Class or list of Classes inheriting from
-        DatabaseConnector to be used as default in case multiple database configurations
-        are detected.
+        default_connector:
+            Single Class or list of Classes inheriting from DatabaseConnector to be
+            used as default in case multiple database configurations are detected.
 
     Returns:
         DatabaseConnector: The database connector configured in the environment.
+
+    Raises:
+        OSError:
+            If no database configuration is found.
+            If multiple suitable configurations are found and no default connector is provided.
+            If none of the default connectors are detected.
+            If the default connector is not found in the detected connectors.
 
     """
     connectors = {
@@ -53,23 +61,23 @@ def discover_database(
     if len(detected) > 1:
         if default_connector is None:
             raise OSError(
-                f"Multiple database configurations detected: {detected}."
-                " Please specify a default connector."
+                f"Multiple database configurations detected: {detected}. "
+                "Please specify a default connector."
             )
 
         if isinstance(default_connector, list):
             for connector in default_connector:
                 if connector.__name__ in detected:
                     return connector()
+
             raise OSError(f"None of the default connectors {default_connector} were detected.")
+
         elif default_connector.__name__ in detected:
             return default_connector()
-        else:
-            raise OSError(
-                f"Default connector {default_connector} not detected. Detected: {detected}."
-            )
+
+        raise OSError(f"Default connector {default_connector} not detected. Detected: {detected}.")
 
     elif detected:
         return connectors[detected[0]]()
-    else:
-        raise OSError("Could not find any database configuration.")
+
+    raise OSError("Could not find any database configuration.")

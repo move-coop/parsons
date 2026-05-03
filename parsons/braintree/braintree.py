@@ -1,15 +1,18 @@
 import itertools
 import logging
+from typing import Any, Literal
 
 import braintree
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check as check_env
 
 logger = logging.getLogger(__name__)
 
 
 class ParsonsBraintreeError(Exception):
+    """Error to be raised during failed query operations."""
+
     pass
 
 
@@ -33,9 +36,6 @@ class Braintree:
         production: bool
             Defaults to True.  If you are testing in a Sandbox,
             set this to False.
-
-    Returns:
-        Braintree class
 
     """
 
@@ -178,12 +178,12 @@ class Braintree:
 
     def __init__(
         self,
-        merchant_id=None,
-        public_key=None,
-        private_key=None,
-        timeout=None,
-        production=True,
-    ):
+        merchant_id: str | None = None,
+        public_key: str | None = None,
+        private_key: str | None = None,
+        timeout: int | None = None,
+        production: bool = True,
+    ) -> None:
         merchant_id = check_env("BRAINTREE_MERCHANT_ID", merchant_id)
         public_key = check_env("BRAINTREE_PUBLIC_KEY", public_key)
         private_key = check_env("BRAINTREE_PRIVATE_KEY", private_key)
@@ -203,36 +203,43 @@ class Braintree:
             )
         )
 
-    def get_disputes(self, start_date=None, end_date=None, query_list=None, query_dict=None):
+    def get_disputes(
+        self,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        query_list: list[braintree.DisputeSearch] | None = None,
+        query_dict: dict[str, Any] | None = None,
+    ) -> Table:
         """
         Get a table of disputes based on query parameters.
+
         There are three ways to pass query arguments: Pass a start_date and end_date
         together for a date range, or pass a query_list or query_dict argument.
 
         Args:
-            start_date: date or str
+            start_date:
                 Start date of the dispute range. Requires `end_date` arg. e.g. '2020-11-03'
-            end_date: date or str
+            end_date:
                 End date of the dispute range. Requires `start_date` arg. e.g. '2020-11-03'
-            query_list: list of braintree.DisputeSearch
+            query_list:
                 You can use the `braintree.DisputeSearch
-                <https://developers.braintreepayments.com/reference/request/dispute/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/dispute/search/python>`__
                 to create a manual list of query parameters.
-            query_dict: jsonable-dict
+            query_dict:
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The start_date/end_date arguments are the same as
-                        {"effective_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The start_date/end_date arguments are the same as
+                    {"effective_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
-        Returns:
-            Table Class
+        Raises:
+            ParsonsBraintreeError: If the dispute query fails.
 
         """
         collection = self._get_collection(
@@ -256,60 +263,59 @@ class Braintree:
 
     def get_subscriptions(
         self,
-        table_of_ids=None,
-        start_date=None,
-        end_date=None,
-        query_list=None,
-        query_dict=None,
-        include_transactions=False,
-        just_ids=False,
-    ):
+        table_of_ids: Table | None = None,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        query_list: list[braintree.SubscriptionSearch] | None = None,
+        query_dict: dict[str, Any] | None = None,
+        include_transactions: bool = False,
+        just_ids: bool = False,
+    ) -> Table:
         """
         Get a table of subscriptions based on query parameters.
+
         There are three ways to pass query arguments:
         Pass a disbursement_start_date and disbursement_end_date together
         for a date range, or pass a query_list or query_dict argument.
 
         Args:
-            start_date: date or str
-                Start date of the subscription range. Requires `end_date` arg.
-                e.g. '2020-11-03'
-            end_date: date or str
-                End date of the subscription range. Requires `start_date` arg.
-                e.g. '2020-11-03'
-            query_list: list of braintree.SubscriptionSearch
-                You can use the `braintree.SubscriptionSearch
-                <https://developers.braintreepayments.com/reference/request/subscription/search/python>`_
-                to create a manual list of query parameters.
-            query_dict: jsonable-dict
-                query_dict is basically the same as query_list, except instead of using their API
-                objects, you can pass it in pure dictionary form.
-                Some examples:
-
-                    .. code-block:: python
-
-                        # The start_date/end_date arguments are the same as
-                        {"created_at": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
-
-            include_transactions: bool
-                If this is true, include the full collection of transaction objects.
-                Otherwise, just return a list of transaction IDs.
-            just_ids: bool
-                While querying a list of subscription ids is a single, fast query to Braintree's
-                API, getting all data for each subscription is force-paginated at 50-records per
-                request. If you just need a count or the list of ids, then set `just_ids=True` and
-                it will return a single column with `id` instead of all table columns.
-            table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
+            table_of_ids:
+                Table with an `id` column -- i.e. a table returned from `just_ids=True`
                 Subsequently, after calling this with `just_ids`, you can prune/alter the ids table
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
+            start_date:
+                Start date of the subscription range. Requires `end_date` arg.
+                e.g. '2020-11-03'
+            end_date:
+                End date of the subscription range. Requires `start_date` arg.
+                e.g. '2020-11-03'
+            query_list:
+                You can use the `braintree.SubscriptionSearch
+                <https://developer.paypal.com/braintree/docs/reference/request/subscription/search/python>`__
+                to create a manual list of query parameters.
+            query_dict:
+                query_dict is basically the same as query_list, except instead of using their API
+                objects, you can pass it in pure dictionary form.
+                Some examples:
 
-        Returns:
-            Table Class
+                .. code-block:: python
+
+                    # The start_date/end_date arguments are the same as
+                    {"created_at": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+
+            include_transactions:
+                If this is true, include the full collection of transaction objects.
+                Otherwise, just return a list of transaction IDs.
+            just_ids:
+                While querying a list of subscription ids is a single, fast query to Braintree's
+                API, getting all data for each subscription is force-paginated at 50-records per
+                request. If you just need a count or the list of ids, then set `just_ids=True` and
+                it will return a single column with `id` instead of all table columns.
 
         """
         collection = self._get_collection(
@@ -342,13 +348,13 @@ class Braintree:
 
     def get_transactions(
         self,
-        table_of_ids=None,
-        disbursement_start_date=None,
-        disbursement_end_date=None,
-        query_list=None,
-        query_dict=None,
-        just_ids=False,
-    ):
+        table_of_ids: Table | None = None,
+        disbursement_start_date: str | None = None,
+        disbursement_end_date: str | None = None,
+        query_list: list[braintree.TransactionSearch] | None = None,
+        query_dict: dict[str, Any] | None = None,
+        just_ids: bool = False,
+    ) -> Table:
         """
         Get a table of transactions based on query parameters.
         There are three ways to pass query arguments:
@@ -356,42 +362,43 @@ class Braintree:
         for a date range, or pass a query_list or query_dict argument.
 
         Args:
-            disbursement_start_date: date or str
+            disbursement_start_date:
                 Start date of the disbursement range. Requires `disbursement_end_date` arg.
                 e.g. '2020-11-03'
-            disbursement_end_date: date or str
+            disbursement_end_date:
                 End date of the disbursement range. Requires `disbursement_start_date` arg.
                 e.g. '2020-11-03'
-            query_list: list of braintree.TransactionSearch
+            query_list:
                 You can use the `braintree.TransactionSearch
-                <https://developers.braintreepayments.com/reference/request/transaction/search/python>`_
+                <https://developer.paypal.com/braintree/docs/reference/request/transaction/search/python>`__
                 to create a manual list of query parameters.
-            query_dict: jsonable-dict
+            query_dict:
                 query_dict is basically the same as query_list, except instead of using their API
                 objects, you can pass it in pure dictionary form.
                 Some examples:
 
-                    .. code-block:: python
+                .. code-block:: python
 
-                        # The disbursement_start_date/disbursement_end_date arguments are the same as
-                        {"disbursement_date": {"between": [start_date, end_date]}}
-                        # some other examples
-                        {"merchant_account_id": {"in_list": [123, 456]}}
-                        {"created_at": {"greater_than_or_equal": "2020-03-10"}}
+                    # The disbursement_start_date/disbursement_end_date arguments are the same as
+                    {"disbursement_date": {"between": [start_date, end_date]}}
+                    # some other examples
+                    {"merchant_account_id": {"in_list": [123, 456]}}
+                    {"created_at": {"greater_than_or_equal": "2020-03-10"}}
 
-            just_ids: bool
+            just_ids:
                 While querying a list of transaction ids is a single, fast query to Braintree's API,
                 getting all data for each transaction is force-paginated at 50-records per request.
                 If you just need a count or the list of ids, then set `just_ids=True` and
                 it will return a single column with `id` instead of all table columns.
-            table_of_ids: Table with an `id` column -- i.e. a table returned from `just_ids=True`
+            table_of_ids:
+                Table with an `id` column -- i.e. a table returned from `just_ids=True`
                 Subsequently, after calling this with `just_ids`, you can prune/alter the ids table
                 and then pass the table back to get the full data.
                 These are somewhat-niche use-cases, but occasionally crucial
                 when a search result returns 1000s of ids.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         collection = self._get_collection(
@@ -424,10 +431,10 @@ class Braintree:
             )
         )
 
-    def _dispute_header(self):
+    def _dispute_header(self) -> list[str]:
         return self.dispute_fields + ["transaction_id"]
 
-    def _dispute_to_row(self, collection_item):
+    def _dispute_to_row(self, collection_item) -> list:
         row = [getattr(collection_item, k) for k in self.dispute_fields]
         # the single sub-attribute
         row.append(collection_item.transaction.id)
@@ -474,7 +481,7 @@ class Braintree:
                 + ["transaction_ids"]
             )
 
-    def _subscription_to_row(self, include_transactions, collection_item):
+    def _subscription_to_row(self, include_transactions: bool, collection_item) -> list:
         if include_transactions:
             return (
                 [getattr(collection_item.descriptor, k) for k in self.descriptor_fields]
@@ -490,12 +497,12 @@ class Braintree:
 
     def _get_collection(
         self,
-        query_type,
-        table_of_ids=None,
-        query_list=None,
-        query_dict=None,
+        query_type: Literal["transaction", "disbursement", "subscription", "dispute"],
+        table_of_ids: Table | None = None,
+        query_list: list | None = None,
+        query_dict: dict[str, Any] | None = None,
         default_query=None,
-    ):
+    ) -> braintree.ResourceCollection | Any:
         collection_query = None
         collection = None
         if query_list:
@@ -519,12 +526,16 @@ class Braintree:
             collection = getattr(self.gateway, query_type).search(*collection_query)
         return collection
 
-    def _get_query_objects(self, query_type, **queryparams):
+    def _get_query_objects(
+        self,
+        query_type: Literal["transaction", "disbursement", "subscription", "dispute"],
+        **queryparams,
+    ) -> list:
         """
         Examples:
-        disbursement_date={'between': ['2020-03-20', '2020-03-27']}
-        merchant_account_id={'in_list': [123, 456]}
-        created_at={'greater_than_or_equal': '2020-03-10'}
+            disbursement_date={'between': ['2020-03-20', '2020-03-27']}
+            merchant_account_id={'in_list': [123, 456]}
+            created_at={'greater_than_or_equal': '2020-03-10'}
 
         """
         queries = []
@@ -545,7 +556,12 @@ class Braintree:
                 raise ParsonsBraintreeError("oh no, that's not a braintree parameter")
         return queries
 
-    def _create_collection(self, query_type, ids, queries):
+    def _create_collection(
+        self,
+        query_type: Literal["transaction", "disbursement", "subscription", "dispute"],
+        ids: list,
+        queries: list,
+    ) -> braintree.ResourceCollection | None:
         if (query_type == "transaction") or (query_type == "disbursement"):
             gateway = braintree.TransactionGateway(self.gateway)
             return braintree.ResourceCollection(

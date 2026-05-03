@@ -219,7 +219,7 @@ class RedshiftCreateTable(DatabaseCreateStatement):
         ]
         warning = "".join(
             [
-                f"You didn't provide a {keyname} key to method `parsons.redshift.Redshift.{method}`.\n"
+                f"You didn't provide a {keyname} key to method `parsons.Redshift.{method}`.\n"
                 f"You can learn about best practices here:\n{keyinfo}.\n"
                 for key, keyname, keyinfo in keys
                 if not key

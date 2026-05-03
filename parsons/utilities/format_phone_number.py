@@ -1,21 +1,19 @@
 import re
 
 
-def format_phone_number(phone_number, country_code="1"):
+def format_phone_number(phone_number: str, country_code: str = "1") -> str | None:
     """
     Formats a phone number in E.164 format, which is the international standard for phone numbers.
     Example: Converts "555-555-5555" -> "+15555555555"
 
     Args:
-        phone_number (str):
-            The phone number to be formatted.
-        country_code (str):
+        phone_number: The phone number to be formatted.
+        country_code:
             The country code to be used as a prefix.
-        Defaults to "1" (United States).
+            Defaults to "1" (United States).
 
     Returns:
-        str:
-            The formatted phone number in E.164 format.
+        The formatted phone number in E.164 format.
 
     """
     # Remove non-numeric characters and leading zeros

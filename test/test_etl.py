@@ -126,14 +126,14 @@ class TestTableCreation:
 
         assert tbl[0] == {"col1": 1, "col2": "a"}
 
-    def test_materialize(self, tbl, sample_data):
+    def test_materialize(self, tbl: Table, sample_data):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(sample_data["lst_dicts"])
         tbl_materialized.materialize()
 
         assert_matching_tables(tbl, tbl_materialized)
 
-    def test_materialize_to_file(self, tbl, sample_data):
+    def test_materialize_to_file(self, tbl: Table, sample_data):
         # Simple test that materializing doesn't change the table
         tbl_materialized = Table(sample_data["lst_dicts"])
         _ = tbl_materialized.materialize_to_file()
@@ -173,20 +173,25 @@ class TestFileOperations:
         [
             ("test.csv", None),
             ("test.csv.gz", "gzip"),
+            ("test.csvzip", "zip"),
         ],
-        ids=["uncompressed", "compressed"],
+        ids=["uncompressed", "compressed-gzip", "compressed-zip"],
     )
-    def test_to_from_csv(self, tbl, tmp_path, filename, compression):
+    def test_to_from_csv(self, tbl: Table, tmp_path: Path, filename: str, compression: str | None):
         path = str(tmp_path / filename)
         tbl.to_csv(path)
         self._assert_expected_csv(path, tbl)
 
-    @pytest.mark.parametrize("compression", [None, "gzip"], ids=["uncompressed", "compressed"])
-    def test_to_from_temp_csv(self, tbl, compression):
+    @pytest.mark.parametrize(
+        "compression",
+        [None, "gzip", "csvzip"],
+        ids=["uncompressed", "compressed-gzip", "compressed-zip"],
+    )
+    def test_to_from_temp_csv(self, tbl: Table, compression: str | None):
         path = tbl.to_csv(temp_file_compression=compression) if compression else tbl.to_csv()
         self._assert_expected_csv(path, tbl)
 
-    def test_from_csv_string(self, tbl):
+    def test_from_csv_string(self, tbl: Table):
         path = tbl.to_csv()
         # Pull the file into a string
         csv_string = Path(path).read_text()
@@ -194,7 +199,7 @@ class TestFileOperations:
         result_tbl = Table.from_csv_string(csv_string)
         assert_matching_tables(tbl, result_tbl)
 
-    def test_append_csv_compressed(self, tbl):
+    def test_append_csv_compressed(self, tbl: Table):
         path = tbl.to_csv(temp_file_compression="gzip")
         append_tbl = Table([{"first": "Mary", "last": "Nichols"}])
         append_tbl.append_csv(path)
@@ -212,7 +217,7 @@ class TestFileOperations:
         with pytest.raises(ValueError, match="CSV file is empty"):
             Table.from_csv(str(path))
 
-    def test_to_csv_zip(self, tbl):
+    def test_to_csv_zip(self, tbl: Table):
         my_zip = "myzip.zip"
         try:
             # Test using the to_csv() method
@@ -235,7 +240,7 @@ class TestFileOperations:
         ],
         ids=["uncompressed", "compressed"],
     )
-    def test_to_from_json(self, tbl, tmp_path, filename, compression):
+    def test_to_from_json(self, tbl: Table, tmp_path, filename: str, compression: str | None):
         path = str(tmp_path / filename)
         tbl.to_json(path)
 
@@ -243,7 +248,7 @@ class TestFileOperations:
         assert_matching_tables(tbl, result_tbl)
 
     @pytest.mark.parametrize("compression", [None, "gzip"], ids=["uncompressed", "compressed"])
-    def test_to_from_temp_json(self, tbl, compression):
+    def test_to_from_temp_json(self, tbl: Table, compression):
         path = tbl.to_json(temp_file_compression=compression) if compression else tbl.to_json()
         result_tbl = Table.from_json(path)
         assert_matching_tables(tbl, result_tbl)
@@ -256,15 +261,17 @@ class TestFileOperations:
         ],
         ids=["uncompressed", "compressed"],
     )
-    def test_to_from_json_line_delimited(self, tbl, tmp_path, filename, compression):
+    def test_to_from_json_line_delimited(
+        self, tbl: Table, tmp_path, filename: str, compression: str | None
+    ):
         path = str(tmp_path / filename)
         tbl.to_json(path, line_delimited=True)
 
         result_tbl = Table.from_json(path, line_delimited=True)
         assert_matching_tables(tbl, result_tbl)
 
-    def test_to_html(self, tbl, tmp_path: Path):
-        html_file = str(tmp_path / "test.html")
+    def test_to_html(self, tbl: Table, tmp_path: Path):
+        html_file = tmp_path / "test.html"
 
         # Test writing file
         tbl.to_html(html_file)
@@ -286,9 +293,9 @@ class TestFileOperations:
             "</tbody>\n"
             "</table>\n"
         )
-        assert Path(html_file).read_text() == html
+        assert html_file.read_text() == html
 
-    def test_to_temp_html(self, tbl):
+    def test_to_temp_html(self, tbl: Table):
         # Test write to object
         path = Path(tbl.to_html())
 
@@ -311,7 +318,7 @@ class TestFileOperations:
         )
         assert path.read_text() == html
 
-    def test_to_petl(self, tbl):
+    def test_to_petl(self, tbl: Table):
         # Is a petl table
         assert isinstance(tbl.to_petl(), petl.io.json.DictsView)
 
@@ -332,41 +339,41 @@ class TestColumnOperations:
         ],
         ids=["empty_column", "populated_column"],
     )
-    def test_empty_column(self, column, expected):
+    def test_empty_column(self, column: str, expected: bool):
         # Test that returns True on an empty column and False on a populated one.
         tbl = Table([["a", "b"], ["1", None], ["2", None]])
         assert tbl.empty_column(column) == expected
 
-    def test_columns(self, tbl):
+    def test_columns(self, tbl: Table):
         # Test that columns are listed correctly
         assert tbl.columns == ["first", "last"]
 
-    def test_add_column(self, tbl):
+    def test_add_column(self, tbl: Table):
         # Test that a new column is added correctly
         tbl.add_column("middle", index=1)
         assert tbl.columns[1] == "middle"
 
-    def test_column_add_dupe(self, tbl):
+    def test_column_add_dupe(self, tbl: Table):
         # Test that we can't add an existing column name
         column = "first"
         with pytest.raises(ValueError, match=f"Column {column} already exists"):
             tbl.add_column(column)
 
-    def test_add_column_if_exists(self, tbl):
+    def test_add_column_if_exists(self, tbl: Table):
         tbl.add_column("first", if_exists="replace")
         assert tbl.columns == ["first", "last"]
 
-    def test_remove_column(self, tbl):
+    def test_remove_column(self, tbl: Table):
         # Test that column is removed correctly
         tbl.remove_column("first")
         assert tbl.data[0] != "first"
 
-    def test_rename_column(self, tbl):
+    def test_rename_column(self, tbl: Table):
         # Test that you can rename a column
         tbl.rename_column("first", "f")
         assert tbl.columns[0] == "f"
 
-    def test_column_rename_dupe(self, tbl):
+    def test_column_rename_dupe(self, tbl: Table):
         # Test that we can't rename to a column that already exists
         with pytest.raises(ValueError, match="Column first already exists"):
             tbl.rename_column("last", "first")
@@ -380,12 +387,14 @@ class TestColumnOperations:
         ],
         ids=["rename_all", "rename_partial", "rename_none"],
     )
-    def test_rename_columns(self, tbl, column_map, expected_columns):
+    def test_rename_columns(
+        self, tbl: Table, column_map: dict[str, str], expected_columns: list[str]
+    ):
         # Test renaming columns with different scenarios
         tbl.rename_columns(column_map)
         assert tbl.columns == expected_columns
 
-    def test_rename_columns_nonexistent(self, tbl):
+    def test_rename_columns_nonexistent(self, tbl: Table):
         # Test renaming a column that doesn't exist
         column_map = {"nonexistent": "newname"}
         with pytest.raises(
@@ -393,7 +402,7 @@ class TestColumnOperations:
         ):
             tbl.rename_columns(column_map)
 
-    def test_rename_columns_duplicate(self, tbl):
+    def test_rename_columns_duplicate(self, tbl: Table):
         # Test renaming to a column name that already exists
         column_map = {"first": "last"}
         with pytest.raises(
@@ -410,7 +419,7 @@ class TestColumnOperations:
         ],
         ids=["fixed_value", "calculated_value"],
     )
-    def test_fill_column(self, sample_data, value, expected):
+    def test_fill_column(self, sample_data, value, expected: list[int]):
         # Test that the column is filled
         tbl = Table(sample_data["lst"])
         tbl.fill_column("c", value)
@@ -440,12 +449,12 @@ class TestColumnOperations:
         tbl.fillna_column(column_name=column_name, fill_value=fill_value)
         assert list(tbl.table[column_name]) == expected
 
-    def test_move_column(self, tbl):
+    def test_move_column(self, tbl: Table):
         # Test moving a column from end to front
         tbl.move_column("last", 0)
         assert tbl.columns[0] == "last"
 
-    def test_convert_column(self, tbl):
+    def test_convert_column(self, tbl: Table):
         # Test that column updates
         tbl.convert_column("first", "upper")
         assert tbl[0] == {"first": "BOB", "last": "Smith"}
@@ -478,7 +487,7 @@ class TestColumnOperations:
         else:
             assert tbl.num_rows == 0
 
-    def test_convert_table(self, tbl):
+    def test_convert_table(self, tbl: Table):
         # Test that the table updates
         tbl.convert_table("upper")
         assert tbl[0] == {"first": "BOB", "last": "SMITH"}
@@ -592,7 +601,7 @@ class TestColumnOperations:
         # Check that the uids are unique, indicating that each row is unique
         assert len({row["uid"] for row in result}) == expected_uids
 
-    def test_cut(self, tbl):
+    def test_cut(self, tbl: Table):
         # Test that the cut works correctly
         cut_tbl = tbl.cut("first")
         assert cut_tbl.columns == ["first"]
@@ -675,7 +684,7 @@ class TestRowOperations:
         assert result.num_rows == 4
         assert tbl.columns == expected_columns
 
-    def test_rows(self, tbl):
+    def test_rows(self, tbl: Table):
         # Test that there is only one row in the table
         assert tbl.num_rows == 1
 
@@ -814,7 +823,7 @@ class TestRowOperations:
 class TestTableTransformations:
     """Tests for table-level transformations and combinations"""
 
-    def test_stack(self, tbl):
+    def test_stack(self, tbl: Table):
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         tbl1.stack(tbl2)
@@ -831,7 +840,7 @@ class TestTableTransformations:
         expected_tbl = Table(petl.stack(tbl.table, tbl2.table, tbl3.table))
         assert_matching_tables(expected_tbl, tbl1)
 
-    def test_concat(self, tbl):
+    def test_concat(self, tbl: Table):
         tbl1 = tbl.select_rows(lambda x: x)
         tbl2 = Table([{"first": "Mary", "last": "Nichols"}])
         tbl1.concat(tbl2)
@@ -876,7 +885,7 @@ class TestTableTransformations:
         assert_matching_tables(desired_tbl, tbl)
 
         # Test disable fuzzy matching, and fail due due to the missing cols
-        with pytest.raises(TypeError, match="Table is missing column"):
+        with pytest.raises(ValueError, match="Table is missing column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,
@@ -884,7 +893,7 @@ class TestTableTransformations:
             )
 
         # Test disable fuzzy matching, and fail due to the extra cols
-        with pytest.raises(TypeError, match="Table has extra column"):
+        with pytest.raises(ValueError, match="Table has extra column"):
             Table(raw).match_columns(
                 desired_tbl.columns,
                 fuzzy_match=False,

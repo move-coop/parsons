@@ -1,4 +1,5 @@
-"""Utilities for working with the Catalist Match API
+"""
+Utilities for working with the Catalist Match API
 
 Install dependencies with `pip install parsons[catalist]`
 """
@@ -22,11 +23,12 @@ DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
 
 
 class CatalistMatch:
-    """Connector for working with the Catalist Match API.
+    """
+    Connector for working with the Catalist Match API.
 
-    This API allows a trusted third party to submit new files for processing, and/or
-    reprocess existing files. It also allows retrieval of processing status. Initial
-    setup of template(s) via the M Tool UI will be required.
+    This API allows a trusted third party to submit new files for processing,
+    and/or reprocess existing files. It also allows retrieval of processing status.
+    Initial setup of template(s) via the M Tool UI will be required.
 
     The Catalist Match tool requires OAuth2.0 client credentials for the API as well as
     credentials for accessing the Catalist sftp bucket. Each Catalist client is given
@@ -36,24 +38,25 @@ class CatalistMatch:
     Accessing the Catalist sftp bucket and Match API both require the source IP address
     to be explicitly white-listed by Catalist.
 
-    .. highlight:: python
+    Example:
 
-    Example usage::
+        .. code-block:: python
 
-        tbl = Table.from_csv(...)
-        client = CatalistMatch(...)
-        match_result = client.match(tbl)
+            tbl = Table.from_csv(...)
+            client = CatalistMatch(...)
+            match_result = client.match(tbl)
 
-    Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
-    you may want to think strategically about how to await completion without straining
-    your compute resources on idling.
+        Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
+        you may want to think strategically about how to await completion without straining
+        your compute resources on idling.
 
-    To separate submitting the job and fetching the result::
+        .. code-block:: python
+            :caption: Separate submitting the job and fetching the result
 
-        tbl = Table.from_csv(...)
-        client = CatalistMatch(...)
-        response = client.upload(tbl)
-        match_result = client.await_completion(response["id"])
+            tbl = Table.from_csv(...)
+            client = CatalistMatch(...)
+            response = client.upload(tbl)
+            match_result = client.await_completion(response["id"])
 
     """
 
@@ -84,14 +87,28 @@ class CatalistMatch:
         myUploads directory in the SFTP server.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             input_subfolder: str
-                 Optional. If specified, the file will be uploaded to a subfolder of the
-                 myUploads directory in the SFTP server.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            input_subfolder:
+                If specified, the file will be uploaded to a subfolder of the
+                myUploads directory in the SFTP server.
 
         """
         local_path = table.to_csv(temp_file_compression="gzip")
@@ -127,26 +144,33 @@ class CatalistMatch:
          6 hours or more depending on concurrent traffic.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             export: bool
-                 Defaults to False
-             description: str
-                 Optional. Description for the match job.
-             export_filename_suffix: str
-                 Optional. Adds a suffix to the result filename in the SFTP server.
-             input_subfolder: str
-                 Optional. Adds a prefix to the filepath of the uploaded input file in
-                 the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
-             static_values: dict
-                  Optional. Any included values are mapped to every row of the input table.
-             wait: int
-                  Seconds to poll, defaults to 30.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            export: Defaults to False
+            description: Description for the match job.
+            export_filename_suffix: Adds a suffix to the result filename in the SFTP server.
+            input_subfolder:
+                Adds a prefix to the filepath of the uploaded input file in the SFTP server.
+            copy_to_sandbox: Defaults to False.
+            static_values: Any included values are mapped to every row of the input table.
+            wait: Seconds to poll, defaults to 30.
 
         """
         response = self.upload(
@@ -175,30 +199,37 @@ class CatalistMatch:
         """Load table to the Catalist Match API, returns response with job metadata.
 
         Args:
-             table: Table
-                 Parsons Table for matching. "first_name" and "last_name" columns
-                 are required. Optional columns for matching: last_name, name_suffix,
-                 addr1, addr2, city, state, zip, phone, email, gender_tomatch, dob,
-                 dob_year, matchbackid.
-             template_id: str
-                 Defaults to 48827, currently the only available template for working
-                 with the Match API.
-             export: bool
-                 Defaults to False
-             description: str
-                 Optional. Description for the match job.
-             export_filename_suffix: str
-                 Optional. Adds a suffix to the result filename in the SFTP server.
-             input_subfolder: str
-                 Optional. Adds a prefix to the filepath of the uploaded input file in
-                 the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
-             static_values: dict
-                  Optional. Any included values are mapped to every row of the input table.
+            table:
+                Parsons Table for matching.
+                ``first_name`` and ``last_name`` columns are required.
+                Optional columns for matching:
+
+                - ``last_name``
+                - ``name_suffix``
+                - ``addr1``
+                - ``addr2``
+                - ``city``
+                - ``state``
+                - ``zip``
+                - ``phone``
+                - ``email``
+                - ``gender_tomatch``
+                - ``dob``
+                - ``dob_year``
+                - ``matchbackid``
+
+            template_id:
+                Currently the only available template for working with the Match API.
+                Defaults to 48827.
+            export: Defaults to False
+            description: Description for the match job.
+            export_filename_suffix: Adds a suffix to the result filename in the SFTP server.
+            input_subfolder:
+                Adds a prefix to the filepath of the uploaded input file in the SFTP server.
+            copy_to_sandbox: Defaults to False.
+            static_values: Any included values are mapped to every row of the input table.
 
         """
-
         self.validate_table(table, template_id)
 
         # upload table to s3 temp location
@@ -232,7 +263,7 @@ class CatalistMatch:
         if export_filename_suffix:
             query_params["subClientName"] = export_filename_suffix
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         endpoint = endpoint + "?" + urllib.parse.urlencode(query_params)
 
@@ -250,25 +281,28 @@ class CatalistMatch:
         export_filename_suffix: str | None = None,
         copy_to_sandbox: bool = False,
     ) -> list[dict]:
-        """Perform actions on existing files.
+        """
+        Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
         must mapped against the same template. The request will return as soon as the
         action has been queued.
 
         Args:
-             file_ids: str or list[str]
-                 one or more file_ids (found in the `id` key of responses from the
-                 upload() or status() methods)
-             match: bool
-                 Optional. Defaults to False. If True, will initiate matching.
-             export: bool
-                 Optional. Defaults to False. If True, will initiate export.
-             export_filename_suffix: str
-                 Optional. If included, adds a suffix to the filepath of the exported
-                 file in the SFTP server.
-             copy_to_sandbox: bool
-                  Defaults to False.
+            file_ids:
+                One or more file_ids, found in the ``id`` key of
+                responses from :meth:`.upload` or :meth:`.status`.
+            match:
+                If ``True``, will initiate matching.
+                Defaults to ``False``.
+            export:
+                If ``True``, will initiate export.
+                Defaults to ``False``.
+            export_filename_suffix:
+                If included, adds a suffix to the
+                filepath of the exported file in the SFTP server.
+            copy_to_sandbox:
+                Defaults to ``False``.
 
         """
         actions = ["publish"]
@@ -289,7 +323,7 @@ class CatalistMatch:
 
         endpoint = "/".join(endpoint_params)
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         query_params = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
@@ -325,7 +359,6 @@ class CatalistMatch:
         depending on concurrent traffic. Consider your strategy for polling for
         completion.
         """
-
         while True:
             response = self.status(id)
             status = response["process"]["processState"]
@@ -340,11 +373,13 @@ class CatalistMatch:
         return result
 
     def load_matches(self, id: str) -> Table:
-        """Take a completed job ID, download and open the match file as a Table.
+        """
+        Take a completed job ID, download and open the match file as a Table.
 
-        Result will be a Table with all the original columns along with columns 'DWID',
-        'CONFIDENCE', 'ZIP9', and 'STATE'. The original column headers will be prepended
-        with 'COL#-'.
+        Result will be a Table with all the original columns
+        along with columns ``DWID``, ``CONFIDENCE``, ``ZIP9``, and ``STATE``.
+        The original column headers will be prepended with 'COL#-'.
+
         """
         # Validate that the job is complete
         response = self.status(str(id))

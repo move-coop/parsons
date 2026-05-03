@@ -14,11 +14,10 @@ class Locations:
                 The max number of locations to return
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 All requested location data.
 
         """
-
         return self._request(self.locations_url, limit=limit)
 
     def create_location(self, address: str, name: str):
@@ -35,7 +34,6 @@ class Locations:
                 Response from PDI in dictionary object
 
         """
-
         payload = {"locationName": name, "locationAddress": address}
         return self._request(self.locations_url, req_type="POST", post_data=payload)
 

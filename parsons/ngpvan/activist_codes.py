@@ -3,7 +3,7 @@
 import logging
 from typing import Literal
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.ngpvan.utilities import action_parse
 
 logger = logging.getLogger(__name__)
@@ -18,11 +18,10 @@ class ActivistCodes:
         Get activist codes.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         tbl = Table(self.connection.get_request("activistCodes"))
         logger.info(f"Found {tbl.num_rows} activist codes.")
         return tbl
@@ -40,7 +39,6 @@ class ActivistCodes:
                 The activist code
 
         """
-
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
         logger.info(f"Found activist code {activist_code_id}.")
         return r
@@ -85,12 +83,11 @@ class ActivistCodes:
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
-            omit_contact: boolean
+            omit_contact: bool
                 If set to false the contact history will be updated with a contact
                 attempt.
 
         """
-
         return self.toggle_activist_code(
             id, activist_code_id, "Apply", id_type=id_type, omit_contact=omit_contact
         )
@@ -109,5 +106,4 @@ class ActivistCodes:
                 such as ``dwid``
 
         """
-
         return self.toggle_activist_code(id, activist_code_id, "Remove", id_type=id_type)

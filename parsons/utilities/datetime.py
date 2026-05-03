@@ -1,76 +1,142 @@
-import datetime
+import logging
+from datetime import date, datetime, timezone
+from typing import overload
 
-from dateutil.parser import parse
+from dateutil.parser import ParserError, parse
+
+logger = logging.getLogger(__name__)
 
 
-def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
-    """Convert any date value into a Unix timestamp.
+def _add_timezone_if_not_specified(date_time: datetime, tz: timezone) -> datetime:
+    if date_time.tzinfo is not None:
+        return date_time
+
+    logger.debug("Date '%s' has no timezone, assuming '%s'.", date_time, tz)
+    return date_time.replace(tzinfo=tz)
+
+
+@overload
+def date_to_timestamp(
+    value: datetime | int,
+    tzinfo: timezone = ...,
+) -> int: ...
+
+
+@overload
+def date_to_timestamp(
+    value: str | datetime | int | None,
+    tzinfo: timezone = ...,
+) -> int | None: ...
+
+
+def date_to_timestamp(
+    value: int | str | datetime | None,
+    tzinfo: timezone = timezone.utc,
+) -> int | None:
+    """
+    Convert any date value into a Unix timestamp.
 
     Args:
-        value: int or str or datetime
-            Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
+        value: Date to parse.
+        tzinfo:
+            Timezone for the datetime, if not contained in value.
+            Defaults to :attr:`datetime.timezone.utc`.
 
     Returns:
-        Unix timestamp (int)
+        Unix timestamp
 
     """
-
-    parsed_date = parse_date(value)
-
-    if not parsed_date:
+    if not value:
+        logger.debug("Empty date, cannot parse: %s", value)
         return None
 
-    if not parsed_date.tzinfo:
-        parsed_date = parsed_date.replace(tzinfo=tzinfo)
+    try:
+        parsed_date = parse_date(value)
+    except ParserError:
+        logger.warning("Failed to parse date: '%s'", value)
+        return None
+
+    parsed_date = _add_timezone_if_not_specified(parsed_date, tzinfo)
 
     return int(parsed_date.timestamp())
 
 
-def convert_unix_to_readable(ts):
-    """Converts UNIX timestamps to readable timestamps."""
-
-    ts = datetime.utcfromtimestamp(int(ts) / 1000)
-    ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
-
-    return ts
-
-
-def parse_date(value: int | str | datetime.datetime, tzinfo=datetime.timezone.utc):
-    """Parse an arbitrary date value into a Python datetime.
-
-    If no value is provided (i.e., the value is None or empty), then the return value will be
-    None.
+def convert_unix_to_readable(ts: int | str, tzinfo: timezone = timezone.utc) -> str:
+    """
+    Converts UNIX timestamps to readable timestamps.
 
     Args:
-        value: int or str or datetime
-            Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
+        value: Datetime to parse.
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to :attr:`datetime.timezone.utc`.
 
     Returns:
-        datetime.datetime or None
+        Timestamp formatted as ``%Y-%m-%d %H:%M:%S %Z``
 
     """
+    timestamp: datetime = datetime.fromtimestamp(int(ts) / 1000, tzinfo)
 
-    if not value:
-        return None
+    return timestamp.strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    # If it's a number, we (probably) have a unix timestamp
-    if isinstance(value, int):
-        parsed = datetime.datetime.fromtimestamp(value, tzinfo)
-    elif isinstance(value, datetime.datetime):
-        parsed = value
-    elif isinstance(value, str):
-        parsed = parse(value)
-    else:
-        raise TypeError(
-            "Unable to parse value; must be one of string or int or datetime, but got type "
-            f"{type(value)}"
-        )
 
-    if not parsed.tzinfo:
-        parsed = parsed.replace(tzinfo=tzinfo)
+@overload
+def convert_date_to_iso(obj: None) -> None: ...
 
-    return parsed
+
+@overload
+def convert_date_to_iso(obj: str | date | datetime) -> str: ...
+
+
+def convert_date_to_iso(obj: str | date | datetime | None) -> str | None:
+    """Ensure that date/datetime is provided as ISO string."""
+    return obj.isoformat() if isinstance(obj, date) else obj
+
+
+@overload
+def convert_date_to_simple(obj: None) -> None: ...
+
+
+@overload
+def convert_date_to_simple(obj: str | date | datetime) -> str: ...
+
+
+def convert_date_to_simple(obj: str | date | datetime | None) -> str | None:
+    """Ensure that date/datetime is provided as simple date string."""
+    if not obj:
+        return obj
+
+    if isinstance(obj, str):
+        obj = parse_date(obj)
+
+    return obj.strftime("%Y-%m-%d")
+
+
+def parse_date(
+    value: int | str | datetime,
+    tzinfo: timezone = timezone.utc,
+) -> datetime:
+    """
+    Parse an arbitrary date value into a :class:`datetime.datetime`.
+
+    Args:
+        value: Date to parse.
+        tzinfo:
+            Timezone for the datetime, if not contained in value.
+            Defaults to :attr:`datetime.timezone.utc`.
+
+    Raises:
+        TypeError: If `value` is not a string, int, or datetime.
+
+    """
+    match value:
+        case datetime():
+            parsed_date = value
+        case int():
+            parsed_date = datetime.fromtimestamp(value, tzinfo)
+        case str():
+            parsed_date = parse(value)
+        case _:
+            raise TypeError(f"Expected int, str, or datetime; got {type(value).__name__}")
+
+    return _add_timezone_if_not_specified(parsed_date, tzinfo)

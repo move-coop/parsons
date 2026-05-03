@@ -16,10 +16,9 @@ class Universes:
                 The number of universes to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
-
         return self._request(self.url_universes, limit=limit)
 
     def get_universe(self, id: str):
@@ -31,7 +30,7 @@ class Universes:
                 The Universe id
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return self._request(f"{self.url_universes}/{id}")

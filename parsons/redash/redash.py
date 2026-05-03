@@ -1,10 +1,11 @@
 import json
 import logging
 import time
+from typing import Any
 
 import requests
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check
 
 logger = logging.getLogger(__name__)
@@ -20,31 +21,28 @@ class RedashQueryFailed(Exception):
 
 class Redash:
     """
-    Instantiate Redash Class
+    Instantiate Redash Class.
 
     Args:
-        base_url: str
-            The base url for your redash instance (excluding the final /)
-        user_api_key: str
-            The user API key found in the User's profile screen
-        pause_time int
-            Specify time between polling for refreshed queries (Defaults to 3 seconds)
-        verify: bool
-            For https requests, should the certificate be verified (Defaults to True)
-
-    Returns:
-        Redash Class
+        base_url: The base url for your redash instance (excluding the final /)
+        user_api_key: The user API key found in the User's profile screen
+        pause_time:
+            Specify time between polling for refreshed queries.
+            Defaults to 3 seconds.
+        verify:
+            For https requests, should the certificate be verified.
+            Defaults to ``True``.
 
     """
 
     def __init__(
         self,
-        base_url=None,
-        user_api_key=None,
-        pause_time=3,
-        timeout=0,  # never timeout
-        verify=True,
-    ):
+        base_url: str | None = None,
+        user_api_key: str | None = None,
+        pause_time: int = 3,
+        timeout: int = 0,  # never timeout
+        verify: bool = True,
+    ) -> None:
         self.base_url = check("REDASH_BASE_URL", base_url)
         self.user_api_key = check("REDASH_USER_API_KEY", user_api_key, optional=True)
         self.pause = int(check("REDASH_PAUSE_TIME", str(pause_time), optional=True))
@@ -55,11 +53,11 @@ class Redash:
         if user_api_key:
             self.session.headers.update({"Authorization": f"Key {user_api_key}"})
 
-    def _catch_runtime_error(self, res):
+    def _catch_runtime_error(self, res: requests.Response) -> None:
         if res.status_code != 200:
             raise RuntimeError(f"Error. Status code: {res.status_code}. Reason: {res.reason}")
 
-    def _poll_job(self, session, job, query_id):
+    def _poll_job(self, session: requests.Session, job: dict[str, Any], query_id: str):
         start_secs = time.time()
         while job["status"] not in (3, 4):
             if self.timeout and start_secs + self.timeout < time.time():
@@ -85,13 +83,12 @@ class Redash:
         elif job["status"] == 4:  # 3 = ERROR
             raise RedashQueryFailed("Redash Query {} failed: {}".format(query_id, job["error"]))
 
-    def get_data_source(self, data_source_id):
+    def get_data_source(self, data_source_id: int | str):
         """
         Get a data source.
 
         Args:
-            data_source_id: int or str
-                ID of data source.
+            data_source_id: ID of data source.
 
         Returns:
             Data source json object
@@ -101,27 +98,29 @@ class Redash:
         self._catch_runtime_error(res)
         return res.json()
 
-    def update_data_source(self, data_source_id, name, type, dbName, host, password, port, user):
+    def update_data_source(
+        self,
+        data_source_id: str | int,
+        name: str,
+        type: str,
+        dbName: str,
+        host: str,
+        password: str,
+        port: int | str,
+        user: str,
+    ) -> None:
         """
         Update a data source.
 
         Args:
-            data_source_id: str or int
-                ID of data source.
-            name: str
-                Name of data source.
-            type: str
-                Type of data source.
-            dbName: str
-                Database name of data source.
-            host: str
-                Host of data source.
-            password: str
-                Password of data source.
-            port: int or str
-                Port of data source.
-            user: str
-                Username of data source.
+            data_source_id: ID of data source.
+            name: Name of data source.
+            type: Type of data source.
+            dbName: Database name of data source.
+            host: Host of data source.
+            password: Password of data source.
+            port: Port of data source.
+            user: Username of data source.
 
         """
         self._catch_runtime_error(
@@ -141,15 +140,17 @@ class Redash:
             )
         )
 
-    def get_fresh_query_results(self, query_id=None, params=None):
+    def get_fresh_query_results(
+        self, query_id: str | int | None = None, params: dict | None = None
+    ) -> Table:
         """
         Make a fresh query result and get back the CSV http response object back
         with the CSV string in result.content
 
         Args:
-            query_id: str or int
+            query_id:
                 The query id of the query
-            params: dict
+            params:
                 If there are values for the redash query parameters
                 (described https://redash.io/help/user-guide/querying/query-parameters
                 e.g. "{{datelimit}}" in the query),
@@ -159,9 +160,6 @@ class Redash:
                 If you set this with REDASH_QUERY_PARAMS environment variable instead of passing
                 the values, then you must include the ``p_`` prefixes and it should be a single
                 url-encoded string as you would see it in the URL bar.
-
-        Returns:
-            Table Class
 
         """
         query_id = check("REDASH_QUERY_ID", query_id, optional=True)
@@ -190,70 +188,74 @@ class Redash:
                 raise RedashQueryFailed(
                     f"Failed getting results for query {query_id}. {response.text}"
                 )
+            return Table.from_csv_string(response.text)
+
         else:
             raise RedashQueryFailed(f"Failed getting result {query_id}. {response.text}")
-        return Table.from_csv_string(response.text)
 
-    def get_cached_query_results(self, query_id=None, query_api_key=None):
+    def get_cached_query_results(
+        self, query_id: str | int | None = None, query_api_key: str | None = None
+    ) -> Table:
         """
         Get the results from a cached query result and get back the CSV http response object back
         with the CSV string in result.content
 
         Args:
-            query_id: str or int
-                The query id of the query
-            query_api_key: str
-                If you did not supply a user_api_key on the Redash object, then you can
-                supply a query_api_key to get cached results back anonymously.
-
-        Returns:
-            Table Class
+            query_id: The query id of the query
+            query_api_key:
+                If you did not supply a user_api_key on the Redash object,
+                then you can supply a query_api_key to get cached results back anonymously.
 
         """
         query_id = check("REDASH_QUERY_ID", query_id)
         query_api_key = check("REDASH_QUERY_API_KEY", query_api_key, optional=True)
         params = {}
+
         if not self.user_api_key and query_api_key:
             params["api_key"] = query_api_key
+
         response = self.session.get(
             f"{self.base_url}/api/queries/{query_id}/results.csv",
             params=params,
             verify=self.verify,
         )
+
         if response.status_code != 200:
             raise RedashQueryFailed(f"Failed getting results for query {query_id}. {response.text}")
+
         return Table.from_csv_string(response.text)
 
     @classmethod
-    def load_to_table(cls, refresh=True, **kwargs):
+    def load_to_table(cls, refresh: bool = True, **kwargs) -> Table:
         """
         Fast classmethod makes the appropriate query type (refresh or cached)
         based on which arguments are supplied.
 
         Args:
-            base_url: str
-                The base url for your redash instance (excluding the final /)
-            query_id: str or int
+            base_url (str):
+                The base url for your redash instance.
+                Excluding the final ``/``.
+            query_id (str or int):
                 The query id of the query
-            user_api_key: str
+            user_api_key (str):
                 The user API key found in the User's profile screen required for refresh queries
-            query_api_key: str
+            query_api_key (str):
                 If you did not supply a user_api_key on the Redash object, then you can
-                supply a query_api_key to get cached results back anonymously.
-            pause_time int
-                Specify time between polling for refreshed queries (Defaults to 3 seconds)
-            verify: bool
-                For https requests, should the certificate be verified (Defaults to True)
-            refresh: bool
-                Refresh results or cached. (Defaults to True unless a query_api_key IS supplied)
-            params: dict
+                supply a `query_api_key` to get cached results back anonymously.
+            pause_time (int):
+                Specify time between polling for refreshed queries.
+                Defaults to 3 seconds.
+            verify (bool):
+                For https requests, should the certificate be verified.
+                Defaults to ``True``.
+            refresh:
+                Refresh results or cached.
+                Defaults to ``True`` unless a `query_api_key` IS supplied.
+            params (dict):
                 For refresh queries, if there are parameters in the query,
                 then this is a dict that will pass the parameters in the POST.
                 We add the ``p_`` prefix for parameters, so if your query had ?p_datelimit=....
                 in the url, you should just set 'datelimit' in params here.
-
-        Returns:
-            Table Class
 
         """
         initargs = {
@@ -262,7 +264,8 @@ class Redash:
             if a in kwargs
         }
         obj = cls(**initargs)
+
         if not refresh or kwargs.get("query_api_key"):
             return obj.get_cached_query_results(kwargs.get("query_id"), kwargs.get("query_api_key"))
-        else:
-            return obj.get_fresh_query_results(kwargs.get("query_id"), kwargs.get("params"))
+
+        return obj.get_fresh_query_results(kwargs.get("query_id"), kwargs.get("params"))

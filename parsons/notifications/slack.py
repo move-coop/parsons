@@ -6,7 +6,7 @@ import requests
 from slack_sdk import WebClient
 from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check
 
 
@@ -38,8 +38,8 @@ class Slack:
             fields: list
                 A list of the fields to return. By default, only the channel
                 `id` and `name` are returned. See
-                https://api.slack.com/methods/conversations.list for a full
-                list of available fields. `Notes:` nested fields are unpacked.
+                `<https://docs.slack.dev/reference/methods/conversations.list>`__ for a full
+                list of available fields. ``Notes`` nested fields are unpacked.
             exclude_archived: bool
                 Set to `True` to exclude archived channels from the list.
                 Default is false.
@@ -49,8 +49,8 @@ class Slack:
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
         if types is None:
@@ -83,15 +83,15 @@ class Slack:
             fields: list
                 A list of the fields to return. By default, only the user
                 `id` and `name` and `deleted` status are returned. See
-                https://api.slack.com/methods/users.list for a full list of
-                available fields. `Notes:` nested fields are unpacked.
+                `<https://docs.slack.dev/reference/methods/users.list>`__
+                for a full list of available fields.
+                ``Notes`` nested fields are unpacked.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         if fields is None:
             fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
         tbl = self._paginate_request("users_list", "members", include_locale=True)
@@ -117,7 +117,7 @@ class Slack:
                 Text of the message to send.
             webhook: str
                 If you have a webhook url instead of an api_key
-                Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx
+                Looks like: ``https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx``
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
 
@@ -130,7 +130,7 @@ class Slack:
 
     def message_channel(self, channel, text, parent_message_id=None, **kwargs):
         """
-        Send a message to a Slack channel
+        Send a message to a Slack channel.
 
         Args:
             channel: str
@@ -140,21 +140,22 @@ class Slack:
                 Text of the message to send.
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
+
+        Keyword Args:
+            as_user: str
+                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
+                args to customize the attributes of the user posting the message.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+                for more information about legacy authorship
             `**kwargs`: kwargs
-                - as_user: str
-                  This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-                  args to customize the attributes of the user posting the message.
-                  See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
-                  more information about legacy authorship
-                - Additional arguments for chat.postMessage API call. See `documentation
-                  <https://api.slack.com/methods/chat.postMessage>`__ for more info.
+                Additional arguments for chat.postMessage API call.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage>`__ for more info.
 
         Returns:
-            `dict`:
+            dict
                 A response json
 
         """
-
         if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",
@@ -202,7 +203,8 @@ class Slack:
             filetype: str
                 A file type identifier. If None, type will be inferred base on
                 file extension. This is used to determine what fields are
-                available for that object. See https://api.slack.com/types/file
+                available for that object.
+                See `<https://docs.slack.dev/reference/objects/file-object/#types>`__
                 for a list of valid types and for more information about the
                 file object.
             initial_comment: str
@@ -214,7 +216,7 @@ class Slack:
                 uploading binary files. Defaults to False.
 
         Returns:
-            `dict`:
+            dict
                 A response json
 
         """

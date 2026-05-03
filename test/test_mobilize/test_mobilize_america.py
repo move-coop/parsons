@@ -1,3 +1,4 @@
+import re
 import unittest
 
 import pytest
@@ -21,7 +22,12 @@ class TestMobilizeAmerica(unittest.TestCase):
 
         # Test that it throws an error when you put in an invalid filter
         date_filter_invalid = "=2018-12-01"
-        with pytest.raises(ValueError, match=f"Unknown string format: {date_filter_invalid}"):
+        with pytest.raises(
+            ValueError,
+            match=re.escape(
+                f"No valid time operator (>=, <, etc.) found in argument: '{date_filter_invalid}'"
+            ),
+        ):
             self.ma._time_parse(date_filter_invalid)
 
     @requests_mock.Mocker()

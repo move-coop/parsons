@@ -1,5 +1,9 @@
 import logging
 import re
+from datetime import date
+from typing import Any, Literal
+
+from requests.auth import HTTPBasicAuth
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -12,30 +16,26 @@ PAGE_SIZE = 100
 
 class Freshdesk:
     """
-    Instantiate Freshdesk class
+    Instantiate Freshdesk class.
 
     Args:
-        domain: str
-            The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
-            env variable set.
-        api_key: str
-            The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
-            env variable set.
-
-    Returns:
-        Freshdesk class
+        domain:
+            The subdomain of the Freshdesk account.
+            Not required if ``FRESHDESK_DOMAIN`` env variable set.
+        api_key:
+            The Freshdesk provided application key.
+            Not required if ``FRESHDESK_API_KEY`` env variable set.
 
     """
 
-    def __init__(self, domain, api_key):
-        self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
-        self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
+    def __init__(self, domain: str, api_key: str) -> None:
+        self.api_key: str = check_env.check("FRESHDESK_API_KEY", api_key)
+        self.domain: str = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
-        self.client = APIConnector(self.uri, auth=(self.api_key, "x"))
+        self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.api_key, "x"))
 
-    def _get_request(self, endpoint, params=None):
-        base_params = {"per_page": PAGE_SIZE}
-
+    def _get_request(self, endpoint: str, params: dict[str, str | int] | None = None) -> list:
+        base_params: dict[str, str | int] = {"per_page": PAGE_SIZE}
         if params:
             base_params.update(params)
 
@@ -53,28 +53,28 @@ class Freshdesk:
 
         return data
 
-    def _post_request(self, endpoint, data):
+    def _post_request(self, endpoint: str, data: dict[str, Any]) -> dict:
         """
         Send a POST request to the specified Freshdesk endpoint.
 
         Args:
-            endpoint: str
+            endpoint:
                 The endpoint of the Freshdesk API to which the request is being sent.
-            data: dict
-                The data to be sent in the request body.
+            data: The data to be sent in the request body.
 
         Returns:
-            dict
-                The JSON response from the API.
+            The JSON response from the API.
 
         """
         url = self.uri + endpoint
+
         r = self.client.request(url, "POST", json=data)
         self.client.validate_response(r)
+
         return r.json()
 
     @staticmethod
-    def _transform_table(tbl, expand_custom_fields=None):
+    def _transform_table(tbl: Table, expand_custom_fields: bool = False) -> Table:
         if tbl.num_rows > 0:
             tbl.move_column("id", 0)
             tbl.sort()
@@ -85,13 +85,13 @@ class Freshdesk:
 
     def get_tickets(
         self,
-        ticket_type=None,
-        requester_id=None,
-        requester_email=None,
-        company_id=None,
-        updated_since="2016-01-01",
-        expand_custom_fields=False,
-    ):
+        ticket_type: Literal["new_and_my_open", "watching", "spam", "deleted"] | None = None,
+        requester_id: int | None = None,
+        requester_email: str | None = None,
+        company_id: int | None = None,
+        updated_since: date | str | None = "2016-01-01",
+        expand_custom_fields: bool = False,
+    ) -> Table:
         """
         List tickets.
 
@@ -99,34 +99,28 @@ class Freshdesk:
         for more information.
 
         .. warning::
-            Deleted and Spam tickets are not included. However they can be pulled separately
-            by utilizing the ``ticket_type`` parameter.
+
+            Deleted and Spam tickets are not included.
+            However they can be pulled separately
+            by utilizing the `ticket_type` parameter.
 
         .. warning::
-            Freshdesk will return a maximum of 9,000 tickets. By default, only tickets created in
-            the past 30 days are returned. To access additional tickets, utilize the
-            ``updated_since`` parameter.
+
+            Freshdesk will return a maximum of 9,000 tickets.
+            By default, only tickets created in the past 30 days are returned.
+            To access additional tickets, utilize the `updated_since` parameter.
 
         Args:
-            ticket_type: str
-                Filter by type of ticket to filter by. Valid fields include ``new_and_my_open``,
-                ``watching``, ``spam`` and ``deleted``.
-            requester_id: int
-                Filter by requester id.
-            requester_email: str
-                Filter by requester email.
-            company_id: int
-                Filter by company_id.
-            updated_since: str
-                Earliest date to include in results.
-            expand_custom_fields: boolean
-                Expand nested custom fields to their own columns.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            ticket_type: Filter by type of ticket to filter by.
+            requester_id: Filter by requester id.
+            requester_email: Filter by requester email.
+            company_id: Filter by company_id.
+            updated_since: Earliest date to include in results.
+            expand_custom_fields: Expand nested custom fields to their own columns.
 
         """
+        if isinstance(updated_since, date):
+            updated_since = updated_since.strftime("%Y-%m-%d")
 
         params = {
             "filter": ticket_type,
@@ -137,19 +131,20 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("tickets", params=params))
+
         logger.info(f"Found {tbl.num_rows} tickets.")
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_contacts(
         self,
-        email=None,
-        mobile=None,
-        phone=None,
-        company_id=None,
-        state=None,
-        updated_since=None,
-        expand_custom_fields=None,
-    ):
+        email: str | None = None,
+        mobile: str | None = None,
+        phone: str | None = None,
+        company_id: int | None = None,
+        state: str | None = None,
+        updated_since: date | str | None = None,
+        expand_custom_fields: bool = False,
+    ) -> Table:
         """
         Get contacts.
 
@@ -157,18 +152,17 @@ class Freshdesk:
         for more information.
 
         Args:
-            email (str): Filter by email address.
-            mobile (str): Filter by mobile phone number.
-            phone (str): Filter by phone number.
-            company_id (int): Filter by company ID.
-            state (str): Filter by state.
-            updated_since (str): Earliest date to include in results.
-            expand_custom_fields (bool): Expand nested custom fields to their own columns.
-
-        Returns:
-            parsons.Table: See :ref:`parsons-table` for output options.
+            email: Filter by email address.
+            mobile: Filter by mobile phone number.
+            phone: Filter by phone number.
+            company_id: Filter by company ID.
+            state: Filter by state.
+            updated_since: Earliest date to include in results.
+            expand_custom_fields: Expand nested custom fields to their own columns.
 
         """
+        if isinstance(updated_since, date):
+            updated_since = updated_since.strftime("%Y-%m-%d")
 
         params = {
             "email": email,
@@ -180,10 +174,11 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("contacts", params=params))
+
         logger.info(f"Found {tbl.num_rows} contacts.")
         return self._transform_table(tbl, expand_custom_fields)
 
-    def get_companies(self, expand_custom_fields=False):
+    def get_companies(self, expand_custom_fields: bool = False) -> Table:
         """
         List companies.
 
@@ -191,20 +186,21 @@ class Freshdesk:
         for more information.
 
         Args:
-            expand_custom_fields: boolean
-                Expand nested custom fields to their own columns.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            expand_custom_fields: Expand nested custom fields to their own columns.
 
         """
-
         tbl = Table(self._get_request("companies"))
+
         logger.info(f"Found {tbl.num_rows} companies.")
         return self._transform_table(tbl, expand_custom_fields)
 
-    def get_agents(self, email=None, mobile=None, phone=None, state=None):
+    def get_agents(
+        self,
+        email: str | None = None,
+        mobile: str | None = None,
+        phone: str | None = None,
+        state: str | None = None,
+    ) -> Table:
         """
         List agents.
 
@@ -212,23 +208,18 @@ class Freshdesk:
         for more information.
 
         Args:
-            email: str
-                Filter by email address.
-            mobile: str
-                Filter by mobile phone number
-            phone: str
-                Filter by phone number
-            state: str
-                Filter by state
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            email: Filter by email address.
+            mobile: Filter by mobile phone number
+            phone: Filter by phone number
+            state: Filter by state
 
         """
+        filters = {"email", "mobile", "phone", "state"}
+        params = {k: locals()[k] for k in filters if locals().get(k) is not None}
 
-        params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
         tbl = Table(self._get_request("agents", params=params))
         logger.info(f"Found {tbl.num_rows} agents.")
+
         tbl = self._transform_table(tbl)
         tbl = tbl.unpack_dict("contact", prepend=False)
         tbl.remove_column("signature")  # Removing since raw HTML might cause issues.
@@ -236,33 +227,31 @@ class Freshdesk:
         return tbl
 
     def create_ticket(
-        self, subject, description, email, priority, status, cc_emails=None, custom_fields=None
-    ):
+        self,
+        subject: str,
+        description: str,
+        email: str,
+        priority: int,
+        status: int,
+        cc_emails: list[str] | None = None,
+        custom_fields: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Create a ticket in Freshdesk.
 
         Args:
-            subject: str
-                The subject of the ticket.
-            description: str
-                The description of the ticket.
-            email: str
-                The email address of the requester.
-            priority: int
-                The priority of the ticket.
-            status: int
-                The status of the ticket.
-            cc_emails: list (optional)
-                List of email addresses to CC.
-            custom_fields: dict (optional)
-                Custom fields data.
+            subject: The subject of the ticket.
+            description: The description of the ticket.
+            email: The email address of the requester.
+            priority: The priority of the ticket.
+            status: The status of the ticket.
+            cc_emails: List of email addresses to CC.
+            custom_fields: Custom fields data.
 
         Returns:
-            dict
-                JSON response from the API.
+            JSON response from the API.
 
         """
-        endpoint = "tickets"
         data = {
             "subject": subject,
             "description": description,
@@ -272,4 +261,5 @@ class Freshdesk:
             "cc_emails": cc_emails if cc_emails else [],
             "custom_fields": custom_fields if custom_fields else {},
         }
-        return self._post_request(endpoint, data)
+
+        return self._post_request("tickets", data)

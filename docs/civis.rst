@@ -1,44 +1,47 @@
+#####
 Civis
-=====
+#####
 
-********
 Overview
-********
+========
 
-The `Civis Platform <https://www.civisanalytics.com/civis-platform/>`_ is a cloud-based data science platform.
-This Parsons connector utilizes the `Civis API Python client <https://civis-python.readthedocs.io/en/stable/user_guide.html>`_
+The `Civis Platform <https://www.civisanalytics.com/platform/>`__ is a cloud-based data science platform.
+This Parsons connector utilizes the `Civis API Python client <https://civis-python.readthedocs.io/en/stable/user_guide.html>`__
 to interact with the Civis Platform. It supports executing Civis SQL queries and writing Parsons Tables to a Civis
 Redshift cluster.
 
-.. note::
+.. admonition:: Authentication
 
-  Authentication
-    The ``CivisClient`` class requires your Redshift database ID or name, and an API Key. To obtain an API Key, log in to
-    Civis and follow the instructions for `Creating an API Key <https://civis.zendesk.com/hc/en-us/restricted?return_to=https%3A%2F%2Fcivis.zendesk.com%2Fhc%2Fen-us%2Farticles%2F216341583-Generating-an-API-Key>`_.
+   The :class:`~parsons.civis.civisclient.CivisClient` class requires your Redshift database ID or name,
+   and an API Key. To obtain an API Key, log in to Civis and follow the instructions for
+   `Creating an API Key <https://support.civisanalytics.com/hc/en-us/articles/216341583-Generating-an-API-Key>`__.
 
-**********
 Quickstart
-**********
+==========
 
-To instantiate the ``CivisClient`` class, you can either store your database identifier and API Key as
-environmental variables (``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
+To instantiate the :class:`~parsons.civis.civisclient.CivisClient` class,
+you can either store your database identifier and API Key as environmental variables
+(``CIVIS_DATABASE`` and ``CIVIS_API_KEY``) or pass them as keyword arguments.
 
 .. code-block:: python
+   :caption: Authorize with environmental variables
 
    from parsons import CivisClient
-
-   # First approach: Authorize with environmental variables
    civis = CivisClient()
 
-   # Second approach: Pass API credentials as arguments
+.. code-block:: python
+   :caption: Pass API credentials as arguments
+
+   from parsons import CivisClient
    civis = CivisClient(db='my_db_name', api_key='my_api_key')
 
-   # Execute a Civis query
+.. code-block:: python
+   :caption: Execute a Civis query
+
    civis.query(sql="SELECT * FROM my_table")
 
-***
 API
-***
+====
 
 .. autoclass:: parsons.civis.civisclient.CivisClient
    :inherited-members:

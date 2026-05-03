@@ -12,6 +12,7 @@ import petl
 import psycopg2
 import psycopg2.extras
 
+from parsons import Table
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
@@ -19,7 +20,6 @@ from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.table import BaseTable
-from parsons.etl.table import Table
 from parsons.utilities import files, sql_helpers
 
 # Max number of rows that we query at a time, so we can avoid loading huge
@@ -42,54 +42,51 @@ class Redshift(
     A Redshift class to connect to database.
 
     Args:
-        username: str
-            Required if env variable ``REDSHIFT_USERNAME`` not populated
-        password: str
-            Required if env variable ``REDSHIFT_PASSWORD`` not populated
-        host: str
-            Required if env variable ``REDSHIFT_HOST`` not populated
-        db: str
-            Required if env variable ``REDSHIFT_DB`` not populated
-        port: int
-            Required if env variable ``REDSHIFT_PORT`` not populated. Port 5439 is typical.
-        timeout: int
-            Seconds to timeout if connection not established
-        s3_temp_bucket: str
+        username: Required if env variable ``REDSHIFT_USERNAME`` not populated
+        password: Required if env variable ``REDSHIFT_PASSWORD`` not populated
+        host: Required if env variable ``REDSHIFT_HOST`` not populated
+        db: Required if env variable ``REDSHIFT_DB`` not populated
+        port:
+            Required if env variable ``REDSHIFT_PORT`` not populated.
+            Port 5439 is typical.
+        timeout: Seconds to timeout if connection not established
+        s3_temp_bucket:
             Name of the S3 bucket that will be used for storing data during bulk transfers.
-            Required if you intend to perform bulk data transfers (eg. the copy_s3 method),
+            Required if you intend to perform bulk data transfers (eg. the :meth:`.copy_s3` method),
             and env variable ``S3_TEMP_BUCKET`` is not populated.
-        aws_access_key_id: str
+        aws_access_key_id:
             The default AWS access key id for copying data from S3 into Redshift
             when running copy/upsert/etc methods.
             This will default to environment variable AWS_ACCESS_KEY_ID.
-        aws_secret_access_key: str
+        aws_secret_access_key:
             The default AWS secret access key for copying data from S3 into Redshift
             when running copy/upsert/etc methods.
             This will default to environment variable AWS_SECRET_ACCESS_KEY.
-        iam_role: str
+        iam_role:
             AWS IAM Role ARN string -- an optional, different way for credentials to
             be provided in the Redshift copy command that does not require an access key.
-        use_env_token: bool
-            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3. Defaults
-            to ``True``. Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
+        use_env_token:
+            Controls use of the ``AWS_SESSION_TOKEN`` environment variable for S3.
+            Defaults to ``True``.
+            Set to ``False`` in order to ignore the ``AWS_SESSION_TOKEN`` environment
             variable even if the ``aws_session_token`` argument was not passed in.
 
     """
 
     def __init__(
         self,
-        username=None,
-        password=None,
-        host=None,
-        db=None,
-        port=None,
-        timeout=10,
-        s3_temp_bucket=None,
-        aws_access_key_id=None,
-        aws_secret_access_key=None,
-        iam_role=None,
-        use_env_token=True,
-    ):
+        username: str | None = None,
+        password: str | None = None,
+        host: str | None = None,
+        db: str | None = None,
+        port: int | None = None,
+        timeout: int | None = 10,
+        s3_temp_bucket: str | None = None,
+        aws_access_key_id: str | None = None,
+        aws_secret_access_key: str | None = None,
+        iam_role: str | None = None,
+        use_env_token: bool = True,
+    ) -> None:
         super().__init__()
 
         try:
@@ -127,13 +124,15 @@ class Redshift(
 
         When using the connection, make sure to put it in a ``with`` block (necessary for
         any context manager):
-        ``with rs.connection() as conn:``
+
+        .. code-block:: python
+
+            with rs.connection() as conn:
 
         Yields:
             Psycopg2 ``connection`` object
 
         """
-
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -164,7 +163,7 @@ class Redshift(
         if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
+        following the `Psycopg SQL Query Parameters Documentation <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
@@ -191,16 +190,13 @@ class Redshift(
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(
+        self, sql: str, connection, parameters: list | None = None, commit: bool = True
+    ) -> Table | None:
         """
         Execute a query against the Redshift database, with an existing connection.
         Useful for batching queries together. Will return ``None`` if the query
@@ -210,26 +206,21 @@ class Redshift(
             sql: str
                 A valid SQL statement
             connection: obj
-                A connection object obtained from ``redshift.connection()``
+                A connection object obtained from :meth:`parsons.databases.redshift.redshift.Redshift.connection`
             parameters: list
                 A list of python variables to be converted into SQL values in your query
-            commit: boolean
-                Whether to commit the transaction immediately. If ``False`` the transaction will
-                be committed when the connection goes out of scope and is closed (or you can
-                commit manually with ``connection.commit()``).
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            commit: bool
+                Whether to commit the transaction immediately.
+                If ``False`` the transaction will be committed when the connection goes out of scope
+                and is closed (or you can commit manually with ``connection.commit()``).
 
         """
-
         # To Do: Have it return an ordered dict to return the
         #        rows in the correct order
 
         with self.cursor(connection) as cursor:
             if "credentials" not in sql:
-                logger.debug(f"SQL Query: {sql}")
+                logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
 
             if commit:
@@ -257,14 +248,14 @@ class Redshift(
                         if not batch:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def copy_s3(
@@ -302,7 +293,7 @@ class Redshift(
         template_table=None,
         encoding="utf-8",
         line_delimited=False,
-    ):
+    ) -> None:
         """
         Copy a file from s3 to Redshift.
 
@@ -318,7 +309,8 @@ class Redshift(
             data_type: str
                 The data type of the file. Only ``csv`` supported currently.
             csv_delimiter: str
-                The delimiter of the ``csv``. Only relevant if data_type is ``csv``.
+                The delimiter of the ``csv``.
+                Only relevant if data_type is ``csv``.
             compression: str
                 If specified (``gzip``), will attempt to decompress the file.
             if_exists: str
@@ -337,32 +329,32 @@ class Redshift(
             varchar_max: list
                 A list of columns in which to set the width of the varchar column to 65,535
                 characters.
-            statupate: boolean
+            statupate: bool
                 Governs automatic computation and refresh of optimizer statistics at the end
                 of a successful COPY command.
-            compupdate: boolean
+            compupdate: bool
                 Controls whether compression encodings are automatically applied during a COPY.
             ignore_header: int
                 The number of header rows to skip. Ignored if data_type is ``json``.
-            acceptanydate: boolean
+            acceptanydate: bool
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.
-            emptyasnull: boolean
+            emptyasnull: bool
                 Indicates that Amazon Redshift should load empty char and varchar fields
                 as ``NULL``.
-            blanksasnull: boolean
+            blanksasnull: bool
                 Loads blank varchar fields, which consist of only white space characters,
                 as ``NULL``.
             nullas: str
                 Loads fields that match string as NULL
-            acceptinvchars: boolean
+            acceptinvchars: bool
                 Enables loading of data into VARCHAR columns even if the data contains
                 invalid UTF-8 characters.
             dateformat: str
                 Set the date format. Defaults to ``auto``.
             timeformat: str
                 Set the time format. Defaults to ``auto``.
-            truncatecolumns: boolean
+            truncatecolumns: bool
                 If the table already exists, truncates data in columns to the appropriate number
                 of characters so that it fits the column specification. Applies only to columns
                 with a VARCHAR or CHAR data type, and rows 4 MB or less in size.
@@ -370,7 +362,7 @@ class Redshift(
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
-            specifycols: boolean
+            specifycols: bool
                 Adds a column list to the Redshift `COPY` command, allowing for the source table
                 in an append to have the columnns out of order, and to have fewer columns with any
                 leftover target table columns filled in with the `DEFAULT` value.
@@ -398,12 +390,7 @@ class Redshift(
                 is a pre-existing table that has the same columns/types, then use the template_table
                 table name as the schema for the new table.
 
-        `Returns`
-            Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
-
         """
-
         with self.connection() as connection:
             if self._create_table_precheck(connection, table_name, if_exists):
                 if template_table:
@@ -504,9 +491,9 @@ class Redshift(
         temp_bucket_region: str | None = None,
         strict_length: bool = True,
         csv_encoding: str = "utf-8",
-    ):
+    ) -> None:
         """
-        Copy a :ref:`parsons-table` to Redshift.
+        Copy a :ref:`Table` to Redshift.
 
         Args:
             tbl: obj
@@ -526,7 +513,7 @@ class Redshift(
             padding: float
                 A percentage padding to add to varchar columns if creating a new table. This is
                 helpful to add a buffer for future copies in which the data might be wider.
-            statupate: boolean
+            statupate: bool
                 Governs automatic computation and refresh of optimizer statistics at the end
                 of a successful COPY command. If ``True`` explicitly sets ``statupate`` to on, if
                 ``False`` explicitly sets ``statupate`` to off. If ``None`` stats update only if
@@ -536,28 +523,27 @@ class Redshift(
 
                 .. note::
 
-                    If STATUPDATE is used, the current user must be either the table owner or a
-                    superuser.
+                    If STATUPDATE is used, the current user must be either the table owner or a superuser.
 
-            compupdate: boolean
+            compupdate: bool
                 Controls whether compression encodings are automatically applied during a COPY. If
                 ``True`` explicitly sets ``compupdate`` to on, if ``False`` explicitly sets
                 ``compupdate`` to off. If ``None`` the COPY command only chooses compression if the
                 table is initially empty. Defaults to ``None``.
                 See `Redshift docs <https://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-data-load.html#copy-compupdate>`__
                 for more details.
-            acceptanydate: boolean
+            acceptanydate: bool
                 Allows any date format, including invalid formats such as 00/00/00 00:00:00, to be
                 loaded without generating an error.
-            emptyasnull: boolean
+            emptyasnull: bool
                 Indicates that Amazon Redshift should load empty char and varchar fields
                 as ``NULL``.
-            blanksasnull: boolean
+            blanksasnull: bool
                 Loads blank varchar fields, which consist of only white space characters,
                 as ``NULL``.
             nullas: str
                 Loads fields that match string as NULL
-            acceptinvchars: boolean
+            acceptinvchars: bool
                 Enables loading of data into VARCHAR columns even if the data contains
                 invalid UTF-8 characters.
             dateformat: str
@@ -567,7 +553,7 @@ class Redshift(
             varchar_max: list
                 A list of columns in which to set the width of the varchar column to 65,535
                 characters.
-            truncatecolumns: boolean
+            truncatecolumns: bool
                 If the table already exists, truncates data in columns to the appropriate number
                 of characters so that it fits the column specification. Applies only to columns
                 with a VARCHAR or CHAR data type, and rows 4 MB or less in size.
@@ -575,7 +561,7 @@ class Redshift(
                 Optional map of column name to redshift column type, overriding the usual type
                 inference. You only specify the columns you want to override, eg.
                 ``columntypes={'phone': 'varchar(12)', 'age': 'int'})``.
-            specifycols: boolean
+            specifycols: bool
                 Adds a column list to the Redshift `COPY` command, allowing for the source table
                 in an append to have the columnns out of order, and to have fewer columns with any
                 leftover target table columns filled in with the `DEFAULT` value.
@@ -583,12 +569,12 @@ class Redshift(
                 This will fail if all of the source table's columns do not match a column in the
                 target table. This will also fail if the target table has an `IDENTITY`
                 column and that column name is among the source table's columns.
-            alter_table: boolean
+            alter_table: bool
                 Will check if the target table varchar widths are wide enough to copy in the
                 table data. If not, will attempt to alter the table to make it wide enough. This
                 will not work with tables that have dependent views. To drop them, set
                 ``alter_table_cascade`` to True.
-            alter_table_cascade: boolean
+            alter_table_cascade: bool
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
                 is ``False``, this will be ignored.
             aws_access_key_id:
@@ -601,7 +587,7 @@ class Redshift(
                 An AWS IAM Role ARN string; an alternative credential for the COPY command
                 from Redshift to S3. The IAM role must have been assigned to the Redshift
                 instance and have access to the S3 bucket.
-            cleanup_s3_file: boolean
+            cleanup_s3_file: bool
                 The s3 upload is removed by default on cleanup. You can set to False for debugging.
             template_table: str
                 Instead of specifying columns, columntypes, and/or inference, if there
@@ -619,12 +605,7 @@ class Redshift(
                 String encoding to use when writing the temporary CSV file that is uploaded to S3.
                 Defaults to 'utf-8'.
 
-        `Returns`
-            Parsons Table or ``None``
-                See :ref:`parsons-table` for output options.
-
         """
-
         # Specify the columns for a copy statement.
         cols = tbl.columns if specifycols or specifycols is None and template_table else None
 
@@ -690,7 +671,7 @@ class Redshift(
                 sql = self.copy_statement(table_name, self.s3_temp_bucket, key, **copy_args)
                 sql_censored = sql_helpers.redact_credentials(sql)
 
-                logger.debug(f"Copy SQL command: {sql_censored}")
+                logger.debug("Copy SQL command: %s", sql_censored)
                 self.query_with_connection(sql, connection, commit=False)
 
                 logger.info(f"Data copied to {table_name}.")
@@ -732,29 +713,29 @@ class Redshift(
            The destination S3 bucket
         key_prefix: str
             The prefix of the key names that will be written
-        manifest: boolean
+        manifest: bool
             Creates a manifest file that explicitly lists details for the data files
             that are created by the UNLOAD process.
-        header: boolean
+        header: bool
             Adds a header line containing column names at the top of each output file.
         delimiter: str
             Specificies the character used to separate fields. Defaults to '|'.
         compression: str
             One of ``gzip``, ``bzip2`` or ``None``. Unloads data to one or more compressed
             files per slice. Each resulting file is appended with a ``.gz`` or ``.bz2`` extension.
-        add_quotes: boolean
+        add_quotes: bool
             Places quotation marks around each unloaded data field, so that Amazon Redshift
             can unload data values that contain the delimiter itself.
         null_as: str
             Specifies a string that represents a null value in unload files. If this option is
             not specified, null values are unloaded as zero-length strings for delimited output.
-        escape: boolean
+        escape: bool
             For CHAR and VARCHAR columns in delimited unload files, an escape character (\) is
             placed before every linefeed, carriage return, escape characters and delimiters.
-        allow_overwrite: boolean
+        allow_overwrite: bool
             If ``True``, will overwrite existing files, including the manifest file. If ``False``
             will fail.
-        parallel: boolean
+        parallel: bool
             By default, UNLOAD writes data in parallel to multiple files, according to the number
             of slices in the cluster. The default option is ON or TRUE. If PARALLEL is OFF or
             FALSE, UNLOAD writes to one or more data files serially, sorted absolutely according
@@ -777,7 +758,6 @@ class Redshift(
             An AWS secret access key granted to the bucket where the file is located. Not
             required if keys are stored as environmental variables.
         """
-
         # The sql query is provided between single quotes, therefore single
         # quotes within the actual query must be escaped.
         # https://docs.aws.amazon.com/redshift/latest/dg/r_UNLOAD.html#unload-parameters
@@ -848,17 +828,22 @@ class Redshift(
         Args:
             rs_table: str
                 Redshift table.
-
             bucket: str
                 S3 bucket
-
             key: str
                 S3 key prefix ahead of table name
-
             cascade: bool
                 whether to drop cascade
-
-            `***unload params`:
+            manifest: bool
+            header: bool
+            delimiter: str
+            compression: str
+            add_quotes: bool
+            escape: bool
+            allow_overwrite: bool
+            parallel: bool
+            max_file_size: str
+            aws_region: str
 
         """
         query_end = "cascade" if cascade else ""
@@ -896,7 +881,7 @@ class Redshift(
         """
         Given a list of S3 buckets, generate a manifest file (JSON format). A manifest file
         allows you to copy multiple files into a single table at once. Once the manifest is
-        generated, you can pass it with the :func:`~parsons.redshift.Redshift.copy_s3` method.
+        generated, you can pass it with the :meth:`.copy_s3` method.
 
         AWS keys are not required if ``AWS_ACCESS_KEY_ID`` and
         ``AWS_SECRET_ACCESS_KEY`` environmental variables set.
@@ -909,7 +894,7 @@ class Redshift(
                 AWS access key id to access S3 bucket
             aws_secret_access_key: str
                 AWS secret access key to access S3 bucket
-            mandatory: boolean
+            mandatory: bool
                 The mandatory flag indicates whether the Redshift COPY should
                 terminate if the file does not exist.
             prefix: str
@@ -923,7 +908,6 @@ class Redshift(
             ``dict`` of manifest
 
         """
-
         from parsons.aws import S3
 
         s3 = S3(
@@ -988,32 +972,31 @@ class Redshift(
                 The schema and table name to upsert
             primary_key: str or list
                 The primary key column(s) of the target table
-            vacuum: boolean
+            vacuum: bool
                 Re-sorts rows and reclaims space in the specified table. You must be a table owner
                 or super user to effectively vacuum a table, however the method will not fail
                 if you lack these priviledges.
-            distinct_check: boolean
+            distinct_check: bool
                 Check if the primary key column is distinct. Raise error if not.
-            cleanup_temp_table: boolean
+            cleanup_temp_table: bool
                 A temp table is dropped by default on cleanup. You can set to False for debugging.
-            alter_table: boolean
+            alter_table: bool
                 Set to False to avoid automatic varchar column resizing to accomodate new data
-            alter_table_cascade: boolean
+            alter_table_cascade: bool
                 Will drop dependent objects when attempting to alter the table. If ``alter_table``
                 is ``False``, this will be ignored.
-            from_s3: boolean
+            from_s3: bool
                 Instead of specifying a table_obj (set the first argument to None),
-                set this to True and include :func:`~parsons.databases.Redshift.copy_s3` arguments
+                set this to True and include :meth:`.copy_s3` arguments
                 to upsert a pre-existing s3 file into the target_table
             distkey: str
                 The column name of the distkey. If not provided, will default to ``primary_key``.
             sortkey: str or list
                 The column name(s) of the sortkey. If not provided, will default to ``primary_key``.
             `**copy_args`: kwargs
-                See :func:`~parsons.databases.Redshift.copy` for options.
+                See :meth:`.copy` for options.
 
         """
-
         primary_keys = [primary_key] if isinstance(primary_key, str) else primary_key
 
         # Set distkey and sortkey to argument or primary key. These keys will be used
@@ -1104,7 +1087,7 @@ class Redshift(
                        WHERE {where_clause}
                        """
                 self.query_with_connection(sql, connection, commit=False)
-                logger.debug(f"Target rows deleted from {target_table}.")
+                logger.debug("Target rows deleted from %s.", target_table)
 
                 # Insert rows
                 # ALTER TABLE APPEND would be more efficient, but you can't run it in a
@@ -1182,7 +1165,6 @@ class Redshift(
                 The target table name (e.g. ``my_schema.my_table``)
 
         """
-
         # Make the Parsons table column names match valid Redshift names
         tbl.table = petl.setheader(tbl.table, self.column_name_validate(tbl.columns))
 
@@ -1222,7 +1204,6 @@ class Redshift(
         varchar_width:
             The new width of the column if of type varchar.
         """
-
         sql = f"ALTER TABLE {table_name} ALTER COLUMN {column_name} TYPE {data_type}"
 
         if varchar_width:

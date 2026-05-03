@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime, timedelta
-from typing import NoReturn
+from typing import Any, Literal, NoReturn, overload
 
 from requests import Response, request
 
@@ -16,32 +16,28 @@ PAGE_LIMIT = 1000
 
 class Hustle:
     """
-    Instantiate Hustle Class
+    Instantiate Hustle Class.
 
     Args:
         client_id:
-            The client id provided by Hustle. Not required if ``HUSTLE_CLIENT_ID`` env variable
-            set.
+            The client id provided by Hustle.
+            Not required if ``HUSTLE_CLIENT_ID`` env variable set.
         client_secret:
-            The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
-            variable set.
-
-    Returns:
-        Hustle Class
+            The client secret provided by Hustle.
+            Not required if ``HUSTLE_CLIENT_SECRET`` env variable set.
 
     """
 
     def __init__(self, client_id: str | None = None, client_secret: str | None = None):
         self.uri = HUSTLE_URI
-        self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
-        self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
+        self.client_id: str = check_env.check("HUSTLE_CLIENT_ID", client_id)
+        self.client_secret: str = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
         self.auth_token, self.token_expiration = self._get_auth_token(
             self.client_id, self.client_secret
         )
 
-    def _get_auth_token(self, client_id: str, client_secret: str):
+    def _get_auth_token(self, client_id: str, client_secret: str) -> tuple[str, datetime]:
         """Generate an authorization token."""
-
         data = {
             "client_id": client_id,
             "client_secret": client_secret,
@@ -54,17 +50,18 @@ class Hustle:
 
         auth_token = resp_json["access_token"]
         token_expiration = datetime.now() + timedelta(seconds=resp_json["expires_in"])
+
         logger.info("Authentication token generated")
         return auth_token, token_expiration
 
-    def _refresh_token(self):
-        """Generate new token if current token is exprired.
+    def _refresh_token(self) -> None:
+        """
+        Generate new token if current token is exprired.
 
         Tokens are valid for `expires_in` (7200 by default) seconds.
+
         """
-
         logger.debug("Checking token expiration.")
-
         if datetime.now() >= self.token_expiration:
             logger.info("Refreshing authentication token.")
             self.auth_token, self.token_expiration = self._get_auth_token(
@@ -74,11 +71,11 @@ class Hustle:
     def _request(
         self,
         endpoint: str,
-        req_type: str = "GET",
+        req_type: Literal["GET", "OPTIONS", "HEAD", "POST", "PUT", "PATCH", "DELETE"] = "GET",
         args: dict | None = None,
         payload: dict | None = None,
         raise_on_error: bool = True,
-    ) -> dict | list:
+    ) -> dict[str, Any] | list:
         url = self.uri + endpoint
         self._refresh_token()
 
@@ -92,17 +89,15 @@ class Hustle:
             parameters.update(args)
 
         resp = request(req_type, url, params=parameters, json=payload, headers=headers)
-
         self._error_check(resp, raise_on_error)
-        resp_json = resp.json()
+        resp_json: dict = resp.json()
 
         # If a single item return the dict
         if "items" not in resp_json:
             return resp_json
 
-        result = resp_json["items"]
-
         # Pagination
+        result: list = resp_json["items"]
         while resp_json["pagination"]["hasNextPage"] == "true":
             parameters["cursor"] = resp_json["pagination"]["cursor"]
             resp = request(req_type, url, params=parameters, headers=headers)
@@ -114,7 +109,6 @@ class Hustle:
 
     def _error_check(self, resp: Response, raise_on_error: bool) -> NoReturn | None:
         """Check response for errors."""
-
         if resp.status_code in (200, 201):
             logger.debug(resp.json())
             return
@@ -128,39 +122,18 @@ class Hustle:
         return
 
     def get_agents(self, group_id: str) -> Table:
-        """
-        Get a list of agents.
-
-        Args:
-            group_id: str
-                The group id.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+        """Get a list of agents."""
         tbl = Table(self._request(f"groups/{group_id}/agents"))
+
         logger.info(f"Got {tbl.num_rows} agents from {group_id} group.")
         return tbl
 
-    def get_agent(self, agent_id: str) -> dict:
-        """
-        Get a single agent.
-
-        Args:
-            agent_id: str
-                The agent id.
-
-        Returns:
-            dict
-
-        """
-
+    def get_agent(self, agent_id: str) -> dict[str, Any] | list:
+        """Get a single agent."""
         resp = self._request(f"agents/{agent_id}")
+
         logger.info(f"Got {agent_id} agent.")
-        return resp  # type: ignore
+        return resp
 
     def create_agent(
         self,
@@ -170,29 +143,19 @@ class Hustle:
         phone_number: str,
         send_invite: bool = False,
         email: str | None = None,
-    ) -> dict:
+    ) -> dict[str, Any] | list:
         """
         Create an agent.
 
         Args:
-            group_id: str
-                The group id to assign the agent.
-            name: str
-                The name of the agent.
-            full_name: str
-                The full name of the agent.
-            phone_number: str
-                The valid phone number of the agent.
-            send_invite: boolean
-                Send an invitation to the agent.
-            email:
-                The email address of the agent.
-
-        Returns:
-            dict
+            group_id: The group id to assign the agent.
+            name: The name of the agent.
+            full_name: The full name of the agent.
+            phone_number: The valid phone number of the agent.
+            send_invite: Whether to send an invitation to the agent.
+            email: The email address of the agent.
 
         """
-
         agent = {
             "name": name,
             "fullName": full_name,
@@ -200,13 +163,12 @@ class Hustle:
             "sendInvite": send_invite,
             "email": email,
         }
-
-        # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
         logger.info(f"Generating {full_name} agent.")
         resp = self._request(f"groups/{group_id}/agents", req_type="POST", payload=agent)
-        return resp  # type: ignore
+
+        return resp
 
     def update_agent(
         self,
@@ -214,150 +176,89 @@ class Hustle:
         name: str | None = None,
         full_name: str | None = None,
         send_invite: bool = False,
-    ) -> dict:
+    ) -> dict[str, Any] | list:
         """
         Update an agent.
 
         Args:
-            agent_id: str
-                The agent id.
-            name: str
-                The name of the agent.
-            full_name: str
-                The full name of the agent.
-            phone_number: str
-                The valid phone number of the agent.
-            send_invite: boolean
-                Send an invitation to the agent.
-
-        Returns:
-            dict
+            agent_id: The agent id.
+            name: The name of the agent.
+            full_name: The full name of the agent.
+            phone_number: The valid phone number of the agent.
+            send_invite: Whether to send an invitation to the agent.
 
         """
-
         agent = {"name": name, "fullName": full_name, "sendInvite": send_invite}
-
-        # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
         logger.info(f"Updating agent {agent_id}.")
         resp = self._request(f"agents/{agent_id}", req_type="PUT", payload=agent)
-        return resp  # type: ignore
+
+        return resp
 
     def get_organizations(self) -> Table:
-        """
-        Get organizations.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+        """Get organizations."""
         tbl = Table(self._request("organizations"))
+
         logger.info(f"Got {tbl.num_rows} organizations.")
         return tbl
 
-    def get_organization(self, organization_id: str) -> dict:
-        """
-        Get a single organization.
-
-        Args:
-            organization_id: str
-                The organization id.
-
-        Returns:
-            dict
-
-        """
-
+    def get_organization(self, organization_id: str) -> dict[str, Any] | list:
+        """Get a single organization."""
         resp = self._request(f"organizations/{organization_id}")
+
         logger.info(f"Got {organization_id} organization.")
-        return resp  # type: ignore
+        return resp
 
     def get_groups(self, organization_id: str) -> Table:
-        """
-        Get a list of groups.
-
-        Args:
-            organization_id: str
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+        """Get a list of groups."""
         tbl = Table(self._request(f"organizations/{organization_id}/groups"))
+
         logger.info(f"Got {tbl.num_rows} groups.")
         return tbl
 
-    def get_group(self, group_id: str) -> dict:
-        """
-        Get a single group.
-
-        Args:
-            group_id: str
-                The group id.
-
-        """
-
+    def get_group(self, group_id: str) -> dict[str, Any] | list:
+        """Get a single group."""
         resp = self._request(f"groups/{group_id}")
+
         logger.info(f"Got {group_id} group.")
-        return resp  # type: ignore
+        return resp
 
-    def create_group_membership(self, group_id: str, lead_id: str) -> dict:
-        """
-        Add a lead to a group.
-
-        Args:
-            group_id: str
-                The group id.
-            lead_id: str
-                The lead id.
-
-        """
-
+    def create_group_membership(self, group_id: str, lead_id: str) -> dict[str, Any] | list:
+        """Add a lead to a group."""
         resp = self._request(
             f"groups/{group_id}/memberships",
             req_type="POST",
             payload={"leadId": lead_id},
         )
-        return resp  # type: ignore
 
-    def get_lead(self, lead_id: str) -> dict:
-        """
-        Get a single lead.
+        return resp
 
-        Args:
-            lead_id: str
-                The lead id.
-
-        Returns:
-            dict
-
-        """
-
+    def get_lead(self, lead_id: str) -> dict[str, Any] | list:
+        """Get a single lead."""
         resp = self._request(f"leads/{lead_id}")
+
         logger.info(f"Got {lead_id} lead.")
-        return resp  # type: ignore
+        return resp
+
+    @overload
+    def get_leads(self, organization_id: str, group_id: None = None) -> Table: ...
+
+    @overload
+    def get_leads(self, organization_id: None, group_id: str) -> Table: ...
 
     def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
-        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
-        as an argument. If both are passed, an error will be raised.
+        Get leads metadata.
 
-        Args:
-            organization_id: str
-                The organization id.
-            group_id: str
-                The group id.
+        One of `organization_id` and `group_id` must be passed as an argument.
+        If both are passed, an error will be raised.
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Raises:
+            ValueError: If neither `organization_id` nor `group_id` is provided.
+            ValueError: If both `organization_id` and `group_id` are provided.
 
         """
-
         if organization_id is None and group_id is None:
             raise ValueError("Either organization_id or group_id required.")
 
@@ -367,11 +268,13 @@ class Hustle:
         if organization_id:
             endpoint = f"organizations/{organization_id}/leads"
             logger.info(f"Retrieving {organization_id} organization leads.")
+
         if group_id:
             endpoint = f"groups/{group_id}/leads"
             logger.info(f"Retrieving {group_id} group leads.")
 
-        tbl = Table(self._request(endpoint))  # type: ignore
+        tbl = Table(self._request(endpoint))
+
         logger.info(f"Got {tbl.num_rows} leads.")
         return tbl
 
@@ -386,37 +289,24 @@ class Hustle:
         follow_up: str | None = None,
         custom_fields: dict | None = None,
         tag_ids: list | None = None,
-    ) -> dict:
+    ) -> dict[str, Any] | list:
         """
-
         Create a lead.
 
         Args:
-            group_id: str
-                The group id to assign the leads.
-            first_name: str
-                The first name of the lead.
-            phone_number: str
-                The phone number of the lead.
-            last_name: str
-                The last name of the lead.
-            email: str
-                The email address of the lead.
-            notes: str
-                The notes for the lead.
-            follow_up: str
-                Follow up for the lead.
-            custom_fields: dict
-                A dictionary of custom fields, with key as the value name, and
-                value as the value.
-            tag_ids: list
-                A list of tag ids.
-
-        Returns:
-                ``None``
+            group_id: The group id to assign the leads.
+            first_name: The first name of the lead.
+            phone_number: The phone number of the lead.
+            last_name: The last name of the lead.
+            email: The email address of the lead.
+            notes: The notes for the lead.
+            follow_up: Follow up for the lead.
+            custom_fields:
+                The key should be the value name,
+                and the value should be the value.
+            tag_ids: A list of tag ids.
 
         """
-
         lead = {
             "firstName": first_name,
             "lastName": last_name,
@@ -427,17 +317,19 @@ class Hustle:
             "customFields": custom_fields,
             "tagIds": tag_ids,
         }
-
-        # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
+
         logger.info(f"Generating lead for {first_name} {last_name}.")
         resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
-        return resp  # type: ignore
+        return resp
 
     def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """
-        Create multiple leads. All unrecognized fields will be passed as custom fields. Column
-        names must map to the following names.
+        Create multiple leads.
+
+        All unrecognized fields will be passed as custom fields.
+
+        Column names must map to the following names.
 
         .. list-table::
             :widths: 20 80
@@ -457,17 +349,18 @@ class Hustle:
               - ``follow_up``, ``followup``
 
         Args:
-            table: Parsons table
-                Leads
+            table: Leads
             group_id:
-                The group id to assign the leads. If ``None``, must be passed as a column
-                value.
+                The group id to assign the leads.
+                If ``None``, must be passed as a column value.
 
         Returns:
-            A table of created ids with associated lead id.
+            Created ids with associated lead id.
+
+        Raises:
+            ValueError: If group_id is ``None`` and was not passed as a column value.
 
         """
-
         table.map_columns(LEAD_COLUMN_MAP)
 
         arg_list = [
@@ -481,7 +374,6 @@ class Hustle:
         ]
 
         created_leads = []
-
         for row in table:
             lead: dict[str, str | dict | None] = {"group_id": group_id}
             custom_fields = {}
@@ -499,10 +391,11 @@ class Hustle:
             # Group Id check
             if not group_id and "group_id" not in table.columns:
                 raise ValueError("Group Id must be passed as an argument or a column value.")
+
             if group_id:
                 lead["group_id"] = group_id
 
-            created_leads.append(self.create_lead(**lead))  # type: ignore
+            created_leads.append(self.create_lead(**lead))
 
         logger.info(f"Created {table.num_rows} leads.")
         return Table(created_leads)
@@ -517,32 +410,21 @@ class Hustle:
         notes: str | None = None,
         follow_up: str | None = None,
         tag_ids: list | None = None,
-    ) -> dict:
+    ) -> dict[str, Any] | list:
         """
         Update a lead.
 
         Args:
-            lead_id: str
-                The lead id
-            first_name: str
-                The first name of the lead
-            last_name: str
-                The last name of the lead
-            email: str
-                The email address of the lead
-            global_opt_out: boolean
-                Opt out flag for the lead
-            notes: str
-                The notes for the lead
-            follow_up: str
-                Follow up for the lead
-            tag_ids: list
-                Tags to apply to lead
-        Returns:
-            dict
+            lead_id: The lead id
+            first_name: The first name of the lead
+            last_name: The last name of the lead
+            email: The email address of the lead
+            global_opt_out: Opt out flag for the lead
+            notes: The notes for the lead
+            follow_up: Follow up for the lead
+            tag_ids: Tags to apply to lead
 
         """
-
         lead = {
             "leadId": lead_id,
             "firstName": first_name,
@@ -553,85 +435,53 @@ class Hustle:
             "followUp": follow_up,
             "tagIds": tag_ids,
         }
-
-        # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
 
         logger.info(f"Updating lead for {first_name} {last_name}.")
         resp = self._request(f"leads/{lead_id}", req_type="PUT", payload=lead)
-        return resp  # type: ignore
+        return resp
 
     def get_tags(self, organization_id: str) -> Table:
-        """
-        Get an organization's tags.
-
-        Args:
-            organization_id: str
-                The organization id.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+        """Get an organization's tags."""
         tbl = Table(self._request(f"organizations/{organization_id}/tags"))
+
         logger.info(f"Got {tbl.num_rows} tags for {organization_id} organization.")
         return tbl
 
-    def get_tag(self, tag_id: str) -> dict:
-        """
-        Get a single tag.
-
-        Args:
-            tag_id: str
-                The tag id.
-
-        Returns:
-            dict
-
-        """
-
+    def get_tag(self, tag_id: str) -> dict[str, Any] | list:
+        """Get a single tag."""
         resp = self._request(f"tags/{tag_id}")
+
         logger.info(f"Got {tag_id} tag.")
-        return resp  # type: ignore
+        return resp
 
     def get_custom_fields(self, organization_id: str) -> Table:
-        """Retrieve an organization's custom fields.
-
-        Args:
-            organization_id: str
-                The organization id.
-
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
-        """
-
+        """Retrieve an organization's custom fields."""
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
+
         logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
         return tbl
 
     def create_custom_field(
         self, organization_id: str, name: str, agent_visible: bool | None = None
-    ) -> dict:
-        """Create a custom field.
+    ) -> dict[str, Any] | list:
+        """
+        Create a custom field.
 
         Args:
-            organization_id: str
-                The organization id.
-            name: str
-                The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.
-            agent_visible: bool
-                Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.
+            organization_id: The organization id.
+            name:
+                The name of the custom field.
+                Restricted to letters, numbers, and underscores.
+                Minimum of 2 characters, maximum of 40.
+            agent_visible:
+                ``True`` represents that the custom field is visible to agents.
+                ``False`` means that only admins can see it.
 
         Returns:
-            dict
-                The newly created custom field
+            The newly created custom field
 
         """
-
         custom_field: dict[str, str | bool] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
@@ -640,4 +490,4 @@ class Hustle:
         resp = self._request(
             f"organizations/{organization_id}/custom-fields", req_type="POST", payload=custom_field
         )
-        return resp  # type: ignore
+        return resp

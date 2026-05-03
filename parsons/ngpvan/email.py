@@ -1,6 +1,6 @@
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class Email:
             }
 
         tbl = Table(self.connection.get_request("email/messages", params=params))
-        logger.debug(f"Found {tbl.num_rows} emails.")
+        logger.debug("Found %s emails.", tbl.num_rows)
         return tbl
 
     def get_email(self, email_id: int, expand: bool = True) -> Table:
@@ -64,7 +64,6 @@ class Email:
             dict
 
         """
-
         params = {
             "$expand": (
                 "emailMessageContent, EmailMessageContentDistributions" if expand else None
@@ -72,7 +71,7 @@ class Email:
         }
 
         r = self.connection.get_request(f"email/message/{email_id}", params=params)
-        logger.debug(f"Found email {email_id}.")
+        logger.debug("Found email %s.", email_id)
         return r
 
     def get_email_stats(self, aggregate_ab: bool = True) -> Table:
@@ -97,7 +96,6 @@ class Email:
                 unsubscribeCount, subject
 
         """
-
         email_list = []
 
         final_email_list = []

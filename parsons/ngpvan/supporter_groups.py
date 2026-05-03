@@ -2,7 +2,7 @@
 
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -16,11 +16,10 @@ class SupporterGroups:
         Get supporter groups.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         tbl = Table(self.connection.get_request("supporterGroups"))
         logger.info(f"Found {tbl.num_rows} supporter groups.")
         return tbl
@@ -37,7 +36,6 @@ class SupporterGroups:
             dict
 
         """
-
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Found supporter group {supporter_group_id}.")
         return r
@@ -51,12 +49,12 @@ class SupporterGroups:
                 The name of the supporter group. 100 character limit
             description: str
                 Optional; A description of the supporter group. 200 character limit.
-        `Returns`
-            Parsons Table with the newly createed supporter group id, name
+
+        Returns:
+            Table with the newly createed supporter group id, name
             and description
 
         """
-
         json = {"name": name, "description": description}
         r = self.connection.post_request("supporterGroups", json=json)
         return r
@@ -70,7 +68,6 @@ class SupporterGroups:
                 The supporter group id
 
         """
-
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Deleted supporter group {supporter_group_id}.")
         return r
@@ -86,7 +83,6 @@ class SupporterGroups:
                 The vanid of the person to apply
 
         """
-
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
         return r
@@ -102,7 +98,6 @@ class SupporterGroups:
                 The vanid of the person to remove
 
         """
-
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
         return r

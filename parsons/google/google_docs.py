@@ -1,7 +1,8 @@
 import logging
 import uuid
+from pathlib import Path
 
-from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 from parsons.google.utilities import (
@@ -17,24 +18,24 @@ class GoogleDocs:
     A connector for Google Docs
 
     Args:
-        app_creds: dict | str | Credentials
+        app_creds:
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
-            saved on disk, or a google.oauth2.credentials.Credentials object. Required
-            if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+            saved on disk, or a :class:`google.oauth2.service_account.Credentials` object.
+            Required if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
 
     """
 
     def __init__(
         self,
-        app_creds: str | dict | Credentials | None = None,
+        app_creds: service_account.Credentials | str | Path | dict | None = None,
     ):
         scopes = [
             "https://www.googleapis.com/auth/documents",
             "https://www.googleapis.com/auth/drive",
         ]
 
-        if isinstance(app_creds, Credentials):
+        if isinstance(app_creds, service_account.Credentials):
             credentials = app_creds
         else:
             env_credentials_path = str(uuid.uuid4())

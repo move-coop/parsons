@@ -22,9 +22,6 @@ class CrowdTangle:
             A valid CrowdTangle API key. Not required if ``CROWDTANGLE_API_KEY`` env
             variable set.
 
-    Returns:
-        CrowdTangle Class
-
     """
 
     def __init__(self, api_key=None):
@@ -58,7 +55,7 @@ class CrowdTangle:
 
     def _base_unpack(self, ParsonsTable):
         logger.debug("Working to unpack the Parsons Table...")
-        logger.debug(f"Starting with {len(ParsonsTable.columns)} columns...")
+        logger.debug("Starting with %s columns...", len(ParsonsTable.columns))
         sample = ParsonsTable[0]
 
         col_dict = {}
@@ -156,11 +153,9 @@ class CrowdTangle:
                 that are not ``native_video``, ``youtube`` or ``vine``.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
-
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -202,11 +197,8 @@ class CrowdTangle:
                 ``account_ids`` value will be used.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
+            :ref:`Table`
         """
-
         args = {
             "startDate": start_date,
             "endDate": end_date,
@@ -219,7 +211,9 @@ class CrowdTangle:
         self._unpack(pt)
         return pt
 
-    def get_links(self, link, start_date=None, end_date=None, include_summary=None, platforms=None):
+    def get_links(
+        self, link, start_date=None, end_date=None, include_summary=None, platforms=None
+    ) -> Table:
         """
         Return up to 100 posts based on a specific link. It is strongly recommended to
         use the ``start_date`` parameter to limit queries to relevant dates.
@@ -239,7 +233,7 @@ class CrowdTangle:
             end_date: str
                 Filter to the latest date at which a post could be posted.
                 The time is formatted as UTC (e.g. ``yyyy-mm-ddThh:mm:ss`` or ``yyyy-mm-dd``).
-            include_summary: boolean
+            include_summary: bool
                 Adds a ``summary`` column with account statistics for each platform
                 that has posted this link. It will look beyond the count
                 requested to summarize across the time searched.
@@ -247,12 +241,7 @@ class CrowdTangle:
             platforms: list
                 Filter by platforms
 
-        Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-
         """
-
         args = {
             "link": link,
             "startDate": start_date,

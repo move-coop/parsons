@@ -2,7 +2,7 @@
 
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -44,11 +44,9 @@ class Events:
                 ``onlineForms``.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
-
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -96,11 +94,9 @@ class Events:
                 ``ticketCategories``, ``voterRegistrationBatches``.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
-
         if expand_fields is None:
             expand_fields = [
                 "locations",
@@ -173,11 +169,11 @@ class Events:
 
             description: str
                 An optional description for this Event, no longer than 500 characters.
-            editable: boolean
+            editable: bool
                 If ``True``, prevents modification of this event by any users other than the
                 user associated the API key. Setting this to true effectively makes
                 the event read-only in the VAN interface.
-            publicly_viewable: boolean
+            publicly_viewable: bool
                 Used by NGP VAN’s website platform to indicate whether this event can be
                 viewed publicly.
             location_ids: list
@@ -193,7 +189,6 @@ class Events:
               The event code.
 
         """
-
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -241,7 +236,6 @@ class Events:
                 The event id.
 
         """
-
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
@@ -265,7 +259,6 @@ class Events:
               The shift id.
 
         """
-
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -277,11 +270,9 @@ class Events:
         Get event types.
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
 
         """
-
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

@@ -2,7 +2,7 @@
 
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -20,11 +20,10 @@ class ContactNotes:
                 VAN ID for the person to get notes for.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl

@@ -9,7 +9,7 @@ from facebook_business.adobjects.customaudience import CustomAudience
 from facebook_business.api import FacebookAdsApi
 from joblib import Parallel, delayed
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -159,7 +159,6 @@ class FacebookAds:
                 The prepared table
 
         """
-
         # Copy the table to avoid messing up the source table
         t = copy.deepcopy(users_table)
 
@@ -241,7 +240,6 @@ class FacebookAds:
             ID of the created audience
 
         """
-
         if not self._is_valid_data_source(data_source):
             raise KeyError("Invalid data_source provided")
 
@@ -264,7 +262,6 @@ class FacebookAds:
                 The ID of the custom audience to delete.
 
         """
-
         CustomAudience(audience_id).api_delete()
 
     @staticmethod
@@ -338,7 +335,7 @@ class FacebookAds:
         valid phone number.
 
         For details of the expected data formats for each column type, see
-        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`_,
+        `Facebook Audience API <https://developers.facebook.com/docs/marketing-api/audiences-api>`__,
         under "Hashing and Normalization for Multi-Key".
 
         Note that you shouldn't have to do normalization on your data, as long as it's
@@ -361,7 +358,6 @@ class FacebookAds:
                 Parsons table
 
         """
-
         logger.info(
             f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )

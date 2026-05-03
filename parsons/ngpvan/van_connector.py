@@ -1,6 +1,7 @@
 import logging
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
 from suds.client import Client
 
 from parsons.utilities import check_env
@@ -35,7 +36,7 @@ class VANConnector:
         self.db = db
         self.auth_name = auth_name
         self.pagination_key = "nextPageLink"
-        self.auth = (self.auth_name, self.api_key + "|" + str(self.db_code))
+        self.auth = HTTPBasicAuth(self.auth_name, self.api_key + "|" + str(self.db_code))
         self.api = APIConnector(
             self.uri,
             auth=self.auth,
@@ -51,7 +52,6 @@ class VANConnector:
     @property
     def api_key_profile(self):
         """Returns the API key profile with includes permissions and other metadata."""
-
         return self.get_request("apiKeyProfiles")[0]
 
     @property
@@ -70,7 +70,6 @@ class VANConnector:
 
     def soap_client_db(self):
         """Parse the REST database name to the accepted SOAP format"""
-
         if self.db == "MyVoters":
             return "MyVoterFile"
         if self.db == "EveryAction":
@@ -79,7 +78,7 @@ class VANConnector:
             return self.db
 
     def get_request(self, endpoint, **kwargs):
-        r = self.api.get_request(self.uri + endpoint, **kwargs)
+        r = self.api.get_request(url=f"{self.uri}{endpoint}", **kwargs)
         data = self.api.data_parse(r)
 
         # Paginate
@@ -88,7 +87,7 @@ class VANConnector:
                 break
             if endpoint == "printedLists" and not r["items"]:
                 break
-            r = self.api.get_request(r[self.pagination_key], **kwargs)
+            r = self.api.get_request(url=r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
         return data
 

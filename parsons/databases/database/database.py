@@ -29,50 +29,41 @@ class DatabaseCreateStatement:
         self.REPLACE_CHARS = consts.REPLACE_CHARS
 
     # This will allow child classes to modify how these columns are handled.
-    def _rename_reserved_word(self, col, index=None):
+    def _rename_reserved_word(self, col: str, index: int | None = None) -> str:
         """Return the renamed column.
 
         Args:
-            col: str
-                The column to rename.
-            index: int
-                (Optional) The index of the column.
+            col: The column to rename.
+            index: The index of the column.
 
         Returns:
-            str
-                The rename column.
+            The rename column.
 
         """
         return f"{col}_"
 
-    def _rename_duped(self, col, index):
+    def _rename_duped(self, col: str, index: int):
         """Return the renamed column.
 
         Args:
-            col: str
-                The column to rename.
-            index: int
-                (Optional) The index of the column.
+            col: The column to rename.
+            index: The index of the column.
 
         Returns:
-            str
-                The rename column.
+            The rename column.
 
         """
         return f"{col}_{index}"
 
-    def get_bigger_int(self, int1, int2):
+    def get_bigger_int(self, int1: str, int2: str) -> str:
         """Return the bigger of the two ints.
 
         Args:
-            int1: str
-                The string representation if an int type.
-            int2: str
-                The string representation if an int type.
+            int1: The string representation of an int type.
+            int2: The string representation of an int type.
 
         Returns:
-            str
-                A string representation of the higher of the two int types.
+            A string representation of the higher of the two int types.
 
         """
         WEIGHTS = {
@@ -84,16 +75,14 @@ class DatabaseCreateStatement:
 
         return int1 if WEIGHTS.get(int1, -1) >= WEIGHTS.get(int2, -1) else int2
 
-    def is_valid_sql_num(self, val):
+    def is_valid_sql_num(self, val) -> bool:
         """Check whether val is a valid sql number.
 
         Args:
-            val: any
-                The values to check.
+            val: The values to check.
 
         Returns:
-            bool
-                Whether or not the value is a valid sql number.
+            Whether or not the value is a valid sql number.
 
         """
         # Python accepts numbers with single-underscore separators such as
@@ -119,7 +108,7 @@ class DatabaseCreateStatement:
         except (TypeError, ValueError):
             return False
 
-    def detect_data_type(self, value, cmp_type=None):
+    def detect_data_type(self, value: str, cmp_type: str | None = None) -> str | None:
         """
         Detect the higher of value's type cmp_type.
 
@@ -130,14 +119,11 @@ class DatabaseCreateStatement:
             b. check if it's an int
 
         Args:
-            value: str
-                The value to inspect.
-            cmp_type: str
-                The string representation of a type to compare with the type of ``value``.
+            value: The value to inspect.
+            cmp_type: The string representation of a type to compare with the type of ``value``.
 
         Returns:
-            str
-                String representation of the higher of the two types.
+            String representation of the higher of the two types.
 
         """
         # Stop if the compare type is already a varchar
@@ -176,34 +162,40 @@ class DatabaseCreateStatement:
 
         else:
             # Need to determine who makes it all the way down here
-            logger.debug(f"Unexpected object type: {type(value)}")
+            logger.debug("Unexpected object type: %s", type(value))
             result = cmp_type
 
         return result
 
-    def format_column(self, col, index="", replace_chars=None, col_prefix="_"):
-        """Format the column to meet database contraints.
+    def format_column(
+        self,
+        col: str,
+        index: int | str = "",
+        replace_chars: dict | None = None,
+        col_prefix: str = "_",
+    ) -> str:
+        """
+        Format the column to meet database contraints.
 
         Formats the columns as follows:
-            1. Coverts to lowercase (if case insensitive)
-            2. Strips leading and trailing whitespace
-            3. Replaces invalid characters
-            4. Renames if in reserved words
+        1. Coverts to lowercase (if case insensitive)
+        2. Strips leading and trailing whitespace
+        3. Replaces invalid characters
+        4. Renames if in reserved words
+
         Args:
-            col: str
-                The column to format.
-            index: int
-                (Optional) The index of the column. Used if the column is empty.
-            replace_chars: dict
-                A dictionary of invalid characters and their replacements. If
-                ``None`` uses {" ": "_"}
-            col_prefix: str
-                The prefix to use when the column is empty or starts with an
-                invalid character.
+            col: The column to format.
+            index:
+                The index of the column.
+                Used if the column is empty.
+            replace_chars:
+                A dictionary of invalid characters and their replacements.
+                If ``None`` uses {" ": "_"}
+            col_prefix:
+                The prefix to use when the column is empty or starts with an invalid character.
 
         Returns:
-            str
-                The formatted column.
+            The formatted column.
 
         """
         replace_chars = replace_chars or self.REPLACE_CHARS
@@ -231,7 +223,7 @@ class DatabaseCreateStatement:
 
         return col
 
-    def format_columns(self, cols, **kwargs):
+    def format_columns(self, cols: list[str], **kwargs) -> list:
         """Format the columns to meet database contraints.
 
         This method relies on ``format_column`` to handle most changes. It
@@ -239,24 +231,19 @@ class DatabaseCreateStatement:
         passed through kwargs.
 
         Args:
-            cols: list
-                The columns to format.
-            `**kwargs`: dicts
-                Keyword arguments to pass to ``format_column``.
+            cols: The columns to format.
+            `**kwargs`: Keyword arguments to pass to ``format_column``.
 
         Returns:
-            list
-                The formatted columns.
+            The formatted columns.
 
         """
         formatted_cols = []
 
         for idx, col in enumerate(cols):
             formatted_col = self.format_column(col, index=idx, **kwargs)
-
             if formatted_col in formatted_cols:
                 formatted_col = self._rename_duped(formatted_col, idx)
-
             formatted_cols.append(formatted_col)
 
         return formatted_cols

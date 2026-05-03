@@ -63,7 +63,8 @@ class Gmail(SendMail):
                 i.e. the objects created by the create_* instance methods
         Returns:
             dict
-                A Users.messages object see `https://developers.google.com/gmail/api/v1/reference/users/messages#resource.`
+                A Users.messages object.
+                See `<https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages#resource>`__
                 for more info.
 
         """

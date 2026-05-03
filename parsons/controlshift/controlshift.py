@@ -1,4 +1,4 @@
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
@@ -6,8 +6,7 @@ from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 class Controlshift:
     """
     Instantiate the Controlshift class. Requires an API Application integration.
-    For more info on setup, see:
-    https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide
+    For more info on setup, see: `ControlShift Authenticated REST API Documentation`_
 
     Args:
         hostname: str
@@ -50,14 +49,14 @@ class Controlshift:
         visible to the public.
 
         Returns:
-            Table Class
+            :ref:`Table`
 
         """
         next_page = 1
         petitions = []
         while next_page:
             response = self.client.get_request(
-                f"{self.hostname}/api/v1/petitions", {"page": next_page}
+                f"{self.hostname}/api/v1/petitions", params={"page": next_page}
             )
             next_page = response["meta"]["next_page"]
             petitions.extend(response["petitions"])

@@ -28,11 +28,10 @@ class Events:
                 The max number of events to return
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 All requested events data.
 
         """
-
         params = {
             "startDate": first_event_date,
             "endDate": last_event_date,
@@ -50,11 +49,10 @@ class Events:
                 If True returns columns for contact (and all contact info) and event)
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 All requested event invitation data.
 
         """
-
         params = {"expand": expand}
 
         return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
@@ -109,7 +107,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         payload = {
             "locationId": location_id,
             "recurrenceType": recurrencetype,
@@ -175,7 +172,7 @@ class Events:
                 yyyy-MM-ddThh:mm:ss.fffZ
             end_datetime: str
                 The end date formatted like start_datetime
-            is_all_day = bool
+            is_all_day: bool
                 set to True if event is an all day event. Defaults to False
             recurrencetype: str
                 Either 'daily', 'weekly', or 'monthly'. Defaults to None
@@ -282,7 +279,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_activity_payload = {
             "CalendarId": calendar_id,
             "EventId": event_id,
@@ -325,9 +321,9 @@ class Events:
             status: str
                 Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
                 "No-Show", "Completed", and ""
-            attended: boolean
+            attended: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event. Defaults to
                 False
             specific_occurrence_start: str
@@ -339,7 +335,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_invitation_payload = {
             "contactId": contact_id,
             "rsvpStatus": status,
@@ -381,9 +376,9 @@ class Events:
             status: str
                 Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
                 "No-Show", "Completed", and ""
-            attended: boolean
+            attended: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
@@ -394,7 +389,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         event_invitation_payload = {"contactId": contact_id}
 
         if status:
@@ -434,9 +428,9 @@ class Events:
             status: str
                 Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
                 "No-Show", "Completed", and ""
-            completed: boolean
+            completed: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
@@ -447,7 +441,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         assignment_payload = {
             "rsvpStatus": status,
             "isConfirmed": confirmed,
@@ -489,9 +482,9 @@ class Events:
             status: str
                 Options are: "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled",
                 "No-Show", "Completed", and ""
-            completed: boolean
+            completed: bool
                 Indicates whether contact attended event
-            confirmed: boolean
+            confirmed: bool
                 Indicates whether invitation confirmed they will attend the event
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
@@ -502,7 +495,6 @@ class Events:
                 Response from PDI in dictionary object
 
         """
-
         assignment_payload = {
             "contactId": contact_id,
             "eventActivityId": eventactivityid,
@@ -543,14 +535,13 @@ class Events:
                 Specify limit to return (max=2000)
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Event activity assignment responses
 
         Documentation Reference:
             `<https://api.bluevote.com/docs/index#/EventActivityAssignments>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -572,14 +563,13 @@ class Events:
                 Specify limit to return (max=2000)
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 Event activity responses
 
         Documentation Reference:
             `<https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -595,14 +585,13 @@ class Events:
                 Specify limit to return (max=2000)
 
         Returns:
-            parsons.Table
+            :ref:`Table`
                 id, name, description, and timeZone records
 
         Documentation Reference:
             `<https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll>`__
 
         """
-
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 

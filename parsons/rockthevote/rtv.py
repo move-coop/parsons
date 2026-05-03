@@ -41,24 +41,27 @@ class RTVFailure(Exception):
 
 class RockTheVote:
     """
-    Instantiate the RockTheVote class
+    Instantiate the RockTheVote class.
 
     Args:
-        partner_id: str
+        partner_id:
             The RockTheVote partner ID for the RTV account.
             Not required if the ``RTV_PARTNER_ID`` environmental variable is set.
-        partner_api_key: str
+        partner_api_key:
             The API Key for the partner.
             Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
-        testing: bool
-            Whether or not to use the staging instance. Defaults to False.
-
-    Returns:
-        RockTheVote class
+        testing:
+            Whether or not to use the staging instance.
+            Defaults to ``False``.
 
     """
 
-    def __init__(self, partner_id=None, partner_api_key=None, testing=False):
+    def __init__(
+        self,
+        partner_id: str | None = None,
+        partner_api_key: str | None = None,
+        testing: bool = False,
+    ):
         self.partner_id = check_env.check("RTV_PARTNER_ID", partner_id)
         self.partner_api_key = check_env.check("RTV_PARTNER_API_KEY", partner_api_key)
 
@@ -67,24 +70,28 @@ class RockTheVote:
         else:
             self.client = APIConnector(PRODUCTION_URI, headers=REQUEST_HEADERS)
 
-    def create_registration_report(self, before=None, since=None, report_type=None):
+    def create_registration_report(self, before=None, since=None, report_type=None) -> str:
         """
         Create a new registration report.
 
         Args:
-            before: str
-                Limit to registrations that were started before this date, in
-                ISO format (e.g. 2020-01-01)
-            since: str
-                Limit to registrations that were started since this date, in
-                ISO format (e.g. 2020-01-01)
-            report_type: str
-                The type of report to create. If left as None, it creates the default report. The
-                ``extended`` report includes additional fields. Currently only accepts ``extended``.
+            before:
+                Limit to registrations that were started before this date.
+                In ISO format (e.g. 2020-01-01)
+            since:
+                Limit to registrations that were started since this date.
+                In ISO format (e.g. 2020-01-01)
+            report_type:
+                The type of report to create.
+                If left as None, it creates the default report.
+                The ``extended`` report includes additional fields.
+                Currently only accepts ``extended``.
 
         Returns:
-            int
-                The ID of the created report.
+            The ID of the created report.
+
+        Raises:
+            RTVFailure: If rtv registrations report creation fails.
 
         """
         report_url = "registrant_reports.json"
@@ -115,7 +122,7 @@ class RockTheVote:
             f"Creating {report_str} for {self.partner_id} "
             f"for dates: {since_date} to {before_date}..."
         )
-        response = self.client.request(report_url, "post", json=report_parameters)
+        response = self.client.request(report_url, "POST", json=report_parameters)
         if response.status_code != requests.codes.ok:
             raise RTVFailure("Couldn't create RTV registrations report")
 
@@ -138,26 +145,24 @@ class RockTheVote:
 
     def get_registration_report(
         self,
-        report_id,
-        block=False,
-        poll_interval_seconds=60,
-        report_timeout_seconds=3600,
-    ):
+        report_id: str,
+        block: bool = False,
+        poll_interval_seconds: int = 60,
+        report_timeout_seconds: int = 3600,
+    ) -> Table | None:
         """
         Get data from an existing registration report.
 
         Args:
-            report_id: int
-                The ID of the report to get data from
-            block: bool
-                Whether or not to block execution until the report is complete
-            poll_interval_seconds: int
-                If blocking, how long to pause between attempts to check if the report is done
-            report_timeout_seconds: int
-                If blocking, how long to wait for the report before timing out
+            report_id: The ID of the report to get data from.
+            block: Whether or not to block execution until the report is complete.
+            poll_interval_seconds:
+                If blocking, how long to pause between attempts to check if the report is done.
+            report_timeout_seconds:
+                If blocking, how long to wait for the report before timing out.
+
         Returns:
-            Parsons Table
-                Parsons table with the report data.
+            Report data or ``None``.
 
         """
         logger.info(f"Getting report with id {report_id}...")
@@ -228,12 +233,12 @@ class RockTheVote:
 
     def run_registration_report(
         self,
-        before=None,
-        since=None,
-        report_type=None,
-        poll_interval_seconds=60,
-        report_timeout_seconds=3600,
-    ):
+        before: str | None = None,
+        since: str | None = None,
+        report_type: str | None = None,
+        poll_interval_seconds: int = 60,
+        report_timeout_seconds: int = 3600,
+    ) -> Table | None:
         """
         Run a new registration report.
 
@@ -241,22 +246,24 @@ class RockTheVote:
         timeout is reached.
 
         Args:
-            before: str
-                Limit to registrations that were started before this date, in
-                ISO format (e.g. 2020-01-01)
-            since: str
-                Limit to registrations that were started since this date, in
-                ISO format (e.g. 2020-01-01)
-            report_type: str
-                The type of report to run. If left as None, it runs the default report. The
-                ``extended`` report includes additional fields. Currently only accepts ``extended``.
-            poll_interval_seconds: int
+            before:
+                Limit to registrations that were started before this date.
+                In ISO format (e.g. 2020-01-01).
+            since:
+                Limit to registrations that were started since this date.
+                In ISO format (e.g. 2020-01-01).
+            report_type:
+                The type of report to run.
+                If left as None, it runs the default report.
+                The ``extended`` report includes additional fields.
+                Currently only accepts ``extended``.
+            poll_interval_seconds:
                 If blocking, how long to pause between attempts to check if the report is done
-            report_timeout_seconds: int
+            report_timeout_seconds:
                 If blocking, how long to wait for the report before timing out
+
         Returns:
-            Parsons.Table
-                The table with the report data.
+            Report data or ``None``.
 
         """
         report_str = f"{report_type} report" if report_type else "report"
@@ -272,25 +279,29 @@ class RockTheVote:
         )
 
     def get_state_requirements(
-        self, lang, home_state_id, home_zip_code, date_of_birth=None, callback=None
-    ):
+        self,
+        lang: str,
+        home_state_id: str,
+        home_zip_code: str,
+        date_of_birth: str | None = None,
+        callback: str | None = None,
+    ) -> Table:
         """
         Checks state eligibility and provides state specific fields information.
 
         Args:
-            lang: str
-                Required. Language. Represented by an abbreviation. 'en', 'es', etc
-            home_state_id: str
-                Required. 2-character state abbreviation
-            home_zip_code: str
-                Required. 'zzzzz' 5 digit zip codes
-            date_of_birth: str
-                Optional. 'mm-dd-yyyy'
-            callback: str
-                Optional.  If used, will change the return value from JSON format to jsonp
+            lang:
+                Language.
+                Represented by an abbreviation.
+                ``en``, ``es``, etc.
+            home_state_id: 2-character state abbreviation
+            home_zip_code: ``zzzzz`` 5 digit zip codes
+            date_of_birth: In format of ``mm-dd-yyyy``
+            callback:
+                If used, will change the return value from JSON format to jsonp
+
         Returns:
-            Parsons.Table
-                A single row table with the response json
+            A single row table with the response json
 
         """
         requirements_url = "state_requirements.json"
@@ -315,7 +326,7 @@ class RockTheVote:
             response_json = requirements_response.json()
             table = Table([response_json])
             return table
-        else:
-            error_json = requirements_response.json()
-            logger.info(f"{error_json}")
-            raise RTVFailure("Could not retrieve state requirements")
+
+        error_json = requirements_response.json()
+        logger.info(f"{error_json}")
+        raise RTVFailure("Could not retrieve state requirements")

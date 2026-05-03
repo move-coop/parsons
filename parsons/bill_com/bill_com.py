@@ -1,5 +1,5 @@
 import json
-from typing import Literal
+from typing import Any, Literal, overload
 
 import requests
 
@@ -9,20 +9,17 @@ from parsons import Table
 class BillCom:
     """
     Args:
-        user_name: str
-            The Bill.com username
-        password: str
-            The Bill.com password
-        org_id: str
-            The Bill.com organization id
-        dev_key: str
-            The Bill.com dev key
-        api_url:
-            The Bill.com end point url
+        user_name: The Bill.com username
+        password: The Bill.com password
+        org_id: The Bill.com organization id
+        dev_key: The Bill.com dev key
+        api_url: The Bill.com end point url
 
     """
 
-    def __init__(self, user_name, password, org_id, dev_key, api_url):
+    def __init__(
+        self, user_name: str, password: str, org_id: str, dev_key: str, api_url: str
+    ) -> None:
         self.headers = {"Content-Type": "application/x-www-form-urlencoded"}
         params = {
             "userName": user_name,
@@ -35,17 +32,16 @@ class BillCom:
         self.api_url = api_url
         self.session_id = response.json()["response_data"]["sessionId"]
 
-    def _get_payload(self, data):
+    def _get_payload(self, data: dict) -> dict[str, str]:
         """
         Args:
-            data: dict
+            data:
                 A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
+                The dev_key and sessionId should not be
+                included as they are dealt with separately.
 
         Returns:
-            A dictionary of the payload to be sent in the request with the
-            dev_key and sessionId added.
+            The payload to be sent in the request with the ``dev_key`` and ``sessionId`` added.
 
         """
         return {
@@ -56,27 +52,27 @@ class BillCom:
 
     def _post_request(
         self,
-        data,
+        data: dict,
         action: Literal["List", "Read", "Create", "Send"],
         object_name: Literal["User", "Customer", "Invoice"],
-    ):
+    ) -> dict[str, Any]:
         """
         Args:
-            data: dict
+            data:
                 A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
-            action: str
+                The dev_key and sessionId should not be included
+                as they are dealt with separately.
+            action:
                 The action to be taken on the given object.
-                Possible values are "List", "Read", "Create", and "Send".
-            object_name: str
-                The id of the object. Possible values are "User", "Customer", and "Invoice".
+                Possible values are ``List``, ``Read``, ``Create``, and ``Send``.
+            object_name:
+                The id of the object.
+                Possible values are ``User``, ``Customer``, and ``Invoice``.
 
         Returns:
-            A dictionary containing the JSON response from the post request.
+            The JSON response from the post request.
 
         """
-
         if action == "Read":
             url = f"{self.api_url}Crud/{action}/{object_name}.json"
         elif action == "Create":
@@ -90,26 +86,45 @@ class BillCom:
         response = requests.post(url=url, data=payload, headers=self.headers)
         return response.json()
 
+    @overload
     def _get_request_response(
         self,
-        data,
+        data: dict[str, Any],
+        action: Literal["List"],
+        object_name: Literal["User", "Customer", "Invoice"],
+        field: str = ...,
+    ) -> Table: ...
+
+    @overload
+    def _get_request_response(
+        self,
+        data: dict[str, Any],
+        action: Literal["Read", "Create", "Send"],
+        object_name: Literal["User", "Customer", "Invoice"],
+        field: str = ...,
+    ) -> dict[str, Any]: ...
+
+    def _get_request_response(
+        self,
+        data: dict[str, Any],
         action: Literal["List", "Read", "Create", "Send"],
         object_name: Literal["User", "Customer", "Invoice"],
-        field="response_data",
-    ):
+        field: str = "response_data",
+    ) -> dict[str, Any] | Table:
         """
         Args:
-            data: dict
+            data:
                 A dictionary containing the payload to be sent in the request.
-                The dev_key and sessionId should not be included as they are
-                dealt with separately.
-            action: str
+                The dev_key and sessionId should not be included as they are dealt with separately.
+            action:
                 The action to be taken on the given object.
-                Possible values are "List", "Read", "Create", and "Send".
-            object_name: str
-                The id of the object. Possible values are "User", "Customer", and "Invoice".
-            field: str
-                The JSON field where the response data is stored. Defaults to "response_data".
+                Possible values are ``List``, ``Read``, ``Create``, and ``Send``.
+            object_name:
+                The id of the object.
+                Possible values are ``User``, ``Customer``, and ``Invoice``.
+            field:
+                The JSON field where the response data is stored.
+                Defaults to ``response_data``.
 
         Returns:
             A dictionary containing the choosen field from the JSON response from the post request.
@@ -122,18 +137,22 @@ class BillCom:
 
         return r
 
-    def _paginate_list(self, response, data, object_name, field="response_data"):
+    def _paginate_list(
+        self,
+        response: list[dict],
+        data: dict[str, Any],
+        object_name: Literal["User", "Customer", "Invoice"],
+        field: str = "response_data",
+    ) -> Table:
         """
-        Internal method to paginate through and concatenate results of lists larger than max
-        Args:
-            response: list of dicts
-                Data from an initial list call
-            data: dict
-                Start, max, and kwargs from initial list call
-            object_name: str
-                Name of the object being listed
-        """
+        Internal method to paginate through and concatenate results of lists larger than max.
 
+        Args:
+            response: Data from an initial list call
+            data: Start, max, and kwargs from initial list call
+            object_name: Name of the object being listed
+
+        """
         r_table = Table(response)
         max_ct = data["max"]
 
@@ -144,105 +163,98 @@ class BillCom:
 
         return r_table
 
-    def get_user_list(self, start_user=0, max_user=999, **kwargs):
+    def get_user_list(self, start_user: int = 0, max_user: int = 999, **kwargs) -> Table:
         """
         Args:
-            start_user: int
-                The index of first user to return. Starts from 0 (not 1).
-            max_user: str
-                The index of the max user to return
-            `**kwargs`:
-                Any other fields to pass
+            start_user:
+                The index of first user to return.
+                Starts from 0 (not 1).
+            max_user: The index of the max user to return
+            `**kwargs`: Any other fields to pass
 
         Returns:
-            parsons.Table
-                User information for every user from start_user to max_user
+            User information for every user from `start_user` to `max_user`
 
         """
         data = {"start": start_user, "max": max_user, **kwargs}
 
         return self._get_request_response(data, "List", "User")
 
-    def get_customer_list(self, start_customer=0, max_customer=999, **kwargs):
+    def get_customer_list(
+        self, start_customer: int = 0, max_customer: int = 999, **kwargs
+    ) -> Table:
         """
         Args:
-            start_customer: int
-                The index of first customer to return. Starts from 1 (not 0).
-            max_customer: str
-                The index of the max customer to return
-            `**kwargs`:
-                Any other fields to pass
+            start_customer:
+                The index of first customer to return.
+                Starts from 1 (not 0).
+            max_customer:  The index of the max customer to return
+            `**kwargs`: Any other fields to pass
 
         Returns:
-            parsons.Table
-                Customer information for every user from start_customer to max_customer
+            Customer information for every user from `start_customer` to `max_customer`
 
         """
         data = {"start": start_customer, "max": max_customer, **kwargs}
 
         return self._get_request_response(data, "List", "Customer")
 
-    def get_invoice_list(self, start_invoice=0, max_invoice=999, **kwargs):
+    def get_invoice_list(self, start_invoice: int = 0, max_invoice: int = 999, **kwargs) -> Table:
         """
         Args:
-            start_invoice: int
-                The index of first customer to return. Starts from 1 (not 0).
-            max_invoice: str
-                The index of the max customer to return
-            `**kwargs`:
-                Any other fields to pass
+            start_invoice:
+                The index of first customer to return.
+                Starts from 1 (not 0).
+            max_invoice: The index of the max customer to return
+            `**kwargs`: Any other fields to pass
 
         Returns:
-            A list of dictionaries of invoice information for every invoice from start_invoice
-            to max_invoice.
+            Invoice information for every invoice from `start_invoice` to `max_invoice`.
 
         """
         data = {"start": start_invoice, "max": max_invoice, **kwargs}
 
         return self._get_request_response(data, "List", "Invoice")
 
-    def read_customer(self, customer_id):
+    def read_customer(self, customer_id: str) -> dict[str, Any]:
         """
         Args:
             customer_id: str
                 The id of the customer to query
 
         Returns:
-            A dictionary of the customer's information.
+            The customer's information.
 
         """
         data = {"id": customer_id}
         return self._get_request_response(data, "Read", "Customer")
 
-    def read_invoice(self, invoice_id):
+    def read_invoice(self, invoice_id: str) -> dict[str, Any]:
         """
         Args:
-            invoice_id: str
-                The id of the invoice to query
+            invoice_id: The id of the invoice to query
 
         Returns:
-            A dictionary of the invoice information.
+            The invoice information.
 
         """
         data = {"id": invoice_id}
         return self._get_request_response(data, "Read", "Invoice")
 
-    def check_customer(self, customer1, customer2):
+    def check_customer(self, customer1: dict[str, Any], customer2: dict[str, Any]) -> bool:
         """
         Args:
-            customer1: dict
-                A dictionary of data on customer1
-            customer2: dict
-                A dictionary of data on customer2
+            customer1: A dictionary of data on customer1
+            customer2: A dictionary of data on customer2
 
         Returns:
-            True if either
+            ``True`` if either
 
             1. customer1 and customer2 have the same id
             OR
             2. customer1 has no id and customer1 customer2 have the same email address
 
-            False otherwise
+            ``False`` otherwise
 
         """
         if "id" in customer1 and customer1["id"] == customer2["id"]:
@@ -252,19 +264,19 @@ class BillCom:
             and customer1["email"].lower() == customer2["email"].lower()
         )
 
-    def get_or_create_customer(self, customer_name, customer_email, **kwargs):
+    def get_or_create_customer(
+        self, customer_name: str, customer_email: str, **kwargs
+    ) -> dict[str, Any] | Table:
         """
         Args:
-            customer_name: str
-                The name of the customer
-            customer_email: str
-                The customer's email
-        `Keyword Args:`
-            `**kwargs`:
-                Any other fields to store about the customer.
+            customer_name: The name of the customer
+            customer_email: The customer's email
+
+        Keyword Args:
+            `**kwargs`: Any other fields to store about the customer.
 
         Returns:
-            A dictionary of the customer's information including an id.
+            The customer's information including an id.
             If the customer already exists, this function will not
             create a new id and instead use the existing id.
 
@@ -281,28 +293,31 @@ class BillCom:
         return self._get_request_response(data, "Create", "Customer")
 
     def create_invoice(
-        self, customer_id, invoice_number, invoice_date, due_date, invoice_line_items, **kwargs
-    ):
+        self,
+        customer_id: str,
+        invoice_number: str,
+        invoice_date: str,
+        due_date: str,
+        invoice_line_items: list[dict],
+        **kwargs,
+    ) -> dict[str, Any]:
         """
         Args:
-            customer_id: str
-                The customer's id
-            invoice_number: str
-                The invoice number. Every invoice must have a distinct
-                invoice number.
+            customer_id: The customer's id
+            invoice_number:
+                The invoice number.
+                Every invoice must have a distinct invoice number.
             invoice_date: str
-                The invoice date. This can be the date the invoice was
-                generated of any other relevant date.
-            due_date: str
-                The date on which the invoice is due.
-            invoice_line_items: list
+                The invoice date.
+                This can be the date the invoice was generated of any other relevant date.
+            due_date: The date on which the invoice is due.
+            invoice_line_items:
                 A list of dicts, one for each line item in the invoice.
                 The only required field is "quantity".
-            `**kwargs`:
-                Any other invoice details to pass.
+            `**kwargs`: Any other invoice details to pass.
 
         Returns:
-            A dictionary of the invoice's information including an id.
+            The invoice's information including an id.
 
         """
         for invoice_line_item in invoice_line_items:
@@ -321,25 +336,25 @@ class BillCom:
         return self._get_request_response(data, "Create", "Invoice")
 
     def send_invoice(
-        self, invoice_id, from_user_id, to_email_addresses, message_subject, message_body, **kwargs
-    ):
+        self,
+        invoice_id: str,
+        from_user_id: str,
+        to_email_addresses: str,
+        message_subject: str,
+        message_body: str,
+        **kwargs,
+    ) -> dict[str, Any]:
         """
         Args:
-            invoice_id: str
-                The id of the invoice to send
-            from_user_id: str
-                The id of the Bill.com user from whom to send the email
-            to_email_addresses:
-                The customer's email address
-            message_subject:
-                The subject of the email to send to the customer
-            message_body:
-                The body of the email to send to the customer
-            `**kwargs`:
-                Any other details for sending the invoice
+            invoice_id: The id of the invoice to send
+            from_user_id: The id of the Bill.com user from whom to send the email
+            to_email_addresses: The customer's email address
+            message_subject: The subject of the email to send to the customer
+            message_body: The body of the email to send to the customer
+            `**kwargs`: Any other details for sending the invoice
 
         Returns:
-            A dictionary of the sent invoice.
+            The sent invoice.
 
         """
         data = {

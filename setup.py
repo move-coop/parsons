@@ -8,6 +8,7 @@ CORE_DEPENDENCIES = [
     "requests >= 2",
     "requests-oauthlib >= 1",
     "simplejson >= 3.18",
+    "typing-extensions >= 4",
 ]
 EXTRA_DEPENDENCIES = {
     "airtable": ["pyairtable >= 3"],
@@ -47,7 +48,7 @@ EXTRA_DEPENDENCIES = {
         "validate-email >= 1",
     ],
     "mysql": [
-        "mysql-connector-python >= 7",
+        "mysql-connector-python >= 7, != 9.7.0",
         "sqlalchemy >= 1.4",
     ],
     "newmode": ["newmode >= 0.1.6"],

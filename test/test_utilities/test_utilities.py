@@ -17,9 +17,7 @@ from parsons.utilities.datetime import date_to_timestamp, parse_date
         pytest.param("2018-12-13", 1544659200),
         pytest.param("2018-12-13T00:00:00-08:00", 1544688000),
         pytest.param("", None),
-        pytest.param(
-            "2018-12-13 PST", None, marks=[pytest.mark.xfail(raises=ValueError, strict=True)]
-        ),
+        pytest.param("2018-12-13 PST", None),
     ],
 )
 def test_date_to_timestamp(date, exp_ts):

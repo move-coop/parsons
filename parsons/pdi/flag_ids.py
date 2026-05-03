@@ -20,7 +20,7 @@ class FlagIDs:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            :ref:`Table`
 
         """
         return self._request(self.url_flag_ids, limit=limit)

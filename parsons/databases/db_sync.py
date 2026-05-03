@@ -1,44 +1,40 @@
 import logging
 from typing import Literal
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 
 
 class DBSync:
     """
-    Sync tables between databases. Works with ``Postgres``, ``Redshift``, ``MySQL``
-    databases.
+    Sync tables between databases.
+
+    Works with ``Postgres``, ``Redshift``, and ``MySQL`` databases.
 
     Args:
         source_db: Database connection object
-            A database object.
         destination_db: Database connection object
-            A database object.
-        read_chunk_size: int
-            The number of rows to read from the source at a time when syncing a table. The
-            default value is 100,000 rows.
-        write_chunk_size: int
-            The number of rows to batch up before writing out to the destination. This value
-            defaults to whatever the read_chunk_size is.
-        retries: int
-            The number of times to retry if there is an error processing a
-            chunk of data. The default value is 0.
-
-    Returns:
-        A DBSync object.
+        read_chunk_size:
+            The number of rows to read from the source at a time when syncing a table.
+            The default value is 100,000 rows.
+        write_chunk_size:
+            The number of rows to batch up before writing out to the destination.
+            This value defaults to whatever the read_chunk_size is.
+        retries:
+            The number of times to retry if there is an error processing a chunk of data.
+            The default value is 0.
 
     """
 
     def __init__(
         self,
-        source_db,
-        destination_db,
-        read_chunk_size=100_000,
+        source_db: str,
+        destination_db: str,
+        read_chunk_size: int = 100_000,
         write_chunk_size=None,
-        retries=0,
-    ):
+        retries: int = 0,
+    ) -> None:
         self.source_db = source_db
         self.dest_db = destination_db
         self.read_chunk_size = read_chunk_size
@@ -47,38 +43,36 @@ class DBSync:
 
     def table_sync_full(
         self,
-        source_table,
-        destination_table,
-        if_exists: Literal["fail", "append", "drop", "truncate"] = "drop",
-        order_by=None,
-        verify_row_count=True,
+        source_table: str,
+        destination_table: str,
+        if_exists: Literal["drop", "truncate", "drop_if_needed"] = "drop",
+        order_by: str | None = None,
+        verify_row_count: bool = True,
         **kwargs,
-    ):
+    ) -> None:
         """
         Full sync of table from a source database to a destination database. This will
         wipe all data from the destination table.
 
         Args:
-            source_table: str
-                Full table path (e.g. ``my_schema.my_table``)
-            destination_table: str
-                Full table path (e.g. ``my_schema.my_table``)
-            if_exists: str
+            source_table: Full table path (e.g. ``my_schema.my_table``)
+            destination_table: Full table path (e.g. ``my_schema.my_table``)
+            if_exists:
                 If destination table exists either ``drop``, ``truncate``, or ``drop_if_needed``.
                 Truncate is useful when there are dependent views associated with the table.
                 Drop if needed defaults to ``truncate``, but if an error occurs (because a data
                 type or length has changed), it will instead ``drop``.
-            order_by: str
-                Name of the column to order rows by to ensure stable sorting of results across
-                chunks.
-            verify_row_count: bool
+            order_by:
+                Name of the column to order rows by to ensure stable sorting of results across chunks.
+            verify_row_count:
                 Whether or not to verify the count of rows in the source and destination table
                 are the same at the end of the sync.
-            `**kwargs`: args
-                Optional copy arguments for destination database.
+            `**kwargs`: Optional copy arguments for destination database.
+
+        Raises:
+            ValueError: If ``if_exists`` is not a supported value.
 
         """
-
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -115,36 +109,37 @@ class DBSync:
 
     def table_sync_incremental(
         self,
-        source_table,
-        destination_table,
-        primary_key,
-        distinct_check=True,
-        verify_row_count=True,
+        source_table: str,
+        destination_table: str,
+        primary_key: str,
+        distinct_check: bool = True,
+        verify_row_count: bool = True,
         **kwargs,
-    ):
+    ) -> None:
         """
-        Incremental sync of table from a source database to a destination database
-        using an incremental primary key.
+        Incremental sync of table from a source database to a
+        destination database using an incremental primary key.
 
         Args:
-            source_table: str
-                Full table path (e.g. ``my_schema.my_table``)
-            destination_table: str
-                Full table path (e.g. ``my_schema.my_table``)
-            primary_key: str
-                The name of the primary key. This must be the same for the source and
-                destination table.
-            distinct_check: bool
-                Check that the source table primary key is distinct prior to running the
-                sync. If it is not, an error will be raised.
-            verify_row_count: bool
-                Whether or not to verify the count of rows in the source and destination table
-                are the same at the end of the sync.
-            `**kwargs`: args
-                Optional copy arguments for destination database.
+            source_table: Full table path (e.g. ``my_schema.my_table``)
+            destination_table: Full table path (e.g. ``my_schema.my_table``)
+            primary_key:
+                The name of the primary key.
+                This must be the same for the source and destination table.
+            distinct_check:
+                Check that the source table primary key is distinct prior to running the sync.
+                If it is not, an error will be raised.
+            verify_row_count:
+                Whether or not to verify the count of rows in the source and
+                destination table are the same at the end of the sync.
+            `**kwargs`: Optional copy arguments for destination database.
+
+        Raises:
+            ValueError:
+                If the ``primary_key`` is not distinct in the ``source_table``.
+                If the ``destination_table`` ``primary_key`` is greater than the ``source_table`` ``primary_key``.
 
         """
-
         # Create the table objects
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
@@ -163,7 +158,7 @@ class DBSync:
                 verify_row_count=verify_row_count,
                 **kwargs,
             )
-            return
+            return None
 
         # Check that the source table primary key is distinct
         if distinct_check and not source_tbl.distinct_primary_key(primary_key):
@@ -202,7 +197,6 @@ class DBSync:
             rows_copied = self.copy_rows(
                 source_table, destination_table, dest_max_pk, primary_key, **kwargs
             )
-
             logger.info("Copied %s new rows to %s.", rows_copied, destination_table)
 
         if verify_row_count:
@@ -210,24 +204,20 @@ class DBSync:
 
         logger.info(f"{source_table} synced to {destination_table}.")
 
-    def copy_rows(self, source_table_name, destination_table_name, cutoff, order_by, **kwargs):
+    def copy_rows(
+        self, source_table_name: str, destination_table_name: str, cutoff, order_by: str, **kwargs
+    ) -> int:
         """
         Copy the rows from the source to the destination.
 
         Args:
-            source_table_name: str
-                Full table path (e.g. ``my_schema.my_table``)
-            destination_table_name: str
-                Full table path (e.g. ``my_schema.my_table``)
-            cutoff:
-                Start value to use as a minimum for incremental updates.
-            order_by:
-                Column to use to order the data to ensure a stable sort.
-            `**kwargs`: args
-                Optional copy arguments for destination database.
+            source_table_name: Full table path (e.g. ``my_schema.my_table``)
+            destination_table_name: Full table path (e.g. ``my_schema.my_table``)
+            cutoff: Start value to use as a minimum for incremental updates.
+            order_by: Column to use to order the data to ensure a stable sort.
+            `**kwargs`: Optional copy arguments for destination database.
 
         """
-
         # Create the table objects
         source_table = self.source_db.table(source_table_name)
 
@@ -254,6 +244,7 @@ class DBSync:
                         offset=total_rows_downloaded,
                         chunk_size=self.read_chunk_size,
                     )
+
                 else:
                     # Get a chunk
                     rows = source_table.get_rows(
@@ -314,45 +305,42 @@ class DBSync:
         return total_rows_written
 
     @staticmethod
-    def _check_column_match(source_table_obj, destination_table_obj):
+    def _check_column_match(source_table_obj, destination_table_obj) -> None:
         """Ensure that the columns from each table match"""
-
         if source_table_obj.columns != destination_table_obj.columns:
             raise ValueError(
-                """Destination table columns do not match source table columns.
-                             Consider dropping destination table and running a full sync."""
+                "Destination table columns do not match source table columns. "
+                "Consider dropping destination table and running a full sync."
             )
 
     @staticmethod
-    def _row_count_verify(source_table_obj, destination_table_obj):
+    def _row_count_verify(source_table_obj, destination_table_obj) -> bool:
         """Ensure the the rows of the source table and the destination table match"""
-
         source_row_count = source_table_obj.num_rows
         dest_row_count = destination_table_obj.num_rows
 
         if source_row_count != dest_row_count:
             logger.warning(
-                (
-                    f"Table count mismatch. Source table contains {source_row_count}.",
-                    f" Destination table contains {dest_row_count}.",
-                )
+                f"Table count mismatch. Source table contains {source_row_count}. "
+                f"Destination table contains {dest_row_count}."
             )
             return False
 
         logger.info("Source and destination table row counts match.")
         return True
 
-    def create_table(self, source_table, destination_table):
+    def create_table(self, source_table: str, destination_table: str) -> None:
         """
-        Create the empty table in the destination database based on the source
-        database schema structure. This method utilizes the Alchemy subclass.
-        """
+        Create the empty table in the destination database based on the source database schema structure.
 
+        This method utilizes the Alchemy subclass.
+        """
         # Try to create the destination using the source table's schema; if that doesn't work,
         # then we will lean on "copy" when loading the data to create the destination
         try:
             source_obj = self.source_db.get_table_object(source_table)
             self.dest_db.create_table(source_obj, destination_table)
+
         except Exception:
             logger.warning(
                 "Unable to create destination table based on source table; we will "

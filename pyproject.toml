@@ -162,7 +162,6 @@ ignore = [
     "PTH208", # os-listdir
     # pydocstyle
     "D1", # pydocstyle (D) warnings about undocumented module, class, method, etc
-    "D202", # blank-line-after-function
     "D205", # missing-blank-line-after-summary
     "D400", # missing-trailing-period
     "D401", # non-imperative-mood

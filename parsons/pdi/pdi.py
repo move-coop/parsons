@@ -37,16 +37,16 @@ class PDI(
 
         Args:
             username: str
-                The username for a PDI account. Can be passed as arguement or
-                can be set as `PDI_USERNAME` environment variable.
+                The username for a PDI account.
+                Can be passed as argument or can be set as ``PDI_USERNAME`` environment variable.
             password: str
-                The password for a PDI account. Can be passed as arguement or
-                can be set as `PDI_PASSWORD` environment variable.
+                The password for a PDI account.
+                Can be passed as argument or can be set as ``PDI_PASSWORD`` environment variable.
             api_token: str
-                The api_token for a PDI account. Can be passed as arguement or
-                can be set as `PDI_API_TOKEN` environment variable.
+                The api_token for a PDI account.
+                Can be passed as argument or can be set as ``PDI_API_TOKEN`` environment variable.
             qa_url: bool
-                Defaults to False. If True, requests will be made to a sandbox
+                Defaults to ``False``. If ``True``, requests will be made to a sandbox
                 account. This requires separate qa credentials and api
                 token.
 
@@ -74,7 +74,7 @@ class PDI(
             "ApiToken": self.api_token,
         }
         res = requests.post(f"{self.base_url}/sessions", json=login, headers=headers)
-        logger.debug(f"{res.status_code} - {res.url}")
+        logger.debug("%s - %s", res.status_code, res.url)
         res.raise_for_status()
         # status_code == 200
         data = res.json()
@@ -119,7 +119,7 @@ class PDI(
         args = self._clean_dict(args) if args else args
         post_data = self._clean_dict(post_data) if post_data else post_data
         res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
-        logger.debug(f"{res.url} - {res.status_code}")
+        logger.debug("%s - %s", res.url, res.status_code)
         logger.debug(res.request.body)
 
         res.raise_for_status()

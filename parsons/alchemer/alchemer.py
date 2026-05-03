@@ -8,7 +8,7 @@ from parsons.utilities import check_env
 logger = logging.getLogger(__name__)
 
 
-def sg_compatibility():
+def sg_compatibility() -> None:
     # Create backwards compatibility with SurveyGizmo class
 
     import os
@@ -29,24 +29,24 @@ class Alchemer:
 
     Args:
         api_token:
-            The Alchemer-provided application token. Not required if
-            ``ALCHEMER_API_TOKEN`` env variable set.
-
+            The Alchemer-provided application token.
+            Not required if ``ALCHEMER_API_TOKEN`` env variable set.
         api_token:
-            The Alchemer-provided application token. Not required if
-            ``ALCHEMER_API_TOKEN_SECRET`` env variable set.
-
+            The Alchemer-provided application token.
+            Not required if ``ALCHEMER_API_TOKEN_SECRET`` env variable set.
         api_version:
-            The version of the API that you would like to use. Not required if
-            ``ALCHEMER_API_VERSION`` env variable set.
-            Default v5
-
-    Returns:
-        Alchemer Class
+            The version of the API that you would like to use.
+            Not required if ``ALCHEMER_API_VERSION`` env variable set.
+            Default ``v5``
 
     """
 
-    def __init__(self, api_token=None, api_token_secret=None, api_version="v5"):
+    def __init__(
+        self,
+        api_token: str | None = None,
+        api_token_secret: str | None = None,
+        api_version: str = "v5",
+    ) -> None:
         sg_compatibility()
 
         self.api_token = check_env.check("ALCHEMER_API_TOKEN", api_token)
@@ -59,20 +59,16 @@ class Alchemer:
             api_token_secret=self.api_token_secret,
         )
 
-    def get_surveys(self, page=None):
+    def get_surveys(self, page: int | None = None) -> Table:
         """
         Get a table of lists under the account.
 
         Args:
-            page : int
-                Retrieve a specific page of responses. If not given,
-                then all pages are retrieved.
-
-        Returns:
-            Table Class
+            page:
+                Retrieve a specific page of responses.
+                If not given, then all pages are retrieved.
 
         """
-
         r = self._client.api.survey.list(page)
         data = r["data"]
 
@@ -88,23 +84,18 @@ class Alchemer:
 
         return tbl
 
-    def get_survey_responses(self, survey_id, page=None):
+    def get_survey_responses(self, survey_id: str, page: int | None = None) -> Table:
         """
         Get the responses for a given survey.
 
         Args:
-            survey_id: string
+            survey_id: str
                 The id of survey for which to retrieve the responses.
-
-            page : int
-                Retrieve a specific page of responses. If not given,
-                then all pages are retrieved.
-
-        Returns:
-            Table Class
+            page:
+                Retrieve a specific page of responses.
+                If not given, then all pages are retrieved.
 
         """
-
         r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r["data"]

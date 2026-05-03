@@ -18,18 +18,17 @@ class dbtRunnerParsons:
         dbt_project_directory: Path,
         dbt_profile_directory: Path | None = None,
     ) -> None:
-        """Initialize dbtRunner with commands and a working directory.
+        """
+        Initialize dbtRunner with commands and a working directory.
 
         Args:
-            commands: Union[str, list[str]]
-                A single dbt command string or a list of dbt command
-                strings.
+            commands:
+                A single dbt command string or a list of dbt command strings.
                 e.g. ["seed", "build -s models/staging", "test"]
-            dbt_project_directory: Path
-                The path to find the dbt project, as a working
-                directory for dbt commands to run
-            dbt_profile_directory: Path, optional
-                The path to find the dbt profile
+            dbt_project_directory:
+                The path to find the dbt project,
+                as a working directory for dbt commands to run.
+            dbt_profile_directory: The path to find the dbt profile.
 
         """
         if isinstance(commands, str):
@@ -77,7 +76,8 @@ def run_dbt_commands(
     dbt_profile_directory: Path | None = None,
     loggers: list[dbtLogger | type[dbtLogger]] | None = None,
 ) -> list[Manifest]:
-    """Executes dbt commands within a directory, optionally logs results.
+    """
+    Executes dbt commands within a directory, optionally logs results.
 
     .. code-block:: python
 
@@ -94,23 +94,21 @@ def run_dbt_commands(
         )
 
     Args:
-        commands : Union[str, list[str]]
-            A single dbt command as a string or a list of dbt commands to
-            be executed.
-        dbt_project_directory : Path
-            The path to the dbt project directory where the commands will
-            be executed.
-        dbt_profile_directory: Path, optional
-            The path to find the dbt profile
-        loggers : Optional[list[Union[dbtLogger, Type[dbtLogger]]]], default=None
-            A list of logger instances or logger classes. If classes are
-            provided, they will be instantiated.  Each logger should have
-            a `send` method that takes the dbt command results as an
-            argument.
+        commands:
+            A single dbt command as a string or a
+            list of dbt commands to be executed.
+        dbt_project_directory:
+            The path to the dbt project directory
+            where the commands will be executed.
+        dbt_profile_directory: The path to find the dbt profile.
+        loggers:
+            A list of logger instances or logger classes.
+            If classes are provided, they will be instantiated.
+            Each logger should have a `send` method that takes
+            the dbt command results as an argument.
 
     Returns:
-        list[Manifest]
-            A list of result objects from the executed dbt commands.
+        A list of result objects from the executed dbt commands.
 
     """
     dbt_runner = dbtRunnerParsons(

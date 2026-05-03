@@ -11,7 +11,7 @@ from urllib.parse import parse_qs, urlparse
 import petl
 import requests
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.targetsmart.targetsmart_smartmatch import SmartMatch
 from parsons.utilities import check_env
 
@@ -67,12 +67,12 @@ class Person:
             state: str
                 Two character state code. Required if ``search_id_type`` of ``smartvan``,
                 ``votebuilder`` or ``voter``.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            :ref:`Table`
+
 
         """
-
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
             raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
@@ -158,12 +158,12 @@ class Person:
             composite_score_max: int
                 An integer in range [1 - 100]. Filter out results with composite score
                 greater than this value.
-            last_name_exact: boolean
+            last_name_exact: bool
                 By default, the full last name is used for finding matches if the length of the
                 last name is not longer than 10 characters. As an example, “anders” is less likely
                 to match to “anderson” with this enabled. Disable this option if you are using
                 either ``last_name_is_prefix`` or ``last_name_prefix_length``.
-            last_name_is_prefix: boolean
+            last_name_is_prefix: bool
                 By default, the full last name is used for finding matches. Enable this parameter
                 if your search last name is truncated. This can be common for some client
                 applications that for various reasons do not have full last names. Use this
@@ -173,12 +173,12 @@ class Person:
                 By default, up to the first 10 characters of the search last name are used for
                 finding relative matches. This value must be between 3 and 10. This parameter is
                 ignored if last_name_exact is enabled.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            :ref:`Table`
+
 
         """
-
         if (latitude is None or longitude is None) and address is None:
             raise ValueError("Lat/Long or Address required")
 
@@ -222,14 +222,13 @@ class Person:
 
         Args:
             table: parsons table
-                See :ref:`parsons-table`. One row per phone number,
+                See :ref:`Table`. One row per phone number,
                 up to 500 phone numbers.
 
         Returns:
-            See :ref:`parsons-table` for output options.
+            See :ref:`Table` for output options.
 
         """
-
         url = self.connection.uri + "person/phone-search"
 
         args = {"phones": list(petl.values(table.table, 0))}
@@ -253,7 +252,6 @@ class Person:
             ValueError: If the input is a negative number.
 
         """
-
         if not isinstance(vanid, int) and not isinstance(vanid, str):
             raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
 
@@ -290,7 +288,6 @@ class Person:
             ValueError: If the URL is invalid, missing parameters, or fails checksum.
 
         """
-
         if not isinstance(profile_url, str):
             raise TypeError(f"url must be a string. Got {type(profile_url).__name__}")
 
@@ -377,12 +374,12 @@ class Service:
                 Valid latitude floating point
             longitude: float or str
                 Valid longitude floating point
+
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            :ref:`Table`
+
 
         """
-
         if search_type == "zip" and None in [zip5, zip4]:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
@@ -463,12 +460,12 @@ class Voter:
                 (alphanumeric, @, -, .)
             unparsed_full_address: str
                 Optional; One or more alphanumeric characters. No wildcards.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            :ref:`Table`
+
 
         """
-
         url = self.connection.uri + "voter/voter-registration-check"
 
         if None in [first_name, last_name, state]:

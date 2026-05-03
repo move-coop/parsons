@@ -27,8 +27,10 @@ config_vars = {
 
 import os  # noqa E402 module-import-not-at-top-of-file
 import random  # noqa E402 module-import-not-at-top-of-file
+import logging  # noqa E402 module-import-not-at-top-of-file
+from parsons import VAN  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import VAN, logger  # noqa E402 module-import-not-at-top-of-file
+logger = logging.getLogger(__name__)
 
 # Setup
 

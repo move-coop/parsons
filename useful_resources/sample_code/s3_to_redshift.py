@@ -28,7 +28,8 @@ config_vars = {
 # ### CODE
 
 import os  # noqa E402 module-import-not-at-top-of-file
-from parsons import Redshift, S3, utilities, logger  # noqa E402 module-import-not-at-top-of-file
+from parsons import Redshift, Table, S3, logger  # noqa E402 module-import-not-at-top-of-file
+from parsons.utilities import files  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 
@@ -43,20 +44,18 @@ rs = Redshift()
 
 bucket = os.environ["BUCKET"]
 keys = s3.list_keys(bucket)
-files = keys.keys()
+s3_files = keys.keys()
 
 if len(keys) == 0:
     logger.info("No files to sync today!")
 else:
-    logger.info(f"Pulling {str(len(files))} files down from s3...")
-    for x in files:
+    logger.info("Pulling %s files down from s3...", str(len(s3_files)))
+    for x in s3_files:
         file = s3.get_file(bucket, x)
-        # TODO: Table undeifned, may need to import from parsons?
-        Table = None
         table = Table.from_csv(file, encoding="ISO-8859-1")
         table_name = f"schema.{x.replace('.csv', '')}"
         try:
             table.to_redshift(table_name, if_exists="truncate")
         except Exception:
             table.to_redshift(table_name, if_exists="drop")
-        utilities.files.close_temp_file(file)
+        files.close_temp_file(file)

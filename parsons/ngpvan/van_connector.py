@@ -1,6 +1,7 @@
 import logging
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
 from suds.client import Client
 
 from parsons.utilities import check_env
@@ -19,7 +20,7 @@ class VANConnector:
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
     ):
-        self.api_key = check_env.check("VAN_API_KEY", api_key)
+        self.api_key: str = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
             self.db_code = 0
@@ -35,7 +36,7 @@ class VANConnector:
         self.db = db
         self.auth_name = auth_name
         self.pagination_key = "nextPageLink"
-        self.auth = (self.auth_name, self.api_key + "|" + str(self.db_code))
+        self.auth = HTTPBasicAuth(self.auth_name, self.api_key + "|" + str(self.db_code))
         self.api = APIConnector(
             self.uri,
             auth=self.auth,

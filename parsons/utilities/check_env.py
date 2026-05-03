@@ -1,8 +1,41 @@
 import os
 import warnings
-from typing import TypeVar
+from typing import Literal, TypeVar, overload
 
 T = TypeVar("T")
+
+
+@overload
+def check(
+    env: str,
+    value: T,
+    opt: bool | None = ...,
+    *,
+    optional: bool = ...,
+    field: T | None = ...,
+) -> T: ...
+
+
+@overload
+def check(
+    env: str,
+    value: None = None,
+    opt: bool | None = ...,
+    *,
+    optional: Literal[True],
+    field: None = None,
+) -> str | None: ...
+
+
+@overload
+def check(
+    env: str,
+    value: None = None,
+    opt: bool | None = ...,
+    *,
+    optional: Literal[False] = False,
+    field: None = None,
+) -> str: ...
 
 
 def check(
@@ -22,14 +55,14 @@ def check(
         value:
             If provided, ignore environment variable and return this.
         opt:
-            Deprecated; use ``optional`` instead.
+            Deprecated; use `optional` instead.
             If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
 
     Keyword Args:
         optional:
             If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
         field:
-            Deprecated; use ``value`` instead.
+            Deprecated; use `value` instead.
             If provided, ignore environment variable and return this.
 
     Returns:
@@ -37,27 +70,37 @@ def check(
         If called with ``optional=True``, will return ``None`` if no value is found or provided.
 
     Raises:
-        KeyError: If no value is found/provided and ``optional`` is False.
+        KeyError: If no value is found/provided and `optional` is ``False``.
 
     """
     # Handle deprecated arguments
-    for name, val, replacement in (("opt", opt, "optional"), ("field", field, "value")):
-        if val is None:
-            continue
-
+    if opt is not None:
         warnings.warn(
-            f"The '{name}' argument is deprecated; use '{replacement}' instead.",
+            "The 'opt' positional argument is deprecated. "
+            "Use the 'optional' keyword argument. "
+            "Overriding 'optional' with value of 'opt' for backwards-compatibility.",
             DeprecationWarning,
             stacklevel=2,
         )
+        optional = opt
 
-    if (input_value := value if value is not None else field) is not None:
-        return input_value
+    if field is not None:
+        warnings.warn(
+            "The 'field' keyword argument is deprecated. "
+            "Use the 'value' positional or keyword argument. "
+            "Overriding 'value' with value of 'field' for backwards-compatibility.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        value = field
 
-    if (environment_value := os.environ.get(env)) is not None:
-        return environment_value
+    if value is not None:
+        return value
 
-    if optional or opt:
+    if (environment_variable := os.environ.get(env)) is not None:
+        return environment_variable
+
+    if optional:
         return None
 
     raise KeyError(f"No '{env}' found. Store as environment variable or pass as an argument.")

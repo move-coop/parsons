@@ -99,12 +99,6 @@ class APIConnector:
             `**kwargs`:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
-        Returns:
-            The json data from the response as a dictionary,
-            the successful status code as an integer,
-            or ``None`` if the request fails
-            and `raise_on_error` is ``False``.
-
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
@@ -156,7 +150,7 @@ class APIConnector:
         **kwargs,
     ) -> dict | bytes:
         """
-        Make a GET request and return response.content.
+        Make a GET request.
 
         Args:
             url: A complete and valid url for the api request.
@@ -170,8 +164,8 @@ class APIConnector:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         Returns:
-            The json data from the response if `return_format` is ``json``,
-            or the content from the response if `return_format` is ``content``.
+            The :meth:`requests.Response.json` from the response if `return_format` is ``json``,
+            or :attr:`requests.Response.content` from the response if `return_format` is ``content``.
 
         Raises:
             RuntimeError: If return_format is not ``json`` or ``content``.
@@ -217,10 +211,9 @@ class APIConnector:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         Returns:
-            The json data from the response as a dictionary,
-            the successful status code as an integer,
-            or ``None`` if the request fails
-            and `raise_on_error` is ``False``.
+            If successful, json date from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code` as available.
+            ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
         r = self.request(
@@ -271,10 +264,9 @@ class APIConnector:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         Returns:
-            The json data from the response as a dictionary,
-            the successful status code as an integer,
-            or ``None`` if the request fails
-            and `raise_on_error` is ``False``.
+            If successful, json date from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code` as available.
+            ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
         r = self.request(url, "DELETE", params=params, raise_on_error=raise_on_error, **kwargs)
@@ -321,10 +313,9 @@ class APIConnector:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         Returns:
-            The json data from the response as a dictionary,
-            the successful status code as an integer,
-            or ``None`` if the request fails
-            and `raise_on_error` is ``False``.
+            If successful, json date from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code` as available.
+            ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
         r = self.request(
@@ -373,10 +364,9 @@ class APIConnector:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         Returns:
-            The json data from the response as a dictionary,
-            the successful status code as an integer,
-            or ``None`` if the request fails
-            and `raise_on_error` is ``False``.
+            If successful, json date from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code` as available.
+            ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
         r = self.request(

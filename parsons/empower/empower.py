@@ -45,7 +45,7 @@ class Empower:
     def _get_data(self, cache):
         """Gets fresh data from Empower API based on cache setting."""
         if not cache or self.data is None:
-            r = self.client.get_request(self.empower_uri)
+            r = self.client.get_request(url=self.empower_uri)
             logger.info("Empower data downloaded.")
             return r
 

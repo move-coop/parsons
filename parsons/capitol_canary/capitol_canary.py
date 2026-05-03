@@ -35,8 +35,8 @@ class CapitolCanary:
         cc_app_id = check_env.check("CAPITOLCANARY_APP_ID", None, optional=True)
         cc_app_key = check_env.check("CAPITOLCANARY_APP_KEY", None, optional=True)
 
-        self.app_id = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
-        self.app_key = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
+        self.app_id: str = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
+        self.app_key: str = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
         self.auth = HTTPBasicAuth(self.app_id, self.app_key)
         self.client = APIConnector(CAPITOL_CANARY_URI, auth=self.auth)
 
@@ -46,7 +46,7 @@ class CapitolCanary:
         if page is not None:
             args["page"] = page
 
-        r = self.client.get_request(url, params=args)
+        r = self.client.get_request(url=url, params=args)
 
         json = r["data"]
 
@@ -55,7 +55,7 @@ class CapitolCanary:
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-            r = self.client.get_request(r["pagination"]["next_url"], args)
+            r = self.client.get_request(url=r["pagination"]["next_url"], params=args)
             json.extend(r["data"])
 
         return json
@@ -181,7 +181,7 @@ class CapitolCanary:
             "includePrivate": str(include_private),
         }
 
-        tbl = Table(self.client.get_request("campaigns", params=args))
+        tbl = Table(self.client.get_request(url="campaigns", params=args))
         if tbl:
             tbl.unpack_dict("updated_at")
             if include_content:
@@ -312,7 +312,7 @@ class CapitolCanary:
         data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        response = self.client.post_request("advocates", data=data)
+        response = self.client.post_request(url="advocates", data=data)
         return response["advocateid"]
 
     def update_advocate(
@@ -404,4 +404,4 @@ class CapitolCanary:
         data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        self.client.post_request("advocates", data=data)
+        self.client.post_request(url="advocates", data=data)

@@ -1,6 +1,7 @@
 import logging
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
 from suds.client import Client
 
 from parsons.utilities import check_env
@@ -19,7 +20,7 @@ class VANConnector:
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
     ):
-        self.api_key = check_env.check("VAN_API_KEY", api_key)
+        self.api_key: str = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
             self.db_code = 0
@@ -35,7 +36,7 @@ class VANConnector:
         self.db = db
         self.auth_name = auth_name
         self.pagination_key = "nextPageLink"
-        self.auth = (self.auth_name, self.api_key + "|" + str(self.db_code))
+        self.auth = HTTPBasicAuth(self.auth_name, self.api_key + "|" + str(self.db_code))
         self.api = APIConnector(
             self.uri,
             auth=self.auth,
@@ -79,7 +80,7 @@ class VANConnector:
             return self.db
 
     def get_request(self, endpoint, **kwargs):
-        r = self.api.get_request(self.uri + endpoint, **kwargs)
+        r = self.api.get_request(url=(self.uri + endpoint), **kwargs)
         data = self.api.data_parse(r)
 
         # Paginate
@@ -88,18 +89,18 @@ class VANConnector:
                 break
             if endpoint == "printedLists" and not r["items"]:
                 break
-            r = self.api.get_request(r[self.pagination_key], **kwargs)
+            r = self.api.get_request(url=r[self.pagination_key], **kwargs)
             data.extend(self.api.data_parse(r))
         return data
 
     def post_request(self, endpoint, **kwargs):
-        return self.api.post_request(endpoint, **kwargs)
+        return self.api.post_request(url=endpoint, **kwargs)
 
     def delete_request(self, endpoint, **kwargs):
-        return self.api.delete_request(endpoint, **kwargs)
+        return self.api.delete_request(url=endpoint, **kwargs)
 
     def patch_request(self, endpoint, **kwargs):
-        return self.api.patch_request(endpoint, **kwargs)
+        return self.api.patch_request(url=endpoint, **kwargs)
 
     def put_request(self, endpoint, **kwargs):
-        return self.api.put_request(endpoint, **kwargs)
+        return self.api.put_request(url=endpoint, **kwargs)

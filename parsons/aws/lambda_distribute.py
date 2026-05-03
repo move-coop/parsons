@@ -14,7 +14,7 @@ from parsons.aws.aws_async import (
 )
 from parsons.aws.s3 import S3
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -203,7 +203,7 @@ def distribute_task(
     """
     if storage not in ("s3", "local"):
         raise DistributeTaskException("storage argument must be s3 or local")
-    bucket = check("S3_TEMP_BUCKET", bucket)
+    bucket = check_env.check("S3_TEMP_BUCKET", bucket)
     csvdata = StringIO()
     outcsv = csv.writer(csvdata)
     outcsv.writerows(table.table.data())

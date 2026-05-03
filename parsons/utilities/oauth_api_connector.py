@@ -81,6 +81,7 @@ class OAuth2APIConnector(APIConnector):
         self,
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        *,
         json: dict | None = None,
         data: str | bytes | dict | list[tuple] | None = None,
         params: dict | None = None,

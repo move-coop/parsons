@@ -312,7 +312,7 @@ class CapitolCanary:
         data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        response = self.client.post_request("advocates", data=data)
+        response = self.client.post_request(url="advocates", data=data)
         return response["advocateid"]
 
     def update_advocate(
@@ -404,4 +404,4 @@ class CapitolCanary:
         data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        self.client.post_request("advocates", data=data)
+        self.client.post_request(url="advocates", data=data)

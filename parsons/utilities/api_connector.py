@@ -65,6 +65,7 @@ class APIConnector:
         self,
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        *,
         json: dict[str, Any] | None = None,
         data: str | bytes | dict | list[tuple] | None = None,
         params: dict[str, str | int] | None = None,
@@ -143,9 +144,9 @@ class APIConnector:
     def get_request(
         self,
         url: str,
+        *,
         params: dict[str, str | int] | None = None,
         return_format: Literal["json", "content"] = "json",
-        *,
         raise_on_error: bool = True,
         **kwargs,
     ) -> dict | bytes:
@@ -184,6 +185,7 @@ class APIConnector:
     def post_request(
         self,
         url: str,
+        *,
         params: dict[str, Any] | None = None,
         data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,
@@ -241,6 +243,7 @@ class APIConnector:
     def delete_request(
         self,
         url: str,
+        *,
         params: dict[str, Any] | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
@@ -286,6 +289,7 @@ class APIConnector:
     def put_request(
         self,
         url: str,
+        *,
         data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,
         params: dict[str, Any] | None = None,
@@ -337,6 +341,7 @@ class APIConnector:
     def patch_request(
         self,
         url: str,
+        *,
         params: dict[str, Any] | None = None,
         data: str | bytes | dict | list[tuple] | None = None,
         json: dict[str, Any] | None = None,

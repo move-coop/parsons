@@ -54,7 +54,7 @@ class Donorbox:
             Parsons Table
 
         """
-        result = self.client.request("campaigns", "GET", params=kwargs)
+        result = self.client.request(url="campaigns", req_type="GET", params=kwargs)
         data = result.json()
         return Table(data)
 

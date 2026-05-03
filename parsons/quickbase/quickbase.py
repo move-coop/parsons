@@ -51,7 +51,9 @@ class Quickbase:
 
         """
         return Table(
-            self.client.request(f"{self.api_hostname}/tables?appId={app_id}", "GET").json()
+            self.client.request(
+                url=f"{self.api_hostname}/tables?appId={app_id}", req_type="GET"
+            ).json()
         )
 
     def query_records(self, table_from=None):
@@ -69,7 +71,7 @@ class Quickbase:
 
         """
         req_resp = self.client.request(
-            f"{self.api_hostname}/records/query", "POST", json={"from": table_from}
+            url=f"{self.api_hostname}/records/query", req_type="POST", json={"from": table_from}
         ).json()
 
         resp_tbl = Table(req_resp["data"])

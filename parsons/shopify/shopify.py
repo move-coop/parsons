@@ -74,7 +74,9 @@ class Shopify:
 
         """
         return (
-            self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
+            self.client.request(
+                url=self.get_query_url(query_date, since_id, table_name), req_type="GET"
+            )
             .json()
             .get("count", 0)
         )
@@ -104,7 +106,7 @@ class Shopify:
             if completed:
                 url += "&financial_status=paid"
 
-            res = self.client.request(url, "GET")
+            res = self.client.request(url=url, req_type="GET")
 
             cur_orders = res.json().get("orders", [])
 
@@ -191,7 +193,9 @@ class Shopify:
 
         """
         return (
-            self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
+            self.client.request(
+                url=(self.base_url + "graphql.json"), req_type="POST", json={"query": query}
+            )
             .json()
             .get("data")
         )

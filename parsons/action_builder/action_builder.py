@@ -401,7 +401,7 @@ class ActionBuilder:
 
         logger.info(f"Removing tag {tag_id} from {identifier or tagging_id}")
         return self.api.delete_request(
-            f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
+            url=f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):

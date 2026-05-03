@@ -39,7 +39,7 @@ class Freshdesk:
         if params:
             base_params.update(params)
 
-        r = self.client.request(endpoint, "GET", params=base_params)
+        r = self.client.request(url=endpoint, req_type="GET", params=base_params)
         self.client.validate_response(r)
         data = r.json()
 
@@ -47,7 +47,7 @@ class Freshdesk:
         while "link" in r.headers:
             logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
             url = re.search("<(.*)>", r.headers["link"]).group(1)
-            r = self.client.request(url, "GET", params=params)
+            r = self.client.request(url=url, req_type="GET", params=params)
             self.client.validate_response(r)
             data.extend(r.json())
 
@@ -69,7 +69,7 @@ class Freshdesk:
 
         """
         url = self.uri + endpoint
-        r = self.client.request(url, "POST", json=data)
+        r = self.client.request(url=url, req_type="POST", json=data)
         self.client.validate_response(r)
         return r.json()
 

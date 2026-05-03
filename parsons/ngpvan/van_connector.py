@@ -93,13 +93,13 @@ class VANConnector:
         return data
 
     def post_request(self, endpoint, **kwargs):
-        return self.api.post_request(endpoint, **kwargs)
+        return self.api.post_request(url=endpoint, **kwargs)
 
     def delete_request(self, endpoint, **kwargs):
-        return self.api.delete_request(endpoint, **kwargs)
+        return self.api.delete_request(url=endpoint, **kwargs)
 
     def patch_request(self, endpoint, **kwargs):
-        return self.api.patch_request(endpoint, **kwargs)
+        return self.api.patch_request(url=endpoint, **kwargs)
 
     def put_request(self, endpoint, **kwargs):
-        return self.api.put_request(endpoint, **kwargs)
+        return self.api.put_request(url=endpoint, **kwargs)

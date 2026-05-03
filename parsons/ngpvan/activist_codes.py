@@ -3,7 +3,7 @@
 import logging
 from typing import Literal
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.ngpvan.utilities import action_parse
 
 logger = logging.getLogger(__name__)

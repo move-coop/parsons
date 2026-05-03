@@ -8,8 +8,8 @@ import petl
 import psycopg2
 import psycopg2.extras
 
+from parsons import Table
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
-from parsons.etl.table import Table
 from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge

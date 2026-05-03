@@ -11,9 +11,9 @@ from typing import Literal
 
 import petl
 
+from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
-from parsons.etl.table import Table
 from parsons.utilities import files
 
 # Max number of rows that we query at a time, so we can avoid loading huge

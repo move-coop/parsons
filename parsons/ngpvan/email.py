@@ -1,6 +1,6 @@
 import logging
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 

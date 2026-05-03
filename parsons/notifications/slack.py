@@ -6,7 +6,7 @@ import requests
 from slack_sdk import WebClient
 from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check
 
 

@@ -9,7 +9,7 @@ from typing_extensions import Self
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from parsons.etl.table import Table
+    from parsons import Table
 
 logger = logging.getLogger(__name__)
 
@@ -603,7 +603,7 @@ class ETL:
         table_dict = table.select_rows(lambda row: isinstance(row[column], dict))
         table_dict.unpack_dict(column, prepend=False)
 
-        from parsons.etl.table import Table
+        from parsons import Table
 
         # Use melt to pivot both sets of columns into their own Tables and clean out None values
         melted_list = Table(petl.melt(table_list.table, ignore_cols))
@@ -748,7 +748,7 @@ class ETL:
             Selected columnns
 
         """
-        from parsons.etl.table import Table
+        from parsons import Table
 
         return Table(petl.cut(self.table, *columns))
 
@@ -786,7 +786,7 @@ class ETL:
             The selected rows
 
         """
-        from parsons.etl.table import Table
+        from parsons import Table
 
         return Table(petl.select(self.table, *filters))
 
@@ -1181,7 +1181,7 @@ class ETL:
         if to_petl:
             return getattr(petl, petl_method)(self.table, *args, **kwargs)
 
-        from parsons.etl.table import Table
+        from parsons import Table
 
         return Table(getattr(petl, petl_method)(self.table, *args, **kwargs))
 

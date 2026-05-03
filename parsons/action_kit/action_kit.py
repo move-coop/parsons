@@ -9,7 +9,7 @@ from typing import Any, Literal, TypedDict, overload
 import requests
 from requests.auth import HTTPBasicAuth
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)

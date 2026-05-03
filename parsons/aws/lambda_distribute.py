@@ -7,6 +7,7 @@ from collections.abc import Callable
 from io import BytesIO, StringIO, TextIOWrapper
 from typing import Any, Literal
 
+from parsons import Table
 from parsons.aws.aws_async import (
     get_func_task_path,
     import_and_get_task,
@@ -15,7 +16,6 @@ from parsons.aws.aws_async import (
     run as maybe_async_run,
 )
 from parsons.aws.s3 import S3
-from parsons.etl.table import Table
 from parsons.utilities.check_env import check
 
 logger = logging.getLogger(__name__)

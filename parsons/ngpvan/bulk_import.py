@@ -4,7 +4,7 @@ import csv
 import logging
 import uuid
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import cloud_storage
 
 logger = logging.getLogger(__name__)

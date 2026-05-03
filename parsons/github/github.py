@@ -12,7 +12,7 @@ from github import Github as PyGithub
 from github.GithubException import UnknownObjectException
 from github.PaginatedList import PaginatedList
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import check_env, files
 
 logger = logging.getLogger(__name__)

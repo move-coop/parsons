@@ -12,6 +12,7 @@ import petl
 import psycopg2
 import psycopg2.extras
 
+from parsons import Table
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.redshift.rs_copy_table import RedshiftCopyTable
@@ -19,7 +20,6 @@ from parsons.databases.redshift.rs_create_table import RedshiftCreateTable
 from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.table import BaseTable
-from parsons.etl.table import Table
 from parsons.utilities import files, sql_helpers
 
 # Max number of rows that we query at a time, so we can avoid loading huge

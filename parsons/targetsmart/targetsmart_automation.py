@@ -29,7 +29,7 @@ from pathlib import Path
 import defusedxml.ElementTree as ET
 import xmltodict
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.sftp.sftp import SFTP
 from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file

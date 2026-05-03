@@ -7,7 +7,7 @@ import petl
 from requests import Response
 from requests import request as _request
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.datetime import date_to_timestamp
 

@@ -9,7 +9,7 @@ from facebook_business.adobjects.customaudience import CustomAudience
 from facebook_business.api import FacebookAdsApi
 from joblib import Parallel, delayed
 
-from parsons.etl.table import Table
+from parsons import Table
 
 logger = logging.getLogger(__name__)
 

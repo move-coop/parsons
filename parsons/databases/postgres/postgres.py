@@ -3,11 +3,11 @@ import os
 from pathlib import Path
 from typing import Literal
 
+from parsons import Table
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.postgres.postgres_core import PostgresCore
 from parsons.databases.table import BaseTable
-from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

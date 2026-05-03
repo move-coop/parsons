@@ -17,7 +17,7 @@ from azure.storage.blob import (
     generate_blob_sas,
 )
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities import check_env, files
 
 logger = logging.getLogger(__name__)

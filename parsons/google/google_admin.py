@@ -4,7 +4,7 @@ from pathlib import Path
 from google.auth.transport.requests import AuthorizedSession
 from google.oauth2 import service_account
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.google.utilities import (
     load_google_application_credentials,
     setup_google_application_credentials,

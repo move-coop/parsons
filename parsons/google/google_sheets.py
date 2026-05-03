@@ -4,7 +4,7 @@ from typing import Literal
 
 import gspread
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.google.utilities import (
     hexavigesimal,
     load_google_application_credentials,

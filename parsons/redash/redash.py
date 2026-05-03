@@ -5,7 +5,7 @@ from typing import Any
 
 import requests
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check
 
 logger = logging.getLogger(__name__)

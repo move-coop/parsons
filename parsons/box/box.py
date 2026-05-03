@@ -30,7 +30,7 @@ from box_sdk_gen.managers.uploads import (
 )
 from box_sdk_gen.networking.auth import Authentication
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
 
 logger = logging.getLogger(__name__)

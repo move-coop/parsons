@@ -4,7 +4,7 @@ from typing import Any, Literal
 
 import braintree
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.utilities.check_env import check as check_env
 
 logger = logging.getLogger(__name__)

@@ -11,7 +11,7 @@ from urllib.parse import parse_qs, urlparse
 import petl
 import requests
 
-from parsons.etl.table import Table
+from parsons import Table
 from parsons.targetsmart.targetsmart_smartmatch import SmartMatch
 from parsons.utilities import check_env
 

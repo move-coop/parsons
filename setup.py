@@ -47,11 +47,11 @@ EXTRA_DEPENDENCIES = {
         "validate-email >= 1",
     ],
     "mysql": [
-        "mysql-connector-python >= 7",
+        "mysql-connector-python >= 7, != 9.7.0",
         "sqlalchemy >= 1.4",
     ],
     "newmode": ["newmode >= 0.1.6"],
-    "ngpvan": ["suds-py3 >= 1.4"],
+    "ngpvan": ["suds >= 1"],
     "mobilecommons": ["beautifulsoup4 >= 4", "xmltodict >= 1"],
     "pandas": ["pandas >= 2.3.3"],
     "postgres": [

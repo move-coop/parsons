@@ -25,10 +25,10 @@ config_vars = {
 
 # ### CODE
 
-import datetime  # noqa: E402
-import os  # noqa: E402
+import datetime  # noqa E402 module-import-not-at-top-of-file
+import os  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import ActionKit, Redshift, Table, logger  # noqa: E402
+from parsons import ActionKit, Redshift, Table, logger  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 

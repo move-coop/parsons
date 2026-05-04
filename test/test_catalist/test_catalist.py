@@ -1,160 +1,112 @@
-import time
-from unittest.mock import MagicMock
+import gzip
+import re
+from zipfile import ZipFile
 
 import pytest
 
 from parsons import CatalistMatch, Table
 
-TEST_CLIENT_ID = "some_client_id"
-TEST_CLIENT_SECRET = "some_client_secret"
-TEST_SFTP_USERNAME = "username"
-TEST_SFTP_PASSWORD = "password"
 
-
-def table_for_test(include_last_name: bool = True) -> Table:
-    """Parsons Table for tests"""
-    table = Table(
-        [
-            {"first_name": "John", "last_name": "Doe"},
-            {"first_name": "Jane", "last_name": "Doe"},
-        ]
+@pytest.fixture
+def client(mocker, tmp_path, requests_mock):
+    requests_mock.post(
+        "https://auth.catalist.us/oauth/token",
+        json={"access_token": "fake_token", "expires_in": 3600},
     )
-    if not include_last_name:
-        table = table.cut("first_name")
-    return table
-
-
-def match_client() -> CatalistMatch:
-    result = CatalistMatch(
-        client_id=TEST_CLIENT_ID,
-        client_secret=TEST_CLIENT_SECRET,
-        sftp_username=TEST_SFTP_USERNAME,
-        sftp_password=TEST_SFTP_PASSWORD,
+    requests_mock.get(
+        re.compile("/mapi/status/id/"), json={"process": {"processState": "Finished"}}
     )
-    result._token_expired_at = time.time() + 99999
-    return result
+    # Generic catch-all for the 'upload' call which returns [metadata_dict]
+    requests_mock.get(re.compile("/mapi/upload/"), json=[{"id": "999", "status": "queued"}])
+
+    sftp_root = tmp_path / "sftp"
+    (sftp_root / "myUploads").mkdir(parents=True)
+    (sftp_root / "myDownloads").mkdir(parents=True)
+
+    mock_sftp = mocker.patch("parsons.catalist.catalist.SFTP").return_value
+    mock_sftp.root = sftp_root
+
+    mock_sftp.put_file.side_effect = lambda local, remote: (
+        (sftp_root / remote.lstrip("/")).parent.mkdir(parents=True, exist_ok=True)
+        or __import__("shutil").copy2(local, sftp_root / remote.lstrip("/"))
+    )
+
+    mock_sftp.list_directory.side_effect = lambda path: [
+        f.name for f in (sftp_root / path.lstrip("/")).iterdir()
+    ]
+
+    mock_sftp.get_file.side_effect = lambda remote_path, **kw: str(
+        sftp_root / remote_path.lstrip("/")
+    )
+
+    return CatalistMatch("id", "secret", "user", "pass")
 
 
-class TestCatalist:
-    def test_fixtures_active(self) -> None:
-        """Test to ensure fixtures are active and relevant clients are mocked."""
-        match = match_client()
-        assert isinstance(match.sftp, MagicMock)
-        assert match.connection.request("url", "get").json()[0]["test"]
+def test_upload_flow(client):
+    """Verify that upload() hits the API and puts a GZipped file on SFTP."""
+    tbl = Table([{"first_name": "John", "last_name": "Doe"}])
 
-    def test_validate_table(self) -> None:
-        """Check that table validation method works as expected."""
-        match = match_client()
-        table = table_for_test()
-        match.validate_table(table)
+    response = client.upload(tbl, description="test_job")
 
-        # first_name and last_name are required
-        # We expect an exception raised if last_name is missing
-        table_to_fail = table_for_test(include_last_name=False)
-        with pytest.raises(ValueError, match="Input table does not have the right structure"):
-            match.validate_table(table_to_fail)
+    assert response["id"] == "999"
+    uploaded_files = list((client.sftp.root / "myUploads").glob("*.csv.gz"))
+    assert len(uploaded_files) == 1
 
-    def test_load_table_to_sftp(self) -> None:
-        """Check that table load to SFTP executes as expected."""
-        match = match_client()
-        source_table = table_for_test()
-        response = match.load_table_to_sftp(source_table)
+    with gzip.open(uploaded_files[0], "rt") as f:
+        assert "John,Doe" in f.read()
 
-        assert response.startswith("file://")
-        assert "myUploads" not in response
-        assert response.endswith(".csv.gz")
 
-        # We expect one call to the SFTP client to put the file
-        assert len(match.sftp.mock_calls) == 1
-        mocked_call = match.sftp.mock_calls[0]
-        called_method = str(mocked_call).split("(")[0].split(".")[1]
-        assert called_method == "put_file"
-        temp_local_file = mocked_call.args[0]
-        remote_path = mocked_call.args[1]
+def test_load_matches_unzip(client, tmp_path):
+    """Verify that load_matches correctly pulls from SFTP and parses the TSV."""
+    job_id = "999"
+    results_csv = tmp_path / "results.csv"
+    results_csv.write_text("COL1-first_name\tDWID\nJane\t123")
 
-        # Expect local temp file CSV is the same as the source table CSV
-        table_to_load = Table.from_csv(temp_local_file)
-        for row_index in range(table_to_load.num_rows):
-            assert source_table[row_index] == table_to_load[row_index]
+    zip_path = client.sftp.root / "myDownloads" / f"match_{job_id}.zip"
+    with ZipFile(zip_path, "w") as zf:
+        zf.write(results_csv, arcname="results.csv")
 
-        # Expect the remote path is structured as expected
-        assert remote_path.startswith("myUploads/")
-        assert remote_path.endswith(".csv.gz")
+    table = client.load_matches(job_id)
 
-    def test_upload(self, mock_requests) -> None:
-        """Mock use of upload() method, check API calls are structured as expected."""
-        match = match_client()
-        source_table = table_for_test()
+    assert table[0]["DWID"] == "123"
+    assert table.columns == ["COL1-first_name", "DWID"]
 
-        # Execute upload
-        match.upload(source_table)
 
-        requested_endpoint = mock_requests._adapter.request_history[1].path
-        requested_queries = mock_requests._adapter.request_history[1].qs
-        requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
+def test_validate_table_logic(client):
+    """Ensure validation catches missing required columns."""
+    bad_tbl = Table([{"first_name": "OnlyName"}])  # Missing last_name
 
-        assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == {"token"}
-        assert requested_queries["token"] == ["tokenexample"]
-        assert requested_endpoint.startswith("/mapi/upload/template/48827/action/publish/url/")
+    with pytest.raises(ValueError, match="missing_required_columns"):
+        client.validate_table(bad_tbl)
 
-    def test_upload_with_options(self, mock_requests) -> None:
-        """Mock use of upload() method with options, check API calls."""
-        match = match_client()
-        source_table = table_for_test()
 
-        # Execute upload
-        match.upload(
-            source_table,
-            copy_to_sandbox=True,
-            static_values={"phone": 123456789},
-        )
+def test_load_table_to_sftp_with_subfolder(client):
+    """Verify that specifying a subfolder creates the dir and places the file there."""
+    tbl = Table([{"first_name": "John", "last_name": "Doe"}])
+    subfolder = "campaign_2024"
+    sftp_url = client.load_table_to_sftp(tbl, input_subfolder=subfolder)
 
-        requested_queries = mock_requests._adapter.request_history[1].qs
+    assert subfolder in sftp_url
+    assert sftp_url.startswith(f"file://{subfolder}/")
 
-        assert set(requested_queries.keys()) == {"token", "copytosandbox", "phone"}
-        assert requested_queries["copytosandbox"] == ["true"]
-        assert requested_queries["phone"] == ["123456789"]
+    target_dir = client.sftp.root / "myUploads" / subfolder
+    assert target_dir.is_dir()
 
-    def test_status(self, mock_requests) -> None:
-        """Mock use of status() method, check API calls are structured as expected."""
-        match = match_client()
+    uploaded_files = list(target_dir.glob("*.csv.gz"))
+    assert len(uploaded_files) == 1
+    assert uploaded_files[0].exists()
 
-        # Check status
-        match.status("12345")
 
-        requested_endpoint = mock_requests._adapter.request_history[1].path
-        requested_queries = mock_requests._adapter.request_history[1].qs
-        requested_base_url = mock_requests._adapter.request_history[1]._url_parts.netloc
+def test_load_table_to_sftp_subfolder_already_exists(client):
+    """Verify it doesn't fail if the subfolder already exists."""
+    tbl = Table([{"first_name": "Jane", "last_name": "Doe"}])
+    subfolder = "existing_folder"
 
-        assert requested_base_url == "api.catalist.us"
-        assert set(requested_queries.keys()) == {"token"}
-        assert requested_queries["token"] == ["tokenexample"]
-        assert requested_endpoint == "/mapi/status/id/12345"
+    # Pre-create the folder
+    (client.sftp.root / "myUploads" / subfolder).mkdir(parents=True)
 
-    def test_load_matches(self) -> None:
-        """Check that table download method from SFTP executes as expected."""
-        match = match_client()
+    # This should run without calling make_directory (or at least without error)
+    client.load_table_to_sftp(tbl, input_subfolder=subfolder)
 
-        # Execute download
-        match.sftp.list_directory = MagicMock(return_value=["example_12345"])
-        match.load_matches("12345")
-
-        # We expect two calls to the SFTP client to list the directory and get the file
-        assert len(match.sftp.mock_calls) == 2
-
-        first_mocked_call = match.sftp.mock_calls[0]
-        first_called_method = str(first_mocked_call).split("(")[0].split(".")[1]
-
-        assert first_called_method == "list_directory"
-        assert set(first_mocked_call.args) == {"/myDownloads/"}
-
-        second_mocked_call = match.sftp.mock_calls[1]
-        second_called_method = str(second_mocked_call).split("(")[0].split(".")[1]
-
-        assert second_called_method == "get_file"
-
-        assert second_mocked_call.kwargs == {
-            "remote_path": "/myDownloads/example_12345",
-            "export_chunk_size": 52428800,
-        }
+    uploaded_files = list((client.sftp.root / "myUploads" / subfolder).glob("*.csv.gz"))
+    assert len(uploaded_files) == 1

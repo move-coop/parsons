@@ -61,7 +61,7 @@ class dbtLogger(ABC):
         run_dbt_commands method.
         """
         self.commands = manifests
-        log_text = self.format_result()  # noqa
+        log_text = self.format_result()  # noqa F841 unused-variable
         ...
 
 

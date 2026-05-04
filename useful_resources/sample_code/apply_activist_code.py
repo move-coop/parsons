@@ -26,9 +26,9 @@ config_vars = {
 
 # ### CODE
 
-from parsons import Table, Redshift, VAN  # noqa E402
-from parsons import logger  # noqa E402
-import os  # noqa E402
+from parsons import Table, Redshift, VAN  # noqa E402 module-import-not-at-top-of-file
+from parsons import logger  # noqa E402 module-import-not-at-top-of-file
+import os  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 
@@ -62,7 +62,7 @@ logger.info(f"Applying Activist Codes to {str(records.num_rows)} records...")
 
 # Apply codes segmented by state (different API Keys)
 for state, key in myv_keys.items():
-    state_set = records.select_rows(lambda row: row.vb_vf_source_state == state)  # noqa: B023
+    state_set = records.select_rows(lambda row: row.vb_vf_source_state == state)  # noqa B023 function-uses-loop-variable
     if len(state_set) > 0:
         logger.info(f"Applying {str(len(state_set))} Activist Codes in {state}...")
         for _vanid in state_set:

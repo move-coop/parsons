@@ -521,7 +521,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.rs.upsert(
                 upsert_tbl,
                 f"{self.temp_schema}.test_copy",
@@ -548,7 +548,7 @@ class TestRedshiftDB(unittest.TestCase):
 
         # Try to run it with a bad primary key
         self.rs.query(f"INSERT INTO {self.temp_schema}.test_copy VALUES (1, 'Jim')")
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.rs.upsert(
                 upsert_tbl,
                 f"{self.temp_schema}.test_copy",
@@ -852,7 +852,7 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 3
 
         # Try with if_exists='fail'
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.rs.populate_table_from_query(
                 query,
                 dest_table,
@@ -888,7 +888,7 @@ class TestRedshiftDB(unittest.TestCase):
         assert rows[0]["count"] == 6
 
         # Try with if_exists='fail'
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.rs.duplicate_table(
                 source_table,
                 dest_table,
@@ -896,7 +896,7 @@ class TestRedshiftDB(unittest.TestCase):
             )
 
         # Try with invalid if_exists arg
-        with pytest.raises(ValueError):  # noqa: PT011
+        with pytest.raises(ValueError):  # noqa PT011 pytest-raises-too-broad
             self.rs.duplicate_table(
                 source_table,
                 dest_table,

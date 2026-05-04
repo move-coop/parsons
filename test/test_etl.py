@@ -64,7 +64,7 @@ class TestTableCreation:
 
     def test_from_map_iterator(self):
         raw_data = [1, 2, 3]
-        data_map = map(lambda x: {"col1": x, "col2": x * 2}, raw_data)  # noqa: C417 unnecessary-map
+        data_map = map(lambda x: {"col1": x, "col2": x * 2}, raw_data)  # noqa C417 unnecessary-map
 
         tbl = Table(data_map)
 
@@ -1055,7 +1055,7 @@ class TestTableTransformations:
         with pytest.raises(
             AttributeError, match="type object 'Table' has no attribute 'skipcomments'"
         ):
-            Table.skipcomments  # noqa: B018
+            Table.skipcomments  # noqa B018 useless-expression
 
         tbl = Table(
             [

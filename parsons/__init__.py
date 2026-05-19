@@ -114,7 +114,6 @@ def __getattr__(name):
     if name not in _CONNECTORS:
         raise AttributeError(f"module {__name__} has no attribute {name}")
     module_path = _CONNECTORS[name]
->>>>>>> main
     try:
         module = importlib.import_module(module_path)
         connector = getattr(module, name)

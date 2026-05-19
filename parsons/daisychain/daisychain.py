@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
@@ -16,7 +14,7 @@ class Daisychain:
         endpoint: str,
         method: str,
         data_key: str,
-        json: Optional[Union[list, dict]] = None,
+        json: list | dict | None = None,
     ) -> list[dict]:
         """Get request with pagination."""
         results = []
@@ -37,7 +35,7 @@ class Daisychain:
         return results
 
     def find_person(
-        self, email_address: Optional[str] = None, phone_number: Optional[str] = None
+        self, email_address: str | None = None, phone_number: str | None = None
     ) -> list[dict]:
         """
         Find a person by email address and/or phone number.
@@ -75,14 +73,14 @@ class Daisychain:
 
     def post_action(
         self,
-        email_address: Optional[str] = None,
-        phone_number: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        addresses: Optional[list[dict]] = None,
+        email_address: str | None = None,
+        phone_number: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        addresses: list[dict] | None = None,
         email_opt_in: bool = False,
         sms_opt_in: bool = False,
-        action_data: Optional[dict] = None,
+        action_data: dict | None = None,
     ) -> str:
         """Record an action on a person in Daisychain.
 

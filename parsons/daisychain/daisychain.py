@@ -122,8 +122,6 @@ class Daisychain:
             number, the action will be associated with the person with
             the matching email.
 
-        Parameters:
-
         Returns:
           person id (string)
 

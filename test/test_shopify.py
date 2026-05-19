@@ -3,7 +3,7 @@ import unittest
 import requests_mock
 
 from parsons import Shopify, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 SUBDOMAIN = "myorg"
 PASSWORD = "abc123"

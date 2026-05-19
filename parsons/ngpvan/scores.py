@@ -2,6 +2,7 @@
 
 import logging
 import uuid
+from typing import Literal
 
 import petl
 
@@ -19,9 +20,10 @@ class Scores:
         """
         Get all scores.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("scores"))
@@ -32,11 +34,12 @@ class Scores:
         """
         Get an individual score.
 
-        `Args:`
+        Args:
             score_id: int
                 The score id
-        `Returns:`
+        Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"scores/{score_id}")
@@ -47,16 +50,18 @@ class Scores:
         """
         Get score updates.
 
-        `Args:`
+        Args:
             created_before: str
                 Filter score updates to those created before date. Use "YYYY-MM-DD"
                 format.
             created_after: str
                 Filter score updates to those created after date. Use "YYYY-MM-DD"
                 format.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -76,29 +81,32 @@ class Scores:
         """
         Get a score update object
 
-            `Args:`
-                score_update_id : int
-                        The score update id
-            `Returns:`
-                dict
+        Args:
+            score_update_id : int
+                The score update id
+
+        Returns:
+            dict
+
         """
 
         r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
         logger.info(f"Returning score update {score_update_id}.")
         return r
 
-    def update_score_status(self, score_update_id, status):
+    def update_score_status(
+        self, score_update_id, status: Literal["pending approval", "approved", "disapproved"]
+    ):
         """
         Change the status of a score update object. This end point is used to
         approve a score loading job.
 
-        `Args:`
+        Args:
             score_update_id: str
                 The score update id
             status: str
                 One of 'pending approval', 'approved', 'disapproved'
-        `Returns:`
-            ``None``
+
         """
 
         if status not in ["pending approval", "approved", "disapproved", "canceled"]:
@@ -130,7 +138,7 @@ class Scores:
         Upload scores. Use to create or overwrite scores. Multiple score loads
         should be configured in a single call. [1]_
 
-        `Args:`
+        Args:
             tbl: object
                 A parsons.Table object. The table must contain the scores and first column in the
                 table must contain the primary key (e.g. vanid).
@@ -146,13 +154,14 @@ class Scores:
                     * - ``score_id``
                       - The score slot id.
 
-                Example:
+        Example:
 
-                .. highlight:: python
                 .. code-block:: python
 
-                  [{'score1_id' : int, score1_column': str}
-                   {'score2_id' : int, score2_column': str}]
+                    [
+                        {'score1_id' : int, score1_column': str},
+                        {'score2_id' : int, score2_column': str}
+                    ]
 
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
@@ -165,15 +174,17 @@ class Scores:
             approve_tolderance: float
                 The deviation from the average scores allowed in order to automatically
                 approve the score. Maximum of .1.
-            **url_kwargs: kwargs
+            `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
                 :ref:`Cloud Storage <cloud-storage>` for more details.
-        `Returns:`
+
+        Returns:
             int
                The score load job id.
 
         .. [1] NGPVAN asks that you load multiple scores in a single call to reduce the load
            on their servers.
+
         """
 
         # Move to cloud storage
@@ -237,7 +248,7 @@ class FileLoadingJobs:
         id_type,
         score_id,
         score_column,
-        delimiter="csv",
+        delimiter: Literal["csv", "tab", "pipe"] = "csv",
         header=True,
         quotes=True,
         description=None,
@@ -252,7 +263,7 @@ class FileLoadingJobs:
         Loads a file. Only used for loading scores at this time. Scores must be
         compressed using `zip`.
 
-        `Args:`
+        Args:
             file_name: str
                 The name of the file contained in the zip file.
             file_url: str
@@ -277,9 +288,11 @@ class FileLoadingJobs:
                 The fault tolerance of the VAN calculated average compared to the ``auto_average``.
                 The tolerance must be less than 10% of the difference between the maximum and
                 minimum possible acceptable values of the score.
-        `Returns:`
+
+        Returns:
             dict
                 The file load id
+
         """
 
         columns = [{"name": c} for c in columns]
@@ -332,7 +345,7 @@ class FileLoadingJobs:
         id_column,
         id_type,
         score_map,
-        delimiter="csv",
+        delimiter: Literal["csv", "tab", "pipe"] = "csv",
         header=True,
         quotes=True,
         description=None,
@@ -345,7 +358,7 @@ class FileLoadingJobs:
         An iteration of the :meth:`file_load` method that allows you to load multiple scores
         at the same time.
 
-        `Args:`
+        Args:
             file_name : str
                 The name of the file contained in the zip file.
             file_url : str
@@ -359,18 +372,23 @@ class FileLoadingJobs:
             score_map : list
                 A list of dicts that adheres to the following syntax
 
-                .. highlight:: python
                 .. code-block:: python
 
-                    [{'score_id' : int,
-                      'score_column': str,
-                      'auto_average': float,
-                      'auto_tolerance': float }]
+                    [
+                        {
+                            'score_id' : int,
+                            'score_column': str,
+                            'auto_average': float,
+                            'auto_tolerance': float
+                        }
+                    ]
 
             email: str
                 A valid email address in which file loading status will be sent.
-        `Returns:`
+
+        Returns:
             The file load job id
+
         """
 
         columns = [{"name": c} for c in columns]

@@ -26,11 +26,14 @@ from parsons import VAN, GoogleSheets, Table
 def get_info_from_van(van_folder):
     """
     Creates dataframe of relavent turf information in given folder
-    `Args:`
+
+    Args:
         van_folder: str
             The name of the folder in NGP VAN where printed lists are stored
-    `Returns:`
+
+    Returns:
         dataframe
+
     """
     # Instantiate class
     van = VAN(db="MyVoters")
@@ -72,12 +75,12 @@ def get_info_from_van(van_folder):
 def to_gsheet(saved_printed_merged, gsheet_uri):
     """
     Loads a dataframe into a gsheet
-    `Args:`
+    Args:
         saved_printed_merged: df
             Info extracted from VAN from get_info_from_van function
         gsheet_uri: str
             URI for gsheet where dataframe info will be loaded
-    `Returns:`
+    Returns:
         None
     """
     # Instantiate GoogleSheet class
@@ -93,10 +96,10 @@ def to_gsheet(saved_printed_merged, gsheet_uri):
 def to_pdf(saved_printed_merged):
     """
     Turns inputted dataframe into printable pdfs
-    `Args:`
+    Args:
         saved_printed_merged: df
             Info extracted from VAN from get_info_from_van function
-    `Returns:`
+    Returns:
         None
     """
     pdf = FPDF()
@@ -126,12 +129,12 @@ def to_pdf(saved_printed_merged):
 def main(van_folder, gsheet_uri):
     """
     Loads turf data from NGP VAN to ghseet and creates PDF printouts
-    `Args:`
+    Args:
         van_folder: str
             The name of the folder in NGP VAN where printed lists are stored
         gsheet_uri: str
             URI for gsheet where dataframe info will be loaded
-    `Returns:`
+    Returns:
         None
     """
 

@@ -15,7 +15,7 @@ class Codes:
         """
         Get codes.
 
-        `Args:`
+        Args:
             name : str
                 Filter by name of code.
             supported_entities: str
@@ -24,9 +24,11 @@ class Codes:
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {
@@ -45,12 +47,14 @@ class Codes:
         """
         Get a code.
 
-        `Args:`
+        Args:
             code_id : int
                 The code id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         c = self.connection.get_request(f"codes/{code_id}")
@@ -62,9 +66,10 @@ class Codes:
         """
         Get code types.
 
-        `Returns:`
+        Returns:
             list
                 A list of code types.
+
         """
 
         lst = self.connection.get_request("codeTypes")
@@ -82,7 +87,7 @@ class Codes:
         """
         Create a code.
 
-        `Args:`
+        Args:
             name: str
                 The name of the code.
             parent_code_id: int
@@ -95,7 +100,6 @@ class Codes:
                 A list of dicts that enumerate the searchability and applicability rules of the
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
@@ -103,13 +107,14 @@ class Codes:
                          'name': 'Event',
                          'is_searchable': True,
                          'is_applicable': True
-                        }
+                        },
                         {
                          'name': 'Locations',
                          'start_time': '12-31-2018T13:00:00',
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
+
         """
 
         json = {
@@ -147,7 +152,7 @@ class Codes:
         """
         Update a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
             name: str
@@ -162,7 +167,6 @@ class Codes:
                 A list of dicts that enumerate the searchability and applicability rules of the
                 code. You can find supported entities with the :meth:`code_supported_entities`
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
@@ -170,13 +174,14 @@ class Codes:
                          'name': 'Event',
                          'is_searchable': True,
                          'is_applicable': True
-                        }
+                        },
                         {
                          'name': 'Locations',
                          'start_time': '12-31-2018T13:00:00',
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
+
         """
 
         post_data = {}
@@ -209,11 +214,10 @@ class Codes:
         """
         Delete a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
-        `Returns:`
-            ``None``
+
         """
 
         r = self.connection.delete_request(f"codes/{code_id}")
@@ -224,9 +228,10 @@ class Codes:
         """
         Get code supported entities.
 
-        `Returns:`
+        Returns:
             list
                 A list of code supported entities.
+
         """
 
         lst = self.connection.get_request("codes/supportedEntities")

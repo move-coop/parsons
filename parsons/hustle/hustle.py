@@ -1,10 +1,10 @@
 import logging
 from datetime import datetime, timedelta
-from typing import NoReturn, Optional, Union
+from typing import NoReturn
 
 from requests import Response, request
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 from parsons.utilities import check_env, json_format
 
@@ -18,18 +18,20 @@ class Hustle:
     """
     Instantiate Hustle Class
 
-    `Args:`
+    Args:
         client_id:
             The client id provided by Hustle. Not required if ``HUSTLE_CLIENT_ID`` env variable
             set.
         client_secret:
             The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
             variable set.
-    `Returns:`
+
+    Returns:
         Hustle Class
+
     """
 
-    def __init__(self, client_id: Optional[str] = None, client_secret: Optional[str] = None):
+    def __init__(self, client_id: str | None = None, client_secret: str | None = None):
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
@@ -73,10 +75,10 @@ class Hustle:
         self,
         endpoint: str,
         req_type: str = "GET",
-        args: Optional[dict] = None,
-        payload: Optional[dict] = None,
+        args: dict | None = None,
+        payload: dict | None = None,
         raise_on_error: bool = True,
-    ) -> Union[dict, list]:
+    ) -> dict | list:
         url = self.uri + endpoint
         self._refresh_token()
 
@@ -110,7 +112,7 @@ class Hustle:
 
         return result
 
-    def _error_check(self, resp: Response, raise_on_error: bool) -> Optional[NoReturn]:
+    def _error_check(self, resp: Response, raise_on_error: bool) -> NoReturn | None:
         """Check response for errors."""
 
         if resp.status_code in (200, 201):
@@ -129,13 +131,14 @@ class Hustle:
         """
         Get a list of agents.
 
-        `Args:`
+        Args:
             group_id: str
                 The group id.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"groups/{group_id}/agents"))
@@ -146,11 +149,13 @@ class Hustle:
         """
         Get a single agent.
 
-        `Args:`
+        Args:
             agent_id: str
                 The agent id.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         resp = self._request(f"agents/{agent_id}")
@@ -164,12 +169,12 @@ class Hustle:
         full_name: str,
         phone_number: str,
         send_invite: bool = False,
-        email: Optional[str] = None,
+        email: str | None = None,
     ) -> dict:
         """
         Create an agent.
 
-        `Args:`
+        Args:
             group_id: str
                 The group id to assign the agent.
             name: str
@@ -182,8 +187,10 @@ class Hustle:
                 Send an invitation to the agent.
             email:
                 The email address of the agent.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         agent = {
@@ -204,14 +211,14 @@ class Hustle:
     def update_agent(
         self,
         agent_id: str,
-        name: Optional[str] = None,
-        full_name: Optional[str] = None,
+        name: str | None = None,
+        full_name: str | None = None,
         send_invite: bool = False,
     ) -> dict:
         """
         Update an agent.
 
-        `Args:`
+        Args:
             agent_id: str
                 The agent id.
             name: str
@@ -222,8 +229,10 @@ class Hustle:
                 The valid phone number of the agent.
             send_invite: boolean
                 Send an invitation to the agent.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         agent = {"name": name, "fullName": full_name, "sendInvite": send_invite}
@@ -239,9 +248,10 @@ class Hustle:
         """
         Get organizations.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request("organizations"))
@@ -252,11 +262,13 @@ class Hustle:
         """
         Get a single organization.
 
-        `Args:`
+        Args:
             organization_id: str
                 The organization id.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         resp = self._request(f"organizations/{organization_id}")
@@ -267,11 +279,12 @@ class Hustle:
         """
         Get a list of groups.
 
-        `Args:`
+        Args:
             organization_id: str
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/groups"))
@@ -282,9 +295,10 @@ class Hustle:
         """
         Get a single group.
 
-        `Args:`
+        Args:
             group_id: str
                 The group id.
+
         """
 
         resp = self._request(f"groups/{group_id}")
@@ -295,11 +309,12 @@ class Hustle:
         """
         Add a lead to a group.
 
-        `Args:`
+        Args:
             group_id: str
                 The group id.
             lead_id: str
                 The lead id.
+
         """
 
         resp = self._request(
@@ -313,32 +328,34 @@ class Hustle:
         """
         Get a single lead.
 
-        `Args`:
+        Args:
             lead_id: str
                 The lead id.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         resp = self._request(f"leads/{lead_id}")
         logger.info(f"Got {lead_id} lead.")
         return resp  # type: ignore
 
-    def get_leads(
-        self, organization_id: Optional[str] = None, group_id: Optional[str] = None
-    ) -> Table:
+    def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
         Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
 
-        `Args:`
+        Args:
             organization_id: str
                 The organization id.
             group_id: str
                 The group id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if organization_id is None and group_id is None:
@@ -363,18 +380,18 @@ class Hustle:
         group_id: str,
         phone_number: str,
         first_name: str,
-        last_name: Optional[str] = None,
-        email: Optional[str] = None,
-        notes: Optional[str] = None,
-        follow_up: Optional[str] = None,
-        custom_fields: Optional[dict] = None,
-        tag_ids: Optional[list] = None,
+        last_name: str | None = None,
+        email: str | None = None,
+        notes: str | None = None,
+        follow_up: str | None = None,
+        custom_fields: dict | None = None,
+        tag_ids: list | None = None,
     ) -> dict:
         """
 
         Create a lead.
 
-        `Args:`
+        Args:
             group_id: str
                 The group id to assign the leads.
             first_name: str
@@ -394,8 +411,10 @@ class Hustle:
                 value as the value.
             tag_ids: list
                 A list of tag ids.
-        `Returns:`
+
+        Returns:
                 ``None``
+
         """
 
         lead = {
@@ -415,7 +434,7 @@ class Hustle:
         resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
         return resp  # type: ignore
 
-    def create_leads(self, table: Table, group_id: Optional[str] = None) -> Table:
+    def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """
         Create multiple leads. All unrecognized fields will be passed as custom fields. Column
         names must map to the following names.
@@ -431,21 +450,22 @@ class Hustle:
             * - last_name
               - ``last_name``, ``last``, ``ln``, ``lastname``
             * - phone_number
-               - ``phone_number``, ``phone``, ``cell``, ``phonenumber``, ``cell_phone``
-                ``cellphone``
+              - ``phone_number``, ``phone``, ``cell``, ``phonenumber``, ``cell_phone``, ``cellphone``
             * - email
               - ``email``, ``email_address``, ``emailaddress``
             * - follow_up
               - ``follow_up``, ``followup``
 
-        `Args:`
+        Args:
             table: Parsons table
-                A Parsons table containing leads
+                Leads
             group_id:
                 The group id to assign the leads. If ``None``, must be passed as a column
                 value.
-        `Returns:`
+
+        Returns:
             A table of created ids with associated lead id.
+
         """
 
         table.map_columns(LEAD_COLUMN_MAP)
@@ -463,7 +483,7 @@ class Hustle:
         created_leads = []
 
         for row in table:
-            lead: dict[str, Optional[Union[str, dict]]] = {"group_id": group_id}
+            lead: dict[str, str | dict | None] = {"group_id": group_id}
             custom_fields = {}
 
             # Check for column names that map to arguments, if not assign
@@ -490,18 +510,18 @@ class Hustle:
     def update_lead(
         self,
         lead_id: str,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        email: Optional[str] = None,
-        global_opt_out: Optional[bool] = None,
-        notes: Optional[str] = None,
-        follow_up: Optional[str] = None,
-        tag_ids: Optional[list] = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        email: str | None = None,
+        global_opt_out: bool | None = None,
+        notes: str | None = None,
+        follow_up: str | None = None,
+        tag_ids: list | None = None,
     ) -> dict:
         """
         Update a lead.
 
-        `Args`:
+        Args:
             lead_id: str
                 The lead id
             first_name: str
@@ -518,8 +538,9 @@ class Hustle:
                 Follow up for the lead
             tag_ids: list
                 Tags to apply to lead
-        `Returns:`
+        Returns:
             dict
+
         """
 
         lead = {
@@ -544,12 +565,14 @@ class Hustle:
         """
         Get an organization's tags.
 
-        `Args:`
+        Args:
             organization_id: str
                 The organization id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/tags"))
@@ -560,11 +583,13 @@ class Hustle:
         """
         Get a single tag.
 
-        `Args:`
+        Args:
             tag_id: str
                 The tag id.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         resp = self._request(f"tags/{tag_id}")
@@ -574,12 +599,14 @@ class Hustle:
     def get_custom_fields(self, organization_id: str) -> Table:
         """Retrieve an organization's custom fields.
 
-        `Args:`
+        Args:
             organization_id: str
                 The organization id.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
@@ -587,23 +614,25 @@ class Hustle:
         return tbl
 
     def create_custom_field(
-        self, organization_id: str, name: str, agent_visible: Optional[bool] = None
+        self, organization_id: str, name: str, agent_visible: bool | None = None
     ) -> dict:
         """Create a custom field.
 
-        `Args:`
+        Args:
             organization_id: str
                 The organization id.
             name: str
                 The name of the custom field. Restricted to letters, numbers, and underscores. Minimum of 2 characters, maximum of 40.
             agent_visible: bool
                 Optional. `true` represents that the custom field is visible to agents. `false` means that only admins can see it.
-        `Returns:`
+
+        Returns:
             dict
                 The newly created custom field
+
         """
 
-        custom_field: dict[str, Union[str, bool]] = {"name": name}
+        custom_field: dict[str, str | bool] = {"name": name}
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
 

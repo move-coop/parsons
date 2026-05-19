@@ -15,9 +15,10 @@ class SupporterGroups:
         """
         Get supporter groups.
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("supporterGroups"))
@@ -28,11 +29,13 @@ class SupporterGroups:
         """
         Get a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id.
-        `Returns:`
+
+        Returns:
             dict
+
         """
 
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
@@ -43,7 +46,7 @@ class SupporterGroups:
         """
         Create a new supporter group.
 
-        `Args:`
+        Args:
             name: str
                 The name of the supporter group. 100 character limit
             description: str
@@ -51,6 +54,7 @@ class SupporterGroups:
         `Returns`
             Parsons Table with the newly createed supporter group id, name
             and description
+
         """
 
         json = {"name": name, "description": description}
@@ -61,11 +65,10 @@ class SupporterGroups:
         """
         Delete a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
-        `Returns:`
-            ``None``
+
         """
 
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
@@ -76,13 +79,12 @@ class SupporterGroups:
         """
         Add a person to a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
-        `Returns:`
-            ``None``
+
         """
 
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
@@ -93,13 +95,12 @@ class SupporterGroups:
         """
         Remove a person from a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
-        `Returns:`
-            ``None``
+
         """
 
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")

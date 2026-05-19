@@ -24,7 +24,7 @@ class Events:
         """
         Get events.
 
-        `Args:`
+        Args:
             code_ids: str
                 Filter by code id.
             event_type_ids: str
@@ -42,9 +42,11 @@ class Events:
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
-        `Returns:`
-            Parsons Table
+
+        Returns:
+            parsons.Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if expand_fields is None:
@@ -84,17 +86,19 @@ class Events:
         """
         Get an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
-                ``ticketCategories``, ``voterRegistrationBatches`.`
-        `Returns:`
-            Parsons Table
+                ``ticketCategories``, ``voterRegistrationBatches``.
+
+        Returns:
+            parsons.Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if expand_fields is None:
@@ -136,7 +140,7 @@ class Events:
         """
         Create an event
 
-        `Args:`
+        Args:
             name: str
                 A name for this event, no longer than 500 characters.
             short_name: str
@@ -152,19 +156,18 @@ class Events:
             shifts:
                 A list of dicts with shifts formatted as:
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
                         {
-                         'name': 'Shift 1',
-                         'start_time': '12-31-2018T12:00:00',
-                         'end_time': '12-31-2018T13:00:00'
-                        }
+                            'name': 'Shift 1',
+                            'start_time': '12-31-2018T12:00:00',
+                            'end_time': '12-31-2018T13:00:00'
+                        },
                         {
-                         'name': 'Shift 2',
-                         'start_time': '12-31-2018T13:00:00',
-                         'end_time': '12-31-2018T14:00:00'
+                            'name': 'Shift 2',
+                            'start_time': '12-31-2018T13:00:00',
+                            'end_time': '12-31-2018T14:00:00'
                         }
                     ]
 
@@ -184,9 +187,11 @@ class Events:
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
-        `Returns:`
+
+        Returns:
             int
               The event code.
+
         """
 
         if shifts is None:
@@ -231,11 +236,10 @@ class Events:
         """
         Delete an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
-        `Returns:`
-            ``None``
+
         """
 
         r = self.connection.delete_request(f"events/{event_id}")
@@ -246,7 +250,7 @@ class Events:
         """
         Add shifts to an event
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             shift_name: str
@@ -255,9 +259,11 @@ class Events:
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
-        `Returns:`
+
+        Returns:
             int
               The shift id.
+
         """
 
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
@@ -270,9 +276,10 @@ class Events:
         """
         Get event types.
 
-        `Returns:`
-            Parsons Table
+        Returns:
+            parsons.Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = Table(self.connection.get_request("events/types"))

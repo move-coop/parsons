@@ -1,95 +1,94 @@
-import os
-from pathlib import Path
+"""Determine dependencies to install as part of the parsons package."""
 
 from setuptools import setup
 
+CORE_DEPENDENCIES = [
+    "petl >= 1.7.17",
+    "python-dateutil >= 2",
+    "requests >= 2",
+    "requests-oauthlib >= 1",
+    "simplejson >= 3.18",
+]
+EXTRA_DEPENDENCIES = {
+    "airtable": ["pyairtable >= 3"],
+    "alchemer": ["surveygizmo >= 1"],
+    "avro": ["fastavro >= 1.12"],
+    "azure": ["azure-storage-blob >= 12"],
+    "box": ["boxsdk[jwt] >= 4", "requests-toolbelt >= 1"],
+    "braintree": ["braintree >= 4"],
+    "catalist": ["paramiko >= 3"],
+    "civis": ["civis >= 2"],
+    "dbt-duckdb": ["dbt-duckdb >= 1.8.0", "dbt-core>=1.8.0", "rich >= 14"],
+    "dbt-redshift": [
+        "dbt-redshift >= 1.8",
+        "dbt-core >= 1.8",
+        "lxml >= 6.0.1",
+        "rich >= 14",
+    ],
+    "dbt-bigquery": ["dbt-bigquery >= 1.8", "dbt-core >= 1.8", "rich >= 14"],
+    "dbt-postgres": ["dbt-postgres >= 1.8", "dbt-core >= 1.8", "rich >= 14"],
+    "dbt-snowflake": ["dbt-snowflake >= 1.8", "dbt-core >= 1.8", "rich >= 14"],
+    "facebook": ["joblib >= 1", "facebook-business >= 20"],
+    "geocode": [
+        "censusgeocode >= 0.5",
+        "urllib3 >= 2.6.3",
+    ],
+    "github": ["PyGitHub >= 2"],
+    "google": [
+        "apiclient >= 1.0.4",
+        "google-api-python-client >= 2.150",
+        "google-cloud-bigquery >= 3.35",
+        "google-cloud-storage >= 3.1",
+        "google-cloud-storage-transfer >= 1.12",
+        "gspread >= 4",
+        "httplib2 >= 0.15",
+        "oauth2client >= 4",
+        "protobuf >= 6",
+        "validate-email >= 1",
+    ],
+    "mysql": [
+        "mysql-connector-python >= 7, != 9.7.0",
+        "sqlalchemy >= 1.4",
+    ],
+    "newmode": ["newmode >= 0.1.6"],
+    "ngpvan": ["suds >= 1"],
+    "mobilecommons": ["beautifulsoup4 >= 4", "xmltodict >= 1"],
+    "pandas": ["pandas >= 2.3.3"],
+    "postgres": [
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
+    ],
+    "redshift": [
+        "boto3 >= 1",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
+    ],
+    "s3": ["boto3 >= 1"],
+    "salesforce": ["simple-salesforce >= 1"],
+    "scytl": ["defusedxml >= 0.7"],
+    "sftp": ["paramiko >= 3"],
+    "slack": ["slack-sdk >= 3.26"],
+    "smtp": ["validate-email >= 1"],
+    "targetsmart": ["defusedxml >= 0.7", "paramiko >= 3", "xmltodict >= 1"],
+    "twilio": ["twilio >= 9"],
+    "ssh": [
+        "sshtunnel >= 0.4",
+        "psycopg2-binary >= 2.9.11",
+        "sqlalchemy >= 1.4",
+    ],
+}
 
-def main():
-    limited_deps = os.environ.get("PARSONS_LIMITED_DEPENDENCIES", "")
-    install_requires = []
-    if limited_deps.strip().upper() in ("1", "YES", "TRUE", "ON"):
-        install_requires = [
-            "petl",
-            "python-dateutil",
-            "requests",
-            "requests_oauthlib",
-            "simplejson",
-        ]
-        extras_require = {
-            "airtable": ["pyairtable"],
-            "alchemer": ["surveygizmo"],
-            "avro": ["fastavro"],
-            "azure": ["azure-storage-blob"],
-            "box": ["boxsdk < 10, >=4.1.0", "requests-toolbelt>=1.0.0"],
-            "braintree": ["braintree"],
-            "catalist": ["paramiko"],
-            "civis": ["civis"],
-            "dbt-redshift": ["dbt-redshift >= 1.5.0"],
-            "dbt-bigquery": ["dbt-bigquery >= 1.5.0"],
-            "dbt-postgres": ["dbt-postgres >= 1.5.0"],
-            "dbt-snowflake": ["dbt-snowflake >= 1.5.0"],
-            "facebook": ["joblib", "facebook-business"],
-            "geocode": [
-                "censusgeocode @ git+https://github.com/fitnr/censusgeocode.git@1824f5d558ff6378dc4359b44c9cf535a2ba205f",
-                "urllib3==1.26.19;python_version<'3.10'",
-                "urllib3==2.6.0;python_version>='3.10'",
-            ],
-            "github": ["PyGitHub"],
-            "google": [
-                "apiclient",
-                "google-api-python-client",
-                "google-cloud-bigquery",
-                "google-cloud-storage",
-                "google-cloud-storage-transfer",
-                "gspread",
-                "httplib2",
-                "oauth2client",
-                "validate-email",
-            ],
-            "mysql": [
-                "mysql-connector-python",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
-            ],
-            "newmode": ["newmode"],
-            "ngpvan": ["suds-py3"],
-            "mobilecommons": ["bs4"],
-            "postgres": [
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
-            ],
-            "redshift": [
-                "boto3",
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
-            ],
-            "s3": ["boto3"],
-            "salesforce": ["simple-salesforce"],
-            "scytl": ["defusedxml", "pytz"],
-            "sftp": ["paramiko"],
-            "slack": ["slack-sdk"],
-            "smtp": ["validate-email"],
-            "targetsmart": ["xmltodict", "defusedxml"],
-            "twilio": ["twilio"],
-            "ssh": [
-                "sshtunnel",
-                "psycopg2-binary <= 2.9.9;python_version<'3.13'",
-                "psycopg2-binary >= 2.9.10;python_version >= '3.13'",
-                "sqlalchemy >= 1.4.22, != 1.4.33, < 3.0.0",
-            ],
-        }
-        extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
-    else:
-        pyproject_path = Path(__file__).parent / "requirements.txt"
-        install_requires = pyproject_path.read_text().strip().split("\n")
-        extras_require = {"all": []}  # No op for forward-compatibility
 
-    setup(
-        install_requires=install_requires,
-        extras_require=extras_require,
-    )
+def get_extras_require() -> dict[str, list[str]]:
+    """Get the extras_require dictionary, with added "all" extra that contains the values of all other extras."""
+    extras_require = EXTRA_DEPENDENCIES
+    extras_require["all"] = sorted({lib for libs in extras_require.values() for lib in libs})
+
+    return extras_require
 
 
 if __name__ == "__main__":
-    main()
+    setup(
+        install_requires=CORE_DEPENDENCIES,
+        extras_require=get_extras_require(),
+    )

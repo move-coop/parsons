@@ -8,17 +8,17 @@ logger = logging.getLogger(__name__)
 
 
 class Census:
-    """
-    Class that creates a connector to the Census Bureau API
-    """
+    """Class that creates a connector to the Census Bureau API"""
 
     def __init__(self, api_key=None):
         """
         Instantiate Census class.
 
-           Args:
-                api_key: string, key for Census API access
-                 (optional, can also be pulled from environment variable CENSUS_API_KEY)
+        Args:
+            api_key: string, optional
+                key for Census API access
+                can also be pulled from environment variable CENSUS_API_KEY
+
         """
         self.api_key = check_env.check("CENSUS_API_KEY", api_key)
         self.host = "https://api.census.gov/data"
@@ -26,23 +26,24 @@ class Census:
     def get_census(self, year=None, dataset_acronym=None, variables=None, location=None):
         """
         Pull census data. For background check out the `Census API Guide
-                <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
+        <https://www.census.gov/data/developers/guidance/api-user-guide.html>`_
 
         Args:
-                year: 4-digit string or integer
-                        e.g. '2019' or 2019
+            year: 4-digit string or integer
+                e.g. ``'2019' or 2019``
 
-                dataset_acronym: string with dataset name
-                        e.g. '/acs/acs1'
+            dataset_acronym: string with dataset name
+                e.g. ``/acs/acs1``
 
-                variables: comma-separated string with variable names
-                        e.g. 'NAME,B01001_001E'
+            variables: comma-separated string with variable names
+                e.g. ``NAME,B01001_001E``
 
-                location: string with desired locations
-                        e.g. 'us:*'
+            location: string with desired locations
+                e.g. ``'us:*'``
 
-        Return:
-                Parsons table with data
+        Returns:
+            parsons.Table
+
         """
         # set up the URL
         g = "?get="

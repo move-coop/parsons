@@ -7,7 +7,7 @@ from mobilecommons_responses import (
     post_profile_response,
 )
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.mobilecommons import MobileCommons
 
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"

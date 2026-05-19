@@ -1,8 +1,8 @@
 import logging
 import pickle
+from collections.abc import Generator, Iterator
 from enum import Enum
 from pathlib import Path
-from typing import Union
 
 import petl
 
@@ -21,7 +21,8 @@ class _EmptyDefault(Enum):
     This is used because Table(None) should not be allowed, but we
     need a default argument that isn't the mutable []
 
-    See https://stackoverflow.com/a/76606310 for discussion."""
+    See https://stackoverflow.com/a/76606310 for discussion.
+    """
 
     token = 0
 
@@ -36,20 +37,25 @@ class Table(ETL, ToFrom):
     - A list of dicts
     - A petl table
 
-    `Args:`
+    Args:
         lst: list
             See above for accepted list formats
         source: str
             The original data source from which the data was pulled (optional)
         name: str
             The name of the table (optional)
+
     """
 
     def __init__(
         self,
-        lst: Union[list, tuple, petl.util.base.Table, _EmptyDefault] = _EMPTYDEFAULT,
+        lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
+        source: str | None = None,
+        name: str | None = None,
     ):
         self.table = None
+        self.source = source
+        self.name = name
 
         # Normally we would use None as the default argument here
         # Instead of using None, we use a sentinal
@@ -61,29 +67,37 @@ class Table(ETL, ToFrom):
 
         elif isinstance(lst, (list, tuple)):
             # Check for empty list
-            if not len(lst):
+            if not lst:
                 self.table = petl.fromdicts([])
             else:
-                row_type = type(lst[0])
+                first_row = lst[0]
                 # Check for list of dicts
-                if row_type is dict:
+                if isinstance(first_row, dict):
                     self.table = petl.fromdicts(lst)
                 # Check for list of lists
-                elif row_type in [list, tuple]:
+                elif isinstance(first_row, (list, tuple)):
                     self.table = petl.wrap(lst)
+                else:
+                    err_msg = f"Could not initialize Table. Expected dict or list/tuple in first row, got {type(first_row)}."
+                    raise ValueError(err_msg)
 
         elif isinstance(lst, petl.util.base.Table):
             # Create from a petl table
             self.table = lst
 
+        elif isinstance(lst, Iterator):
+            # petl.fromdicts handles generators by using a temporary file cache
+            # to allow multiple passes over the data.
+            # unfortunately iterators like map don't work with this so we convert them to lists
+            self.table = petl.fromdicts(lst if isinstance(lst, Generator) else list(lst))
+
         else:
-            raise ValueError(
-                f"Could not initialize table from input type. "
-                f"Got {type(lst)}, expected list, tuple, or petl Table"
-            )
+            err_msg = f"Could not initialize Table from input type. Expected list, tuple, generator, or petl Table, got {type(lst)}."
+            raise ValueError(err_msg)
 
         if not self.is_valid_table():
-            raise ValueError("Could not create Table")
+            err_msg = "Could not initialize Table."
+            raise ValueError(err_msg)
 
         # Count how many times someone is indexing directly into this table, so we can warn
         # against inefficient usage.
@@ -117,18 +131,17 @@ class Table(ETL, ToFrom):
         return petl.nrows(head_one) > 0
 
     def _repr_html_(self):
-        """
-        Leverage Petl functionality to display well formatted tables in Jupyter Notebook.
-        """
+        """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
 
         return self.table._repr_html_()
 
     @property
     def num_rows(self):
         """
-        `Returns:`
+        Returns:
             int
                 Number of rows in the table
+
         """
         return petl.nrows(self.table)
 
@@ -146,9 +159,10 @@ class Table(ETL, ToFrom):
     @property
     def columns(self):
         """
-        `Returns:`
+        Returns:
             list
                 List of the table's column names
+
         """
         return list(petl.header(self.table))
 
@@ -170,12 +184,13 @@ class Table(ETL, ToFrom):
         """
         Returns a row in table
 
-        `Args:`
+        Args:
             row_index: int
-        `Returns:`
+        Returns:
             dict
                 A dictionary of the row with the column as the key and the cell
                 as the value.
+
         """
 
         self._index_count += 1
@@ -196,12 +211,13 @@ class Table(ETL, ToFrom):
         """
         Returns the data in the column as a list.
 
-        `Args:`
+        Args:
             column_name: str
                 The name of the column
-        `Returns`:
+        Returns:
             list
                 A list of data in the column.
+
         """
 
         if column_name in self.columns:
@@ -230,13 +246,15 @@ class Table(ETL, ToFrom):
 
         This method updates the current table in place.
 
-        `Args:`
+        Args:
             file_path: str
                 The path to the file to materialize the table to; if not specified, a temp file
                 will be created.
-        `Returns:`
+
+        Returns:
             str
                 Path to the temp file that now contains the table
+
         """
 
         # Load the data in batches, and "pickle" the rows to a temp file.
@@ -259,15 +277,16 @@ class Table(ETL, ToFrom):
         Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
         table within the Parsons Table.
 
-        `Returns:`
+        Returns:
             bool
+
         """
 
         if not isinstance(self.table, petl.util.base.Table):
             return False
 
         try:
-            self.columns  # noqa: B018
+            self.columns  # noqa B018 useless-expression
         except StopIteration:
             return False
 
@@ -278,11 +297,12 @@ class Table(ETL, ToFrom):
         Checks if a given column is empty. Returns ``True`` if empty and ``False``
         if not empty.
 
-        `Args:`
+        Args:
             column: str
                 The column name
-        `Returns:`
+        Returns:
             bool
+
         """
 
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

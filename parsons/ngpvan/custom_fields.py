@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 from parsons.etl.table import Table
 
@@ -9,17 +10,19 @@ class CustomFields:
     def __init__(self, van_connection):
         self.connection = van_connection
 
-    def get_custom_fields(self, field_type="contacts"):
+    def get_custom_fields(self, field_type: Literal["contacts", "contributions"] = "contacts"):
         """
         Get custom fields.
 
-        `Args:`
+        Args:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         params = {"customFieldsGroupType": field_type.capitalize()}
@@ -28,17 +31,21 @@ class CustomFields:
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl
 
-    def get_custom_fields_values(self, field_type="contacts"):
+    def get_custom_fields_values(
+        self, field_type: Literal["contacts", "contributions"] = "contacts"
+    ):
         """
         Get custom field values as a long table.
 
-        `Args:`
+        Args:
             field_type : str
                 Filter by custom field group type. Must be one of ``contacts`` or
                 ``contributions``.
-        `Returns:`
+
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         tbl = self.get_custom_fields()
@@ -66,11 +73,13 @@ class CustomFields:
         """
         Get a custom field.
 
-        `Args:`
+        Args:
             custom_field_id: int
                 A valid custom field id.
-        `Returns:`
+
+        Returns:
             A json.
+
         """
 
         r = self.connection.get_request(f"customFields/{custom_field_id}")

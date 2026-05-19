@@ -108,7 +108,3 @@ class TestDiscoverDatabase(unittest.TestCase):
             match="None of the default connectors .+ were detected",
         ):
             discover_database(default_connector=[Postgres, BigQuery])
-
-
-if __name__ == "__main__":
-    unittest.main()

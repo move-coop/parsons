@@ -1,26 +1,16 @@
-# Minimal makefile for Sphinx documentation
-#
+PYTHON     := python3
+SCRIPT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+SCRIPT     := $(SCRIPT_DIR)make.py
 
-# You can set these variables from the command line.
-SPHINXOPTS    = -a
-SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = Parsons
-SOURCEDIR     = .
-BUILDDIR      = .
+.PHONY: % check_python
 
-# Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+Makefile: ;
 
-deploy_docs:
-	git branch latest
-	git branch stable $$(git tag -l --sort=creatordate | tail -1)
-	sphinx-multiversion . html
-	cp ./index-redirect.html html/index.html
+%: check_python
+	@$(PYTHON) "$(SCRIPT)" $@ $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: help Makefile
+check_python:
+	@$(PYTHON) --version > /dev/null 2>&1 || (echo "Error: Python not found."; exit 1)
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+$(filter-out $(firstword $(MAKECMDGOALS)),$(MAKECMDGOALS)):
+	@:

@@ -1,4 +1,5 @@
 # ### METADATA
+from typing import Literal
 
 # Connectors: Zoom, VAN
 # Description: Adds Zoom attendees to VAN and applies an activist code.
@@ -16,7 +17,7 @@ config_vars = {
     "VAN_API_KEY": "",
 }
 
-VAN_DB = "MyCampaign"  # one of: MyMembers, EveryAction, MyCampaign (not MyVoters)
+VAN_DB: Literal["MyMembers", "EveryAction", "MyCampaign"] = "MyCampaign"  # Does not accept MyVoters
 ACTIVIST_CODE_NAME = ""  # name of VAN activist code, which must be created manually in VAN
 ZOOM_MEETING_ID = ""
 MINIMUM_DURATION = 0  # filters out Zoom participants who stayed for less than minimum duration
@@ -25,9 +26,9 @@ MINIMUM_DURATION = 0  # filters out Zoom participants who stayed for less than m
 
 # Setup
 
-import os  # noqa: E402
+import os  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import VAN, Zoom  # noqa: E402
+from parsons import VAN, Zoom  # noqa E402 module-import-not-at-top-of-file
 
 # if variables specified above, sets them as environmental variables
 for name, value in config_vars.items():

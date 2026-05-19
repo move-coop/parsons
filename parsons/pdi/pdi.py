@@ -35,7 +35,7 @@ class PDI(
         """
         Instantiate the PDI class
 
-        `Args:`
+        Args:
             username: str
                 The username for a PDI account. Can be passed as arguement or
                 can be set as `PDI_USERNAME` environment variable.
@@ -49,6 +49,7 @@ class PDI(
                 Defaults to False. If True, requests will be made to a sandbox
                 account. This requires separate qa credentials and api
                 token.
+
         """
         if qa_url:
             self.base_url = "https://apiqa.bluevote.com"

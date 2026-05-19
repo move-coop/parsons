@@ -5,6 +5,7 @@ from unittest import mock
 import requests_mock
 
 from parsons import Bloomerang, Table
+from test.conftest import assert_matching_tables
 from test.test_bloomerang.test_data import (
     ENV_PARAMETERS,
     ID,
@@ -19,7 +20,6 @@ from test.test_bloomerang.test_data import (
     TEST_GET_TRANSACTION,
     TEST_GET_TRANSACTIONS,
 )
-from test.utils import assert_matching_tables
 
 
 class TestBloomerang(unittest.TestCase):

@@ -164,7 +164,7 @@ def main():
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
-        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa: B023
+        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa B023 function-uses-loop-variable
 
         logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
 

@@ -2,7 +2,7 @@ import logging
 import tempfile
 import uuid
 from pathlib import Path
-from typing import Optional, Union
+from typing import Literal
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -20,17 +20,18 @@ class GoogleDrive:
     """
     A connector for Google Drive
 
-    `Args:`
+    Args:
         app_creds: dict | str | Credentials
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
             saved on disk, or a google.oauth2.credentials.Credentials object. Required
             if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
+
     """
 
     def __init__(
         self,
-        app_creds: Optional[Union[str, dict, Credentials]] = None,
+        app_creds: str | dict | Credentials | None = None,
     ):
         scopes = [
             "https://www.googleapis.com/auth/drive",
@@ -52,7 +53,7 @@ class GoogleDrive:
             cache_discovery=False,
         )
 
-    def create_folder(self, name: str, parents: Union[list[str], str, None] = None) -> str:
+    def create_folder(self, name: str, parents: list[str] | str | None = None) -> str:
         if isinstance(parents, str):
             parents = [parents]
         elif parents is None:
@@ -71,7 +72,7 @@ class GoogleDrive:
         )
         return response.get("id")
 
-    def find_subfolder(self, subfolder_name: str, parent_folder_id: str) -> Optional[str]:
+    def find_subfolder(self, subfolder_name: str, parent_folder_id: str) -> str | None:
         response = (
             self.client.files()
             .list(
@@ -85,7 +86,7 @@ class GoogleDrive:
         return result
 
     def find_file_in_folder(
-        self, file_name: str, folder_id: str, fields: Optional[list[str]] = None
+        self, file_name: str, folder_id: str, fields: list[str] | None = None
     ) -> list[dict[str, str]]:
         if not fields:
             fields = ["id", "name"]
@@ -109,7 +110,7 @@ class GoogleDrive:
         return results
 
     def list_files_in_folder(
-        self, folder_id: str, fields: Optional[list[str]] = None
+        self, folder_id: str, fields: list[str] | None = None
     ) -> list[dict[str, str]]:
         if not fields:
             fields = ["id", "name"]
@@ -189,13 +190,44 @@ class GoogleDrive:
             result = self.upload_file(file_path, parent_folder_id)
         return result
 
+    def copy_file(
+        self,
+        file_id: str,
+        destination_folder_id: str | None = None,
+        new_name: str | None = None,
+    ) -> str:
+        """
+        Copy a file within Google Drive.
+
+        Args:
+            file_id: str
+                The ID of the file to copy
+            destination_folder_id: str
+                The ID of the destination folder. If not provided, copies to the same parent folder.
+            new_name: str
+                The name for the copied file. If not provided, Drive will use "Copy of [original name]".
+
+        Returns:
+            str: The ID of the newly created copy
+
+        """
+        body = {}
+        if new_name:
+            body["name"] = new_name
+        if destination_folder_id:
+            body["parents"] = [destination_folder_id]
+
+        response = self.client.files().copy(fileId=file_id, body=body, fields="id").execute()
+        return response.get("id")
+
     def get_permissions(self, file_id: str) -> dict:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
-        `Returns:`
+        Returns:
             permission dict
+
         """
 
         p = self.client.permissions().list(fileId=file_id).execute()
@@ -211,12 +243,19 @@ class GoogleDrive:
     def share_object(
         self,
         file_id: str,
-        email_addresses: Optional[list[str]] = None,
-        role: str = "reader",
-        type: str = "user",
+        email_addresses: list[str] | None = None,
+        role: Literal[
+            "owner",
+            "organizer",
+            "fileOrganizer",
+            "writer",
+            "commenter",
+            "reader",
+        ] = "reader",
+        type: Literal["user", "group", "domain", "anyone"] = "user",
     ) -> list[dict]:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
             email_addresses: list
@@ -228,8 +267,9 @@ class GoogleDrive:
                 https://developers.google.com/drive/api/guides/ref-roles
             type: str
                 Options are -- user, group, domain, anyone
-        `Returns:`
+        Returns:
             List of permission objects
+
         """
         if role not in [
             "owner",
@@ -268,13 +308,12 @@ class GoogleDrive:
 
     def transfer_ownership(self, file_id: str, new_owner_email: str) -> None:
         """
-        `Args:`
+        Args:
             file_id: str
                 this is the ID of the object you are hoping to share
             new_owner_email: str
                 the email address of the intended new owner
-        `Returns:`
-            None
+
         """
         permissions = self.client.permissions().list(fileId=file_id).execute()
 

@@ -131,9 +131,7 @@ def import_and_get_task(task_path, instance_init_kwargs=None):
 
 
 def get_func_task_path(func, method_class=None):
-    """
-    Format the modular task path for a function via inspection.
-    """
+    """Format the modular task path for a function via inspection."""
     module_path = inspect.getmodule(method_class or func).__name__
     func_name = func.__name__
 

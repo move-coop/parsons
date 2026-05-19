@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Union
+from typing import Literal
 
 from parsons.etl.table import Table
 
@@ -32,16 +32,16 @@ class DatabaseConnector(ABC):
             In this simple example, we are not using type annotations in our code. We don't need
             to think about exactly what class is being passed in. Python will figure it out.
 
-            ```python
-            def my_database_function(db):
+            .. code-block:: python
+
+                def my_database_function(db):
                     some_data = get_some_data()
                     db.copy("some_table", some_data)
 
-            # These will all just work:
-            my_database_function(Redshift())
-            my_database_function(MySQL())
-            my_database_functon(BigQuery())
-            ```
+                # These will all just work:
+                my_database_function(Redshift())
+                my_database_function(MySQL())
+                my_database_functon(BigQuery())
 
         2. You only use one database in your work - No
 
@@ -85,7 +85,6 @@ class DatabaseConnector(ABC):
 
                 def new_method(self, arg1, arg2):
                     raise NotImplementedError("Method not implemented for this database connector.")
-            ```
 
         This communicates clearly to users that the method does not exist for certain connectors.
 
@@ -126,21 +125,24 @@ class DatabaseConnector(ABC):
     def table_exists(self, table_name: str) -> bool:
         """Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         pass
 
     @abstractmethod
-    def copy(self, tbl: Table, table_name: str, if_exists: str):
+    def copy(
+        self, tbl: Table, table_name: str, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """Copy a :ref:`parsons-table` to the database.
 
-        `Args`:
+        Args:
             tbl (Table):
                 Table containing the data to save.
             table_name (str):
@@ -148,11 +150,12 @@ class DatabaseConnector(ABC):
             if_exists (str):
                 If the table already exists, either ``fail``, ``append``, ``drop``
                 or ``truncate`` the table.
+
         """
         pass
 
     @abstractmethod
-    def query(self, sql: str, parameters: Optional[Union[list, dict]] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | dict | None = None) -> Table | None:
         """Execute a query against the database. Will return ``None`` if the query returns empty.
 
         To include python variables in your query, it is recommended to pass them as parameters,
@@ -178,14 +181,15 @@ class DatabaseConnector(ABC):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             db.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: Optional[list]
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
         pass

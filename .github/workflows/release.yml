@@ -17,33 +17,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      CACHE_GLOBS: |
+        **/pyproject.toml
+        **/setup.py
+        **/uv.lock
+
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-
-      - name: Set up Python 3.13
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
         with:
-            python-version: "3.13"
-            cache: pip
+          disable-sudo: true
+          egress-policy: audit
 
-      - name: Install uv
-        uses: install-pinned/uv@87c2872ebb798b99a5ada5669f99ec2680716ae5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Install dependencies
-        run: |
-            uv pip install --system -r requirements-dev.txt
-            uv pip install --system -e .[all]
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
-      - name: Check setup.py
-        run: |
-          python setup.py check
+      - run: >-
+          uv sync
+          --upgrade
+          --all-extras
 
-      - name: Build src dist
-        run: |
-          python -m build --sdist --outdir dist
+      - run: >-
+          uv build
+          --sdist
 
-      - name: Upload dist directory
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: parsons-dist
           path: dist/
@@ -55,7 +58,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - '3.9'
           - '3.10'
           - '3.11'
           - '3.12'
@@ -68,31 +70,37 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Download package
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: parsons-dist
           path: dist
 
-      - name: Extract requirements for cache
+      - name: extract requirements.txt for use in pip cache
         shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+
           # Extract to a temp directory first
           mkdir -p temp_extract
           tar -xzf "$file" -C temp_extract
-          # Find and move requirements files to root
-          find temp_extract -name 'requirements.txt' -exec cp {} . \; 2>/dev/null || true
+
+          # Find and move pyproject file to root
+          find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
+
           # Clean up
           rm -rf temp_extract
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
             python-version: ${{ matrix.python-version }}
             cache: pip
 
-      - name: Install package
+      - name: install parsons from file
         shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
@@ -109,16 +117,19 @@ jobs:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40
+        with:
+          disable-sudo: true
+          egress-policy: audit
 
-      - name: Download package
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: parsons-dist
           path: dist
 
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e
+      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b
         with:
           verify-metadata: true
           skip-existing: true

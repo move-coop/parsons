@@ -1,3 +1,5 @@
+from typing import Literal
+
 import civis
 
 from parsons.etl.table import Table
@@ -8,16 +10,18 @@ class CivisClient:
     """
     Instantiate the Civis class.
 
-    `Args:`
+    Args:
         db: str or int
             The Civis Redshift database. Can be a database id or the name of the
             database.
         api_key: str
             The Civis api key.
-        **kwargs: args
+        `**kwargs`: args
             Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
-    `Returns:`
+
+    Returns:
         Civis class
+
     """
 
     def __init__(self, db=None, api_key=None, **kwargs):
@@ -81,8 +85,8 @@ class CivisClient:
         table_obj,
         table,
         max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
+        existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,

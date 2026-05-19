@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+import pytest
 from azure.storage.blob import BlobClient, ContainerClient
 
 from parsons import AzureBlobStorage, Table
@@ -16,7 +17,7 @@ TEST_FILE_NAME = "tmp_file_01.txt"
 TEST_FILE_CONTENTS = "Test"
 
 
-@unittest.skipIf(not os.getenv("LIVE_TEST"), "Skipping because not running live test")
+@pytest.mark.live
 class TestAzureBlobStorage(unittest.TestCase):
     def setUp(self):
         self.azure_blob = AzureBlobStorage(

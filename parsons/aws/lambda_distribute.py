@@ -47,9 +47,7 @@ class S3Storage:
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
     def get_range(self, bucket, key, rangestart, rangeend):
-        """
-        Gets an explicit byte-range of an S3 file
-        """
+        """Gets an explicit byte-range of an S3 file"""
         # bytes is INCLUSIVE for the rangeend parameter, unlike python
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1
@@ -159,7 +157,7 @@ def distribute_task(
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
 
-    `Args:`
+    Args:
         table: Parsons Table
            Table of data you wish to distribute processing across Lambda invocations
            of `func_to_run` argument.
@@ -197,9 +195,11 @@ def distribute_task(
            set to "local".
         use_s3_env_token: str
            If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
-    `Returns:`
+
+    Returns:
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
+
     """
     if storage not in ("s3", "local"):
         raise DistributeTaskException("storage argument must be s3 or local")

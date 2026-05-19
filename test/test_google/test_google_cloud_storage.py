@@ -1,18 +1,18 @@
-import os
 import unittest
 from pathlib import Path
 
+import pytest
 from google.cloud import storage
 
 from parsons import GoogleCloudStorage, Table
 from parsons.utilities import files
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 TEMP_BUCKET_NAME = "parsons_test"
 TEMP_FILE_NAME = "tmp_file_01.txt"
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@pytest.mark.live
 class TestGoogleStorageBuckets(unittest.TestCase):
     def setUp(self):
         self.cloud = GoogleCloudStorage()

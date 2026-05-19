@@ -17,5 +17,6 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      - dependency-name: ruff
       - dependency-name: bandit
+      - dependency-name: ruff
+      - dependency-name: sphinx-lint

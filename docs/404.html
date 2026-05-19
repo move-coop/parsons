@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Page Not Found</title>
+    <style>
+      :root {
+        --bg: #f6bdb8;
+        --text: #1f2937;
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --space-tight: 0.75rem;
+      }
+
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: var(--bg);
+        font-family: system-ui, -apple-system, sans-serif;
+        color: var(--text);
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+      }
+
+      .logo {
+        width: 180px;
+        height: auto;
+      }
+
+      #redirecting-content,
+      #error-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: var(--space-tight) 0 var(--space-tight) 0;
+      }
+
+      h1 {
+        font-size: 5.5rem;
+        font-weight: 900;
+        margin: 0 0 0 0;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        max-width: 320px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.8rem 1.8rem;
+        background-color: var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn:hover {
+        background-color: var(--primary-hover);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn:active {
+        transform: scale(0.975);
+      }
+
+      .loader {
+        border: 3px solid rgba(0,0,0,0.1);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        margin-bottom: var(--space-tight);
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+        const currentPath = window.location.pathname;
+        let targetURL = currentPath;
+
+        if (targetURL.includes('/html/')) {
+            targetURL = targetURL.replace('/html/', '/');
+        }
+
+        const versionMatch = currentPath.match(/\/parsons\/[^/]+\//);
+        const homeBtn = document.getElementById('home-link');
+        if (homeBtn) homeBtn.href = versionMatch ? versionMatch[0] + 'index.html' : '/';
+
+        fetch(targetURL, { method: 'HEAD' })
+          .then(response => {
+            if (response.ok && targetURL !== currentPath) {
+              window.location.replace(targetURL);
+            } else {
+              show404();
+            }
+          })
+          .catch(() => show404());
+      });
+
+      function show404() {
+        document.getElementById('redirecting-content').style.display = 'none';
+        document.getElementById('error-content').style.display = 'flex';
+        document.title = "404 - Not Found";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="project-logo">
+         <img class="logo" src="/parsons/latest/_static/parsons_logo.png" alt="Parsons logo of a large letter 'P' with a jigsaw puzzle piece cutout, enclosed within a black circular border that resembles a gear or cog.">
+      </div>
+      <div id="redirecting-content">
+        <div class="loader"></div>
+        <span>Finding the right page...</span>
+      </div>
+      <div id="error-content">
+        <h1>404</h1>
+        <p>We tried to find a newer version of this page for you, but it looks like it's gone for good.</p>
+        <a id="home-link" href="/parsons/latest/index.html" class="btn">Parsons Documentation Home</a>
+      </div>
+    </div>
+  </body>
+</html>

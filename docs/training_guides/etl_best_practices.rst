@@ -21,14 +21,14 @@ Introduction
 
 Have you ever tried to get data from one platform or system to another? Doing so can be quite a pain, especially if you have to manually download and upload individual files. Luckily, websites and apps often have APIs, which stands for application programming interfaces. These are gateways that let us move data into and out of a system using code.
 
-**ETL**, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it’s compatible with a second system's API, and then loading that data into that second system. 
+**ETL**, which stands for Extract, Transform, and Load is the process by which we extract data from one systems API, transform that data so that it’s compatible with a second system's API, and then loading that data into that second system.
 
 The format that source system gives us data is often different from the format that another system likes receiving data! Everyone thinks their way is best.
 Not so good for the movement, good for data engineers' job security. ;)
 
-Parsons can help us with every step of the way. We can use parsons to extract, transform, and load data! 
+Parsons can help us with every step of the way. We can use parsons to extract, transform, and load data!
 
-Today we're going to be using a Parsons script to move data from Mobilize to Google Sheets. Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize, but whose canvassing status was being tracked via Google Sheets. 
+Today we're going to be using a Parsons script to move data from Mobilize to Google Sheets. Our inspiration was an experience Shauna had managing canvassing volunteers who had signed up on Mobilize, but whose canvassing status was being tracked via Google Sheets.
 
 The example script can be found in full `on Github <https://gist.github.com/shaunagm/d429ace958ee6ce1b71fbe7884611348>`_.
 
@@ -211,7 +211,7 @@ Then we can use a special Parsons method, ``unpack_dict``, to turn the keys of a
 Aggregating Data Using PETL
 ###########################
 
-Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/en/stable/>`_ is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_. 
+Parsons tables are built on top of PETL tables. `PETL <https://petl.readthedocs.io/en/stable/>`_ is a general purpose Python package for data science similar to `PANDAS <https://pandas.pydata.org/>`_.
 
 Because Parsons tables are built on PETL tables, you can use any PETL function on a Parsons Table. Just convert your Parsons table to a PETL table with the ``.table`` method::
 
@@ -243,7 +243,7 @@ Loading Data to Google Sheets
 
 Let's go ahead and create a new spreadsheet to load data into. We'll put it in a folder that already exists. To get the folder ID below, look in the URL. The folder ID is the long string of letters and numbers, like so::
 
-    folder_id = "1y1jgygK5YUQLVrgRgNw7A8Hf2ppqOJJZ"  # get from URL 
+    folder_id = "1y1jgygK5YUQLVrgRgNw7A8Hf2ppqOJJZ"  # get from URL
 
 We also need to give our new spreadsheet a name::
 
@@ -285,11 +285,11 @@ The Parsons Google Sheets connector only exposes a few very common functions dir
 
 .. note::
 
-    What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`_.   
-    
-    Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`_, which means we have access to all the cool features that Google developers have added to that client. 
+    What is a client? A client is a tool that makes is easier to access APIs by handling all the details of making `HTTP requests <https://wizardzines.com/comics/anatomy-http-request/>`_.
 
-    Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`_ to make requests. It does not have any additional connector-specific features. 
+    Many big software companies, such as Google, maintain clients in various languages to encourage people to use their APIs. We use `Google's Python client <https://googleapis.github.io/google-api-python-client/docs/>`_, which means we have access to all the cool features that Google developers have added to that client.
+
+    Many smaller software companies, including most progressive organizations, do not have enough resources to maintain clients. For those connectors, we use `our own simple client <https://github.com/move-coop/parsons/blob/main/parsons/utilities/api_connector.py>`_ to make requests. It does not have any additional connector-specific features.
 
     You can access the client on a connector, whatever kind it is, with the method ``client``, ie ``mobilize.client``. (Sometimes, like in the case of Google Sheets, the client has a different, custom name such as ``google_sheets.gspread_client``. We're trying to make everything consistent but we haven't quite managed it yet, alas!)
 
@@ -320,7 +320,7 @@ We've gone over how to write a script that takes data from one place, transforms
 * Most warehouses let you query data with SQL queries, which many people find easier or more familiar
 * Warehouse are often optimized for dealing with very large data sources, which is helpful if you're using large data sets.
 
-In other words, it's convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system. 
+In other words, it's convenient to extract data from your source system and load it in to your data warehouse. From there, you can do some data transformations in SQL to prepare the data for the destination system, and the push the data to your destination system.
 
 Some examples of data warehouses are BigQuery, SnowFlake, and Redshift. Low cost solutions could be Google sheets (maybe using Google Data Studio as a reporting tool.)
 
@@ -374,15 +374,15 @@ With our previous script, we transformed data using Python, but you may be more 
 
     SELECT DISTINCT
         user_id as mobilizeid
-    , given_name 
-    , family_name 
+    , given_name
+    , family_name
     , email_address
     , phone_number
     , postal_code
     FROM mobilize_schema.mobilize_participations as mob
     -- Joining the log table lets us know which records have been synced
     -- and which records still need to be synced
-    LEFT JOIN cormac_scratch.mobilize_to_actionnetwork_log as log 
+    LEFT JOIN cormac_scratch.mobilize_to_actionnetwork_log as log
     on log.mobilizeid = mob.user_id
     WHERE log.synced is null
 
@@ -463,7 +463,7 @@ We can now iterate through each of our new mobilize users. For each Mobilize use
     This try-except catches and handles only ValueErrors. All other errors will be "thrown" instead of "caught", which will halt/crash the script.
 
 
-Let's take a look inside the try statement. What are we trying to do? ::
+Let's take a look inside the try statement. What are we trying to do?::
 
     actionnetwork_user = my_actionnetwork_group.add_person(
         email_address=mobilize_user['email_address'],
@@ -497,7 +497,7 @@ Let's take a look inside the try statement. What are we trying to do? ::
 
 We get the data from each ``mobilize_user`` in our Parsons Table and send that data to Action Network via the ``add_person`` method. (There's a little bit of fancy formatting done to send the ``postal_addresses`` info. You can figure out if data needs special formatting by checking out the connector's docs. For instance, the docs for ``add_person`` can be found `here <https://move-coop.github.io/parsons/html/stable/action_network.html#parsons.ActionNetwork.add_person>`_.)
 
-Action Network sends back information about the user. We do another bit offancy formatting work to extract the action network ID. 
+Action Network sends back information about the user. We do another bit offancy formatting work to extract the action network ID.
 
 If we got all the way to this point in the script without breaking on an error, then our sync was a success! We can save it as a ``log_record`` in our ``log_list`` to be stored in the database later.
 
@@ -526,7 +526,7 @@ Finally, once we've looped through all our Mobilize users, we're ready to save o
         logtable = Table(loglist)
         errors_count = logtable.select_rows("{synced} is False").num_rows
         success_count = logtable.select_rows("{synced} is True").num_rows
-        
+
     logger.info(f'''Successfully synced {success_count} mobilize users and failed to sync {errors_count}''')
 
     my_rs_warehouse.copy(tbl=logtable, table_name='mobilize_schema.mobilize_to_actionnetwork_log', if_exists='append', alter_table=True)

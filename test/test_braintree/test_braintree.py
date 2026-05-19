@@ -6,7 +6,7 @@ from pathlib import Path
 import requests_mock
 
 from parsons import Braintree, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 _dir = Path(__file__).parent
 

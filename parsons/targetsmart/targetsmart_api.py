@@ -5,14 +5,15 @@ https://docs.targetsmart.com/developers/tsapis/v2/index.html
 """
 
 import logging
+from typing import Literal
+from urllib.parse import parse_qs, urlparse
 
 import petl
 import requests
 
 from parsons.etl.table import Table
+from parsons.targetsmart.targetsmart_smartmatch import SmartMatch
 from parsons.utilities import check_env
-
-from .targetsmart_smartmatch import SmartMatch
 
 URI = "https://api.targetsmart.com/"
 
@@ -36,14 +37,28 @@ class TargetSmartConnector:
 
 
 class Person:
-    def __init__(self):
-        return None
+    def __init__(self, connection):
+        self.connection = connection
 
-    def data_enhance(self, search_id, search_id_type="voterbase", state=None):
+    def data_enhance(
+        self,
+        search_id: Literal[
+            "voterbase",
+            "exacttrack",
+            "phone",
+            "email",
+            "smartvan",
+            "votebuilder",
+            "voter",
+            "household",
+        ],
+        search_id_type="voterbase",
+        state=None,
+    ):
         """
         Searches for a record based on an id or phone or email address
 
-        `Args:`
+        Args:
             search_id: str
                 The primary key or email address or phone number
             search_id_type: str
@@ -55,6 +70,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
@@ -92,9 +108,9 @@ class Person:
         longitude=None,
         address=None,
         radius_size=10,
-        radius_unit="miles",
+        radius_unit: Literal["meters", "feet", "miles", "kilometers"] = "miles",
         max_results=10,
-        gender="a",
+        gender: Literal["m", "f", "u", "a"] = "a",
         age_min=None,
         age_max=None,
         composite_score_min=1,
@@ -102,12 +118,12 @@ class Person:
         last_name_exact=True,
         last_name_is_prefix=False,
         last_name_prefix_length=10,
-        address_type="reg",
+        address_type: Literal["reg", "tsmart"] = "reg",
     ):
         """
         Search for a person based on a specified radius
 
-        `Args`:
+        Args:
             first_name: str
                 One or more alpha characters. Required
             last_name: str
@@ -160,6 +176,7 @@ class Person:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if (latitude is None or longitude is None) and address is None:
@@ -170,10 +187,6 @@ class Person:
 
         if not last_name:
             raise ValueError("Last name is required")
-
-        # Convert booleans
-        for a in [last_name_exact, last_name_is_prefix]:
-            a = str(a)
 
         url = self.connection.uri + "person/radius-search"
 
@@ -207,12 +220,14 @@ class Person:
         Match based on a list of 500 phones numbers. Table
         can contain up to 500 phone numbers to match
 
-        `Args:`
+        Args:
             table: parsons table
                 See :ref:`parsons-table`. One row per phone number,
                 up to 500 phone numbers.
-        `Returns:`
+
+        Returns:
             See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "person/phone-search"
@@ -221,14 +236,103 @@ class Person:
 
         return Table(self.connection.request(url, args=args, raw=True)["result"])
 
+    @staticmethod
+    def get_ngp_url_from_vanid(vanid: int | str) -> str:
+        """
+        Translates a numeric VAN ID to the URL for the associated profile page in NGP.
+
+        Args:
+            vanid: str
+                The VANID of the primary contact record.
+
+        Returns:
+            str: The profile page in NGP associated with the provided VAN ID.
+
+        Raises:
+            TypeError: If the input is not an integer or string.
+            ValueError: If the input is a negative number.
+
+        """
+
+        if not isinstance(vanid, int) and not isinstance(vanid, str):
+            raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
+
+        vanid = int(str(vanid).replace(",", ""))
+        if vanid < 0:
+            raise ValueError(f"vanid must be a non-negative number. Got {vanid}")
+
+        # Convert to hex (removing the '0x' prefix) and uppercase
+        in_hex = hex(vanid)[2:].upper()
+
+        # Reverse the hex string
+        in_hex_rev = in_hex[::-1]
+
+        # Get the suffix character
+        suffix_chars = "ABCDEFGHIJKLMNOPQ"
+        suffix = suffix_chars[vanid % 17]
+
+        return f"https://www.targetsmartvan.com/ContactsDetails.aspx?VANID=EID{in_hex_rev}{suffix}"
+
+    @staticmethod
+    def get_vanid_from_ngp_url(profile_url: str) -> int:
+        """
+        Translates a profile page in NGP to the associated numeric VAN ID.
+
+        Args:
+            profile_url: str
+                The url of a profile page in NGP.
+
+        Returns:
+            int: The VAN ID of the primary contact record.
+
+        Raises:
+            TypeError: If the input is not a string.
+            ValueError: If the URL is invalid, missing parameters, or fails checksum.
+
+        """
+
+        if not isinstance(profile_url, str):
+            raise TypeError(f"url must be a string. Got {type(profile_url).__name__}")
+
+        parsed_url = urlparse(profile_url)
+        params = parse_qs(parsed_url.query)
+        if "VANID" not in params:
+            raise ValueError(f"Missing VAN ID parameter in URL: {profile_url}")
+
+        vanid_param_list = params.get("VANID")
+        if not vanid_param_list:
+            raise ValueError(f"Invalid VAN ID URL: VANID parameter missing: {profile_url}")
+
+        vanid_param = vanid_param_list[0]
+        if not vanid_param.startswith("EID"):
+            raise ValueError(
+                f"Invalid VAN ID URL: VANID parameter must start with 'EID': {profile_url}"
+            )
+
+        vanid_part = vanid_param[3:]  # Remove 'EID'
+        suffix = vanid_part[-1]  # Get last character
+        inhexrev = vanid_part[:-1]  # Get everything except last character
+        inhex = inhexrev[::-1]  # Reverse the hex string
+        try:
+            vanid = int(inhex, 16)
+        except ValueError as e:
+            raise ValueError(f"Invalid VAN ID URL: hex conversion failed: {inhex}") from e
+
+        # Checksum validation
+        checksum_chars = "ABCDEFGHIJKLMNOPQ"
+        if checksum_chars[vanid % 17] != suffix:
+            raise ValueError(f"Invalid VAN ID URL: checksum failed: {vanid_part}")
+
+        return vanid
+
 
 class Service:
-    def __init__(self):
-        return None
+    def __init__(self, connection):
+        self.connection = connection
 
     def district(
         self,
-        search_type="zip",
+        search_type: Literal["zip", "address", "point"] = "zip",
         address=None,
         zip5=None,
         zip4=None,
@@ -257,7 +361,7 @@ class Service:
               - ``point``
               - ``latitude``, ``longitude``
 
-        `Args`:
+        Args:
             search_type: str
                 The type of district search to perform. One of ``zip``, ``address``
                 or ``point``.
@@ -273,9 +377,10 @@ class Service:
                 Valid latitude floating point
             longitude: float or str
                 Valid longitude floating point
-        `Returns`:
+        Returns:
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         if search_type == "zip" and None in [zip5, zip4]:
@@ -332,7 +437,7 @@ class Voter:
 
         A search must include the at minimum first name, last name and state.
 
-        `Args:`
+        Args:
             first_name: str
                 Required; One or more alpha characters. Trailing wildcard allowed
             last_name: str
@@ -347,11 +452,11 @@ class Voter:
                 Optional; The person's home city
             zip_code: str
                 Optional; Numeric characters. Trailing wildcard allowed
-            age; int
+            age: int
                 Optional; One or more integers. Trailing wildcard allowed
-            dob; str
+            dob: str
                 Optional; Numeric characters in YYYYMMDD format. Trailing wildcard allowed
-            phone; str
+            phone: str
                 Optional; Integer followed by 0 or more * or integers
             email: str
                 Optional; Alphanumeric character followed by 0 or more * or legal characters
@@ -361,6 +466,7 @@ class Voter:
         `Returns`
             Parsons Table
                 See :ref:`parsons-table` for output options.
+
         """
 
         url = self.connection.uri + "voter/voter-registration-check"
@@ -392,3 +498,4 @@ class Voter:
 class TargetSmartAPI(Voter, Person, Service, SmartMatch):
     def __init__(self, api_key=None):
         self.connection = TargetSmartConnector(api_key=api_key)
+        super().__init__(self.connection)

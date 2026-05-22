@@ -8,7 +8,6 @@ from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from test.conftest import assert_matching_tables
 
-
 _MYSQL_CONN_KWARGS = {
     "host": "test-host",
     "username": "test-user",

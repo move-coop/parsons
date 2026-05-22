@@ -4,14 +4,13 @@ import logging
 import os
 from typing import Literal
 
-from parsons.utilities import check_env
-
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.customaudience import CustomAudience
 from facebook_business.api import FacebookAdsApi
 from joblib import Parallel, delayed
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 

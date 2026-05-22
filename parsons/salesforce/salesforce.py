@@ -54,7 +54,9 @@ class Salesforce:
         authentication_method=None,
     ):
         self.authentication_method = (
-            check_env.check("SALESFORCE_AUTHENTICATION_METHOD", authentication_method, optional=True)
+            check_env.check(
+                "SALESFORCE_AUTHENTICATION_METHOD", authentication_method, optional=True
+            )
             or "password"
         )
 

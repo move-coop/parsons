@@ -38,7 +38,7 @@ Resources
 Installation
 ============
 
-You can install Parsons using ``pip install parsons`` or ``pip install parsons[all]``. The latter installs parsons along with all dependencies for all connectors, whereas the former just installs core dependencies. To add individual connector dependencies one by one, you can use commands like ``pip install parsons[ngpvan]``, ``pip install[actionnetwork]`` or combined commands like ``pip install[google,targetsmart,airtable]``.
+You can install Parsons using ``pip install parsons`` or ``pip install parsons[all]``. The latter installs parsons along with all dependencies for all connectors, whereas the former just installs core dependencies. To add individual connector dependencies one by one, you can use commands like ``pip install parsons[ngpvan]``, ``pip install parsons[actionnetwork]`` or combined commands like ``pip install parsons[google,targetsmart,airtable]``.
 
 Need more detail? We have a `detailed, beginner-friendly guide to installing Parsons <https://www.parsonsproject.org/pub/installation/>`_ on our website.
 

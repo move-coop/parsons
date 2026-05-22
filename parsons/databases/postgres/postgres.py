@@ -1,9 +1,9 @@
 import logging
-import os
 from pathlib import Path
 from typing import Literal
 
 from parsons.databases.alchemy import Alchemy
+from parsons.utilities import check_env
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.postgres.postgres_core import PostgresCore
 from parsons.databases.table import BaseTable
@@ -36,11 +36,12 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
     def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
         super().__init__()
 
-        self.username = username or os.environ.get("PGUSER")
-        self.password = password or os.environ.get("PGPASSWORD")
-        self.host = host or os.environ.get("PGHOST")
-        self.db = db or os.environ.get("PGDATABASE")
-        self.port = port or os.environ.get("PGPORT")
+        self.username = check_env.check("PGUSER", username, optional=True)
+        self.password = check_env.check("PGPASSWORD", password, optional=True)
+        self.host = check_env.check("PGHOST", host, optional=True)
+        self.db = check_env.check("PGDATABASE", db, optional=True)
+        env_port = check_env.check("PGPORT", None, optional=True)
+        self.port = int(env_port) if env_port is not None else port
 
         # Check if there is a pgpass file. Psycopg2 will search for this file first when
         # creating a connection.

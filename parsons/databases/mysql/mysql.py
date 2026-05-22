@@ -1,5 +1,4 @@
 import logging
-import os
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
@@ -48,7 +47,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         self.password = check_env.check("MYSQL_PASSWORD", password)
         self.host = check_env.check("MYSQL_HOST", host)
         self.db = check_env.check("MYSQL_DB", db)
-        self.port = port or os.environ.get("MYSQL_PORT")
+        env_port = check_env.check("MYSQL_PORT", None, optional=True)
+        self.port = int(env_port) if env_port is not None else port
 
     @contextmanager
     def connection(self):

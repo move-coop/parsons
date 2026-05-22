@@ -1,4 +1,3 @@
-import os
 import warnings
 from pathlib import Path
 
@@ -12,18 +11,7 @@ from parsons.utilities.check_env import check
 
 class Slack:
     def __init__(self, api_key=None):
-        if api_key is None:
-            try:
-                self.api_key = os.environ["SLACK_API_TOKEN"]
-
-            except KeyError as e:
-                raise KeyError(
-                    "Missing api_key. It must be passed as an "
-                    "argument or stored as environmental variable"
-                ) from e
-
-        else:
-            self.api_key = api_key
+        self.api_key = check("SLACK_API_TOKEN", api_key)
 
         # Create client with built-in rate limit handler
         rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)

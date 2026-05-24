@@ -157,9 +157,10 @@ _POSTGRES_CONN_KWARGS = {
 
 class TestPostgresPortPrecedence(unittest.TestCase):
     """
-    Port resolution for Postgres: PGPORT env overrides the default port kwarg.
+    Port resolution for Postgres:
 
-    When PGPORT is unset, the port kwarg is used (default 5432 if omitted).
+    - ``PGPORT`` is used when ``port`` is omitted (or ``port=None``).
+    - An explicit ``port=`` argument wins over ``PGPORT`` (including ``port=5432``).
     """
 
     def _env_without_pgport(self):
@@ -180,10 +181,15 @@ class TestPostgresPortPrecedence(unittest.TestCase):
             pg = Postgres(**_POSTGRES_CONN_KWARGS, port=9999)
             assert pg.port == 9999
 
-    def test_pgport_env_overrides_explicit_port_kwarg(self):
+    def test_explicit_port_kwarg_overrides_pgport_env(self):
         with mock.patch.dict(os.environ, {"PGPORT": "5433"}, clear=False):
             pg = Postgres(**_POSTGRES_CONN_KWARGS, port=9999)
-            assert pg.port == 5433
+            assert pg.port == 9999
+
+    def test_explicit_default_port_kwarg_ignores_pgport_env(self):
+        with mock.patch.dict(os.environ, {"PGPORT": "5433"}, clear=False):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS, port=5432)
+            assert pg.port == 5432
 
 
 # These tests interact directly with the Postgres database

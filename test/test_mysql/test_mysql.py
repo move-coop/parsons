@@ -18,9 +18,10 @@ _MYSQL_CONN_KWARGS = {
 
 class TestMySQLPortPrecedence(unittest.TestCase):
     """
-    Port resolution for MySQL: MYSQL_PORT env overrides the default port kwarg.
+    Port resolution for MySQL:
 
-    When MYSQL_PORT is unset, the port kwarg is used (default 3306 if omitted).
+    - ``MYSQL_PORT`` is used when ``port`` is omitted (or ``port=None``).
+    - An explicit ``port=`` argument wins over ``MYSQL_PORT`` (including ``port=3306``).
     """
 
     def _env_without_mysql_port(self):
@@ -41,10 +42,15 @@ class TestMySQLPortPrecedence(unittest.TestCase):
             mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
             assert mysql.port == 8888
 
-    def test_mysql_port_env_overrides_explicit_port_kwarg(self):
+    def test_explicit_port_kwarg_overrides_mysql_port_env(self):
         with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
             mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
-            assert mysql.port == 3307
+            assert mysql.port == 8888
+
+    def test_explicit_default_port_kwarg_ignores_mysql_port_env(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=3306)
+            assert mysql.port == 3306
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"

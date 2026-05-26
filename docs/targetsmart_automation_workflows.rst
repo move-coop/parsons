@@ -17,7 +17,7 @@ queuing.
     TargetSmart Automation workflows use SFTP. You will need to obtain SFTP credentials from TargetSmart to utilize the ``TargetSmartAutomation`` class.
 
 Quickstart
-==========
+----------
 
 To instantiate ``TargetSmartAutomation``, you can either store your SFTP username and password
 as the environmental variables ``TS_SFTP_USERNAME`` and ``TS_SFTP_PASSWORD``, or pass them in as
@@ -72,7 +72,7 @@ You can then call these methods:
     ts_auto.remove_files(job_name='my_job_name')
 
 API
-===
+---
 
 .. autoclass:: parsons.targetsmart.targetsmart_automation.TargetSmartAutomation
    :inherited-members:

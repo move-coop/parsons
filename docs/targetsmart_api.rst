@@ -21,7 +21,7 @@ Some TargetSmart API services have not yet been implemented in Parsons. For more
 
 
 Authentication
-..............
+~~~~~~~~~~~~~~
 
 Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authentication credentials. You will need an API key to use the ``TargetSmartAPI`` class.
 
@@ -33,7 +33,7 @@ Log in to `My TargetSmart <https://my.targetsmart.com/>`_ to access authenticati
 
 
 Data Enrichment
-...............
+~~~~~~~~~~~~~~~
 
 Most TargetSmart API services append a set of enrichment data fields as part of
 a matching or search request. The presence of these fields are provisioned by
@@ -43,7 +43,7 @@ adjustments.
 
 
 Quickstart
-==========
+----------
 
 To instantiate ``TargetSmartAPI``, you can either store your API Key as the environmental variable
 ``TS_API_KEY``, or pass it in as an argument:
@@ -70,7 +70,7 @@ You can then call various methods that correspond to TargetSmart endpoints:
 
 
 API
-===
+---
 
 .. autoclass:: parsons.targetsmart.targetsmart_api.TargetSmartAPI
    :inherited-members:

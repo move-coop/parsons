@@ -1,28 +1,16 @@
 TargetSmart
 ===========
 
+********
 Overview
 ********
 
 `TargetSmart <https://targetsmart.com/>`_ provides access to voter and consumer data for the progressive community.
 
-TargetSmart Developer API
--------------------------
+Parsons provides two integrations with TargetSmart:
 
-Parsons provides methods to consume the data services provided by the
-TargetSmart Developer API. These services include both low latency search and asynchronous list matching.
-
-* :doc:`Interacting with the TargetSmart Developer API <../targetsmart_api>`
-
-TargetSmart Automation Workflows
---------------------------------
-
-Parsons provides methods for interacting with TargetSmart Automation Workflows,
-a solution for executing custom file processing workflows programmatically. In
-some cases, TargetSmart will provide custom list matching solutions using
-Automation Workflows.
-
-* :doc:`Interacting with TargetSmart Automation Workflows <../targetsmart_automation_workflows>`
+* **TargetSmart Developer API** — Methods to consume the data services provided by the TargetSmart Developer API, including low latency search and asynchronous list matching.
+* **TargetSmart Automation Workflows** — Methods for interacting with TargetSmart Automation Workflows, a solution for executing custom file processing workflows programmatically. In some cases, TargetSmart will provide custom list matching solutions using Automation Workflows.
 
 .. note::
 
@@ -39,3 +27,18 @@ Automation Workflows.
 
     - `TargetSmart Developer API docs on docs.targetsmart.com  <https://docs.targetsmart.com/developers/tsapis/v2/index.html>`_
     - `TargetSmart Automation docs on docs.targetsmart.com <https://docs.targetsmart.com/my_tsmart/automation/overview.html>`_
+
+****************
+TargetSmart API
+****************
+
+.. include:: targetsmart_api.rst
+   :start-line: 7
+
+
+*******************************
+TargetSmart Automation Workflows
+*******************************
+
+.. include:: targetsmart_automation_workflows.rst
+   :start-line: 5

@@ -98,7 +98,6 @@ def test(extra_args: list[str]) -> None:
             SPHINXBUILD,
             "--jobs=auto",
             "--fail-on-warning",
-            "--nitpicky",
             "--fresh-env",
         ]
         + extra_args

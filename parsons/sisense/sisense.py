@@ -58,7 +58,7 @@ class Sisense:
 
         """
         payload = {"dashboard": dashboard_id, "chart": chart_id, **kwargs}
-        return self.api.post_request("shared_dashboard/create", data=json.dumps(payload))
+        return self.api.post_request(url="shared_dashboard/create", data=json.dumps(payload))
 
     def list_shared_dashboards(self, dashboard_id: str | int):
         """
@@ -73,7 +73,7 @@ class Sisense:
 
         """
         payload = {"dashboard": dashboard_id}
-        return self.api.post_request("shared_dashboard/list", data=json.dumps(payload))
+        return self.api.post_request(url="shared_dashboard/list", data=json.dumps(payload))
 
     def delete_shared_dashboard(self, token: str | int):
         """
@@ -93,4 +93,4 @@ class Sisense:
 
         """
         payload = {"token": token}
-        return self.api.post_request("shared_dashboard/delete", data=json.dumps(payload))
+        return self.api.post_request(url="shared_dashboard/delete", data=json.dumps(payload))

@@ -80,11 +80,12 @@ facebook = [
 ]
 geocode = [
     "censusgeocode >= 0.5",
-    "urllib3 >= 2.6",
+    "urllib3 >= 2.6.3",
 ]
 github = ["PyGitHub >= 2.0"]
 google = [
     "apiclient >= 1.0.4",
+    "email-validator >= 2.2",
     "google-api-python-client >= 2.150",
     "google-cloud-bigquery >= 3.35",
     "google-cloud-storage >= 3.1",
@@ -93,7 +94,6 @@ google = [
     "httplib2 >= 0.15",
     "oauth2client >= 4.0",
     "protobuf >= 6.0",
-    "validate-email >= 1.0",
 ]
 mysql = [
     "mysql-connector-python >= 7.0, != 9.7.0",
@@ -120,7 +120,7 @@ salesforce = ["simple-salesforce >= 1.0"]
 scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
-smtp = ["validate-email >= 1.0"]
+smtp = ["email-validator >= 2.2"]
 targetsmart = [
     "defusedxml >= 0.7",
     "paramiko >= 3.0",

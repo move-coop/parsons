@@ -55,7 +55,7 @@ class QuickBooksTime:
             querystring = {**querystring, **{"page": page}}
 
             # Send the GET request
-            response = self.client.get_request(end_point, params=querystring)
+            response = self.client.get_request(url=end_point, params=querystring)
 
             # Extract the key of the results
             endpoint_key = list(response["results"].keys())[0]

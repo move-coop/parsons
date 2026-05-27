@@ -73,7 +73,7 @@ security = [
     "bandit[sarif]==1.9.4",
 ]
 test-coverage = [
-    "coverage~=7.13.3",
+    "coverage>=7.13.3,<7.15.0",
     "pytest-cov>=7.0,<7.2",
     {include-group = "test"},
 ]

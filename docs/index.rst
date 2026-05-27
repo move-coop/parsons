@@ -160,6 +160,7 @@ Indices and tables
    civis
    controlshift
    copper
+   daisychain
    databases/databases
    donorbox
    empower

@@ -59,6 +59,7 @@ _CONNECTORS = {
     "Copper": "parsons.copper.copper",
     "DatabaseConnector": "parsons.databases.database_connector",
     "DBSync": "parsons.databases.db_sync",
+    "Daisychain": "parsons.daisychain.daisychain",
     "discover_database": "parsons.databases.discover_database",
     "MySQL": "parsons.databases.mysql.mysql",
     "Postgres": "parsons.databases.postgres.postgres",

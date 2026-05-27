@@ -45,11 +45,11 @@ class Daisychain:
         but at least one must be provided.
 
         Parameters:
-          email_address (string):
+          email_address (str):
             Email address of the person to match. This is a case
             insensitive match. In Daisychain it is possible for
             multiple people records to have the same email address.
-          phone_number (string):
+          phone_number (str):
             Phone number of the person to match. In Daisychain
             it is possible for multiple people records to have the
             same phone number. We will do our best to parse any
@@ -123,7 +123,7 @@ class Daisychain:
             the matching email.
 
         Returns:
-          person id (string)
+          person id (str)
 
         """
         assert email_address or phone_number, (

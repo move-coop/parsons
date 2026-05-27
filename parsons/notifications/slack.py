@@ -11,7 +11,7 @@ from parsons.utilities import check_env
 
 class Slack:
     def __init__(self, api_key=None):
-        self.api_key = check("SLACK_API_TOKEN", api_key)
+        self.api_key = check_env.check("SLACK_API_TOKEN", api_key)
 
         # Create client with built-in rate limit handler
         rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)

@@ -64,3 +64,8 @@ API
 .. autoclass:: parsons.notifications.gmail.Gmail
    :inherited-members:
    :members:
+
+.. autoclass:: parsons.notifications.sendmail.EmptyListError
+   :inherited-members:
+   :members:
+   :noindex:

@@ -65,3 +65,7 @@ API
 .. autoclass:: parsons.notifications.smtp.SMTP
    :inherited-members:
    :members:
+
+.. autoclass:: parsons.notifications.sendmail.EmptyListError
+   :inherited-members:
+   :members:

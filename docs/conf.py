@@ -84,6 +84,7 @@ intersphinx_mapping_extras = {
     "joblib": ("https://joblib.readthedocs.io/en/stable/", None),
     "lxml": ("https://lxml.de/apidoc/", None),
     "oauth2client": ("https://oauth2client.readthedocs.io/en/latest/", None),
+    "oauthlib": ("https://oauthlib.readthedocs.io/en/latest/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "paramiko": ("https://docs.paramiko.org/en/stable/", None),
     "protobuf": ("https://googleapis.dev/python/protobuf/latest/", None),

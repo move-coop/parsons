@@ -1,5 +1,5 @@
 import logging
-from typing import Any
+from typing import Any, Literal
 
 from Newmode import Client
 from oauthlib.oauth2 import TokenExpiredError
@@ -506,7 +506,7 @@ class NewmodeV2:
 
     def base_request(
         self,
-        method: str,
+        method: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         url: str,
         retries: int = 2,
         use_campaigns_client: bool = False,

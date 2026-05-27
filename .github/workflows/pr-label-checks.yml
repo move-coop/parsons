@@ -2,9 +2,20 @@ name: PR label checking
 
 on:
   pull_request_target:
-    types: [opened, edited, reopened, ready_for_review, labeled, unlabeled, synchronize]
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - labeled
+      - unlabeled
+      - synchronize
 
 permissions: read-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   label-from-files:
@@ -15,7 +26,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
@@ -40,7 +51,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
@@ -62,6 +73,7 @@ jobs:
             for (const { text, label } of mapping) {
               await core.group(`Processing label: ${label}`, async () => {
                 const isChecked = new RegExp(`- \\[x\\] ${text}`, 'i').test(body);
+                const isUnchecked = new RegExp(`- \\[ \\] ${text}`, 'i').test(body);
 
                 if (isChecked) {
                   console.log(`Adding label: ${label}`);
@@ -71,7 +83,7 @@ jobs:
                     issue_number: context.issue.number,
                     labels: [label]
                   });
-                } else {
+                } else if (isUnchecked) {
                   console.log(`Removing label: ${label} (if present)`);
                   try {
                     await github.rest.issues.removeLabel({
@@ -84,6 +96,8 @@ jobs:
                   } catch (e) {
                     if (e.status !== 404) throw e;
                   }
+                } else {
+                  console.log(`Checkbox for "${text}" not found in PR description. Skipping.`);
                 }
               });
             }
@@ -96,7 +110,7 @@ jobs:
     needs: label-from-checkboxes
 
     steps:
-      - uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block

@@ -99,7 +99,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/advocacy_campaigns>`__
 
         """
-        return self.api.get_request(f"advocacy_campaigns/{advocacy_campaign_id}")
+        return self.api.get_request(url=f"advocacy_campaigns/{advocacy_campaign_id}")
 
     # Attendances
     def get_person_attendances(self, person_id, limit=None, per_page=25, page=None, filter=None):
@@ -169,7 +169,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
-        return self.api.get_request(f"events/{event_id}/attendances/{attendance_id}")
+        return self.api.get_request(url=f"events/{event_id}/attendances/{attendance_id}")
 
     def get_person_attendance(self, person_id, attendance_id):
         """
@@ -186,7 +186,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
-        return self.api.get_request(f"people/{person_id}/attendances/{attendance_id}")
+        return self.api.get_request(url=f"people/{person_id}/attendances/{attendance_id}")
 
     def create_attendance(self, event_id, payload):
         """
@@ -211,7 +211,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
-        return self.api.post_request(f"events/{event_id}/attendances", payload)
+        return self.api.post_request(url=f"events/{event_id}/attendances", params=payload)
 
     def update_attendance(self, event_id, attendance_id, payload):
         """
@@ -238,7 +238,9 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
-        return self.api.put_request(f"events/{event_id}/attendances/{attendance_id}", payload)
+        return self.api.put_request(
+            url=f"events/{event_id}/attendances/{attendance_id}", data=payload
+        )
 
     # Campaigns
     def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -278,7 +280,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/campaigns>`__
 
         """
-        return self.api.get_request(f"campaigns/{campaign_id}")
+        return self.api.get_request(url=f"campaigns/{campaign_id}")
 
     # Custom Fields
     def get_custom_fields(self):
@@ -293,7 +295,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/custom_fields>`__
 
         """
-        return self.api.get_request("metadata/custom_fields")
+        return self.api.get_request(url="metadata/custom_fields")
 
     # Donations
     def get_donation(self, donation_id):
@@ -439,7 +441,7 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            f"fundraising_pages/{fundraising_page_id}/donations", donation_payload
+            url=f"fundraising_pages/{fundraising_page_id}/donations", params=donation_payload
         )
 
     # Embeds
@@ -458,7 +460,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/embeds>`__
 
         """
-        return self.api.get_request(f"{action_type}/{action_id}/embed")
+        return self.api.get_request(url=f"{action_type}/{action_id}/embed")
 
     # Event Campaigns
     def get_event_campaigns(self, limit=None, per_page=25, page=None, filter=None):
@@ -498,7 +500,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.get_request(f"event_campaigns/{event_campaign_id}")
+        return self.api.get_request(url=f"event_campaigns/{event_campaign_id}")
 
     def create_event_campaign(self, payload):
         """
@@ -520,7 +522,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.post_request("event_campaigns", payload)
+        return self.api.post_request(url="event_campaigns", params=payload)
 
     def create_event_in_event_campaign(self, event_campaign_id, payload):
         """
@@ -544,7 +546,9 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.post_request(f"event_campaigns/{event_campaign_id}/events", payload)
+        return self.api.post_request(
+            url=f"event_campaigns/{event_campaign_id}/events", params=payload
+        )
 
     def update_event_campaign(self, event_campaign_id, payload):
         """
@@ -567,7 +571,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.put_request(f"event_campaigns/{event_campaign_id}", payload)
+        return self.api.put_request(url=f"event_campaigns/{event_campaign_id}", data=payload)
 
     # Events
     def get_events(self, limit=None, per_page=25, page=None, filter=None):
@@ -607,7 +611,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/events>`__
 
         """
-        return self.api.get_request(f"events/{event_id}")
+        return self.api.get_request(url=f"events/{event_id}")
 
     def get_event_campaign_events(
         self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
@@ -716,7 +720,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/events>`__
 
         """
-        return self.api.put_request(f"events/{event_id}", payload)
+        return self.api.put_request(url=f"events/{event_id}", data=payload)
 
     # Forms
     def get_forms(self, limit=None, per_page=25, page=None, filter=None):
@@ -756,7 +760,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
-        return self.api.get_request(f"forms/{form_id}")
+        return self.api.get_request(url=f"forms/{form_id}")
 
     def create_form(self, payload):
         """
@@ -780,7 +784,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
-        return self.api.post_request("forms", payload)
+        return self.api.post_request(url="forms", params=payload)
 
     def update_form(self, form_id, payload):
         """
@@ -806,7 +810,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
-        return self.api.put_request(f"forms/{form_id}", payload)
+        return self.api.put_request(url=f"forms/{form_id}", data=payload)
 
     # Fundraising Pages
     def get_fundraising_page(self, fundraising_page_id):
@@ -873,7 +877,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
 
         """
-        return self.api.post_request("fundraising_pages", payload)
+        return self.api.post_request(url="fundraising_pages", params=payload)
 
     def update_fundraising_page(self, fundraising_page_id, payload):
         """
@@ -899,7 +903,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
 
         """
-        return self.api.put_request(f"fundraising_pages/{fundraising_page_id}", payload)
+        return self.api.put_request(url=f"fundraising_pages/{fundraising_page_id}", data=payload)
 
     # Items
     def get_items(self, list_id, limit=None, per_page=25, page=None, filter=None):
@@ -943,7 +947,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/items>`__
 
         """
-        return self.api.get_request(f"lists/{list_id}/items/{item_id}")
+        return self.api.get_request(url=f"lists/{list_id}/items/{item_id}")
 
     # Lists
     def get_lists(self, limit=None, per_page=25, page=None, filter=None):
@@ -983,7 +987,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/lists>`__
 
         """
-        return self.api.get_request(f"lists/{list_id}")
+        return self.api.get_request(url=f"lists/{list_id}")
 
     # Messages
     def get_messages(
@@ -1031,7 +1035,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/messages>`__
 
         """
-        return self.api.get_request(f"messages/{message_id}")
+        return self.api.get_request(url=f"messages/{message_id}")
 
     def create_message(self, payload):
         """
@@ -1067,7 +1071,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/messages>`__
 
         """
-        return self.api.post_request("messages", json=payload)
+        return self.api.post_request(url="messages", json=payload)
 
     def update_message(self, message_id, payload):
         """
@@ -1093,7 +1097,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/messages>`__
 
         """
-        return self.api.put_request(f"messages/{message_id}", json=payload)
+        return self.api.put_request(url=f"messages/{message_id}", json=payload)
 
     def schedule_message(self, message_id, scheduled_start_date):
         """
@@ -1114,8 +1118,8 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            f"messages/{message_id}/schedule/",
-            {"scheduled_start_date": scheduled_start_date},
+            url=f"messages/{message_id}/schedule/",
+            params={"scheduled_start_date": scheduled_start_date},
         )
 
     def send_message(self, message_id):
@@ -1133,7 +1137,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/send_helper>`__
 
         """
-        return self.api.post_request(f"messages/{message_id}/send/", {})
+        return self.api.post_request(url=f"messages/{message_id}/send/", params={})
 
     # Metadata
     def get_metadata(self):
@@ -1148,7 +1152,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/metadata>`__
 
         """
-        return self.api.get_request("metadata")
+        return self.api.get_request(url="metadata")
 
     # Outreaches
     def get_advocacy_campaign_outreaches(
@@ -1231,7 +1235,7 @@ class ActionNetwork:
 
         """
         return self.api.get_request(
-            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}"
+            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}"
         )
 
     def get_person_outreach(self, person_id, outreach_id):
@@ -1249,7 +1253,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/outreaches>`__
 
         """
-        return self.api.get_request(f"people/{person_id}/outreaches/{outreach_id}")
+        return self.api.get_request(url=f"people/{person_id}/outreaches/{outreach_id}")
 
     def create_outreach(self, advocacy_campaign_id, payload):
         """
@@ -1283,7 +1287,7 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", payload
+            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", params=payload
         )
 
     def update_outreach(self, advocacy_campaign_id, outreach_id, payload):
@@ -1312,8 +1316,8 @@ class ActionNetwork:
 
         """
         return self.api.put_request(
-            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}",
-            payload,
+            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}",
+            data=payload,
         )
 
     # People
@@ -1524,7 +1528,7 @@ class ActionNetwork:
         if background_processing:
             url = f"{url}?background_processing=true"
 
-        response = self.api.post_request(url, data=json.dumps(data))
+        response = self.api.post_request(url=url, data=json.dumps(data))
 
         identifiers = response["identifiers"]
         person_id = [
@@ -1676,7 +1680,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/petitions>`__
 
         """
-        return self.api.get_request(f"petitions/{petition_id}")
+        return self.api.get_request(url=f"petitions/{petition_id}")
 
     def create_petition(
         self, title, description, petition_text, target, background_processing=False
@@ -1802,7 +1806,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/queries>`__
 
         """
-        return self.api.get_request(f"queries/{query_id}")
+        return self.api.get_request(url=f"queries/{query_id}")
 
     # Signatures
     def get_petition_signatures(self, petition_id, limit=None, per_page=25, page=None, filter=None):
@@ -1872,7 +1876,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
-        return self.api.get_request(f"petitions/{petition_id}/signatures/{signature_id}")
+        return self.api.get_request(url=f"petitions/{petition_id}/signatures/{signature_id}")
 
     def get_person_signature(self, person_id, signature_id):
         """
@@ -1889,7 +1893,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
-        return self.api.get_request(f"people/{person_id}/signatures/{signature_id}")
+        return self.api.get_request(url=f"people/{person_id}/signatures/{signature_id}")
 
     def create_signature(self, petition_id, data):
         """
@@ -1915,7 +1919,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
-        return self.api.post_request(f"petitions/{petition_id}/signatures", data)
+        return self.api.post_request(url=f"petitions/{petition_id}/signatures", params=data)
 
     def update_signature(self, petition_id, signature_id, data):
         """
@@ -1940,7 +1944,9 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
-        return self.api.put_request(f"petitions/{petition_id}/signatures/{signature_id}", data)
+        return self.api.put_request(
+            url=f"petitions/{petition_id}/signatures/{signature_id}", data=data
+        )
 
     # Submissions
     def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
@@ -2010,7 +2016,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/submissions>`__
 
         """
-        return self.api.get_request(f"forms/{form_id}/submissions/{submission_id}")
+        return self.api.get_request(url=f"forms/{form_id}/submissions/{submission_id}")
 
     def get_person_submission(self, person_id, submission_id):
         """
@@ -2027,7 +2033,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/submissions>`__
 
         """
-        return self.api.get_request(f"people/{person_id}/submissions/{submission_id}")
+        return self.api.get_request(url=f"people/{person_id}/submissions/{submission_id}")
 
     def create_submission(self, form_id, person_id):
         """
@@ -2049,7 +2055,7 @@ class ActionNetwork:
                 "osdi:person": {"href": f"https://actionnetwork.org/api/v2/people/{person_id}"}
             }
         }
-        return self.api.post_request(f"forms/{form_id}/submissions", data=json.dumps(payload))
+        return self.api.post_request(url=f"forms/{form_id}/submissions", data=json.dumps(payload))
 
     def update_submission(self, form_id, submission_id, data):
         """
@@ -2077,7 +2083,7 @@ class ActionNetwork:
 
         """
         return self.api.put_request(
-            f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
+            url=f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
         )
 
     # Surveys
@@ -2111,7 +2117,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/surveys>`__
 
         """
-        return self.api.get_request(f"surveys/{survey_id}")
+        return self.api.get_request(url=f"surveys/{survey_id}")
 
     def create_survey(self, data):
         """
@@ -2148,7 +2154,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/surveys>`__
 
         """
-        return self.api.post_request("surveys", data=json.dumps(data))
+        return self.api.post_request(url="surveys", data=json.dumps(data))
 
     def update_survey(self, survey_id, data):
         """
@@ -2172,7 +2178,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/surveys>`__
 
         """
-        return self.api.post_request(f"surveys/{survey_id}", data=json.dumps(data))
+        return self.api.post_request(url=f"surveys/{survey_id}", data=json.dumps(data))
 
     # Tags
     def get_tags(self, limit=None, per_page=None):
@@ -2277,7 +2283,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/taggings>`__
 
         """
-        return self.api.get_request(f"tags/{tag_id}/taggings/{tagging_id}")
+        return self.api.get_request(url=f"tags/{tag_id}/taggings/{tagging_id}")
 
     def create_tagging(self, tag_id, payload, background_processing=False):
         """
@@ -2311,7 +2317,7 @@ class ActionNetwork:
         url = f"tags/{tag_id}/taggings"
         if background_processing:
             url = f"{url}?background_processing=true"
-        return self.api.post_request(url, data=json.dumps(payload))
+        return self.api.post_request(url=url, data=json.dumps(payload))
 
     def delete_tagging(self, tag_id, tagging_id, background_processing=False):
         """
@@ -2336,7 +2342,7 @@ class ActionNetwork:
         url = f"tags/{tag_id}/taggings/{tagging_id}"
         if background_processing:
             url = f"{url}?background_processing=true"
-        return self.api.delete_request(url)
+        return self.api.delete_request(url=url)
 
     # Wrappers
     def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
@@ -2378,7 +2384,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/wrappers>`__
 
         """
-        return self.api.get_request(f"wrappers/{wrapper_id}")
+        return self.api.get_request(url=f"wrappers/{wrapper_id}")
 
     # Unique ID Lists
     def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
@@ -2418,7 +2424,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
 
         """
-        return self.api.get_request(f"unique_id_lists/{unique_id_list_id}")
+        return self.api.get_request(url=f"unique_id_lists/{unique_id_list_id}")
 
     def create_unique_id_list(self, list_name, unique_ids):
         """
@@ -2436,6 +2442,6 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            "unique_id_lists",
+            url="unique_id_lists",
             data=json.dumps({"name": list_name, "unique_ids": unique_ids}),
         )

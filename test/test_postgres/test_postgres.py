@@ -1,5 +1,6 @@
 import os
 import unittest
+import unittest.mock as mock
 
 import pytest
 
@@ -144,6 +145,51 @@ class TestPostgresCreateStatement(unittest.TestCase):
         empty_table = Table([["Col_1", "Col_2"]])
         with pytest.raises(ValueError, match="Table is empty. Must have 1 or more rows"):
             self.pg.create_statement(empty_table, "tmc.test")
+
+
+_POSTGRES_CONN_KWARGS = {
+    "username": "test-user",
+    "password": "test-pass",
+    "host": "test-host",
+    "db": "test-db",
+}
+
+
+class TestPostgresPortPrecedence(unittest.TestCase):
+    """
+    Port resolution for Postgres:
+
+    - ``PGPORT`` is used when ``port`` is omitted (or ``port=None``).
+    - An explicit ``port=`` argument wins over ``PGPORT`` (including ``port=5432``).
+    """
+
+    def _env_without_pgport(self):
+        return {key: value for key, value in os.environ.items() if key != "PGPORT"}
+
+    def test_pgport_env_overrides_default_port(self):
+        with mock.patch.dict(os.environ, {"PGPORT": "5433"}, clear=False):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS)
+            assert pg.port == 5433
+
+    def test_default_port_when_pgport_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_pgport(), clear=True):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS)
+            assert pg.port == 5432
+
+    def test_explicit_port_kwarg_when_pgport_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_pgport(), clear=True):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS, port=9999)
+            assert pg.port == 9999
+
+    def test_explicit_port_kwarg_overrides_pgport_env(self):
+        with mock.patch.dict(os.environ, {"PGPORT": "5433"}, clear=False):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS, port=9999)
+            assert pg.port == 9999
+
+    def test_explicit_default_port_kwarg_ignores_pgport_env(self):
+        with mock.patch.dict(os.environ, {"PGPORT": "5433"}, clear=False):
+            pg = Postgres(**_POSTGRES_CONN_KWARGS, port=5432)
+            assert pg.port == 5432
 
 
 # These tests interact directly with the Postgres database

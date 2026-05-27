@@ -1,12 +1,12 @@
 import collections.abc
 import logging
-import os
 import re
 
 import petl
 from requests import request as _request
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 from parsons.utilities.datetime import date_to_timestamp
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class MobilizeAmerica:
 
     def __init__(self, api_key=None):
         self.uri = MA_URI
-        self.api_key = api_key or os.environ.get("MOBILIZE_AMERICA_API_KEY")
+        self.api_key = check_env.check("MOBILIZE_AMERICA_API_KEY", api_key, optional=True)
 
         if not self.api_key:
             logger.info(

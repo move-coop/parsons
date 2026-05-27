@@ -85,7 +85,7 @@ class ZoomV1:
             "See docs for more information: https://move-coop.github.io/parsons/html/latest/zoom.html"
         )
 
-        r = self.client.get_request(endpoint, params=params, **kwargs)
+        r = self.client.get_request(url=endpoint, params=params, **kwargs)
         self.client.data_key = data_key
         data = self.client.data_parse(r)
 
@@ -103,7 +103,7 @@ class ZoomV1:
         else:
             while r["page_number"] < r["page_count"]:
                 params["page_number"] = int(r["page_number"]) + 1
-                r = self.client.get_request(endpoint, params=params, **kwargs)
+                r = self.client.get_request(url=endpoint, params=params, **kwargs)
                 data.extend(self.client.data_parse(r))
             return Table(data)
 
@@ -662,10 +662,10 @@ class ZoomV2(ZoomV1):
                 params["next_page_token"] = next_page_token
 
             try:
-                r = self.client.get_request(endpoint, params=params, **kwargs)
+                r = self.client.get_request(url=endpoint, params=params, **kwargs)
             except InvalidClientError:
                 self.client = self.get_oauth_client()
-                r = self.client.get_request(endpoint, params=params, **kwargs)
+                r = self.client.get_request(url=endpoint, params=params, **kwargs)
             parsed_resp = self.client.data_parse(r)
             if isinstance(parsed_resp, dict):
                 parsed_resp = [parsed_resp]

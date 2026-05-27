@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
@@ -50,7 +49,7 @@ class AzureBlobStorage:
         account_domain="blob.core.windows.net",
         account_url=None,
     ):
-        self.account_url = os.getenv("AZURE_ACCOUNT_URL", account_url)
+        self.account_url = check_env.check("AZURE_ACCOUNT_URL", account_url, optional=True)
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
         if not self.account_url:
             self.account_name = check_env.check("AZURE_ACCOUNT_NAME", account_name)

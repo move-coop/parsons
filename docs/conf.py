@@ -64,6 +64,7 @@ intersphinx_mapping_extras = {
     "boto3": ("https://docs.aws.amazon.com/boto3/latest/", None),
     "boxsdk": ("https://box-python-sdk.readthedocs.io/en/latest/", None),
     "civis": ("https://civis-python.readthedocs.io/en/stable/", None),
+    "dnspython": ("https://dnspython.readthedocs.io/en/latest/", None),
     "fastavro": ("https://fastavro.readthedocs.io/en/latest/", None),
     "google-auth": ("https://googleapis.dev/python/google-auth/latest/", None),
     "google-api-core": ("https://googleapis.dev/python/google-api-core/latest/", None),

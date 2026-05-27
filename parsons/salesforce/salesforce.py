@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 
 from simple_salesforce import Salesforce as _Salesforce
 
@@ -54,12 +53,12 @@ class Salesforce:
         domain=None,
         authentication_method=None,
     ):
-        if authentication_method:
-            self.authentication_method = authentication_method
-        elif env_authentication_method := os.environ.get("SALESFORCE_AUTHENTICATION_METHOD"):
-            self.authentication_method = env_authentication_method
-        else:
-            self.authentication_method = "password"
+        self.authentication_method = (
+            check_env.check(
+                "SALESFORCE_AUTHENTICATION_METHOD", authentication_method, optional=True
+            )
+            or "password"
+        )
 
         if self.authentication_method == "password":
             self.username = check_env.check("SALESFORCE_USERNAME", username)

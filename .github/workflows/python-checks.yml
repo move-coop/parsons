@@ -33,10 +33,10 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - '3.10'
-          - '3.11'
-          - '3.12'
-          - '3.13'
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
         os:
           - ubuntu-latest
           - windows-latest
@@ -47,6 +47,15 @@ jobs:
 
     permissions:
       contents: write
+
+    concurrency:
+      group: >-
+        ${{ github.workflow }}
+        -${{ github.event.pull_request.number || github.ref }}
+        -${{ matrix.os }}
+        -${{ matrix.python-version }}
+        -${{ matrix.resolution }}
+      cancel-in-progress: true
 
     steps:
       - uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
@@ -157,9 +166,9 @@ jobs:
       fail-fast: false
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
-        python-version: ['3.13']
-        os: ['ubuntu-latest']
-        resolution: ['highest']
+        python-version: ["3.13"]
+        os: ["ubuntu-latest"]
+        resolution: ["highest"]
 
     steps:
       - uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5

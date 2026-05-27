@@ -1,7 +1,6 @@
 import datetime
 import json
 import logging
-import os
 import pickle
 import random
 from contextlib import contextmanager
@@ -20,7 +19,7 @@ from parsons.databases.redshift.rs_schema import RedshiftSchema
 from parsons.databases.redshift.rs_table_utilities import RedshiftTableUtilities
 from parsons.databases.table import BaseTable
 from parsons.etl.table import Table
-from parsons.utilities import files, sql_helpers
+from parsons.utilities import check_env, files, sql_helpers
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -92,19 +91,15 @@ class Redshift(
     ):
         super().__init__()
 
-        try:
-            self.username = username or os.environ["REDSHIFT_USERNAME"]
-            self.password = password or os.environ["REDSHIFT_PASSWORD"]
-            self.host = host or os.environ["REDSHIFT_HOST"]
-            self.db = db or os.environ["REDSHIFT_DB"]
-            self.port = port or os.environ["REDSHIFT_PORT"]
-        except KeyError as error:
-            logger.error("Connection info missing. Most include as kwarg or env variable.")
-            raise error
+        self.username = check_env.check("REDSHIFT_USERNAME", username)
+        self.password = check_env.check("REDSHIFT_PASSWORD", password)
+        self.host = check_env.check("REDSHIFT_HOST", host)
+        self.db = check_env.check("REDSHIFT_DB", db)
+        self.port = check_env.check("REDSHIFT_PORT", port)
 
         self.timeout = timeout
         self.dialect = "redshift"
-        self.s3_temp_bucket = s3_temp_bucket or os.environ.get("S3_TEMP_BUCKET")
+        self.s3_temp_bucket = check_env.check("S3_TEMP_BUCKET", s3_temp_bucket, optional=True)
         # Set prefix for temp S3 bucket paths that include subfolders
         self.s3_temp_bucket_prefix = None
         if self.s3_temp_bucket and "/" in self.s3_temp_bucket:

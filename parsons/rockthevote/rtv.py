@@ -115,7 +115,7 @@ class RockTheVote:
             f"Creating {report_str} for {self.partner_id} "
             f"for dates: {since_date} to {before_date}..."
         )
-        response = self.client.request(report_url, "post", json=report_parameters)
+        response = self.client.request(url=report_url, req_type="POST", json=report_parameters)
         if response.status_code != requests.codes.ok:
             raise RTVFailure("Couldn't create RTV registrations report")
 
@@ -181,7 +181,9 @@ class RockTheVote:
             )
 
             # Check the status again via the status endpoint
-            status_response = self.client.request(status_url, "get", params=credentials)
+            status_response = self.client.request(
+                url=status_url, req_type="GET", params=credentials
+            )
 
             # Check to make sure the call got a valid response
             if status_response.status_code == requests.codes.ok:
@@ -206,7 +208,9 @@ class RockTheVote:
             raise RTVFailure("Timed out waiting for report")
 
         # Download the report data
-        download_response = self.client.request(download_url, "get", params=credentials)
+        download_response = self.client.request(
+            url=download_url, req_type="GET", params=credentials
+        )
 
         # Check to make sure the call got a valid response
         if download_response.status_code == requests.codes.ok:
@@ -309,7 +313,9 @@ class RockTheVote:
         if callback:
             params["callback"] = callback
 
-        requirements_response = self.client.request(requirements_url, "get", params=params)
+        requirements_response = self.client.request(
+            url=requirements_url, req_type="GET", params=params
+        )
 
         if requirements_response.status_code == requests.codes.ok:
             response_json = requirements_response.json()

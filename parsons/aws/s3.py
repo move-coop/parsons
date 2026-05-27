@@ -1,11 +1,10 @@
 import logging
-import os
 import re
 
 import boto3
 from botocore.client import ClientError
 
-from parsons.utilities import files
+from parsons.utilities import check_env, files
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ class AWSConnection:
             # whenever the aws_access_key_id and aws_secret_access_key are passed.
 
             if aws_session_token is None and use_env_token:
-                aws_session_token = os.getenv("AWS_SESSION_TOKEN")
+                aws_session_token = check_env.check("AWS_SESSION_TOKEN", None, optional=True)
 
             self.session = boto3.Session(
                 aws_access_key_id=aws_access_key_id,

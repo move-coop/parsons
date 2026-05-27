@@ -189,7 +189,7 @@ class MobileCommons:
             xml response parsed into list or dictionary
 
         """
-        response = self.client.request(endpoint, "GET", params=params)
+        response = self.client.request(url=endpoint, req_type="GET", params=params)
 
         # If there's an error with initial response, raise error
         self._check_response_status_code(response)
@@ -214,8 +214,7 @@ class MobileCommons:
             xml response parsed into list or dictionary
 
         """
-        response = self.client.request(endpoint, "POST", params=params)
-
+        response = self.client.request(url=endpoint, req_type="POST", params=params)
         response_dict = xmltodict.parse(
             response.text, attr_prefix="", cdata_key="", dict_constructor=dict
         )

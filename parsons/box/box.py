@@ -17,7 +17,6 @@ https://developer.box.com/guides/applications/platform-apps/create/
 """
 
 import logging
-import os
 import tempfile
 from pathlib import Path
 from typing import Literal
@@ -31,6 +30,7 @@ from box_sdk_gen.managers.uploads import (
 from box_sdk_gen.networking.auth import Authentication
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
 
 logger = logging.getLogger(__name__)
@@ -65,7 +65,7 @@ class Box:
 
     def __init__(self, auth: Authentication | None = None) -> None:
         if auth is None:
-            access_token = os.environ["BOX_ACCESS_TOKEN"]
+            access_token = check_env.check("BOX_ACCESS_TOKEN", None)
             oauth = BoxDeveloperTokenAuth(token=access_token)
             self.client = BoxClient(auth=oauth)
         else:

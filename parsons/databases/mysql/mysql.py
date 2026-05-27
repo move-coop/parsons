@@ -1,5 +1,4 @@
 import logging
-import os
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
@@ -37,18 +36,23 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         db: str
             Required if env variable ``MYSQL_DB`` not populated
         port: int
-            Can be set by env variable ``MYSQL_PORT`` or argument.
+            If omitted or ``None``, uses ``MYSQL_PORT`` when set, otherwise 3306. If passed
+            (including ``3306``), the argument takes precedence over ``MYSQL_PORT``.
 
     """
 
-    def __init__(self, host=None, username=None, password=None, db=None, port=3306):
+    def __init__(self, host=None, username=None, password=None, db=None, port=None):
         super().__init__()
 
         self.username = check_env.check("MYSQL_USERNAME", username)
         self.password = check_env.check("MYSQL_PASSWORD", password)
         self.host = check_env.check("MYSQL_HOST", host)
         self.db = check_env.check("MYSQL_DB", db)
-        self.port = port or os.environ.get("MYSQL_PORT")
+        if port is not None:
+            self.port = port
+        else:
+            env_port = check_env.check("MYSQL_PORT", None, optional=True)
+            self.port = int(env_port) if env_port is not None else 3306
 
     @contextmanager
     def connection(self):

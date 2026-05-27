@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+from requests.auth import HTTPBasicAuth
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -43,8 +45,8 @@ class Shopify:
     ):
         self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
         self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
-        self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
-        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
+        self.password: str = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
+        self.api_key: str = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
         self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
         self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
         if self.access_token is None and (self.password is None or self.api_key is None):
@@ -54,7 +56,9 @@ class Shopify:
                 self.base_url, headers={"X-Shopify-Access-Token": access_token}
             )
         else:
-            self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
+            self.client = APIConnector(
+                self.base_url, auth=HTTPBasicAuth(self.api_key, self.password)
+            )
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
@@ -74,7 +78,9 @@ class Shopify:
 
         """
         return (
-            self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
+            self.client.request(
+                url=self.get_query_url(query_date, since_id, table_name), req_type="GET"
+            )
             .json()
             .get("count", 0)
         )
@@ -104,7 +110,7 @@ class Shopify:
             if completed:
                 url += "&financial_status=paid"
 
-            res = self.client.request(url, "GET")
+            res = self.client.request(url=url, req_type="GET")
 
             cur_orders = res.json().get("orders", [])
 
@@ -191,7 +197,9 @@ class Shopify:
 
         """
         return (
-            self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
+            self.client.request(
+                url=(self.base_url + "graphql.json"), req_type="POST", json={"query": query}
+            )
             .json()
             .get("data")
         )

@@ -211,16 +211,16 @@ class SendMail(ABC):
         can also have its deliverability checked via DNS records.
 
         Args:
-            email_address: str
+            email_address:
                 Email address to validate
 
         Keyword Args:
-            check_deliverability: bool, optional
+            check_deliverability:
                 Query DNS to ensure that the domain name can receive mail
                 Default: False
-            dns_resolver: dns.resolver.Resolver, optional
+            dns_resolver:
                 Caching dns resolver to reuse in each call.
-                You can create one with email_validator.caching_resolver(timeout=10)
+                You can create one with ``email_validator.caching_resolver(timeout=10)``
 
         Returns:
             bool
@@ -251,8 +251,8 @@ class SendMail(ABC):
         to: str | list[str],
         subject: str,
         message_text: str,
-        message_html: str = None,
-        files: str | list[str] = None,
+        message_html: str | None = None,
+        files: str | list[str] | None = None,
         *,
         check_deliverability: bool = False,
         dns_resolver: Resolver | None = None,
@@ -260,26 +260,26 @@ class SendMail(ABC):
         """Send an email message.
 
         Args:
-            sender: str
+            sender:
                 Email address of the sender.
-            to: str or list
-                Email address(es) of the receiver(s). Must be in correct email
-                string syntax. For example, `name@email.com` or
-                `"Name" <email@email.com>`.
-            subject: str
+            to:
+                Email address(es) of the receiver(s).
+                Must be in correct email string syntax.
+                For example, ``name@email.com`` or ``"Name" <email@email.com>``.
+            subject:
                 The subject of the email message.
-            message_text: str
+            message_text:
                 The text of the email message.
-            message_html: str
-                The html formatted text of the email message. If ommitted, the
-                email is sent a text-only body.
-            files: str or list
+            message_html:
+                The html formatted text of the email message.
+                If ommitted, the email is sent a text-only body.
+            files:
                 The path to the file(s) to be attached.
 
         Keyword Args:
-            check_deliverability: bool, optional
+            check_deliverability:
                 Query DNS to ensure that the domain name(s) can receive mail.
-            dns_resolver: dns.resolver.Resolver, optional
+            dns_resolver:
                 Caching dns resolver to reuse in each call.
                 You can create one with email_validator.caching_resolver(timeout=10)
                 If check_deliverability is not True, this has no effect.

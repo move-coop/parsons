@@ -6,12 +6,12 @@ from slack_sdk import WebClient
 from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
 
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 
 class Slack:
     def __init__(self, api_key=None):
-        self.api_key = check("SLACK_API_TOKEN", api_key)
+        self.api_key = check_env.check("SLACK_API_TOKEN", api_key)
 
         # Create client with built-in rate limit handler
         rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)
@@ -110,7 +110,7 @@ class Slack:
                 The `ts` value of the parent message. If used, this will thread the message.
 
         """
-        webhook = check("SLACK_API_WEBHOOK", webhook, optional=True)
+        webhook = check_env.check("SLACK_API_WEBHOOK", webhook, optional=True)
         payload = {"channel": channel, "text": text}
         if parent_message_id:
             payload["thread_ts"] = parent_message_id

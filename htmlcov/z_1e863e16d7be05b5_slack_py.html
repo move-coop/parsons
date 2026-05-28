@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_1e863e16d7be05b5_smtp_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.1">coverage.py v7.14.1</a>,
-            created at 2026-05-27 20:41 +0000
+            created at 2026-05-28 14:09 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -90,12 +90,12 @@
     <p class="run"><span class="n"><a id="t6" href="#t6">6</a></span><span class="t"><span class="key">from</span> <span class="nam">slack_sdk</span><span class="op">.</span><span class="nam">http_retry</span><span class="op">.</span><span class="nam">builtin_handlers</span> <span class="key">import</span> <span class="nam">RateLimitErrorRetryHandler</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t7" href="#t7">7</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t8" href="#t8">8</a></span><span class="t"><span class="key">from</span> <span class="nam">parsons</span><span class="op">.</span><span class="nam">etl</span><span class="op">.</span><span class="nam">table</span> <span class="key">import</span> <span class="nam">Table</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t"><span class="key">from</span> <span class="nam">parsons</span><span class="op">.</span><span class="nam">utilities</span><span class="op">.</span><span class="nam">check_env</span> <span class="key">import</span> <span class="nam">check</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t"><span class="key">from</span> <span class="nam">parsons</span><span class="op">.</span><span class="nam">utilities</span> <span class="key">import</span> <span class="nam">check_env</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="key">class</span> <span class="nam">Slack</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t">    <span class="key">def</span> <span class="nam">__init__</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">api_key</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span> <span class="op">=</span> <span class="nam">check</span><span class="op">(</span><span class="str">"SLACK_API_TOKEN"</span><span class="op">,</span> <span class="nam">api_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">api_key</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">"SLACK_API_TOKEN"</span><span class="op">,</span> <span class="nam">api_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t">        <span class="com"># Create client with built-in rate limit handler</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t">        <span class="nam">rate_limit_handler</span> <span class="op">=</span> <span class="nam">RateLimitErrorRetryHandler</span><span class="op">(</span><span class="nam">max_retry_count</span><span class="op">=</span><span class="num">1</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -194,7 +194,7 @@
     <p class="pln"><span class="n"><a id="t110" href="#t110">110</a></span><span class="t"><span class="str">                The `ts` value of the parent message. If used, this will thread the message.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t111" href="#t111">111</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t112" href="#t112">112</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t113" href="#t113">113</a></span><span class="t">        <span class="nam">webhook</span> <span class="op">=</span> <span class="nam">check</span><span class="op">(</span><span class="str">"SLACK_API_WEBHOOK"</span><span class="op">,</span> <span class="nam">webhook</span><span class="op">,</span> <span class="nam">optional</span><span class="op">=</span><span class="key">True</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t113" href="#t113">113</a></span><span class="t">        <span class="nam">webhook</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">"SLACK_API_WEBHOOK"</span><span class="op">,</span> <span class="nam">webhook</span><span class="op">,</span> <span class="nam">optional</span><span class="op">=</span><span class="key">True</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t">        <span class="nam">payload</span> <span class="op">=</span> <span class="op">{</span><span class="str">"channel"</span><span class="op">:</span> <span class="nam">channel</span><span class="op">,</span> <span class="str">"text"</span><span class="op">:</span> <span class="nam">text</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t">        <span class="key">if</span> <span class="nam">parent_message_id</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">115&#x202F;&#x219B;&#x202F;116</span><span class="annotate long">line 115 didn't jump to line 116 because the condition on line 115 was never true</span></span></p>
     <p class="mis show_mis"><span class="n"><a id="t116" href="#t116">116</a></span><span class="t">            <span class="nam">payload</span><span class="op">[</span><span class="str">"thread_ts"</span><span class="op">]</span> <span class="op">=</span> <span class="nam">parent_message_id</span>&nbsp;</span><span class="r"></span></p>
@@ -389,7 +389,7 @@
             <a class="nav" href="z_1e863e16d7be05b5_smtp_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.1">coverage.py v7.14.1</a>,
-            created at 2026-05-27 20:41 +0000
+            created at 2026-05-28 14:09 +0000
         </p>
     </div>
 </footer>

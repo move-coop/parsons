@@ -145,7 +145,7 @@
 | parsons/notifications/gmail.py                            |       34 |       15 |        6 |        3 |     55% |31, 34, 43-44, 70-87 |
 | parsons/notifications/sendmail.py                         |      120 |        3 |       36 |        1 |     97% |49, 53, 304 |
 | parsons/notifications/slack.py                            |       89 |        1 |       34 |        4 |     96% |116, 209-\>212, 227-\>218, 258-\>262 |
-| parsons/notifications/smtp.py                             |       34 |        8 |        8 |        1 |     74% |46-50, 71-73 |
+| parsons/notifications/smtp.py                             |       34 |        8 |        8 |        1 |     74% |51-55, 76-78 |
 | parsons/pdi/\_\_init\_\_.py                               |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/pdi/acquisition\_types.py                         |       18 |        7 |        0 |        0 |     61% |24, 80-86, 100, 111, 168-174 |
 | parsons/pdi/activities.py                                 |       15 |        6 |        0 |        0 |     60% |20, 33-34, 48, 63-64 |
@@ -188,7 +188,7 @@
 | parsons/twilio/twilio.py                                  |       53 |        3 |       18 |        3 |     92% |39, 138, 143 |
 | parsons/utilities/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/api\_connector.py                       |      101 |        3 |       44 |       10 |     91% |139-\>142, 205, 259-\>exit, 302-\>305, 305-\>exit, 357-\>exit, 412-\>415, 415-\>exit, 417, 435 |
-| parsons/utilities/check\_env.py                           |        9 |        0 |        4 |        0 |    100% |           |
+| parsons/utilities/check\_env.py                           |       18 |        4 |       10 |        2 |     79% |78-85, 88-95 |
 | parsons/utilities/cloud\_storage.py                       |       11 |        7 |        6 |        0 |     24% |     40-53 |
 | parsons/utilities/credential\_tools.py                    |       68 |       16 |       22 |        2 |     71% |47, 199-214, 218 |
 | parsons/utilities/datetime.py                             |       26 |        4 |       14 |        2 |     85% |26, 35-37, 68 |
@@ -205,7 +205,7 @@
 | parsons/utilities/zip\_archive.py                         |       17 |        1 |        2 |        1 |     89% |        31 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      301 |      100 |       58 |       19 |     65% |99-\>exit, 105-107, 127-130, 149, 194, 244-252, 267-269, 336-\>338, 397-398, 408, 429-430, 455-456, 488-489, 516-517, 542-543, 560-561, 578-579, 650-\>652, 652-\>655, 662, 666-668, 671, 692-694, 730, 747-749, 764-766, 797-800, 827-834, 853-856, 859, 879-882, 885, 903-906, 909, 930-933, 936, 956-959, 962, 980-983, 986, 1004-1007, 1010, 1028-1031, 1034 |
-| **TOTAL**                                                 | **10827** | **3023** | **3030** |  **569** | **68%** |           |
+| **TOTAL**                                                 | **10836** | **3027** | **3036** |  **571** | **68%** |           |
 
 
 ## Setup coverage badge

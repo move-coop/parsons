@@ -76,7 +76,6 @@ class RedshiftTableUtilities:
             int
 
         """
-
         count_query = self.query(f"select count(*) from {table_name}")
         return count_query[0]["count"]
 
@@ -87,7 +86,7 @@ class RedshiftTableUtilities:
         .. note::
 
             You cannot move schemas when renaming a table. Instead, utilize
-            the :meth:`table_duplicate()`. method.
+            the :meth:`~.duplicate_table` method.
 
         Args:
             table_name: str
@@ -96,7 +95,6 @@ class RedshiftTableUtilities:
                 New name for table with the schema omitted (e.g. ``newtable``).
 
         """
-
         sql = f"alter table {table_name} rename to {new_table_name}"
         self.query(sql)
         logger.info(f"{table_name} renamed to {new_table_name}")
@@ -118,7 +116,6 @@ class RedshiftTableUtilities:
                 Drop the source table.
 
         """
-
         # To Do: Add the grants
         # To Do: Argument for if the table exists?
         # To Do: Add the ignore extra kwarg.
@@ -164,7 +161,6 @@ class RedshiftTableUtilities:
                 True if the table needs to be created, False otherwise.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -258,7 +254,6 @@ class RedshiftTableUtilities:
                 Drop the source table
 
         """
-
         with self.connection() as conn:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
@@ -295,7 +290,6 @@ class RedshiftTableUtilities:
                 Create a view rather than a static table
 
         """
-
         union_type = " UNION ALL" if union_all else " UNION"
         table_type = "VIEW" if view else "TABLE"
 
@@ -320,11 +314,10 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         logger.info("Retrieving tables info.")
         sql = "select * from pg_tables"
         if schema or table_name:
@@ -351,11 +344,10 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         logger.info("Retrieving table statistics.")
         sql = "select * from svv_table_info"
         if schema or table_name:
@@ -400,7 +392,6 @@ class RedshiftTableUtilities:
                 }
 
         """
-
         query = f"""
             select ordinal_position,
                    column_name,
@@ -463,11 +454,10 @@ class RedshiftTableUtilities:
                 Filter by a table name
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         logger.info("Retrieving views info.")
         sql = """
               select table_schema as schema_name,
@@ -490,11 +480,10 @@ class RedshiftTableUtilities:
             Must be a Redshift superuser to run this method.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         logger.info("Retrieving running and queued queries.")
 
         # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql
@@ -551,7 +540,6 @@ class RedshiftTableUtilities:
                 The column containing the values
 
         """
-
         return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0]["value"]
 
     def get_object_type(self, object_name):
@@ -634,7 +622,6 @@ class RedshiftTableUtilities:
             str
 
         """
-
         schema, table = self.split_full_table_name(table)
 
         if not self.is_table(f"{schema}.{table}"):
@@ -663,7 +650,6 @@ class RedshiftTableUtilities:
             `list` of dicts with matching tables.
 
         """
-
         conditions = []
         if schema:
             conditions.append(f"schemaname like '{schema}'")
@@ -712,7 +698,6 @@ class RedshiftTableUtilities:
             str
 
         """
-
         schema, view = self.split_full_table_name(view)
 
         if not self.is_view(f"{schema}.{view}"):
@@ -741,7 +726,6 @@ class RedshiftTableUtilities:
             `list` of dicts with matching views.
 
         """
-
         conditions = []
         if schema:
             conditions.append(f"schemaname like '{schema}'")

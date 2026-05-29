@@ -1,59 +1,58 @@
+#########
 Formstack
-===================
+#########
 
-********
 Overview
-********
+========
 
-`Formstack <https://www.formstack.com/>`_ is a service that provides an advanced online form builder.
+`Formstack <https://www.formstack.com/>`__ is a service that provides an advanced online form builder.
 This connector allows you to load data from the Formstack API.
 
-.. note::
+.. admonition:: Authentication
 
-  Authentication
-    Formstack uses OAuth2 user access tokens to handle authentication. *"Access tokens are tied to a
-    Formstack user and follow Formstack (in-app) user permissions."* You can acquire an OAuth2 token
-    in the `Formstack API overview <https://developers.formstack.com/reference/api-overview>`_.
+   Formstack uses OAuth2 user access tokens to handle authentication. *"Access tokens are tied to a
+   Formstack user and follow Formstack (in-app) user permissions."* You can acquire an OAuth2 token
+   in the `Formstack API overview <https://developers.formstack.com/reference/api-overview>`__.
 
-    You can pass the token to the ``Formstack`` object as the `api_token` keyword argument, or you
-    can set the environment variable ``FORMSTACK_API_TOKEN``.
+   You can pass the token to the :class:`~parsons.formstack.formstack.Formstack`
+   object as the `api_token` keyword argument, or you can set the environment
+   variable ``FORMSTACK_API_TOKEN``.
 
-***********
-Quick Start
-***********
+Quickstart
+==========
 
-To instantiate the ``Formstack`` class, you can either store your access token in the ``FORMSTACK_API_TOKEN``
+To instantiate the :class:`~parsons.formstack.formstack.Formstack` class,
+you can either store your access token in the ``FORMSTACK_API_TOKEN``
 environment variable or pass it in as an argument.
 
 .. code-block:: python
+   :caption: Instantiate the Formstack class using the ``FORMSTACK_API_TOKEN`` environment variable
 
-    from parsons.formstack import Formstack
+   from parsons.formstack import Formstack
+   fs = Formstack()
 
-    # Instantiate the Formstack class using the FORMSTACK_API_TOKEN env variable
-    fs = Formstack()
+.. code-block:: python
+   :caption: Instantiate the Formstack class using the api token directly
 
-    # Instantiate the Formstack class using the api token directly
-    fs = Formstack(api_token="<your api token>")
+   from parsons.formstack import Formstack
+   fs = Formstack(api_token="<your api token>")
 
-    # Get all of the folders in our account
-    folders = fs.get_folders()
+.. code-block:: python
+   :caption: Find the ID of folder "Data" and get all the forms in it
 
-    # Find the ID of the "Data" folder
-    data_folder_id = None
-    for folder in folders:
-        if folder["name"] == "Data":
-            data_folder_id = folder["id"]
-            break
+   folders = fs.get_folders()
+   data_folder_id = None
+   for folder in folders:
+      if folder["name"] == "Data":
+         data_folder_id = folder["id"]
+         break
 
-    # If we found the "Data" folder, get all of the forms in it
-    if data_folder_id is not None:
-        forms = fs.get_forms(folder_id=data_folder_id)
+   if data_folder_id is not None:
+      forms = fs.get_forms(folder_id=data_folder_id)
+      print(forms)
 
-        print(forms)
-
-***
 API
-***
+====
 
 .. autoclass:: parsons.formstack.formstack.Formstack
    :inherited-members:

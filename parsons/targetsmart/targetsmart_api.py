@@ -67,12 +67,12 @@ class Person:
             state: str
                 Two character state code. Required if ``search_id_type`` of ``smartvan``,
                 ``votebuilder`` or ``voter``.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if search_id_type in ["smartvan", "votebuilder", "voter"] and state is None:
             raise KeyError(f"Search ID type '{search_id_type}' requires state kwarg")
 
@@ -173,12 +173,12 @@ class Person:
                 By default, up to the first 10 characters of the search last name are used for
                 finding relative matches. This value must be between 3 and 10. This parameter is
                 ignored if last_name_exact is enabled.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if (latitude is None or longitude is None) and address is None:
             raise ValueError("Lat/Long or Address required")
 
@@ -222,14 +222,13 @@ class Person:
 
         Args:
             table: parsons table
-                See :ref:`parsons-table`. One row per phone number,
+                See :ref:`Table`. One row per phone number,
                 up to 500 phone numbers.
 
         Returns:
-            See :ref:`parsons-table` for output options.
+            See :ref:`Table` for output options.
 
         """
-
         url = self.connection.uri + "person/phone-search"
 
         args = {"phones": list(petl.values(table.table, 0))}
@@ -253,7 +252,6 @@ class Person:
             ValueError: If the input is a negative number.
 
         """
-
         if not isinstance(vanid, int) and not isinstance(vanid, str):
             raise TypeError(f"vanid must be an integer or string. Got {type(vanid).__name__}")
 
@@ -290,7 +288,6 @@ class Person:
             ValueError: If the URL is invalid, missing parameters, or fails checksum.
 
         """
-
         if not isinstance(profile_url, str):
             raise TypeError(f"url must be a string. Got {type(profile_url).__name__}")
 
@@ -378,11 +375,10 @@ class Service:
             longitude: float or str
                 Valid longitude floating point
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if search_type == "zip" and None in [zip5, zip4]:
             raise ValueError("Search type 'zip' requires 'zip5' and 'zip4' arguments")
 
@@ -463,12 +459,12 @@ class Voter:
                 (alphanumeric, @, -, .)
             unparsed_full_address: str
                 Optional; One or more alphanumeric characters. No wildcards.
-        `Returns`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         url = self.connection.uri + "voter/voter-registration-check"
 
         if None in [first_name, last_name, state]:

@@ -95,7 +95,6 @@ class GoogleSheets:
                 The sheet index
 
         """
-
         sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
         for index, sheet in enumerate(sheets):
             if sheet.title == title:
@@ -114,11 +113,10 @@ class GoogleSheets:
                 0.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
         tbl = Table(worksheet.get_all_values()[skip_header_rows:])
         logger.info(f"Retrieved worksheet with {tbl.num_rows} rows.")
@@ -157,7 +155,6 @@ class GoogleSheets:
                 Whether a link is required for this permission.
 
         """
-
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.share(
             sharee,
@@ -178,11 +175,10 @@ class GoogleSheets:
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         tbl = Table(spreadsheet.list_permissions())
         logger.info(f"Retrieved permissions for {spreadsheet_id} spreadsheet.")
@@ -209,7 +205,6 @@ class GoogleSheets:
                 The spreadsheet ID
 
         """
-
         spreadsheet = self.gspread_client.create(title, folder_id=folder_id)
 
         if editor_email:
@@ -269,7 +264,7 @@ class GoogleSheets:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
@@ -278,7 +273,6 @@ class GoogleSheets:
                 Otherwise, values will be entered as strings or numbers only.
 
         """
-
         if not table.num_rows:
             logger.warning("No data provided to append, skipping.")
             return
@@ -328,7 +322,7 @@ class GoogleSheets:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL).
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with 0.
             header: bool
@@ -339,7 +333,6 @@ class GoogleSheets:
                 Starting column position of pasted data. Counts from 0.
 
         """
-
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         number_of_columns = len(table.columns)
@@ -384,7 +377,7 @@ class GoogleSheets:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
@@ -393,7 +386,6 @@ class GoogleSheets:
                 Otherwise, values will be entered as strings or numbers only.
 
         """
-
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
@@ -476,7 +468,6 @@ class GoogleSheets:
             )
 
         """
-
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")

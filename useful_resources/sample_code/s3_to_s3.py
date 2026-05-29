@@ -25,10 +25,14 @@ DESTINATION_BUCKET = None
 # ### CODE
 
 import os  # noqa E402 module-import-not-at-top-of-file
+import logging  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import S3, logger, utilities  # noqa E402 module-import-not-at-top-of-file
+from parsons import S3  # noqa E402 module-import-not-at-top-of-file
+from parsons.utilities import files  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
+
+logger = logging.getLogger(__name__)
 
 for name, value in config_vars.items():  # sets variables if provided in this script
     if value.strip() != "":
@@ -44,14 +48,14 @@ s3_destination = S3(
 
 # Get Source Bucket Information
 bucket_guide = s3_source.list_buckets()
-logger.info(f"We will be getting data from {len(bucket_guide)} buckets...")
+logger.info("We will be getting data from %s buckets...", len(bucket_guide))
 
 # Moving Files from Source s3 Bucket to Destination s3 Bucket
 for bucket in bucket_guide:
-    logger.info(f"Working on files for {bucket}...")
+    logger.info("Working on files for %s...", bucket)
     keys = s3_source.list_keys(bucket)
-    logger.info(f"Found {len(keys)}.")
+    logger.info("Found %s.", len(keys))
     for key in keys:
         temp_file = s3_source.get_file(bucket, key)
         s3_destination.put_file(DESTINATION_BUCKET, key, temp_file)
-        utilities.files.close_temp_file(temp_file)
+        files.close_temp_file(temp_file)

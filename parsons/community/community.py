@@ -80,7 +80,6 @@ class Community:
             Response of GET request; a successful response returns the CSV formatted data
 
         """
-
         logger.info(f"Requesting {filename}")
         url = (
             f"{filename}.csv.gz"
@@ -123,7 +122,6 @@ class Community:
             Contents of the generated contribution CSV as a Parsons table.
 
         """
-
         get_request_response = self.get_request(filename=filename)
         response_string = get_request_response.decode("utf-8")
         table = Table.from_csv_string(response_string)

@@ -107,7 +107,7 @@ class Airmeet:
         Archived (Deleted).
 
         Returns:
-            Parsons.Table
+            Table
                 List of Airmeets
 
         """
@@ -134,7 +134,7 @@ class Airmeet:
                 Can be either 'ASC' or 'DESC' (the default).
 
         Returns:
-            Parsons.Table
+            Table
                 List of participants for the Airmeet event
 
         """
@@ -181,7 +181,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of sessions for this Airmeet event
 
         """
@@ -220,7 +220,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of custom registration fields for this Airmeet event
 
         """
@@ -243,7 +243,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of attendees for this Airmeet event
 
         """
@@ -265,7 +265,7 @@ class Airmeet:
                 The id of the session.
 
         Returns:
-            Parsons.Table
+            Table
                 List of attendees for this session
 
         """
@@ -283,7 +283,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of booths for this Airmeet
 
         """
@@ -311,7 +311,7 @@ class Airmeet:
                 The id of the booth.
 
         Returns:
-            Parsons.Table
+            Table
                 List of attendees for this booth
 
         """
@@ -331,7 +331,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of users. For each user, the value for the "polls"
                 key is a list of poll questions and answers for that user.
 
@@ -347,7 +347,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of users. For each user, the value for the "questions"
                 key is a list of that user's questions.
 
@@ -367,7 +367,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of event tracks
 
         """
@@ -390,7 +390,7 @@ class Airmeet:
                 The id of the Airmeet.
 
         Returns:
-            Parsons.Table
+            Table
                 List of UTM parameters captured during registration
 
         """
@@ -415,7 +415,7 @@ class Airmeet:
                 of the specified session.
 
         Returns:
-            Parsons.Table
+            Table
                 List of session recordings
 
         """
@@ -445,7 +445,7 @@ class Airmeet:
                 the specified session.
 
         Returns:
-            Parsons.Table
+            Table
                 List of event replay attendees
 
         """

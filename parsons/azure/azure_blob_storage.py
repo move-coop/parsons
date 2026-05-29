@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
@@ -50,7 +49,7 @@ class AzureBlobStorage:
         account_domain="blob.core.windows.net",
         account_url=None,
     ):
-        self.account_url = os.getenv("AZURE_ACCOUNT_URL", account_url)
+        self.account_url = check_env.check("AZURE_ACCOUNT_URL", account_url, optional=True)
         self.credential = check_env.check("AZURE_CREDENTIAL", credential)
         if not self.account_url:
             self.account_name = check_env.check("AZURE_ACCOUNT_NAME", account_name)
@@ -74,7 +73,6 @@ class AzureBlobStorage:
                 List of container names
 
         """
-
         container_names = [container.name for container in self.client.list_containers()]
         logger.info(f"Found {len(container_names)} containers.")
         return container_names
@@ -90,7 +88,6 @@ class AzureBlobStorage:
             bool
 
         """
-
         container_client = self.get_container(container_name)
         try:
             container_client.get_container_properties()
@@ -111,7 +108,6 @@ class AzureBlobStorage:
             `ContainerClient`
 
         """
-
         logger.info(f"Returning {container_name} container client")
         return self.client.get_container_client(container_name)
 
@@ -142,7 +138,6 @@ class AzureBlobStorage:
             `ContainerClient`
 
         """
-
         container_client = self.client.create_container(
             container_name, metadata=metadata, public_access=public_access, **kwargs
         )
@@ -158,7 +153,6 @@ class AzureBlobStorage:
                 The name of the container
 
         """
-
         self.client.delete_container(container_name)
         logger.info(f"{container_name} container deleted.")
 
@@ -177,7 +171,6 @@ class AzureBlobStorage:
                 A list of blob names
 
         """
-
         container_client = self.get_container(container_name)
         blobs = list(container_client.list_blobs(name_starts_with=name_starts_with))
         logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
@@ -196,7 +189,6 @@ class AzureBlobStorage:
             bool
 
         """
-
         blob_client = self.get_blob(container_name, blob_name)
         try:
             blob_client.get_blob_properties()
@@ -219,7 +211,6 @@ class AzureBlobStorage:
             `BlobClient`
 
         """
-
         blob_client = self.client.get_blob_client(container_name, blob_name)
         logger.info(f"Got {blob_name} blob from {container_name} container.")
         return blob_client
@@ -259,7 +250,6 @@ class AzureBlobStorage:
                 URL with shared access signature for blob
 
         """
-
         if not account_key:
             if not self.credential:
                 raise ValueError(
@@ -291,7 +281,6 @@ class AzureBlobStorage:
                 Any created settings or ``None`` and the dict with settings keys remvoed
 
         """
-
         kwargs_copy = {**kwargs_dict}
         content_settings = None
         content_settings_dict = {}
@@ -333,7 +322,6 @@ class AzureBlobStorage:
             `BlobClient`
 
         """
-
         blob_client = self.get_blob(container_name, blob_name)
 
         # Move all content_settings keys into a ContentSettings object
@@ -369,7 +357,6 @@ class AzureBlobStorage:
                 The path of the downloaded file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path("TEMPFILEAZURE")
 
@@ -393,7 +380,6 @@ class AzureBlobStorage:
                 The blob name
 
         """
-
         blob_client = self.get_blob(container_name, blob_name)
         blob_client.delete_blob()
         logger.info(f"{blob_name} blob in {container_name} container deleted.")
@@ -406,7 +392,7 @@ class AzureBlobStorage:
 
         Args:
             table: obj
-                A :ref:`parsons-table`
+                A :ref:`Table`
             container_name: str
                 The container name to upload the data into
             blob_name: str
@@ -419,7 +405,6 @@ class AzureBlobStorage:
             `BlobClient`
 
         """
-
         if data_type == "csv":
             local_path = table.to_csv()
             content_type = "text/csv"

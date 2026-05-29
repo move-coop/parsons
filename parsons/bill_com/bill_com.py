@@ -76,7 +76,6 @@ class BillCom:
             A dictionary containing the JSON response from the post request.
 
         """
-
         if action == "Read":
             url = f"{self.api_url}Crud/{action}/{object_name}.json"
         elif action == "Create":
@@ -133,7 +132,6 @@ class BillCom:
             object_name: str
                 Name of the object being listed
         """
-
         r_table = Table(response)
         max_ct = data["max"]
 
@@ -155,7 +153,7 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            parsons.Table
+            Table
                 User information for every user from start_user to max_user
 
         """
@@ -174,7 +172,7 @@ class BillCom:
                 Any other fields to pass
 
         Returns:
-            parsons.Table
+            Table
                 Customer information for every user from start_customer to max_customer
 
         """

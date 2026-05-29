@@ -27,11 +27,10 @@ class PrintedLists:
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         params = {
             "generatedAfter": generated_after,
             "generatedBefore": generated_before,
@@ -58,7 +57,6 @@ class PrintedLists:
             dict
 
         """
-
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

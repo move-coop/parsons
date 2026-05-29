@@ -94,7 +94,7 @@ class NationBuilder:
         while True:
             try:
                 logging.debug(f"sending request {url}")
-                response = self.client.get_request(url)
+                response = self.client.get_request(url=url)
 
                 res = response.get("results", None)
 
@@ -121,8 +121,9 @@ class NationBuilder:
 
     def update_person(self, person_id: str, person: dict[str, Any]) -> dict[str, Any]:
         """
-        This method updates a person with the provided id to have the provided data. It returns a
-        full representation of the updated person.
+        Update a person with the provided id to have the provided data.
+
+        It returns a full representation of the updated person.
 
         Args:
             person_id: str
@@ -131,6 +132,7 @@ class NationBuilder:
                 Nation builder person object.
                 For example {"email": "user@example.com", "tags": ["foo", "bar"]}
                 Docs: https://nationbuilder.com/people_api
+
         Returns:
             A person object with the updated data.
 
@@ -148,7 +150,7 @@ class NationBuilder:
             raise ValueError("person must be a dict")
 
         url = f"people/{person_id}"
-        response = self.client.put_request(url, data=json.dumps({"person": person}))
+        response = self.client.put_request(url=url, data=json.dumps({"person": person}))
         response = cast("dict[str, Any]", response)
 
         return response
@@ -182,7 +184,6 @@ class NationBuilder:
             the method will return a tuple of `False` and `None`.
 
         """
-
         _required_keys = [
             "civicrm_id",
             "county_file_id",
@@ -206,7 +207,7 @@ class NationBuilder:
             raise ValueError(f"person dict must contain at least one key of {_keys}")
 
         url = "people/push"
-        response = self.client.request(url, "PUT", data=json.dumps({"person": person}))
+        response = self.client.request(url=url, req_type="PUT", data=json.dumps({"person": person}))
 
         self.client.validate_response(response)
 

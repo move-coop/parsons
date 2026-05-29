@@ -20,7 +20,7 @@ class FlagIDs:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            Table
 
         """
         return self._request(self.url_flag_ids, limit=limit)
@@ -87,9 +87,9 @@ class FlagIDs:
             is_default: bool
                 The default.
             flag_description: str
-                (Optional) The flag id description.
+                Optional. The flag id description.
             compile: str
-                 (Optional) The compile.
+                 Optional. The compile.
 
 
         Returns:
@@ -177,9 +177,9 @@ class FlagIDs:
             is_default: bool
                 The default.
             flag_description: str
-                (Optional) The flag id description.
+                Optional. The flag id description.
             compile: str
-                 (Optional) The compile.
+                 Optional. The compile.
 
         Returns:
             str

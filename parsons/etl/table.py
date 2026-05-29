@@ -132,15 +132,15 @@ class Table(ETL, ToFrom):
 
     def _repr_html_(self):
         """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
-
         return self.table._repr_html_()
 
     @property
-    def num_rows(self):
+    def num_rows(self) -> int:
         """
+        Count the number of rows in the table.
+
         Returns:
-            int
-                Number of rows in the table
+            Number of rows in the table
 
         """
         return petl.nrows(self.table)
@@ -157,11 +157,12 @@ class Table(ETL, ToFrom):
         return petl.data(self.table)
 
     @property
-    def columns(self):
+    def columns(self) -> list[str]:
         """
+        List the table's column names.
+
         Returns:
-            list
-                List of the table's column names
+            List of the table's column names
 
         """
         return list(petl.header(self.table))
@@ -172,7 +173,6 @@ class Table(ETL, ToFrom):
         Returns the first value in the table. Useful for database queries that only
         return a single value.
         """
-
         try:
             return self.data[0][0]
 
@@ -192,7 +192,6 @@ class Table(ETL, ToFrom):
                 as the value.
 
         """
-
         self._index_count += 1
         if self._index_count >= DIRECT_INDEX_WARNING_COUNT:
             logger.warning(
@@ -219,7 +218,6 @@ class Table(ETL, ToFrom):
                 A list of data in the column.
 
         """
-
         if column_name in self.columns:
             return list(self.table[column_name])
 
@@ -234,7 +232,6 @@ class Table(ETL, ToFrom):
         Use this if petl's lazy-loading behavior is causing you problems, eg. if you want to read
         data from a file immediately.
         """
-
         self.table = petl.wrap(petl.tupleoftuples(self.table))
 
     def materialize_to_file(self, file_path=None):
@@ -256,7 +253,6 @@ class Table(ETL, ToFrom):
                 Path to the temp file that now contains the table
 
         """
-
         # Load the data in batches, and "pickle" the rows to a temp file.
         # (We pickle rather than writing to, say, a CSV, so that we maintain
         # all the type information for each field.)
@@ -281,7 +277,6 @@ class Table(ETL, ToFrom):
             bool
 
         """
-
         if not isinstance(self.table, petl.util.base.Table):
             return False
 
@@ -304,5 +299,4 @@ class Table(ETL, ToFrom):
             bool
 
         """
-
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

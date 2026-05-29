@@ -64,7 +64,6 @@ class People:
             A person dict object
 
         """
-
         logger.info(f"Finding {first_name} {last_name}.")
 
         return self._people_search(
@@ -108,7 +107,6 @@ class People:
             A person dict object
 
         """
-
         logger.info("Finding a match for json details.")
 
         return self._people_search(match_json=match_json)
@@ -163,7 +161,6 @@ class People:
             A person dict
 
         """
-
         return self._people_search(
             id=id,
             id_type=id_type,
@@ -201,7 +198,6 @@ class People:
             A person dict
 
         """
-
         return self._people_search(id=id, id_type=id_type, match_json=match_json, create=True)
 
     def upsert_person(
@@ -263,7 +259,6 @@ class People:
             A person dict
 
         """
-
         return self._people_search(
             first_name=first_name,
             last_name=last_name,
@@ -309,7 +304,6 @@ class People:
             A person dict
 
         """
-
         return self._people_search(match_json=match_json, create=True)
 
     def _people_search(
@@ -446,7 +440,6 @@ class People:
             A person dict
 
         """
-
         # Change end point based on id type
         if expand_fields is None:
             expand_fields = [
@@ -521,8 +514,9 @@ class People:
             id: str
                 A valid person id
             result_code_id : int
-                Specifies the result code of the attempt. Valid ids can be found
-                by using the :meth:`get_canvass_responses_result_codes`
+                Specifies the result code of the attempt.
+                Valid ids can be found by using the
+                :meth:`parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             id_type: str
                 A known person identifier type available on this VAN instance
                 such as ``dwid``
@@ -536,7 +530,6 @@ class People:
                 `Optional`; Phone number of any type (Work, Cell, Home)
 
         """
-
         logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
         self.apply_response(
             id,
@@ -576,8 +569,9 @@ class People:
             result_code_id : int
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
-                responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                responses are specified, result_code_id must be null.
+                Valid ids can be found by using the
+                :meth:`parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id: int
                 `Optional`; A valid contact type id
             input_type_id: int
@@ -588,7 +582,6 @@ class People:
         ** NOT IMPLEMENTED **
 
         """
-
         """
         response = {"volunteerActivityId": volunteer_activity_id,
                     "action": self._action_parse(action),
@@ -631,8 +624,9 @@ class People:
             result_code_id : int
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
-                responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                responses are specified, result_code_id must be null.
+                Valid ids can be found by using the
+                :meth:`parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int
@@ -670,7 +664,6 @@ class People:
             van.apply_response(5222, response)
 
         """
-
         # Set url based on id_type
         if id_type == "vanid":
             url = f"people/{id}/canvassResponses"
@@ -722,7 +715,6 @@ class People:
                 The relationship id indicating the type of relationship
 
         """
-
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
@@ -742,7 +734,6 @@ class People:
                 such as ``dwid``
 
         """
-
         # Set url based on id_type
         url = f"people/{id}/codes" if id_type == "vanid" else f"people/{id_type}:{id}/codes"
 
@@ -771,7 +762,6 @@ class People:
             The VANID of the primary contact record.
 
         """
-
         url = f"people/{source_vanid}/mergeInto"
         json = {"vanId": primary_vanid}
 

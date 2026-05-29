@@ -13,15 +13,15 @@ def post_file(
     tbl, type: Literal["S3", "GCS"], file_path=None, quoting=csv.QUOTE_MINIMAL, **file_storage_args
 ):
     """
-    This utility method is a generalizable method for moving files to an
-    online file storage class. It is used by methods that require access
-    to a file via a public url (e.g. VAN).
+    Generalizable method for moving files to an online file storage class.
+
+    It is used by methods that require access to a file via a public url (e.g. VAN).
 
     **S3 is the only option allowed.**
 
     Args:
-        tbl: object
-            parsons.Table
+        tbl: Table
+            A parsons.Table object
         type: str
             `S3` or `GCS` (Google Cloud Storage)
         file_path: str
@@ -36,7 +36,6 @@ def post_file(
         ``None``
 
     """
-
     if type.upper() == "S3":
         # Overwrite the file_path if key is passed
         if "key" in file_storage_args:

@@ -1,6 +1,8 @@
 import datetime
 import logging
 
+from requests.auth import HTTPBasicAuth
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -25,10 +27,10 @@ class Donorbox:
     """
 
     def __init__(self, email=None, api_key=None):
-        self.email = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
-        self.api_key = check_env.check("DONORBOX_API_KEY", api_key)
+        self.email: str = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
+        self.api_key: str = check_env.check("DONORBOX_API_KEY", api_key)
         self.uri = URI
-        self.client = APIConnector(self.uri, auth=(self.email, self.api_key))
+        self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.email, self.api_key))
 
     def get_campaigns(self, **kwargs):
         """
@@ -51,10 +53,10 @@ class Donorbox:
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
         Returns:
-            Parsons Table
+            Table
 
         """
-        result = self.client.request("campaigns", "GET", params=kwargs)
+        result = self.client.request(url="campaigns", req_type="GET", params=kwargs)
         data = result.json()
         return Table(data)
 
@@ -100,7 +102,7 @@ class Donorbox:
                 is 100.
 
         Returns:
-            Parsons Table
+            Table
 
         """
         # switch variable names
@@ -111,7 +113,7 @@ class Donorbox:
         if "donation_id" in kwargs:
             kwargs["id"] = kwargs.pop("donation_id")
         self._check_date_helper(kwargs)
-        data = self.client.get_request("donations", params=kwargs)
+        data = self.client.get_request(url="donations", params=kwargs)
         return Table(data)
 
     def get_donors(self, **kwargs):
@@ -140,12 +142,12 @@ class Donorbox:
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
         Returns:
-            Parsons Table
+            Table
 
         """
         if "donor_id" in kwargs:
             kwargs["id"] = kwargs.pop("donor_id")  # switch to Donorbox's (less specific) name
-        data = self.client.get_request("donors", params=kwargs)
+        data = self.client.get_request(url="donors", params=kwargs)
         return Table(data)
 
     def get_plans(self, **kwargs):
@@ -186,18 +188,19 @@ class Donorbox:
                 Optional. Results per page when using pagination. Default is 50, maximum is 100.
 
         Returns:
-            Parsons Table
+            Table
 
         """
         self._check_date_helper(kwargs)
-        data = self.client.get_request("plans", params=kwargs)
+        data = self.client.get_request(url="plans", params=kwargs)
         return Table(data)
 
     def _check_date_helper(self, params):
         """Searches through params for a date parameter and if found, calls format helper.
 
-        params: dictionary
-            Required. Dictionary of parameters to be passed to endpoint.
+        Args:
+            params: dict
+                Required. Dictionary of parameters to be passed to endpoint.
 
         Returns: None
 

@@ -18,7 +18,7 @@ class AcquisitionTypes:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            Table
 
         """
         return self._request(self.url_acqtypes, limit=limit)
@@ -49,11 +49,11 @@ class AcquisitionTypes:
         Create a new Acquisition Type
 
         Args:
-            acquisition_type (string):
+            acquisition_type (str):
                 The acquisition type
-            acquisition_description (string):
+            acquisition_description (str):
                 The acquisition description
-            acquisition_method (string):
+            acquisition_method (str):
                 The acquisition method
                 Options are:
                 - "Phone"
@@ -67,8 +67,8 @@ class AcquisitionTypes:
                 - "Social"
                 - "Site"
                 - "Other Method" ,
-            pageDefault (string, optional):
-                The page default.
+            pageDefault (str):
+                The page default. Optional.
                 - "Lookup" (Lookup Page)
                 - "WalkList" (Create Lists & Files - Walk List)
                 - "PhoneList" (Create Lists & Files - Phone List)
@@ -94,7 +94,7 @@ class AcquisitionTypes:
                 The Acquisition Type id
 
         Returns:
-            parsons.Table
+            Table
 
         """
         return self._request(f"{self.url_acqtypes}/{id}")
@@ -137,11 +137,11 @@ class AcquisitionTypes:
         Update Acquisition Type
 
         Args:
-            acquisition_type (string):
+            acquisition_type (str):
                 The acquisition type
-            acquisition_description (string):
+            acquisition_description (str):
                 The acquisition description
-            acquisition_method (string):
+            acquisition_method (str):
                 The acquisition method
                 Options are:
                 - "Phone"
@@ -155,8 +155,8 @@ class AcquisitionTypes:
                 - "Social"
                 - "Site"
                 - "Other Method" ,
-            pageDefault (string, optional):
-                The page default.
+            pageDefault (str):
+                The page default. Optional.
                 - "Lookup" (Lookup Page)
                 - "WalkList" (Create Lists & Files - Walk List)
                 - "PhoneList" (Create Lists & Files - Phone List)

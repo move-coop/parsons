@@ -2,6 +2,7 @@ import logging
 
 import censusgeocode
 import petl
+from censusgeocode.censusgeocode import GeographyResult
 
 from parsons import Table
 
@@ -47,7 +48,6 @@ class CensusGeocoder:
             dict
 
         """
-
         geo = self.cg.onelineaddress(address, returntype=return_type)
         self._log_result(geo)
         return geo
@@ -81,7 +81,6 @@ class CensusGeocoder:
             dict
 
         """
-
         geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
         self._log_result(geo)
         return geo
@@ -110,7 +109,6 @@ class CensusGeocoder:
             A Parsons table
 
         """
-
         logger.info(f"Geocoding {table.num_rows} records.")
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
@@ -140,19 +138,15 @@ class CensusGeocoder:
         else:
             logger.info("Record geocoded.")
 
-    def get_coordinates_data(self, latitude, longitude):
+    def get_coordinates_data(self, latitude: float, longitude: float) -> GeographyResult:
         """
         Return census data on coordinates.
 
-        `Args`
-            latitude: int
-                A valid latitude in the United States
-            longitude: int
-                A valid longitude in the United States
-        Returns:
-           dict
-        """
+        Args:
+            latitude: A valid latitude in the United States
+            longitude: A valid longitude in the United States
 
+        """
         geo = self.cg.coordinates(x=longitude, y=latitude)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")

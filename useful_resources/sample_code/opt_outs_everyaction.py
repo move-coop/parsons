@@ -1,11 +1,14 @@
 import datetime
 import json
+import logging
 import os
 import time
 
 import requests
 
-from parsons import VAN, Redshift, Table, logger
+from parsons import VAN, Redshift, Table
+
+logger = logging.getLogger(__name__)
 
 # Committee Information and Credentials
 
@@ -51,7 +54,7 @@ rs = Redshift()
 
 
 def attempt_optout(
-    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
+    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left: bool = 3
 ):
     vanid = row["vanid"]
     phone = row["phone"]
@@ -160,13 +163,15 @@ def main():
 
         every_action = VAN(db="EveryAction", api_key=api_key)
 
-        logger.info(f"Working on opt outs in {committee_name} committee...")
+        logger.info("Working on opt outs in %s committee...", committee_name)
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
         opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa B023 function-uses-loop-variable
 
-        logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
+        logger.info(
+            "Found %s phones to opt out in %s committee...", opt_outs.num_rows, committee_name
+        )
 
         # Now we actually update the records
 
@@ -183,7 +188,7 @@ def main():
                 )
 
     # Now we log results
-    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")
+    logger.info("There were %s successes and %s errors.", len(success_log), len(error_log))
 
     if len(success_log) > 0:
         success_parsonstable = Table(success_log)

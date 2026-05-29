@@ -110,7 +110,6 @@ class GitHub:
                 Table object created from the raw data of the list
 
         """
-
         stream = (item._rawData for item in paginated_list)
 
         if page is not None:
@@ -132,7 +131,6 @@ class GitHub:
                 User information
 
         """
-
         return self.client.get_user(username).raw_data
 
     def get_organization(self, organization_name):
@@ -147,7 +145,6 @@ class GitHub:
                 Organization information
 
         """
-
         return self.client.get_organization(organization_name).raw_data
 
     def get_repo(self, repo_name):
@@ -162,7 +159,6 @@ class GitHub:
                 Repo information
 
         """
-
         return self.client.get_repo(repo_name).raw_data
 
     def list_user_repos(self, username, page=None, page_size=100):
@@ -181,7 +177,6 @@ class GitHub:
                 Table with page of user repos
 
         """
-
         logger.info(f"Listing page {page} of repos for user {username}")
 
         return self._as_table(
@@ -204,7 +199,6 @@ class GitHub:
                 Table with page of organization repos
 
         """
-
         logger.info(f"Listing page {page} of repos for organization {organization_name}")
 
         return self._as_table(
@@ -227,7 +221,6 @@ class GitHub:
                 Issue information
 
         """
-
         return self.client.get_repo(repo_name).get_issue(number=issue_number).raw_data
 
     def list_repo_issues(
@@ -276,7 +269,6 @@ class GitHub:
                 Table with page of repo issues
 
         """
-
         if labels is None:
             labels = []
         logger.info(f"Listing page {page} of issues for repo {repo_name}")
@@ -313,7 +305,6 @@ class GitHub:
                 Pull request information
 
         """
-
         return self.client.get_repo(repo_name).get_pull(pull_request_number).raw_data
 
     def list_repo_pull_requests(
@@ -350,7 +341,6 @@ class GitHub:
                 Table with page of repo pull requests
 
         """
-
         logger.info(f"Listing page {page} of pull requests for repo {repo_name}")
 
         kwargs_dict = {"state": state, "sort": sort, "direction": direction}
@@ -379,7 +369,6 @@ class GitHub:
                 Table with page of repo contributors
 
         """
-
         logger.info(f"Listing page {page} of contributors for repo {repo_name}")
 
         return self._as_table(
@@ -414,7 +403,6 @@ class GitHub:
                 File path of downloaded file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path(path)
 
@@ -464,8 +452,8 @@ class GitHub:
                 The CSV delimiter to use to parse the data. Defaults to ','
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         downloaded_file = self.download_file(repo_name, path, branch, local_path)

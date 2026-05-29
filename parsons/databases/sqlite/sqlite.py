@@ -71,8 +71,8 @@ class Sqlite(DatabaseConnector):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         with self.connection() as connection:
@@ -103,8 +103,8 @@ class Sqlite(DatabaseConnector):
                 commit manually with ``connection.commit()``).
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         # sqlite3 cursor cannot take None for parameters
@@ -199,10 +199,10 @@ class Sqlite(DatabaseConnector):
         force_python_sdk: bool = False,
     ):
         """
-        Copy a :ref:`parsons-table` to Sqlite.
+        Copy a :ref:`Table` to Sqlite.
 
         Args:
-            tbl: parsons.Table
+            tbl: Table
                 A Parsons table object
             table_name: str
                 The destination schema and table (e.g. ``my_schema.my_table``)
@@ -218,7 +218,6 @@ class Sqlite(DatabaseConnector):
                 Use the python SDK to import data to sqlite3, even if the sqlite3 cli utility is available for more efficient loading. Defaults to False.
 
         """
-
         with self.connection() as connection:
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -303,7 +302,6 @@ class Sqlite(DatabaseConnector):
                 True if the table needs to be created, False otherwise.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 

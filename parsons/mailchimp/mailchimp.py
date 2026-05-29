@@ -2,6 +2,8 @@ import logging
 import re
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -24,10 +26,10 @@ class Mailchimp:
     """
 
     def __init__(self, api_key=None):
-        self.api_key = check_env.check("MAILCHIMP_API_KEY", api_key)
+        self.api_key: str = check_env.check("MAILCHIMP_API_KEY", api_key)
         self.domain = re.findall("(?<=-).+$", self.api_key)[0]
         self.uri = f"https://{self.domain}.api.mailchimp.com/3.0/"
-        self.client = APIConnector(self.uri, auth=("x", self.api_key))
+        self.client = APIConnector(self.uri, auth=HTTPBasicAuth("x", self.api_key))
 
     def get_lists(
         self,
@@ -104,7 +106,7 @@ class Mailchimp:
             "sort_dir": sort_dir,
         }
 
-        response = self.client.get_request("lists", params=params)
+        response = self.client.get_request(url="lists", params=params)
         tbl = Table(response["lists"])
         logger.info(f"Found {tbl.num_rows} lists.")
         if tbl.num_rows > 0:
@@ -204,7 +206,7 @@ class Mailchimp:
             "sort_dir": sort_dir,
         }
 
-        response = self.client.get_request("campaigns", params=params)
+        response = self.client.get_request(url="campaigns", params=params)
         tbl = Table(response["campaigns"])
         logger.info(f"Found {tbl.num_rows} campaigns.")
         if tbl.num_rows > 0:
@@ -343,7 +345,7 @@ class Mailchimp:
             "unsubscribed_since": unsubscribed_since,
         }
 
-        response = self.client.get_request(f"lists/{list_id}/members", params=params)
+        response = self.client.get_request(url=f"lists/{list_id}/members", params=params)
         tbl = Table(response["members"])
         logger.info(f"Found {tbl.num_rows} members.")
         if tbl.num_rows > 0:
@@ -398,7 +400,9 @@ class Mailchimp:
             "since": since,
         }
 
-        response = self.client.get_request(f"reports/{campaign_id}/email-activity", params=params)
+        response = self.client.get_request(
+            url=f"reports/{campaign_id}/email-activity", params=params
+        )
         tbl = Table(response["emails"])
         if tbl.num_rows > 0:
             return tbl
@@ -441,7 +445,7 @@ class Mailchimp:
             "offset": offset,
         }
 
-        response = self.client.get_request(f"reports/{campaign_id}/unsubscribed", params=params)
+        response = self.client.get_request(url=f"reports/{campaign_id}/unsubscribed", params=params)
         tbl = Table(response["unsubscribes"])
         logger.info(f"Found {tbl.num_rows} unsubscribes for {campaign_id}.")
         if tbl.num_rows > 0:

@@ -1,5 +1,5 @@
 import logging
-from typing import Any
+from typing import Any, Literal
 
 from Newmode import Client
 from oauthlib.oauth2 import TokenExpiredError
@@ -234,14 +234,13 @@ class NewmodeV1:
         Get all targets
 
         Args:
-            params dict:
+            params: dict
                 Extra paramaters sent to New/Mode library
 
         Returns:
             Target information
 
         """
-
         if params is None:
             params = {}
         targets = self.client.getTargets(params=params)
@@ -506,7 +505,7 @@ class NewmodeV2:
 
     def base_request(
         self,
-        method: str,
+        method: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         url: str,
         retries: int = 2,
         use_campaigns_client: bool = False,
@@ -608,7 +607,6 @@ class NewmodeV2:
         override_api_version: str | None = None,
     ) -> Table | dict[str, Any]:
         """Internal method to make a call to the Newmode API and convert the result to a Parsons table."""
-
         if params is None:
             params = {}
         response = self.paginate_request(
@@ -767,7 +765,6 @@ class NewmodeV2:
             Parsons Table containing submit data.
 
         """
-
         if params is None:
             params = {}
         response = self.converted_request(

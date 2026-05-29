@@ -109,7 +109,6 @@ class ActionKit:
             User json object
 
         """
-
         return self._base_get(
             endpoint="user", entity_id=user_id, exception_message="User not found"
         )
@@ -123,7 +122,6 @@ class ActionKit:
             List of user fields
 
         """
-
         resp = self._base_get(endpoint="user/schema")
 
         return list(resp["fields"].keys())
@@ -144,7 +142,6 @@ class ActionKit:
             User json object
 
         """
-
         return self._base_post(
             endpoint="user",
             exception_message="Could not create user",
@@ -182,7 +179,6 @@ class ActionKit:
                 The id of the actionfield to delete
 
         """
-
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
         logger.info(f"{resp.status_code}: {actionfield_id}")
 
@@ -202,7 +198,6 @@ class ActionKit:
             ``HTTP response from the patch request``
 
         """
-
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {user_id}")
 
@@ -223,7 +218,6 @@ class ActionKit:
             ``HTTP response from the patch request``
 
         """
-
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {phone_id}")
 
@@ -263,7 +257,7 @@ class ActionKit:
                     ak.get_events(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
+            Table
                 The events data.
 
         """
@@ -282,7 +276,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {event_id}")
 
@@ -346,11 +339,10 @@ class ActionKit:
                 Blackholed email of the record to get.
 
         Returns:
-            Parsons.Table
+            Table
                 The blackholed email data.
 
         """
-
         return self.paginated_get("blackholedemail", email=email)
 
     def blackhole_email(self, email):
@@ -367,7 +359,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="blackholedemail",
             exception_message="Could not blackhole email",
@@ -390,7 +381,6 @@ class ActionKit:
             API location of anonymized user
 
         """
-
         return self._base_post(
             endpoint="eraser",
             exception_message="Could not delete user data",
@@ -407,7 +397,6 @@ class ActionKit:
                 The user id of the person to delete
 
         """
-
         resp = self.conn.delete(self._base_endpoint("user", user_id))
         logger.info(f"{resp.status_code}: {user_id}")
 
@@ -423,7 +412,6 @@ class ActionKit:
             Campaign json object
 
         """
-
         return self._base_get(
             endpoint="campaign",
             entity_id=campaign_id,
@@ -433,13 +421,12 @@ class ActionKit:
     def get_campaign_fields(self):
         """
         Get list of valid campaign fields that can be passed with the
-        :meth:`ActionKit.create_campaign` and :meth:`ActionKit.update_campaign` methods.
+        :meth:`.create_campaign` and :meth:`.update_campaign` methods.
 
         Returns:
             List of campaign fields
 
         """
-
         resp = self._base_get(endpoint="campaign/schema")
         return list(resp["fields"].keys())
 
@@ -459,13 +446,17 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="campaign",
             exception_message="Could not create campaign",
             name=name,
             **kwargs,
         )
+
+    def update_campaign(self) -> None:
+        """Update a campaign (NOT IMPLEMENTED)"""
+        err_msg = "ActionKit.update_campaign() is not implemented"
+        raise NotImplementedError(err_msg)
 
     def search_events_in_campaign(
         self,
@@ -517,7 +508,7 @@ class ActionKit:
                 <https://roboticdogs.actionkit.com/docs/manual/api/rest/examples/eventsearch.html>`__.
 
         Returns:
-            Parsons.Table
+            Table
                 The list of events.
 
         """
@@ -549,7 +540,6 @@ class ActionKit:
             Event create page json object
 
         """
-
         return self._base_get(
             endpoint="eventcreatepage",
             entity_id=event_create_page_id,
@@ -565,7 +555,6 @@ class ActionKit:
             List of event create page fields
 
         """
-
         resp = self._base_get(endpoint="eventcreatepage/schema")
         return list(resp["fields"].keys())
 
@@ -589,7 +578,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="eventcreatepage",
             exception_message="Could not create event create page",
@@ -611,7 +599,6 @@ class ActionKit:
             Event create form json object
 
         """
-
         return self._base_get(
             endpoint="eventcreateform",
             entity_id=event_create_form_id,
@@ -627,7 +614,6 @@ class ActionKit:
             List of event create form fields
 
         """
-
         resp = self._base_get(endpoint="eventcreateform/schema")
         return list(resp["fields"].keys())
 
@@ -649,7 +635,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="eventcreateform",
             exception_message="Could not event create form",
@@ -670,7 +655,6 @@ class ActionKit:
             Event signup page json object
 
         """
-
         return self._base_get(
             endpoint="eventsignuppage",
             entity_id=event_signup_page_id,
@@ -686,7 +670,6 @@ class ActionKit:
             List of event signup page fields
 
         """
-
         resp = self._base_get(endpoint="eventsignuppage/schema")
         return list(resp["fields"].keys())
 
@@ -710,7 +693,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="eventsignuppage",
             exception_message="Could not create signup page",
@@ -732,7 +714,6 @@ class ActionKit:
             Event signup form json object
 
         """
-
         return self._base_get(
             endpoint="eventsignupform",
             entity_id=event_signup_form_id,
@@ -748,7 +729,6 @@ class ActionKit:
             List of event signup form fields
 
         """
-
         resp = self._base_get(endpoint="eventsignupform/schema")
         return list(resp["fields"].keys())
 
@@ -770,7 +750,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="eventsignupform",
             exception_message="Could not event create signup form",
@@ -794,7 +773,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("eventsignup", event_signup_id), data=json.dumps(kwargs)
         )
@@ -812,7 +790,6 @@ class ActionKit:
             Mailer json object
 
         """
-
         return self._base_get(endpoint="mailer", entity_id=entity_id)
 
     def create_mailer(self, **kwargs):
@@ -829,7 +806,6 @@ class ActionKit:
             URI of new mailer
 
         """
-
         return self._base_post(
             endpoint="mailer", exception_message="Could not create mailer", **kwargs
         )
@@ -858,7 +834,6 @@ class ActionKit:
             ``HTTP response from the patch request``
 
         """
-
         resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {mailer_id}")
         return resp
@@ -875,7 +850,6 @@ class ActionKit:
             URI to poll for progress
 
         """
-
         return self._base_post(
             endpoint="mailer/" + str(mailing_id) + "/rebuild",
             exception_message="Could not rebuild mailer",
@@ -893,7 +867,6 @@ class ActionKit:
             URI to poll for progress
 
         """
-
         return self._base_post(
             endpoint="mailer/" + str(mailing_id) + "/queue",
             exception_message="Could not queue mailer",
@@ -921,7 +894,7 @@ class ActionKit:
                     ak.paginated_get(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
+            Table
                 The objects data.
 
         """
@@ -979,7 +952,7 @@ class ActionKit:
                     ak.paginated_get(name__contains="FirstName")
 
         Returns:
-            Parsons.Table
+            Table
                 The objects data.
 
         """
@@ -1028,7 +1001,6 @@ class ActionKit:
             User json object
 
         """
-
         return self._base_get(
             endpoint="order", entity_id=order_id, exception_message="Order not found"
         )
@@ -1046,7 +1018,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
         logger.info(f"{resp.status_code}: {order_id}")
 
@@ -1065,7 +1036,6 @@ class ActionKit:
             ``HTTP response from the patch request``
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("orderuserdetail", user_detail_id), data=json.dumps(kwargs)
         )
@@ -1085,7 +1055,6 @@ class ActionKit:
             User json object
 
         """
-
         return self._base_get(
             endpoint="orderrecurring",
             entity_id=orderrecurring_id,
@@ -1101,7 +1070,6 @@ class ActionKit:
                 The id of the recurring order to update (NOT the order_id)
 
         """
-
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
         logger.info(f"{resp.status_code}: {recurring_id}")
         return resp
@@ -1119,7 +1087,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("orderrecurring", orderrecurring_id),
             data=json.dumps(kwargs),
@@ -1146,7 +1113,7 @@ class ActionKit:
                     ak.get_orders(import_id="my-import-123")
 
         Returns:
-            Parsons.Table
+            Table
                 The orders data.
 
         """
@@ -1168,7 +1135,6 @@ class ActionKit:
             ``HTTP response``
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("paymenttoken", paymenttoken_id),
             data=json.dumps(kwargs),
@@ -1188,7 +1154,6 @@ class ActionKit:
             Page followup json object
 
         """
-
         return self._base_get(
             endpoint="pagefollowup",
             entity_id=page_followup_id,
@@ -1204,7 +1169,6 @@ class ActionKit:
             List of page followup fields
 
         """
-
         resp = self._base_get(endpoint="pagefollowup/schema")
         return list(resp["fields"].keys())
 
@@ -1226,7 +1190,6 @@ class ActionKit:
             API location of new resource
 
         """
-
         return self._base_post(
             endpoint="pagefollowup",
             exception_message="Could not create page followup",
@@ -1247,7 +1210,6 @@ class ActionKit:
             Survey question json object
 
         """
-
         return self._base_get(
             endpoint="surveyquestion",
             entity_id=survey_question_id,
@@ -1269,7 +1231,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("surveyquestion", survey_question_id),
             data=json.dumps(kwargs),
@@ -1288,7 +1249,6 @@ class ActionKit:
             Transaction json object
 
         """
-
         return self._base_post(
             endpoint="transaction",
             exception_message="Could not create transaction",
@@ -1308,7 +1268,6 @@ class ActionKit:
                 manual/api/rest/actionprocessing.html>`__.
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("transaction", transaction_id), data=json.dumps(kwargs)
         )
@@ -1334,7 +1293,7 @@ class ActionKit:
                     ak.get_transactions(order="order-1")
 
         Returns:
-            Parsons.Table
+            Table
                 The transactions data.
 
         """
@@ -1361,7 +1320,6 @@ class ActionKit:
                 The response json
 
         """
-
         if not email or ak_id:
             raise ValueError("One of email or ak_id is required.")
 
@@ -1389,7 +1347,6 @@ class ActionKit:
             ``HTTP response from the patch request``
 
         """
-
         resp = self.conn.patch(
             self._base_endpoint("importaction", action_id), data=json.dumps(kwargs)
         )
@@ -1436,7 +1393,6 @@ class ActionKit:
                 res: requests http response object
 
         """
-
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
         # TODO: use context manager or close file when done
@@ -1485,7 +1441,7 @@ class ActionKit:
         Args:
             import_page: str
                 The page to post the action. The page short name.
-            table: parsons.Table
+            table: Table
                 A Table of user data to bulk upload
                 A user_id or email column is required.
             autocreate_user_fields: bool
@@ -1510,7 +1466,6 @@ class ActionKit:
                 progress_url and res for any results
 
         """
-
         import_page = check_env.check("ACTION_KIT_IMPORTPAGE", import_page)
         upload_tables = self._split_tables_no_empties(
             table, no_overwrite_on_empty, set_only_columns

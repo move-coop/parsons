@@ -31,7 +31,7 @@ class Contacts:
             limit (int): The number of contacts to return
 
         Returns:
-            parsons.Table
+            Table
 
         """
         params = {
@@ -77,13 +77,13 @@ class Contacts:
             volunteer_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
             donor_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
             member_status (str): Options are "Prospect", "Active", "Inactive", "None", or "".
-            date_of_birth (str, optional): Format allowed yyyy-MM-dd.
-            gender (str, optional): Options are "F", "M", or "U".
-            email (str, optional): The contact's email.
-            pdi_id (str, optional): Ignored when updating.
+            date_of_birth (str): Optional. Format allowed yyyy-MM-dd.
+            gender (str): Optional. Options are "F", "M", or "U".
+            email (str): Optional. The contact's email.
+            pdi_id (str): Optional. Ignored when updating.
 
         Returns:
-            parsons.Table: A Table containing the response data.
+            Table: A Table containing the response data.
 
         """
         payload = {
@@ -114,7 +114,7 @@ class Contacts:
                 The Contact id
 
         Returns:
-            parsons.Table
+            Table
 
         """
         # todo not working quite right
@@ -152,12 +152,12 @@ class Contacts:
             volunteer_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
             donor_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
             member_status (str): Options are "Prospect", "Active", "Inactive", "None", ""
-            date_of_birth (str, optional): Format must be yyyy-MM-dd
-            gender (str, optional): Options are "F", "M", "U"
+            date_of_birth (str): Optional. Format must be yyyy-MM-dd
+            gender (str): Optional. Options are "F", "M", "U"
 
         Returns:
-            parsons.Table:
-                See :ref:`parsons-table` for output options
+            Table:
+                See :ref:`Table` for output options
 
         """
         payload = {
@@ -202,7 +202,6 @@ class Contacts:
                 Response from PDI
 
         """
-
         payload = {
             "phoneNumber": phone_number,
             "phoneType": phone_type,
@@ -231,7 +230,6 @@ class Contacts:
             dict: Response from PDI
 
         """
-
         payload = {"emailAddress": email, "isPrimary": primary}
 
         response = self._request(

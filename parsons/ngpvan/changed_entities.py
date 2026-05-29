@@ -22,7 +22,6 @@ class ChangedEntities:
             list
 
         """
-
         r = self.connection.get_request("changedEntityExportJobs/resources")
         logger.info(f"Found {len(r)} changed entity resources.")
         return r
@@ -34,11 +33,10 @@ class ChangedEntities:
         Args:
             resource_type: str
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
         logger.info(f"Found {tbl.num_rows} fields for {resource_type}.")
         return tbl
@@ -75,11 +73,10 @@ class ChangedEntities:
                 A list of ids of custom fields to include in the export.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         json = {
             "dateChangedFrom": date_from,
             "dateChangedTo": date_to,

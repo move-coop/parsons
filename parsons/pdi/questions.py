@@ -16,7 +16,7 @@ class Questions:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            Table
 
         """
         return self._request(self.url_questions, limit=limit)
@@ -30,7 +30,7 @@ class Questions:
                 The Question id
 
         Returns:
-            parsons.Table
+            Table
 
         """
         return self._request(f"{self.url_questions}/{id}")
@@ -67,10 +67,10 @@ class Questions:
                         }
                     ]
 
-            question_label (str, optional):
-            question_description (str, optional):
-            candidate_issue_id (str, optional):
-            default (bool, optional): Defaults to `True`
+            question_label (str): Optional.
+            question_description (str): Optional.
+            candidate_issue_id (str): Optional.
+            default (bool): Optional. Defaults to `True`
 
         """
         payload = {

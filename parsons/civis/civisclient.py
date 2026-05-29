@@ -42,7 +42,7 @@ class CivisClient:
         preview is required. To execute a query that returns a large number
         of rows, see :func:`~civis.io.read_civis_sql`.
 
-        `Args`
+        Args:
             sql: str
                 The SQL statement to execute.
             preview_rows: int, optional
@@ -55,11 +55,11 @@ class CivisClient:
             wait: boolean
                 If ``True``, will wait for query to finish executing before exiting
                 the method. If ``False``, returns the future object.
-        `Returns`
-            Parsons Table or ``civis.CivisFuture``
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table or :class:`civis.futures.CivisFuture`
+                See :ref:`Table` for output options.
+        """
         fut = civis.io.query_civis(
             sql,
             self.db,
@@ -94,10 +94,11 @@ class CivisClient:
         **civisargs,
     ):
         """
-        Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_
+        Write the table to a Civis Redshift cluster.
 
-        `Args`
+        Additional keyword arguments can passed to :func:`civis.io.dataframe_to_civis`.
+
+        Args:
             table_obj: obj
                 A Parsons Table object
             table: str
@@ -122,10 +123,11 @@ class CivisClient:
             wait: boolean
                 Wait for write job to complete before exiting method. If ``False``, returns
                 the future object.
-        `Returns`
-            ``None`` or ``civis.CivisFuture``
-        """
 
+        Returns:
+            ``None`` or :class:`civis.futures.CivisFuture`
+
+        """
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),
             database=self.db,

@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -109,7 +110,6 @@ class ActionBuilder:
             Parsons Table of full set of tags available in Action Builder.
 
         """
-
         return self._get_all_records(
             campaign, "tags", limit=limit, per_page=per_page, filter=filter
         )
@@ -129,7 +129,6 @@ class ActionBuilder:
             Parsons Table of data found on tag in Action Builder from searching by name.
 
         """
-
         filter = f"name eq '{tag_name}'"
 
         return self.get_campaign_tags(campaign=campaign, filter=filter)
@@ -154,7 +153,6 @@ class ActionBuilder:
             Dict containing Action Builder tag data.
 
         """
-
         campaign = self._campaign_check(campaign)
         url = f"campaigns/{campaign}/tags"
 
@@ -196,7 +194,6 @@ class ActionBuilder:
             Dict containing Action Builder entity data.
 
         """
-
         name_keys = ("name", "action_builder:name", "given_name")
         error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
@@ -241,7 +238,6 @@ class ActionBuilder:
             Dict containing Action Builder entity data.
 
         """
-
         campaign = self._campaign_check(campaign)
 
         if isinstance(identifier, str):
@@ -279,7 +275,6 @@ class ActionBuilder:
             Dict with HTTP response.
 
         """
-
         campaign = self._campaign_check(campaign)
 
         url = f"campaigns/{campaign}/people/{identifier}"
@@ -307,7 +302,6 @@ class ActionBuilder:
             Dict containing Action Builder entity data of the entity being tagged.
 
         """
-
         tag_data = [
             {
                 "action_builder:name": tag,
@@ -323,43 +317,55 @@ class ActionBuilder:
 
     def remove_tagging(
         self,
-        identifier=None,
-        tag_id=None,
-        tag_name=None,
-        tagging_id=None,
-        campaign=None,
-    ):
+        identifier: str | None = None,
+        tag_id: str | None = None,
+        tag_name: str | None = None,
+        tagging_id: str | None = None,
+        campaign: str | None = None,
+    ) -> dict[str, Any] | int | None:
         """
-        Remove one or more tags (i.e. custom field value) from an existing entity or connection
-        record in Action Builder. The basis for this end point is the combination of the tag's
-        interact ID and that of the specific tagging. The tag ID can usually be determined from
-        the tag's name, and the tagging ID can be derived if the identifier of the entity or
-        connection record is supplied instead.
+        Remove one or more tags (i.e. custom field value) from
+        an existing entity or connection record in Action Builder.
+
+        The basis for this end point is the combination of the
+        tag's interact ID and that of the specific tagging.
+        The tag ID can usually be determined from the tag's name,
+        and the tagging ID can be derived if the identifier of the
+        entity or connection record is supplied instead.
 
         Args:
-            identifier: str
-                Optional. The unique identifier for an entity or connection record being updated.
+            identifier:
+                The unique identifier for an entity
+                or connection record being updated.
                 If omitted, `tagging_id` must be provided.
-            tag_id: str
-                Optional. The unique identifier for the tag being removed. If omitted, `tag_name`
-                must be provided.
-            tag_name: str
-                Optional. The exact name of the tag being removed. May result in an error if
-                multiple tags (in different fields/sections) have the same name. If omitted,
-                `tag_id` must be provided.
-            tagging_id: str
-                Optional. The unique identifier for the specific application of the tag to an
-                individual entity or connection record. If omitted, `identifier` must be provided.
-            campaign: str
-                Optional. The 36-character "interact ID" of the campaign whose data is to be
-                retrieved or edited. Not necessary if supplied when instantiating the class.
+            tag_id:
+                The unique identifier for the tag being removed.
+                If omitted, `tag_name` must be provided.
+            tag_name:
+                The exact name of the tag being removed.
+                May result in an error if multiple tags
+                (in different fields/sections) have the same name.
+                If omitted, `tag_id` must be provided.
+            tagging_id:
+                The unique identifier for the specific application of
+                the tag to an individual entity or connection record.
+                If omitted, `identifier` must be provided.
+            campaign:
+                The 36-character ``interact ID`` of the campaign
+                whose data is to be retrieved or edited.
+                Not necessary if supplied when instantiating the class.
 
         Returns:
-            API response JSON which contains `{'message': 'Tag has been removed from Taggable
-            Logbook'}` if successful.
+            API response JSON which contains
+            ``{'message': 'Tag has been removed from Taggable Logbook'}`` if successful.
+
+        Raises:
+            ValueError: If `tag_name` and `tag_id` are both ``None``.
+            ValueError: If `identifier` and `tagging_id` are both ``None``.
+            ValueError: If `tag_name` found more than one matching tag.
+            ValueError: If `tagging_id` was provided without `tag_id`.
 
         """
-
         if {tag_name, tag_id} == {None}:
             raise ValueError("Please supply a tag_name or tag_id!")
 
@@ -401,7 +407,7 @@ class ActionBuilder:
 
         logger.info(f"Removing tag {tag_id} from {identifier or tagging_id}")
         return self.api.delete_request(
-            f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
+            url=f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
@@ -430,7 +436,6 @@ class ActionBuilder:
             Dict containing Action Builder connection data.
 
         """
-
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):
             raise ValueError("Must provide identifiers as a list")
@@ -492,7 +497,6 @@ class ActionBuilder:
             Dict containing Action Builder connection data.
 
         """
-
         # Check that either connection or second entity identifier are provided
         if {connection_identifier, to_identifier} == {None}:
             raise ValueError("Must provide a connection ID or an ID for the second entity")

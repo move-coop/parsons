@@ -80,7 +80,7 @@ jobs:
           name: parsons-dist
           path: dist
 
-      - name: extract requirements.txt for use in pip cache
+      - name: extract requirements for use in pip cache
         shell: bash
         run: |
           file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)

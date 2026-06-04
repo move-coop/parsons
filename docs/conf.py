@@ -61,7 +61,7 @@ intersphinx_mapping_extras = {
         "https://azuresdkdocs.z19.web.core.windows.net/python/azure-storage-blob/latest/objects.inv",
     ),
     "beautifulsoup4": ("https://beautiful-soup-4.readthedocs.io/en/latest/", None),
-    "boto3": ("https://docs.aws.amazon.com/boto3/latest/", None),
+    # "boto3": ("https://docs.aws.amazon.com/boto3/latest/", None), # error 403
     "boxsdk": ("https://box-python-sdk.readthedocs.io/en/latest/", None),
     "civis": ("https://civis-python.readthedocs.io/en/stable/", None),
     "dnspython": ("https://dnspython.readthedocs.io/en/latest/", None),
@@ -99,7 +99,7 @@ intersphinx_mapping_extras = {
     "sqlalchemy": ("https://docs.sqlalchemy.org/en/20/", None),
     "sshtunnel": ("https://sshtunnel.readthedocs.io/en/latest/", None),
     "suds": ("https://suds.readthedocs.io/en/latest/", None),
-    "twilio": ("https://www.twilio.com/docs/libraries/reference/twilio-python/9.10.4/", None),
+    # "twilio": ("https://www.twilio.com/docs/libraries/reference/twilio-python/9.10.4/", None), # error 403
     "urllib3": ("https://urllib3.readthedocs.io/en/stable/", None),
 }
 intersphinx_mapping = intersphinx_mapping_core | intersphinx_mapping_extras

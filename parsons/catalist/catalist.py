@@ -387,7 +387,7 @@ class CatalistMatch:
             )
 
         logger.debug(
-            f"Download complete for job {id} (local size: {temp_file_zip.stat().st_size} bytes)."
+            "Download complete for job %s (local size: %s bytes).", id, temp_file_zip.stat().st_size
         )
         temp_dir = tempfile.mkdtemp()
         with ZipFile(temp_file_zip) as zf:

@@ -372,8 +372,11 @@ class CatalistMatch:
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
 
-        temp_file_zip = self.sftp.get_file(
-            remote_path=remote_filepath, export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE
+        temp_file_zip = Path(
+            self.sftp.get_file(
+                remote_path=remote_filepath,
+                export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE,
+            )
         )
 
         if not is_zipfile(temp_file_zip):

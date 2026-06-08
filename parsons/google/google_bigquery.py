@@ -1427,7 +1427,7 @@ class GoogleBigQuery(DatabaseConnector):
             try:
                 bigquery_table = self.client.get_table(template_table)
                 return bigquery_table.schema
-            except google.api_core.exceptions.NotFound:
+            except (google.api_core.exceptions.NotFound, google.api_core.exceptions.Forbidden):
                 logger.warning(
                     f"template_table '{template_table}' not found. Unable to set schema."
                 )

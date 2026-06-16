@@ -81,13 +81,19 @@ class VANConnector:
         r = self.api.get_request(url=(self.uri + endpoint), **kwargs)
         data = self.api.data_parse(r)
 
-        # Paginate
+        # Paginate. `nextPageLink` is a fully-formed URL that already encodes the
+        # original query parameters, so we must not re-pass `params` on
+        # subsequent pages -- requests would append them a second time. VAN
+        # returns each page's link with the prior params still attached, so they
+        # accumulate page over page and the URL eventually 404s (observed on the
+        # events endpoint around $skip=700).
+        page_kwargs = {k: v for k, v in kwargs.items() if k != "params"}
         while isinstance(r, dict) and self.api.next_page_check_url(r):
             if endpoint == "savedLists" and not r["items"]:
                 break
             if endpoint == "printedLists" and not r["items"]:
                 break
-            r = self.api.get_request(url=r[self.pagination_key], **kwargs)
+            r = self.api.get_request(url=r[self.pagination_key], **page_kwargs)
             data.extend(self.api.data_parse(r))
         return data
 

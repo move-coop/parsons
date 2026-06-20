@@ -1252,22 +1252,34 @@ class Redshift(
     def get_distkey(
         self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
     ) -> Table | None:
-        """Get a table's distkey information from redshift internals.
+        """
+        Get a table's distkey information from Redshift internals.
 
-        For more information on the Redshift distkey, see
-        [Data distribution for query optimization: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Distributing_data.html).
+        For more information, see:
+        `Data distribution for query optimization: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/t_Distributing_data.html>`__
 
         Args:
-            schema (str): The schema containing the table.
-            table (str): The name of the table to get distkey information for.
-            errors (str, 'ignore' or 'raise'): If the table does not exist, `'ignore'` will make the method return None, and `'raise'` will throw a ValueError.
+            schema: str
+                The schema containing the table.
+            table: str
+                The table to retrieve the distkey for.
+            errors: str
+                If the table does not exist, ``ignore`` will make the method return ``None``,
+                and ``raise`` will throw a ValueError.
 
         Returns:
-            Table|None: Distkey information for your table. If `errors='ignore'` and the table name does not exist, will return None.
+            Table
+                Distkey information for the table. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
 
         Columns returned:
-            diststyle: Distribution style or distribution key column, if key distribution is defined.
-            distkey_column: Distribution key column.
+            schema_name:
+                The schema name.
+            table_name:
+                The table name.
+            diststyle:
+                Distribution style or distribution key column, if key distribution is defined.
+            distkey_column:
+                Distribution key column.
         """
         sql_distkey = """SELECT
             n.nspname AS schema_name,
@@ -1304,26 +1316,40 @@ class Redshift(
     def get_sortkey(
         self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
     ) -> Table | None:
-        """Get a table's sortkey information from svv_table_info.
+        """
+        Get a table's sortkey information from svv_table_info.
 
         For more information, see:
-        + [Sort keys: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html)
-        + [Choose the best sort key: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/c_best-practices-sort-key.html)
+        `Sort keys: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html>`__
+
+        `Choose the best sort key: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/c_best-practices-sort-key.html>`__
 
         Args:
-            schema (str): The schema containing the table.
-            table (str): The table to retrieve the sortkey for.
-            errors (str, 'ignore' or 'raise'): If the table does not exist, `'ignore'` will make the method return None, and `'raise'` will throw a ValueError.
+            schema: str
+                The schema containing the table.
+            table: str
+                The table to retrieve the sortkey for.
+            errors: str
+                If the table does not exist, ``ignore`` will make the method return ``None``,
+                and ``raise`` will throw a ValueError.
 
         Returns:
-            Table: Table containing sortkey information. If `errors='ignore'` and the table name does not exist, will return None.
+            Table
+                Table containing sortkey information. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
 
         Columns returned:
-            schema: The schema name.
-            table: The table name.
-            sortkey1: First column in the sort key, if a sort key is defined. Possible values include column, AUTO(SORTKEY), and AUTO(SORTKEY(column)).
-            sortkey1_enc: Compression encoding of the first column in the sort key, if a sort key is defined.
-            sortkey_num: Number of columns defined as sort keys.
+
+            schema:
+                The schema name.
+            table:
+                The table name.
+            sortkey1:
+                First column in the sort key, if a sort key is defined. Possible values include column, AUTO(SORTKEY), and AUTO(SORTKEY(column)).
+            sortkey1_enc:
+                Compression encoding of the first column in the sort key, if a sort key is defined.
+            sortkey_num:
+                Number of columns defined as sort keys.
+
         """
         sql_sortkey = """
             select

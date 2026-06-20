@@ -1244,6 +1244,46 @@ class Redshift(
 
         return tbl
 
+    def get_distkey(self, schema: str, table: str) -> Table | None:
+        """Get the table's distkey information from redshift internals.
+
+        Args:
+            schema (str): The schema containing the table.
+            table (str): The name of the table to get distkey information for.
+
+
+        Returns:
+            Table|None: Distkey information for your table.
+        """
+        sql_distkey = """SELECT
+            n.nspname AS schema_name,
+            c.relname AS table_name,
+            CASE c.reldiststyle
+                WHEN 0 THEN 'EVEN'
+                WHEN 1 THEN 'KEY'
+                WHEN 8 THEN 'ALL'
+                WHEN 9 THEN 'AUTO(EVEN)'
+                WHEN 10 THEN 'AUTO(ALL)'
+                WHEN 11 THEN 'AUTO(KEY)'
+                ELSE 'UNKNOWN'
+            END AS diststyle,
+            a.attname AS distkey_column
+        FROM pg_class c
+        JOIN pg_namespace n
+            ON n.oid = c.relnamespace
+        LEFT JOIN pg_attribute a
+            ON a.attrelid = c.oid
+        AND a.attisdistkey = true
+        WHERE n.nspname = %s
+        AND
+        c.relname = %s;"""
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_distkey, connection, parameters=[schema, table])
+
+        return tbl
+
     def get_sortkey(self, schema: str, table: str) -> Table | None:
         """Get the table's sortkey information from svv_table_info.
 

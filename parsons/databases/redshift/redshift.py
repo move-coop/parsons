@@ -1247,6 +1247,9 @@ class Redshift(
     def get_distkey(self, schema: str, table: str) -> Table | None:
         """Get the table's distkey information from redshift internals.
 
+        For more information on the Redshift distkey, see
+        [Data distribution for query optimization: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Distributing_data.html).
+
         Args:
             schema (str): The schema containing the table.
             table (str): The name of the table to get distkey information for.
@@ -1254,6 +1257,10 @@ class Redshift(
 
         Returns:
             Table|None: Distkey information for your table.
+
+        Columns returned:
+            diststyle: Distribution style or distribution key column, if key distribution is defined.
+            distkey_column: Distribution key column.
         """
         sql_distkey = """SELECT
             n.nspname AS schema_name,
@@ -1297,6 +1304,11 @@ class Redshift(
 
         Returns:
             Table: Table containing sortkey information.
+
+        Columns returned:
+            sortkey1: First column in the sort key, if a sort key is defined. Possible values include column, AUTO(SORTKEY), and AUTO(SORTKEY(column)).
+            sortkey1_enc: Compression encoding of the first column in the sort key, if a sort key is defined.
+            sortkey_num: Number of columns defined as sort keys.
         """
         sql_sortkey = """
             select

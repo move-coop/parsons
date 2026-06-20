@@ -1236,6 +1236,11 @@ class Redshift(
         return RedshiftTable(self, table_name)
 
     def get_search_path(self):
+        """Returns the schema search_path for the current user.
+
+        Returns:
+            Table|None: The user's "search_path".
+        """
         sql_searchpath = """SHOW search_path;"""
 
         with self.connection() as connection:
@@ -1245,7 +1250,7 @@ class Redshift(
         return tbl
 
     def get_distkey(self, schema: str, table: str) -> Table | None:
-        """Get the table's distkey information from redshift internals.
+        """Get a table's distkey information from redshift internals.
 
         For more information on the Redshift distkey, see
         [Data distribution for query optimization: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Distributing_data.html).
@@ -1253,7 +1258,6 @@ class Redshift(
         Args:
             schema (str): The schema containing the table.
             table (str): The name of the table to get distkey information for.
-
 
         Returns:
             Table|None: Distkey information for your table.
@@ -1292,7 +1296,7 @@ class Redshift(
         return tbl
 
     def get_sortkey(self, schema: str, table: str) -> Table | None:
-        """Get the table's sortkey information from svv_table_info.
+        """Get a table's sortkey information from svv_table_info.
 
         For more information, see:
         + [Sort keys: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html)
@@ -1306,12 +1310,16 @@ class Redshift(
             Table: Table containing sortkey information.
 
         Columns returned:
+            schema: The schema name.
+            table: The table name.
             sortkey1: First column in the sort key, if a sort key is defined. Possible values include column, AUTO(SORTKEY), and AUTO(SORTKEY(column)).
             sortkey1_enc: Compression encoding of the first column in the sort key, if a sort key is defined.
             sortkey_num: Number of columns defined as sort keys.
         """
         sql_sortkey = """
             select
+                "schema",
+                "table",
                 sortkey1,
                 sortkey1_enc,
                 sortkey_num

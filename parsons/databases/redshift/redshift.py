@@ -1235,6 +1235,51 @@ class Redshift(
 
         return RedshiftTable(self, table_name)
 
+    def get_distkey(self, schema, table):
+        sql_distkey = """
+            select
+
+            ;
+        """
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_distkey, connection)
+
+        return tbl
+
+    def get_sortkey(self, schema: str, table: str) -> Table | None:
+        """Get the table's sortkey information from svv_table_info.
+
+        For more information, see:
+        + [Sort keys: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html)
+        + [Choose the best sort key: Amazon Redshift Database Developer Guide](https://docs.aws.amazon.com/redshift/latest/dg/c_best-practices-sort-key.html)
+
+        Args:
+            schema (str): The schema containing the table.
+            table (str): The table to retrieve the sortkey for.
+
+        Returns:
+            Table: Table containing sortkey information.
+        """
+        sql_sortkey = """
+            select
+                sortkey1,
+                sortkey1_enc,
+                sortkey_num
+            from
+                svv_table_info
+            where
+                "schema" = %s and "table" = %s
+            ;
+        """
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_sortkey, connection, parameters=[schema, table])
+
+        return tbl
+
 
 class RedshiftTable(BaseTable):
     # Redshift table object.

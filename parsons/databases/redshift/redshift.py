@@ -1249,7 +1249,9 @@ class Redshift(
 
         return tbl
 
-    def get_distkey(self, schema: str, table: str) -> Table | None:
+    def get_distkey(
+        self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
+    ) -> Table | None:
         """Get a table's distkey information from redshift internals.
 
         For more information on the Redshift distkey, see
@@ -1258,9 +1260,10 @@ class Redshift(
         Args:
             schema (str): The schema containing the table.
             table (str): The name of the table to get distkey information for.
+            errors (str, 'ignore' or 'raise'): If the table does not exist, `'ignore'` will make the method return None, and `'raise'` will throw a ValueError.
 
         Returns:
-            Table|None: Distkey information for your table.
+            Table|None: Distkey information for your table. If `errors='ignore'` and the table name does not exist, will return None.
 
         Columns returned:
             diststyle: Distribution style or distribution key column, if key distribution is defined.
@@ -1293,9 +1296,14 @@ class Redshift(
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_distkey, connection, parameters=[schema, table])
 
+        if errors == "raise" and tbl is None:
+            raise ValueError(f"The table {schema}.{table} was not found.")
+
         return tbl
 
-    def get_sortkey(self, schema: str, table: str) -> Table | None:
+    def get_sortkey(
+        self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
+    ) -> Table | None:
         """Get a table's sortkey information from svv_table_info.
 
         For more information, see:
@@ -1305,9 +1313,10 @@ class Redshift(
         Args:
             schema (str): The schema containing the table.
             table (str): The table to retrieve the sortkey for.
+            errors (str, 'ignore' or 'raise'): If the table does not exist, `'ignore'` will make the method return None, and `'raise'` will throw a ValueError.
 
         Returns:
-            Table: Table containing sortkey information.
+            Table: Table containing sortkey information. If `errors='ignore'` and the table name does not exist, will return None.
 
         Columns returned:
             schema: The schema name.
@@ -1333,6 +1342,9 @@ class Redshift(
         with self.connection() as connection:
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_sortkey, connection, parameters=[schema, table])
+
+        if errors == "raise" and tbl is None:
+            raise ValueError(f"The table {schema}.{table} was not found.")
 
         return tbl
 

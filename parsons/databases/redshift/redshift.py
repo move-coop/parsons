@@ -1235,16 +1235,12 @@ class Redshift(
 
         return RedshiftTable(self, table_name)
 
-    def get_distkey(self, schema, table):
-        sql_distkey = """
-            select
-
-            ;
-        """
+    def get_search_path(self):
+        sql_searchpath = """SHOW search_path;"""
 
         with self.connection() as connection:
             connection.set_session(autocommit=True)
-            tbl = self.query_with_connection(sql_distkey, connection)
+            tbl = self.query_with_connection(sql_searchpath, connection)
 
         return tbl
 

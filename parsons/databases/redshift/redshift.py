@@ -1308,6 +1308,11 @@ class Redshift(
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_distkey, connection, parameters=[schema, table])
 
+        # requested table wasn't found
+        if tbl is not None and tbl.num_rows == 0:
+            # if there's an empty table just return None unless errors=='raise'
+            tbl = None
+
         if errors == "raise" and tbl is None:
             raise ValueError(f"The table {schema}.{table} was not found.")
 
@@ -1368,6 +1373,11 @@ class Redshift(
         with self.connection() as connection:
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_sortkey, connection, parameters=[schema, table])
+
+        # requested table wasn't found
+        if tbl is not None and tbl.num_rows == 0:
+            # if there's an empty table just return None unless errors=='raise'
+            tbl = None
 
         if errors == "raise" and tbl is None:
             raise ValueError(f"The table {schema}.{table} was not found.")

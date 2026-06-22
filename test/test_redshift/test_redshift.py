@@ -11,6 +11,13 @@ from test.conftest import assert_matching_tables, validate_list
 # The name of the schema and will be temporarily created for the tests
 TEMP_SCHEMA = "parsons_test2"
 
+# try not to create these in the redshift test environment :)
+# they are used to determine correct error handling in distkey/sortkey
+SCHEMA_THAT_DNE = "schema_that_does_not_exist"
+TABLE_THAT_DNE = "table_that_does_not_exist"
+
+DISTKEY_SORTKEY_TABLE = "test_distkey_sortkey"
+
 # These tests do not interact with the Redshift Database directly, and don't need real credentials
 
 
@@ -403,9 +410,24 @@ class TestRedshiftDB(unittest.TestCase):
             );
             """
 
+        # MUST create at least one row or sortkey doesn't appear.
+        sortdist_query = f"""
+            CREATE TABLE {self.temp_schema}.{DISTKEY_SORTKEY_TABLE}
+            (
+                id INT,
+                name VARCHAR(5)
+            )
+            DISTKEY(id)
+            SORTKEY(name);
+            insert into {self.temp_schema}.{DISTKEY_SORTKEY_TABLE} values (1, 'test');
+            """
+
         self.rs.query(setup_sql)
 
         self.rs.query(other_sql)
+        self.rs.query(sortdist_query)
+        # thought this was needed per AWS docs on svv_table_info on distkey/sortkey, no longer sure.
+        # self.rs.add_schema_to_search_path(self.temp_schema, permanent=True)
 
         self.s3 = S3()
 
@@ -1066,3 +1088,47 @@ class TestRedshiftDB(unittest.TestCase):
         # Base table 'Name' column has a width of 5. This should expand it to 6.
         self.rs.alter_varchar_column_widths(append_tbl, f"{self.temp_schema}.test")
         assert self.rs.get_columns(self.temp_schema, "test")["name"]["max_length"] == 6
+
+    def test_get_search_path(self):
+        # returns a list of strings
+        result = self.rs.get_search_path()
+        assert isinstance(result, list)
+
+    def test_get_add_set_search_path(self):
+        # add a schema to the end of the search path, then remove it
+        # assumes self.temp_schema isn't already part of search path
+        search_path = self.rs.get_search_path()
+
+        self.rs.add_schema_to_search_path(self.temp_schema, permanent=True)
+        search_path2 = self.rs.get_search_path()
+        assert search_path + [self.temp_schema] == search_path2
+
+        self.rs.set_search_path(search_path, permanent=True)
+        search_path3 = self.rs.get_search_path()
+        assert search_path == search_path3
+
+    def test_get_distkey(self):
+        assert self.rs.get_distkey(SCHEMA_THAT_DNE, TABLE_THAT_DNE, errors="ignore") is None
+
+        with pytest.raises(
+            ValueError,
+            match="The table name was not found in pg_class. Did you spell the schema and table name correctly?",
+        ):
+            self.rs.get_distkey(SCHEMA_THAT_DNE, TABLE_THAT_DNE, errors="raise")
+
+        real_distkey = self.rs.get_distkey(self.temp_schema, DISTKEY_SORTKEY_TABLE, errors="ignore")
+        assert isinstance(real_distkey, Table)
+        assert real_distkey["distkey_column"][0] == "id"
+
+    def test_get_sortkey(self):
+        assert self.rs.get_sortkey(SCHEMA_THAT_DNE, TABLE_THAT_DNE, errors="ignore") is None
+
+        with pytest.raises(
+            ValueError,
+            match="There was no such table in svv_table_info. The table must exist, be within the user's search_path, and have at least one row.",
+        ):
+            self.rs.get_sortkey(SCHEMA_THAT_DNE, TABLE_THAT_DNE, errors="raise")
+
+        real_sortkey = self.rs.get_sortkey(self.temp_schema, DISTKEY_SORTKEY_TABLE, errors="ignore")
+        assert isinstance(real_sortkey, Table)
+        assert real_sortkey["sortkey1"][0] == "name"

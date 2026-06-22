@@ -1239,7 +1239,7 @@ class Redshift(
         """Returns the schema search_path for the current user.
 
         Returns:
-            Table|None: The user's "search_path".
+            list[str]: The list of schema in the user's "search_path".
         """
         sql_searchpath = """SHOW search_path;"""
 
@@ -1250,11 +1250,18 @@ class Redshift(
         if tbl is None:
             raise ValueError("Search path not found.")
 
-        search_path_str: str = tbl.first
+        search_path_str: str = tbl.first  # type: ignore # this should always be a string
         search_paths = [item.strip() for item in search_path_str.split(",")]
         return search_paths
 
-    def set_search_path(self, schema: list[str], permanent: bool = False):
+    def set_search_path(self, schema: list[str], permanent: bool = True):
+        """Set the schema in the user's search_path.
+
+        Must double or single quote (within the string) any schema names containing non-identifier characters. If the schema name starts with a ``$`` (e.g. ``$user``), it will be automatically single quoted.
+        Args:
+            schema (list[str]): List of schema to set.
+            permanent (bool, optional): True if the change should persist beyond the given session. Defaults to True.
+        """
         # schema $user included in search path must be single-quoted when set
         schema = [f"'{s}'" if s.startswith("$") else s for s in schema]
 
@@ -1265,7 +1272,13 @@ class Redshift(
             connection.set_session(autocommit=True)
             self.query_with_connection(statement, connection)
 
-    def add_schema_to_search_path(self, schema: str, permanent: bool = False):
+    def add_schema_to_search_path(self, schema: str, permanent: bool = True):
+        """Add a single schema to the user's search_path.
+
+        Args:
+            schema (str): The name of the schema to add.
+            permanent (bool, optional): True if the change should persist beyond the given session. Defaults to True.
+        """
         path_schema: list[str] = self.get_search_path()
         if schema not in path_schema:
             path_schema.append(schema)

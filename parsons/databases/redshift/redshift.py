@@ -1247,7 +1247,29 @@ class Redshift(
             connection.set_session(autocommit=True)
             tbl = self.query_with_connection(sql_searchpath, connection)
 
-        return tbl
+        if tbl is None:
+            raise ValueError("Search path not found.")
+
+        search_path_str: str = tbl.first
+        search_paths = [item.strip() for item in search_path_str.split(",")]
+        return search_paths
+
+    def set_search_path(self, schema: list[str], permanent: bool = False):
+        # schema $user included in search path must be single-quoted when set
+        schema = [f"'{s}'" if s.startswith("$") else s for s in schema]
+
+        new_path_schema_str = ", ".join(schema)
+        permanent_statement = f"alter user {self.username} " if permanent else ""
+        statement = f"{permanent_statement} set search_path to {new_path_schema_str};"
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            self.query_with_connection(statement, connection)
+
+    def add_schema_to_search_path(self, schema: str, permanent: bool = False):
+        path_schema: list[str] = self.get_search_path()
+        if schema not in path_schema:
+            path_schema.append(schema)
+        self.set_search_path(path_schema, permanent=permanent)
 
     def get_distkey(
         self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
@@ -1268,8 +1290,12 @@ class Redshift(
                 and ``raise`` will throw a ValueError.
 
         Returns:
-            Table
+            Table or None
                 Distkey information for the table. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
+
+        Raises:
+            ValueError
+                If ``errors='raise'`` and the table could not be found.
 
         Columns returned:
             schema_name:
@@ -1314,7 +1340,9 @@ class Redshift(
             tbl = None
 
         if errors == "raise" and tbl is None:
-            raise ValueError(f"The table {schema}.{table} was not found.")
+            raise ValueError(
+                "The table name was not found in pg_class. Did you spell the schema and table name correctly?"
+            )
 
         return tbl
 
@@ -1323,6 +1351,8 @@ class Redshift(
     ) -> Table | None:
         """
         Get a table's sortkey information from svv_table_info.
+
+        Sortkey information is only available if the schema is in the user's search_path and the table has at least one row.
 
         For more information, see:
         `Sort keys: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html>`__
@@ -1339,8 +1369,12 @@ class Redshift(
                 and ``raise`` will throw a ValueError.
 
         Returns:
-            Table
+            Table or None
                 Table containing sortkey information. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
+
+        Raises:
+            ValueError
+                If ``errors='raise'`` and the table could not be found.
 
         Columns returned:
 
@@ -1380,7 +1414,9 @@ class Redshift(
             tbl = None
 
         if errors == "raise" and tbl is None:
-            raise ValueError(f"The table {schema}.{table} was not found.")
+            raise ValueError(
+                "There was no such table in svv_table_info. The table must exist, be within the user's search_path, and have at least one row."
+            )
 
         return tbl
 

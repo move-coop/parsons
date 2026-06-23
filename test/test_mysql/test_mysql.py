@@ -53,6 +53,41 @@ class TestMySQLPortPrecedence(unittest.TestCase):
             assert mysql.port == 3306
 
 
+class TestMySQLConnectionTimeout(unittest.TestCase):
+    """
+    Connection timeout for MySQL:
+
+    - ``timeout`` defaults to 10 seconds, matching the Postgres and Redshift connectors.
+    - An explicit ``timeout=`` argument is respected.
+    - The resolved timeout is forwarded to ``mysql.connector.connect`` as
+      ``connection_timeout``.
+    """
+
+    def test_default_timeout(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        assert mysql.timeout == 10
+
+    def test_explicit_timeout_kwarg(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=30)
+        assert mysql.timeout == 30
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_default_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 10
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_explicit_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=42)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 42
+
+
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
 @pytest.mark.live
 class TestMySQLLive(unittest.TestCase):

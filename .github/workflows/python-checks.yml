@@ -91,7 +91,7 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -204,7 +204,7 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -236,7 +236,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -275,7 +275,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -446,7 +446,7 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}

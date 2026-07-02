@@ -1,0 +1,18 @@
+{
+  "records": [
+    {
+      "id": "recIYuf51JgbmHCHo",
+      "fields": {
+        "Name": "Another!"
+      },
+      "createdTime": "2019-05-13T16:37:03.000Z"
+    },
+    {
+      "id": "recJMqCfPwFVV5qfc",
+      "fields": {
+        "Name": "Another row!"
+      },
+      "createdTime": "2019-05-13T16:37:03.000Z"
+    }
+  ]
+}

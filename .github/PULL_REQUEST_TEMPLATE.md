@@ -11,6 +11,10 @@
 
 - (How should a reviewer test this functionality.)
 
+## Tests
+
+- [ ] New/changed code is covered by tests that follow the [testing standard](../docs/write_tests.rst) (or explain below why not).
+
 ## Breaking Changes
 
 Breaking changes are changes to our public API which may require existing users to change their code. If there are no breaking changes, any existing parsons user should not need to do anything after updating their parsons version.

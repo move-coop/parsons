@@ -1,5 +1,4 @@
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 from github.GithubException import UnknownObjectException
@@ -8,16 +7,6 @@ from parsons import GitHub, Table
 from parsons.github.github import ParsonsGitHubError
 
 _dir = Path(__file__).parent
-
-
-@pytest.fixture(scope="module")
-def get_repo_response_text() -> str:
-    return (_dir / "test_data" / "test_get_repo.json").read_text()
-
-
-@pytest.fixture
-def github_client(request) -> GitHub:
-    return GitHub()
 
 
 @pytest.mark.parametrize(
@@ -38,11 +27,11 @@ def test_auth(token, username, password):
         assert github.password == password
 
 
-def test_wrap_github_404(github_client):
-    with patch("github.Github.get_repo") as get_repo_mock:
-        get_repo_mock.side_effect = UnknownObjectException(404)
-        with pytest.raises(ParsonsGitHubError):
-            github_client.get_repo("octocat/Hello-World")
+def test_wrap_github_404(github_client, mocker):
+    get_repo_mock = mocker.patch("github.Github.get_repo")
+    get_repo_mock.side_effect = UnknownObjectException(404)
+    with pytest.raises(ParsonsGitHubError):
+        github_client.get_repo("octocat/Hello-World")
 
 
 def test_get_repo(github_client, requests_mock, get_repo_response_text):

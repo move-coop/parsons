@@ -1,18 +1,12 @@
-import unittest
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
-import requests_mock
 
-from parsons import ActBlue, Table
+from parsons import Table
 from test.test_actblue import test_columns_data
-
-TEST_CLIENT_UUID = "someuuid"
-TEST_CLIENT_SECRET = "somesecret"
+from test.test_actblue.conftest import TEST_URI
 
 TEST_ID = "12345"
-TEST_URI = "https://faketestingurl.com/example"
 
 TEST_CSV_TYPE = "refunded_contributions"
 TEST_DATE_RANGE_START = "2017-07-07"
@@ -29,92 +23,81 @@ TEST_GET_RESPONSE = {
 }
 
 
-class TestActBlue(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        self.ab = ActBlue(TEST_CLIENT_UUID, TEST_CLIENT_SECRET, TEST_URI)
-        self.from_csv = Table.from_csv
-        test_csv_data = Table.from_csv_string(
-            Path("test/test_actblue/test_csv_data.csv").read_text()
-        )
-        Table.from_csv = MagicMock(name="mocked from_csv", return_value=test_csv_data)
+def test_successful_post_request(actblue, requests_mock):
+    requests_mock.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
 
-    def tearDown(self):
-        Table.from_csv = self.from_csv
+    response = actblue.post_request(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
+    assert response["id"] == TEST_POST_RESPONSE["id"]
 
-    @requests_mock.Mocker()
-    def test_successful_post_request(self, m):
-        m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
 
-        response = self.ab.post_request(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
-        assert response["id"] == TEST_POST_RESPONSE["id"]
+def test_successful_get_download_url(actblue, requests_mock):
+    requests_mock.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
-    @requests_mock.Mocker()
-    def test_successful_get_download_url(self, m):
-        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
+    assert actblue.get_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
-        assert self.ab.get_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
-    @requests_mock.Mocker()
-    def test_successful_poll_for_download_url(self, m):
-        mocked_get_response_no_download_url = {
-            "id": TEST_ID,
-            "download_url": None,
-            "status": "in_progress",
-        }
+def test_successful_poll_for_download_url(actblue, requests_mock):
+    mocked_get_response_no_download_url = {
+        "id": TEST_ID,
+        "download_url": None,
+        "status": "in_progress",
+    }
 
-        m.get(
-            f"{TEST_URI}/csvs/{TEST_ID}",
-            [
-                {"json": mocked_get_response_no_download_url},
-                {"json": TEST_GET_RESPONSE},
-            ],
-        )
+    requests_mock.get(
+        f"{TEST_URI}/csvs/{TEST_ID}",
+        [
+            {"json": mocked_get_response_no_download_url},
+            {"json": TEST_GET_RESPONSE},
+        ],
+    )
 
-        assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
+    assert actblue.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
-    @requests_mock.Mocker()
-    def test_successful_get_contributions(self, m):
-        m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
-        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
-        table = self.ab.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
-        assert test_columns_data.expected_table_columns == table.columns
+def test_successful_get_contributions(actblue, requests_mock, mocker):
+    requests_mock.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
+    requests_mock.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
-    @requests_mock.Mocker()
-    def test_error_on_complete_without_download_url(self, m):
-        mocked_get_response_no_url = {
-            "id": TEST_ID,
-            "download_url": None,
-            "status": "complete",
-        }
+    test_csv_data = Table.from_csv_string(Path("test/test_actblue/test_csv_data.csv").read_text())
+    mocker.patch.object(Table, "from_csv", name="mocked from_csv", return_value=test_csv_data)
 
-        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+    table = actblue.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
+    assert test_columns_data.expected_table_columns == table.columns
 
-        with pytest.raises(ValueError, match="CSV generation failed"):
-            self.ab.get_download_url(csv_id=TEST_ID)
 
-    @requests_mock.Mocker()
-    def test_error_on_unexpected_status(self, m):
-        mocked_get_response_no_url = {
-            "id": TEST_ID,
-            "download_url": None,
-            "status": "error",
-        }
+def test_error_on_complete_without_download_url(actblue, requests_mock):
+    mocked_get_response_no_url = {
+        "id": TEST_ID,
+        "download_url": None,
+        "status": "complete",
+    }
 
-        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+    requests_mock.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
 
-        with pytest.raises(ValueError, match="CSV generation failed"):
-            self.ab.get_download_url(csv_id=TEST_ID)
+    with pytest.raises(ValueError, match="CSV generation failed"):
+        actblue.get_download_url(csv_id=TEST_ID)
 
-    @requests_mock.Mocker()
-    def test_no_error_on_expected_status(self, m):
-        mocked_get_response_no_url = {
-            "id": TEST_ID,
-            "download_url": "www.actblue.com",
-            "status": "complete",
-        }
 
-        m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+def test_error_on_unexpected_status(actblue, requests_mock):
+    mocked_get_response_no_url = {
+        "id": TEST_ID,
+        "download_url": None,
+        "status": "error",
+    }
 
-        assert self.ab.get_download_url(csv_id=TEST_ID) == "www.actblue.com"
+    requests_mock.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+    with pytest.raises(ValueError, match="CSV generation failed"):
+        actblue.get_download_url(csv_id=TEST_ID)
+
+
+def test_no_error_on_expected_status(actblue, requests_mock):
+    mocked_get_response_no_url = {
+        "id": TEST_ID,
+        "download_url": "www.actblue.com",
+        "status": "complete",
+    }
+
+    requests_mock.get(f"{TEST_URI}/csvs/{TEST_ID}", json=mocked_get_response_no_url)
+
+    assert actblue.get_download_url(csv_id=TEST_ID) == "www.actblue.com"

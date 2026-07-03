@@ -1,0 +1,1141 @@
+"""Tests for the Zoom connector.
+
+Zoom is built on ``OAuth2APIConnector``, so tests mock the real HTTP boundary
+with the ``requests_mock`` fixture (see docs/write_tests.rst). The OAuth token
+POST the constructor performs is registered by the ``zoom``/``zoomv2`` fixtures
+in conftest.py; each test only registers the data endpoint it exercises.
+"""
+
+import pytest
+
+from parsons import Table, Zoom
+from parsons.zoom.zoom import ZoomV1, ZoomV2
+from test.conftest import assert_matching_tables
+from test.test_zoom.conftest import (
+    ACCOUNT_ID,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    ZOOM_AUTH_CALLBACK,
+    ZOOM_URI,
+)
+
+
+def test_get_users(zoom, requests_mock):
+    user_json = {
+        "page_count": 1,
+        "page_number": 1,
+        "page_size": 30,
+        "total_records": 1,
+        "users": [
+            {
+                "id": "C5A2nRWwTMm_hXyJb1JXMh",
+                "first_name": "Bob",
+                "last_name": "McBob",
+                "email": "bob@bob.com",
+                "type": 2,
+                "pmi": 8374523641,
+                "timezone": "America/New_York",
+                "verified": 1,
+                "dept": "",
+                "created_at": "2017-10-06T15:22:34Z",
+                "last_login_time": "2020-05-06T16:50:45Z",
+                "last_client_version": "",
+                "language": "",
+                "phone_number": "",
+                "status": "active",
+            }
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "C5A2nRWwTMm_hXyJb1JXMh",
+                "first_name": "Bob",
+                "last_name": "McBob",
+                "email": "bob@bob.com",
+                "type": 2,
+                "pmi": 8374523641,
+                "timezone": "America/New_York",
+                "verified": 1,
+                "dept": "",
+                "created_at": "2017-10-06T15:22:34Z",
+                "last_login_time": "2020-05-06T16:50:45Z",
+                "last_client_version": "",
+                "language": "",
+                "phone_number": "",
+                "status": "active",
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "users", json=user_json)
+    assert_matching_tables(zoom.get_users(), tbl)
+
+
+def test_get_meeting_participants(zoom, requests_mock):
+    participants = {
+        "page_count": 1,
+        "page_size": 30,
+        "total_records": 4,
+        "next_page_token": "",
+        "participants": [
+            {
+                "id": "",
+                "user_id": "16778240",
+                "name": "Barack Obama",
+                "user_email": "",
+                "join_time": "2020-04-24T21:00:26Z",
+                "leave_time": "2020-04-24T22:24:38Z",
+                "duration": 5052,
+                "attentiveness_score": "",
+            },
+            {
+                "id": "",
+                "user_id": "16779264",
+                "name": "",
+                "user_email": "",
+                "join_time": "2020-04-24T21:00:45Z",
+                "leave_time": "2020-04-24T22:24:38Z",
+                "duration": 5033,
+                "attentiveness_score": "",
+            },
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "",
+                "user_id": "16778240",
+                "name": "Barack Obama",
+                "user_email": "",
+                "join_time": "2020-04-24T21:00:26Z",
+                "leave_time": "2020-04-24T22:24:38Z",
+                "duration": 5052,
+                "attentiveness_score": "",
+            },
+            {
+                "id": "",
+                "user_id": "16779264",
+                "name": "",
+                "user_email": "",
+                "join_time": "2020-04-24T21:00:45Z",
+                "leave_time": "2020-04-24T22:24:38Z",
+                "duration": 5033,
+                "attentiveness_score": "",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "report/meetings/123/participants", json=participants)
+    assert_matching_tables(zoom.get_past_meeting_participants(123), tbl)
+
+
+def test_get_meeting_registrants(zoom, requests_mock):
+    registrants = {
+        "page_count": 1,
+        "page_size": 30,
+        "total_records": 4,
+        "next_page_token": "",
+        "registrants": [
+            {
+                "id": "",
+                "user_id": "16778240",
+                "name": "Barack Obama",
+                "user_email": "",
+                "purchasing_time_frame": "Within a month",
+                "role_in_purchase_process": "Not involved",
+            },
+            {
+                "id": "",
+                "user_id": "16779264",
+                "name": "",
+                "user_email": "",
+                "purchasing_time_frame": "Within a month",
+                "role_in_purchase_process": "Not involved",
+            },
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "",
+                "user_id": "16778240",
+                "name": "Barack Obama",
+                "user_email": "",
+                "purchasing_time_frame": "Within a month",
+                "role_in_purchase_process": "Not involved",
+            },
+            {
+                "id": "",
+                "user_id": "16779264",
+                "name": "",
+                "user_email": "",
+                "purchasing_time_frame": "Within a month",
+                "role_in_purchase_process": "Not involved",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "meetings/123/registrants", json=registrants)
+    assert_matching_tables(zoom.get_meeting_registrants(123), tbl)
+
+
+def test_get_user_webinars(zoom, requests_mock):
+    webinars = {
+        "page_count": 1,
+        "page_size": 30,
+        "total_records": 4,
+        "next_page_token": "",
+        "webinars": [
+            {
+                "uuid": "dsghfkhaewfds",
+                "id": "",
+                "host_id": "24654130000000",
+                "topic": "My Webinar",
+                "agenda": "Learn more about Zoom APIs",
+                "type": "5",
+                "duration": "60",
+                "start_time": "2019-09-24T22:00:00Z",
+                "timezone": "America/Los_Angeles",
+                "created_at": "2019-08-30T22:00:00Z",
+                "join_url": "https://zoom.us/0001000/awesomewebinar",
+            },
+            {
+                "uuid": "dhf8as7dhf",
+                "id": "",
+                "host_id": "24654130000345",
+                "topic": "My Webinar",
+                "agenda": "Learn more about Zoom APIs",
+                "type": "5",
+                "duration": "60",
+                "start_time": "2019-09-24T22:00:00Z",
+                "timezone": "America/Los_Angeles",
+                "created_at": "2019-08-30T22:00:00Z",
+                "join_url": "https://zoom.us/0001000/awesomewebinar",
+            },
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "uuid": "dsghfkhaewfds",
+                "id": "",
+                "host_id": "24654130000000",
+                "topic": "My Webinar",
+                "agenda": "Learn more about Zoom APIs",
+                "type": "5",
+                "duration": "60",
+                "start_time": "2019-09-24T22:00:00Z",
+                "timezone": "America/Los_Angeles",
+                "created_at": "2019-08-30T22:00:00Z",
+                "join_url": "https://zoom.us/0001000/awesomewebinar",
+            },
+            {
+                "uuid": "dhf8as7dhf",
+                "id": "",
+                "host_id": "24654130000345",
+                "topic": "My Webinar",
+                "agenda": "Learn more about Zoom APIs",
+                "type": "5",
+                "duration": "60",
+                "start_time": "2019-09-24T22:00:00Z",
+                "timezone": "America/Los_Angeles",
+                "created_at": "2019-08-30T22:00:00Z",
+                "join_url": "https://zoom.us/0001000/awesomewebinar",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "users/123/webinars", json=webinars)
+    assert_matching_tables(zoom.get_user_webinars(123), tbl)
+
+
+def test_get_past_webinar_participants(zoom, requests_mock):
+    participants = {
+        "page_count": 1,
+        "page_size": 30,
+        "total_records": 4,
+        "next_page_token": "",
+        "participants": [
+            {
+                "id": "",
+                "user_id": "sdfjkldsf87987",
+                "name": "Barack",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20",
+            },
+            {
+                "id": "",
+                "user_id": "sdfjkldsfdfgdfg",
+                "name": "Joe",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20",
+            },
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "",
+                "user_id": "sdfjkldsf87987",
+                "name": "Barack",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20",
+            },
+            {
+                "id": "",
+                "user_id": "sdfjkldsfdfgdfg",
+                "name": "Joe",
+                "user_email": "riya@sdfjkldsf87987.fdjfhdf",
+                "join_time": "2019-02-01T12:34:12.660Z",
+                "leave_time": "2019-03-01T12:34:12.660Z",
+                "duration": "20",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "report/webinars/123/participants", json=participants)
+    assert_matching_tables(zoom.get_past_webinar_participants(123), tbl)
+
+
+def test_get_past_webinar_report(zoom, requests_mock):
+    report = {
+        "custom_keys": [{"key": "Host Nation", "value": "US"}],
+        "dept": "HR",
+        "duration": 2,
+        "end_time": "2022-03-15T07:42:22Z",
+        "id": 345678902224,
+        "participants_count": 4,
+        "start_time": "2022-03-15T07:40:46Z",
+        "topic": "My Meeting",
+        "total_minutes": 3,
+        "tracking_fields": [{"field": "Host Nation", "value": "US"}],
+        "type": 4,
+        "user_email": "jchill@example.com",
+        "user_name": "Jill Chill",
+        "uuid": "4444AAAiAAAAAiAiAiiAii==",
+    }
+
+    requests_mock.get(ZOOM_URI + "report/webinars/123", json=report)
+    assert_matching_tables(zoom.get_past_webinar_report(123), report)
+
+
+def test_get_webinar_registrants(zoom, requests_mock):
+    registrants = {
+        "page_count": 1,
+        "page_size": 30,
+        "total_records": 4,
+        "next_page_token": "",
+        "registrants": [
+            {
+                "id": "",
+                "email": "barack@obama.com",
+                "first_name": "Barack",
+                "last_name": "Obama",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                        "title": "What do you hope to learn from this Webinar?",
+                        "value": "Look forward to learning how you come up with recipes and services",
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool",
+            },
+            {
+                "id": "",
+                "email": "joe@biden.com",
+                "first_name": "Joe",
+                "last_name": "Biden",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                        "title": "What do you hope to learn from this Webinar?",
+                        "value": "Look forward to learning how you come up with recipes and services",
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool",
+            },
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "",
+                "email": "barack@obama.com",
+                "first_name": "Barack",
+                "last_name": "Obama",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                        "title": "What do you hope to learn from this Webinar?",
+                        "value": "Look forward to learning how you come up with recipes and services",
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool",
+            },
+            {
+                "id": "",
+                "email": "joe@biden.com",
+                "first_name": "Joe",
+                "last_name": "Biden",
+                "address": "dsfhkdjsfh st",
+                "city": "jackson heights",
+                "country": "US",
+                "zip": "11371",
+                "state": "NY",
+                "phone": "00000000",
+                "industry": "Food",
+                "org": "Cooking Org",
+                "job_title": "Chef",
+                "purchasing_time_frame": "1-3 months",
+                "role_in_purchase_process": "Influencer",
+                "no_of_employees": "10",
+                "comments": "Looking forward to the Webinar",
+                "custom_questions": [
+                    {
+                        "title": "What do you hope to learn from this Webinar?",
+                        "value": "Look forward to learning how you come up with recipes and services",
+                    }
+                ],
+                "status": "approved",
+                "create_time": "2019-02-26T23:01:16.899Z",
+                "join_url": "https://zoom.us/webinar/mywebinariscool",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "webinars/123/registrants", json=registrants)
+    assert_matching_tables(zoom.get_webinar_registrants(123), tbl)
+
+
+def test_get_meeting_poll_metadata(zoom, requests_mock):
+    poll = {
+        "id": 1,
+        "status": "started",
+        "anonymous": "False",
+        "poll_type": 1,
+        "questions": [
+            {
+                "answer_max_character": 1,
+                "answer_min_character": 1,
+                "answer_required": "False",
+                "answers": "Larry David's Curb Your Enthusiasm",
+                "case_sensitive": "True",
+                "name": "Secret Truth",
+                "prompts": [
+                    {
+                        "prompt_question": "What's the secret truth of the universe?",
+                        "prompt_right_answers": [
+                            "Pizza delivery",
+                            "Larry David's Curb Your Enthusiasm",
+                        ],
+                    }
+                ],
+                "rating_max_label": "",
+                "rating_max_value": 1,
+                "rating_min_label": "",
+                "rating_min_value": 0,
+                "right_answers": "",
+                "show_as_dropdown": False,
+                "type": "short_answer",
+            }
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "answer_max_character": 1,
+                "answer_min_character": 1,
+                "answer_required": "False",
+                "answers": "Larry David's Curb Your Enthusiasm",
+                "case_sensitive": "True",
+                "name": "Secret Truth",
+                "rating_max_label": "",
+                "rating_max_value": 1,
+                "rating_min_label": "",
+                "rating_min_value": 0,
+                "right_answers": "",
+                "show_as_dropdown": False,
+                "type": "short_answer",
+                "prompts__prompt_question": "What's the secret truth of the universe?",
+                "prompts__prompt_right_answers": [
+                    "Pizza delivery",
+                    "Larry David's Curb Your Enthusiasm",
+                ],
+            }
+        ],
+    )
+
+    requests_mock.get(ZOOM_URI + "meetings/123/polls/1", json=poll)
+    assert_matching_tables(zoom.get_meeting_poll_metadata(123, 1), tbl)
+
+
+def test_get_meeting_all_polls_metadata(zoom, requests_mock):
+    polls = {
+        "polls": [
+            {
+                "id": 1,
+                "status": "started",
+                "anonymous": "False",
+                "poll_type": 1,
+                "questions": [
+                    {
+                        "answer_max_character": 1,
+                        "answer_min_character": 1,
+                        "answer_required": "False",
+                        "answers": "Larry David's Curb Your Enthusiasm",
+                        "case_sensitive": "True",
+                        "name": "Secret Truth",
+                        "prompts": [
+                            {
+                                "prompt_question": "What's the secret truth of the universe?",
+                                "prompt_right_answers": [
+                                    "Pizza delivery",
+                                    "Larry David's Curb Your Enthusiasm",
+                                ],
+                            }
+                        ],
+                        "rating_max_label": "",
+                        "rating_max_value": 1,
+                        "rating_min_label": "",
+                        "rating_min_value": 0,
+                        "right_answers": "",
+                        "show_as_dropdown": False,
+                        "type": "short_answer",
+                    }
+                ],
+            },
+            {
+                "id": 2,
+                "status": "started",
+                "anonymous": "False",
+                "poll_type": 1,
+                "questions": [
+                    {
+                        "answer_max_character": 1,
+                        "answer_min_character": 1,
+                        "answer_required": "False",
+                        "answers": "Mets",
+                        "case_sensitive": "True",
+                        "name": "Play ball",
+                        "prompts": [
+                            {
+                                "prompt_question": "Best NY baseball team?",
+                                "prompt_right_answers": ["Mets"],
+                            }
+                        ],
+                        "rating_max_label": "",
+                        "rating_max_value": 1,
+                        "rating_min_label": "",
+                        "rating_min_value": 0,
+                        "right_answers": "",
+                        "show_as_dropdown": True,
+                        "type": "short_answer",
+                    }
+                ],
+            },
+        ]
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": 1,
+                "status": "started",
+                "anonymous": "False",
+                "poll_type": 1,
+                "questions__answer_max_character": 1,
+                "questions__answer_min_character": 1,
+                "questions__answer_required": "False",
+                "questions__answers": "Larry David's Curb Your Enthusiasm",
+                "questions__case_sensitive": "True",
+                "questions__name": "Secret Truth",
+                "questions__prompts": [
+                    {
+                        "prompt_question": "What's the secret truth of the universe?",
+                        "prompt_right_answers": [
+                            "Pizza delivery",
+                            "Larry David's Curb Your Enthusiasm",
+                        ],
+                    }
+                ],
+                "questions__rating_max_label": "",
+                "questions__rating_max_value": 1,
+                "questions__rating_min_label": "",
+                "questions__rating_min_value": 0,
+                "questions__right_answers": "",
+                "questions__show_as_dropdown": False,
+                "questions__type": "short_answer",
+            },
+            {
+                "id": 2,
+                "status": "started",
+                "anonymous": "False",
+                "poll_type": 1,
+                "questions__answer_max_character": 1,
+                "questions__answer_min_character": 1,
+                "questions__answer_required": "False",
+                "questions__answers": "Mets",
+                "questions__case_sensitive": "True",
+                "questions__name": "Play ball",
+                "questions__prompts": [
+                    {
+                        "prompt_question": "Best NY baseball team?",
+                        "prompt_right_answers": ["Mets"],
+                    }
+                ],
+                "questions__rating_max_label": "",
+                "questions__rating_max_value": 1,
+                "questions__rating_min_label": "",
+                "questions__rating_min_value": 0,
+                "questions__right_answers": "",
+                "questions__show_as_dropdown": True,
+                "questions__type": "short_answer",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "meetings/123/polls", json=polls)
+    assert_matching_tables(zoom.get_meeting_all_polls_metadata(123), tbl)
+
+
+def test_get_past_meeting_poll_metadata(zoom, requests_mock):
+    poll = {
+        "id": 1,
+        "status": "started",
+        "anonymous": "False",
+        "poll_type": 1,
+        "questions": [
+            {
+                "answer_max_character": 1,
+                "answer_min_character": 1,
+                "answer_required": "False",
+                "answers": "Larry David's Curb Your Enthusiasm",
+                "case_sensitive": "True",
+                "name": "Secret Truth",
+                "question_details": [
+                    {
+                        "prompt_question": "What's the secret truth of the universe?",
+                        "prompt_right_answers": [
+                            "Pizza delivery",
+                            "Larry David's Curb Your Enthusiasm",
+                        ],
+                    }
+                ],
+                "rating_max_label": "",
+                "rating_max_value": 1,
+                "rating_min_label": "",
+                "rating_min_value": 0,
+                "right_answers": "",
+                "show_as_dropdown": False,
+                "type": "short_answer",
+            }
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "answer_max_character": 1,
+                "answer_min_character": 1,
+                "answer_required": "False",
+                "answers": "Larry David's Curb Your Enthusiasm",
+                "case_sensitive": "True",
+                "name": "Secret Truth",
+                "rating_max_label": "",
+                "rating_max_value": 1,
+                "rating_min_label": "",
+                "rating_min_value": 0,
+                "right_answers": "",
+                "show_as_dropdown": False,
+                "type": "short_answer",
+                "question_details__prompt_question": "What's the secret truth of the universe?",
+                "question_details__prompt_right_answers": [
+                    "Pizza delivery",
+                    "Larry David's Curb Your Enthusiasm",
+                ],
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "past_meetings/123/polls", json=poll)
+    assert_matching_tables(zoom.get_past_meeting_poll_metadata(123), tbl)
+
+
+def test_get_webinar_poll_metadata(zoom, requests_mock):
+    poll = {
+        "id": "QalIoKWLTJehBJ8e1xRrbQ",
+        "status": "notstart",
+        "anonymous": True,
+        "poll_type": 2,
+        "questions": [
+            {
+                "answer_max_character": 200,
+                "answer_min_character": 1,
+                "answer_required": False,
+                "answers": ["Extremely useful"],
+                "case_sensitive": False,
+                "name": "How useful was this meeting?",
+                "prompts": [
+                    {
+                        "prompt_question": "How are you?",
+                        "prompt_right_answers": ["Good"],
+                    }
+                ],
+                "rating_max_label": "Extremely Likely",
+                "rating_max_value": 4,
+                "rating_min_label": "Not likely",
+                "rating_min_value": 0,
+                "right_answers": ["Good"],
+                "show_as_dropdown": False,
+                "type": "single",
+            }
+        ],
+        "title": "Learn something new",
+    }
+
+    tbl = Table(
+        [
+            {
+                "answer_max_character": 200,
+                "answer_min_character": 1,
+                "answer_required": False,
+                "answers": ["Extremely useful"],
+                "case_sensitive": False,
+                "name": "How useful was this meeting?",
+                "rating_max_label": "Extremely Likely",
+                "rating_max_value": 4,
+                "rating_min_label": "Not likely",
+                "rating_min_value": 0,
+                "right_answers": ["Good"],
+                "show_as_dropdown": False,
+                "type": "single",
+                "prompts__prompt_question": "How are you?",
+                "prompts__prompt_right_answers": ["Good"],
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "webinars/123/polls/456", json=poll)
+    assert_matching_tables(zoom.get_webinar_poll_metadata(123, 456), tbl)
+
+
+def test_get_webinar_all_polls_metadata(zoom, requests_mock):
+    polls = {
+        "polls": [
+            {
+                "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                "status": "notstart",
+                "anonymous": True,
+                "poll_type": 2,
+                "questions": [
+                    {
+                        "answer_max_character": 200,
+                        "answer_min_character": 1,
+                        "answer_required": False,
+                        "answers": ["Extremely useful"],
+                        "case_sensitive": False,
+                        "name": "How useful was this meeting?",
+                        "prompts": [
+                            {
+                                "prompt_question": "How are you?",
+                                "prompt_right_answers": ["Good"],
+                            }
+                        ],
+                        "rating_max_label": "Extremely Likely",
+                        "rating_max_value": 4,
+                        "rating_min_label": "Not likely",
+                        "rating_min_value": 0,
+                        "right_answers": ["Good"],
+                        "show_as_dropdown": False,
+                        "type": "single",
+                    }
+                ],
+                "title": "Learn something new",
+            }
+        ],
+        "total_records": 1,
+    }
+
+    tbl = Table(
+        [
+            {
+                "id": "QalIoKWLTJehBJ8e1xRrbQ",
+                "status": "notstart",
+                "anonymous": True,
+                "poll_type": 2,
+                "title": "Learn something new",
+                "questions__answer_max_character": 200,
+                "questions__answer_min_character": 1,
+                "questions__answer_required": False,
+                "questions__answers": ["Extremely useful"],
+                "questions__case_sensitive": False,
+                "questions__name": "How useful was this meeting?",
+                "questions__prompts": [
+                    {
+                        "prompt_question": "How are you?",
+                        "prompt_right_answers": ["Good"],
+                    }
+                ],
+                "questions__rating_max_label": "Extremely Likely",
+                "questions__rating_max_value": 4,
+                "questions__rating_min_label": "Not likely",
+                "questions__rating_min_value": 0,
+                "questions__right_answers": ["Good"],
+                "questions__show_as_dropdown": False,
+                "questions__type": "single",
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "webinars/123/polls", json=polls)
+    assert_matching_tables(zoom.get_webinar_all_polls_metadata(123), tbl)
+
+
+def test_get_past_webinar_poll_metadata(zoom, requests_mock):
+    poll = {
+        "id": "QalIoKWLTJehBJ8e1xRrbQ",
+        "status": "notstart",
+        "anonymous": True,
+        "poll_type": 2,
+        "questions": [
+            {
+                "answer_max_character": 200,
+                "answer_min_character": 1,
+                "answer_required": False,
+                "answers": ["Extremely useful"],
+                "case_sensitive": False,
+                "name": "How useful was this meeting?",
+                "question_details": [
+                    {
+                        "question": "How are you?",
+                        "answer": ["Good"],
+                    }
+                ],
+                "rating_max_label": "Extremely Likely",
+                "rating_max_value": 4,
+                "rating_min_label": "Not likely",
+                "rating_min_value": 0,
+                "right_answers": ["Good"],
+                "show_as_dropdown": False,
+                "type": "single",
+            }
+        ],
+        "title": "Learn something new",
+    }
+
+    tbl = Table(
+        [
+            {
+                "answer_max_character": 200,
+                "answer_min_character": 1,
+                "answer_required": False,
+                "answers": ["Extremely useful"],
+                "case_sensitive": False,
+                "name": "How useful was this meeting?",
+                "rating_max_label": "Extremely Likely",
+                "rating_max_value": 4,
+                "rating_min_label": "Not likely",
+                "rating_min_value": 0,
+                "right_answers": ["Good"],
+                "show_as_dropdown": False,
+                "type": "single",
+                "question_details__answer": ["Good"],
+                "question_details__question": "How are you?",
+            }
+        ],
+    )
+
+    requests_mock.get(ZOOM_URI + "past_webinars/123/polls", json=poll)
+    assert_matching_tables(zoom.get_past_webinar_poll_metadata(123), tbl)
+
+
+def test_get_meeting_poll_results(zoom, requests_mock):
+    poll = {
+        "id": 123456,
+        "uuid": "4444AAAiAAAAAiAiAiiAii==",
+        "start_time": "2022-02-01T12:34:12.660Z",
+        "questions": [
+            {
+                "email": "jchill@example.com",
+                "name": "Jill Chill",
+                "first_name": "Jill",
+                "last_name": "Chill",
+                "question_details": [
+                    {
+                        "answer": "I am wonderful.",
+                        "date_time": "2022-02-01T12:37:12.660Z",
+                        "polling_id": "798fGJEWrA",
+                        "question": "How are you?",
+                    }
+                ],
+            }
+        ],
+    }
+
+    tbl = Table(
+        [
+            {
+                "email": "jchill@example.com",
+                "name": "Jill Chill",
+                "first_name": "Jill",
+                "last_name": "Chill",
+                "answer": "I am wonderful.",
+                "date_time": "2022-02-01T12:37:12.660Z",
+                "polling_id": "798fGJEWrA",
+                "question": "How are you?",
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "report/meetings/123/polls", json=poll)
+    assert_matching_tables(zoom.get_meeting_poll_results(123), tbl)
+
+
+def test_get_webinar_poll_results(zoom, requests_mock):
+    poll = {
+        "id": 123456,
+        "questions": [
+            {
+                "email": "jchill@example.com",
+                "name": "Jill Chill",
+                "first_name": "Jill",
+                "last_name": "Chill",
+                "question_details": [
+                    {
+                        "answer": "I am wonderful.",
+                        "date_time": "2022-02-01T12:37:12.660Z",
+                        "polling_id": "798fGJEWrA",
+                        "question": "How are you?",
+                    }
+                ],
+            }
+        ],
+        "start_time": "2022-02-01T12:34:12.660Z",
+        "uuid": "4444AAAiAAAAAiAiAiiAii==",
+    }
+
+    tbl = Table(
+        [
+            {
+                "email": "jchill@example.com",
+                "name": "Jill Chill",
+                "first_name": "Jill",
+                "last_name": "Chill",
+                "answer": "I am wonderful.",
+                "date_time": "2022-02-01T12:37:12.660Z",
+                "polling_id": "798fGJEWrA",
+                "question": "How are you?",
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "report/webinars/123/polls", json=poll)
+    assert_matching_tables(zoom.get_webinar_poll_results(123), tbl)
+
+
+def test_get_webinar_occurrences(zoomv2, requests_mock):
+    occurrences = {
+        "occurrences": [
+            {
+                "occurrence_id": "123456789",
+                "start_time": "2023-01-01T10:00:00Z",
+                "duration": 60,
+                "status": "available",
+            },
+            {
+                "occurrence_id": "987654321",
+                "start_time": "2023-01-02T14:00:00Z",
+                "duration": 90,
+                "status": "available",
+            },
+        ]
+    }
+
+    tbl = Table(
+        [
+            {
+                "occurrence_id": "123456789",
+                "start_time": "2023-01-01T10:00:00Z",
+                "duration": 60,
+                "status": "available",
+            },
+            {
+                "occurrence_id": "987654321",
+                "start_time": "2023-01-02T14:00:00Z",
+                "duration": 90,
+                "status": "available",
+            },
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "webinars/123/", json=occurrences)
+    assert_matching_tables(zoomv2.get_webinar_occurrences(123), tbl)
+
+
+def test_get_past_webinar_occurrences(zoomv2, requests_mock):
+    webinars = {
+        "webinars": [
+            {
+                "start_time": "2022-03-26T06:44:14Z",
+                "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+            }
+        ]
+    }
+
+    tbl = Table(
+        [
+            {
+                "start_time": "2022-03-26T06:44:14Z",
+                "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                "webinar_id": 123,
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "past_webinars/123/instances", json=webinars)
+    assert_matching_tables(zoomv2.get_past_webinar_occurrences(123), tbl)
+
+
+def test_get_past_meeting_occurrences(zoomv2, requests_mock):
+    meetings = {
+        "meetings": [
+            {
+                "start_time": "2022-03-26T06:44:14Z",
+                "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+            }
+        ]
+    }
+
+    tbl = Table(
+        [
+            {
+                "start_time": "2022-03-26T06:44:14Z",
+                "uuid": "Bznyg8KZTdCVbQxvS/oZ7w==",
+                "meeting_id": 123,
+            }
+        ]
+    )
+
+    requests_mock.get(ZOOM_URI + "past_meetings/123/instances", json=meetings)
+    assert_matching_tables(zoomv2.get_past_meeting_occurrences(123), tbl)
+
+
+def test_new_returns_v1_by_default(requests_mock):
+    """Test that Zoom() returns ZoomV1 instance by default"""
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+    assert isinstance(zoom, ZoomV1)
+
+
+def test_new_returns_v1_when_specified(requests_mock):
+    """Test that Zoom() returns ZoomV1 when parsons_version='v1'"""
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+    assert isinstance(zoom, ZoomV1)
+    assert not isinstance(zoom, ZoomV2)
+
+
+def test_new_returns_v2_when_specified(requests_mock):
+    """Test that Zoom() returns ZoomV2 when parsons_version='v2'"""
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+    assert isinstance(zoom, ZoomV2)
+
+
+def test_new_raises_error_on_invalid_version(requests_mock):
+    """Test that Zoom() raises ValueError for invalid parsons_version"""
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    with pytest.raises(ValueError, match="v3 not supported"):
+        Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v3")
+
+
+def test_new_respects_env_variable_v1(requests_mock, monkeypatch):
+    """Test that ZOOM_PARSONS_VERSION env variable is respected for v1"""
+    monkeypatch.setenv("ZOOM_PARSONS_VERSION", "v1")
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+    assert isinstance(zoom, ZoomV1)
+    assert not isinstance(zoom, ZoomV2)
+
+
+def test_new_respects_env_variable_v2(requests_mock, monkeypatch):
+    """Test that ZOOM_PARSONS_VERSION env variable is respected for v2"""
+    monkeypatch.setenv("ZOOM_PARSONS_VERSION", "v2")
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET)
+    assert isinstance(zoom, ZoomV2)
+
+
+def test_new_param_overrides_env_variable_v2(requests_mock, monkeypatch):
+    """Test that parsons_version parameter overrides env variable"""
+    monkeypatch.setenv("ZOOM_PARSONS_VERSION", "v1")
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    # Env var is v1, but we explicitly request v2
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v2")
+    assert isinstance(zoom, ZoomV2)
+
+
+def test_new_param_overrides_env_variable_v1(requests_mock, monkeypatch):
+    """Test that parsons_version parameter overrides env variable"""
+    monkeypatch.setenv("ZOOM_PARSONS_VERSION", "v2")
+    requests_mock.post(ZOOM_AUTH_CALLBACK, json={"access_token": "fakeAccessToken"})
+    # Env var is v2, but we explicitly request v1
+    zoom = Zoom(ACCOUNT_ID, CLIENT_ID, CLIENT_SECRET, parsons_version="v1")
+    assert isinstance(zoom, ZoomV1)
+    assert not isinstance(zoom, ZoomV2)

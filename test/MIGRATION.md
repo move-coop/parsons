@@ -74,19 +74,32 @@ verify the mock targets the external boundary, not the connector's own methods.
 
 ### P0 · HYBRID (13) — review the boundary first
 
-- [ ] `test_actblue` — TC, +init, boundary?
-- [ ] `test_airmeet` — TC, top→dir, boundary?
-- [ ] `test_auth0` — TC, top→dir, boundary?
-- [ ] `test_bloomerang` — TC, boundary?
-- [ ] `test_census` — TC, +init, boundary?
-- [ ] `test_github` — boundary?
-- [ ] `test_google` — TC, +init, data→data/, boundary?
-- [ ] `test_newmode` — TC, boundary?
-- [ ] `test_ngpvan` — TC, data→data/, boundary?
-- [ ] `test_sisense` — TC, boundary?
-- [ ] `test_slack` — TC, boundary?
-- [ ] `test_targetsmart` — TC, boundary?
-- [ ] `test_zoom` — TC, top→dir, boundary?
+> **Finding (in progress):** most "hybrid" flags are *not* boundary bugs — they
+> come from incidental `@mock.patch.dict(os.environ)` or a MagicMock used as a
+> requests-mock response, while the real HTTP/SDK boundary is already mocked
+> correctly. These need only style conversion. The genuine anti-pattern (mocking
+> a Parsons-owned method and hiding a bug) has so far shown up **once**: `airmeet`.
+
+- [x] `test_airmeet` — **done.** Was mocking `APIConnector.get_request`; moved to
+  `requests_mock`, which exposed and fixed a real `TypeError` bug in
+  `download_session_recordings`.
+- [x] `test_auth0` — **done.** Moved to a package; pure `requests_mock`; replaced
+  MagicMock-as-response misuse.
+- [x] `test_sisense` — **done.** Boundary was already correct (`requests_mock`);
+  converted to pytest + monkeypatch.
+- [ ] `test_actblue` — TC, +init (style only — boundary looks correct)
+- [ ] `test_bloomerang` — TC (style only)
+- [ ] `test_census` — TC, +init (style only)
+- [ ] `test_github` — (style only)
+- [ ] `test_newmode` — TC (legitimate: V1 is SDK-pattern, V2 is `requests_mock`; style only)
+- [ ] `test_slack` — TC (style only)
+- [ ] `test_targetsmart` — TC (style only)
+- [ ] `test_zoom` — TC, top→dir, data→data/ — **deferred (large):** ~28 tests, big
+  inline payloads; boundary already correct. Dedicated PR.
+- [ ] `test_google` — TC, +init, data→data/ — **deferred (large):** multi-file dir
+  with legacy response modules. Dedicated PR.
+- [ ] `test_ngpvan` — TC, data→data/ — **deferred (large):** multi-file dir with
+  legacy response modules. Dedicated PR.
 
 ### P1 · OBJECT (11) — confirm it mocks a third-party client
 

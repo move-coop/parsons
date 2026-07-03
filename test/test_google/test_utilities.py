@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+import unittest
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -9,6 +10,30 @@ import pytest
 from parsons.google import utilities as util
 
 TEST_ENV_NAME = "DUMMY_APP_CREDS"
+
+
+class FakeCredentialTest(unittest.TestCase):
+    """Base ``TestCase`` that writes a fake Google credentials file in ``setUp``.
+
+    Retained because other suites still inherit it (e.g. ``test_bigquery``). New
+    tests should use the ``fake_credentials`` fixture below instead.
+    """
+
+    def setUp(self) -> None:
+        self.dir = tempfile.TemporaryDirectory()
+        self.cred_path = str(Path(self.dir.name) / "mycred.json")
+        self.cred_contents = {
+            "client_id": "foobar.apps.googleusercontent.com",
+            "client_secret": str(hash("foobar")),
+            "quota_project_id": "project-id",
+            "refresh_token": str(hash("foobarfoobar")),
+            "type": "authorized_user",
+        }
+        with Path(self.cred_path).open(mode="w") as f:
+            json.dump(self.cred_contents, f)
+
+    def tearDown(self) -> None:
+        self.dir.cleanup()
 
 
 @pytest.fixture

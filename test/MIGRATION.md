@@ -72,34 +72,37 @@ verify the mock targets the external boundary, not the connector's own methods.
 
 ## Checklist
 
-### P0 · HYBRID (13) — review the boundary first
+### P0 · HYBRID (13) — ✅ all done
 
-> **Finding (in progress):** most "hybrid" flags are *not* boundary bugs — they
-> come from incidental `@mock.patch.dict(os.environ)` or a MagicMock used as a
-> requests-mock response, while the real HTTP/SDK boundary is already mocked
-> correctly. These need only style conversion. The genuine anti-pattern (mocking
-> a Parsons-owned method and hiding a bug) has so far shown up **once**: `airmeet`.
+> **Finding:** most "hybrid" flags were *not* boundary bugs — they came from
+> incidental `@mock.patch.dict(os.environ)` or a MagicMock used as a requests-mock
+> response, while the real HTTP/SDK boundary was already mocked correctly. The
+> genuine "mock a Parsons-owned method and hide a bug" anti-pattern showed up in
+> **`airmeet`** (a real `TypeError` fixed). Converting the suites also surfaced
+> several latent *test* bugs (no-op assertions, a dead nested test) — all fixed.
+>
+> Data-file extraction (`data→data/`) for the larger suites was intentionally
+> left out of this pass and remains as follow-up (see below); every payload is
+> still test-local and correct.
 
-- [x] `test_airmeet` — **done.** Was mocking `APIConnector.get_request`; moved to
-  `requests_mock`, which exposed and fixed a real `TypeError` bug in
-  `download_session_recordings`.
-- [x] `test_auth0` — **done.** Moved to a package; pure `requests_mock`; replaced
-  MagicMock-as-response misuse.
-- [x] `test_sisense` — **done.** Boundary was already correct (`requests_mock`);
-  converted to pytest + monkeypatch.
-- [ ] `test_actblue` — TC, +init (style only — boundary looks correct)
-- [ ] `test_bloomerang` — TC (style only)
-- [ ] `test_census` — TC, +init (style only)
-- [ ] `test_github` — (style only)
-- [ ] `test_newmode` — TC (legitimate: V1 is SDK-pattern, V2 is `requests_mock`; style only)
-- [ ] `test_slack` — TC (style only)
-- [ ] `test_targetsmart` — TC (style only)
-- [ ] `test_zoom` — TC, top→dir, data→data/ — **deferred (large):** ~28 tests, big
-  inline payloads; boundary already correct. Dedicated PR.
-- [ ] `test_google` — TC, +init, data→data/ — **deferred (large):** multi-file dir
-  with legacy response modules. Dedicated PR.
-- [ ] `test_ngpvan` — TC, data→data/ — **deferred (large):** multi-file dir with
-  legacy response modules. Dedicated PR.
+- [x] `test_airmeet` — mocked `APIConnector.get_request`; moved to `requests_mock`,
+  which exposed and fixed a real `TypeError` in `download_session_recordings`.
+- [x] `test_auth0` — package; pure `requests_mock`; removed MagicMock-as-response misuse.
+- [x] `test_sisense` — pytest + monkeypatch (boundary was already correct).
+- [x] `test_actblue` — pytest + fixtures; `Table.from_csv` mock scoped via `mocker`.
+- [x] `test_bloomerang` — pytest + fixtures; monkeypatch for env init.
+- [x] `test_census` — pytest + fixture; live test preserved.
+- [x] `test_github` — pytest + conftest; PyGithub-client mock via `mocker`, HTTP via `requests_mock`.
+- [x] `test_newmode` — V1 SDK-pattern (`mocker`) + V2 `requests_mock`; fixed a shadowed test name.
+- [x] `test_slack` — slack_sdk client mocked via `mocker`; `responses/` JSON kept.
+- [x] `test_targetsmart` — `requests_mock`; live SFTP tests kept; fixed a no-op `pytest.raises`.
+- [x] `test_zoom` — top→dir package; 26 pytest fns; `requests_mock` fixture + monkeypatch.
+- [x] `test_google` — admin (mocker) / civic (requests_mock) / live suites / fakes; +`__init__`.
+- [x] `test_ngpvan` — 17 modules; `van` fixtures; recovered a dead nested test, fixed a no-op assert.
+
+**Follow-up (not blocking):** extract large inline / `*_responses.py` payloads into
+`data/*.json` for `zoom`, `google`, `ngpvan`, `targetsmart`, `newmode`, `sisense`,
+`bloomerang`.
 
 ### P1 · OBJECT (11) — confirm it mocks a third-party client
 

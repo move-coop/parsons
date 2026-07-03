@@ -1,109 +1,95 @@
-import os
-import unittest
-
 import pytest
-import requests_mock
 from requests.exceptions import HTTPError
 
 from parsons import VAN
 from test.conftest import assert_matching_tables
 
-os.environ["VAN_API_KEY"] = "SOME_KEY"
+
+def test_get_codes(van: VAN, requests_mock):
+    json = {
+        "items": [
+            {
+                "codeId": 1004916,
+                "parentCodeId": None,
+                "name": "Data Entry",
+                "description": "for test.",
+                "codePath": "Data Entry",
+                "createdByName": "",
+                "dateCreated": "2018-07-13T15:16:00Z",
+                "supportedEntities": None,
+                "codeType": "Tag",
+                "campaign": None,
+                "contactType": None,
+            }
+        ],
+        "nextPageLink": None,
+        "count": 8,
+    }
+
+    requests_mock.get(van.connection.uri + "codes", json=json)
+    assert_matching_tables(json["items"], van.get_codes())
 
 
-class TestCodes(unittest.TestCase):
-    def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
+def test_get_code(van: VAN, requests_mock):
+    json = {
+        "codeId": 1004916,
+        "parentCodeId": None,
+        "name": "Data Entry",
+        "description": "for test.",
+        "codePath": "Data Entry",
+        "createdByName": "",
+        "dateCreated": "2018-07-13T15:16:00Z",
+        "supportedEntities": None,
+        "codeType": "Tag",
+        "campaign": None,
+        "contactType": None,
+    }
 
-    def tearDown(self):
-        pass
+    requests_mock.get(van.connection.uri + "codes/1004916", json=json)
+    assert json == van.get_code(1004916)
 
-    @requests_mock.Mocker()
-    def test_get_codes(self, m):
-        json = {
-            "items": [
-                {
-                    "codeId": 1004916,
-                    "parentCodeId": None,
-                    "name": "Data Entry",
-                    "description": "for test.",
-                    "codePath": "Data Entry",
-                    "createdByName": "",
-                    "dateCreated": "2018-07-13T15:16:00Z",
-                    "supportedEntities": None,
-                    "codeType": "Tag",
-                    "campaign": None,
-                    "contactType": None,
-                }
-            ],
-            "nextPageLink": None,
-            "count": 8,
-        }
 
-        m.get(self.van.connection.uri + "codes", json=json)
-        assert_matching_tables(json["items"], self.van.get_codes())
+def test_get_code_types(van: VAN, requests_mock):
+    json = ["Tag", "SourceCode"]
+    requests_mock.get(van.connection.uri + "codeTypes", json=json)
+    assert json == van.get_code_types()
 
-    @requests_mock.Mocker()
-    def test_get_code(self, m):
-        json = {
-            "codeId": 1004916,
-            "parentCodeId": None,
-            "name": "Data Entry",
-            "description": "for test.",
-            "codePath": "Data Entry",
-            "createdByName": "",
-            "dateCreated": "2018-07-13T15:16:00Z",
-            "supportedEntities": None,
-            "codeType": "Tag",
-            "campaign": None,
-            "contactType": None,
-        }
 
-        m.get(self.van.connection.uri + "codes/1004916", json=json)
-        assert json == self.van.get_code(1004916)
+def test_create_code(van: VAN, requests_mock):
+    requests_mock.post(van.connection.uri + "codes", json=1004960, status_code=201)
 
-    @requests_mock.Mocker()
-    def test_get_code_types(self, m):
-        json = ["Tag", "SourceCode"]
-        m.get(self.van.connection.uri + "codeTypes", json=json)
-        assert json == self.van.get_code_types()
+    # Test that it doesn't throw and error
+    r = van.create_code(
+        "Test Code",
+        supported_entities=[{"name": "Events", "is_searchable": True, "is_applicable": True}],
+    )
 
-    @requests_mock.Mocker()
-    def test_create_code(self, m):
-        m.post(self.van.connection.uri + "codes", json=1004960, status_code=201)
+    assert r == 1004960
 
-        # Test that it doesn't throw and error
-        r = self.van.create_code(
-            "Test Code",
-            supported_entities=[{"name": "Events", "is_searchable": True, "is_applicable": True}],
-        )
 
-        assert r == 1004960
+def test_update_code(van: VAN, requests_mock):
+    # Test a good input
+    requests_mock.put(van.connection.uri + "codes/1004960", status_code=204)
+    van.update_code(1004960, name="Test")
 
-    @requests_mock.Mocker()
-    def test_update_code(self, m):
-        # Test a good input
-        m.put(self.van.connection.uri + "codes/1004960", status_code=204)
-        self.van.update_code(1004960, name="Test")
+    # Test a bad input
+    requests_mock.put(van.connection.uri + "codes/100496Q", status_code=404)
+    with pytest.raises(HTTPError):
+        van.update_code("100496Q")
 
-        # Test a bad input
-        m.put(self.van.connection.uri + "codes/100496Q", status_code=404)
-        with pytest.raises(HTTPError):
-            self.van.update_code("100496Q")
 
-    @requests_mock.Mocker()
-    def test_delete_code(self, m):
-        # Test a good input
-        m.delete(self.van.connection.uri + "codes/1004960", status_code=204)
-        self.van.delete_code(1004960)
+def test_delete_code(van: VAN, requests_mock):
+    # Test a good input
+    requests_mock.delete(van.connection.uri + "codes/1004960", status_code=204)
+    van.delete_code(1004960)
 
-        # Test a bad input
-        m.delete(self.van.connection.uri + "codes/100496Q", status_code=404)
-        with pytest.raises(HTTPError):
-            self.van.delete_code("100496Q")
+    # Test a bad input
+    requests_mock.delete(van.connection.uri + "codes/100496Q", status_code=404)
+    with pytest.raises(HTTPError):
+        van.delete_code("100496Q")
 
-    @requests_mock.Mocker()
-    def test_get_code_supported_entities(self, m):
-        json = ["Contacts", "Events", "Locations"]
-        m.get(self.van.connection.uri + "codes/supportedEntities", json=json)
-        assert json == self.van.get_code_supported_entities()
+
+def test_get_code_supported_entities(van: VAN, requests_mock):
+    json = ["Contacts", "Events", "Locations"]
+    requests_mock.get(van.connection.uri + "codes/supportedEntities", json=json)
+    assert json == van.get_code_supported_entities()

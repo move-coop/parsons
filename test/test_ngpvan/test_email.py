@@ -1,14 +1,7 @@
-import os
-import unittest
 from copy import deepcopy
-
-import requests_mock
 
 from parsons import VAN
 from test.conftest import assert_matching_tables
-
-os.environ["VAN_API_KEY"] = "SOME_KEY"
-
 
 sample_content_single = [
     {
@@ -170,59 +163,54 @@ mock_response_enriched[3]["emailMessageContent"] = sample_content_pending_email
 mock_response_enriched[4]["emailMessageContent"] = sample_content_full
 
 
-class TestEmail(unittest.TestCase):
-    def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
+def test_get_email_messages(van: VAN, requests_mock):
+    requests_mock.get(
+        van.connection.uri + "email/messages",
+        json=mock_response,
+        status_code=200,
+    )
 
-    @requests_mock.Mocker()
-    def test_get_email_messages(self, m):
-        m.get(
-            self.van.connection.uri + "email/messages",
-            json=mock_response,
+    response = van.get_emails()
+
+    assert_matching_tables(response, mock_response)
+
+
+def test_get_email_message(van: VAN, requests_mock):
+    requests_mock.get(
+        van.connection.uri + "email/message/0",
+        json=mock_response[0],
+        status_code=200,
+    )
+    requests_mock.get(
+        van.connection.uri + "email/message/1",
+        json=mock_response_enriched[0],
+        status_code=200,
+    )
+    response0 = van.get_email(0, expand=False)
+    response1 = van.get_email(1)
+
+    assert_matching_tables(response0, mock_response[0])
+    assert_matching_tables(response1, mock_response_enriched[0])
+
+
+def test_get_email_message_stats_agg(van: VAN, requests_mock):
+    requests_mock.get(
+        van.connection.uri + "email/messages",
+        json=mock_response_enriched,
+        status_code=200,
+    )
+    for resp in mock_response_enriched:
+        requests_mock.get(
+            van.connection.uri + f"email/message/{resp['foreignMessageId']}",
+            json=resp,
             status_code=200,
         )
 
-        response = self.van.get_emails()
+    response_t = van.get_email_stats(aggregate_ab=True)
+    response_f = van.get_email_stats(aggregate_ab=False)
 
-        assert_matching_tables(response, mock_response)
+    assert len(response_t.to_dicts()) == 5
+    assert len(response_f.to_dicts()) == 8
 
-    @requests_mock.Mocker()
-    def test_get_email_message(self, m):
-        m.get(
-            self.van.connection.uri + "email/message/0",
-            json=mock_response[0],
-            status_code=200,
-        )
-        m.get(
-            self.van.connection.uri + "email/message/1",
-            json=mock_response_enriched[0],
-            status_code=200,
-        )
-        response0 = self.van.get_email(0, expand=False)
-        response1 = self.van.get_email(1)
-
-        assert_matching_tables(response0, mock_response[0])
-        assert_matching_tables(response1, mock_response_enriched[0])
-
-    @requests_mock.Mocker()
-    def test_get_email_message_stats_agg(self, m):
-        m.get(
-            self.van.connection.uri + "email/messages",
-            json=mock_response_enriched,
-            status_code=200,
-        )
-        for resp in mock_response_enriched:
-            m.get(
-                self.van.connection.uri + f"email/message/{resp['foreignMessageId']}",
-                json=resp,
-                status_code=200,
-            )
-
-        response_t = self.van.get_email_stats(aggregate_ab=True)
-        response_f = self.van.get_email_stats(aggregate_ab=False)
-
-        assert len(response_t.to_dicts()) == 5
-        assert len(response_f.to_dicts()) == 8
-
-        assert response_t.to_dicts()[4]["recipientCount"] == 130
-        assert response_f.to_dicts()[4]["recipientCount"] == 10
+    assert response_t.to_dicts()[4]["recipientCount"] == 130
+    assert response_f.to_dicts()[4]["recipientCount"] == 10

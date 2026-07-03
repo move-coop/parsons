@@ -1,196 +1,182 @@
-import os
-import unittest
-import unittest.mock as mock
-
-import requests_mock
-
 from parsons import VAN, Table
 from parsons.utilities import cloud_storage
 from test.conftest import assert_matching_tables
 
-os.environ["VAN_API_KEY"] = "SOME_KEY"
+
+def test_get_bulk_import_resources(van: VAN, requests_mock):
+    json = ["Contacts", "Contributions", "ActivistCodes", "ContactsActivistCodes"]
+
+    requests_mock.get(van.connection.uri + "bulkImportJobs/resources", json=json)
+
+    assert van.get_bulk_import_resources() == json
 
 
-class TestBulkImport(unittest.TestCase):
-    def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
+def test_get_bulk_import_job(van: VAN, requests_mock):
+    requests_mock.get(van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
 
-    @requests_mock.Mocker()
-    def test_get_bulk_import_resources(self, m):
-        json = ["Contacts", "Contributions", "ActivistCodes", "ContactsActivistCodes"]
+    assert van.get_bulk_import_job(53407) == bulk_import_job
 
-        m.get(self.van.connection.uri + "bulkImportJobs/resources", json=json)
 
-        assert self.van.get_bulk_import_resources() == json
-
-    @requests_mock.Mocker()
-    def test_get_bulk_import_job(self, m):
-        m.get(self.van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
-
-        assert self.van.get_bulk_import_job(53407) == bulk_import_job
-
-    @requests_mock.Mocker()
-    def test_get_bulk_import_job_results(self, m):
-        results_tbl = Table(
+def test_get_bulk_import_job_results(van: VAN, requests_mock):
+    results_tbl = Table(
+        [
             [
-                [
-                    "BulkUploadDataID",
-                    "ULFileID",
-                    "PrimaryKey",
-                    "PrimaryKeyType",
-                    "MailingAddress_3581",
-                ],
-                ["1", "1983", "101596008", "VanID", "Processed"],
-            ]
-        )
-
-        bulk_import_job = {
-            "id": 92,
-            "status": "Completed",
-            "resourceType": "Contacts",
-            "webhookUrl": None,
-            "resultFileSizeLimitKb": 5000,
-            "errors": [],
-            "resultFiles": [
-                {
-                    "url": Table.to_csv(results_tbl),
-                    "dateExpired": "2020-09-04T22:07:04.0770295-04:00",
-                }
+                "BulkUploadDataID",
+                "ULFileID",
+                "PrimaryKey",
+                "PrimaryKeyType",
+                "MailingAddress_3581",
             ],
-        }
-
-        m.get(self.van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
-        assert_matching_tables(self.van.get_bulk_import_job_results(53407), results_tbl)
-
-    @requests_mock.Mocker()
-    def test_get_bulk_import_mapping_types(self, m):
-        m.get(self.van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
-
-        assert_matching_tables(self.van.get_bulk_import_mapping_types(), Table([mapping_type]))
-
-    @requests_mock.Mocker()
-    def test_get_bulk_import_mapping_type(self, m):
-        m.get(
-            self.van.connection.uri + "bulkImportMappingTypes/ActivistCode",
-            json=mapping_type,
-        )
-
-        assert self.van.get_bulk_import_mapping_type("ActivistCode") == mapping_type
-
-    @requests_mock.Mocker()
-    def get_bulk_import_mapping_type_fields(self, m):
-        json = [
-            {"name": "Unsubscribed", "id": "0", "parents": None},
-            {"name": "Not Subscribed", "id": "1", "parents": None},
-            {"name": "Subscribed", "id": "2", "parents": None},
+            ["1", "1983", "101596008", "VanID", "Processed"],
         ]
-        m.get(
-            self.van.connection.uri
-            + "bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values"
-        )
+    )
 
-        r = self.van.get_bulk_import_mapping_type_fields("Email", "EmailSubscriptionStatusId")
-        assert json == r
+    bulk_import_job = {
+        "id": 92,
+        "status": "Completed",
+        "resourceType": "Contacts",
+        "webhookUrl": None,
+        "resultFileSizeLimitKb": 5000,
+        "errors": [],
+        "resultFiles": [
+            {
+                "url": Table.to_csv(results_tbl),
+                "dateExpired": "2020-09-04T22:07:04.0770295-04:00",
+            }
+        ],
+    }
 
-    @requests_mock.Mocker()
-    def test_post_bulk_import(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+    requests_mock.get(van.connection.uri + "bulkImportJobs/53407", json=bulk_import_job)
+    assert_matching_tables(van.get_bulk_import_job_results(53407), results_tbl)
 
-        tbl = Table([["Vanid", "ActivistCodeID"], [1234, 345345]])
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+def test_get_bulk_import_mapping_types(van: VAN, requests_mock):
+    requests_mock.get(van.connection.uri + "bulkImportMappingTypes", json=[mapping_type])
 
-        r = self.van.post_bulk_import(
-            tbl,
-            "S3",
-            "ContactsActivistCodes",
-            [{"name": "ActivistCode"}],
-            "Activist Code Upload",
-            bucket="my-bucket",
-        )
+    assert_matching_tables(van.get_bulk_import_mapping_types(), Table([mapping_type]))
 
-        assert r == 54679
 
-    @requests_mock.Mocker()
-    def test_bulk_apply_activist_codes(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+def test_get_bulk_import_mapping_type(van: VAN, requests_mock):
+    requests_mock.get(
+        van.connection.uri + "bulkImportMappingTypes/ActivistCode",
+        json=mapping_type,
+    )
 
-        tbl = Table([["Vanid", "ActivistCodeID"], [1234, 345345]])
+    assert van.get_bulk_import_mapping_type("ActivistCode") == mapping_type
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_activist_codes(tbl, url_type="S3", bucket="my-bucket")
+def get_bulk_import_mapping_type_fields(van: VAN, requests_mock):
+    json = [
+        {"name": "Unsubscribed", "id": "0", "parents": None},
+        {"name": "Not Subscribed", "id": "1", "parents": None},
+        {"name": "Subscribed", "id": "2", "parents": None},
+    ]
+    requests_mock.get(
+        van.connection.uri + "bulkImportMappingTypes/Email/EmailSubscriptionStatusId/values"
+    )
 
-        assert job_id == 54679
+    r = van.get_bulk_import_mapping_type_fields("Email", "EmailSubscriptionStatusId")
+    assert json == r
 
-    @requests_mock.Mocker()
-    def test_bulk_apply_suppressions(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
 
-        tbl = Table([["Vanid", "suppressionid"], [1234, 18]])
+def test_post_bulk_import(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+    tbl = Table([["Vanid", "ActivistCodeID"], [1234, 345345]])
 
-        job_id = self.van.bulk_apply_suppressions(tbl, url_type="S3", bucket="my-bucket")
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        assert job_id == 54679
+    r = van.post_bulk_import(
+        tbl,
+        "S3",
+        "ContactsActivistCodes",
+        [{"name": "ActivistCode"}],
+        "Activist Code Upload",
+        bucket="my-bucket",
+    )
 
-    @requests_mock.Mocker()
-    def test_bulk_upsert_contacts(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+    assert r == 54679
 
-        tbl = Table([["Vanid", "email"], [1234, "me@me.com"]])
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+def test_bulk_apply_activist_codes(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
 
-        job_id = self.van.bulk_upsert_contacts(tbl, url_type="S3", bucket="my-bucket")
+    tbl = Table([["Vanid", "ActivistCodeID"], [1234, 345345]])
 
-        assert job_id == 54679
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-    @requests_mock.Mocker()
-    def test_bulk_apply_canvass_results(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+    job_id = van.bulk_apply_activist_codes(tbl, url_type="S3", bucket="my-bucket")
 
-        tbl = Table(
-            [
-                ["vanid", "contacttypeid", "resultid", "datecanvassed", "canvassedby", "phone"],
-                [1234, 1, 1, "2020-01-01", 987, "5554443210"],
-            ]
-        )
+    assert job_id == 54679
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        job_id = self.van.bulk_apply_canvass_results(tbl, url_type="S3", bucket="my-bucket")
+def test_bulk_apply_suppressions(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
 
-        assert job_id == 54679
+    tbl = Table([["Vanid", "suppressionid"], [1234, 18]])
 
-    @requests_mock.Mocker()
-    def test_bulk_apply_contact_custom_fields(self, m):
-        # Mock Cloud Storage
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://s3.com/my_file.zip"
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
 
-        tbl = Table([["vanid", "CF123", "CF124"], [1234, "Test String Value", 999]])
+    job_id = van.bulk_apply_suppressions(tbl, url_type="S3", bucket="my-bucket")
 
-        m.post(self.van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+    assert job_id == 54679
 
-        custom_field_group_id = 1234
 
-        job_id = self.van.bulk_apply_contact_custom_fields(
-            custom_field_group_id, tbl, url_type="S3", bucket="my-bucket"
-        )
+def test_bulk_upsert_contacts(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
 
-        assert job_id == 54679
+    tbl = Table([["Vanid", "email"], [1234, "me@me.com"]])
+
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+    job_id = van.bulk_upsert_contacts(tbl, url_type="S3", bucket="my-bucket")
+
+    assert job_id == 54679
+
+
+def test_bulk_apply_canvass_results(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
+
+    tbl = Table(
+        [
+            ["vanid", "contacttypeid", "resultid", "datecanvassed", "canvassedby", "phone"],
+            [1234, 1, 1, "2020-01-01", 987, "5554443210"],
+        ]
+    )
+
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+    job_id = van.bulk_apply_canvass_results(tbl, url_type="S3", bucket="my-bucket")
+
+    assert job_id == 54679
+
+
+def test_bulk_apply_contact_custom_fields(van: VAN, requests_mock, mocker):
+    # Mock Cloud Storage
+    post_file = mocker.patch.object(cloud_storage, "post_file")
+    post_file.return_value = "https://s3.com/my_file.zip"
+
+    tbl = Table([["vanid", "CF123", "CF124"], [1234, "Test String Value", 999]])
+
+    requests_mock.post(van.connection.uri + "bulkImportJobs", json={"jobId": 54679})
+
+    custom_field_group_id = 1234
+
+    job_id = van.bulk_apply_contact_custom_fields(
+        custom_field_group_id, tbl, url_type="S3", bucket="my-bucket"
+    )
+
+    assert job_id == 54679
 
 
 mapping_type = {

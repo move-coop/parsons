@@ -121,6 +121,7 @@ scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
+solidarity-tech = ["pyrate-limiter >= 4.4"]
 ssh = [
     "sshtunnel >= 0.4",
     "psycopg2-binary >= 2.9.11",
@@ -163,6 +164,7 @@ all = [
     "parsons[sftp]",
     "parsons[slack]",
     "parsons[smtp]",
+    "parsons[solidarity-tech]",
     "parsons[ssh]",
     "parsons[targetsmart]",
     "parsons[twilio]",

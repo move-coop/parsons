@@ -456,6 +456,9 @@ class ActionKit:
 
     def update_campaign(self) -> None:
         """Update a campaign (NOT IMPLEMENTED)"""
+        # TODO(jburchard): Add functionality.
+        # This method was referenced in the docstring for get_campaign_fields in the initial commit, but never existed.
+        # https://github.com/move-coop/parsons/blob/9784f8bc1deb751531acfba7c0ae496e69fb5b61/parsons/action_kit/action_kit.py#L161
         err_msg = "ActionKit.update_campaign() is not implemented"
         raise NotImplementedError(err_msg)
 

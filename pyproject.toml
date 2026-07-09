@@ -275,6 +275,7 @@ select = [
     "UP", # pyupgrade (UP)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
+    "TD", # flake8-todos (TD)
     "ICN", # flake8-import-conventions (ICN)
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
@@ -287,7 +288,7 @@ select = [
 ]
 ignore = [
     "E501", # line-too-long
-    # pathlib
+    # flake8-use-pathlib
     "PTH116", # os-stat
     "PTH118", # os-path-join
     "PTH122", # os-path-splitext
@@ -303,6 +304,9 @@ ignore = [
     "D406", # missing-new-line-after-section-name
     "D407", # missing-dashed-underline-after-section
     "D408", # missing-section-underline-after-name
+    # flake8-todos
+    "TD002", # missing-todo-author
+    "TD003", # missing-todo-link
 ]
 fixable = ["ALL"]
 unfixable = []

@@ -455,6 +455,9 @@ class ActionKit:
 
     def update_campaign(self) -> None:
         """Update a campaign (NOT IMPLEMENTED)"""
+        # TODO(jburchard): Add functionality.
+        # This method was referenced in the docstring for get_campaign_fields in the initial commit, but never existed.
+        # https://github.com/move-coop/parsons/blob/9784f8bc1deb751531acfba7c0ae496e69fb5b61/parsons/action_kit/action_kit.py#L161
         err_msg = "ActionKit.update_campaign() is not implemented"
         raise NotImplementedError(err_msg)
 
@@ -1395,7 +1398,7 @@ class ActionKit:
         """
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
-        # TODO: use context manager or close file when done
+        # TODO(bmos): use context manager or close file when done
         if isinstance(csv_file, str):
             csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115 open-file-with-context-handler
 

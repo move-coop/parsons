@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_1667beae7de6a577_google_docs_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.3">coverage.py v7.14.3</a>,
-            created at 2026-07-09 18:52 +0000
+            created at 2026-07-09 19:13 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -93,8 +93,8 @@
     <p class="pln"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t"><span class="key">import</span> <span class="nam">google</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t"><span class="key">import</span> <span class="nam">petl</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="key">from</span> <span class="nam">google</span><span class="op">.</span><span class="nam">cloud</span> <span class="key">import</span> <span class="nam">storage</span><span class="op">,</span> <span class="nam">storage_transfer</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t"><span class="key">from</span> <span class="nam">google</span><span class="op">.</span><span class="nam">oauth2</span><span class="op">.</span><span class="nam">credentials</span> <span class="key">import</span> <span class="nam">Credentials</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="key">from</span> <span class="nam">google</span><span class="op">.</span><span class="nam">auth</span><span class="op">.</span><span class="nam">credentials</span> <span class="key">import</span> <span class="nam">Credentials</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t13" href="#t13">13</a></span><span class="t"><span class="key">from</span> <span class="nam">google</span><span class="op">.</span><span class="nam">cloud</span> <span class="key">import</span> <span class="nam">storage</span><span class="op">,</span> <span class="nam">storage_transfer</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t"><span class="key">from</span> <span class="nam">parsons</span><span class="op">.</span><span class="nam">google</span><span class="op">.</span><span class="nam">utilities</span> <span class="key">import</span> <span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t">    <span class="nam">load_google_application_credentials</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -109,7 +109,7 @@
     <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">    <span class="str">"""Google Cloud Storage connector utility</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t"><span class="str">    This class requires application credentials in the form of a</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t"><span class="str">    json or google oauth2 Credentials object. It can be passed in the</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t"><span class="str">    json or google.auth.credentials.Credentials object. It can be passed in the</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t"><span class="str">    following ways:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t"><span class="str">    * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the</span>&nbsp;</span><span class="r"></span></p>
@@ -135,10 +135,10 @@
     <p class="pln"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t"><span class="str">        gcs = GoogleCloudStorage(app_creds=app_creds)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t52" href="#t52">52</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t53" href="#t53">53</a></span><span class="t"><span class="str">    Args:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t"><span class="str">        app_creds: str, dict, or google.oauth2.credentials.Credentials object</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t"><span class="str">        app_creds: str, dict, or google.auth.credentials.Credentials object</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t"><span class="str">            A credentials json string or a path to a json file. Not required</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t"><span class="str">            if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t"><span class="str">            pass a google oauth2 Credentials object directly.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t"><span class="str">            pass a google.auth.credentials.Credentials object directly.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t"><span class="str">        project: str</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t59" href="#t59">59</a></span><span class="t"><span class="str">            The project which the client is acting on behalf of. If not passed</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t60" href="#t60">60</a></span><span class="t"><span class="str">            then will use the default inferred environment.</span>&nbsp;</span><span class="r"></span></p>
@@ -781,7 +781,7 @@
             <a class="nav" href="z_1667beae7de6a577_google_docs_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.3">coverage.py v7.14.3</a>,
-            created at 2026-07-09 18:52 +0000
+            created at 2026-07-09 19:13 +0000
         </p>
     </div>
 </footer>

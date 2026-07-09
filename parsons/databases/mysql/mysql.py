@@ -38,10 +38,12 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         port: int
             If omitted or ``None``, uses ``MYSQL_PORT`` when set, otherwise 3306. If passed
             (including ``3306``), the argument takes precedence over ``MYSQL_PORT``.
+        timeout: int
+            Seconds to timeout if connection not established. Defaults to 10.
 
     """
 
-    def __init__(self, host=None, username=None, password=None, db=None, port=None):
+    def __init__(self, host=None, username=None, password=None, db=None, port=None, timeout=10):
         super().__init__()
 
         self.username = check_env.check("MYSQL_USERNAME", username)
@@ -53,6 +55,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         else:
             env_port = check_env.check("MYSQL_PORT", None, optional=True)
             self.port = int(env_port) if env_port is not None else 3306
+
+        self.timeout = timeout
 
     @contextmanager
     def connection(self):
@@ -76,6 +80,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             passwd=self.password,
             database=self.db,
             port=self.port,
+            connection_timeout=self.timeout,
         )
 
         try:

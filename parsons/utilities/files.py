@@ -81,7 +81,7 @@ def create_temp_file_for_path(path):
     """
     # Add the appropriate compression suffix to the file, so other libraries that check the
     # file's extension will know that it is compressed.
-    # TODO Make this more robust, maybe even using the entire remote file name as the suffix.
+    # TODO(jburchard): Make this more robust, maybe even using the entire remote file name as the suffix.
     suffix = ".gz" if is_gzip_path(path) else None
     return create_temp_file(suffix=suffix)
 

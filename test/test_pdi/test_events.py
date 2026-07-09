@@ -9,8 +9,7 @@ END_DATE = "2022-12-31"
 EXPAND = True
 LOWER_LIMIT = 1
 
-# TODO: Invoke this, it should fail as 2000 is the max limit for
-# all of the relevant events functions
+# TODO: Invoke this, it should fail as 2000 is the max limit for all of the relevant events functions
 UPPER_LIMIT = 2001
 
 

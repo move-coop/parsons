@@ -143,7 +143,7 @@ class GoogleCloudStorage:
                 A globally unique name for the bucket.
 
         """
-        # TODO: Allow user to set all of the bucket parameters
+        # TODO(jburchard): Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
         logger.info(f"Created {bucket_name} bucket.")
@@ -577,7 +577,7 @@ class GoogleCloudStorage:
             Tuple of strings with bucket_name and blob_name
 
         """
-        # TODO: make this more robust with regex?
+        # TODO(willyraedy): make this more robust with regex?
         remove_protocol = gcs_uri.replace("gs://", "")
         uri_parts = remove_protocol.split("/")
         bucket_name = uri_parts[0]

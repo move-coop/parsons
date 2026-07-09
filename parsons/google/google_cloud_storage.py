@@ -9,8 +9,8 @@ from typing import Literal
 
 import google
 import petl
-from google.cloud import storage, storage_transfer
 from google.auth.credentials import Credentials
+from google.cloud import storage, storage_transfer
 
 from parsons.google.utilities import (
     load_google_application_credentials,

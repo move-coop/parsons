@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.11@sha256:4fe91343677d630977800b2b1b391c4e27109d3247c9f9eda09a60ba4791dc84
+FROM --platform=linux/amd64 python:3.11@sha256:2ea01c83d3e1665a9ca4c5054dcd35c259c672fc5463b9f1a6200ca412a14f5c
 
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/

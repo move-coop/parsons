@@ -1235,6 +1235,204 @@ class Redshift(
 
         return RedshiftTable(self, table_name)
 
+    def get_search_path(self):
+        """Returns the schema search_path for the current user.
+
+        Returns:
+            list[str]: The list of schema in the user's "search_path".
+        """
+        sql_searchpath = """SHOW search_path;"""
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_searchpath, connection)
+
+        if tbl is None:
+            raise ValueError("Search path not found.")
+
+        search_path_str: str = tbl.first  # type: ignore # this should always be a string
+        search_paths = [item.strip() for item in search_path_str.split(",")]
+        return search_paths
+
+    def set_search_path(self, schema: list[str], permanent: bool = True):
+        """Set the schema in the user's search_path.
+
+        Must double or single quote (within the string) any schema names containing non-identifier characters. If the schema name starts with a ``$`` (e.g. ``$user``), it will be automatically single quoted.
+        Args:
+            schema (list[str]): List of schema to set.
+            permanent (bool, optional): True if the change should persist beyond the given session. Defaults to True.
+        """
+        # schema $user included in search path must be single-quoted when set
+        schema = [f"'{s}'" if s.startswith("$") else s for s in schema]
+
+        new_path_schema_str = ", ".join(schema)
+        permanent_statement = f"alter user {self.username} " if permanent else ""
+        statement = f"{permanent_statement} set search_path to {new_path_schema_str};"
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            self.query_with_connection(statement, connection)
+
+    def add_schema_to_search_path(self, schema: str, permanent: bool = True):
+        """Add a single schema to the user's search_path.
+
+        Args:
+            schema (str): The name of the schema to add.
+            permanent (bool, optional): True if the change should persist beyond the given session. Defaults to True.
+        """
+        path_schema: list[str] = self.get_search_path()
+        if schema not in path_schema:
+            path_schema.append(schema)
+        self.set_search_path(path_schema, permanent=permanent)
+
+    def get_distkey(
+        self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
+    ) -> Table | None:
+        """
+        Get a table's distkey information from Redshift internals.
+
+        For more information, see:
+        `Data distribution for query optimization: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/t_Distributing_data.html>`__
+
+        Args:
+            schema: str
+                The schema containing the table.
+            table: str
+                The table to retrieve the distkey for.
+            errors: str
+                If the table does not exist, ``ignore`` will make the method return ``None``,
+                and ``raise`` will throw a ValueError.
+
+        Returns:
+            Table or None
+                Distkey information for the table. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
+
+        Raises:
+            ValueError
+                If ``errors='raise'`` and the table could not be found.
+
+        Columns returned:
+            schema_name:
+                The schema name.
+            table_name:
+                The table name.
+            diststyle:
+                Distribution style or distribution key column, if key distribution is defined.
+            distkey_column:
+                Distribution key column.
+        """
+        sql_distkey = """SELECT
+            n.nspname AS schema_name,
+            c.relname AS table_name,
+            CASE c.reldiststyle
+                WHEN 0 THEN 'EVEN'
+                WHEN 1 THEN 'KEY'
+                WHEN 8 THEN 'ALL'
+                WHEN 9 THEN 'AUTO(EVEN)'
+                WHEN 10 THEN 'AUTO(ALL)'
+                WHEN 11 THEN 'AUTO(KEY)'
+                ELSE 'UNKNOWN'
+            END AS diststyle,
+            a.attname AS distkey_column
+        FROM pg_class c
+        JOIN pg_namespace n
+            ON n.oid = c.relnamespace
+        LEFT JOIN pg_attribute a
+            ON a.attrelid = c.oid
+        AND a.attisdistkey = true
+        WHERE n.nspname = %s
+        AND
+        c.relname = %s;"""
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_distkey, connection, parameters=[schema, table])
+
+        # requested table wasn't found
+        if tbl is not None and tbl.num_rows == 0:
+            # if there's an empty table just return None unless errors=='raise'
+            tbl = None
+
+        if errors == "raise" and tbl is None:
+            raise ValueError(
+                "The table name was not found in pg_class. Did you spell the schema and table name correctly?"
+            )
+
+        return tbl
+
+    def get_sortkey(
+        self, schema: str, table: str, errors: Literal["ignore", "raise"] = "raise"
+    ) -> Table | None:
+        """
+        Get a table's sortkey information from svv_table_info.
+
+        Sortkey information is only available if the schema is in the user's search_path and the table has at least one row.
+
+        For more information, see:
+        `Sort keys: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html>`__
+
+        `Choose the best sort key: Amazon Redshift Database Developer Guide <https://docs.aws.amazon.com/redshift/latest/dg/c_best-practices-sort-key.html>`__
+
+        Args:
+            schema: str
+                The schema containing the table.
+            table: str
+                The table to retrieve the sortkey for.
+            errors: str
+                If the table does not exist, ``ignore`` will make the method return ``None``,
+                and ``raise`` will throw a ValueError.
+
+        Returns:
+            Table or None
+                Table containing sortkey information. If ``errors='ignore'`` and the table name does not exist, will return ``None``.
+
+        Raises:
+            ValueError
+                If ``errors='raise'`` and the table could not be found.
+
+        Columns returned:
+
+            schema:
+                The schema name.
+            table:
+                The table name.
+            sortkey1:
+                First column in the sort key, if a sort key is defined. Possible values include column, AUTO(SORTKEY), and AUTO(SORTKEY(column)).
+            sortkey1_enc:
+                Compression encoding of the first column in the sort key, if a sort key is defined.
+            sortkey_num:
+                Number of columns defined as sort keys.
+
+        """
+        sql_sortkey = """
+            select
+                "schema",
+                "table",
+                sortkey1,
+                sortkey1_enc,
+                sortkey_num
+            from
+                svv_table_info
+            where
+                "schema" = %s and "table" = %s
+            ;
+        """
+
+        with self.connection() as connection:
+            connection.set_session(autocommit=True)
+            tbl = self.query_with_connection(sql_sortkey, connection, parameters=[schema, table])
+
+        # requested table wasn't found
+        if tbl is not None and tbl.num_rows == 0:
+            # if there's an empty table just return None unless errors=='raise'
+            tbl = None
+
+        if errors == "raise" and tbl is None:
+            raise ValueError(
+                "There was no such table in svv_table_info. The table must exist, be within the user's search_path, and have at least one row."
+            )
+
+        return tbl
+
 
 class RedshiftTable(BaseTable):
     # Redshift table object.

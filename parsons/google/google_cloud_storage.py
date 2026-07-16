@@ -9,8 +9,8 @@ from typing import Literal
 
 import google
 import petl
+from google.auth.credentials import Credentials
 from google.cloud import storage, storage_transfer
-from google.oauth2.credentials import Credentials
 
 from parsons.google.utilities import (
     load_google_application_credentials,
@@ -25,7 +25,7 @@ class GoogleCloudStorage:
     """Google Cloud Storage connector utility
 
     This class requires application credentials in the form of a
-    json or google oauth2 Credentials object. It can be passed in the
+    json or google.auth.credentials.Credentials object. It can be passed in the
     following ways:
 
     * Set an environmental variable named ``GOOGLE_APPLICATION_CREDENTIALS`` with the
@@ -51,10 +51,10 @@ class GoogleCloudStorage:
         gcs = GoogleCloudStorage(app_creds=app_creds)
 
     Args:
-        app_creds: str, dict, or google.oauth2.credentials.Credentials object
+        app_creds: str, dict, or google.auth.credentials.Credentials object
             A credentials json string or a path to a json file. Not required
             if ``GOOGLE_APPLICATION_CREDENTIALS`` env variable set. Can also
-            pass a google oauth2 Credentials object directly.
+            pass a google.auth.credentials.Credentials object directly.
         project: str
             The project which the client is acting on behalf of. If not passed
             then will use the default inferred environment.
@@ -143,7 +143,7 @@ class GoogleCloudStorage:
                 A globally unique name for the bucket.
 
         """
-        # TODO: Allow user to set all of the bucket parameters
+        # TODO(jburchard): Allow user to set all of the bucket parameters
 
         self.client.create_bucket(bucket_name)
         logger.info(f"Created {bucket_name} bucket.")
@@ -577,7 +577,7 @@ class GoogleCloudStorage:
             Tuple of strings with bucket_name and blob_name
 
         """
-        # TODO: make this more robust with regex?
+        # TODO(willyraedy): make this more robust with regex?
         remove_protocol = gcs_uri.replace("gs://", "")
         uri_parts = remove_protocol.split("/")
         bucket_name = uri_parts[0]

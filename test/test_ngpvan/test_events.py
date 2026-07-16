@@ -76,6 +76,41 @@ class TestNGPVAN(unittest.TestCase):
         assert validate_list(expected, self.van.get_events())
 
     @requests_mock.Mocker()
+    def test_get_events_pagination_does_not_duplicate_params(self, m):
+        # VAN's `nextPageLink` is a fully-formed URL that already carries the
+        # original query params. The pagination loop must not re-pass `params`,
+        # or requests appends them a second time and they accumulate page over
+        # page until VAN 404s. Regression test for that bug.
+        base = self.van.connection.uri + "events"
+        next_link = base + "?startingAfter=2020-01-01&%24top=50&%24skip=50"
+
+        page_one = {
+            "count": 2,
+            "items": [{"eventId": 1}],
+            "nextPageLink": next_link,
+        }
+        page_two = {
+            "count": 2,
+            "items": [{"eventId": 2}],
+            "nextPageLink": None,
+        }
+
+        m.get(base, json=page_one)
+        m.get(next_link, json=page_two)
+
+        events = self.van.get_events(starting_after="2020-01-01")
+
+        # Both pages were collected.
+        assert events.num_rows == 2
+
+        # The second (paginated) request hit the nextPageLink with each query
+        # param appearing exactly once -- nothing re-appended.
+        paginated_request = m.request_history[-1]
+        assert "$skip" in paginated_request.qs  # we followed the link
+        for key, values in paginated_request.qs.items():
+            assert len(values) == 1, f"param {key!r} was duplicated: {values}"
+
+    @requests_mock.Mocker()
     def test_get_event(self, m):
         event_id = 1062
 

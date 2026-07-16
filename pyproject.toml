@@ -257,7 +257,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "**/vendor/*",
 ]
 line-length = 100
 indent-width = 4
@@ -351,9 +350,6 @@ src_paths = [
 [tool.coverage.run]
 branch = true
 relative_files = true
-omit = [
-    "*/vendor/*",
-    ]
 
 [tool.coverage.paths]
 source = [

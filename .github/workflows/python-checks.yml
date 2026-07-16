@@ -65,6 +65,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
@@ -72,8 +74,6 @@ jobs:
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
@@ -178,6 +178,8 @@ jobs:
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
@@ -185,8 +187,6 @@ jobs:
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:

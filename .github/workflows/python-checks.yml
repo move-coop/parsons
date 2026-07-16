@@ -346,7 +346,8 @@ jobs:
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
-          --recursive 'parsons'
+          --recursive .
+          --exclude test
 
   coverage:
     runs-on: ubuntu-latest
@@ -443,7 +444,7 @@ jobs:
           uv sync
           --upgrade
           --no-default-groups
-          --group pre-commit
+          --group dev
 
       - id: cache-pre-commit
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9

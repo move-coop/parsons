@@ -118,7 +118,6 @@ class CensusGeocoder:
             raise ValueError(msg)
 
         chunked_tables = table.chunk(BATCH_SIZE)
-        batch_count = 1
         records_processed = 0
 
         geocoded_tbl = Table([[]])
@@ -126,7 +125,6 @@ class CensusGeocoder:
             geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")
-            batch_count += 1
 
         return geocoded_tbl
 

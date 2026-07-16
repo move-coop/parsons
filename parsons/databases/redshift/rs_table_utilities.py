@@ -36,7 +36,7 @@ class RedshiftTableUtilities:
         sql = f"""select count(*) from pg_tables where schemaname='{table_name[0]}' and
                  tablename='{table_name[1]}';"""
 
-        # TODO maybe convert these queries to use self.query_with_connection
+        # TODO(jburchard): maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
             cursor.execute(sql)

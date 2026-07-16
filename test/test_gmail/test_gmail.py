@@ -522,4 +522,4 @@ class TestGmail(unittest.TestCase):
                 with pytest.raises(EmailSyntaxError):
                     self.gmail._validate_email_string(e["email"])
 
-    # TODO test sending emails
+    # TODO: test sending emails

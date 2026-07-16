@@ -101,7 +101,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
         List of instantiated `SchemaField` objects
 
     """
-    # TODO - Better way to test for this
+    # TODO(willyraedy): - Better way to test for this
     if isinstance(schema_definition[0], bigquery.SchemaField):
         logger.debug("User supplied list of SchemaField objects")
         return schema_definition
@@ -676,7 +676,7 @@ class GoogleBigQuery(DatabaseConnector):
             template_table=template_table,
         )
 
-        # TODO - See if this inheritance is happening in other places
+        # TODO(willyraedy): - See if this inheritance is happening in other places
         gcs = GoogleCloudStorage(app_creds=self.app_creds, project=self.project)
         old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
 

@@ -195,7 +195,7 @@ docs = [
     "sphinxcontrib-googleanalytics>=0.5",
     "sphinx-lint>=1.0,<1.1",
     "sphinx-multiversion>=0.2",
-    "Sphinx>=7.4",
+    "Sphinx>=8.1",
 ]
 lint = [
     "ruff>=0.15,<0.16",

@@ -212,13 +212,13 @@ test-coverage = [
     {include-group = "test"},
 ]
 test = [
-    "pytest>=9.0",
-    "pytest-datadir>=1.8",
+    "pytest>=9.1",
+    "pytest-datadir>=1.8",  # used by smtp connector
     "pytest-mock>=3.15",
-    "pytest-recording>=0.13",
+    "pytest-recording>=0.13",  # used by censusgeocoder connector
     "pytest-xdist>=3.8",
     "requests-mock>=1.12",
-    "testfixtures>=8.3",
+    "testfixtures>=8.3",  # used by redshift and bigquery connectors
 ]
 
 [tool]

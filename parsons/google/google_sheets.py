@@ -285,7 +285,7 @@ class GoogleSheets:
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         # Grab the existing data, so we can figure out where to start adding new data as a batch.
-        # TODO Figure out a way to do a batch append without having to read the whole sheet first.
+        # TODO(jburchard): Figure out a way to do a batch append without having to read the whole sheet first.
         # Maybe use gspread's low-level batch_update().
         existing_table = self.get_worksheet(spreadsheet_id, worksheet)
 

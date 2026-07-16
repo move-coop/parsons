@@ -1,6 +1,7 @@
 import json
 import os
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from parsons import ActionKit, Table
@@ -792,7 +793,7 @@ class TestActionKit(unittest.TestCase):
             "autocreate_user_fields": 0,
             "user_fields_only": 0,
         }
-        upload_data = kwargs["files"]["upload"].read()
+        upload_data = Path(kwargs["files"]["upload"].name).read_bytes()
         assert (
             upload_data.decode() == "user_id,user_customfield1,action_foo\r\n5,yes,123 Main St\r\n"
         )
@@ -811,7 +812,8 @@ class TestActionKit(unittest.TestCase):
             "autocreate_user_fields": 0,
             "user_fields_only": 1,
         }
-        assert kwargs["files"]["upload"].read().decode() == "user_id,user_customfield1\r\n5,yes\r\n"
+        upload_data = Path(kwargs["files"]["upload"].name).read_bytes()
+        assert upload_data.decode() == "user_id,user_customfield1\r\n5,yes\r\n"
 
     def test_table_split(self):
         test1 = Table([("x", "y", "z"), ("a", "b", ""), ("1", "", "3"), ("4", "", "6")])

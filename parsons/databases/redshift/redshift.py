@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Literal
 
 import petl
-import psycopg2
-import psycopg2.extras
+import psycopg
+import psycopg.extras
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -125,11 +125,11 @@ class Redshift(
         ``with rs.connection() as conn:``
 
         Yields:
-            Psycopg2 ``connection`` object
+            Psycopg3 ``connection`` object
 
         """
-        # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(
+        # Create a psycopg3 connection and cursor
+        conn = psycopg.connect(
             user=self.username,
             password=self.password,
             host=self.host,
@@ -146,7 +146,7 @@ class Redshift(
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = connection.cursor(cursor_factory=psycopg.extras.DictCursor)
         try:
             yield cur
         finally:

@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Literal
 
 import petl
-import psycopg2
-import psycopg2.extras
+import psycopg
+import psycopg.extras
 
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 from parsons.etl.table import Table
@@ -33,11 +33,11 @@ class PostgresCore(PostgresCreateStatement):
         ``with pg.connection() as conn:``
 
         Yields:
-            Psycopg2 `connection` object
+            Psycopg3 `connection` object
 
         """
-        # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(
+        # Create a psycopg3 connection and cursor
+        conn = psycopg.connect(
             user=self.username,
             password=self.password,
             host=self.host,
@@ -48,7 +48,7 @@ class PostgresCore(PostgresCreateStatement):
 
         try:
             yield conn
-        except psycopg2.Error:
+        except psycopg.Error:
             conn.rollback()
             raise
         else:
@@ -58,7 +58,7 @@ class PostgresCore(PostgresCreateStatement):
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = connection.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         try:
             yield cur

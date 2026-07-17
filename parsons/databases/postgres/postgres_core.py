@@ -33,7 +33,7 @@ class PostgresCore(PostgresCreateStatement):
         ``with pg.connection() as conn:``
 
         Yields:
-            Psycopg3 `connection` object
+            :class:`psycopg.Connection` object
 
         """
         # Create a psycopg3 connection and cursor

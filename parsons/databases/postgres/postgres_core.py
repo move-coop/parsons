@@ -6,7 +6,7 @@ from typing import Literal
 
 import petl
 import psycopg
-import psycopg.extras
+import psycopg.rows
 
 from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 from parsons.etl.table import Table
@@ -58,7 +58,7 @@ class PostgresCore(PostgresCreateStatement):
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg.extras.DictCursor)
+        cur = connection.cursor(row_factory=psycopg.rows.namedtuple_row)
 
         try:
             yield cur

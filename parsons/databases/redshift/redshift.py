@@ -9,7 +9,7 @@ from typing import Literal
 
 import petl
 import psycopg
-import psycopg.extras
+import psycopg.rows
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -125,10 +125,10 @@ class Redshift(
         ``with rs.connection() as conn:``
 
         Yields:
-            Psycopg3 ``connection`` object
+            Psycopg2 ``connection`` object
 
         """
-        # Create a psycopg3 connection and cursor
+        # Create a psycopg2 connection and cursor
         conn = psycopg.connect(
             user=self.username,
             password=self.password,
@@ -146,7 +146,7 @@ class Redshift(
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg.extras.DictCursor)
+        cur = connection.cursor(row_factory=psycopg.rows.namedtuple_row)
         try:
             yield cur
         finally:

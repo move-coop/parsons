@@ -53,8 +53,8 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 
         if not any([self.username, self.password, self.host, self.db]) and not pgpass:
             raise ValueError(
-                "Connection arguments missing. Please pass as a pgpass file, kwargs",
-                "or env variables.",
+                "Connection arguments missing. "
+                "Please pass as a pgpass file, kwargs or env variables.",
             )
 
         self.timeout = timeout

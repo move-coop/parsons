@@ -55,10 +55,11 @@ jobs:
       fail-fast: false
       matrix:
         python-version:
-          - "3.10"
-          - "3.11"
-          - "3.12"
-          - "3.13"
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - '3.13'
+          - '3.14'
         os:
           - ubuntu-latest
           - windows-latest
@@ -149,7 +150,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -189,9 +190,9 @@ jobs:
       fail-fast: false
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
-        python-version: ["3.13"]
-        os: ["ubuntu-latest"]
-        resolution: ["highest"]
+        python-version: ['3.14']
+        os: ['ubuntu-latest']
+        resolution: ['highest']
 
     steps:
       - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
@@ -247,7 +248,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -286,7 +287,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -338,7 +339,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -420,7 +421,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -457,7 +458,7 @@ jobs:
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 

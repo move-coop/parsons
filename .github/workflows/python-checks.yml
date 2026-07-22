@@ -440,6 +440,7 @@ jobs:
 
     needs:
       - bandit
+      - lockfile
       - ruff-format
       - ruff-check
       - sphinx-lint

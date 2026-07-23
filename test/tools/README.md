@@ -50,3 +50,29 @@ its test path. Most connectors resolve by the default rule `parsons/<name>` +
 `test/test_<name>`; exceptions (e.g. `s3` → `parsons/aws/s3.py`, `facebook` →
 `parsons/facebook_ads`) are listed in `_OVERRIDES`. Add an entry there if a
 connector's source is not `parsons/<name>/`.
+
+## `changed_connectors.py`
+
+Emits the connectors a change set affects that also have a committed baseline —
+used by CI to scope the slow mutation run to just what a PR touches.
+
+```bash
+python test/tools/changed_connectors.py --base origin/main   # affected by this PR
+python test/tools/changed_connectors.py --all                # every baselined connector
+```
+
+## CI integration
+
+`.github/workflows/python-checks.yml` wires these in, advisory-only during the
+migration (results render to the GitHub **job summary**; the build is never
+failed on a regression yet):
+
+- **`pytest-extras`** — after each connector's tests, if a baseline exists, runs
+  `parity.py compare <connector> --no-mutation` (fast, coverage only).
+- **`parity-mutation`** — on PRs, runs mutation parity for the baselined
+  connectors the PR changed (`changed_connectors.py --base`); on the weekly
+  schedule and manual dispatch, sweeps all baselined connectors (`--all`),
+  doubling as the drift monitor.
+
+To turn the gate hard (Phase E), add `--strict` to the `compare` calls so a
+regression fails the job.

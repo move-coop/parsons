@@ -247,8 +247,38 @@ def cmd_capture(name: str, mutation: bool) -> int:
     return 0
 
 
-def cmd_compare(name: str, mutation: bool, strict: bool) -> int:
+def _render_text(rows: list[tuple[str, float, float]], regressions: list[str]) -> None:
+    print()
+    print(f"  {'metric':20} {'baseline':>10} {'current':>10} {'delta':>10}")
+    print(f"  {'-' * 20} {'-' * 10:>10} {'-' * 10:>10} {'-' * 10:>10}")
+    for label, base, cur in rows:
+        delta = round(cur - base, 2)
+        flag = "  <-- REGRESSION" if label in regressions else ""
+        print(f"  {label:20} {base:>10} {cur:>10} {delta:>+10} {flag}")
+    print()
+
+
+def _render_markdown(
+    name: str, rows: list[tuple[str, float, float]], regressions: list[str]
+) -> None:
+    """Emit a GitHub-flavored markdown table (for $GITHUB_STEP_SUMMARY)."""
+    status = "⚠️ REGRESSION" if regressions else "✅ PASS"
+    print(f"### Parity — `{name}` — {status}")
+    print()
+    print("| metric | baseline | current | delta |")
+    print("| --- | ---: | ---: | ---: |")
+    for label, base, cur in rows:
+        delta = round(cur - base, 2)
+        mark = " ⚠️" if label in regressions else ""
+        print(f"| {label} | {base} | {cur} | {delta:+}{mark} |")
+    print()
+
+
+def cmd_compare(name: str, mutation: bool, strict: bool, markdown: bool = False) -> int:
     conn = _resolve_or_exit(name)
+    # In markdown mode, progress goes to stderr so stdout stays clean for the summary.
+    log = sys.stderr if markdown else sys.stdout
+
     baseline_path = BASELINE_DIR / f"{name}.json"
     if not baseline_path.exists():
         print(
@@ -259,7 +289,9 @@ def cmd_compare(name: str, mutation: bool, strict: bool) -> int:
         return 2
     baseline = json.loads(baseline_path.read_text())
 
-    print(f"Comparing '{name}' against baseline (captured at {baseline.get('git_sha')})...")
+    print(
+        f"Comparing '{name}' against baseline (captured at {baseline.get('git_sha')})...", file=log
+    )
     cov = measure_coverage(conn)
     rows = [
         ("line coverage %", baseline["coverage"]["line_pct"], cov.line_pct),
@@ -268,29 +300,23 @@ def cmd_compare(name: str, mutation: bool, strict: bool) -> int:
 
     has_mut_baseline = "mutation" in baseline
     if mutation and has_mut_baseline:
-        print("  running mutation testing (this can take several minutes)...")
+        print("  running mutation testing (this can take several minutes)...", file=log)
         mut = measure_mutation(conn)
         rows.append(("mutation score %", baseline["mutation"]["score_pct"], mut.score_pct))
     elif mutation and not has_mut_baseline:
-        print("  (baseline has no mutation score; skipping mutation comparison)")
+        print("  (baseline has no mutation score; skipping mutation comparison)", file=log)
 
-    regressions = []
-    print()
-    print(f"  {'metric':20} {'baseline':>10} {'current':>10} {'delta':>10}")
-    print(f"  {'-' * 20} {'-' * 10:>10} {'-' * 10:>10} {'-' * 10:>10}")
-    for label, base, cur in rows:
-        delta = round(cur - base, 2)
-        flag = ""
-        if cur < base - EPS:
-            flag = "  <-- REGRESSION"
-            regressions.append(label)
-        print(f"  {label:20} {base:>10} {cur:>10} {delta:>+10} {flag}")
-    print()
+    regressions = [label for label, base, cur in rows if cur < base - EPS]
+
+    if markdown:
+        _render_markdown(name, rows, regressions)
+    else:
+        _render_text(rows, regressions)
 
     if regressions:
-        print(f"FAIL: {name} regressed on: {', '.join(regressions)}")
+        print(f"FAIL: {name} regressed on: {', '.join(regressions)}", file=log)
         return 1 if strict else 0
-    print(f"PASS: {name} meets or exceeds baseline.")
+    print(f"PASS: {name} meets or exceeds baseline.", file=log)
     return 0
 
 
@@ -312,12 +338,22 @@ def main(argv: list[str] | None = None) -> int:
     p_cmp.add_argument(
         "--strict", action="store_true", help="exit 1 on regression (the CI hard gate)"
     )
+    p_cmp.add_argument(
+        "--markdown",
+        action="store_true",
+        help="emit a markdown table on stdout (for $GITHUB_STEP_SUMMARY)",
+    )
 
     args = parser.parse_args(argv)
     if args.command == "capture":
         return cmd_capture(args.connector, mutation=not args.no_mutation)
     if args.command == "compare":
-        return cmd_compare(args.connector, mutation=not args.no_mutation, strict=args.strict)
+        return cmd_compare(
+            args.connector,
+            mutation=not args.no_mutation,
+            strict=args.strict,
+            markdown=args.markdown,
+        )
     parser.error("unknown command")
     return 2
 

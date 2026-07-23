@@ -1,0 +1,13 @@
+{
+  "connector": "community",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/community",
+  "cov_module": "parsons.community",
+  "test_path": "test/test_community",
+  "coverage": {
+    "line_pct": 100.0,
+    "branch_pct": 100.0,
+    "num_statements": 26,
+    "num_branches": 0
+  }
+}

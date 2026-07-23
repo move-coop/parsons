@@ -1,0 +1,13 @@
+{
+  "connector": "gmail",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/notifications/gmail.py",
+  "cov_module": "parsons.notifications.gmail",
+  "test_path": "test/test_gmail",
+  "coverage": {
+    "line_pct": 55.88,
+    "branch_pct": 50.0,
+    "num_statements": 34,
+    "num_branches": 6
+  }
+}

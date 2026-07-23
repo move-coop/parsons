@@ -1,0 +1,13 @@
+{
+  "connector": "salesforce",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/salesforce",
+  "cov_module": "parsons.salesforce",
+  "test_path": "test/test_salesforce",
+  "coverage": {
+    "line_pct": 76.47,
+    "branch_pct": 33.33,
+    "num_statements": 68,
+    "num_branches": 18
+  }
+}

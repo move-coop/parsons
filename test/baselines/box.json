@@ -1,0 +1,13 @@
+{
+  "connector": "box",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/box",
+  "cov_module": "parsons.box",
+  "test_path": "test/test_box",
+  "coverage": {
+    "line_pct": 25.68,
+    "branch_pct": 0.0,
+    "num_statements": 148,
+    "num_branches": 38
+  }
+}

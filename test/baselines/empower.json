@@ -1,0 +1,13 @@
+{
+  "connector": "empower",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/empower",
+  "cov_module": "parsons.empower",
+  "test_path": "test/test_empower",
+  "coverage": {
+    "line_pct": 87.21,
+    "branch_pct": 50.0,
+    "num_statements": 86,
+    "num_branches": 10
+  }
+}

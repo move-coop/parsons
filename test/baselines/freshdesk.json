@@ -1,0 +1,13 @@
+{
+  "connector": "freshdesk",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/freshdesk",
+  "cov_module": "parsons.freshdesk",
+  "test_path": "test/test_freshdesk",
+  "coverage": {
+    "line_pct": 91.18,
+    "branch_pct": 62.5,
+    "num_statements": 68,
+    "num_branches": 8
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "ngpvan",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/ngpvan",
+  "cov_module": "parsons.ngpvan",
+  "test_path": "test/test_ngpvan",
+  "coverage": {
+    "line_pct": 82.32,
+    "branch_pct": 52.45,
+    "num_statements": 939,
+    "num_branches": 204
+  }
+}

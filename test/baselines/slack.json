@@ -1,0 +1,13 @@
+{
+  "connector": "slack",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/notifications/slack.py",
+  "cov_module": "parsons.notifications.slack",
+  "test_path": "test/test_slack",
+  "coverage": {
+    "line_pct": 98.95,
+    "branch_pct": 88.89,
+    "num_statements": 95,
+    "num_branches": 36
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "databases",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/databases",
+  "cov_module": "parsons.databases",
+  "test_path": "test/test_databases",
+  "coverage": {
+    "line_pct": 40.09,
+    "branch_pct": 19.92,
+    "num_statements": 1614,
+    "num_branches": 512
+  }
+}

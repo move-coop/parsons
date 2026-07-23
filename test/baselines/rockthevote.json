@@ -1,0 +1,13 @@
+{
+  "connector": "rockthevote",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/rockthevote",
+  "cov_module": "parsons.rockthevote",
+  "test_path": "test/test_rockthevote",
+  "coverage": {
+    "line_pct": 76.64,
+    "branch_pct": 47.06,
+    "num_statements": 107,
+    "num_branches": 34
+  }
+}

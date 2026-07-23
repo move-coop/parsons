@@ -1,0 +1,13 @@
+{
+  "connector": "mobilecommons",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/mobilecommons",
+  "cov_module": "parsons.mobilecommons",
+  "test_path": "test/test_mobilecommons",
+  "coverage": {
+    "line_pct": 89.0,
+    "branch_pct": 75.0,
+    "num_statements": 100,
+    "num_branches": 24
+  }
+}

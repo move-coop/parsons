@@ -1,0 +1,13 @@
+{
+  "connector": "auth0",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/auth0",
+  "cov_module": "parsons.auth0",
+  "test_path": "test/test_auth0.py",
+  "coverage": {
+    "line_pct": 83.72,
+    "branch_pct": 50.0,
+    "num_statements": 86,
+    "num_branches": 34
+  }
+}

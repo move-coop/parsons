@@ -1,0 +1,13 @@
+{
+  "connector": "crowdtangle",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/crowdtangle",
+  "cov_module": "parsons.crowdtangle",
+  "test_path": "test/test_crowdtangle",
+  "coverage": {
+    "line_pct": 88.89,
+    "branch_pct": 72.22,
+    "num_statements": 81,
+    "num_branches": 18
+  }
+}

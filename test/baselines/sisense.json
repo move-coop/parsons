@@ -1,0 +1,13 @@
+{
+  "connector": "sisense",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/sisense",
+  "cov_module": "parsons.sisense",
+  "test_path": "test/test_sisense",
+  "coverage": {
+    "line_pct": 100.0,
+    "branch_pct": 100.0,
+    "num_statements": 26,
+    "num_branches": 0
+  }
+}

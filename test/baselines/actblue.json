@@ -1,0 +1,13 @@
+{
+  "connector": "actblue",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/actblue",
+  "cov_module": "parsons.actblue",
+  "test_path": "test/test_actblue",
+  "coverage": {
+    "line_pct": 98.04,
+    "branch_pct": 83.33,
+    "num_statements": 51,
+    "num_branches": 6
+  }
+}

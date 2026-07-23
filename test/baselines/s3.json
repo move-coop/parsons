@@ -1,0 +1,13 @@
+{
+  "connector": "s3",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/aws/s3.py",
+  "cov_module": "parsons.aws.s3",
+  "test_path": "test/test_s3",
+  "coverage": {
+    "line_pct": 20.18,
+    "branch_pct": 0.0,
+    "num_statements": 109,
+    "num_branches": 36
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "civis",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/civis",
+  "cov_module": "parsons.civis",
+  "test_path": "test/test_civis",
+  "coverage": {
+    "line_pct": 38.46,
+    "branch_pct": 0.0,
+    "num_statements": 26,
+    "num_branches": 6
+  }
+}

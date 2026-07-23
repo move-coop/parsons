@@ -1,0 +1,13 @@
+{
+  "connector": "action_network",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/action_network",
+  "cov_module": "parsons.action_network",
+  "test_path": "test/test_action_network",
+  "coverage": {
+    "line_pct": 80.26,
+    "branch_pct": 47.66,
+    "num_statements": 380,
+    "num_branches": 128
+  }
+}

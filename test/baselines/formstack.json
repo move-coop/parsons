@@ -1,0 +1,13 @@
+{
+  "connector": "formstack",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/formstack",
+  "cov_module": "parsons.formstack",
+  "test_path": "test/test_formstack",
+  "coverage": {
+    "line_pct": 93.94,
+    "branch_pct": 68.75,
+    "num_statements": 66,
+    "num_branches": 16
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "bill_com",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/bill_com",
+  "cov_module": "parsons.bill_com",
+  "test_path": "test/test_bill_com",
+  "coverage": {
+    "line_pct": 96.1,
+    "branch_pct": 85.0,
+    "num_statements": 77,
+    "num_branches": 20
+  }
+}

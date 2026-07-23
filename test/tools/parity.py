@@ -51,6 +51,13 @@ EPS = 0.01  # float tolerance when comparing percentages
 CR_BIN = str(Path(sys.executable).parent / "cosmic-ray")
 
 
+class NoCoverageData(Exception):
+    """A connector's suite ran no measurable code (all tests skipped or none collected).
+
+    Nothing can be baselined in that case — it is a clean skip, not an error.
+    """
+
+
 @dataclass
 class CoverageResult:
     line_pct: float
@@ -92,6 +99,13 @@ def measure_coverage(conn: Connector) -> CoverageResult:
         ]
         proc = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)
         if not json_path.exists():
+            combined = proc.stdout + proc.stderr
+            no_data_signals = ("No data was collected", "no tests ran", "no tests collected")
+            if proc.returncode == 5 or any(s in combined for s in no_data_signals):
+                raise NoCoverageData(
+                    f"no measurable tests for '{conn.name}' "
+                    f"(all skipped or none collected in {conn.test_path})"
+                )
             raise RuntimeError(
                 f"coverage run for '{conn.name}' produced no report.\n"
                 f"command: {' '.join(cmd)}\n"

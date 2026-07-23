@@ -1,0 +1,13 @@
+{
+  "connector": "scytl",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/scytl",
+  "cov_module": "parsons.scytl",
+  "test_path": "test/test_scytl",
+  "coverage": {
+    "line_pct": 95.21,
+    "branch_pct": 94.44,
+    "num_statements": 188,
+    "num_branches": 54
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "twilio",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/twilio",
+  "cov_module": "parsons.twilio",
+  "test_path": "test/test_twilio",
+  "coverage": {
+    "line_pct": 94.55,
+    "branch_pct": 83.33,
+    "num_statements": 55,
+    "num_branches": 18
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "connector": "newmode",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/newmode",
+  "cov_module": "parsons.newmode",
+  "test_path": "test/test_newmode",
+  "coverage": {
+    "line_pct": 81.85,
+    "branch_pct": 58.04,
+    "num_statements": 270,
+    "num_branches": 112
+  }
+}

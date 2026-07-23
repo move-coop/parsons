@@ -1,0 +1,13 @@
+{
+  "connector": "mailchimp",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/mailchimp",
+  "cov_module": "parsons.mailchimp",
+  "test_path": "test/test_mailchimp",
+  "coverage": {
+    "line_pct": 81.48,
+    "branch_pct": 40.0,
+    "num_statements": 54,
+    "num_branches": 10
+  }
+}

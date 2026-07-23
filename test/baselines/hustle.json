@@ -1,0 +1,13 @@
+{
+  "connector": "hustle",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/hustle",
+  "cov_module": "parsons.hustle",
+  "test_path": "test/test_hustle",
+  "coverage": {
+    "line_pct": 84.3,
+    "branch_pct": 61.76,
+    "num_statements": 172,
+    "num_branches": 34
+  }
+}

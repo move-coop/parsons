@@ -1,0 +1,13 @@
+{
+  "connector": "controlshift",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/controlshift",
+  "cov_module": "parsons.controlshift",
+  "test_path": "test/test_controlshift",
+  "coverage": {
+    "line_pct": 90.91,
+    "branch_pct": 66.67,
+    "num_statements": 22,
+    "num_branches": 6
+  }
+}

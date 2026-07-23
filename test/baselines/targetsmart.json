@@ -1,0 +1,13 @@
+{
+  "connector": "targetsmart",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/targetsmart",
+  "cov_module": "parsons.targetsmart",
+  "test_path": "test/test_targetsmart",
+  "coverage": {
+    "line_pct": 67.72,
+    "branch_pct": 48.98,
+    "num_statements": 316,
+    "num_branches": 98
+  }
+}

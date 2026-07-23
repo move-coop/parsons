@@ -1,0 +1,13 @@
+{
+  "connector": "braintree",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/braintree",
+  "cov_module": "parsons.braintree",
+  "test_path": "test/test_braintree",
+  "coverage": {
+    "line_pct": 91.0,
+    "branch_pct": 67.65,
+    "num_statements": 100,
+    "num_branches": 34
+  }
+}

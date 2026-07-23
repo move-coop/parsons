@@ -1,0 +1,13 @@
+{
+  "connector": "turbovote",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/turbovote",
+  "cov_module": "parsons.turbovote",
+  "test_path": "test/test_turbovote",
+  "coverage": {
+    "line_pct": 100.0,
+    "branch_pct": 100.0,
+    "num_statements": 30,
+    "num_branches": 0
+  }
+}

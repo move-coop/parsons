@@ -1,0 +1,13 @@
+{
+  "connector": "google",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/google",
+  "cov_module": "parsons.google",
+  "test_path": "test/test_google",
+  "coverage": {
+    "line_pct": 18.62,
+    "branch_pct": 8.5,
+    "num_statements": 1026,
+    "num_branches": 306
+  }
+}

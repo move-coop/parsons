@@ -1,0 +1,13 @@
+{
+  "connector": "ssh",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/utilities/ssh_utilities.py",
+  "cov_module": "parsons.utilities.ssh_utilities",
+  "test_path": "test/test_ssh",
+  "coverage": {
+    "line_pct": 89.29,
+    "branch_pct": 50.0,
+    "num_statements": 28,
+    "num_branches": 4
+  }
+}

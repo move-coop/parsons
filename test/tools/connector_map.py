@@ -33,8 +33,11 @@ _OVERRIDES: dict[str, tuple[str, str]] = {
     "s3": ("parsons/aws/s3.py", "parsons.aws.s3"),
     "smtp": ("parsons/notifications/smtp.py", "parsons.notifications.smtp"),
     "slack": ("parsons/notifications/slack.py", "parsons.notifications.slack"),
+    "gmail": ("parsons/notifications/gmail.py", "parsons.notifications.gmail"),
     "ssh": ("parsons/utilities/ssh_utilities.py", "parsons.utilities.ssh_utilities"),
     "facebook": ("parsons/facebook_ads", "parsons.facebook_ads"),
+    "bigquery": ("parsons/google/google_bigquery.py", "parsons.google.google_bigquery"),
+    "mobilize": ("parsons/mobilize_america", "parsons.mobilize_america"),
     "mysql": ("parsons/databases/mysql", "parsons.databases.mysql"),
     "postgres": ("parsons/databases/postgres", "parsons.databases.postgres"),
     "redshift": ("parsons/databases/redshift", "parsons.databases.redshift"),
@@ -50,6 +53,21 @@ _OVERRIDES: dict[str, tuple[str, str]] = {
 }
 
 
+def _resolve_test_path(name: str) -> str:
+    """Prefer ``test/test_<name>/``; fall back to a loose ``test/test_<name>.py``.
+
+    A few connectors keep their tests in a top-level module rather than a
+    directory (and may also have an empty same-named directory sitting alongside
+    it). Point pytest at whichever actually holds tests.
+    """
+    test_dir = REPO_ROOT / "test" / f"test_{name}"
+    if test_dir.exists() and any(test_dir.glob("test_*.py")):
+        return f"test/test_{name}"
+    if (REPO_ROOT / "test" / f"test_{name}.py").exists():
+        return f"test/test_{name}.py"
+    return f"test/test_{name}"
+
+
 def resolve(name: str) -> Connector:
     """Resolve a connector name to its source module and test path."""
     if name in _OVERRIDES:
@@ -61,7 +79,7 @@ def resolve(name: str) -> Connector:
         name=name,
         source_path=source_path,
         cov_module=cov_module,
-        test_path=f"test/test_{name}",
+        test_path=_resolve_test_path(name),
     )
 
 

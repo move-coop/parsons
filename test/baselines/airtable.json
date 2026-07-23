@@ -1,0 +1,19 @@
+{
+  "connector": "airtable",
+  "git_sha": "0d44e4b0ab",
+  "source_path": "parsons/airtable",
+  "cov_module": "parsons.airtable",
+  "test_path": "test/test_airtable",
+  "coverage": {
+    "line_pct": 97.22,
+    "branch_pct": 72.22,
+    "num_statements": 72,
+    "num_branches": 18
+  },
+  "mutation": {
+    "score_pct": 55.56,
+    "killed": 10,
+    "survived": 8,
+    "total": 18
+  }
+}

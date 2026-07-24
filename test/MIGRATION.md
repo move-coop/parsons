@@ -56,9 +56,11 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-73 connector test groups: **3 done**, 70 remaining. 55 still use
-`unittest.TestCase`, 11 are top-level `test_*.py` files, 27 directories lack
-`__init__.py`.
+**16 connectors migrated**, all validated against their pre-migration baselines
+with **zero coverage regressions** (salesforce, ngpvan and targetsmart improved).
+
+Remaining: 46 files still use `unittest.TestCase`, 8 are top-level `test_*.py`
+files, and 24 directories lack `__init__.py`.
 
 ## Priority tiers
 

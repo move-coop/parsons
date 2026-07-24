@@ -1,6 +1,6 @@
 {
   "connector": "pandas",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/etl/tofrom.py",
   "cov_module": "parsons.etl.tofrom",
   "test_path": "test/test_pandas",
@@ -9,5 +9,11 @@
     "branch_pct": 0.0,
     "num_statements": 166,
     "num_branches": 40
+  },
+  "mutation": {
+    "score_pct": 29.38,
+    "killed": 57,
+    "survived": 137,
+    "total": 194
   }
 }

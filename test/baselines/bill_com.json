@@ -1,6 +1,6 @@
 {
   "connector": "bill_com",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/bill_com",
   "cov_module": "parsons.bill_com",
   "test_path": "test/test_bill_com",
@@ -9,5 +9,11 @@
     "branch_pct": 85.0,
     "num_statements": 77,
     "num_branches": 20
+  },
+  "mutation": {
+    "score_pct": 81.29,
+    "killed": 113,
+    "survived": 26,
+    "total": 139
   }
 }

@@ -1,6 +1,6 @@
 {
   "connector": "controlshift",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/controlshift",
   "cov_module": "parsons.controlshift",
   "test_path": "test/test_controlshift",
@@ -9,5 +9,11 @@
     "branch_pct": 66.67,
     "num_statements": 22,
     "num_branches": 6
+  },
+  "mutation": {
+    "score_pct": 23.53,
+    "killed": 4,
+    "survived": 13,
+    "total": 17
   }
 }

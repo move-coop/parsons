@@ -1,6 +1,6 @@
 {
   "connector": "mailchimp",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/mailchimp",
   "cov_module": "parsons.mailchimp",
   "test_path": "test/test_mailchimp",
@@ -9,5 +9,11 @@
     "branch_pct": 40.0,
     "num_statements": 54,
     "num_branches": 10
+  },
+  "mutation": {
+    "score_pct": 83.66,
+    "killed": 128,
+    "survived": 25,
+    "total": 153
   }
 }

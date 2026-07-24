@@ -1,6 +1,6 @@
 {
   "connector": "community",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/community",
   "cov_module": "parsons.community",
   "test_path": "test/test_community",
@@ -9,5 +9,11 @@
     "branch_pct": 100.0,
     "num_statements": 26,
     "num_branches": 0
+  },
+  "mutation": {
+    "score_pct": 60.0,
+    "killed": 6,
+    "survived": 4,
+    "total": 10
   }
 }

@@ -1,6 +1,6 @@
 {
   "connector": "quickbase",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/quickbase",
   "cov_module": "parsons.quickbase",
   "test_path": "test/test_quickbase",
@@ -9,5 +9,11 @@
     "branch_pct": 100.0,
     "num_statements": 32,
     "num_branches": 8
+  },
+  "mutation": {
+    "score_pct": 50.0,
+    "killed": 2,
+    "survived": 2,
+    "total": 4
   }
 }

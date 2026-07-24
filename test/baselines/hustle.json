@@ -1,6 +1,6 @@
 {
   "connector": "hustle",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/hustle",
   "cov_module": "parsons.hustle",
   "test_path": "test/test_hustle",
@@ -9,5 +9,11 @@
     "branch_pct": 61.76,
     "num_statements": 172,
     "num_branches": 34
+  },
+  "mutation": {
+    "score_pct": 85.54,
+    "killed": 349,
+    "survived": 59,
+    "total": 408
   }
 }

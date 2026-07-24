@@ -1,6 +1,6 @@
 {
   "connector": "scytl",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/scytl",
   "cov_module": "parsons.scytl",
   "test_path": "test/test_scytl",
@@ -9,5 +9,11 @@
     "branch_pct": 94.44,
     "num_statements": 188,
     "num_branches": 54
+  },
+  "mutation": {
+    "score_pct": 83.74,
+    "killed": 206,
+    "survived": 40,
+    "total": 246
   }
 }

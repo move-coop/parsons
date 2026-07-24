@@ -1,6 +1,6 @@
 {
   "connector": "smtp",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/notifications/smtp.py",
   "cov_module": "parsons.notifications.smtp",
   "test_path": "test/test_smtp",
@@ -9,5 +9,11 @@
     "branch_pct": 62.5,
     "num_statements": 34,
     "num_branches": 8
+  },
+  "mutation": {
+    "score_pct": 72.0,
+    "killed": 18,
+    "survived": 7,
+    "total": 25
   }
 }

@@ -1,6 +1,6 @@
 {
   "connector": "airtable",
-  "git_sha": "0d44e4b0ab",
+  "git_sha": "e411807f83",
   "source_path": "parsons/airtable",
   "cov_module": "parsons.airtable",
   "test_path": "test/test_airtable",

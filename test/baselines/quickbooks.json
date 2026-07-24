@@ -1,6 +1,6 @@
 {
   "connector": "quickbooks",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/quickbooks",
   "cov_module": "parsons.quickbooks",
   "test_path": "test/test_quickbooks",
@@ -9,5 +9,11 @@
     "branch_pct": 60.0,
     "num_statements": 93,
     "num_branches": 20
+  },
+  "mutation": {
+    "score_pct": 51.53,
+    "killed": 84,
+    "survived": 79,
+    "total": 163
   }
 }

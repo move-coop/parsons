@@ -1,6 +1,6 @@
 {
   "connector": "copper",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/copper",
   "cov_module": "parsons.copper",
   "test_path": "test/test_copper",
@@ -9,5 +9,11 @@
     "branch_pct": 83.33,
     "num_statements": 121,
     "num_branches": 42
+  },
+  "mutation": {
+    "score_pct": 75.13,
+    "killed": 142,
+    "survived": 47,
+    "total": 189
   }
 }

@@ -1,6 +1,6 @@
 {
   "connector": "donorbox",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/donorbox",
   "cov_module": "parsons.donorbox",
   "test_path": "test/test_donorbox",
@@ -9,5 +9,11 @@
     "branch_pct": 71.43,
     "num_statements": 50,
     "num_branches": 14
+  },
+  "mutation": {
+    "score_pct": 84.62,
+    "killed": 11,
+    "survived": 2,
+    "total": 13
   }
 }

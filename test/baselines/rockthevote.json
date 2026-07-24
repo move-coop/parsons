@@ -1,6 +1,6 @@
 {
   "connector": "rockthevote",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/rockthevote",
   "cov_module": "parsons.rockthevote",
   "test_path": "test/test_rockthevote",
@@ -9,5 +9,11 @@
     "branch_pct": 47.06,
     "num_statements": 107,
     "num_branches": 34
+  },
+  "mutation": {
+    "score_pct": 60.0,
+    "killed": 51,
+    "survived": 34,
+    "total": 85
   }
 }

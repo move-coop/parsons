@@ -1,6 +1,6 @@
 {
   "connector": "census",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/census",
   "cov_module": "parsons.census",
   "test_path": "test/test_census",
@@ -9,5 +9,11 @@
     "branch_pct": 100.0,
     "num_statements": 18,
     "num_branches": 0
+  },
+  "mutation": {
+    "score_pct": 100.0,
+    "killed": 11,
+    "survived": 0,
+    "total": 11
   }
 }

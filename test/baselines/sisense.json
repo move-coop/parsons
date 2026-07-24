@@ -1,6 +1,6 @@
 {
   "connector": "sisense",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/sisense",
   "cov_module": "parsons.sisense",
   "test_path": "test/test_sisense",
@@ -9,5 +9,11 @@
     "branch_pct": 100.0,
     "num_statements": 26,
     "num_branches": 0
+  },
+  "mutation": {
+    "score_pct": 100.0,
+    "killed": 77,
+    "survived": 0,
+    "total": 77
   }
 }

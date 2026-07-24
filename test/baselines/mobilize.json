@@ -1,6 +1,6 @@
 {
   "connector": "mobilize",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/mobilize_america",
   "cov_module": "parsons.mobilize_america",
   "test_path": "test/test_mobilize",
@@ -9,5 +9,11 @@
     "branch_pct": 65.91,
     "num_statements": 112,
     "num_branches": 44
+  },
+  "mutation": {
+    "score_pct": 52.17,
+    "killed": 144,
+    "survived": 132,
+    "total": 276
   }
 }

@@ -42,6 +42,21 @@ def all_connectors() -> list[str]:
     return sorted(p.name[len("test_") :] for p in (REPO_ROOT / "test").glob("test_*") if p.is_dir())
 
 
+def _source_size(name: str) -> int:
+    """Total bytes of the connector's source .py files (0 if unresolved)."""
+    src = REPO_ROOT / connector_map.resolve(name).source_path
+    if src.is_file():
+        return src.stat().st_size
+    if src.is_dir():
+        return sum(f.stat().st_size for f in src.rglob("*.py"))
+    return 0
+
+
+def by_source_size(names: list[str]) -> list[str]:
+    """Smallest source first, so a full (slow) sweep produces results fastest."""
+    return sorted(names, key=_source_size)
+
+
 def capture_one(name: str, mutation: bool) -> dict:
     conn = connector_map.resolve(name)
     payload: dict = {
@@ -66,7 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--overwrite", action="store_true", help="recapture existing baselines")
     args = parser.parse_args(argv)
 
-    names = args.connectors or all_connectors()
+    names = args.connectors or by_source_size(all_connectors())
     mutation = not args.no_mutation
 
     captured, skipped, failed = [], [], []

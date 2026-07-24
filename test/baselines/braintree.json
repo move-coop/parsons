@@ -1,6 +1,6 @@
 {
   "connector": "braintree",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/braintree",
   "cov_module": "parsons.braintree",
   "test_path": "test/test_braintree",
@@ -9,5 +9,11 @@
     "branch_pct": 67.65,
     "num_statements": 100,
     "num_branches": 34
+  },
+  "mutation": {
+    "score_pct": 74.61,
+    "killed": 191,
+    "survived": 65,
+    "total": 256
   }
 }

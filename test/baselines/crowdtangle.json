@@ -1,6 +1,6 @@
 {
   "connector": "crowdtangle",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/crowdtangle",
   "cov_module": "parsons.crowdtangle",
   "test_path": "test/test_crowdtangle",
@@ -9,5 +9,11 @@
     "branch_pct": 72.22,
     "num_statements": 81,
     "num_branches": 18
+  },
+  "mutation": {
+    "score_pct": 16.67,
+    "killed": 10,
+    "survived": 50,
+    "total": 60
   }
 }

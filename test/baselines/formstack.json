@@ -1,6 +1,6 @@
 {
   "connector": "formstack",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/formstack",
   "cov_module": "parsons.formstack",
   "test_path": "test/test_formstack",
@@ -9,5 +9,11 @@
     "branch_pct": 68.75,
     "num_statements": 66,
     "num_branches": 16
+  },
+  "mutation": {
+    "score_pct": 67.92,
+    "killed": 72,
+    "survived": 34,
+    "total": 106
   }
 }

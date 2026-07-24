@@ -1,6 +1,6 @@
 {
   "connector": "nation_builder",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/nation_builder",
   "cov_module": "parsons.nation_builder",
   "test_path": "test/test_nation_builder",
@@ -9,5 +9,11 @@
     "branch_pct": 86.11,
     "num_statements": 101,
     "num_branches": 36
+  },
+  "mutation": {
+    "score_pct": 83.33,
+    "killed": 115,
+    "survived": 23,
+    "total": 138
   }
 }

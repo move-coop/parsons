@@ -1,6 +1,6 @@
 {
   "connector": "slack",
-  "git_sha": "de1cafd978",
+  "git_sha": "e411807f83",
   "source_path": "parsons/notifications/slack.py",
   "cov_module": "parsons.notifications.slack",
   "test_path": "test/test_slack",
@@ -9,5 +9,11 @@
     "branch_pct": 88.89,
     "num_statements": 95,
     "num_branches": 36
+  },
+  "mutation": {
+    "score_pct": 59.7,
+    "killed": 40,
+    "survived": 27,
+    "total": 67
   }
 }

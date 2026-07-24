@@ -1,0 +1,19 @@
+{
+  "connector": "mysql",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/databases/mysql",
+  "cov_module": "parsons.databases.mysql",
+  "test_path": "test/test_mysql",
+  "coverage": {
+    "line_pct": 55.23,
+    "branch_pct": 25.0,
+    "num_statements": 172,
+    "num_branches": 48
+  },
+  "mutation": {
+    "score_pct": 21.72,
+    "killed": 48,
+    "survived": 173,
+    "total": 221
+  }
+}

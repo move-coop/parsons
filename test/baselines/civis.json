@@ -1,0 +1,19 @@
+{
+  "connector": "civis",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/civis",
+  "cov_module": "parsons.civis",
+  "test_path": "test/test_civis",
+  "coverage": {
+    "line_pct": 38.46,
+    "branch_pct": 0.0,
+    "num_statements": 26,
+    "num_branches": 6
+  },
+  "mutation": {
+    "score_pct": 45.83,
+    "killed": 11,
+    "survived": 13,
+    "total": 24
+  }
+}

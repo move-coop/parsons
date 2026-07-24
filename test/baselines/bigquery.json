@@ -1,0 +1,13 @@
+{
+  "connector": "bigquery",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/google/google_bigquery.py",
+  "cov_module": "parsons.google.google_bigquery",
+  "test_path": "test/test_bigquery",
+  "coverage": {
+    "line_pct": 71.49,
+    "branch_pct": 50.68,
+    "num_statements": 442,
+    "num_branches": 148
+  }
+}

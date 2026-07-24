@@ -1,0 +1,19 @@
+{
+  "connector": "turbovote",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/turbovote",
+  "cov_module": "parsons.turbovote",
+  "test_path": "test/test_turbovote",
+  "coverage": {
+    "line_pct": 100.0,
+    "branch_pct": 100.0,
+    "num_statements": 30,
+    "num_branches": 0
+  },
+  "mutation": {
+    "score_pct": 100.0,
+    "killed": 22,
+    "survived": 0,
+    "total": 22
+  }
+}

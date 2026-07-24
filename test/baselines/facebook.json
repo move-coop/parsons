@@ -1,0 +1,19 @@
+{
+  "connector": "facebook",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/facebook_ads",
+  "cov_module": "parsons.facebook_ads",
+  "test_path": "test/test_facebook",
+  "coverage": {
+    "line_pct": 72.03,
+    "branch_pct": 86.67,
+    "num_statements": 118,
+    "num_branches": 30
+  },
+  "mutation": {
+    "score_pct": 57.76,
+    "killed": 67,
+    "survived": 49,
+    "total": 116
+  }
+}

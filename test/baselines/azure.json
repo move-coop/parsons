@@ -1,0 +1,19 @@
+{
+  "connector": "azure",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/azure",
+  "cov_module": "parsons.azure",
+  "test_path": "test/test_azure",
+  "coverage": {
+    "line_pct": 23.89,
+    "branch_pct": 0.0,
+    "num_statements": 113,
+    "num_branches": 20
+  },
+  "mutation": {
+    "score_pct": 41.67,
+    "killed": 30,
+    "survived": 42,
+    "total": 72
+  }
+}

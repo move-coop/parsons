@@ -1,0 +1,19 @@
+{
+  "connector": "box",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/box",
+  "cov_module": "parsons.box",
+  "test_path": "test/test_box",
+  "coverage": {
+    "line_pct": 25.68,
+    "branch_pct": 0.0,
+    "num_statements": 148,
+    "num_branches": 38
+  },
+  "mutation": {
+    "score_pct": 37.93,
+    "killed": 77,
+    "survived": 126,
+    "total": 203
+  }
+}

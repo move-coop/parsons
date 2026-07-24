@@ -1,0 +1,19 @@
+{
+  "connector": "github",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/github",
+  "cov_module": "parsons.github",
+  "test_path": "test/test_github",
+  "coverage": {
+    "line_pct": 76.86,
+    "branch_pct": 63.89,
+    "num_statements": 121,
+    "num_branches": 36
+  },
+  "mutation": {
+    "score_pct": 34.65,
+    "killed": 35,
+    "survived": 66,
+    "total": 101
+  }
+}

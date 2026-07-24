@@ -190,7 +190,7 @@ jobs:
           uv sync
           --upgrade
           --no-default-groups
-          --group test
+          --group test-coverage
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
@@ -200,6 +200,76 @@ jobs:
           key: pytest-${{ env.RUN_KEY }}
 
       - run: pytest test/test_${{ matrix.extra }}
+
+      # Advisory during the migration: if this connector has a committed
+      # baseline, compare the current suite's coverage against it and render the
+      # result to the job summary. Coverage only (fast); mutation parity runs in
+      # the separate `parity-mutation` job. Does not fail the build yet.
+      - name: coverage parity vs baseline (advisory)
+        if: hashFiles(format('test/baselines/{0}.json', matrix.extra)) != ''
+        run: >-
+          python test/tools/parity.py compare "${{ matrix.extra }}"
+          --no-mutation --markdown | tee -a "$GITHUB_STEP_SUMMARY"
+
+  # Mutation parity is the signal coverage cannot give: it catches assertions that
+  # execute code without checking its behavior. It is slow, so on pull requests it
+  # runs only for connectors the PR changed that already have a baseline; on the
+  # weekly schedule (and manual dispatch) it sweeps every baselined connector,
+  # doubling as the drift monitor. Advisory: renders to the job summary, never
+  # fails the build during the migration.
+  parity-mutation:
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'pull_request' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          # Full history so we can diff a pull request against its base commit.
+          fetch-depth: 0
+
+      # Compute the work list with the runner's system Python (no project deps
+      # needed) so we can skip the expensive dependency sync when there is nothing
+      # to check.
+      - name: determine connectors to check
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            LIST=$(python3 test/tools/changed_connectors.py --base "${{ github.event.pull_request.base.sha }}")
+          else
+            LIST=$(python3 test/tools/changed_connectors.py --all)
+          fi
+          echo "connectors=$(echo "$LIST" | tr '\n' ' ' | xargs)" >> "$GITHUB_OUTPUT"
+
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+        if: steps.scope.outputs.connectors != ''
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - if: steps.scope.outputs.connectors != ''
+        run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group mutation
+          --all-extras
+
+      - name: mutation parity vs baseline (advisory)
+        if: steps.scope.outputs.connectors != ''
+        run: |
+          for c in ${{ steps.scope.outputs.connectors }}; do
+            python test/tools/parity.py compare "$c" --markdown \
+              | tee -a "$GITHUB_STEP_SUMMARY" \
+              || echo "⚠️ parity run failed for $c (see logs)" >> "$GITHUB_STEP_SUMMARY"
+          done
 
   ruff-format:
     runs-on: ubuntu-latest

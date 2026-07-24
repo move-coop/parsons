@@ -29,6 +29,31 @@ A connector is done when its tests:
    (not in `*_responses.py` / `expected_json.py` modules or big inline dicts).
 5. Pass, and are `ruff format` + `ruff check` clean.
 
+## Verifying a migration (the parity gate)
+
+Passing tests do not prove the new suite is as *strong* as the old one — a rewrite
+can preserve coverage while quietly dropping assertions. Every connector has a
+committed baseline in [`baselines/`](baselines/) recording the **old** suite's
+line %, branch %, and mutation score, measured before migration.
+
+```bash
+# Run this FIRST when converting. Each line is a behavior you could change
+# without any test failing — i.e. an assertion the new suite should add.
+uv run python test/tools/parity.py survivors <connector>
+
+# After converting: confirm the new suite has not regressed against the baseline.
+uv run python test/tools/parity.py compare <connector>
+uv run python test/tools/parity.py compare <connector> --no-mutation   # fast
+```
+
+The mutation *score* is only a regression floor; the **survivor list** is the
+actionable output — use it so a conversion leaves the connector genuinely better
+tested rather than merely equal.
+
+Baselines exist for 59 connectors (the five `dbt-*` suites have no mockable tests,
+so there is nothing to measure). CI runs the coverage half automatically on every
+PR. See [`tools/README.md`](tools/README.md) for the full toolset.
+
 ## Status
 
 73 connector test groups: **3 done**, 70 remaining. 55 still use

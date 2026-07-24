@@ -70,6 +70,18 @@ uv run python test/tools/parity.py compare <connector>            # advisory
 uv run python test/tools/parity.py compare <connector> --strict   # exit 1 on regression (CI gate)
 ```
 
+**When converting a connector, start here:**
+
+```bash
+uv run python test/tools/parity.py survivors <connector>
+```
+
+The mutation *score* is only a regression floor. The **survivor list** is the
+actionable part — every line it prints is a change that could be made to the
+source without any test failing, i.e. a missing assertion. Use it to decide what
+the new suite should cover beyond a like-for-like port, so the conversion leaves
+the connector genuinely better tested rather than merely equal.
+
 Connector→source mapping lives in [test/tools/connector_map.py](tools/connector_map.py);
 add an override there if a connector's source is not `parsons/<connector>/`.
 

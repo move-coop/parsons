@@ -24,7 +24,29 @@ uv run python test/tools/parity.py compare <connector> --strict   # exit 1 on re
 
 # Coverage only (fast; skips mutation testing) while iterating.
 uv run python test/tools/parity.py capture <connector> --no-mutation
+
+# The actionable one: list the behaviors no test currently checks.
+uv run python test/tools/parity.py survivors <connector>
 ```
+
+### `survivors` — the most useful output
+
+The mutation *score* is a regression floor ("don't get worse"). The **survivor
+list** is the actionable artifact: each line is a change you could make to the
+source without any test failing — i.e. a concrete missing assertion. Run it when
+you convert a connector to find what the new suite should additionally cover:
+
+```
+8 surviving mutant(s) — behaviors no test currently checks:
+
+  parsons/airtable/airtable.py
+    line  135  core/ReplaceFalseWithTrue     def insert_record(self, row, typecast=False):
+    line  173  core/AddNot                   if isinstance(table, Table):
+    line  329  core/AddNot                   if any(isinstance(row, dict) for row in table):
+```
+
+Read that as: nothing verifies the `typecast`/`replace` flags, and the
+"accept a Table *or* a list of dicts" branches are only ever tested one way.
 
 Requires the `mutation` dependency group (coverage tooling + cosmic-ray):
 

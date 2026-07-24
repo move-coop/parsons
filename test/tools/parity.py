@@ -74,6 +74,16 @@ class MutationResult:
     total: int
 
 
+@dataclass
+class Survivor:
+    """A mutation no test caught — i.e. a behavior nothing asserts on."""
+
+    path: str
+    line: int
+    operator: str
+    source: str
+
+
 # --------------------------------------------------------------------------- #
 # Measurement
 # --------------------------------------------------------------------------- #
@@ -125,13 +135,12 @@ def measure_coverage(conn: Connector) -> CoverageResult:
     )
 
 
-def measure_mutation(conn: Connector) -> MutationResult:
-    """Run cosmic-ray over the connector's source, scored by its tests.
+def _cosmic_ray_dump(conn: Connector) -> str:
+    """Run a cosmic-ray session over the connector's source and return its JSON dump.
 
     cosmic-ray reads its own per-session config (no coupling to pyproject.toml),
     which makes per-connector scoping clean and robust. Each mutation is applied
     to the source on disk, this connector's tests run, and the file is restored.
-    The result database is parsed for killed vs. survived counts.
     """
     test_command = f"{sys.executable} -m pytest -x -q -n0 -p no:cacheprovider {conn.test_path}"
     with tempfile.TemporaryDirectory() as tmp:
@@ -161,21 +170,13 @@ def measure_mutation(conn: Connector) -> MutationResult:
                 f"cleanly).\nstdout:\n{baseline.stdout}\n\nstderr:\n{baseline.stderr}"
             )
 
-        subprocess.run(
+        for cmd in (
             [CR_BIN, "init", str(config), str(session)],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        subprocess.run(
             [CR_BIN, "exec", str(config), str(session)],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        dump = subprocess.run(
+        ):
+            subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True, check=True)
+
+        return subprocess.run(
             [CR_BIN, "dump", str(session)],
             cwd=REPO_ROOT,
             capture_output=True,
@@ -183,26 +184,68 @@ def measure_mutation(conn: Connector) -> MutationResult:
             check=True,
         ).stdout
 
-    killed = survived = other = 0
+
+def _iter_results(dump: str):
+    """Yield (work_item, result) pairs from a cosmic-ray dump, skipping empties."""
     for line in dump.splitlines():
         line = line.strip()
         if not line:
             continue
         record = json.loads(line)
         result = record[1] if isinstance(record, list) and len(record) > 1 else None
-        if not result:
-            continue  # no result recorded (skipped/incomplete)
+        if result:
+            yield record[0], result
+
+
+def measure_mutation(conn: Connector) -> MutationResult:
+    """Score the connector's tests by how many injected faults they catch."""
+    killed = survived = 0
+    for _work_item, result in _iter_results(_cosmic_ray_dump(conn)):
         outcome = result.get("test_outcome")
         if outcome == "killed":
             killed += 1
         elif outcome == "survived":
             survived += 1
-        else:
-            other += 1  # e.g. "incompetent" mutant (didn't compile) — excluded from score
+        # anything else (e.g. an "incompetent" mutant that didn't compile) is
+        # excluded from the score entirely
 
     scored = killed + survived
     score = 100.0 * killed / scored if scored else 100.0
     return MutationResult(score_pct=round(score, 2), killed=killed, survived=survived, total=scored)
+
+
+def _source_line(path: str, line: int) -> str:
+    """The stripped text of a source line, for annotating a survivor."""
+    try:
+        lines = (REPO_ROOT / path).read_text().splitlines()
+        return lines[line - 1].strip() if 0 < line <= len(lines) else ""
+    except OSError:
+        return ""
+
+
+def find_survivors(conn: Connector) -> list[Survivor]:
+    """List the mutants this connector's tests fail to catch.
+
+    Each survivor is a behavior you could change without any test noticing —
+    i.e. a concrete missing assertion.
+    """
+    survivors = []
+    for work_item, result in _iter_results(_cosmic_ray_dump(conn)):
+        if result.get("test_outcome") != "survived":
+            continue
+        for mutation in work_item.get("mutations", []):
+            path = mutation.get("module_path") or conn.source_path
+            start = mutation.get("start_pos") or [0]
+            line = start[0] if isinstance(start, list) else 0
+            survivors.append(
+                Survivor(
+                    path=path,
+                    line=line,
+                    operator=mutation.get("operator_name", "?"),
+                    source=_source_line(path, line),
+                )
+            )
+    return sorted(survivors, key=lambda s: (s.path, s.line))
 
 
 def git_sha() -> str:
@@ -334,6 +377,30 @@ def cmd_compare(name: str, mutation: bool, strict: bool, markdown: bool = False)
     return 0
 
 
+def cmd_survivors(name: str) -> int:
+    """Print the mutants the current tests fail to catch (a missing-test to-do list)."""
+    conn = _resolve_or_exit(name)
+    print(f"Finding surviving mutants for '{name}' (this can take several minutes)...")
+    survivors = find_survivors(conn)
+
+    if not survivors:
+        print(f"\nNone — every mutation in {conn.source_path} is caught by {conn.test_path}.")
+        return 0
+
+    print(f"\n{len(survivors)} surviving mutant(s) — behaviors no test currently checks:\n")
+    current_path = None
+    for s in survivors:
+        if s.path != current_path:
+            current_path = s.path
+            print(f"  {s.path}")
+        print(f"    line {s.line:>4}  {s.operator:<28}  {s.source}")
+    print(
+        "\nEach line above is a change that could be made to the source without any "
+        "test failing.\nAdd an assertion covering it to close the gap."
+    )
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
@@ -358,7 +425,14 @@ def main(argv: list[str] | None = None) -> int:
         help="emit a markdown table on stdout (for $GITHUB_STEP_SUMMARY)",
     )
 
+    p_surv = sub.add_parser(
+        "survivors", help="list mutants the current tests do not catch (missing assertions)"
+    )
+    p_surv.add_argument("connector")
+
     args = parser.parse_args(argv)
+    if args.command == "survivors":
+        return cmd_survivors(args.connector)
     if args.command == "capture":
         return cmd_capture(args.connector, mutation=not args.no_mutation)
     if args.command == "compare":

@@ -56,8 +56,9 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**16 connectors migrated**, all validated against their pre-migration baselines
-with **zero coverage regressions** (salesforce, ngpvan and targetsmart improved).
+**19 connectors migrated**, all validated against their pre-migration baselines
+with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
+(coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
 Remaining: 46 files still use `unittest.TestCase`, 8 are top-level `test_*.py`
 files, and 24 directories lack `__init__.py`.
@@ -153,7 +154,8 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_braintree` — TC
 - [ ] `test_capitol_canary` — TC, top→dir
 - [ ] `test_community` — TC, +init
-- [ ] `test_controlshift` — TC, +init
+- [x] `test_controlshift` — pytest + fixtures; `data/*.json`; added hostname-normalization
+  and pagination tests found via `survivors` (mutation 23.53% → **100%**).
 - [ ] `test_copper` — TC, +init
 - [ ] `test_crowdtangle` — TC, +init, data→data/
 - [ ] `test_donorbox` — TC, +init
@@ -167,13 +169,15 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_mobilize` — TC
 - [ ] `test_nation_builder` — TC, data→data/
 - [ ] `test_p2a` — TC, top→dir
-- [ ] `test_quickbase` — TC, +init
+- [x] `test_quickbase` — pytest + fixtures; `data/*.json`; added a column-rename/value-unwrap
+  assertion found via `survivors` (mutation 50% → **100%**).
 - [ ] `test_quickbooks` — TC, +init
 - [ ] `test_redash` — TC, top→dir
 - [ ] `test_rockthevote` — TC, +init
 - [ ] `test_scytl` — TC, +init
 - [ ] `test_shopify` — TC, top→dir
-- [ ] `test_turbovote` — TC, +init
+- [x] `test_turbovote` — pytest + fixtures; `users.txt` → `data/users.csv`; added a bearer-token
+  header assertion (mutation already 100%).
 
 ### P3 · OTHER (19) — non-HTTP; structural cleanup
 

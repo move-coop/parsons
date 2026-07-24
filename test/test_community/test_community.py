@@ -1,41 +1,49 @@
-import unittest
-
-import requests_mock
+"""Tests for the Community connector."""
 
 from parsons import Community
+from parsons.community.community import COMMUNITY_API_ENDPOINT
 
-TEST_CLIENT_ID = "someuuid"
-TEST_CLIENT_TOKEN = "somesecret"
-
-TEST_FILENAME = "campaigns"
-TEST_URI = f"https://faketestingurl.com/{TEST_CLIENT_ID}"
-TEST_FULL_URL = f"{TEST_URI}/{TEST_FILENAME}.csv.gz"
-
-TEST_GET_RESPONSE_CSV_STRING = b'"CAMPAIGN_ID","LEADER_ID"\n"0288","6e83b"\n'
-
-TEST_EXPECTED_COLUMNS = [
-    "CAMPAIGN_ID",
-    "LEADER_ID",
-]
+FILENAME = "campaigns"
+EXPORT_CSV = b'"CAMPAIGN_ID","LEADER_ID"\n"0288","6e83b"\n'
 
 
-class TestCommunity(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        self.com = Community(TEST_CLIENT_ID, TEST_CLIENT_TOKEN, TEST_URI)
+def test_uri_falls_back_to_default_endpoint(monkeypatch, client_id, client_token):
+    """With no URL supplied or in the environment, the client id builds the URI."""
+    monkeypatch.delenv("COMMUNITY_URL", raising=False)
 
-    @requests_mock.Mocker()
-    def test_successful_get_request(self, m):
-        m.get(TEST_FULL_URL, content=TEST_GET_RESPONSE_CSV_STRING)
+    com = Community(client_id, client_token)
 
-        assert self.com.get_request(filename=TEST_FILENAME) == TEST_GET_RESPONSE_CSV_STRING
+    assert com.uri == f"{COMMUNITY_API_ENDPOINT}/{client_id}/"
 
-    # test get resource
-    @requests_mock.Mocker()
-    def test_successful_get_data_export(self, m):
-        m.get(TEST_FULL_URL, content=TEST_GET_RESPONSE_CSV_STRING)
 
-        table = self.com.get_data_export(
-            TEST_FILENAME,
-        )
-        assert table.columns == TEST_EXPECTED_COLUMNS
+def test_get_request_uses_segment_path_for_subscription_export(community, uri, requests_mock):
+    """`outbound_message_type_usage` is fetched from a different path than every other export."""
+    filename = "outbound_message_type_usage"
+    requests_mock.get(f"{uri}/{filename}.csv.gz/segment-based-subscription", content=EXPORT_CSV)
+
+    assert community.get_request(filename=filename) == EXPORT_CSV
+
+
+def test_get_request(community, uri, requests_mock):
+    requests_mock.get(f"{uri}/{FILENAME}.csv.gz", content=EXPORT_CSV)
+
+    assert community.get_request(filename=FILENAME) == EXPORT_CSV
+
+
+def test_get_request_sends_bearer_token(community, uri, requests_mock):
+    requests_mock.get(f"{uri}/{FILENAME}.csv.gz", content=EXPORT_CSV)
+
+    community.get_request(filename=FILENAME)
+
+    assert requests_mock.last_request.headers["Authorization"] == "Bearer somesecret"
+
+
+def test_get_data_export(community, uri, requests_mock):
+    requests_mock.get(f"{uri}/{FILENAME}.csv.gz", content=EXPORT_CSV)
+
+    tbl = community.get_data_export(FILENAME)
+
+    assert tbl.columns == ["CAMPAIGN_ID", "LEADER_ID"]
+    assert tbl.num_rows == 1
+    assert tbl[0]["CAMPAIGN_ID"] == "0288"
+    assert tbl[0]["LEADER_ID"] == "6e83b"

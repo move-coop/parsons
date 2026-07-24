@@ -56,7 +56,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**19 connectors migrated**, all validated against their pre-migration baselines
+**21 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -153,13 +153,17 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_bill_com` — TC, +init
 - [ ] `test_braintree` — TC
 - [ ] `test_capitol_canary` — TC, top→dir
-- [ ] `test_community` — TC, +init
+- [x] `test_community` — pytest + fixtures; added default-URI and the
+  `outbound_message_type_usage` special-path tests via `survivors`
+  (mutation 60% → **80%**).
 - [x] `test_controlshift` — pytest + fixtures; `data/*.json`; added hostname-normalization
   and pagination tests found via `survivors` (mutation 23.53% → **100%**).
 - [ ] `test_copper` — TC, +init
 - [ ] `test_crowdtangle` — TC, +init, data→data/
 - [ ] `test_donorbox` — TC, +init
-- [ ] `test_empower` — TC, +init
+- [x] `test_empower` — pytest + fixtures; `data/export.json`; parametrized the
+  per-slice column checks. Remaining mutation gap is blocked by a real bug in
+  `convert_unix_to_readable` (silently nulls every timestamp) — flagged separately.
 - [ ] `test_formstack` — TC
 - [ ] `test_freshdesk` — TC, data→data/
 - [ ] `test_gmail` — TC

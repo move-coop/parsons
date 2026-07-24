@@ -1,0 +1,22 @@
+{
+  "count": 38,
+  "next": null,
+  "previous": "https://events.mobilizeamerica.io/api/v1/organizations?updated_since=1543644000",
+  "data": [
+    {
+      "id": 1251,
+      "name": "Mike Blake for New York City",
+      "slug": "mikefornyc",
+      "is_coordinated": "True",
+      "is_independent": "True",
+      "is_primary_campaign": "False",
+      "state": "",
+      "district": "",
+      "candidate_name": "",
+      "race_type": "OTHER_LOCAL",
+      "event_feed_url": "https://events.mobilizeamerica.io/mikefornyc/",
+      "created_date": 1545885434,
+      "modified_date": 1546132256
+    }
+  ]
+}

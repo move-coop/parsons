@@ -56,7 +56,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**24 connectors migrated**, all validated against their pre-migration baselines
+**26 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -174,14 +174,17 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_hustle` — TC, +init, data→data/
 - [ ] `test_mailchimp` — TC, data→data/
 - [ ] `test_mobilecommons` — TC, +init, data→data/
-- [ ] `test_mobilize` — TC
+- [x] `test_mobilize` — pytest + fixtures; `data/*.json`; `test_mobilize_america.py`
+  → `test_mobilize.py`. Parity caught a coverage regression (the old setUp built the
+  client with no key, hitting the missing-key branch) — added a no-key construction test.
 - [ ] `test_nation_builder` — TC, data→data/
 - [ ] `test_p2a` — TC, top→dir
 - [x] `test_quickbase` — pytest + fixtures; `data/*.json`; added a column-rename/value-unwrap
   assertion found via `survivors` (mutation 50% → **100%**).
 - [ ] `test_quickbooks` — TC, +init
 - [ ] `test_redash` — TC, top→dir
-- [ ] `test_rockthevote` — TC, +init
+- [x] `test_rockthevote` — pytest + fixtures; `test_rtv.py` → `test_rockthevote.py`;
+  `sample.*` → `data/`; +`__init__`; dropped a stray `print`.
 - [ ] `test_scytl` — TC, +init
 - [ ] `test_shopify` — TC, top→dir
 - [x] `test_turbovote` — pytest + fixtures; `users.txt` → `data/users.csv`; added a bearer-token

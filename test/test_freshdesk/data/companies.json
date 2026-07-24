@@ -1,0 +1,16 @@
+[
+  {
+    "id": 47000491701,
+    "name": "Big Org",
+    "description": null,
+    "note": null,
+    "domains": [],
+    "created_at": "2020-01-09T20:43:09Z",
+    "updated_at": "2020-01-09T20:43:09Z",
+    "custom_fields": {},
+    "health_score": null,
+    "account_tier": "Tier 2",
+    "renewal_date": "2020-12-31T00:00:00Z",
+    "industry": null
+  }
+]

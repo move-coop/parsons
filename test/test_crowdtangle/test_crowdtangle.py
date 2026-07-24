@@ -1,37 +1,37 @@
-import unittest
+"""Tests for the CrowdTangle connector."""
 
-import requests_mock
-
-from parsons import CrowdTangle, Table
+from parsons import Table
 from test.conftest import assert_matching_tables
-from test.test_crowdtangle.leaderboard import expected_leaderboard
-from test.test_crowdtangle.link_post import expected_post
-from test.test_crowdtangle.post import expected_posts
-
-CT_API_KEY = "FAKE_KEY"
 
 
-class TestCrowdTangle(unittest.TestCase):
-    def setUp(self):
-        self.ct = CrowdTangle(CT_API_KEY)
+def test_get_posts(crowdtangle, requests_mock, load):
+    posts_response = load("posts")
+    requests_mock.get(crowdtangle.uri + "/posts", json=posts_response)
 
-    @requests_mock.Mocker()
-    def test_get_posts(self, m):
-        m.get(self.ct.uri + "/posts", json=expected_posts)
-        posts = self.ct.get_posts()
-        exp_tbl = self.ct._unpack(Table(expected_posts["result"]["posts"]))
-        assert_matching_tables(posts, exp_tbl)
+    posts = crowdtangle.get_posts()
 
-    @requests_mock.Mocker()
-    def test_get_leaderboard(self, m):
-        m.get(self.ct.uri + "/leaderboard", json=expected_leaderboard)
-        leaderboard = self.ct.get_leaderboard()
-        exp_tbl = self.ct._unpack(Table(expected_leaderboard["result"]["accountStatistics"]))
-        assert_matching_tables(leaderboard, exp_tbl)
+    expected = crowdtangle._unpack(Table(posts_response["result"]["posts"]))
+    assert_matching_tables(posts, expected)
+    assert posts.num_rows == len(posts_response["result"]["posts"])
 
-    @requests_mock.Mocker()
-    def test_get_links(self, m):
-        m.get(self.ct.uri + "/links", json=expected_post)
-        post = self.ct.get_links(link="https://nbcnews.to/34stfC2")
-        exp_tbl = self.ct._unpack(Table(expected_post["result"]["posts"]))
-        assert_matching_tables(post, exp_tbl)
+
+def test_get_leaderboard(crowdtangle, requests_mock, load):
+    leaderboard_response = load("leaderboard")
+    requests_mock.get(crowdtangle.uri + "/leaderboard", json=leaderboard_response)
+
+    leaderboard = crowdtangle.get_leaderboard()
+
+    expected = crowdtangle._unpack(Table(leaderboard_response["result"]["accountStatistics"]))
+    assert_matching_tables(leaderboard, expected)
+    assert leaderboard.num_rows == len(leaderboard_response["result"]["accountStatistics"])
+
+
+def test_get_links(crowdtangle, requests_mock, load):
+    links_response = load("links")
+    requests_mock.get(crowdtangle.uri + "/links", json=links_response)
+
+    posts = crowdtangle.get_links(link="https://nbcnews.to/34stfC2")
+
+    expected = crowdtangle._unpack(Table(links_response["result"]["posts"]))
+    assert_matching_tables(posts, expected)
+    assert requests_mock.last_request.qs["link"] == ["https://nbcnews.to/34stfc2"]

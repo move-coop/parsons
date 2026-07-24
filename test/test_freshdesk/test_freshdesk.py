@@ -1,81 +1,82 @@
-import unittest
-
-import requests_mock
-
-from parsons import Freshdesk
-from test.test_freshdesk import expected_json
-
-DOMAIN = "myorg"
-API_KEY = "mykey"
+"""Tests for the Freshdesk connector."""
 
 
-class TestFreshdesk(unittest.TestCase):
-    def setUp(self):
-        self.fd = Freshdesk(DOMAIN, API_KEY)
+def test_get_agents(freshdesk, requests_mock, load):
+    requests_mock.get(freshdesk.uri + "agents", json=load("agents"))
 
-    @requests_mock.Mocker()
-    def test_get_agents(self, m):
-        # Test that agents are returned correctly.
-        m.get(self.fd.uri + "agents", json=expected_json.test_agent)
-        self.fd.get_agents()
+    tbl = freshdesk.get_agents()
 
-    @requests_mock.Mocker()
-    def test_get_tickets(self, m):
-        # Test that tickets are returned correctly.
-        m.get(self.fd.uri + "tickets", json=expected_json.test_ticket)
-        self.fd.get_tickets()
+    assert tbl.num_rows == 1
+    # get_agents unpacks the nested "contact" dict and drops "signature".
+    assert "signature" not in tbl.columns
+    assert "id" in tbl.columns
 
-    @requests_mock.Mocker()
-    def test_get_companies(self, m):
-        # Test that tickets are returned correctly.
-        m.get(self.fd.uri + "companies", json=expected_json.test_company)
-        self.fd.get_companies()
 
-    @requests_mock.Mocker()
-    def test_get_contacts(self, m):
-        # Test that tickets are returned correctly.
-        m.get(self.fd.uri + "contacts", json=expected_json.test_contact)
-        self.fd.get_contacts()
+def test_get_agents_passes_filters(freshdesk, requests_mock, load):
+    requests_mock.get(freshdesk.uri + "agents", json=load("agents"))
 
-    @requests_mock.Mocker()
-    def test_create_ticket(self, m):
-        # Import the expected JSON
-        from .expected_json import test_create_ticket_response
+    freshdesk.get_agents(email="a@example.com", state="fulltime")
 
-        # Setup mock response
-        m.post(self.fd.uri + "tickets", json=test_create_ticket_response)
+    assert requests_mock.last_request.qs["email"] == ["a@example.com"]
+    assert requests_mock.last_request.qs["state"] == ["fulltime"]
 
-        # Call the function
-        response = self.fd.create_ticket(
-            subject="Support Needed...",
-            description="Details about the issue...",
-            email="tom@outerspace.com",
-            priority=1,
-            status=2,
-            cc_emails=["ram@freshdesk.com", "diana@freshdesk.com"],
-        )
 
-        # Assertions to check if the function behaves as expected
-        assert response == test_create_ticket_response
+def test_get_tickets(freshdesk, requests_mock, load):
+    requests_mock.get(freshdesk.uri + "tickets", json=load("tickets"))
 
-    @requests_mock.Mocker()
-    def test_create_ticket_with_custom_fields(self, m):
-        # Import the expected JSON
-        from .expected_json import test_create_ticket_with_custom_fields_response
+    tbl = freshdesk.get_tickets()
 
-        # Setup mock response
-        m.post(self.fd.uri + "tickets", json=test_create_ticket_with_custom_fields_response)
+    assert tbl.num_rows == 1
 
-        # Call the function
-        response = self.fd.create_ticket(
-            subject="Support Needed...",
-            description="Details about the issue...",
-            email="tom@outerspace.com",
-            priority=1,
-            status=2,
-            cc_emails=["ram@freshdesk.com", "diana@freshdesk.com"],
-            custom_fields={"category": "Primary"},
-        )
 
-        # Assertions to check if the function behaves as expected
-        assert response == test_create_ticket_with_custom_fields_response
+def test_get_companies(freshdesk, requests_mock, load):
+    requests_mock.get(freshdesk.uri + "companies", json=load("companies"))
+
+    tbl = freshdesk.get_companies()
+
+    assert tbl.num_rows == 1
+
+
+def test_get_contacts(freshdesk, requests_mock, load):
+    requests_mock.get(freshdesk.uri + "contacts", json=load("contacts"))
+
+    tbl = freshdesk.get_contacts()
+
+    assert tbl.num_rows == 1
+
+
+def test_create_ticket(freshdesk, requests_mock, load):
+    response = load("create_ticket_response")
+    requests_mock.post(freshdesk.uri + "tickets", json=response)
+
+    result = freshdesk.create_ticket(
+        subject="Support Needed...",
+        description="Details about the issue...",
+        email="tom@outerspace.com",
+        priority=1,
+        status=2,
+        cc_emails=["ram@freshdesk.com", "diana@freshdesk.com"],
+    )
+
+    assert result == response
+    sent = requests_mock.last_request.json()
+    assert sent["subject"] == "Support Needed..."
+    assert sent["cc_emails"] == ["ram@freshdesk.com", "diana@freshdesk.com"]
+
+
+def test_create_ticket_with_custom_fields(freshdesk, requests_mock, load):
+    response = load("create_ticket_with_custom_fields_response")
+    requests_mock.post(freshdesk.uri + "tickets", json=response)
+
+    result = freshdesk.create_ticket(
+        subject="Support Needed...",
+        description="Details about the issue...",
+        email="tom@outerspace.com",
+        priority=1,
+        status=2,
+        cc_emails=["ram@freshdesk.com", "diana@freshdesk.com"],
+        custom_fields={"category": "Primary"},
+    )
+
+    assert result == response
+    assert requests_mock.last_request.json()["custom_fields"] == {"category": "Primary"}

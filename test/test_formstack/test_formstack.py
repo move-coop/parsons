@@ -1,74 +1,54 @@
-import unittest
-
-import requests_mock
+"""Tests for the Formstack connector."""
 
 from parsons import Table
-from parsons.formstack.formstack import API_URI, Formstack
-from test.test_formstack.formstack_json import (
-    folder_json,
-    form_fields_json,
-    form_json,
-    form_submissions_json,
-    submission_id,
-    submission_json,
-)
+from parsons.formstack.formstack import API_URI
 
-VALID_RESPONSE_STATUS_CODE = 200
+SUBMISSION_ID = 332525567
 
 
-class TestFormstack(unittest.TestCase):
-    @requests_mock.Mocker()
-    def test_get_folders(self, m):
-        fs = Formstack(api_token="token")
-        m.get(
-            API_URI + "/folder",
-            status_code=VALID_RESPONSE_STATUS_CODE,
-            json=folder_json,
-        )
-        folders_data = fs.get_folders()
-        assert isinstance(folders_data, Table)
+def test_get_folders(formstack, requests_mock, load):
+    requests_mock.get(f"{API_URI}/folder", json=load("folder"))
 
-    @requests_mock.Mocker()
-    def test_get_forms(self, m):
-        fs = Formstack(api_token="token")
-        m.get(
-            API_URI + "/form",
-            status_code=VALID_RESPONSE_STATUS_CODE,
-            json=form_json,
-        )
-        forms_data = fs.get_forms()
-        assert isinstance(forms_data, Table)
+    tbl = formstack.get_folders()
 
-    @requests_mock.Mocker()
-    def test_get_submission(self, m):
-        fs = Formstack(api_token="token")
-        m.get(
-            API_URI + f"/submission/{submission_id}",
-            status_code=VALID_RESPONSE_STATUS_CODE,
-            json=submission_json,
-        )
-        submission_data = fs.get_submission(submission_id)
-        assert isinstance(submission_data, dict)
+    assert isinstance(tbl, Table)
+    assert tbl.num_rows == 5
+    assert tbl.columns == ["id", "name", "parent", "permissions"]
 
-    @requests_mock.Mocker()
-    def test_get_form_submissions(self, m):
-        fs = Formstack(api_token="token")
-        m.get(
-            API_URI + f"/form/{submission_id}/submission",
-            status_code=VALID_RESPONSE_STATUS_CODE,
-            json=form_submissions_json,
-        )
-        form_submissions_data = fs.get_form_submissions(submission_id)
-        assert isinstance(form_submissions_data, Table)
 
-    @requests_mock.Mocker()
-    def test_get_form_fields(self, m):
-        fs = Formstack(api_token="token")
-        form_id = 123
-        m.get(
-            API_URI + f"/form/{form_id}/field",
-            status_code=VALID_RESPONSE_STATUS_CODE,
-            json=form_fields_json,
-        )
-        form_fields_data = fs.get_form_fields(form_id)
-        assert isinstance(form_fields_data, Table)
+def test_get_forms(formstack, requests_mock, load):
+    requests_mock.get(f"{API_URI}/form", json=load("form"))
+
+    tbl = formstack.get_forms()
+
+    assert isinstance(tbl, Table)
+    assert tbl.num_rows == 2
+    assert "id" in tbl.columns
+
+
+def test_get_submission(formstack, requests_mock, load):
+    submission = load("submission")
+    requests_mock.get(f"{API_URI}/submission/{SUBMISSION_ID}", json=submission)
+
+    result = formstack.get_submission(SUBMISSION_ID)
+
+    assert result == submission
+
+
+def test_get_form_submissions(formstack, requests_mock, load):
+    requests_mock.get(f"{API_URI}/form/{SUBMISSION_ID}/submission", json=load("form_submissions"))
+
+    tbl = formstack.get_form_submissions(SUBMISSION_ID)
+
+    assert isinstance(tbl, Table)
+
+
+def test_get_form_fields(formstack, requests_mock, load):
+    form_id = 123
+    requests_mock.get(f"{API_URI}/form/{form_id}/field", json=load("form_fields"))
+
+    tbl = formstack.get_form_fields(form_id)
+
+    assert isinstance(tbl, Table)
+    assert tbl.num_rows == 2
+    assert "label" in tbl.columns

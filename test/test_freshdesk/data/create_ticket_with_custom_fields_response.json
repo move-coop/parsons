@@ -1,0 +1,39 @@
+{
+  "cc_emails": [
+    "ram@freshdesk.com",
+    "diana@freshdesk.com"
+  ],
+  "fwd_emails": [],
+  "reply_cc_emails": [
+    "ram@freshdesk.com",
+    "diana@freshdesk.com"
+  ],
+  "email_config_id": null,
+  "group_id": null,
+  "priority": 1,
+  "requester_id": 129,
+  "responder_id": null,
+  "source": 2,
+  "status": 2,
+  "subject": "Support needed..",
+  "company_id": 1,
+  "id": 1,
+  "type": "Question",
+  "to_emails": null,
+  "product_id": null,
+  "fr_escalated": false,
+  "spam": false,
+  "urgent": false,
+  "is_escalated": false,
+  "created_at": "2015-07-09T13:08:06Z",
+  "updated_at": "2015-07-23T04:41:12Z",
+  "due_by": "2015-07-14T13:08:06Z",
+  "fr_due_by": "2015-07-10T13:08:06Z",
+  "description_text": "Some details on the issue ...",
+  "description": "<div>Some details on the issue ..</div>",
+  "custom_fields": {
+    "category": "Primary"
+  },
+  "tags": [],
+  "attachments": []
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "active": false,
+    "address": null,
+    "company_id": 47000491686,
+    "description": null,
+    "email": "person@email.org",
+    "id": 47021299020,
+    "job_title": null,
+    "language": "en",
+    "mobile": null,
+    "name": "Percy Person",
+    "phone": "N/A",
+    "time_zone": "Bogota",
+    "twitter_id": null,
+    "custom_fields": {},
+    "facebook_id": null,
+    "created_at": "2020-01-27T16:44:34Z",
+    "updated_at": "2020-01-27T16:44:34Z",
+    "unique_external_id": null
+  }
+]

@@ -56,7 +56,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**21 connectors migrated**, all validated against their pre-migration baselines
+**24 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -159,13 +159,17 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [x] `test_controlshift` — pytest + fixtures; `data/*.json`; added hostname-normalization
   and pagination tests found via `survivors` (mutation 23.53% → **100%**).
 - [ ] `test_copper` — TC, +init
-- [ ] `test_crowdtangle` — TC, +init, data→data/
+- [x] `test_crowdtangle` — pytest + fixtures; large `*.py` payloads → `data/*.json`;
+  +`__init__`. Coverage parity verified; mutation is slow (6.6k-line fixture re-unpacked
+  per mutant) and the suite still asserts via `_unpack` — a candidate for a trimmed fixture.
 - [ ] `test_donorbox` — TC, +init
 - [x] `test_empower` — pytest + fixtures; `data/export.json`; parametrized the
   per-slice column checks. Remaining mutation gap is blocked by a real bug in
   `convert_unix_to_readable` (silently nulls every timestamp) — flagged separately.
-- [ ] `test_formstack` — TC
-- [ ] `test_freshdesk` — TC, data→data/
+- [x] `test_formstack` — pytest + fixtures; `data/*.json`; replaced `isinstance`-only
+  checks with row/column assertions (mutation 67.92% → **72.64%**).
+- [x] `test_freshdesk` — pytest + fixtures; `data/*.json`; getters now assert content
+  and create_ticket asserts the request body (mutation 40% → **48.57%**).
 - [ ] `test_gmail` — TC
 - [ ] `test_hustle` — TC, +init, data→data/
 - [ ] `test_mailchimp` — TC, data→data/

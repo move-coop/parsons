@@ -3,10 +3,11 @@ import json
 import logging
 import os
 import time
+from typing import Any
 
 import requests
 
-from parsons import VAN, Redshift, Table
+from parsons import VAN, EveryAction, Redshift, Table
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +55,13 @@ rs = Redshift()
 
 
 def attempt_optout(
-    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left: bool = 3
+    every_action: EveryAction,
+    row: dict[str, Any],
+    applied_at: str,
+    committeeid: str,
+    success_log: list[dict[str, Any]],
+    error_log: list[dict[str, Any]],
+    attempts_left: int = 3,
 ):
     vanid = row["vanid"]
     phone = row["phone"]

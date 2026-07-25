@@ -56,13 +56,15 @@ whether a slow mutant trips the 60s timeout varies slightly run to run, so the
 aggregate score has a little noise. A real regression is larger than that; when
 in doubt, run `survivors` — it is deterministic.
 
-Baselines exist for 59 connectors (the five `dbt-*` suites have no mockable tests,
-so there is nothing to measure). CI runs the coverage half automatically on every
+Baselines exist for 59+ connectors (the five `dbt-*` suites have no mockable tests,
+so there is nothing to measure). Connectors that were **top-level `test_*.py` files**
+(redash, shopify, p2a, …) missed the original directory-only sweep, so their baselines
+are captured post-migration — verify the port is faithful/improved by hand in those cases. CI runs the coverage half automatically on every
 PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**30 connectors migrated**, all validated against their pre-migration baselines
+**33 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -187,17 +189,21 @@ verify the mock targets the external boundary, not the connector's own methods.
   client with no key, hitting the missing-key branch) — added a no-key construction test.
 - [x] `test_nation_builder` — pytest + fixtures; `fixtures.py` → `data/*.json`; parametrized
   the validation-error loops (mutation 83.33% preserved).
-- [ ] `test_p2a` — TC, top→dir
+- [x] `test_p2a` — top→dir; pytest + fixtures; `data/*.json`. Fixed two `assert x, y` no-op
+  asserts and two tests that mocked the wrong payload; dropped an empty test. Post-migration
+  baseline (mutation 91.89%).
 - [x] `test_quickbase` — pytest + fixtures; `data/*.json`; added a column-rename/value-unwrap
   assertion found via `survivors` (mutation 50% → **100%**).
 - [x] `test_quickbooks` — pytest + fixtures; `data/*.json`; +`__init__`. Faithful port
   (mutation 51.53% preserved); follow-up: the `_with_params` tests don't yet assert the
   querystring is sent, which is most of the surviving mutants.
-- [ ] `test_redash` — TC, top→dir
+- [x] `test_redash` — top→dir; pytest + fixtures; env-var test uses monkeypatch. Baseline
+  captured post-migration (top-level file, missed the sweep).
 - [x] `test_rockthevote` — pytest + fixtures; `test_rtv.py` → `test_rockthevote.py`;
   `sample.*` → `data/`; +`__init__`; dropped a stray `print`.
 - [ ] `test_scytl` — TC, +init
-- [ ] `test_shopify` — TC, top→dir
+- [x] `test_shopify` — top→dir; pytest + fixtures; inline data kept (small). Post-migration
+  baseline (mutation 40% — get_query_url branch combos untested; follow-up).
 - [x] `test_turbovote` — pytest + fixtures; `users.txt` → `data/users.csv`; added a bearer-token
   header assertion (mutation already 100%).
 

@@ -1,0 +1,19 @@
+{
+  "connector": "p2a",
+  "git_sha": "210bce2644",
+  "source_path": "parsons/phone2action",
+  "cov_module": "parsons.phone2action",
+  "test_path": "test/test_p2a",
+  "coverage": {
+    "line_pct": 91.3,
+    "branch_pct": 100.0,
+    "num_statements": 23,
+    "num_branches": 0
+  },
+  "mutation": {
+    "score_pct": 91.89,
+    "killed": 34,
+    "survived": 3,
+    "total": 37
+  }
+}

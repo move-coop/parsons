@@ -38,6 +38,7 @@ _OVERRIDES: dict[str, tuple[str, str]] = {
     "facebook": ("parsons/facebook_ads", "parsons.facebook_ads"),
     "bigquery": ("parsons/google/google_bigquery.py", "parsons.google.google_bigquery"),
     "mobilize": ("parsons/mobilize_america", "parsons.mobilize_america"),
+    "p2a": ("parsons/phone2action", "parsons.phone2action"),
     "mysql": ("parsons/databases/mysql", "parsons.databases.mysql"),
     "postgres": ("parsons/databases/postgres", "parsons.databases.postgres"),
     "redshift": ("parsons/databases/redshift", "parsons.databases.redshift"),

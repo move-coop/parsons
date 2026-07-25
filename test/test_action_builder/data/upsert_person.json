@@ -1,0 +1,21 @@
+{
+  "person": {
+    "identifiers": [
+      "action_builder:fake-entity-id-1"
+    ],
+    "created_date": "2023-05-19T00:00:00.000Z",
+    "modified_date": "2023-05-19T00:00:00.000Z",
+    "action_builder:entity_type": "Person",
+    "given_name": "Fakey",
+    "family_name": "McFakerson",
+    "preferred_language": "en",
+    "email_addresses": [
+      {
+        "action_builder:identifier": "action_builder:fake-email-id-1",
+        "address": "fakey@mcfakerson.com",
+        "address_type": "Work",
+        "status": "unsubscribed"
+      }
+    ]
+  }
+}

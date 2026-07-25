@@ -107,6 +107,8 @@ def measure_coverage(conn: Connector) -> CoverageResult:
             "--cov-branch",
             f"--cov-report=json:{json_path}",
             "--cov-report=",  # suppress the terminal coverage table
+            "-m",
+            "not legacy",  # measure the NEW suite only; legacy tests must not mask a regression
             "-n0",  # disable xdist distribution for a deterministic measurement
             "-q",
             "-p",
@@ -147,7 +149,12 @@ def _cosmic_ray_dump(conn: Connector) -> str:
     which makes per-connector scoping clean and robust. Each mutation is applied
     to the source on disk, this connector's tests run, and the file is restored.
     """
-    test_command = f"{sys.executable} -m pytest -x -q -n0 -p no:cacheprovider {conn.test_path}"
+    # -m 'not legacy' so mutation is scored against the NEW suite only (the legacy
+    # bake tests must not inflate the kill count). Single quotes keep the marker
+    # expression from breaking the double-quoted TOML test-command string below.
+    test_command = (
+        f"{sys.executable} -m pytest -x -q -n0 -p no:cacheprovider -m 'not legacy' {conn.test_path}"
+    )
     with tempfile.TemporaryDirectory() as tmp:
         config = Path(tmp) / "session.toml"
         session = Path(tmp) / "session.sqlite"

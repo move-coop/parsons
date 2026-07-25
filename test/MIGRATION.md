@@ -29,6 +29,31 @@ A connector is done when its tests:
    (not in `*_responses.py` / `expected_json.py` modules or big inline dicts).
 5. Pass, and are `ruff format` + `ruff check` clean.
 
+## The parallel-change bake (keep the old suite for now)
+
+Migrate one connector at a time using expand → bake → contract:
+
+1. **Expand.** Write the new `test_<connector>.py`. Keep the old suite in the same
+   directory, renamed `test_<connector>_legacy.py`, with `pytestmark =
+   pytest.mark.legacy` at the top. Restore its old data modules too if you moved
+   them. Both suites run and pass:
+
+   ```bash
+   git show HEAD:test/test_<connector>/test_<connector>.py > \
+       test/test_<connector>/test_<connector>_legacy.py   # then add the pytestmark
+   uv run pytest test/test_<connector>          # new + legacy, both green
+   uv run pytest test/test_<connector> -m "not legacy"    # new only
+   ```
+
+2. **Bake.** Both suites run in CI. Because the two suites exercise the same
+   source, a source change that breaks exactly one of them exposes a gap in the
+   other — that is the drift signal the frozen baseline cannot give. The parity
+   gate always measures the **new suite alone** (`parity.py` runs it with
+   `-m "not legacy"`), so the legacy tests never mask a regression in the new one.
+
+3. **Contract.** Once the new suite has baked (parity green, no drift), delete
+   `test_<connector>_legacy.py` and tick "Legacy removed" in the checklist.
+
 ## Verifying a migration (the parity gate)
 
 Passing tests do not prove the new suite is as *strong* as the old one — a rewrite

@@ -1,0 +1,19 @@
+{
+  "data": {
+    "person": {
+      "given_name": "Fakey",
+      "family_name": "McFakerson",
+      "email_addresses": [
+        {
+          "address": "fakey@mcfakerson.com",
+          "status": "unsubscribed"
+        }
+      ],
+      "created_date": "2023-05-19T00:00:00.000Z",
+      "modified_date": "2023-05-19T00:00:00.000Z"
+    }
+  },
+  "identifier": [
+    "action_builder:fake-entity-id-1"
+  ]
+}

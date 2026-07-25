@@ -1,140 +1,165 @@
-import unittest
+"""Tests for the Hustle connector."""
 
-import requests_mock
-
-from parsons import Hustle, Table
+from parsons import Table
 from parsons.hustle.hustle import HUSTLE_URI
 from test.conftest import assert_matching_tables
-from test.test_hustle import expected_json
-
-CLIENT_ID = "FAKE_ID"
-CLIENT_SECRET = "FAKE_SECRET"
 
 
-class TestHustle(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        m.post(HUSTLE_URI + "oauth/token", json=expected_json.auth_token)
-        self.hustle = Hustle(CLIENT_ID, CLIENT_SECRET)
+def test_auth_token(hustle, load):
+    assert hustle.auth_token == load("auth_token")["access_token"]
 
-    @requests_mock.Mocker()
-    def test_auth_token(self, m):
-        assert self.hustle.auth_token == expected_json.auth_token["access_token"]
 
-    @requests_mock.Mocker()
-    def test_get_organizations(self, m):
-        m.get(HUSTLE_URI + "organizations", json=expected_json.organizations)
-        orgs = self.hustle.get_organizations()
-        assert_matching_tables(orgs, Table(expected_json.organizations["items"]))
+def test_get_organizations(hustle, requests_mock, load):
+    organizations = load("organizations")
+    requests_mock.get(HUSTLE_URI + "organizations", json=organizations)
 
-    @requests_mock.Mocker()
-    def test_get_organization(self, m):
-        m.get(HUSTLE_URI + "organizations/LePEoKzD3", json=expected_json.organization)
-        org = self.hustle.get_organization("LePEoKzD3")
-        assert org == expected_json.organization
+    orgs = hustle.get_organizations()
 
-    @requests_mock.Mocker()
-    def test_get_groups(self, m):
-        m.get(HUSTLE_URI + "organizations/LePEoKzD3/groups", json=expected_json.groups)
-        groups = self.hustle.get_groups("LePEoKzD3")
-        assert_matching_tables(groups, Table(expected_json.groups["items"]))
+    assert_matching_tables(orgs, Table(organizations["items"]))
 
-    @requests_mock.Mocker()
-    def test_get_group(self, m):
-        m.get(HUSTLE_URI + "groups/zajXdqtzRt", json=expected_json.group)
-        org = self.hustle.get_group("zajXdqtzRt")
-        assert org == expected_json.group
 
-    @requests_mock.Mocker()
-    def test_create_lead(self, m):
-        m.post(HUSTLE_URI + "groups/cMCH0hxwGt/leads", json=expected_json.lead)
-        lead = self.hustle.create_lead("cMCH0hxwGt", "Barack", "5126993336", last_name="Obama")
-        assert lead == expected_json.lead
+def test_get_organization(hustle, requests_mock, load):
+    organization = load("organization")
+    requests_mock.get(HUSTLE_URI + "organizations/LePEoKzD3", json=organization)
 
-    @requests_mock.Mocker()
-    def test_create_leads(self, m):
-        m.post(
-            HUSTLE_URI + "groups/cMCH0hxwGt/leads",
-            [
-                {"json": expected_json.leads_tbl_01},
-                {"json": expected_json.leads_tbl_02},
-            ],
-        )
+    assert hustle.get_organization("LePEoKzD3") == organization
 
-        tbl = Table(
-            [
-                ["phone_number", "ln", "first_name"],
-                ["4435705355", "Johnson", "Lyndon"],
-                ["4435705354", "Richard", "Ann"],
-            ]
-        )
-        ids = self.hustle.create_leads(tbl, group_id="cMCH0hxwGt")
-        assert_matching_tables(ids, Table(expected_json.created_leads))
 
-    @requests_mock.Mocker()
-    def test_update_lead(self, m):
-        m.put(HUSTLE_URI + "leads/wqy78hlz2T", json=expected_json.updated_lead)
-        updated_lead = self.hustle.update_lead("wqy78hlz2T", first_name="Bob")
-        assert updated_lead == expected_json.updated_lead
+def test_get_groups(hustle, requests_mock, load):
+    groups = load("groups")
+    requests_mock.get(HUSTLE_URI + "organizations/LePEoKzD3/groups", json=groups)
 
-    @requests_mock.Mocker()
-    def test_get_leads(self, m):
-        # By Organization
-        m.get(HUSTLE_URI + "organizations/cMCH0hxwGt/leads", json=expected_json.leads)
-        leads = self.hustle.get_leads(organization_id="cMCH0hxwGt")
-        assert_matching_tables(leads, Table(expected_json.leads["items"]))
+    assert_matching_tables(hustle.get_groups("LePEoKzD3"), Table(groups["items"]))
 
-        # By Group ID
-        m.get(HUSTLE_URI + "groups/cMCH0hxwGt/leads", json=expected_json.leads)
-        leads = self.hustle.get_leads(group_id="cMCH0hxwGt")
-        assert_matching_tables(leads, Table(expected_json.leads["items"]))
 
-    @requests_mock.Mocker()
-    def test_get_lead(self, m):
-        m.get(HUSTLE_URI + "leads/wqy78hlz2T", json=expected_json.lead)
-        lead = self.hustle.get_lead("wqy78hlz2T")
-        assert lead == expected_json.lead
+def test_get_group(hustle, requests_mock, load):
+    group = load("group")
+    requests_mock.get(HUSTLE_URI + "groups/zajXdqtzRt", json=group)
 
-    @requests_mock.Mocker()
-    def test_get_tags(self, m):
-        m.get(HUSTLE_URI + "organizations/LePEoKzD3/tags", json=expected_json.tags)
-        tags = self.hustle.get_tags(organization_id="LePEoKzD3")
-        assert_matching_tables(tags, Table(expected_json.tags["items"]))
+    assert hustle.get_group("zajXdqtzRt") == group
 
-    @requests_mock.Mocker()
-    def test_get_tag(self, m):
-        m.get(HUSTLE_URI + "tags/zEx5rjbg5", json=expected_json.tag)
-        tag = self.hustle.get_tag("zEx5rjbg5")
-        assert tag == expected_json.tag
 
-    @requests_mock.Mocker()
-    def test_get_agents(self, m):
-        m.get(HUSTLE_URI + "groups/Qqp6o90SiE/agents", json=expected_json.agents)
-        agents = self.hustle.get_agents(group_id="Qqp6o90SiE")
-        assert_matching_tables(agents, Table(expected_json.agents["items"]))
+def test_create_lead(hustle, requests_mock, load):
+    lead = load("lead")
+    requests_mock.post(HUSTLE_URI + "groups/cMCH0hxwGt/leads", json=lead)
 
-    @requests_mock.Mocker()
-    def test_get_agent(self, m):
-        m.get(HUSTLE_URI + "agents/CrJUBI1CF", json=expected_json.agent)
-        agent = self.hustle.get_agent("CrJUBI1CF")
-        assert agent == expected_json.agent
+    result = hustle.create_lead("cMCH0hxwGt", "Barack", "5126993336", last_name="Obama")
 
-    @requests_mock.Mocker()
-    def test_create_agent(self, m):
-        m.post(HUSTLE_URI + "groups/Qqp6o90Si/agents", json=expected_json.agent)
-        new_agent = self.hustle.create_agent(
-            "Qqp6o90Si", name="Angela", full_name="Jones", phone_number="12032498764"
-        )
-        assert new_agent == expected_json.agent
+    assert result == lead
 
-    @requests_mock.Mocker()
-    def test_update_agent(self, m):
-        m.put(HUSTLE_URI + "agents/CrJUBI1CF", json=expected_json.agent)
-        updated_agent = self.hustle.update_agent("CrJUBI1CF", name="Angela", full_name="Jones")
-        assert updated_agent == expected_json.agent
 
-    @requests_mock.Mocker()
-    def test_create_group_membership(self, m):
-        m.post(HUSTLE_URI + "groups/zajXdqtzRt/memberships", json=expected_json.group)
-        group_membership = self.hustle.create_group_membership("zajXdqtzRt", "A6ebDlAtqB")
-        assert group_membership == expected_json.group
+def test_create_leads(hustle, requests_mock, load):
+    requests_mock.post(
+        HUSTLE_URI + "groups/cMCH0hxwGt/leads",
+        [{"json": load("leads_tbl_01")}, {"json": load("leads_tbl_02")}],
+    )
+
+    tbl = Table(
+        [
+            ["phone_number", "ln", "first_name"],
+            ["4435705355", "Johnson", "Lyndon"],
+            ["4435705354", "Richard", "Ann"],
+        ]
+    )
+    ids = hustle.create_leads(tbl, group_id="cMCH0hxwGt")
+
+    assert_matching_tables(ids, Table(load("created_leads")))
+
+
+def test_update_lead(hustle, requests_mock, load):
+    updated_lead = load("updated_lead")
+    requests_mock.put(HUSTLE_URI + "leads/wqy78hlz2T", json=updated_lead)
+
+    assert hustle.update_lead("wqy78hlz2T", first_name="Bob") == updated_lead
+
+
+def test_get_leads_by_organization(hustle, requests_mock, load):
+    leads = load("leads")
+    requests_mock.get(HUSTLE_URI + "organizations/cMCH0hxwGt/leads", json=leads)
+
+    assert_matching_tables(hustle.get_leads(organization_id="cMCH0hxwGt"), Table(leads["items"]))
+
+
+def test_get_leads_by_group(hustle, requests_mock, load):
+    leads = load("leads")
+    requests_mock.get(HUSTLE_URI + "groups/cMCH0hxwGt/leads", json=leads)
+
+    assert_matching_tables(hustle.get_leads(group_id="cMCH0hxwGt"), Table(leads["items"]))
+
+
+def test_get_lead(hustle, requests_mock, load):
+    lead = load("lead")
+    requests_mock.get(HUSTLE_URI + "leads/wqy78hlz2T", json=lead)
+
+    assert hustle.get_lead("wqy78hlz2T") == lead
+
+
+def test_get_tags(hustle, requests_mock, load):
+    tags = load("tags")
+    requests_mock.get(HUSTLE_URI + "organizations/LePEoKzD3/tags", json=tags)
+
+    assert_matching_tables(hustle.get_tags(organization_id="LePEoKzD3"), Table(tags["items"]))
+
+
+def test_get_tag(hustle, requests_mock, load):
+    tag = load("tag")
+    requests_mock.get(HUSTLE_URI + "tags/zEx5rjbg5", json=tag)
+
+    assert hustle.get_tag("zEx5rjbg5") == tag
+
+
+def test_get_agents(hustle, requests_mock, load):
+    agents = load("agents")
+    requests_mock.get(HUSTLE_URI + "groups/Qqp6o90SiE/agents", json=agents)
+
+    assert_matching_tables(hustle.get_agents(group_id="Qqp6o90SiE"), Table(agents["items"]))
+
+
+def test_get_agent(hustle, requests_mock, load):
+    agent = load("agent")
+    requests_mock.get(HUSTLE_URI + "agents/CrJUBI1CF", json=agent)
+
+    assert hustle.get_agent("CrJUBI1CF") == agent
+
+
+def test_create_agent(hustle, requests_mock, load):
+    agent = load("agent")
+    requests_mock.post(HUSTLE_URI + "groups/Qqp6o90Si/agents", json=agent)
+
+    result = hustle.create_agent(
+        "Qqp6o90Si", name="Angela", full_name="Jones", phone_number="12032498764"
+    )
+
+    assert result == agent
+    assert requests_mock.last_request.json()["name"] == "Angela"
+
+
+def test_update_agent(hustle, requests_mock, load):
+    agent = load("agent")
+    requests_mock.put(HUSTLE_URI + "agents/CrJUBI1CF", json=agent)
+
+    assert hustle.update_agent("CrJUBI1CF", name="Angela", full_name="Jones") == agent
+
+
+def test_create_group_membership(hustle, requests_mock, load):
+    group = load("group")
+    requests_mock.post(HUSTLE_URI + "groups/zajXdqtzRt/memberships", json=group)
+
+    assert hustle.create_group_membership("zajXdqtzRt", "A6ebDlAtqB") == group
+
+
+def test_create_custom_field(hustle, requests_mock):
+    requests_mock.post(HUSTLE_URI + "organizations/LePEoKzD3/custom-fields", json={"ok": True})
+
+    hustle.create_custom_field("LePEoKzD3", name="Region")
+
+    assert requests_mock.last_request.json() == {"name": "Region"}
+
+
+def test_create_custom_field_with_agent_visibility(hustle, requests_mock):
+    """agent_visible is only added to the payload when it is explicitly set."""
+    requests_mock.post(HUSTLE_URI + "organizations/LePEoKzD3/custom-fields", json={"ok": True})
+
+    hustle.create_custom_field("LePEoKzD3", name="Region", agent_visible=False)
+
+    assert requests_mock.last_request.json() == {"name": "Region", "agentVisible": False}

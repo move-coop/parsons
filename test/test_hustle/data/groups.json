@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "Qqp6o90Si",
+      "type": "Group",
+      "name": "Group A",
+      "countryCode": "US",
+      "active": true,
+      "location": "New York, NY, USA",
+      "organizationId": "LePEoKzD3",
+      "preferredAreaCodes": [],
+      "timezone": "America/New_York",
+      "createdAt": "2018-08-02T14:50:39.353Z"
+    },
+    {
+      "id": "ygEXcRLEM",
+      "type": "Group",
+      "name": "Group A",
+      "countryCode": "US",
+      "active": true,
+      "location": "New York, NY, USA",
+      "organizationId": "LePEoKzD3",
+      "preferredAreaCodes": [],
+      "timezone": "America/New_York",
+      "createdAt": "2018-12-19T18:43:30.253Z"
+    },
+    {
+      "id": "svwi7gGV7",
+      "type": "Group",
+      "name": "Group A",
+      "countryCode": "US",
+      "active": true,
+      "location": "New York, NY, USA",
+      "organizationId": "LePEoKzD3",
+      "preferredAreaCodes": [],
+      "timezone": "America/New_York",
+      "createdAt": "2018-12-21T20:39:05.178Z"
+    },
+    {
+      "id": "XtXPxbYGv",
+      "type": "Group",
+      "name": "Group A",
+      "description": "A Group.",
+      "countryCode": "US",
+      "active": true,
+      "location": "New York, NY, USA",
+      "organizationId": "LePEoKzD3",
+      "preferredAreaCodes": [],
+      "timezone": "America/New_York",
+      "createdAt": "2018-10-11T16:36:52.245Z"
+    }
+  ],
+  "pagination": {
+    "cursor": "WzEsMTAwMF",
+    "hasNextPage": false,
+    "total": 233
+  }
+}

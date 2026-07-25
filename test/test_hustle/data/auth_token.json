@@ -1,0 +1,6 @@
+{
+  "access_token": "MYFAKETOKEN",
+  "scope": "read:account write:account",
+  "expires_in": 7200,
+  "token_type": "Bearer"
+}

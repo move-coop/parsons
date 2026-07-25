@@ -50,13 +50,19 @@ The mutation *score* is only a regression floor; the **survivor list** is the
 actionable output — use it so a conversion leaves the connector genuinely better
 tested rather than merely equal.
 
+Coverage is compared strictly. Mutation score is allowed a small tolerance
+(±2 points): cosmic-ray classifies a hanging mutant as killed via a timeout, and
+whether a slow mutant trips the 60s timeout varies slightly run to run, so the
+aggregate score has a little noise. A real regression is larger than that; when
+in doubt, run `survivors` — it is deterministic.
+
 Baselines exist for 59 connectors (the five `dbt-*` suites have no mockable tests,
 so there is nothing to measure). CI runs the coverage half automatically on every
 PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**26 connectors migrated**, all validated against their pre-migration baselines
+**28 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -171,8 +177,10 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [x] `test_freshdesk` — pytest + fixtures; `data/*.json`; getters now assert content
   and create_ticket asserts the request body (mutation 40% → **48.57%**).
 - [ ] `test_gmail` — TC
-- [ ] `test_hustle` — TC, +init, data→data/
-- [ ] `test_mailchimp` — TC, data→data/
+- [x] `test_hustle` — pytest + fixtures; `data/*.json`; +`__init__`. Parity flagged ~1%
+  mutation noise; adding tests for the untested `create_custom_field` lifted coverage
+  (line 84.3→87.79, branch 61.76→67.65) and cleared it.
+- [x] `test_mailchimp` — pytest + fixtures; `data/*.json`; added a query-param assertion.
 - [ ] `test_mobilecommons` — TC, +init, data→data/
 - [x] `test_mobilize` — pytest + fixtures; `data/*.json`; `test_mobilize_america.py`
   → `test_mobilize.py`. Parity caught a coverage regression (the old setUp built the

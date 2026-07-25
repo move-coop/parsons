@@ -1,0 +1,121 @@
+{
+  "lists": [
+    {
+      "id": "zyx",
+      "web_id": 98765,
+      "name": "Support Our Candidate List 1",
+      "contact": {
+        "company": "Support Our Candidate",
+        "address1": "123 Main Street",
+        "address2": "",
+        "city": "Townsville",
+        "state": "OH",
+        "zip": "43358",
+        "country": "US",
+        "phone": ""
+      },
+      "permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
+      "use_archive_bar": true,
+      "campaign_defaults": {
+        "from_name": "Our Candidate",
+        "from_email": "our_candidate@example.com",
+        "subject": "",
+        "language": "en"
+      },
+      "notify_on_subscribe": "",
+      "notify_on_unsubscribe": "",
+      "date_created": "2019-03-25T22:55:44+00:00",
+      "list_rating": 3,
+      "email_type_option": false,
+      "subscribe_url_short": "http://example.com/sample-subscribe_url_2",
+      "subscribe_url_long": "https://mailchi.mp/zyx/sample-subscribe-url-2",
+      "beamer_address": "us00-sample-2@inbound.mailchimp.com",
+      "visibility": "pub",
+      "double_optin": false,
+      "has_welcome": true,
+      "marketing_permissions": false,
+      "modules": [],
+      "stats": {
+        "member_count": 140,
+        "unsubscribe_count": 8,
+        "cleaned_count": 16,
+        "member_count_since_send": 0,
+        "unsubscribe_count_since_send": 1,
+        "cleaned_count_since_send": 0,
+        "campaign_count": 21,
+        "campaign_last_sent": "2020-01-06T01:54:32+00:00",
+        "merge_field_count": 5,
+        "avg_sub_rate": 0,
+        "avg_unsub_rate": 1,
+        "target_sub_rate": 3,
+        "open_rate": 38.40236686390532,
+        "click_rate": 4.016786570743405,
+        "last_sub_date": "2019-09-24T01:07:56+00:00",
+        "last_unsub_date": "2020-01-06T01:55:02+00:00"
+      },
+      "_links": []
+    },
+    {
+      "id": "xvu",
+      "web_id": 43210,
+      "name": "Support Our Candidate List 2",
+      "contact": {
+        "company": "Support Our Candidate",
+        "address1": "123 Main Street",
+        "address2": "",
+        "city": "Townsville",
+        "state": "OH",
+        "zip": "43358",
+        "country": "US",
+        "phone": ""
+      },
+      "permission_reminder": "You are receiving this email because you signed up at an event, while being canvassed, or on our website.",
+      "use_archive_bar": true,
+      "campaign_defaults": {
+        "from_name": "Our Candidate",
+        "from_email": "our_candidate@example.com",
+        "subject": "",
+        "language": "en"
+      },
+      "notify_on_subscribe": "",
+      "notify_on_unsubscribe": "",
+      "date_created": "2018-09-15T22:15:21+00:00",
+      "list_rating": 3,
+      "email_type_option": false,
+      "subscribe_url_short": "http://example.com/sample-subscribe_url_1",
+      "subscribe_url_long": "https://mailchi.mp/zyx/sample-subscribe-url-1",
+      "beamer_address": "us00-sample-1@inbound.mailchimp.com",
+      "visibility": "pub",
+      "double_optin": false,
+      "has_welcome": true,
+      "marketing_permissions": false,
+      "modules": [],
+      "stats": {
+        "member_count": 73,
+        "unsubscribe_count": 3,
+        "cleaned_count": 7,
+        "member_count_since_send": 1,
+        "unsubscribe_count_since_send": 1,
+        "cleaned_count_since_send": 0,
+        "campaign_count": 13,
+        "campaign_last_sent": "2020-01-03T14:38:11+00:00",
+        "merge_field_count": 5,
+        "avg_sub_rate": 0,
+        "avg_unsub_rate": 1,
+        "target_sub_rate": 3,
+        "open_rate": 64.19236186394534,
+        "click_rate": 3.746759370417411,
+        "last_sub_date": "2020-01-01T00:19:46+00:00",
+        "last_unsub_date": "2019-12-23T11:44:31+00:00"
+      },
+      "_links": []
+    }
+  ],
+  "total_items": 1,
+  "constraints": {
+    "may_create": false,
+    "max_instances": 1,
+    "current_total_instances": 1
+  },
+  "_links": []
+}

@@ -44,7 +44,12 @@ import connector_map
 from connector_map import REPO_ROOT, Connector
 
 BASELINE_DIR = REPO_ROOT / "test" / "baselines"
-EPS = 0.01  # float tolerance when comparing percentages
+EPS = 0.01  # float tolerance for the (deterministic) coverage metrics
+# Mutation score is not perfectly deterministic: cosmic-ray classifies a mutant
+# that hangs as "killed" via a timeout, and whether a slow mutant trips the
+# timeout can vary a little run to run. Allow a small tolerance so that noise
+# alone never reports a regression. Coverage stays strict.
+MUTATION_EPS = 2.0
 
 # The cosmic-ray console script sits next to the interpreter; resolve it directly
 # so it is found regardless of whether the venv's bin dir is on PATH.
@@ -363,7 +368,10 @@ def cmd_compare(name: str, mutation: bool, strict: bool, markdown: bool = False)
     elif mutation and not has_mut_baseline:
         print("  (baseline has no mutation score; skipping mutation comparison)", file=log)
 
-    regressions = [label for label, base, cur in rows if cur < base - EPS]
+    # Coverage is compared strictly; mutation gets a small tolerance for its
+    # run-to-run timeout noise (see MUTATION_EPS).
+    tolerances = {"mutation score %": MUTATION_EPS}
+    regressions = [label for label, base, cur in rows if cur < base - tolerances.get(label, EPS)]
 
     if markdown:
         _render_markdown(name, rows, regressions)

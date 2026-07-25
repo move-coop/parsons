@@ -104,7 +104,9 @@ def attempt_optout(
 
             # Wait 10 seconds, then try again
             time.sleep(10)
-            attempt_optout(every_action, row, attempts_left)
+            attempt_optout(
+                every_action, row, applied_at, committeeid, success_log, error_log, attempts_left
+            )
 
         else:
             # If we are still getting a connection error after our maximum number of attempts

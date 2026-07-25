@@ -1,311 +1,183 @@
-import unittest
+"""Tests for the QuickBooks Time connector.
 
-import requests_mock
-from test_quickbookstime_data import (
-    mock_geolocations_data,
-    mock_groups_data,
-    mock_jobcodes_data,
-    mock_schedule_calendars_list_data,
-    mock_schedule_events_data,
-    mock_timesheets_data,
-    mock_users_data,
-)
+Each ``get_*`` method fetches a page and flattens the id-keyed ``results`` dict
+into a Table, so the tests assert the first row's id matches the payload.
+"""
+
+from requests_mock import ANY
 
 from parsons.etl.table import Table
-from parsons.quickbooks.quickbookstime import QuickBooksTime
 
 
-class TestQuickBooksTime(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, mock_request):
-        self.qb = QuickBooksTime(token="abc123")
-        self.qb.url = "https://rest.tsheets.com/api/v1/"
+def _first_id(payload: dict, collection: str):
+    """The id of the first record in a QuickBooks Time ``results`` collection."""
+    return next(iter(payload["results"][collection].values()))["id"]
 
-    def tearDown(self):
-        pass
 
-    @requests_mock.Mocker()
-    def test_qb_get_request(self, mock_request, end_point="groups"):  # noqa PT028
-        # Arrange
+def test_qb_get_request(quickbooks, requests_mock, load):
+    groups = load("groups")
+    requests_mock.get(ANY, json=groups)
 
-        querystring = {"page": 1}
-        mock_request.get(requests_mock.ANY, json=mock_groups_data)
+    result = quickbooks.qb_get_request(end_point="groups", querystring={"page": 1})
 
-        # Act
-        result = self.qb.qb_get_request(end_point=end_point, querystring=querystring)
+    assert isinstance(result, Table)
+    assert len(result) > 0
+    assert result[0]["id"] == _first_id(groups, "groups")
 
-        # Assert
-        assert isinstance(result, Table)
-        assert isinstance(end_point, str)
-        assert isinstance(querystring, dict)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_groups_data["results"]["groups"].values())[0]["id"]
 
-    @requests_mock.Mocker()
-    def test_get_groups(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_groups_data)
+def test_get_groups(quickbooks, requests_mock, load):
+    groups = load("groups")
+    requests_mock.get(ANY, json=groups)
 
-        # Act
-        result = self.qb.get_groups()
+    result = quickbooks.get_groups()
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_groups_data["results"]["groups"].values())[0]["id"]
+    assert result[0]["id"] == _first_id(groups, "groups")
 
-    @requests_mock.Mocker()
-    def test_get_jobcodes(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_jobcodes_data)
 
-        # Act
-        result = self.qb.get_jobcodes()
+def test_get_jobcodes(quickbooks, requests_mock, load):
+    jobcodes = load("jobcodes")
+    requests_mock.get(ANY, json=jobcodes)
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
+    result = quickbooks.get_jobcodes()
 
-    @requests_mock.Mocker()
-    def test_get_timesheets(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_timesheets_data)
+    assert result[0]["id"] == _first_id(jobcodes, "jobcodes")
 
-        # Act
-        result = self.qb.get_timesheets()
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert (
-            result[0]["id"] == list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
-        )
+def test_get_timesheets(quickbooks, requests_mock, load):
+    timesheets = load("timesheets")
+    requests_mock.get(ANY, json=timesheets)
 
-    @requests_mock.Mocker()
-    def test_get_users(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_users_data)
+    result = quickbooks.get_timesheets()
 
-        # Act
-        result = self.qb.get_users()
+    assert result[0]["id"] == _first_id(timesheets, "timesheets")
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_users_data["results"]["users"].values())[0]["id"]
 
-    @requests_mock.Mocker()
-    def test_get_schedule_calendars_list(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_schedule_calendars_list_data)
+def test_get_users(quickbooks, requests_mock, load):
+    users = load("users")
+    requests_mock.get(ANY, json=users)
 
-        # Act
-        result = self.qb.get_schedule_calendars_list()
+    result = quickbooks.get_users()
 
-        # Assert
-        assert isinstance(result, list)
-        assert len(result) > 0
-        # assert that the result is a list of ints
-        assert isinstance(result[0], int)
+    assert result[0]["id"] == _first_id(users, "users")
 
-    @requests_mock.Mocker()
-    def test_get_schedule_events(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_schedule_events_data)
 
-        # Act
-        result = self.qb.get_schedule_events()
+def test_get_schedule_calendars_list(quickbooks, requests_mock, load):
+    requests_mock.get(ANY, json=load("schedule_calendars_list"))
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert (
-            result[0]["id"]
-            == list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"]
-        )
+    result = quickbooks.get_schedule_calendars_list()
 
-    @requests_mock.Mocker()
-    def test_get_jobcodes_with_params(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_jobcodes_data)
-        ids = [1, 2, 3]
-        parent_ids = [4, 5, 6]
-        name = "test"
-        type = "test"
-        active = True
-        customfields = {"test": "test"}
-        modified_before = "2022-01-01"
-        modified_since = "2022-01-01"
-        supplemental_data = True
-        limit = 10
-        page = 1
+    assert isinstance(result, list)
+    assert len(result) > 0
+    assert isinstance(result[0], int)
 
-        # Act
-        result = self.qb.get_jobcodes(
-            ids=ids,
-            parent_ids=parent_ids,
-            name=name,
-            type=type,
-            active=active,
-            customfields=customfields,
-            modified_before=modified_before,
-            modified_since=modified_since,
-            supplemental_data=supplemental_data,
-            limit=limit,
-            page=page,
-        )
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_jobcodes_data["results"]["jobcodes"].values())[0]["id"]
+def test_get_schedule_events(quickbooks, requests_mock, load):
+    events = load("schedule_events")
+    requests_mock.get(ANY, json=events)
 
-    @requests_mock.Mocker()
-    def test_get_users_with_params(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_users_data)
-        ids = [1, 2, 3]
-        not_ids = [4, 5, 6]
-        employee_numbers = [7, 8, 9]
-        usernames = ["test1", "test2", "test3"]
-        group_ids = [10, 11, 12]
-        not_group_ids = [13, 14, 15]
-        payroll_ids = [16, 17, 18]
-        active = True
-        first_name = "test"
-        last_name = "test"
-        modified_before = "2022-01-01"
-        modified_since = "2022-01-01"
-        supplemental_data = True
-        limit = 10
-        page = 1
+    result = quickbooks.get_schedule_events()
 
-        # Act
-        result = self.qb.get_users(
-            ids=ids,
-            not_ids=not_ids,
-            employee_numbers=employee_numbers,
-            usernames=usernames,
-            group_ids=group_ids,
-            not_group_ids=not_group_ids,
-            payroll_ids=payroll_ids,
-            active=active,
-            first_name=first_name,
-            last_name=last_name,
-            modified_before=modified_before,
-            modified_since=modified_since,
-            supplemental_data=supplemental_data,
-            limit=limit,
-            page=page,
-        )
+    assert result[0]["id"] == _first_id(events, "schedule_events")
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert result[0]["id"] == list(mock_users_data["results"]["users"].values())[0]["id"]
 
-    @requests_mock.Mocker()
-    def test_get_timesheets_with_params(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_timesheets_data)
-        ids = [1, 2, 3]
-        jobcode_ids = [4, 5, 6]
-        payroll_ids = [7, 8, 9]
-        user_ids = [10, 11, 12]
-        group_ids = [13, 14, 15]
-        end_date = "2022-01-01"
-        on_the_clock = True
-        jobcode_type = "test"
-        modified_before = "2022-01-01"
-        modified_since = "2022-01-01"
-        supplemental_data = True
-        limit = 10
-        page = 1
-        start_date = "2022-01-01"
+def test_get_geolocations(quickbooks, requests_mock, load):
+    geolocations = load("geolocations")
+    requests_mock.get(ANY, json=geolocations)
 
-        # Act
-        result = self.qb.get_timesheets(
-            ids=ids,
-            jobcode_ids=jobcode_ids,
-            payroll_ids=payroll_ids,
-            user_ids=user_ids,
-            group_ids=group_ids,
-            end_date=end_date,
-            on_the_clock=on_the_clock,
-            jobcode_type=jobcode_type,
-            modified_before=modified_before,
-            modified_since=modified_since,
-            supplemental_data=supplemental_data,
-            limit=limit,
-            page=page,
-            start_date=start_date,
-        )
+    result = quickbooks.get_geolocations()
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert (
-            result[0]["id"] == list(mock_timesheets_data["results"]["timesheets"].values())[0]["id"]
-        )
+    assert result[0]["id"] == _first_id(geolocations, "geolocations")
 
-    @requests_mock.Mocker()
-    def test_get_schedule_events_with_params(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_schedule_events_data)
-        ids = [1, 2, 3]
-        users_ids = [4, 5, 6]
-        schedule_calendar_ids = [7, 8, 9]
-        jobcode_ids = [10, 11, 12]
-        start = "2022-01-01"
-        end = "2022-01-01"
-        active_users = True
-        active = True
-        draft = True
-        team_events = True
-        modified_before = "2022-01-01"
-        modified_since = "2022-01-01"
-        supplemental_data = True
-        limit = 10
 
-        # Act
-        result = self.qb.get_schedule_events(
-            ids=ids,
-            users_ids=users_ids,
-            schedule_calendar_ids=schedule_calendar_ids,
-            jobcode_ids=jobcode_ids,
-            start=start,
-            end=end,
-            active_users=active_users,
-            active=active,
-            draft=draft,
-            team_events=team_events,
-            modified_before=modified_before,
-            modified_since=modified_since,
-            supplemental_data=supplemental_data,
-            limit=limit,
-        )
+def test_get_jobcodes_with_params(quickbooks, requests_mock, load):
+    jobcodes = load("jobcodes")
+    requests_mock.get(ANY, json=jobcodes)
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert (
-            result[0]["id"]
-            == list(mock_schedule_events_data["results"]["schedule_events"].values())[0]["id"]
-        )
+    result = quickbooks.get_jobcodes(
+        ids=[1, 2, 3],
+        parent_ids=[4, 5, 6],
+        name="test",
+        type="test",
+        active=True,
+        customfields={"test": "test"},
+        modified_before="2022-01-01",
+        modified_since="2022-01-01",
+        supplemental_data=True,
+        limit=10,
+        page=1,
+    )
 
-    @requests_mock.Mocker()
-    def test_get_geolocations(self, mock_request):
-        # Arrange
-        mock_request.get(requests_mock.ANY, json=mock_geolocations_data)
+    assert result[0]["id"] == _first_id(jobcodes, "jobcodes")
 
-        # Act
-        result = self.qb.get_geolocations()
 
-        # Assert
-        assert isinstance(result, Table)
-        assert len(result) > 0
-        assert (
-            result[0]["id"]
-            == list(mock_geolocations_data["results"]["geolocations"].values())[0]["id"]
-        )
+def test_get_users_with_params(quickbooks, requests_mock, load):
+    users = load("users")
+    requests_mock.get(ANY, json=users)
+
+    result = quickbooks.get_users(
+        ids=[1, 2, 3],
+        not_ids=[4, 5, 6],
+        employee_numbers=[7, 8, 9],
+        usernames=["test1", "test2", "test3"],
+        group_ids=[10, 11, 12],
+        not_group_ids=[13, 14, 15],
+        payroll_ids=[16, 17, 18],
+        active=True,
+        first_name="test",
+        last_name="test",
+        modified_before="2022-01-01",
+        modified_since="2022-01-01",
+        supplemental_data=True,
+        limit=10,
+        page=1,
+    )
+
+    assert result[0]["id"] == _first_id(users, "users")
+
+
+def test_get_timesheets_with_params(quickbooks, requests_mock, load):
+    timesheets = load("timesheets")
+    requests_mock.get(ANY, json=timesheets)
+
+    result = quickbooks.get_timesheets(
+        ids=[1, 2, 3],
+        jobcode_ids=[4, 5, 6],
+        payroll_ids=[7, 8, 9],
+        user_ids=[10, 11, 12],
+        group_ids=[13, 14, 15],
+        end_date="2022-01-01",
+        on_the_clock=True,
+        jobcode_type="test",
+        modified_before="2022-01-01",
+        modified_since="2022-01-01",
+        supplemental_data=True,
+        limit=10,
+        page=1,
+        start_date="2022-01-01",
+    )
+
+    assert result[0]["id"] == _first_id(timesheets, "timesheets")
+
+
+def test_get_schedule_events_with_params(quickbooks, requests_mock, load):
+    events = load("schedule_events")
+    requests_mock.get(ANY, json=events)
+
+    result = quickbooks.get_schedule_events(
+        ids=[1, 2, 3],
+        users_ids=[4, 5, 6],
+        schedule_calendar_ids=[7, 8, 9],
+        jobcode_ids=[10, 11, 12],
+        start="2022-01-01",
+        end="2022-01-01",
+        active_users=True,
+        active=True,
+        draft=True,
+        team_events=True,
+        modified_before="2022-01-01",
+        modified_since="2022-01-01",
+        supplemental_data=True,
+        limit=10,
+    )
+
+    assert result[0]["id"] == _first_id(events, "schedule_events")

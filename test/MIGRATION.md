@@ -62,7 +62,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**28 connectors migrated**, all validated against their pre-migration baselines
+**30 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -185,11 +185,14 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [x] `test_mobilize` — pytest + fixtures; `data/*.json`; `test_mobilize_america.py`
   → `test_mobilize.py`. Parity caught a coverage regression (the old setUp built the
   client with no key, hitting the missing-key branch) — added a no-key construction test.
-- [ ] `test_nation_builder` — TC, data→data/
+- [x] `test_nation_builder` — pytest + fixtures; `fixtures.py` → `data/*.json`; parametrized
+  the validation-error loops (mutation 83.33% preserved).
 - [ ] `test_p2a` — TC, top→dir
 - [x] `test_quickbase` — pytest + fixtures; `data/*.json`; added a column-rename/value-unwrap
   assertion found via `survivors` (mutation 50% → **100%**).
-- [ ] `test_quickbooks` — TC, +init
+- [x] `test_quickbooks` — pytest + fixtures; `data/*.json`; +`__init__`. Faithful port
+  (mutation 51.53% preserved); follow-up: the `_with_params` tests don't yet assert the
+  querystring is sent, which is most of the surviving mutants.
 - [ ] `test_redash` — TC, top→dir
 - [x] `test_rockthevote` — pytest + fixtures; `test_rtv.py` → `test_rockthevote.py`;
   `sample.*` → `data/`; +`__init__`; dropped a stray `print`.

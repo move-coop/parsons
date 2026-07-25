@@ -1,0 +1,70 @@
+{
+  "results": {
+    "schedule_events": {
+      "894562": {
+        "id": 894562,
+        "user_id": 1283037,
+        "unassigned": false,
+        "schedule_calendar_id": 72595,
+        "jobcode_id": 17285791,
+        "start": "2018-08-08T08:00:00-06:00",
+        "end": "2018-08-08T14:00:00-06:00",
+        "timezone": "tsMT",
+        "notes": "Some Custom Notes",
+        "last_modified": "2018-08-09T17:30:54-06:00",
+        "created": "2018-07-15T19:08:33-06:00",
+        "customfields": {
+          "19142": "Item 1",
+          "19144": "Item 2"
+        }
+      },
+      "894588": {
+        "id": 894588,
+        "user_id": 1283037,
+        "unassigned": true,
+        "schedule_calendar_id": 72595,
+        "jobcode_id": 17285791,
+        "start": "2018-08-09T08:00:00-06:00",
+        "end": "2018-08-09T14:00:00-06:00",
+        "timezone": "tsMT",
+        "notes": "Some More Custom Notes",
+        "last_modified": "2018-08-09T17:31:23-06:00",
+        "created": "2018-07-15T19:08:34-06:00"
+      }
+    },
+    "more": false,
+    "supplemental_data": {
+      "jobcodes": {
+        "17285791": {
+          "id": 17285791,
+          "parent_id": 0,
+          "assigned_to_all": false,
+          "billable": false,
+          "active": false,
+          "type": "regular"
+        }
+      },
+      "users": {
+        "1283037": {
+          "id": 1283037,
+          "first_name": "Alexander",
+          "last_name": "Luzzana",
+          "group_id": 144959,
+          "active": true
+        },
+        "customfields": {
+          "19142": {
+            "id": 19142,
+            "required": false,
+            "type": "timesheet"
+          },
+          "19144": {
+            "id": 19144,
+            "required": false,
+            "type": "timesheet"
+          }
+        }
+      }
+    }
+  }
+}

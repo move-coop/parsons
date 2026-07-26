@@ -57,7 +57,6 @@ rs = Redshift()
 def attempt_optout(
     every_action: EveryAction,
     row: dict[str, Any],
-    applied_at: str,
     committeeid: str,
     success_log: list[dict[str, Any]],
     error_log: list[dict[str, Any]],
@@ -69,6 +68,7 @@ def attempt_optout(
     # Documentation on this json construction is here
     # https://docs.ngpvan.com/reference/common-models
     match_json = {"phones": [{"phoneNumber": phone, "phoneOptInStatus": "O"}]}
+    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
 
     try:
         response = every_action.update_person_json(id=vanid, match_json=match_json)
@@ -80,7 +80,7 @@ def attempt_optout(
                     "vanid": response.get("vanId"),
                     "phone": phone,
                     "committeeid": committeeid,
-                    "applied_at": applied_at,
+                    "applied_at": timestamp,
                 }
             )
 
@@ -95,7 +95,7 @@ def attempt_optout(
                 "vanid": vanid,
                 "phone": phone,
                 "committeeid": committeeid,
-                "errored_at": applied_at,
+                "errored_at": timestamp,
                 "error": error_message,
             }
         )
@@ -111,9 +111,7 @@ def attempt_optout(
 
             # Wait 10 seconds, then try again
             time.sleep(10)
-            attempt_optout(
-                every_action, row, applied_at, committeeid, success_log, error_log, attempts_left
-            )
+            attempt_optout(every_action, row, committeeid, success_log, error_log, attempts_left)
 
         else:
             # If we are still getting a connection error after our maximum number of attempts
@@ -126,7 +124,7 @@ def attempt_optout(
                     "vanid": vanid,
                     "phone": phone,
                     "committeeid": committeeid,
-                    "errored_at": applied_at,
+                    "errored_at": timestamp,
                     "error": connection_error_message,
                 }
             )
@@ -186,11 +184,9 @@ def main():
 
         if opt_outs.num_rows > 0:
             for opt_out in opt_outs:
-                applied_at = str(datetime.datetime.now(tz=datetime.timezone.utc)).split(".")[0]
                 attempt_optout(
                     every_action,
                     opt_out,
-                    applied_at,
                     committeeid,
                     success_log,
                     error_log,

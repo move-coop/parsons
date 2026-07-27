@@ -92,6 +92,7 @@ class APIConnector:
         data: _Data | None = None,
         params: _Params | None = None,
         raise_on_error: bool = True,
+        additional_headers: _Headers | None = None,
         **kwargs,
     ) -> requests.Response:
         """
@@ -124,11 +125,16 @@ class APIConnector:
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
+        complete_headers = (
+            {**self.headers, **additional_headers}
+            if (self.headers and additional_headers)
+            else (self.headers or additional_headers)
+        )
 
         resp = requests.request(
             req_type,
             full_url,
-            headers=self.headers,
+            headers=complete_headers,
             auth=self.auth,
             json=json,
             data=data,

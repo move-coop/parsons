@@ -146,17 +146,21 @@ class TestRedshift(unittest.TestCase):
             "a",
             "",
             "SELECT",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj"
-            "dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl"
-            "dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",
+            (
+                "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj"
+                "dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl"
+                "dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf"
+            ),
         ]
         fixed_cols = [
             "a",
             "a_1",
             "col_2",
             "col_3",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks"
-            "dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",
+            (
+                "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks"
+                "dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl"
+            ),
         ]
         assert self.rs.column_name_validate(bad_cols) == fixed_cols
 

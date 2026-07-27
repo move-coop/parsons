@@ -66,6 +66,6 @@ for state, key in myv_keys.items():
     if len(state_set) > 0:
         logger.info("Applying %s Activist Codes in %s...", str(len(state_set)), state)
         for _vanid in state_set:
-            # TODO: row undefined, select row form record?
+            # TODO(dannyboy15): row undefined, select row form record?
             row = None
             key.toggle_activist_code(row["vb_smartvan_id"], row["activist_code_id"], "apply")

@@ -117,7 +117,7 @@ class Contacts:
             Table
 
         """
-        # todo not working quite right
+        # TODO(salice): not working quite right
         return self._request(f"{self.url_contacts}/{id}")
 
     def update_contact(

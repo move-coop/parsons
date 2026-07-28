@@ -89,7 +89,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**46 connector directories migrated** (each has a `_legacy` sibling running the
+**47 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
@@ -100,13 +100,13 @@ its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`), now exerci
 real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **15 non-legacy files still use `unittest.TestCase`**, **3** are
+snippet below): **12 non-legacy files still use `unittest.TestCase`**, **3** are
 top-level `test_*.py` files, and **7** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
-> when its primary suite is migrated, but a few directories still have unmigrated
-> `TestCase` *sub-files* (e.g. `test_google/test_utilities.py`, `test_databases/`
-> (3)). Trust the tree, not the box.
+> when its primary suite is migrated, but a directory may still have an unmigrated
+> `TestCase` *sub-file* (e.g. `test_google/test_utilities.py`). Trust the tree, not
+> the box.
 
 ### Next up
 
@@ -120,9 +120,11 @@ pagination; 25% → 88.46% mutation), and `catalist` (already pytest; added `+in
 tests for the untested `action`/`await_completion`/error paths; 69.55% → 86.59%
 mutation), and `twilio` (`TC` → pytest + `+init`; added `_table_convert` column-drop
 and `exclude_null` coverage; 80.52% → 90.91% mutation). `utilities` had its two
-remaining `TestCase` classes converted to pytest (structural; coverage preserved).
-Next are the remaining **P1 · OBJECT** reviews (`bigquery`, `databases`, `dbt`) and
-the **P3** tier.
+remaining `TestCase` classes converted to pytest (structural; coverage preserved), and
+`databases` had its three `TestCase` sub-files converted — including the abstract-base
+`TestDBSync` hierarchy, now a parametrized `harness` fixture over the FakeDatabase /
+Sqlite / (live) Postgres / Redshift backends. Next are the remaining **P1 · OBJECT**
+reviews (`bigquery`, `dbt`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -231,7 +233,15 @@ verify the mock targets the external boundary, not the connector's own methods.
   line 62.04 → **94.16**, branch 35 → **85**, mutation 69.55 → **86.59**. (Noted two
   trivial source nits: a no-op `else` string in `load_matches` and a deprecated
   `logger.warn`.)
-- [ ] `test_databases` — TC, boundary? (already uses `fakes.py` — good model)
+- [x] `test_databases` — **boundary confirmed** (DB protocol via the `fakes.py`
+  `FakeDatabase`, the good model). Converted the three remaining `TestCase` sub-files
+  to pytest: `test_sqlite` (fixtures), `test_discover_database` (a `stub_db_constructors`
+  + `getenv` fixture replacing 5 stacked `@patch` decorators per test), and the
+  `TestDBSync` `ABC`/inheritance hierarchy → a parametrized `harness` fixture over the
+  FakeDatabase / Sqlite backends (Postgres / Redshift kept as `live` params). Fixed a
+  no-op assertion (`len(copy_call_args[0]) == 3` checked a dict's key count) to check
+  the real chunked-copy behavior. Faithful — coverage exactly preserved (40.09 line /
+  19.92 branch; no mutation baseline). Legacy bake kept for all three.
 - [ ] `test_dbt` — boundary?
 - [x] `test_geocode` — **boundary was correct but the whole suite was dead**: the
   mocked tests correctly mock the third-party `censusgeocode` client, but the class

@@ -1,6 +1,3 @@
-import unittest
-from unittest.mock import patch
-
 import pytest
 
 from parsons import GoogleBigQuery as BigQuery
@@ -10,101 +7,80 @@ from parsons.databases.postgres import Postgres
 from parsons.databases.redshift import Redshift
 
 
-class TestDiscoverDatabase(unittest.TestCase):
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_no_database_detected(self, mock_getenv, *_):
-        mock_getenv.return_value = None
-        with pytest.raises(EnvironmentError, match="Could not find any database configuration"):
-            discover_database()
+@pytest.fixture
+def stub_db_constructors(mocker):
+    """Stub each DB constructor so discover_database can build one without real config."""
+    for db in (BigQuery, Postgres, MySQL, Redshift):
+        mocker.patch.object(db, "__init__", return_value=None)
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_single_database_detected(self, mock_getenv, *_):
-        mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        assert isinstance(discover_database(), Redshift)
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_single_database_detected_with_other_default(self, mock_getenv, *_):
-        mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        assert isinstance(discover_database(default_connector=Postgres), Redshift)
+@pytest.fixture
+def getenv(mocker):
+    """Patch ``os.getenv``; program its return_value / side_effect per test."""
+    return mocker.patch("os.getenv")
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_single_database_detected_with_other_default_list(self, mock_getenv, *_):
-        mock_getenv.side_effect = lambda var: "password" if var == "REDSHIFT_PASSWORD" else None
-        assert isinstance(discover_database(default_connector=[Postgres, MySQL]), Redshift)
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_multiple_databases_no_default(self, mock_getenv, *_):
-        mock_getenv.return_value = "password"
-        with pytest.raises(
-            EnvironmentError,
-            match="Multiple database configurations detected: .+ Please specify a default connector",
-        ):
-            discover_database()
+def _password_for(*present):
+    """A getenv side effect returning 'password' only for the given *_PASSWORD vars."""
+    return lambda var: "password" if var in present else None
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_multiple_databases_with_default(self, mock_getenv, *_):
-        mock_getenv.return_value = "password"
-        assert isinstance(discover_database(default_connector=Redshift), Redshift)
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_multiple_databases_with_default_list(self, mock_getenv, *_):
-        mock_getenv.return_value = "password"
-        assert isinstance(discover_database(default_connector=[MySQL, Redshift]), MySQL)
+def test_no_database_detected(stub_db_constructors, getenv):
+    getenv.return_value = None
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_multiple_databases_invalid_default(self, mock_getenv, *_):
-        mock_getenv.side_effect = lambda var: (
-            "password" if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD" else None
-        )
-        with pytest.raises(
-            EnvironmentError,
-            match=r"Default connector .+ not detected. Detected: .+",
-        ):
-            discover_database(default_connector=Postgres)
+    with pytest.raises(EnvironmentError, match="Could not find any database configuration"):
+        discover_database()
 
-    @patch.object(BigQuery, "__init__", return_value=None)
-    @patch.object(Postgres, "__init__", return_value=None)
-    @patch.object(MySQL, "__init__", return_value=None)
-    @patch.object(Redshift, "__init__", return_value=None)
-    @patch("os.getenv")
-    def test_multiple_databases_invalid_default_list(self, mock_getenv, *_):
-        mock_getenv.side_effect = lambda var: (
-            "password" if var == "REDSHIFT_PASSWORD" or var == "MYSQL_PASSWORD" else None
-        )
-        with pytest.raises(
-            EnvironmentError,
-            match="None of the default connectors .+ were detected",
-        ):
-            discover_database(default_connector=[Postgres, BigQuery])
+
+def test_single_database_detected(stub_db_constructors, getenv):
+    getenv.side_effect = _password_for("REDSHIFT_PASSWORD")
+
+    assert isinstance(discover_database(), Redshift)
+
+
+def test_single_database_detected_with_other_default(stub_db_constructors, getenv):
+    getenv.side_effect = _password_for("REDSHIFT_PASSWORD")
+
+    assert isinstance(discover_database(default_connector=Postgres), Redshift)
+
+
+def test_single_database_detected_with_other_default_list(stub_db_constructors, getenv):
+    getenv.side_effect = _password_for("REDSHIFT_PASSWORD")
+
+    assert isinstance(discover_database(default_connector=[Postgres, MySQL]), Redshift)
+
+
+def test_multiple_databases_no_default(stub_db_constructors, getenv):
+    getenv.return_value = "password"
+
+    with pytest.raises(
+        EnvironmentError,
+        match="Multiple database configurations detected: .+ Please specify a default connector",
+    ):
+        discover_database()
+
+
+def test_multiple_databases_with_default(stub_db_constructors, getenv):
+    getenv.return_value = "password"
+
+    assert isinstance(discover_database(default_connector=Redshift), Redshift)
+
+
+def test_multiple_databases_with_default_list(stub_db_constructors, getenv):
+    getenv.return_value = "password"
+
+    assert isinstance(discover_database(default_connector=[MySQL, Redshift]), MySQL)
+
+
+def test_multiple_databases_invalid_default(stub_db_constructors, getenv):
+    getenv.side_effect = _password_for("REDSHIFT_PASSWORD", "MYSQL_PASSWORD")
+
+    with pytest.raises(EnvironmentError, match=r"Default connector .+ not detected. Detected: .+"):
+        discover_database(default_connector=Postgres)
+
+
+def test_multiple_databases_invalid_default_list(stub_db_constructors, getenv):
+    getenv.side_effect = _password_for("REDSHIFT_PASSWORD", "MYSQL_PASSWORD")
+
+    with pytest.raises(EnvironmentError, match="None of the default connectors .+ were detected"):
+        discover_database(default_connector=[Postgres, BigQuery])

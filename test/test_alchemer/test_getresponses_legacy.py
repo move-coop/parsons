@@ -3,9 +3,15 @@ import os
 import unittest
 import unittest.mock as mock
 
+import pytest
+
 from parsons import Alchemer
 
 logger = logging.getLogger(__name__)
+
+# Pre-migration suite, kept running through the parallel-change bake.
+# The migrated suite is in test_alchemer.py. See test/MIGRATION.md.
+pytestmark = pytest.mark.legacy
 
 
 class TestAlchemErGetResponses(unittest.TestCase):

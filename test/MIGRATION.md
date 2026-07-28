@@ -93,28 +93,29 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
-**ssh 0% → 100%** / **geocode 0% → 75.76%** / **sftp 21.46% → 54.94%** (mutation).
-`action_kit` had its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`),
-now exercising the real request/response code.
+**ssh 0% → 100%** / **geocode 0% → 75.76%** / **sftp 21.46% → 54.94%** /
+**alchemer 25% → 88.46%** (mutation). `action_kit` had its boundary anti-pattern fixed
+(mocked `.conn` → `requests_mock`), now exercising the real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **20 non-legacy files still use `unittest.TestCase`**, **3** are
-top-level `test_*.py` files, and **10** directories lack `__init__.py`.
+snippet below): **18 non-legacy files still use `unittest.TestCase`**, **3** are
+top-level `test_*.py` files, and **9** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
-> `TestCase` *sub-files* (e.g. `test_google/test_utilities.py`, `test_alchemer/`
-> (2), `test_databases/` (3), `test_utilities/` (2)). Trust the tree, not the box.
+> `TestCase` *sub-files* (e.g. `test_google/test_utilities.py`, `test_databases/`
+> (3), `test_utilities/` (2)). Trust the tree, not the box.
 
 ### Next up
 
 The two P2 heavyweights (`copper`, `action_network`) are done, along with four P1
 boundary reviews: `ssh` (0% → 100% mutation), `action_kit` (the flagged `.conn`
 anti-pattern, now `requests_mock`), `geocode` (mocked tests were all class-marked
-`@pytest.mark.live` so nothing ran; 0% → 75.76% mutation), and `sftp` (added a
-`FakeSFTP` fake so the operations run in CI, not just live; 21.46% → 54.94% mutation).
-Next are the remaining **P1 · OBJECT** reviews (`alchemer`, `bigquery`, `catalist`,
-`databases`, `dbt`, `twilio`, `utilities`) and the **P3** tier.
+`@pytest.mark.live` so nothing ran; 0% → 75.76% mutation), `sftp` (added a
+`FakeSFTP` fake so the operations run in CI, not just live; 21.46% → 54.94% mutation),
+and `alchemer` (weak assertions — a no-op `assert`, single-row checks, untested
+pagination; 25% → 88.46% mutation). Next are the remaining **P1 · OBJECT** reviews
+(`bigquery`, `catalist`, `databases`, `dbt`, `twilio`, `utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -204,7 +205,14 @@ verify the mock targets the external boundary, not the connector's own methods.
   `get_user_fields` returns `list(resp["fields"].keys())`, previously unexercised.
   No baseline existed (top-level file); captured one pre-migration and the new suite
   meets/exceeds it (line 88.12 → 88.45, branch 63.24 → 64.71). Legacy bake kept.
-- [ ] `test_alchemer` — TC, +init, data→data/, boundary?
+- [x] `test_alchemer` — **boundary correct** (mocks the third-party `surveygizmo`
+  client), but assertions were hollow: a **no-op `assert survey_id, table["survey_id"]`**,
+  `for i in range(0, 1)` loops that checked only the first row, and no pagination
+  coverage. Merged the two `TestCase` sub-files into `test_alchemer.py` (pytest +
+  `mocker` client, +`__init__`/conftest), moved inline payloads to `data/*.json`, and
+  added tests for multi-page fetching, the column transforms (drop `links`, unpack
+  `statistics`, add `survey_id` at index 1), and the explicit-page path. Mutation
+  25% → **88.46%**, line 84.44 → **93.33**, branch 50 → **78.57**. Legacy bake kept.
 - [ ] `test_bigquery` — TC, boundary?
 - [ ] `test_catalist` — +init, boundary?
 - [ ] `test_databases` — TC, boundary? (already uses `fakes.py` — good model)

@@ -128,7 +128,7 @@ sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
 solidarity-tech = [
-    "numpy >= 2.0",
+    "numpy >= 2.2",
     "pyrate-limiter >= 4.4"
 ]
 ssh = [

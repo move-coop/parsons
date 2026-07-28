@@ -47,6 +47,12 @@ class SolidarityTechBase:
             params[query_key] = value
             del kwargs[key]
 
+        if kwargs.get("params"):
+            for key, value in kwargs.get("params", {}).items():
+                if value is None:
+                    continue
+                params[key] = value
+
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)
         return self.api.request(url=endpoint, req_type="GET", params=params, **kwargs)
 

@@ -89,15 +89,16 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**42 connector directories migrated** (each has a `_legacy` sibling running the
+**43 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
-**ssh 0% → 100%** (mutation). `action_kit` had its boundary anti-pattern fixed
-(mocked `.conn` → `requests_mock`), which now exercises the real request/response code.
+**ssh 0% → 100%** / **geocode 0% → 75.76%** (mutation). `action_kit` had its boundary
+anti-pattern fixed (mocked `.conn` → `requests_mock`), now exercising the real
+request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **21 non-legacy files still use `unittest.TestCase`**, **3** are
+snippet below): **20 non-legacy files still use `unittest.TestCase`**, **3** are
 top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
@@ -107,11 +108,12 @@ top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 ### Next up
 
-The two P2 heavyweights (`copper`, `action_network`) are done, along with two P1
-boundary reviews: `ssh` (0% → 100% mutation) and `action_kit` (the flagged `.conn`
-anti-pattern, now `requests_mock`). Next are the remaining **P1 · OBJECT** reviews
-(`alchemer`, `bigquery`, `catalist`, `databases`, `dbt`, `geocode`, `sftp`, `twilio`,
-`utilities`) and the **P3** tier.
+The two P2 heavyweights (`copper`, `action_network`) are done, along with three P1
+boundary reviews: `ssh` (0% → 100% mutation), `action_kit` (the flagged `.conn`
+anti-pattern, now `requests_mock`), and `geocode` (mocked tests were all class-marked
+`@pytest.mark.live` so nothing ran; 0% → 75.76% mutation). Next are the remaining
+**P1 · OBJECT** reviews (`alchemer`, `bigquery`, `catalist`, `databases`, `dbt`,
+`sftp`, `twilio`, `utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -206,7 +208,16 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_catalist` — +init, boundary?
 - [ ] `test_databases` — TC, boundary? (already uses `fakes.py` — good model)
 - [ ] `test_dbt` — boundary?
-- [ ] `test_geocode` — TC, data→data/, boundary?
+- [x] `test_geocode` — **boundary was correct but the whole suite was dead**: the
+  mocked tests correctly mock the third-party `censusgeocode` client, but the class
+  was marked `@pytest.mark.live`, so all 4 tests were skipped in CI (0% mutation,
+  34% line). Converted to pytest + `mocker` (patch the client at its import site),
+  dropped the bogus `live` marker, moved `test_responses.py` payloads to `data/*.json`.
+  Added the missing branch/log assertions (column validation, empty-result logging,
+  coordinates found/not-found) and fixed `test_coordinates`, which mocked the wrong
+  client method. Mutation 0% → **75.76%**, line 34 → **100**, branch 0 → **100**.
+  Flagged a real source bug: `geocode_address` ignores its `return_type` arg. Legacy
+  bake kept.
 - [ ] `test_sftp` — boundary?
 - [x] `test_ssh` — **boundary was already correct** (patched the `sshtunnel` /
   `psycopg2` third-party libs, not the connector's own code); modernized to pytest +

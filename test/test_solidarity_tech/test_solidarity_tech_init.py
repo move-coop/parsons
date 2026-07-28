@@ -7,6 +7,7 @@ from parsons.solidarity_tech.solidarity_tech import SolidarityTech
 
 PLACEHOLDER_TOKEN = "SOME_API_KEY"
 
+
 def test_init_with_arg() -> None:
     st = SolidarityTech(api_token=PLACEHOLDER_TOKEN)
     assert st.api_token == PLACEHOLDER_TOKEN

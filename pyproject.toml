@@ -129,7 +129,7 @@ slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
 solidarity-tech = [
     "numpy >= 2.1;python_version<'3.14'",
-    "numpy >= 2.3;python_version>='3.14'",
+    "numpy >= 2.4;python_version>='3.14'",
     "pyrate-limiter >= 4.0",
 ]
 ssh = [

@@ -89,14 +89,15 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**40 connector directories migrated** (each has a `_legacy` sibling running the
+**41 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
-copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
+copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
+**ssh 0% → 100%** (mutation).
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **23 non-legacy files still use `unittest.TestCase`**, **4** are
-top-level `test_*.py` files, and **11** directories lack `__init__.py`.
+snippet below): **22 non-legacy files still use `unittest.TestCase`**, **4** are
+top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
@@ -105,9 +106,9 @@ top-level `test_*.py` files, and **11** directories lack `__init__.py`.
 
 ### Next up
 
-The two P2 heavyweights (`copper`, `action_network`) are both done. Next are the
-**P1 · OBJECT** boundary reviews (`ssh` is 89% coverage / 0% mutation — high value)
-and the **P3** tier.
+The two P2 heavyweights (`copper`, `action_network`) are done, as is the highest-value
+**P1 · OBJECT** review (`ssh`, 0% → 100% mutation). Next are the remaining **P1 ·
+OBJECT** boundary reviews and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -196,7 +197,12 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_dbt` — boundary?
 - [ ] `test_geocode` — TC, data→data/, boundary?
 - [ ] `test_sftp` — boundary?
-- [ ] `test_ssh` — TC, +init, boundary?
+- [x] `test_ssh` — **boundary was already correct** (patched the `sshtunnel` /
+  `psycopg2` third-party libs, not the connector's own code); modernized to pytest +
+  conftest fixture, +`__init__`. `survivors` showed the assertions were hollow (0/3
+  killed): added checks that cleanup runs (`con.close`/`server.stop`), that the error
+  path logs and re-raises, and a tunnel-construction-failure case. Mutation 0% →
+  **100%**, line 89.29 → **100**, branch 50 → **75**. Legacy bake kept.
 - [ ] `test_twilio` — TC, +init, boundary?
 - [ ] `test_utilities` — TC, boundary?
 

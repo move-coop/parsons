@@ -18,6 +18,7 @@ from parsons.solidarity_tech.solidarity_tech_email_blasts import SolidarityTechE
 from parsons.solidarity_tech.solidarity_tech_email_senders import SolidarityTechEmailSenders
 from parsons.solidarity_tech.solidarity_tech_emails import SolidarityTechEmails
 from parsons.solidarity_tech.solidarity_tech_event_attendances import SolidarityTechEventAttendances
+from parsons.solidarity_tech.solidarity_tech_event_rsvps import SolidarityTechEventRSVPs
 
 logger = logging.getLogger(__name__)
 
@@ -35,5 +36,6 @@ class SolidarityTech(
     SolidarityTechEmailSenders,
     SolidarityTechEmails,
     SolidarityTechEventAttendances,
+    SolidarityTechEventRSVPs,
 ):
     pass

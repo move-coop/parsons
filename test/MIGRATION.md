@@ -89,12 +89,33 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**37 connectors migrated**, all validated against their pre-migration baselines
+**38 connector directories migrated** (each has a `_legacy` sibling running the
+old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
-Remaining: 46 files still use `unittest.TestCase`, 8 are top-level `test_*.py`
-files, and 24 directories lack `__init__.py`.
+Remaining work (measured from the tree, not this checklist — regenerate with the
+snippet below): **25 non-legacy files still use `unittest.TestCase`**, **4** are
+top-level `test_*.py` files, and **13** directories lack `__init__.py`.
+
+> **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
+> when its primary suite is migrated, but a few directories still have unmigrated
+> `TestCase` *sub-files* (e.g. `test_google/test_utilities.py`, `test_alchemer/`
+> (2), `test_databases/` (3), `test_utilities/` (2)). Trust the tree, not the box.
+
+### Next up
+
+P2: **`copper`** (1169 lines, 19 inline expected Tables) and **`action_network`**
+(4743 lines — the largest file in the repo). Then the **P1 · OBJECT** boundary
+reviews (`ssh` is 89% coverage / 0% mutation — high value) and the **P3** tier.
+
+Regenerate these numbers any time:
+
+```bash
+echo "migrated dirs:   $(find test -name '*_legacy.py' -exec dirname {} \; | sort -u | wc -l)"
+echo "TestCase left:   $(grep -rl 'unittest.TestCase' test/ --include='*.py' | grep -v _legacy | wc -l)"
+echo "dirs w/o __init__: $(for d in test/test_*/; do [ -f "$d/__init__.py" ] || echo x; done | wc -l)"
+```
 
 ## Priority tiers
 
@@ -181,7 +202,8 @@ verify the mock targets the external boundary, not the connector's own methods.
 
 ### P2 · HTTP (27) — mostly mechanical
 
-- [ ] `test_action_builder` — TC, +init
+- [x] `test_action_builder` — pytest + fixtures; setUp fakes extracted to `data/*.json`;
+  callbacks/helpers as module functions. Legacy bake (mutation 59.88%).
 - [ ] `test_action_network` — TC, +init
 - [x] `test_bill_com` — pytest + fixtures; 180-line setUp extracted to `data/*.json`; the
   bc fixture mocks the Login.json session handshake. Legacy bake (mutation 81.29%).

@@ -62,6 +62,12 @@ Notes:
   own per-session config (no coupling to `pyproject.toml`). It mutates the source
   on disk, runs the connector's tests, and restores the file. Runs can take
   minutes; scope stays per-connector.
+- Parity always measures the **new suite only** (`-m "not legacy"`), so a legacy
+  bake file cannot mask a regression in the new suite.
+- **Gotcha:** if a mutation run is interrupted (Ctrl-C, timeout, killed), it can
+  leave a mutant applied to a source file. After any interrupted run, check
+  `git status parsons/` and `git checkout -- parsons/` before trusting results —
+  a stray mutant will make unrelated tests fail or hang.
 - Example: the pre-refactor `airtable` suite scores **97% line coverage but only
   ~56% mutation** — a concrete illustration of why coverage alone is not enough.
 

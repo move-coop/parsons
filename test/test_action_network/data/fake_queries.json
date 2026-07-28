@@ -1,0 +1,68 @@
+{
+  "total_pages": 7,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 162,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/queries?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/queries"
+    },
+    "osdi:queries": [
+      {
+        "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "osdi:queries": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-03-24T18:03:45Z",
+        "modified_date": "2014-03-25T15:00:22Z",
+        "name": "All donors",
+        "browser_url": "https://actionnetwork.org/queries/1/edit",
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+          }
+        }
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-03-14T15:21:05Z",
+        "modified_date": "2014-03-17T19:56:11Z",
+        "name": "Volunteer prospects",
+        "browser_url": "https://actionnetwork.org/queries/2/edit",
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -89,14 +89,14 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**39 connector directories migrated** (each has a `_legacy` sibling running the
+**40 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **24 non-legacy files still use `unittest.TestCase`**, **4** are
-top-level `test_*.py` files, and **12** directories lack `__init__.py`.
+snippet below): **23 non-legacy files still use `unittest.TestCase`**, **4** are
+top-level `test_*.py` files, and **11** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
@@ -105,9 +105,9 @@ top-level `test_*.py` files, and **12** directories lack `__init__.py`.
 
 ### Next up
 
-P2: **`action_network`** (4743 lines — the largest file in the repo). Then the
+The two P2 heavyweights (`copper`, `action_network`) are both done. Next are the
 **P1 · OBJECT** boundary reviews (`ssh` is 89% coverage / 0% mutation — high value)
-and the **P3** tier. (`copper` is done — see the P2 checklist.)
+and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -204,7 +204,13 @@ verify the mock targets the external boundary, not the connector's own methods.
 
 - [x] `test_action_builder` — pytest + fixtures; setUp fakes extracted to `data/*.json`;
   callbacks/helpers as module functions. Legacy bake (mutation 59.88%).
-- [ ] `test_action_network` — TC, +init
+- [x] `test_action_network` — pytest + fixtures; the 3.6k-line `setUp` of inline
+  `fake_*` payloads extracted to 57 `data/*.json` files (loaded via `shared_datadir`),
+  the 91 `TestCase` methods ported 1:1 to functions, +`__init__`. Faithful port
+  (coverage exactly 80.26 line / 47.66 branch preserved — baseline is coverage-only,
+  no mutation). Legacy bake kept. Follow-up: branch coverage is low (47.66%) — the
+  per-method optional-param branches (per_page cap, limit, filter combos) are a
+  strengthening opportunity.
 - [x] `test_bill_com` — pytest + fixtures; 180-line setUp extracted to `data/*.json`; the
   bc fixture mocks the Login.json session handshake. Legacy bake (mutation 81.29%).
 - [x] `test_braintree` — pytest + fixtures; XML fixtures → `data/`; SDK's HTTP calls

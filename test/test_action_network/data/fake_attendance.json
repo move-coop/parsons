@@ -1,0 +1,33 @@
+{
+  "identifiers": [
+    "action_network:d51ca19e-9fe9-11e3-a2e9-12313d316c29"
+  ],
+  "created_date": "2014-02-18T20:52:59Z",
+  "modified_date": "2014-02-18T20:53:00Z",
+  "status": "accepted",
+  "action_network:person_id": "fake_id",
+  "action_network:event_id": "fake_id",
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/events/fake_id/attendances/fake_id"
+    },
+    "osdi:event": {
+      "href": "https://actionnetwork.org/api/v2/events/fake_id"
+    },
+    "osdi:person": {
+      "href": "https://actionnetwork.org/api/v2/people/fake_id"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

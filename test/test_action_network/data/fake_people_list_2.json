@@ -1,0 +1,96 @@
+{
+  "per_page": 2,
+  "page": 2,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/people?page=3"
+    },
+    "osdi:people": [
+      {
+        "href": "https://actionnetwork.org/api/v2/action_network:fake_person_id_1"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/action_network:fake_person_id_2"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "templated": true
+      }
+    ],
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/people"
+    }
+  },
+  "_embedded": {
+    "osdi:people": [
+      {
+        "given_name": "Fakey",
+        "family_name": "McFakerson",
+        "identifiers": [
+          "action_network:fake_person_id_1"
+        ],
+        "email_addresses": [
+          {
+            "primary": true,
+            "address": "fake_customer_email_1@fake_customer_email.com",
+            "status": "subscribed"
+          }
+        ],
+        "postal_addresses": [
+          {
+            "primary": true,
+            "region": "",
+            "country": "US",
+            "location": {
+              "latitude": null,
+              "longitude": null,
+              "accuracy": null
+            }
+          }
+        ],
+        "created_date": "2019-02-29T00:00:00.000+0000",
+        "modified_date": "2019-02-29T00:00:00.000+0000",
+        "languages_spoken": [
+          "en"
+        ]
+      },
+      {
+        "given_name": "Faker",
+        "family_name": "McEvenFakerson",
+        "identifiers": [
+          "action_network:fake_person_id_2"
+        ],
+        "email_addresses": [
+          {
+            "primary": true,
+            "address": "fake_customer_email_2@fake_customer_email.com",
+            "status": "subscribed"
+          }
+        ],
+        "postal_addresses": [
+          {
+            "primary": true,
+            "region": "",
+            "country": "US",
+            "location": {
+              "latitude": null,
+              "longitude": null,
+              "accuracy": null
+            }
+          }
+        ],
+        "created_date": "2019-02-29T00:00:00.000+0000",
+        "modified_date": "2019-02-29T00:00:00.000+0000",
+        "languages_spoken": [
+          "en"
+        ]
+      }
+    ]
+  }
+}

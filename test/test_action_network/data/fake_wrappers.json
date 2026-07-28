@@ -1,0 +1,77 @@
+{
+  "total_pages": 7,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 162,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/wrappers?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/wrappers"
+    },
+    "osdi:wrappers": [
+      {
+        "href": "https://actionnetwork.org/api/v2/wrappers/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/wrappers/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "osdi:wrappers": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-03-24T18:03:45Z",
+        "modified_date": "2014-03-25T15:00:22Z",
+        "name": "Default wrapper -- logo only",
+        "administrative_url": "https://actionnetwork.org/wrappers/1/edit",
+        "header": "<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;\">\r\n  <tr>\r\n    <td valign=\"top\" style=\"border-collapse: collapse; background-color: #FFFFFF; padding:10px 10px 40px;\">\r\n      <table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;\">\r\n        <tr>\r\n          <td valign=\"top\" style=\"border-collapse: collapse;\" width=\"600\">\r\n            <div style=\"color: #505050;font-family:Arial;font-size: 14px;line-height: 150%;text-align: left;\">\r\n<img src=\"https://actionnetwork.org/images/logo.png\" />",
+        "footer": "\r\n</div>\r\n     </td>\r\n        </tr>\r\n      </table>\r\n    </td>\r\n  </tr>\r\n</table>",
+        "action_network:suffix": " via ProgressivePower.org",
+        "wrapper_type": "email",
+        "default": true,
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/wrappers/fake_id"
+          }
+        }
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-03-14T15:21:05Z",
+        "modified_date": "2014-03-17T19:56:11Z",
+        "name": "No logo",
+        "administrative_url": "https://actionnetwork.org/wrappers/2/edit",
+        "header": "<table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;\">\r\n  <tr>\r\n    <td valign=\"top\" style=\"border-collapse:collapse; background-color: #FFFFFF; padding:10px 10px 40px;\">\r\n      <table border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;\">\r\n        <tr>\r\n          <td valign=\"top\" style=\"border-collapse: collapse;\" width=\"600\">\r\n <div style=\"color: #505050;font-family: Arial;font-size: 14px;line-height:150%;text-align: left;\">\r\n",
+        "footer": "\r\n</div>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </td>\r\n  </tr>\r\n</table>",
+        "wrapper_type": "email",
+        "default": false,
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/wrappers/fake_id"
+          }
+        }
+      }
+    ]
+  }
+}

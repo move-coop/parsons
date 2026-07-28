@@ -1,0 +1,78 @@
+{
+  "per_page": 25,
+  "page": 1,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/lists/fake_id/items?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/lists/fake_id/items"
+    },
+    "osdi:items": [
+      {
+        "href": "https://actionnetwork.org/api/v2/lists/fake_id/items/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/lists/fake_id/items/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "osdi:items": [
+      {
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/lists/fake_id/items/fake_id"
+          },
+          "osdi:list": {
+            "href": "https://actionnetwork.org/api/v2/lists/fake_id"
+          },
+          "osdi:person": {
+            "href": "https://actionnetwork.org/api/v2/people/fake_id"
+          }
+        },
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "created_date": "2014-03-18T22:25:31Z",
+        "modified_date": "2014-03-18T22:25:38Z",
+        "item_type": "osdi:person",
+        "action_network:person_id": "fake_id",
+        "action_network:list_id": "fake_id"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/lists/fake_id/items/fake_id"
+          },
+          "osdi:list": {
+            "href": "https://actionnetwork.org/api/v2/lists/fake_id"
+          },
+          "osdi:person": {
+            "href": "https://actionnetwork.org/api/v2/people/fake_id"
+          }
+        },
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "created_date": "2014-03-18T22:24:24Z",
+        "modified_date": "2014-03-18T22:24:24Z",
+        "item_type": "osdi:person",
+        "action_network:person_id": "fake_id",
+        "action_network:list_id": "fake_id"
+      }
+    ]
+  }
+}

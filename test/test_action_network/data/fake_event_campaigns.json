@@ -1,0 +1,102 @@
+{
+  "total_pages": 10,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 237,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/event_campaigns?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/event_campaigns"
+    },
+    "action_network:event_campaigns": [
+      {
+        "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "action_network:event_campaigns": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-03-07T16:50:29Z",
+        "modified_date": "2014-03-07T16:51:16Z",
+        "title": "House parties to help us win!",
+        "description": "<p>Host house parties next week to help us win our campaign!</p>",
+        "host_pitch": "Hosting a house party is easy! Sign up and we'll give you what you need to know.",
+        "host_instructions": "<p>Download our toolkit for all the instructions you need to host an event.</p>",
+        "browser_url": "fake_url",
+        "host_url": "fake_url",
+        "featured_image_url": "fake_url",
+        "total_events": 35,
+        "total_rsvps": 467,
+        "action_network:hidden": false,
+        "action_network:sponsor": {
+          "title": "Progressive Action Now",
+          "url": "fake_url"
+        },
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id"
+          },
+          "osdi:events": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id/events"
+          },
+          "action_network:embed": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id/embed"
+          }
+        }
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2014-02-03T16:32:34Z",
+        "modified_date": "2014-02-03T16:42:10Z",
+        "title": "Protest the bad bill in your town",
+        "description": "<p>Help us stop this bad bill from becoming law by joining a local protest.</p>",
+        "host_pitch": "Hosting is easy, we'll help you out, do it now!",
+        "host_instructions": "<p>Here's everything you need to host a protest...</p>",
+        "browser_url": "fake_url",
+        "host_url": "fake_url",
+        "total_events": 4,
+        "total_rsvps": 11,
+        "action_network:sponsor": {
+          "title": "Progressive Action Now",
+          "url": "fake_url"
+        },
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id"
+          },
+          "osdi:events": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id/events"
+          },
+          "action_network:embed": {
+            "href": "https://actionnetwork.org/api/v2/event_campaigns/fake_id/embed"
+          }
+        }
+      }
+    ]
+  }
+}

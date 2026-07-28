@@ -1,0 +1,70 @@
+{
+  "total_pages": 10,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 243,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/tags?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/tags"
+    },
+    "osdi:tags": [
+      {
+        "href": "https://actionnetwork.org/api/v2/tags/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/tags/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "osdi:tags": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "created_date": "2014-03-25T17:11:33Z",
+        "modified_date": "2014-03-25T17:13:33Z",
+        "name": "Volunteers",
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/tags/fake_id"
+          },
+          "osdi:taggings": {
+            "href": "https://actionnetwork.org/api/v2/tags/fake_id/taggings"
+          }
+        }
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "created_date": "2014-03-24T18:26:42Z",
+        "modified_date": "2014-03-24T18:27:17Z",
+        "name": "Economic Justice",
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/tags/fake_id"
+          },
+          "osdi:taggings": {
+            "href": "https://actionnetwork.org/api/v2/tags/fake_id/taggings"
+          }
+        }
+      }
+    ]
+  }
+}

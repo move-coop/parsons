@@ -1,0 +1,50 @@
+{
+  "origin_system": "Action Network",
+  "name": "Custom Fields",
+  "description": "The collection of custom fields available at this endpoint.",
+  "_links": {
+    "self": [
+      {
+        "href": "https://dev.actionnetwork.org/api/v2/metadata/custom_fields"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://dev.actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://dev.actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "action_network:custom_fields": [
+    {
+      "name": "employer",
+      "created_date": "2020-04-21T18:24:11Z",
+      "modified_date": "2020-04-21T18:24:11Z",
+      "notes": null
+    },
+    {
+      "name": "mobile_message_referrer",
+      "created_date": "2020-04-22T15:39:25Z",
+      "modified_date": "2020-04-22T15:39:25Z",
+      "notes": null
+    },
+    {
+      "name": "occupation",
+      "created_date": "2020-04-21T18:25:35Z",
+      "modified_date": "2020-04-21T18:25:35Z",
+      "notes": null
+    },
+    {
+      "name": "volunteer",
+      "created_date": "2019-09-26T18:06:06Z",
+      "modified_date": "2019-09-26T18:06:06Z",
+      "notes": null
+    }
+  ]
+}

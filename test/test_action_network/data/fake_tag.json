@@ -1,0 +1,13 @@
+{
+  "name": "fake_tag_1",
+  "created_date": "2019-02-29T00:00:00.000+0000",
+  "modified_date": "2019-02-29T00:00:00.000+0000",
+  "identifiers": [
+    "fake_tag_id_1"
+  ],
+  "_links": {
+    "self": {
+      "href": "fake_tag_id_1"
+    }
+  }
+}

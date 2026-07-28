@@ -1,0 +1,20 @@
+{
+  "title": "fake_title",
+  "start_date": "2019-02-29",
+  "location": {
+    "venue": "White House",
+    "address_lines": [
+      "1600 Pennsylvania Ave"
+    ],
+    "locality": "Washington",
+    "region": "DC",
+    "postal_code": "20009",
+    "country": "US"
+  },
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/events/fake-id"
+    }
+  },
+  "event_id": "fake-id"
+}

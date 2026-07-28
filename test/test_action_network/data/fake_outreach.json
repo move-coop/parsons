@@ -1,0 +1,43 @@
+{
+  "identifiers": [
+    "action_network:f1119c4e-b8ca-44ff-bfa7-f78f7ca3ec16"
+  ],
+  "created_date": "2014-03-27T17:42:21Z",
+  "modified_date": "2014-03-27T17:42:24Z",
+  "type": "email",
+  "subject": "Please vote no!",
+  "message": "Please vote no on bill 12345.",
+  "targets": [
+    {
+      "title": "Representative",
+      "given_name": "Jill",
+      "family_name": "Black",
+      "ocdid": "ocd-division/country:us/state:ny/cd:18"
+    }
+  ],
+  "action_network:person_id": "fake_id",
+  "action_network:advocacy_campaign_id": "fake_id",
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/fundraising_page/fake_id/outreaches/fake_id"
+    },
+    "osdi:advocacy_campaign": {
+      "href": "https://actionnetwork.org/api/v2/advocacy_campaigns/fake_id"
+    },
+    "osdi:person": {
+      "href": "https://actionnetwork.org/api/v2/people/fake_id"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

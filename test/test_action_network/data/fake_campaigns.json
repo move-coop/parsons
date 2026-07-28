@@ -1,0 +1,100 @@
+{
+  "total_pages": 2,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 30,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/campaigns?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/campaigns"
+    },
+    "action_network:campaigns": [
+      {
+        "href": "https://actionnetwork.org/api/v2/campaigns/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/campaigns/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "action_network:campaigns": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2013-10-02T14:21:32Z",
+        "modified_date": "2013-10-02T14:22:06Z",
+        "title": "Join our week of actions!",
+        "description": "<p>Our week of action is here --click the links on the right to join in!</p>",
+        "browser_url": "fake_url",
+        "featured_image_url": "fake_url",
+        "action_network:hidden": false,
+        "action_network:sponsor": {
+          "title": "Progressive Action Now",
+          "browser_url": "fake_url"
+        },
+        "actions": [
+          {
+            "title": "Sign the petition",
+            "browser_url": "fake_url"
+          },
+          {
+            "title": "Attend the rally",
+            "browser_url": "fake_url"
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/campaigns/fake_id"
+          }
+        }
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "origin_system": "Action Network",
+        "created_date": "2013-09-30T15:55:44Z",
+        "modified_date": "2014-01-16T19:07:00Z",
+        "title": "Welcome to our Action Center",
+        "description": "<p>Welcome to our Action Center.Take action on the right.</p>",
+        "browser_url": "fake_url",
+        "action_network:sponsor": {
+          "title": "Progressive Action Now",
+          "browser_url": "fake_url"
+        },
+        "actions": [
+          {
+            "title": "Sign up for email updates",
+            "browser_url": "fake_url"
+          },
+          {
+            "title": "Take our survey",
+            "browser_url": "fake_url"
+          }
+        ],
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/campaigns/fake_id"
+          }
+        }
+      }
+    ]
+  }
+}

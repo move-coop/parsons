@@ -1,0 +1,31 @@
+{
+  "identifiers": [
+    "action_network:fake_id"
+  ],
+  "origin_system": "Action Network",
+  "created_date": "2014-03-25T17:11:33Z",
+  "modified_date": "2014-03-25T17:13:33Z",
+  "title": "Stop Doing The Bad Thing Petition Signers",
+  "description": "Report",
+  "browser_url": "fake_url",
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/lists/fake_id"
+    },
+    "osdi:items": {
+      "href": "https://actionnetwork.org/api/v2/lists/fake_id/items"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

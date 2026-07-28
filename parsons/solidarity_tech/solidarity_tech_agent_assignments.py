@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+import numpy as np
+
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_exceptions import STUnexpectedResponseCodeError
 
@@ -83,8 +85,8 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
     def create_agent_assignment(
         self,
-        user_id: int,
-        agent_user_id: int,
+        user_id: np.int64,
+        agent_user_id: np.int64,
         is_active: bool | None = None,
     ) -> bool:
         """
@@ -122,8 +124,8 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
     def update_agent_assignment(
         self,
         id: int,
-        user_id: int,
-        agent_user_id: int,
+        user_id: np.int64,
+        agent_user_id: np.int64,
         is_active: bool | None = None,
     ) -> bool:
         """

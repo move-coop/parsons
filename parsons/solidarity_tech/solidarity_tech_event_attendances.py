@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
+import numpy as np
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_exceptions import STUnexpectedResponseCodeError
@@ -57,9 +57,9 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
 
     def create_event_attendance(
         self,
-        event_id: int,
-        event_session_id: int,
-        user_id: int,
+        event_id: np.int64,
+        event_session_id: np.int64,
+        user_id: np.int64,
         attended: bool,
     ) -> bool:
         """
@@ -117,7 +117,6 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             True if the operation was successful, False otherwise.
 
         Raises:
-            HTTPError: Validation failed.
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
@@ -131,8 +130,5 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
 
         if res.status_code not in (200, 404):
             raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("Event attendance not found")
 
         return res.status_code == 200

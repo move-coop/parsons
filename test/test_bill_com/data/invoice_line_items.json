@@ -1,0 +1,23 @@
+[
+  {
+    "entity": "InvoiceLineItem",
+    "id": "fake_line_item_id",
+    "createdTime": "2019-02-29T00:00:00.000+0000",
+    "updatedTime": "2019-02-29T00:00:00.000+0000",
+    "invoiceId": "fake_invoice_id",
+    "itemId": "0",
+    "quantity": 1,
+    "amount": 1.0,
+    "price": null,
+    "serviceDate": null,
+    "ratePercent": null,
+    "chartOfAccountId": "0",
+    "departmentId": "0",
+    "locationId": "0",
+    "actgClassId": "0",
+    "jobId": "0",
+    "description": null,
+    "taxable": false,
+    "taxCode": "Non"
+  }
+]

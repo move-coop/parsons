@@ -1,0 +1,20 @@
+{
+  "response_status": 0,
+  "response_message": "Success",
+  "response_data": [
+    {
+      "entity": "User",
+      "id": "fake_user_id",
+      "isActive": "1",
+      "createdTime": "2019-02-29T00:00:00.000+0000",
+      "updatedTime": "2019-02-29T00:00:00.000+0000",
+      "loginId": "fake_login_id",
+      "profileId": "fake_profile_id",
+      "firstName": "fake_first_name",
+      "lastName": "fake_last_name",
+      "email": "fake_email@fake_email.com",
+      "timezoneId": "7",
+      "partnerUserGroupType": "2"
+    }
+  ]
+}

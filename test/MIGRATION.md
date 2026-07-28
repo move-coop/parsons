@@ -89,12 +89,13 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**43 connector directories migrated** (each has a `_legacy` sibling running the
+**45 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
 **ssh 0% → 100%** / **geocode 0% → 75.76%** / **sftp 21.46% → 54.94%** /
-**alchemer 25% → 88.46%** / **catalist 69.55% → 86.59%** (mutation). `action_kit` had
+**alchemer 25% → 88.46%** / **catalist 69.55% → 86.59%** / **twilio 80.52% → 90.91%**
+(mutation). `action_kit` had
 its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`), now exercising the
 real request/response code.
 
@@ -117,8 +118,9 @@ anti-pattern, now `requests_mock`), `geocode` (mocked tests were all class-marke
 `alchemer` (weak assertions — a no-op `assert`, single-row checks, untested
 pagination; 25% → 88.46% mutation), and `catalist` (already pytest; added `+init` and
 tests for the untested `action`/`await_completion`/error paths; 69.55% → 86.59%
-mutation). Next are the remaining **P1 · OBJECT** reviews (`bigquery`, `databases`,
-`dbt`, `twilio`, `utilities`) and the **P3** tier.
+mutation), and `twilio` (`TC` → pytest + `+init`; added `_table_convert` column-drop
+and `exclude_null` coverage; 80.52% → 90.91% mutation). Next are the remaining
+**P1 · OBJECT** reviews (`bigquery`, `databases`, `dbt`, `utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -255,7 +257,14 @@ verify the mock targets the external boundary, not the connector's own methods.
   killed): added checks that cleanup runs (`con.close`/`server.stop`), that the error
   path logs and re-raises, and a tunnel-construction-failure case. Mutation 0% →
   **100%**, line 89.29 → **100**, branch 50 → **75**. Legacy bake kept.
-- [ ] `test_twilio` — TC, +init, boundary?
+- [x] `test_twilio` — **boundary confirmed** (mocks the third-party `twilio.rest.Client`);
+  `TestCase` → pytest functions, +`__init__`/conftest (patch the client at its import
+  site). The old suite only checked call routing (mock returns iterate empty), so
+  `_table_convert`'s uri-column drop and `get_account_usage`'s `exclude_null` path were
+  untested; added a `FakeRecord` and tests covering both, plus parametrized the
+  time_period/group_by routing. Line 94.55 → **100**, branch 83.33 → **100**, mutation
+  80.52 → **90.91** (remaining survivors are equivalent `==`→`is` string-literal
+  mutants). Legacy bake kept.
 - [ ] `test_utilities` — TC, boundary?
 
 ### P2 · HTTP (27) — mostly mechanical

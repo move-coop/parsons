@@ -1,66 +1,128 @@
-import os
-import unittest
-import unittest.mock as mock
+"""Tests for the Twilio connector.
 
-from parsons import Twilio
+Twilio wraps a third-party ``twilio.rest.Client``, so that client is the boundary we
+mock (see the ``twilio`` fixture in conftest.py). The connector's own request routing
+and table conversion (``_table_convert``) run for real.
+"""
+
+import pytest
+
+from parsons import Table
+from test.conftest import assert_matching_tables
 
 
-class TestTwilio(unittest.TestCase):
-    def setUp(self):
-        os.environ["TWILIO_ACCOUNT_SID"] = "MYFAKESID"
-        os.environ["TWILIO_AUTH_TOKEN"] = "MYFAKEAUTHTOKEN"
+class FakeRecord:
+    """A Twilio resource stand-in exposing the ``_properties`` dict the connector reads."""
 
-        self.twilio = Twilio()
-        self.twilio.client = mock.MagicMock()
+    def __init__(self, **properties):
+        self._properties = properties
 
-    def test_get_account(self):
-        fake_sid = "FAKESID"
-        self.twilio.get_account(fake_sid)
-        self.twilio.client.api.accounts.assert_called_with(fake_sid)
 
-    def test_get_accounts(self):
-        self.twilio.get_accounts(name="MyOrg", status="active")
-        self.twilio.client.api.accounts.list.assert_called_with(
-            friendly_name="MyOrg", status="active"
-        )
+def test_get_account(twilio):
+    twilio.get_account("FAKESID")
 
-    def test_get_messages(self):
-        self.twilio.get_messages(date_sent="2019-10-29")
-        self.twilio.client.messages.list.assert_called_with(
-            date_sent="2019-10-29",
-            to=None,
-            from_=None,
-            date_sent_before=None,
-            date_sent_after=None,
-        )
+    twilio.client.api.accounts.assert_called_with("FAKESID")
 
-    def test_get_account_usage(self):
-        # Make sure that it is calling the correct Twilio methods
-        self.twilio.client.usage.records.today.list.assert_not_called()
-        self.twilio.get_account_usage(time_period="today")
-        self.twilio.client.usage.records.today.list.assert_called()
 
-        self.twilio.client.usage.records.last_month.list.assert_not_called()
-        self.twilio.get_account_usage(time_period="last_month")
-        self.twilio.client.usage.records.last_month.list.assert_called()
+def test_get_accounts(twilio):
+    twilio.get_accounts(name="MyOrg", status="active")
 
-        self.twilio.client.usage.records.this_month.list.assert_not_called()
-        self.twilio.get_account_usage(time_period="this_month")
-        self.twilio.client.usage.records.this_month.list.assert_called()
+    twilio.client.api.accounts.list.assert_called_with(friendly_name="MyOrg", status="active")
 
-        self.twilio.client.usage.records.yesterday.list.assert_not_called()
-        self.twilio.get_account_usage(time_period="yesterday")
-        self.twilio.client.usage.records.yesterday.list.assert_called()
 
-        # Make sure that it is calling the correct Twilio methods
-        self.twilio.client.usage.records.daily.list.assert_not_called()
-        self.twilio.get_account_usage(group_by="daily", start_date="10-19-2019")
-        self.twilio.client.usage.records.daily.list.assert_called_with(start_date="10-19-2019")
+def test_get_accounts_returns_table(twilio):
+    twilio.client.api.accounts.list.return_value = [
+        FakeRecord(sid="AC1", friendly_name="Org1"),
+        FakeRecord(sid="AC2", friendly_name="Org2"),
+    ]
 
-        self.twilio.client.usage.records.monthly.list.assert_not_called()
-        self.twilio.get_account_usage(group_by="monthly", start_date="10-19-2019")
-        self.twilio.client.usage.records.monthly.list.assert_called_with(start_date="10-19-2019")
+    tbl = twilio.get_accounts()
 
-        self.twilio.client.usage.records.yearly.list.assert_not_called()
-        self.twilio.get_account_usage(group_by="yearly", start_date="10-19-2019")
-        self.twilio.client.usage.records.yearly.list.assert_called_with(start_date="10-19-2019")
+    assert_matching_tables(
+        tbl,
+        Table(
+            [
+                {"sid": "AC1", "friendly_name": "Org1"},
+                {"sid": "AC2", "friendly_name": "Org2"},
+            ]
+        ),
+    )
+
+
+def test_get_messages(twilio):
+    twilio.get_messages(date_sent="2019-10-29")
+
+    twilio.client.messages.list.assert_called_with(
+        date_sent="2019-10-29",
+        to=None,
+        from_=None,
+        date_sent_before=None,
+        date_sent_after=None,
+    )
+
+
+def test_table_convert_drops_uri_columns(twilio):
+    # When both subresource_uris and uri are present, _table_convert removes them.
+    twilio.client.messages.list.return_value = [
+        FakeRecord(sid="SM1", body="hi", uri="/x", subresource_uris={"media": "/m"}),
+    ]
+
+    tbl = twilio.get_messages()
+
+    assert "uri" not in tbl.columns
+    assert "subresource_uris" not in tbl.columns
+    assert tbl["sid"] == ["SM1"]
+    assert tbl["body"] == ["hi"]
+
+
+def test_table_convert_keeps_uri_without_subresource_uris(twilio):
+    # Only one of the two columns present -> neither is removed (they go together).
+    twilio.client.messages.list.return_value = [FakeRecord(sid="SM1", uri="/x")]
+
+    tbl = twilio.get_messages()
+
+    assert "uri" in tbl.columns
+
+
+@pytest.mark.parametrize("time_period", ["today", "yesterday", "this_month", "last_month"])
+def test_get_account_usage_time_period(twilio, time_period):
+    twilio.get_account_usage(time_period=time_period)
+
+    getattr(twilio.client.usage.records, time_period).list.assert_called_once()
+
+
+@pytest.mark.parametrize("group_by", ["daily", "monthly", "yearly"])
+def test_get_account_usage_group_by(twilio, group_by):
+    twilio.get_account_usage(group_by=group_by, start_date="10-19-2019")
+
+    getattr(twilio.client.usage.records, group_by).list.assert_called_with(start_date="10-19-2019")
+
+
+def test_get_account_usage_defaults_to_plain_records(twilio):
+    # With no time_period or group_by, the plain records.list endpoint is used.
+    twilio.get_account_usage()
+
+    twilio.client.usage.records.list.assert_called_once()
+
+
+def test_get_account_usage_keeps_null_rows_by_default(twilio):
+    twilio.client.usage.records.list.return_value = [
+        FakeRecord(category="sms", count="5"),
+        FakeRecord(category="calls", count="0"),
+    ]
+
+    tbl = twilio.get_account_usage()
+
+    assert tbl.num_rows == 2
+
+
+def test_get_account_usage_exclude_null(twilio):
+    twilio.client.usage.records.list.return_value = [
+        FakeRecord(category="sms", count="5"),
+        FakeRecord(category="calls", count="0"),
+    ]
+
+    tbl = twilio.get_account_usage(exclude_null=True)
+
+    assert tbl.num_rows == 1
+    assert tbl["category"] == ["sms"]

@@ -89,7 +89,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**34 connectors migrated**, all validated against their pre-migration baselines
+**35 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -184,7 +184,8 @@ verify the mock targets the external boundary, not the connector's own methods.
 - [ ] `test_action_builder` — TC, +init
 - [ ] `test_action_network` — TC, +init
 - [ ] `test_bill_com` — TC, +init
-- [ ] `test_braintree` — TC
+- [x] `test_braintree` — pytest + fixtures; XML fixtures → `data/`; SDK's HTTP calls
+  mocked via requests_mock. Legacy bake kept (mutation 74.61%).
 - [x] `test_capitol_canary` — top→dir; pytest + fixtures; `data/*.json`. Same fixes as p2a
   (no-op asserts, wrong-payload tests, empty test); split the two env-var tests to cover the
   CAPITOLCANARY_* > PHONE2ACTION_* precedence. Post-migration baseline (mutation 75.36%).

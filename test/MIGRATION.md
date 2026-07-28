@@ -89,14 +89,14 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**38 connector directories migrated** (each has a `_legacy` sibling running the
+**39 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
-with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
-(coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
+with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
+copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **25 non-legacy files still use `unittest.TestCase`**, **4** are
-top-level `test_*.py` files, and **13** directories lack `__init__.py`.
+snippet below): **24 non-legacy files still use `unittest.TestCase`**, **4** are
+top-level `test_*.py` files, and **12** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
@@ -105,9 +105,9 @@ top-level `test_*.py` files, and **13** directories lack `__init__.py`.
 
 ### Next up
 
-P2: **`copper`** (1169 lines, 19 inline expected Tables) and **`action_network`**
-(4743 lines — the largest file in the repo). Then the **P1 · OBJECT** boundary
-reviews (`ssh` is 89% coverage / 0% mutation — high value) and the **P3** tier.
+P2: **`action_network`** (4743 lines — the largest file in the repo). Then the
+**P1 · OBJECT** boundary reviews (`ssh` is 89% coverage / 0% mutation — high value)
+and the **P3** tier. (`copper` is done — see the P2 checklist.)
 
 Regenerate these numbers any time:
 
@@ -217,7 +217,11 @@ verify the mock targets the external boundary, not the connector's own methods.
   (mutation 60% → **80%**).
 - [x] `test_controlshift` — pytest + fixtures; `data/*.json`; added hostname-normalization
   and pagination tests found via `survivors` (mutation 23.53% → **100%**).
-- [ ] `test_copper` — TC, +init
+- [x] `test_copper` — pytest + fixtures; response payloads → `data/*.json`; +`__init__`.
+  Dropped an exact-duplicate opportunities test; `survivors` drove new assertions on
+  request paging/filters/auth headers and the pagination math (page_number pinning,
+  non-divisor page_size). Coverage 92.56 → **98.35** line / 83.33 → **92.86** branch,
+  mutation 75.13 → **83.07**. Legacy bake kept.
 - [x] `test_crowdtangle` — pytest + fixtures; large `*.py` payloads → `data/*.json`;
   +`__init__`. Coverage parity verified; mutation is slow (6.6k-line fixture re-unpacked
   per mutant) and the suite still asserts via `_unpack` — a candidate for a trimmed fixture.

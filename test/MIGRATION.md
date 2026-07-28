@@ -89,7 +89,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**36 connectors migrated**, all validated against their pre-migration baselines
+**37 connectors migrated**, all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart
 (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% (mutation).
 
@@ -207,7 +207,8 @@ verify the mock targets the external boundary, not the connector's own methods.
   checks with row/column assertions (mutation 67.92% → **72.64%**).
 - [x] `test_freshdesk` — pytest + fixtures; `data/*.json`; getters now assert content
   and create_ticket asserts the request body (mutation 40% → **48.57%**).
-- [ ] `test_gmail` — TC
+- [x] `test_gmail` — pytest + fixtures; gmail fixture uses tmp_path; the 6 attachment
+  tests collapse into one parametrized test; assets/ kept. Legacy bake (mutation 75.0%).
 - [x] `test_hustle` — pytest + fixtures; `data/*.json`; +`__init__`. Parity flagged ~1%
   mutation noise; adding tests for the untested `create_custom_field` lifted coverage
   (line 84.3→87.79, branch 61.76→67.65) and cleared it.

@@ -93,9 +93,9 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
-**ssh 0% → 100%** / **geocode 0% → 75.76%** (mutation). `action_kit` had its boundary
-anti-pattern fixed (mocked `.conn` → `requests_mock`), now exercising the real
-request/response code.
+**ssh 0% → 100%** / **geocode 0% → 75.76%** / **sftp 21.46% → 54.94%** (mutation).
+`action_kit` had its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`),
+now exercising the real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
 snippet below): **20 non-legacy files still use `unittest.TestCase`**, **3** are
@@ -108,12 +108,13 @@ top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 ### Next up
 
-The two P2 heavyweights (`copper`, `action_network`) are done, along with three P1
+The two P2 heavyweights (`copper`, `action_network`) are done, along with four P1
 boundary reviews: `ssh` (0% → 100% mutation), `action_kit` (the flagged `.conn`
-anti-pattern, now `requests_mock`), and `geocode` (mocked tests were all class-marked
-`@pytest.mark.live` so nothing ran; 0% → 75.76% mutation). Next are the remaining
-**P1 · OBJECT** reviews (`alchemer`, `bigquery`, `catalist`, `databases`, `dbt`,
-`sftp`, `twilio`, `utilities`) and the **P3** tier.
+anti-pattern, now `requests_mock`), `geocode` (mocked tests were all class-marked
+`@pytest.mark.live` so nothing ran; 0% → 75.76% mutation), and `sftp` (added a
+`FakeSFTP` fake so the operations run in CI, not just live; 21.46% → 54.94% mutation).
+Next are the remaining **P1 · OBJECT** reviews (`alchemer`, `bigquery`, `catalist`,
+`databases`, `dbt`, `twilio`, `utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -218,7 +219,16 @@ verify the mock targets the external boundary, not the connector's own methods.
   client method. Mutation 0% → **75.76%**, line 34 → **100**, branch 0 → **100**.
   Flagged a real source bug: `geocode_address` ignores its `return_type` arg. Legacy
   bake kept.
-- [ ] `test_sftp` — boundary?
+- [x] `test_sftp` — **boundary confirmed** (paramiko SFTP protocol; every method
+  already accepts a `connection` for injection). The suite was already pytest, but
+  almost every test was `@pytest.mark.live`, so CI covered ~30%. Added a `FakeSFTP`
+  fake (in `fakes.py`; subclasses `paramiko.SFTPClient` so the `@connect` decorator's
+  `isinstance` check accepts it) and a `test_sftp_mocked.py` with 19 CI tests covering
+  list/make/remove, get/put, size, list_files/subdirectories (+patterns, empty-dir),
+  get_table, and get_files. Also added the missing `data/` CSV the live fixtures
+  reference. No rewrite → no legacy bake. Coverage line 29.61 → **62.57**, branch
+  7.81 → **56.25**, mutation 21.46 → **54.94**. Follow-up: `walk_tree` and chunked
+  `get_file` remain live-only.
 - [x] `test_ssh` — **boundary was already correct** (patched the `sshtunnel` /
   `psycopg2` third-party libs, not the connector's own code); modernized to pytest +
   conftest fixture, +`__init__`. `survivors` showed the assertions were hollow (0/3

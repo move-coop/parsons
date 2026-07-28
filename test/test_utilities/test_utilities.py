@@ -1,8 +1,5 @@
 import datetime
-import os
-import unittest
 from pathlib import Path
-from unittest import mock
 
 import pytest
 
@@ -142,25 +139,25 @@ def test_redact_credentials():
     assert sql_helpers.redact_credentials(test_str) == test_result
 
 
-class TestCheckEnv(unittest.TestCase):
-    def test_environment_field(self):
-        """Test check field"""
-        result = check_env.check("PARAM", "param")
-        assert result == "param"
+def test_check_env_field():
+    """A provided value is used as-is."""
+    assert check_env.check("PARAM", "param") == "param"
 
-    @mock.patch.dict(os.environ, {"PARAM": "env_param"})
-    def test_environment_env(self):
-        """Test check env"""
-        result = check_env.check("PARAM", None)
-        assert result == "env_param"
 
-    @mock.patch.dict(os.environ, {"PARAM": "env_param"})
-    def test_environment_field_env(self):
-        """Test check field with env and field"""
-        result = check_env.check("PARAM", "param")
-        assert result == "param"
+def test_check_env_from_environment(monkeypatch):
+    """With no value, the environment variable is used."""
+    monkeypatch.setenv("PARAM", "env_param")
+    assert check_env.check("PARAM", None) == "env_param"
 
-    def test_envrionment_error(self):
-        """Test check env raises error"""
-        with pytest.raises(KeyError):
-            check_env.check("PARAM", None)
+
+def test_check_env_field_beats_environment(monkeypatch):
+    """A provided value takes precedence over the environment variable."""
+    monkeypatch.setenv("PARAM", "env_param")
+    assert check_env.check("PARAM", "param") == "param"
+
+
+def test_check_env_missing_raises(monkeypatch):
+    """No value and no environment variable raises."""
+    monkeypatch.delenv("PARAM", raising=False)
+    with pytest.raises(KeyError):
+        check_env.check("PARAM", None)

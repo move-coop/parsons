@@ -89,7 +89,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**45 connector directories migrated** (each has a `_legacy` sibling running the
+**46 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
@@ -100,13 +100,13 @@ its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`), now exerci
 real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **18 non-legacy files still use `unittest.TestCase`**, **3** are
-top-level `test_*.py` files, and **8** directories lack `__init__.py`.
+snippet below): **15 non-legacy files still use `unittest.TestCase`**, **3** are
+top-level `test_*.py` files, and **7** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
 > `TestCase` *sub-files* (e.g. `test_google/test_utilities.py`, `test_databases/`
-> (3), `test_utilities/` (2)). Trust the tree, not the box.
+> (3)). Trust the tree, not the box.
 
 ### Next up
 
@@ -119,8 +119,10 @@ anti-pattern, now `requests_mock`), `geocode` (mocked tests were all class-marke
 pagination; 25% → 88.46% mutation), and `catalist` (already pytest; added `+init` and
 tests for the untested `action`/`await_completion`/error paths; 69.55% → 86.59%
 mutation), and `twilio` (`TC` → pytest + `+init`; added `_table_convert` column-drop
-and `exclude_null` coverage; 80.52% → 90.91% mutation). Next are the remaining
-**P1 · OBJECT** reviews (`bigquery`, `databases`, `dbt`, `utilities`) and the **P3** tier.
+and `exclude_null` coverage; 80.52% → 90.91% mutation). `utilities` had its two
+remaining `TestCase` classes converted to pytest (structural; coverage preserved).
+Next are the remaining **P1 · OBJECT** reviews (`bigquery`, `databases`, `dbt`) and
+the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -265,7 +267,15 @@ verify the mock targets the external boundary, not the connector's own methods.
   time_period/group_by routing. Line 94.55 → **100**, branch 83.33 → **100**, mutation
   80.52 → **90.91** (remaining survivors are equivalent `==`→`is` string-literal
   mutants). Legacy bake kept.
-- [ ] `test_utilities` — TC, boundary?
+- [x] `test_utilities` — **no external boundary** (pure helpers: `credential_tools`,
+  `check_env`). Converted the two remaining `TestCase` classes — `TestCredentialTool`
+  (whole file) and `TestCheckEnv` (in `test_utilities.py`) — to pytest functions,
+  replacing `setUp`/`tearDown` + `@mock.patch.dict` with `tmp_path`/`monkeypatch` and a
+  `preserve_environ` fixture (some helpers set env vars directly), and fixed two method
+  typos (`testencode_from_env`, `test_envrionment_error`). Faithful structural
+  conversion — coverage exactly preserved (56.1 line / 44.86 branch); the connector's
+  full mutation run (954 mutants over the whole `parsons/utilities` package, incl.
+  `dbt`) is impractically slow to gate. Legacy bake kept for `credential_tools`.
 
 ### P2 · HTTP (27) — mostly mechanical
 

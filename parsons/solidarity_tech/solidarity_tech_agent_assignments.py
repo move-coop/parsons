@@ -192,4 +192,4 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         if res and res.status_code != 404:
             raise STUnexpectedResponseCodeError(res)
 
-        return res.status_code == 404
+        return not res.status_code

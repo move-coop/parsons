@@ -3,8 +3,14 @@ import os
 import unittest
 from unittest import mock
 
+import pytest
+
 from parsons import ActionKit, Table
 from test.conftest import assert_matching_tables
+
+# This is the pre-migration suite, kept running through the parallel-change bake.
+# The migrated suite is in test_action_kit.py. See test/MIGRATION.md.
+pytestmark = pytest.mark.legacy
 
 ENV_PARAMETERS = {
     "ACTION_KIT_DOMAIN": "env_domain",

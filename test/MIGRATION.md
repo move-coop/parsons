@@ -89,14 +89,15 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**41 connector directories migrated** (each has a `_legacy` sibling running the
+**42 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
-**ssh 0% → 100%** (mutation).
+**ssh 0% → 100%** (mutation). `action_kit` had its boundary anti-pattern fixed
+(mocked `.conn` → `requests_mock`), which now exercises the real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
-snippet below): **22 non-legacy files still use `unittest.TestCase`**, **4** are
+snippet below): **21 non-legacy files still use `unittest.TestCase`**, **3** are
 top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
@@ -106,9 +107,11 @@ top-level `test_*.py` files, and **10** directories lack `__init__.py`.
 
 ### Next up
 
-The two P2 heavyweights (`copper`, `action_network`) are done, as is the highest-value
-**P1 · OBJECT** review (`ssh`, 0% → 100% mutation). Next are the remaining **P1 ·
-OBJECT** boundary reviews and the **P3** tier.
+The two P2 heavyweights (`copper`, `action_network`) are done, along with two P1
+boundary reviews: `ssh` (0% → 100% mutation) and `action_kit` (the flagged `.conn`
+anti-pattern, now `requests_mock`). Next are the remaining **P1 · OBJECT** reviews
+(`alchemer`, `bigquery`, `catalist`, `databases`, `dbt`, `geocode`, `sftp`, `twilio`,
+`utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -189,7 +192,15 @@ verify the mock targets the external boundary, not the connector's own methods.
 
 ### P1 · OBJECT (11) — confirm it mocks a third-party client
 
-- [ ] `test_action_kit` — TC, top→dir, boundary? (mocks `.conn` — likely should be `requests_mock`)
+- [x] `test_action_kit` — **boundary bug confirmed & fixed**: `setUp` replaced
+  `self.conn` (a real `requests.Session`) with a `MagicMock`, so the tests only
+  checked which URL each method was handed and never ran `_base_get`/`_base_post`
+  response handling. Refactored all 57 tests to `requests_mock` (top→dir, +`__init__`
+  /conftest), which now asserts request bodies/params *and* the parsed return values
+  and pagination against real responses — this immediately surfaced that
+  `get_user_fields` returns `list(resp["fields"].keys())`, previously unexercised.
+  No baseline existed (top-level file); captured one pre-migration and the new suite
+  meets/exceeds it (line 88.12 → 88.45, branch 63.24 → 64.71). Legacy bake kept.
 - [ ] `test_alchemer` — TC, +init, data→data/, boundary?
 - [ ] `test_bigquery` — TC, boundary?
 - [ ] `test_catalist` — +init, boundary?

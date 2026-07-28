@@ -94,12 +94,13 @@ old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
 **ssh 0% → 100%** / **geocode 0% → 75.76%** / **sftp 21.46% → 54.94%** /
-**alchemer 25% → 88.46%** (mutation). `action_kit` had its boundary anti-pattern fixed
-(mocked `.conn` → `requests_mock`), now exercising the real request/response code.
+**alchemer 25% → 88.46%** / **catalist 69.55% → 86.59%** (mutation). `action_kit` had
+its boundary anti-pattern fixed (mocked `.conn` → `requests_mock`), now exercising the
+real request/response code.
 
 Remaining work (measured from the tree, not this checklist — regenerate with the
 snippet below): **18 non-legacy files still use `unittest.TestCase`**, **3** are
-top-level `test_*.py` files, and **9** directories lack `__init__.py`.
+top-level `test_*.py` files, and **8** directories lack `__init__.py`.
 
 > **Caveat — dir-level "done" can hide sub-files.** A connector is checked here
 > when its primary suite is migrated, but a few directories still have unmigrated
@@ -113,9 +114,11 @@ boundary reviews: `ssh` (0% → 100% mutation), `action_kit` (the flagged `.conn
 anti-pattern, now `requests_mock`), `geocode` (mocked tests were all class-marked
 `@pytest.mark.live` so nothing ran; 0% → 75.76% mutation), `sftp` (added a
 `FakeSFTP` fake so the operations run in CI, not just live; 21.46% → 54.94% mutation),
-and `alchemer` (weak assertions — a no-op `assert`, single-row checks, untested
-pagination; 25% → 88.46% mutation). Next are the remaining **P1 · OBJECT** reviews
-(`bigquery`, `catalist`, `databases`, `dbt`, `twilio`, `utilities`) and the **P3** tier.
+`alchemer` (weak assertions — a no-op `assert`, single-row checks, untested
+pagination; 25% → 88.46% mutation), and `catalist` (already pytest; added `+init` and
+tests for the untested `action`/`await_completion`/error paths; 69.55% → 86.59%
+mutation). Next are the remaining **P1 · OBJECT** reviews (`bigquery`, `databases`,
+`dbt`, `twilio`, `utilities`) and the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -214,7 +217,16 @@ verify the mock targets the external boundary, not the connector's own methods.
   `statistics`, add `survey_id` at index 1), and the explicit-page path. Mutation
   25% → **88.46%**, line 84.44 → **93.33**, branch 50 → **78.57**. Legacy bake kept.
 - [ ] `test_bigquery` — TC, boundary?
-- [ ] `test_catalist` — +init, boundary?
+- [x] `test_catalist` — **boundary confirmed** (OAuth2 HTTP via `requests_mock` +
+  a mocked SFTP client); the suite was already pytest with a conftest, just missing
+  `__init__.py`. Coverage was low (62%) because whole methods were untested. Added
+  `+init` and tests for `action` (with options + single vs list file ids), the
+  `upload` input-subfolder path, `validate_table`'s non-default-template skip, the
+  `load_matches` failed-status branches (Error/Stopped/Exception → RuntimeError), and
+  `await_completion`'s poll-until-finished loop. No rewrite → no legacy bake. Coverage
+  line 62.04 → **94.16**, branch 35 → **85**, mutation 69.55 → **86.59**. (Noted two
+  trivial source nits: a no-op `else` string in `load_matches` and a deprecated
+  `logger.warn`.)
 - [ ] `test_databases` — TC, boundary? (already uses `fakes.py` — good model)
 - [ ] `test_dbt` — boundary?
 - [x] `test_geocode` — **boundary was correct but the whole suite was dead**: the

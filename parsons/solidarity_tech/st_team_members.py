@@ -33,7 +33,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             All the team member entries.
 
         Documentation Reference:
-            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+            `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
         res = self._get_resources(
@@ -99,7 +99,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+            `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
         if not member_id and not phone_number and not email:
@@ -158,7 +158,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+            `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
         payload = {

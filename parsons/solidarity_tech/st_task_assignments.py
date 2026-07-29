@@ -151,7 +151,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+            `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
         payload = {
@@ -188,7 +188,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+            `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
         res = self._del_request("task_assignments", id)

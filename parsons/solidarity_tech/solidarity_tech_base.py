@@ -41,20 +41,18 @@ class SolidarityTechBase:
             "include_count": "_include_count",
         }
         params = {}
-        for key, value in kwargs.items():
-            if value is None:
-                continue
-            query_key = param_mapping.get(key, key)
-            params[query_key] = value
-            del kwargs[key]
+        for key, value in param_mapping.items():
+            if key in kwargs:
+                params[key] = value
+                del kwargs[key]
 
-        if kwargs.get("params"):
+        if "params" in kwargs:
             for key, value in kwargs.get("params", {}).items():
-                if value is None:
-                    continue
                 if key in params:
                     err_msg = f"Request param '{key}' already exists."
                     raise KeyError(err_msg)
+                if value is None:
+                    continue
                 params[key] = value
 
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)

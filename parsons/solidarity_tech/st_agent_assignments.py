@@ -170,7 +170,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         id: int,
     ) -> bool:
         """
-        Update an agent assignment with specified details.
+        Delete an agent assignment with specified ID.
 
         Args:
             id:

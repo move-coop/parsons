@@ -227,7 +227,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         id: str,
     ) -> bool:
         """
-        Deletes an event rsvp with the specified ID.
+        Delete an event rsvp with the specified ID.
 
         Args:
             id:

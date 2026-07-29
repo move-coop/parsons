@@ -106,7 +106,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         id: str,
     ) -> bool:
         """
-        Deletes an event attendance with the specified ID.
+        Delete an event attendance with the specified ID.
 
         Args:
             id:

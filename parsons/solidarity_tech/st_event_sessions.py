@@ -317,7 +317,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         id: str,
     ) -> bool:
         """
-        Deletes an event session with the specified ID.
+        Delete an event session with the specified ID.
 
         Args:
             id:

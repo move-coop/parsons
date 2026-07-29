@@ -164,13 +164,13 @@ class SolidarityTechEvents(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("Event scope not found")
+            raise HTTPError("Event scope not found", response=res)
 
         if res.status_code == 409:
-            raise HTTPError("Duplicate event detected")
+            raise HTTPError("Duplicate event detected", response=res)
 
         if res.status_code == 422:
-            raise HTTPError("Data validation error")
+            raise HTTPError("Data validation error", response=res)
 
         return res.status_code == 201
 

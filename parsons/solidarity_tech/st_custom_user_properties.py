@@ -115,7 +115,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 422:
-            raise HTTPError("Validation failed")
+            raise HTTPError("Validation failed", response=res)
 
         return res.status_code == 201
 
@@ -155,10 +155,10 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("Option or custom user property not found")
+            raise HTTPError("Option or custom user property not found", response=res)
 
         if res.status_code == 422:
-            raise HTTPError("Validation failed")
+            raise HTTPError("Validation failed", response=res)
 
         return res.status_code == 200
 
@@ -206,9 +206,9 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("Custom user property not found")
+            raise HTTPError("Custom user property not found", response=res)
 
         if res.status_code == 422:
-            raise HTTPError("Validation failed")
+            raise HTTPError("Validation failed", response=res)
 
         return res.status_code == 201

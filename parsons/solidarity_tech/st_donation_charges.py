@@ -72,7 +72,7 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
         res = self._get_single_resource("donation_charges", id)
 
         if res.status_code == 404:
-            raise HTTPError("Donation charge not found")
+            raise HTTPError("Donation charge not found", response=res)
 
         if res.status_code:
             raise STUnexpectedResponseCodeError(res)

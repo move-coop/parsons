@@ -187,7 +187,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 422:
-            raise HTTPError("Unprocessable entity")
+            raise HTTPError("Unprocessable entity", response=res)
 
         return res.status_code == 201
 
@@ -308,7 +308,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 422:
-            raise HTTPError("Unprocessable entity")
+            raise HTTPError("Unprocessable entity", response=res)
 
         return res.status_code == 200
 

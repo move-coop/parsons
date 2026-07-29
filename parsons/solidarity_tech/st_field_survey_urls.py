@@ -57,9 +57,9 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("User, agent, or page not found")
+            raise HTTPError("User, agent, or page not found", response=res)
 
         if res.status_code == 422:
-            raise HTTPError("Required parameters are missing")
+            raise HTTPError("Required parameters are missing", response=res)
 
         return res.status_code == 200

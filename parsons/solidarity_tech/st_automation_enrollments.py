@@ -46,6 +46,6 @@ class SolidarityTechAutomationEnrollments(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 422:
-            raise HTTPError("Automation is inactive")
+            raise HTTPError("Automation is inactive", response=res)
 
         return res.status_code == 201

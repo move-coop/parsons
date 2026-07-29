@@ -74,6 +74,6 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("Email blast not found")
+            raise HTTPError("Email blast not found", response=res)
 
         return res.text

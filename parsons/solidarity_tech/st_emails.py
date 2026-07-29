@@ -75,9 +75,9 @@ class SolidarityTechEmails(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("User not found")
+            raise HTTPError("User not found", response=res)
 
         if res.status_code == 422:
-            raise HTTPError("Missing required parameters")
+            raise HTTPError("Missing required parameters", response=res)
 
         return res.text

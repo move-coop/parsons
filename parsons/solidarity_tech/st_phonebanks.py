@@ -89,6 +89,6 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("phonebank not found.", response=res)
+            raise HTTPError("Phonebank not found.", response=res)
 
         return res.text

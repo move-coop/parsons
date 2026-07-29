@@ -38,7 +38,7 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
             All the scheduled calls.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/get_scheduled_calls>`__
+            `<https://www.solidarity.tech/reference/get_scheduled-calls>`__
 
         """
         params = {"user_id": user_id, "agent_user_id": agent_user_id}
@@ -74,7 +74,7 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/get_scheduled_calls-id>`__
+            `<https://www.solidarity.tech/reference/get_scheduled-calls-id>`__
 
         """
         res = self._get_single_resource("scheduled_calls", id)

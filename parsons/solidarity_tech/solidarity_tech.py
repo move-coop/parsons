@@ -19,6 +19,7 @@ from parsons.solidarity_tech.st_field_survey_urls import SolidarityTechFieldSurv
 from parsons.solidarity_tech.st_organizations import SolidarityTechOrganizations
 from parsons.solidarity_tech.st_pages import SolidarityTechPages
 from parsons.solidarity_tech.st_phonebanks import SolidarityTechPhonebanks
+from parsons.solidarity_tech.st_scheduled_calls import SolidarityTechScheduledCalls
 
 logger = logging.getLogger(__name__)
 
@@ -43,5 +44,6 @@ class SolidarityTech(
     SolidarityTechOrganizations,
     SolidarityTechPages,
     SolidarityTechPhonebanks,
+    SolidarityTechScheduledCalls,
 ):
     pass

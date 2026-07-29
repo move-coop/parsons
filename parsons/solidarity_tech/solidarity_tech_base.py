@@ -2,6 +2,7 @@ import logging
 from collections.abc import Mapping
 from datetime import datetime
 
+import numpy as np
 import requests
 
 from parsons.solidarity_tech.ratelimited_api_connector import RateLimitedAPIConnector
@@ -63,7 +64,7 @@ class SolidarityTechBase:
         return self.api.request(url=complete_endpoint, req_type="GET", **kwargs)
 
     def _post_request(
-        self, endpoint: str, payload: Mapping[str, str | int] | None = None, **kwargs
+        self, endpoint: str, payload: Mapping[str, str | int | np.int64] | None = None, **kwargs
     ) -> requests.Response:
         """Handle POST requests."""
         logger.debug("Processing POST request at endpoint: %s", endpoint, extra=payload)

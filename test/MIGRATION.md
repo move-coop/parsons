@@ -89,7 +89,7 @@ PR. See [`tools/README.md`](tools/README.md) for the full toolset.
 
 ## Status
 
-**47 connector directories migrated** (each has a `_legacy` sibling running the
+**48 connector directories migrated** (each has a `_legacy` sibling running the
 old suite through the bake), all validated against their pre-migration baselines
 with **zero regressions**. Several improved: salesforce, ngpvan, targetsmart,
 copper (coverage), and controlshift 23.53% → 100% / quickbase 50% → 100% /
@@ -123,8 +123,10 @@ and `exclude_null` coverage; 80.52% → 90.91% mutation). `utilities` had its tw
 remaining `TestCase` classes converted to pytest (structural; coverage preserved), and
 `databases` had its three `TestCase` sub-files converted — including the abstract-base
 `TestDBSync` hierarchy, now a parametrized `harness` fixture over the FakeDatabase /
-Sqlite / (live) Postgres / Redshift backends. Next are the remaining **P1 · OBJECT**
-reviews (`bigquery`, `dbt`) and the **P3** tier.
+Sqlite / (live) Postgres / Redshift backends. `bigquery` (the last standalone P1)
+was converted from its two `TestCase` classes + `FakeCredentialTest` base to pytest
+functions with a `bq_creds` fixture and module-level mock-client builders. The only
+remaining **P1 · OBJECT** item is `dbt`; then the **P3** tier.
 
 Regenerate these numbers any time:
 
@@ -222,7 +224,15 @@ verify the mock targets the external boundary, not the connector's own methods.
   added tests for multi-page fetching, the column transforms (drop `links`, unpack
   `statistics`, add `survey_id` at index 1), and the explicit-page path. Mutation
   25% → **88.46%**, line 84.44 → **93.33**, branch 50 → **78.57**. Legacy bake kept.
-- [ ] `test_bigquery` — TC, boundary?
+- [x] `test_bigquery` — **boundary confirmed** (wraps the `google-cloud-bigquery`
+  client + a GCS client; the helpers swap `bq._client` / the GCS client for mocks).
+  Converted two `TestCase` classes and the shared `FakeCredentialTest` base to pytest:
+  an autouse `bq_creds` fixture (temp credential file + env) replaces the base, the
+  `setUp` helpers became module-level `build_mock_client_*` functions, and the
+  credential tests' stacked `@mock.patch` decorators moved into `mocker.patch` bodies.
+  Faithful — coverage exactly preserved (71.49 line / 50.68 branch; no mutation
+  baseline). Legacy bake kept. Follow-up flagged: the `copy_between_projects` tests
+  mock the entire connector (circular) and need real coverage.
 - [x] `test_catalist` — **boundary confirmed** (OAuth2 HTTP via `requests_mock` +
   a mocked SFTP client); the suite was already pytest with a conftest, just missing
   `__init__.py`. Coverage was low (62%) because whole methods were untested. Added

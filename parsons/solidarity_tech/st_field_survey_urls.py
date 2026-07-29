@@ -39,7 +39,7 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/post_events>`__
+            `<https://www.solidarity.tech/reference/post_field-survey-urls>`__
 
         """
         payload = {

@@ -41,13 +41,13 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_custom-user-properties>`__
 
         """
+        params = {"scope_id": scope_id, "scope_type": scope_type}
         res = self._get_resources(
             "custom_user_properties",
             limit=limit,
             offset=offset,
             since=since,
-            scope_id=scope_id,
-            scope_type=scope_type,
+            params=params,
             additional_headers={"accept": "application/json"},
         )
 

@@ -41,13 +41,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_agent-assignments>`__
 
         """
+        params = {"user_id": user_id, "agent_user_id": agent_user_id}
         res = self._get_resources(
             "agent_assignments",
             limit=limit,
             offset=offset,
             since=since,
-            user_id=user_id,
-            agent_user_id=agent_user_id,
+            params=params,
         )
 
         if res.status_code not in (200, 404):

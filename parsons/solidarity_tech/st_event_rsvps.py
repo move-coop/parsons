@@ -48,15 +48,18 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps>`__
 
         """
+        params = {
+            "event_id": event_id,
+            "session_id": session_id,
+            "user_id": user_id,
+            "full_user_payload": full_user_payload,
+        }
         res = self._get_resources(
             "event_rsvps",
             limit=limit,
             offset=offset,
             since=since,
-            event_id=event_id,
-            session_id=session_id,
-            user_id=user_id,
-            full_user_payload=full_user_payload,
+            params=params,
         )
 
         if res.status_code != 200:

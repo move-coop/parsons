@@ -41,13 +41,13 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-attendances>`__
 
         """
+        params = {"event_id": event_id, "session_id": session_id}
         res = self._get_resources(
             "event_attendances",
             limit=limit,
             offset=offset,
             since=since,
-            event_id=event_id,
-            session_id=session_id,
+            params=params,
         )
 
         if res.status_code != 200:

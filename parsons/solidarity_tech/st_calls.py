@@ -39,12 +39,13 @@ class SolidarityTechCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_calls>`__
 
         """
+        params = {"user_id": user_id}
         res = self._get_resources(
             "calls",
-            user_id=user_id,
             limit=limit,
             offset=offset,
             since=since,
+            params=params,
             additional_headers={"accept": "application/json"},
         )
 

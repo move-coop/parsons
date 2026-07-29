@@ -39,12 +39,13 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_chapter-phone-numbers>`__
 
         """
+        params = {"chapter_id": chapter_id}
         res = self._get_resources(
             "chapter_phone_numbers",
             limit=limit,
             offset=offset,
             since=since,
-            chapter_id=chapter_id,
+            params=params,
         )
 
         if res.status_code != 200:

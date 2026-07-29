@@ -47,13 +47,14 @@ class SolidarityTechActivities(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_activities>`__
 
         """
+        params = {"user_id": user_id}
         res = self._get_resources(
             "activities",
             limit=limit,
             cursor=cursor,
             since=since,
             include_count=include_count or None,
-            user_id=user_id,
+            params=params,
             additional_headers={"accept": "application/json"},
         )
 

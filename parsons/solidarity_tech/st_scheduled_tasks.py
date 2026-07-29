@@ -121,7 +121,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/post_agent-assignments>`__
+            `<https://www.solidarity.tech/reference/post_scheduled-tasks>`__
 
         """
         payload = {

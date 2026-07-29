@@ -1,0 +1,179 @@
+import logging
+from datetime import datetime
+from typing import Literal
+
+from requests.exceptions import HTTPError
+
+from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
+from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+logger = logging.getLogger(__name__)
+
+
+class SolidarityTechTeamMembers(SolidarityTechBase):
+    def get_team_members(
+        self,
+        limit: int = 20,
+        offset: int = 0,
+        since: int | datetime = 0,
+    ) -> str:
+        """
+        Retrieve a list of team members.
+
+        Args:
+            limit:
+                Limits the number of items returned.
+                Default is 20, maximum is 100.
+            offset:
+                Number of items to skip before starting to return the results.
+            since:
+                UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
+
+        Returns:
+            All the team member entries.
+
+        Documentation Reference:
+            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+
+        """
+        res = self._get_resources(
+            "team_members",
+            limit=limit,
+            offset=offset,
+            since=since,
+        )
+
+        if res.status_code != 200:
+            raise STUnexpectedResponseCodeError(res)
+
+        return res.text
+
+    def create_team_member(
+        self,
+        role_id: int,
+        scope_type: Literal["Organization", "Chapter"],
+        scope_id: int,
+        invite_via: Literal["sms", "email"],
+        member_id: str | None = None,
+        phone_number: str | None = None,
+        email: str | None = None,
+        full_name: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        task_id: int | None = None,
+    ) -> bool:
+        """
+        Creates a new team member.
+
+        Args:
+            member_id:
+                Hash ID of existing user (optional if phone_number or email provided).
+            phone_number:
+                Phone number of the person (primary key for user lookup/creation).
+            email:
+                Email of the person (secondary key for user lookup/creation).
+            full_name:
+                Full name for new user creation.
+            first_name:
+                First name for new user creation.
+            last_name:
+                Last name for new user creation.
+            role_id:
+                ID of the role to assign.
+            scope_type:
+                Type of scope.
+            scope_id:
+                ID of the scope (Chapter or Organization).
+            invite_via:
+                How to send the invitation.
+            task_id:
+                Optional task ID to assign the member to.
+
+        Returns:
+            Boolean representing success of the operation.
+            True if the operation was successful, False otherwise.
+
+        Raises:
+            ValueError: If ``member_id``, ``phone_number``, and ``email`` are all None.
+            HTTPError: If the parameters are invalid.
+            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
+
+        Documentation Reference:
+            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+
+        """
+        if not member_id and not phone_number and not email:
+            raise ValueError("One of member_id, phone_number, or email is required.")
+
+        payload = {
+            "member_id": member_id,
+            "phone_number": phone_number,
+            "email": email,
+            "full_name": full_name,
+            "first_name": first_name,
+            "last_name": last_name,
+            "role_id": role_id,
+            "scope_type": scope_type,
+            "scope_id": scope_id,
+            "invite_via": invite_via,
+            "task_id": task_id,
+        }
+        res = self._post_request(
+            "team_members", payload=payload, additional_headers={"content-type": "application/json"}
+        )
+
+        if res.status_code not in (201, 422):
+            raise STUnexpectedResponseCodeError(res)
+
+        if res.status_code == 422:
+            raise HTTPError("Invalid parameters", response=res)
+
+        return res.status_code == 201
+
+    def update_team_member(
+        self,
+        id: int,
+        role_id: int,
+        scope_type: Literal["Organization", "Chapter"],
+        scope_id: int,
+    ) -> bool:
+        """
+        Updates a team member with the specified details.
+
+        Args:
+            id:
+                Team member ID (UserRoleScope ID).
+            role_id:
+                ID of the role to assign.
+            scope_type:
+                Type of scope.
+            scope_id:
+                ID of the scope (Chapter or Organization).
+
+        Returns:
+            Boolean representing success of the operation.
+            True if the operation was successful, False otherwise.
+
+        Raises:
+            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
+
+        Documentation Reference:
+            `<www.solidarity.tech/reference/put_task-assignments-id>`__
+
+        """
+        payload = {
+            "role_id": role_id,
+            "scope_type": scope_type,
+            "scope_id": scope_id,
+        }
+        res = self._put_request(
+            "team_members",
+            id,
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
+        )
+
+        if res.status_code != 200:
+            raise STUnexpectedResponseCodeError(res)
+
+        return res.status_code == 200

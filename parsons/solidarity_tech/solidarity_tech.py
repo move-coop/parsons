@@ -23,6 +23,7 @@ from parsons.solidarity_tech.st_scheduled_calls import SolidarityTechScheduledCa
 from parsons.solidarity_tech.st_scheduled_tasks import SolidarityTechScheduledTasks
 from parsons.solidarity_tech.st_task_agents import SolidarityTechTaskAgents
 from parsons.solidarity_tech.st_task_assignments import SolidarityTechTaskAssignments
+from parsons.solidarity_tech.st_team_members import SolidarityTechTeamMembers
 
 logger = logging.getLogger(__name__)
 
@@ -51,5 +52,6 @@ class SolidarityTech(
     SolidarityTechScheduledTasks,
     SolidarityTechTaskAgents,
     SolidarityTechTaskAssignments,
+    SolidarityTechTeamMembers,
 ):
     pass

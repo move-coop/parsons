@@ -219,7 +219,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
         return res.status_code == 200
 
-    def delete_event_attendance(
+    def delete_event_rsvp(
         self,
         id: str,
     ) -> bool:

@@ -26,6 +26,7 @@ from parsons.solidarity_tech.st_task_assignments import SolidarityTechTaskAssign
 from parsons.solidarity_tech.st_team_members import SolidarityTechTeamMembers
 from parsons.solidarity_tech.st_text_blasts import SolidarityTechTextBlasts
 from parsons.solidarity_tech.st_text_templates import SolidarityTechTextTemplates
+from parsons.solidarity_tech.st_textbanks import SolidarityTechTextbanks
 
 logger = logging.getLogger(__name__)
 
@@ -57,5 +58,6 @@ class SolidarityTech(
     SolidarityTechTeamMembers,
     SolidarityTechTextBlasts,
     SolidarityTechTextTemplates,
+    SolidarityTechTextbanks,
 ):
     pass

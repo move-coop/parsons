@@ -7,6 +7,7 @@ from requests.exceptions import HTTPError
 
 from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.solidarity_tech_literals import EventType, ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         scope_id: int | None = None,
-        scope_type: Literal["Organization", "Chapter"] | None = None,
+        scope_type: ScopeType | None = None,
     ) -> str:
         """
         Lists events accessible within the given scope.
@@ -72,11 +73,11 @@ class SolidarityTechEvents(SolidarityTechBase):
     def create_event(
         self,
         title: str,
-        event_type: Literal["virtual", "in_person", "hybrid"],
+        event_type: EventType | Literal["hybrid"],
         start_time: np.int64,
         end_time: np.int64,
         scope_id: str,
-        scope_type: Literal["Organization", "Chapter"],
+        scope_type: ScopeType,
         location_address: str | None = None,
         virtual_url: str | None = None,
         location_name: str | None = None,

@@ -1,11 +1,11 @@
 import logging
 from datetime import datetime
-from typing import Literal
 
 import numpy as np
 
 from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.solidarity_tech_literals import AttendanceType
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +103,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         self,
         event_id: np.int64,
         event_session_id: np.int64,
-        is_attending: Literal["yes", "no", "maybe", "waitlisted"],
+        is_attending: AttendanceType,
         agent_user_id: np.int64 | None,
         user_id: np.int64 | None = None,
         is_confirmed: bool | None = None,
@@ -168,7 +168,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
     def update_event_rsvp(
         self,
         id: int,
-        is_attending: Literal["yes", "no", "maybe", "waitlisted"] | None = None,
+        is_attending: AttendanceType | None = None,
         is_confirmed: bool | None = None,
         agent_user_id: np.int64 | None = None,
         source: str | None = None,

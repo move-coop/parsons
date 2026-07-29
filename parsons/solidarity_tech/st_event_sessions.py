@@ -1,12 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Literal
 
 import numpy as np
 from requests.exceptions import HTTPError
 
 from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.solidarity_tech_literals import EventType
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         start_time: np.int64,
         end_time: np.int64,
         title: str,
-        event_type: Literal["virtual", "in_person"] | None = None,
+        event_type: EventType | None = None,
         location_name: str | None = None,
         location_data: dict[str, str] | None = None,
         location_address: str | None = None,

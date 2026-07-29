@@ -1,11 +1,11 @@
 import logging
 from datetime import datetime
-from typing import Literal
 
 from requests.exceptions import HTTPError
 
 from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.solidarity_tech_literals import FieldType, ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         scope_id: int | None = None,
-        scope_type: Literal["Organization", "Chapter"] | None = None,
+        scope_type: ScopeType | None = None,
     ) -> str:
         """
         Retrieve a list of custom user properties.
@@ -59,12 +59,10 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
     def create_custom_user_property(
         self,
         label: str,
-        field_type: Literal[
-            "input", "textarea", "number", "date", "checkbox", "select", "radios", "checkboxes"
-        ],
+        field_type: FieldType,
         description: str | None = None,
         options: list[dict[str, str | dict[str, str]]] | None = None,
-        scope_type: Literal["Organization", "Chapter"] | None = None,
+        scope_type: ScopeType | None = None,
         scope_id: int | None = None,
     ) -> bool:
         """

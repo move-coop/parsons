@@ -40,7 +40,7 @@ class SolidarityTechBase:
             "since": "_since",
             "include_count": "_include_count",
         }
-        params = {"_limit": limit}
+        params = {}
         for key, value in kwargs.items():
             if value is None:
                 continue
@@ -52,6 +52,9 @@ class SolidarityTechBase:
             for key, value in kwargs.get("params", {}).items():
                 if value is None:
                     continue
+                if key in params:
+                    err_msg = f"Request param '{key}' already exists."
+                    raise KeyError(err_msg)
                 params[key] = value
 
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)

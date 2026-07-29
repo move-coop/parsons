@@ -1,20 +1,21 @@
 import logging
+from datetime import datetime
 
+from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_exceptions import STUnexpectedResponseCodeError
 
 logger = logging.getLogger(__name__)
 
 
-class SolidarityTechEmailSenders(SolidarityTechBase):
-    def get_email_senders(
+class SolidarityTechChapters(SolidarityTechBase):
+    def get_chapters(
         self,
         limit: int = 20,
         offset: int = 0,
+        since: int | datetime | None = 0,
     ) -> str:
         """
-        Returns a list of email senders available for the API key's scope.
-        Use these sender IDs when sending emails via the POST /emails endpoint.
+        Retrieve a list of chapters.
 
         Args:
             limit:
@@ -22,18 +23,24 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
                 Default is 20, maximum is 100.
             offset:
                 Number of items to skip before starting to return the results.
+            since:
+                UTC timestamp in seconds since the Unix epoch to filter chapters created after this time.
 
         Returns:
-            All the email senders.
+            All the chapters entries.
+
+        Raises:
+            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/get_email-senders>`__
+            `<https://www.solidarity.tech/reference/get_chapters>`__
 
         """
         res = self._get_resources(
-            "email_senders",
+            "chapters",
             limit=limit,
             offset=offset,
+            since=since,
             additional_headers={"accept": "application/json"},
         )
 

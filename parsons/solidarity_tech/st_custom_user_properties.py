@@ -4,8 +4,8 @@ from typing import Literal
 
 from requests.exceptions import HTTPError
 
+from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_exceptions import STUnexpectedResponseCodeError
 
 logger = logging.getLogger(__name__)
 

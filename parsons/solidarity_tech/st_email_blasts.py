@@ -3,21 +3,21 @@ from datetime import datetime
 
 from requests.exceptions import HTTPError
 
+from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_exceptions import STUnexpectedResponseCodeError
 
 logger = logging.getLogger(__name__)
 
 
-class SolidarityTechDonationCharges(SolidarityTechBase):
-    def get_donation_charges(
+class SolidarityTechEmailBlasts(SolidarityTechBase):
+    def get_email_blasts(
         self,
         limit: int = 20,
         offset: int = 0,
         since: int | datetime | None = 0,
     ) -> str:
         """
-        Retrieve a list of donation charges.
+        Retrieve a list of email blasts.
 
         Args:
             limit:
@@ -29,18 +29,17 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
         Returns:
-            All the donation charges.
+            All the email blasts.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/get_donation-charges>`__
+            `<https://www.solidarity.tech/reference/get_email-blasts>`__
 
         """
         res = self._get_resources(
-            "donation_charges",
+            "email_blasts",
             limit=limit,
             offset=offset,
             since=since,
-            additional_headers={"accept": "application/json"},
         )
 
         if res.status_code != 200:
@@ -48,33 +47,33 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
 
         return res.text
 
-    def get_donation_charge(
+    def get_email_blast(
         self,
         id: int,
     ) -> str:
         """
-        Retrieve a single donation charge.
+        Retrieve a single email blast.
 
         Args:
             id:
-                ID of the donation charge to retrieve.
+                ID of the email blast to retrieve.
 
         Returns:
-            A single agent assignment entry.
+            A single email blast entry.
 
         Raises:
             STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
-            `<https://www.solidarity.tech/reference/get_donation-charges-id>`__
+            `<https://www.solidarity.tech/reference/get_email-blasts-id>`__
 
         """
-        res = self._get_single_resource("donation_charges", id)
+        res = self._get_single_resource("email_blasts", id)
+
+        if res.status_code not in (200, 404):
+            raise STUnexpectedResponseCodeError(res)
 
         if res.status_code == 404:
-            raise HTTPError("Donation charge not found")
-
-        if res.status_code:
-            raise STUnexpectedResponseCodeError(res)
+            raise HTTPError("Email blast not found")
 
         return res.text

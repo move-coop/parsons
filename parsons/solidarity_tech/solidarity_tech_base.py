@@ -64,7 +64,10 @@ class SolidarityTechBase:
         return self.api.request(url=complete_endpoint, req_type="GET", **kwargs)
 
     def _post_request(
-        self, endpoint: str, payload: Mapping[str, str | int | np.int64] | None = None, **kwargs
+        self,
+        endpoint: str,
+        payload: Mapping[str, str | int | np.int64 | float] | None = None,
+        **kwargs,
     ) -> requests.Response:
         """Handle POST requests."""
         logger.debug("Processing POST request at endpoint: %s", endpoint, extra=payload)

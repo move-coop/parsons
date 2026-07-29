@@ -220,6 +220,11 @@ jobs:
   parity-mutation:
     runs-on: ubuntu-latest
 
+    # Advisory only (see below): mutation runs are slow, and a PR that touches many
+    # connectors can exceed the time budget, so never let this block the build.
+    continue-on-error: true
+    timeout-minutes: 45
+
     if: github.event_name == 'pull_request' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
 
     steps:

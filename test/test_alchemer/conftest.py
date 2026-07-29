@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from parsons import Alchemer
@@ -15,13 +13,3 @@ def alchemer(mocker):
     """
     mocker.patch("parsons.alchemer.alchemer.surveygizmo.SurveyGizmo")
     return Alchemer(api_token="fake-token", api_token_secret="fake-secret")
-
-
-@pytest.fixture
-def load(shared_datadir):
-    """Load a canned surveygizmo response payload from the ``data/`` directory."""
-
-    def _load(name: str):
-        return json.loads((shared_datadir / f"{name}.json").read_text())
-
-    return _load

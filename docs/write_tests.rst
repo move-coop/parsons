@@ -256,16 +256,20 @@ Keep canned data out of the test body so tests stay readable.
 
 * **Large or reused payloads** (a realistic API response, a sample CSV) go in the
   connector's ``data/`` directory as real ``.json`` / ``.csv`` / ``.xml`` files.
-  Load them with the ``shared_datadir`` fixture from
-  `pytest-datadir <https://github.com/gabrielcnr/pytest-datadir>`_, which copies
-  the directory into a temp location per test:
+  Load ``.json`` payloads with the shared ``load`` fixture (defined once in the root
+  ``test/conftest.py`` — do **not** redefine it per connector). ``load("records")``
+  reads ``data/records.json`` and returns the parsed JSON:
 
   .. code-block:: python
 
-      def test_get_records(airtable, requests_mock, shared_datadir):
-          payload = json.loads((shared_datadir / "records.json").read_text())
-          requests_mock.get(airtable.base_uri, json=payload)
+      def test_get_records(airtable, requests_mock, load):
+          requests_mock.get(airtable.base_uri, json=load("records"))
           ...
+
+  ``load`` is built on the ``shared_datadir`` fixture from
+  `pytest-datadir <https://github.com/gabrielcnr/pytest-datadir>`_, which copies the
+  ``data/`` directory into a temp location per test. For non-JSON files (a CSV/XML
+  fixture), use ``shared_datadir`` directly: ``(shared_datadir / "sample.csv")``.
 
 * **Small, single-use values** (a handful of keys) may stay inline in the test as
   a literal dict — roughly 15 lines or fewer. If it is bigger than that, or used
@@ -304,6 +308,9 @@ The **root** ``test/conftest.py`` provides helpers available everywhere:
   which only checks identity.
 * ``validate_list(expected_keys, table)`` — assert a ``Table`` has exactly the
   expected columns.
+* ``load(name)`` — read ``data/<name>.json`` from the test module's directory and
+  return the parsed JSON (see `Test data`_). Use it instead of defining a per-connector
+  loader.
 * ``sample_data`` / ``tbl`` — ready-made sample data fixtures.
 
 

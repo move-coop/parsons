@@ -1,41 +1,35 @@
 """Tests for the Controlshift connector."""
 
-import json
-
 import pytest
 
 from parsons import Controlshift
 from test.conftest import validate_list
 
 
-def _load(shared_datadir, name: str):
-    return json.loads((shared_datadir / name).read_text())
-
-
 @pytest.mark.live
-def test_get_petitions_live(shared_datadir):
+def test_get_petitions_live(load):
     tbl = Controlshift().get_petitions()
 
-    assert validate_list(_load(shared_datadir, "expected_petition_columns.json"), tbl)
+    assert validate_list(load("expected_petition_columns"), tbl)
 
 
-def test_get_petitions(controlshift, hostname, requests_mock, shared_datadir):
+def test_get_petitions(controlshift, hostname, requests_mock, load):
     requests_mock.get(
         f"{hostname}/api/v1/petitions",
-        json=_load(shared_datadir, "petitions.json"),
+        json=load("petitions"),
     )
 
     tbl = controlshift.get_petitions()
 
-    assert validate_list(_load(shared_datadir, "expected_petition_columns.json"), tbl)
+    assert validate_list(load("expected_petition_columns"), tbl)
     assert tbl.num_rows == 1
 
 
-def test_get_petitions_follows_pagination(controlshift, hostname, requests_mock, shared_datadir):
+def test_get_petitions_follows_pagination(controlshift, hostname, requests_mock, load):
     """Paging starts at page 1 and follows ``meta.next_page`` until it is null."""
-    page_one = _load(shared_datadir, "petitions.json")
+    page_one = load("petitions")
     page_one["meta"]["next_page"] = 2
-    page_two = _load(shared_datadir, "petitions.json")
+    page_two = load("petitions")
 
     requests_mock.get(
         f"{hostname}/api/v1/petitions",

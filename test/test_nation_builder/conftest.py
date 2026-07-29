@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from parsons import NationBuilder
@@ -18,13 +16,3 @@ def base_url() -> str:
 def nb() -> NationBuilder:
     """A NationBuilder connector with fake credentials (construction makes no request)."""
     return NationBuilder(SLUG, TOKEN)
-
-
-@pytest.fixture
-def load(shared_datadir):
-    """Load a canned NationBuilder response from the data/ directory."""
-
-    def _load(name: str):
-        return json.loads((shared_datadir / f"{name}.json").read_text())
-
-    return _load

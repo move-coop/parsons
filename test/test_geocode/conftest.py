@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from parsons import CensusGeocoder
@@ -16,13 +14,3 @@ def geocoder(mocker):
     """
     mocker.patch("parsons.geocode.census_geocoder.censusgeocode.CensusGeocode")
     return CensusGeocoder()
-
-
-@pytest.fixture
-def load(shared_datadir):
-    """Load a canned censusgeocode response from the ``data/`` directory."""
-
-    def _load(name: str):
-        return json.loads((shared_datadir / f"{name}.json").read_text())
-
-    return _load

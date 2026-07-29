@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from parsons import BillCom
@@ -21,13 +19,3 @@ def bc(requests_mock) -> BillCom:
     """
     requests_mock.post(API_URL + "Login.json", json={"response_data": {"sessionId": "FAKE"}})
     return BillCom("FAKE", "FAKE", "FAKE", "FAKE", API_URL)
-
-
-@pytest.fixture
-def load(shared_datadir):
-    """Load a canned Bill.com response from the data/ directory."""
-
-    def _load(name: str):
-        return json.loads((shared_datadir / f"{name}.json").read_text())
-
-    return _load

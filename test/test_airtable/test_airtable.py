@@ -2,18 +2,11 @@
 
 Reference example of the HTTP/REST testing pattern (see docs/write_tests.rst):
 pytest-native functions, the ``requests_mock`` fixture for the HTTP boundary, and
-canned response payloads loaded from ``data/`` via ``shared_datadir``.
+canned response payloads loaded from ``data/`` via the ``load`` fixture.
 """
-
-import json
 
 from parsons import Table
 from test.conftest import assert_matching_tables
-
-
-def _load(shared_datadir, name: str) -> dict:
-    """Load a canned Airtable API response from the data/ directory."""
-    return json.loads((shared_datadir / name).read_text())
 
 
 def test_get_record(airtable, base_uri, requests_mock):
@@ -28,8 +21,8 @@ def test_get_record(airtable, base_uri, requests_mock):
     assert airtable.get_record(record_id) == response
 
 
-def test_get_records(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.get(base_uri, json=_load(shared_datadir, "records_response.json"))
+def test_get_records(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response"))
 
     expected = Table(
         [
@@ -54,55 +47,47 @@ def test_get_records(airtable, base_uri, requests_mock, shared_datadir):
     assert_matching_tables(airtable.get_records(), expected)
 
 
-def test_get_records_with_1_sample(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.get(
-        base_uri, json=_load(shared_datadir, "records_response_with_more_columns.json")
-    )
+def test_get_records_with_1_sample(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
     res = airtable.get_records(sample_size=1)
 
     assert res.columns == ["id", "createdTime", "Name"]
 
 
-def test_get_records_with_5_sample(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.get(
-        base_uri, json=_load(shared_datadir, "records_response_with_more_columns.json")
-    )
+def test_get_records_with_5_sample(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
     res = airtable.get_records(sample_size=5)
 
     assert res.columns == ["id", "createdTime", "Name", "SecondColumn"]
 
 
-def test_get_records_with_explicit_headers(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.get(
-        base_uri, json=_load(shared_datadir, "records_response_with_more_columns.json")
-    )
+def test_get_records_with_explicit_headers(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
     res = airtable.get_records(["Name", "SecondColumn"], sample_size=1)
 
     assert res.columns == ["id", "createdTime", "Name", "SecondColumn"]
 
 
-def test_get_records_with_single_field(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.get(
-        base_uri, json=_load(shared_datadir, "records_response_with_more_columns.json")
-    )
+def test_get_records_with_single_field(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
     res = airtable.get_records("Name", sample_size=1)
 
     assert res.columns == ["id", "createdTime", "Name"]
 
 
-def test_insert_record(airtable, base_uri, requests_mock, shared_datadir):
-    insert_response = _load(shared_datadir, "insert_response.json")
+def test_insert_record(airtable, base_uri, requests_mock, load):
+    insert_response = load("insert_response")
     requests_mock.post(base_uri, json=insert_response)
 
     assert airtable.insert_record({"Name": "Another row!"}) == insert_response
 
 
-def test_insert_records(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.post(base_uri, json=_load(shared_datadir, "insert_responses.json"))
+def test_insert_records(airtable, base_uri, requests_mock, load):
+    requests_mock.post(base_uri, json=load("insert_responses"))
 
     resp = airtable.insert_records(Table([{"Name": "Another row!"}, {"Name": "Another!"}]))
 
@@ -121,8 +106,8 @@ def test_update_record(airtable, base_uri, requests_mock):
     assert airtable.update_record(record_id, {"Name": "AName"}) == update_response
 
 
-def test_update_records(airtable, base_uri, requests_mock, shared_datadir):
-    update_responses = _load(shared_datadir, "update_responses.json")
+def test_update_records(airtable, base_uri, requests_mock, load):
+    update_responses = load("update_responses")
     requests_mock.patch(base_uri, json=update_responses)
 
     resp = airtable.update_records(
@@ -138,8 +123,8 @@ def test_update_records(airtable, base_uri, requests_mock, shared_datadir):
     assert len(resp) == len(update_responses["records"])
 
 
-def test_upsert_records_with_id(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.patch(base_uri, json=_load(shared_datadir, "upsert_with_id_responses.json"))
+def test_upsert_records_with_id(airtable, base_uri, requests_mock, load):
+    requests_mock.patch(base_uri, json=load("upsert_with_id_responses"))
 
     resp = airtable.upsert_records(
         Table(
@@ -156,8 +141,8 @@ def test_upsert_records_with_id(airtable, base_uri, requests_mock, shared_datadi
     assert len(resp["created_records"]) == 1
 
 
-def test_upsert_records_with_key(airtable, base_uri, requests_mock, shared_datadir):
-    requests_mock.patch(base_uri, json=_load(shared_datadir, "upsert_with_key_responses.json"))
+def test_upsert_records_with_key(airtable, base_uri, requests_mock, load):
+    requests_mock.patch(base_uri, json=load("upsert_with_key_responses"))
 
     resp = airtable.upsert_records(
         Table(
@@ -183,8 +168,8 @@ def test_delete_record(airtable, base_uri, requests_mock):
     assert airtable.delete_record(record_id) == response
 
 
-def test_delete_records(airtable, base_uri, requests_mock, shared_datadir):
-    delete_responses = _load(shared_datadir, "delete_responses.json")
+def test_delete_records(airtable, base_uri, requests_mock, load):
+    delete_responses = load("delete_responses")
     requests_mock.delete(base_uri, json=delete_responses)
 
     resp = airtable.delete_records(Table(delete_responses["records"]).cut("id"))

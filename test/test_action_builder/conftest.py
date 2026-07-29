@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from parsons import ActionBuilder
@@ -27,13 +25,3 @@ def bldr() -> ActionBuilder:
     Construction makes no request, so no mock is needed here.
     """
     return ActionBuilder(api_token=API_KEY, subdomain=SUBDOMAIN, campaign=CAMPAIGN)
-
-
-@pytest.fixture
-def load(shared_datadir):
-    """Load a canned Action Builder response from the data/ directory."""
-
-    def _load(name: str):
-        return json.loads((shared_datadir / f"{name}.json").read_text())
-
-    return _load

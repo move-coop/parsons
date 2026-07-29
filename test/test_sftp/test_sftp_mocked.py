@@ -132,18 +132,14 @@ def test_list_files_empty_directory(sftp):
     assert sftp.list_subdirectories("parsons_test/empty", connection=fake) == []
 
 
-def test_get_table(sftp, shared_datadir, simple_table, tmp_path, mocker):
-    # Pin get_file's download target to a unique tmp_path file. get_table returns a
-    # lazily-read Table over this file, and parsons' default temp-file names are not
-    # reserved on creation, so under the full xdist suite another test's to_csv() can
-    # otherwise clobber a shared temp path before the lazy read runs.
-    download = tmp_path / "download.csv"
-    mocker.patch(
-        "parsons.sftp.sftp.file_utilities.create_temp_file_for_path", return_value=str(download)
-    )
+def test_get_table(sftp, shared_datadir, simple_table):
     fake = FakeSFTP(get_source=str(shared_datadir / "test-simple-table.csv"))
 
     tbl = sftp.get_table("parsons_test/test.csv", connection=fake)
+    # get_table binds the Table lazily to the downloaded temp file; force the read
+    # now. petl otherwise defers it until iteration, which is flaky under the parallel
+    # suite (the deferred read can pick up another test's temp file).
+    tbl.materialize()
 
     assert_matching_tables(tbl, simple_table)
 

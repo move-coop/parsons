@@ -14,7 +14,7 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         task_id: int | None = None,
     ) -> str:
         """
@@ -110,7 +110,7 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             "task_id": task_id,
         }
         res = self._post_request(
-            "task_agents", payload, additional_headers={"content-type": "application/json"}
+            "task_agents", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
         if res.status_code not in (201, 404):

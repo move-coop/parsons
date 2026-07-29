@@ -157,7 +157,7 @@ class SolidarityTechEvents(SolidarityTechBase):
             "skip_duplicate_check": skip_duplicate_check,
         }
         res = self._post_request(
-            "events", payload, additional_headers={"content-type": "application/json"}
+            "events", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
         if res.status_code not in (201, 404, 409, 422):

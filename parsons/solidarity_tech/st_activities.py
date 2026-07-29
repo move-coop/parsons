@@ -12,7 +12,7 @@ class SolidarityTechActivities(SolidarityTechBase):
         self,
         limit: int = 20,
         cursor: int | None = None,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         include_count: bool = False,
         user_id: int | None = None,
     ) -> str:

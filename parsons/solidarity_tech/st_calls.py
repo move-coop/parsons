@@ -13,7 +13,7 @@ class SolidarityTechCalls(SolidarityTechBase):
         user_id: int | None = None,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
     ) -> str:
         """
         Retrieve a list of calls.

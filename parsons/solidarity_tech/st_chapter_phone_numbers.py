@@ -12,7 +12,7 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         chapter_id: int = 0,
     ) -> str:
         """

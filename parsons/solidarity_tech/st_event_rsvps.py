@@ -15,7 +15,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         event_id: int | None = None,
         session_id: int | None = None,
         user_id: int | None = None,
@@ -157,7 +157,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             "skip_email_confirmation": skip_email_confirmation,
         }
         res = self._post_request(
-            "event_rsvps", payload, additional_headers={"content-type": "application/json"}
+            "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
         if res.status_code not in (201, 404):
@@ -213,7 +213,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         res = self._put_request(
             "event_rsvps",
             id,
-            payload,
+            payload=payload,
             additional_headers={"content-type": "application/json"},
         )
 

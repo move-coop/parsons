@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from requests import HTTPError
+from requests.exceptions import HTTPError
 
 from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -14,7 +14,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         event_id: int = 0,
         ids: list[int] | None = None,
         include_stats: bool = False,

@@ -14,7 +14,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         event_id: int | None = None,
         session_id: int | None = None,
     ) -> str:
@@ -93,7 +93,9 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             "user_id": user_id,
         }
         res = self._post_request(
-            "event_attendances", payload, additional_headers={"content-type": "application/json"}
+            "event_attendances",
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
         )
 
         if res.status_code not in (201, 404):

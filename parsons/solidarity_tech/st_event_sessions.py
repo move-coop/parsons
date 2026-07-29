@@ -180,7 +180,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             "tags": tags,
         }
         res = self._post_request(
-            "event_rsvps", payload, additional_headers={"content-type": "application/json"}
+            "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
         if res.status_code not in (201, 422):
@@ -300,7 +300,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         res = self._put_request(
             "event_sessions",
             id,
-            payload,
+            payload=payload,
             additional_headers={"content-type": "application/json"},
         )
 
@@ -381,7 +381,9 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             "user_id": user_id,
         }
         res = self._post_request(
-            "event_sessions", payload, additional_headers={"content-type": "application/json"}
+            "event_sessions",
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
         )
 
         if res.status_code not in (200, 404):

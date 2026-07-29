@@ -15,7 +15,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         scope_id: int | None = None,
         scope_type: Literal["Organization", "Chapter"] | None = None,
     ) -> str:

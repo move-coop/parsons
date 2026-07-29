@@ -49,7 +49,7 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
         }
         res = self._post_request(
             "field_survey_urls",
-            payload,
+            payload=payload,
             additional_headers={"accept": "application/json", "content-type": "application/json"},
         )
 

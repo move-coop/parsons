@@ -14,7 +14,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         user_id: int | None = None,
         agent_user_id: int | None = None,
     ) -> str:
@@ -133,7 +133,9 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             "marked_as_completed": marked_as_completed,
         }
         res = self._post_request(
-            "scheduled_tasks", payload, additional_headers={"content-type": "application/json"}
+            "scheduled_tasks",
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
         )
 
         if res.status_code not in (201, 404):
@@ -195,7 +197,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         res = self._put_request(
             "scheduled_tasks",
             id,
-            payload,
+            payload=payload,
             additional_headers={"content-type": "application/json"},
         )
 

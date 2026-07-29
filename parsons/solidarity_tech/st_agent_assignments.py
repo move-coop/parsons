@@ -14,7 +14,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-        since: int | datetime | None = 0,
+        since: int | datetime = 0,
         user_id: int | None = None,
         agent_user_id: int | None = None,
     ) -> str:
@@ -113,7 +113,9 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         """
         payload = {"user_id": user_id, "agent_user_id": agent_user_id, "is_active": is_active}
         res = self._post_request(
-            "agent_assignments", payload, additional_headers={"content-type": "application/json"}
+            "agent_assignments",
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
         )
 
         if res.status_code not in (201, 404):
@@ -156,7 +158,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         res = self._put_request(
             "agent_assignments",
             id,
-            payload,
+            payload=payload,
             additional_headers={"content-type": "application/json"},
         )
 

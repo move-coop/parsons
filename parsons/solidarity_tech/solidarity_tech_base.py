@@ -27,7 +27,7 @@ class SolidarityTechBase:
         self.api_url = "https://api.solidarity.tech/v1/"
         self.api = RateLimitedAPIConnector(self.api_url, headers=self.headers)
 
-    def _get_resources(self, endpoint: str, limit: int, **kwargs) -> requests.Response:
+    def _get_resources(self, endpoint: str, **kwargs) -> requests.Response:
         """Process parameters and handle GET requests for lists of resources."""
         since = kwargs.get("since")
         if isinstance(since, datetime):
@@ -67,7 +67,7 @@ class SolidarityTechBase:
     def _post_request(
         self,
         endpoint: str,
-        payload: Mapping[str, str | int | np.int64 | float] | None = None,
+        payload: Mapping[str, str | int | np.int64 | float | None] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle POST requests."""
@@ -75,7 +75,11 @@ class SolidarityTechBase:
         return self.api.request(url=endpoint, req_type="POST", json=payload, **kwargs)
 
     def _put_request(
-        self, endpoint: str, id: int, payload: Mapping[str, str | int] | None = None, **kwargs
+        self,
+        endpoint: str,
+        id: int,
+        payload: Mapping[str, str | int | np.int64 | float | None] | None = None,
+        **kwargs,
     ) -> requests.Response:
         """Handle PUT requests."""
         complete_endpoint = f"{endpoint}/{id}"

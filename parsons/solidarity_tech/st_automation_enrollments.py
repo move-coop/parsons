@@ -38,7 +38,7 @@ class SolidarityTechAutomationEnrollments(SolidarityTechBase):
         payload = {"automation_id": automation_id, "user_id": user_id}
         res = self._post_request(
             "automation_enrollments",
-            payload,
+            payload=payload,
             additional_headers={"content-type": "application/json"},
         )
 

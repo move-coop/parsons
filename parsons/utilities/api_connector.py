@@ -197,7 +197,7 @@ class APIConnector:
             or :attr:`requests.Response.content` from the response if `return_format` is ``content``.
 
         Raises:
-            RuntimeError: If return_format is not ``json`` or ``content``.
+            RuntimeError: If ``return_format`` is not ``json`` or ``content``.
 
         """
         r = self.request(url, "GET", params=params, raise_on_error=raise_on_error, **kwargs)

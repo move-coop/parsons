@@ -136,10 +136,6 @@ def test_get_table(sftp, shared_datadir, simple_table):
     fake = FakeSFTP(get_source=str(shared_datadir / "test-simple-table.csv"))
 
     tbl = sftp.get_table("parsons_test/test.csv", connection=fake)
-    # get_table binds the Table lazily to the downloaded temp file; force the read
-    # now. petl otherwise defers it until iteration, which is flaky under the parallel
-    # suite (the deferred read can pick up another test's temp file).
-    tbl.materialize()
 
     assert_matching_tables(tbl, simple_table)
 

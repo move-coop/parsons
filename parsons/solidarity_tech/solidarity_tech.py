@@ -31,6 +31,7 @@ from parsons.solidarity_tech.st_texts import SolidarityTechTexts
 from parsons.solidarity_tech.st_user_actions import SolidarityTechUserActions
 from parsons.solidarity_tech.st_user_lists import SolidarityTechUserLists
 from parsons.solidarity_tech.st_user_notes import SolidarityTechUserNotes
+from parsons.solidarity_tech.st_user_relationships import SolidarityTechUserRelationships
 
 logger = logging.getLogger(__name__)
 
@@ -67,5 +68,6 @@ class SolidarityTech(
     SolidarityTechUserActions,
     SolidarityTechUserLists,
     SolidarityTechUserNotes,
+    SolidarityTechUserRelationships,
 ):
     pass

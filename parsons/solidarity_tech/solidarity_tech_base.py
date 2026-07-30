@@ -4,9 +4,10 @@ from datetime import datetime
 
 import numpy as np
 import requests
+from pyrate_limiter import Duration, Rate
 
-from parsons.solidarity_tech.ratelimited_api_connector import RateLimitedAPIConnector
 from parsons.utilities import check_env
+from parsons.utilities.ratelimited_api_connector import RateLimitedAPIConnector
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,9 @@ class SolidarityTechBase:
         self.api_token: str = check_env.check("SOLIDARITY_TECH_TOKEN", api_token)
         self.headers = {"authorization": f"Bearer {self.api_token}"}
         self.api_url = "https://api.solidarity.tech/v1/"
-        self.api = RateLimitedAPIConnector(self.api_url, headers=self.headers)
+        self.api = RateLimitedAPIConnector(
+            self.api_url, headers=self.headers, ratelimit=Rate(60, Duration.SECOND * 30)
+        )
 
     def _get_resources(self, endpoint: str, **kwargs) -> requests.Response:
         """Process parameters and handle GET requests for lists of resources."""

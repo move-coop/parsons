@@ -261,7 +261,31 @@ jobs:
           else
             LIST=$(python3 test/tools/changed_connectors.py --all)
           fi
-          echo "connectors=$(echo "$LIST" | tr '\n' ' ' | xargs)" >> "$GITHUB_OUTPUT"
+          ALL=$(echo "$LIST" | tr '\n' ' ' | xargs)
+          TOTAL=$(echo "$ALL" | wc -w | xargs)
+          # Mutation runs take minutes per connector, so a PR that touches many of them
+          # cannot finish within the CI time budget. Above this many, skip mutation in CI
+          # (it stays advisory) and leave a note; run parity.py locally for the rest.
+          MAX=5
+          if [ "$TOTAL" -gt "$MAX" ]; then
+            echo "connectors=" >> "$GITHUB_OUTPUT"
+            echo "skipped_total=$TOTAL" >> "$GITHUB_OUTPUT"
+          else
+            echo "connectors=$ALL" >> "$GITHUB_OUTPUT"
+            echo "skipped_total=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: note skipped mutation parity (large PR)
+        if: steps.scope.outputs.skipped_total != '0'
+        run: |
+          {
+            echo "### Mutation parity — skipped (advisory)"
+            echo ""
+            echo "This PR changes ${{ steps.scope.outputs.skipped_total }} connectors. Mutation"
+            echo "testing takes minutes per connector, so CI skips it on large PRs to stay within"
+            echo "the time budget — the pytest job still checked coverage parity. Run"
+            echo '`python test/tools/parity.py compare <connector>` locally for mutation parity.'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
         if: steps.scope.outputs.connectors != ''

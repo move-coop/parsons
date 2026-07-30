@@ -31,6 +31,7 @@ classifiers = [
 ]
 dependencies = [
     "petl >= 1.7.17",
+    "pyrate-limiter >= 4.0",
     "python-dateutil >= 2.0",
     "requests >= 2.0",
     "requests-oauthlib >= 1.0",
@@ -130,7 +131,6 @@ smtp = ["email-validator >= 2.2"]
 solidarity-tech = [
     "numpy >= 2.1;python_version<'3.14'",
     "numpy >= 2.4;python_version>='3.14'",
-    "pyrate-limiter >= 4.0",
 ]
 ssh = [
     "sshtunnel >= 0.4",

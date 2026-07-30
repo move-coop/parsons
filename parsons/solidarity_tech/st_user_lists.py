@@ -17,7 +17,7 @@ QueryParamType = dict[
 logger = logging.getLogger(__name__)
 
 
-class SolidarityTecUserLists(SolidarityTechBase):
+class SolidarityTechUserLists(SolidarityTechBase):
     def get_user_lists(
         self,
         limit: int = 20,
@@ -155,6 +155,9 @@ class SolidarityTecUserLists(SolidarityTechBase):
     ) -> bool:
         """
         Update a user list with the specified details.
+
+        The parameters field must conform to the QueryBuilder format.
+        For documentation, see `<https://querybuilder.js.org/#filters>`__.
 
         Args:
             id:

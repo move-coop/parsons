@@ -112,7 +112,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         skip_email_confirmation: bool = False,
     ) -> bool:
         """
-        Creates an event rsvp with the specified details.
+        Create an event rsvp with the specified details.
 
         Args:
             event_id:
@@ -175,7 +175,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         source_system: str | None = None,
     ) -> bool:
         """
-        Updates an event rsvp with the specified details.
+        Update an event rsvp with the specified details.
 
         Args:
             id:

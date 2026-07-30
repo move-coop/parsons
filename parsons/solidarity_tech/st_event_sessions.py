@@ -118,7 +118,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         tags: list[str] | None = None,
     ) -> bool:
         """
-        Creates an event rsvp with the specified details.
+        Create an event rsvp with the specified details.
 
         Args:
             event_id:
@@ -241,7 +241,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         tags: list[str] | None = None,
     ) -> bool:
         """
-        Updates an event session with the specified details.
+        Update an event session with the specified details.
 
         Args:
             id:

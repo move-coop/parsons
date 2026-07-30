@@ -90,7 +90,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         agent_user_id: np.int64 | None = None,
     ) -> bool:
         """
-        Creates a task assignment.
+        Create a task assignment.
 
         Assigns a user to participate in a phonebank or textbank campaign.
 
@@ -135,7 +135,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         agent_user_id: np.int64 | None = None,
     ) -> bool:
         """
-        Updates an task assignment with the specified details.
+        Update an task assignment with the specified details.
 
         Args:
             id:

@@ -92,7 +92,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
         data: dict[str, str | int | bool | dict[str, str]] | None = None,
     ) -> bool:
         """
-        Creates a user action for a user.
+        Create a user action for a user.
 
         .. note::
 

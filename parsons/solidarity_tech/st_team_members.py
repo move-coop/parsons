@@ -63,7 +63,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         task_id: int | None = None,
     ) -> bool:
         """
-        Creates a new team member.
+        Create a new team member.
 
         Args:
             member_id:
@@ -138,7 +138,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         scope_id: int,
     ) -> bool:
         """
-        Updates a team member with the specified details.
+        Update a team member with the specified details.
 
         Args:
             id:

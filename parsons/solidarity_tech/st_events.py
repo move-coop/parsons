@@ -89,7 +89,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         skip_duplicate_check: bool = False,
     ) -> bool:
         """
-        Creates an event with its first event session.
+        Create an event with its first event session.
 
         The event session inherits the title from the event unless ``session_title`` is provided.
 

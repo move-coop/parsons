@@ -63,7 +63,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         attended: bool,
     ) -> bool:
         """
-        Creates an event attendance with the specified details.
+        Create an event attendance with the specified details.
 
         Args:
             event_id:

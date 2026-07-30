@@ -90,7 +90,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         event_id: np.int64 | None = None,
     ) -> bool:
         """
-        Creates an text template with the specified details.
+        Create an text template with the specified details.
 
         Args:
             scope_id:
@@ -145,7 +145,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         event_id: np.int64 | None = None,
     ) -> bool:
         """
-        Updates an text template with the specified details.
+        Update an text template with the specified details.
 
         Args:
             id:
@@ -198,7 +198,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         id: int,
     ) -> bool:
         """
-        Deletes an text template with the specified ID.
+        Delete an text template with the specified ID.
 
         Args:
             id:

@@ -7,3 +7,4 @@ FieldType = Literal[
 ]
 InviteType = Literal["sms", "email"]
 ScopeType = Literal["Organization", "Chapter"]
+InteractionType = Literal["in_person", "call", "text", "email"]

@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.capitol_canary import CapitolCanary
 
 logger = logging.getLogger(__name__)
@@ -60,7 +61,7 @@ class Phone2Action:
                 page.
 
         Returns:
-            A dict of parsons tables:
+            dict[Table]:
                 * emails
                 * phones
                 * memberships
@@ -79,7 +80,7 @@ class Phone2Action:
         include_generic=False,
         include_private=False,
         include_content=True,
-    ):
+    ) -> Table:
         """
         Returns a list of campaigns
 
@@ -97,11 +98,9 @@ class Phone2Action:
                 sync errors.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            See :ref:`Table` for output options.
 
         """
-
         return self.capitol_canary.get_campaigns(
             state, zip, include_generic, include_private, include_content
         )

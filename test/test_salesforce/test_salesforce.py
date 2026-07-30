@@ -1,7 +1,7 @@
 """Tests for the Salesforce connector.
 
 Reference example of the third-party SDK testing pattern (see
-docs/write_tests.rst): pytest-native functions, a fixture that swaps the vendor
+docs/contrib_docs/write_tests.rst): pytest-native functions, a fixture that swaps the vendor
 client for a mock, and per-test programming of the client methods under test.
 """
 

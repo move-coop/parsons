@@ -1,6 +1,6 @@
 """Tests for the SMTP connector.
 
-Reference example of the protocol testing pattern (see docs/write_tests.rst):
+Reference example of the protocol testing pattern (see docs/contrib_docs/write_tests.rst):
 pytest-native functions with a fake connection class (fakes.py) injected via a
 fixture, in place of mocking a stateful protocol method by method.
 """

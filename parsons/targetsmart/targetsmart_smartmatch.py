@@ -183,15 +183,14 @@ class SmartMatch:
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
         Returns:
-            Parsons Table
+            Table
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
-                See :ref:`parsons-table` for output options.
+                See :ref:`Table` for output options.
 
         """
-
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table
@@ -248,7 +247,7 @@ class SmartMatch:
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
-        tmp = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             mode="w+",
             encoding="utf8",
             newline="\n",
@@ -275,14 +274,14 @@ class SmartMatch:
 
         # Download SmartMatch .csv.gz results, decompress, and Petl table wrap.
         # The final tmp file cannot be deleted due to Petl tables being lazy.
-        tmp_gz = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp_gz = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             prefix="smartmatch_output",
             suffix=".csv.gz",
             dir=tmp_location,
             delete=False,
         )
 
-        tmp_csv = tempfile.NamedTemporaryFile(  # noqa: SIM115
+        tmp_csv = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             prefix="smartmatch_output",
             suffix=".csv",
             dir=tmp_location,

@@ -1,10 +1,91 @@
+import os
 import unittest
+import unittest.mock as mock
 
 import pytest
 
 from parsons import MySQL, Table
 from parsons.databases.mysql.create_table import MySQLCreateTable
 from test.conftest import assert_matching_tables
+
+_MYSQL_CONN_KWARGS = {
+    "host": "test-host",
+    "username": "test-user",
+    "password": "test-pass",
+    "db": "test-db",
+}
+
+
+class TestMySQLPortPrecedence(unittest.TestCase):
+    """
+    Port resolution for MySQL:
+
+    - ``MYSQL_PORT`` is used when ``port`` is omitted (or ``port=None``).
+    - An explicit ``port=`` argument wins over ``MYSQL_PORT`` (including ``port=3306``).
+    """
+
+    def _env_without_mysql_port(self):
+        return {key: value for key, value in os.environ.items() if key != "MYSQL_PORT"}
+
+    def test_mysql_port_env_overrides_default_port(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS)
+            assert mysql.port == 3307
+
+    def test_default_port_when_mysql_port_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_mysql_port(), clear=True):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS)
+            assert mysql.port == 3306
+
+    def test_explicit_port_kwarg_when_mysql_port_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_mysql_port(), clear=True):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
+            assert mysql.port == 8888
+
+    def test_explicit_port_kwarg_overrides_mysql_port_env(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
+            assert mysql.port == 8888
+
+    def test_explicit_default_port_kwarg_ignores_mysql_port_env(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=3306)
+            assert mysql.port == 3306
+
+
+class TestMySQLConnectionTimeout(unittest.TestCase):
+    """
+    Connection timeout for MySQL:
+
+    - ``timeout`` defaults to 10 seconds, matching the Postgres and Redshift connectors.
+    - An explicit ``timeout=`` argument is respected.
+    - The resolved timeout is forwarded to ``mysql.connector.connect`` as
+      ``connection_timeout``.
+    """
+
+    def test_default_timeout(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        assert mysql.timeout == 10
+
+    def test_explicit_timeout_kwarg(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=30)
+        assert mysql.timeout == 30
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_default_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 10
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_explicit_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=42)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 42
 
 
 # These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"

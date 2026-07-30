@@ -1,7 +1,7 @@
 """Tests for the Auth0 connector.
 
 Auth0 calls ``requests`` directly, so tests mock the HTTP boundary with the
-``requests_mock`` fixture (see docs/write_tests.rst).
+``requests_mock`` fixture (see docs/contrib_docs/write_tests.rst).
 """
 
 import gzip

@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 class Alchemy:
     def generate_engine(self):
         """Generate a SQL Alchemy engine."""
-
         alchemy_url = self.generate_alchemy_url()
         return create_engine(alchemy_url, echo=False, convert_unicode=True)
 
@@ -17,7 +16,6 @@ class Alchemy:
         Generate a SQL Alchemy engine
         https://docs.sqlalchemy.org/en/14/core/engines.html#
         """
-
         if self.dialect == "redshift" or self.dialect == "postgres":
             connection_schema = "postgresql+psycopg2"
         elif self.dialect == "mysql":
@@ -41,14 +39,12 @@ class Alchemy:
 
     def get_table_object(self, table_name):
         """Get a SQL Alchemy table object."""
-
         schema, table_name = self.split_table_name(table_name)
         db_meta = MetaData(bind=self.generate_engine(), schema=schema)
         return Table(table_name, db_meta, autoload=True)
 
     def create_table(self, table_object, table_name):
         """Create a table based on table object data."""
-
         schema, table_name = self.split_table_name(table_name)
 
         if schema:
@@ -67,7 +63,6 @@ class Alchemy:
             tuple[str, str]
 
         """
-
         if "." not in full_table_name:
             return "public", full_table_name
 

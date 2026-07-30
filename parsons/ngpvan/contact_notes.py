@@ -20,11 +20,10 @@ class ContactNotes:
                 VAN ID for the person to get notes for.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
         logger.info(f"Found {tbl.num_rows} custom fields.")
         return tbl

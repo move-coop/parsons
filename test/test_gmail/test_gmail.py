@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 
 import pytest
+from email_validator import EmailSyntaxError
 
 SENDER = "Sender <sender@email.com>"
 TO = "Recepient <recepient@email.com>"
@@ -156,19 +157,14 @@ def test_validate_email_string(gmail):
         ("<sender@email.com>", True),
         ("Sender sender@email.com", False),
         ("Sender <sender2email.com>", False),
-    ]
-    # email.parseaddr's strictness varies by Python patch version; comma-domains
-    # are only rejected where strict parsing is supported.
-    # https://github.com/python/cpython/issues/102988
-    comma_valid = not getattr(email.utils, "supports_strict_parsing", False)
-    cases += [
-        ("Sender <sender@email,com>", comma_valid),
-        ("Sender <sender+alias@email,com>", comma_valid),
+        # email_validator rejects comma domains consistently across Python versions.
+        ("Sender <sender@email,com>", False),
+        ("Sender <sender+alias@email,com>", False),
     ]
 
     for value, valid in cases:
         if valid:
             assert gmail._validate_email_string(value)
         else:
-            with pytest.raises(ValueError, match="Invalid email address"):
+            with pytest.raises(EmailSyntaxError):
                 gmail._validate_email_string(value)

@@ -23,7 +23,7 @@ class Flags:
                 Specify limit to return.
 
         Returns:
-            parsons.Table
+            Table
 
         """
         try:
@@ -39,25 +39,25 @@ class Flags:
 
         return self._request(self.url_flags, args=params, limit=limit)
 
-    def create_flags(self, flag_list: list):
+    def create_flags(self, flag_list: list[dict[str, str]]):
         """
         Save a list of flags.
 
         Args:
-            flag_list: list[dict]
+            flag_list:
 
-            .. code-block:: python
+                .. code-block:: python
 
-                [
-                    {
-                        "pdiId": "string",
-                        "flagEntryDate": "An end date formatted like yyyy-MM-dd.",
-                        "acquisitionTypeId": "string",
-                        "flagId": "string",
-                        "questionId": "string",
-                        "contactId": "string"
-                    }
-                ]
+                    [
+                        {
+                            "pdiId": "string",
+                            "flagEntryDate": "An end date formatted like yyyy-MM-dd.",
+                            "acquisitionTypeId": "string",
+                            "flagId": "string",
+                            "questionId": "string",
+                            "contactId": "string"
+                        }
+                    ]
 
         """
         if "pdiId" not in list(flag_list[0].keys()):

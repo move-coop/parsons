@@ -37,6 +37,7 @@ jobs:
           - '3.11'
           - '3.12'
           - '3.13'
+          - '3.14'
         os:
           - ubuntu-latest
           - windows-latest
@@ -48,8 +49,18 @@ jobs:
     permissions:
       contents: write
 
+    concurrency:
+      group: >-
+        ${{ github.workflow }}
+        -${{ github.job }}
+        -${{ github.event.pull_request.number || github.ref }}
+        -${{ matrix.os }}
+        -${{ matrix.python-version }}
+        -${{ matrix.resolution }}
+      cancel-in-progress: true
+
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
@@ -63,9 +74,9 @@ jobs:
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
@@ -81,7 +92,7 @@ jobs:
           --all-extras
 
       - id: cache-pytest
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -94,7 +105,7 @@ jobs:
           --cov=parsons
           --no-cov-on-fail
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: coverage-${{ env.RUN_KEY }}
           path: .coverage.${{ env.RUN_KEY }}
@@ -107,17 +118,17 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -157,12 +168,12 @@ jobs:
       fail-fast: false
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
-        python-version: ['3.13']
+        python-version: ['3.14']
         os: ['ubuntu-latest']
         resolution: ['highest']
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
@@ -176,9 +187,9 @@ jobs:
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
@@ -194,7 +205,7 @@ jobs:
           --extra ${{ matrix.extra }}
 
       - id: cache-pytest
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pytest_cache
           key: pytest-${{ env.RUN_KEY }}
@@ -280,17 +291,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -301,7 +312,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -319,17 +330,17 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -340,7 +351,7 @@ jobs:
           --group lint
 
       - id: cache-ruff
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .ruff_cache
           key: ruff-${{ hashFiles('pyproject.toml') }}
@@ -352,7 +363,7 @@ jobs:
           -o results.sarif
           .
 
-      - uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13
+      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -371,17 +382,17 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -400,7 +411,7 @@ jobs:
           --format 'sarif'
           --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13
+      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -424,13 +435,13 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: img.shields.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -438,12 +449,12 @@ jobs:
           merge-multiple: true
 
       - id: coverage_comment
-        uses: py-cov-action/python-coverage-comment-action@7188638f871f721a365d644f505d1ff3df20d683
+        uses: py-cov-action/python-coverage-comment-action@63f52f4fbbffada6e8dee8ec432de7e01df9ba79
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
         with:
           name: python-coverage-comment-action
@@ -453,17 +464,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -490,17 +501,17 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block
           allowed-endpoints: proxy.golang.org:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -511,7 +522,7 @@ jobs:
           --group pre-commit
 
       - id: cache-pre-commit
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: .pre-commit-cache
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml', 'pyproject.toml') }}

@@ -1,7 +1,7 @@
 # Test Suite Migration to the Testing Standard
 
 This is the tracking checklist for bringing every connector's tests onto the
-single testing standard in [`docs/write_tests.rst`](../docs/write_tests.rst).
+single testing standard in [`docs/contrib_docs/write_tests.rst`](../docs/contrib_docs/write_tests.rst).
 
 **You do not need to do a whole tier at once.** Migrate a connector whenever you
 touch it, check its box here, and open a small PR. Each connector is independent.
@@ -325,9 +325,6 @@ verify the mock targets the external boundary, not the connector's own methods.
   request paging/filters/auth headers and the pagination math (page_number pinning,
   non-divisor page_size). Coverage 92.56 → **98.35** line / 83.33 → **92.86** branch,
   mutation 75.13 → **83.07**. Legacy bake kept.
-- [x] `test_crowdtangle` — pytest + fixtures; large `*.py` payloads → `data/*.json`;
-  +`__init__`. Coverage parity verified; mutation is slow (6.6k-line fixture re-unpacked
-  per mutant) and the suite still asserts via `_unpack` — a candidate for a trimmed fixture.
 - [ ] `test_donorbox` — TC, +init
 - [x] `test_empower` — pytest + fixtures; `data/export.json`; parametrized the
   per-slice column checks. Remaining mutation gap is blocked by a real bug in

@@ -1,7 +1,7 @@
 """Tests for the Zoom connector.
 
 Zoom is built on ``OAuth2APIConnector``, so tests mock the real HTTP boundary
-with the ``requests_mock`` fixture (see docs/write_tests.rst). The OAuth token
+with the ``requests_mock`` fixture (see docs/contrib_docs/write_tests.rst). The OAuth token
 POST the constructor performs is registered by the ``zoom``/``zoomv2`` fixtures
 in conftest.py; each test only registers the data endpoint it exercises.
 """

@@ -13,7 +13,8 @@ from email.mime.text import MIMEText
 from email.utils import parseaddr
 from pathlib import Path
 
-from validate_email import validate_email
+from dns.resolver import Resolver
+from email_validator import EmailSyntaxError, caching_resolver, validate_email
 
 # BUG: can't send files equal to or larger than 6MB
 # There is a possible fix
@@ -193,50 +194,121 @@ class SendMail(ABC):
 
         return message
 
-    def _validate_email_string(self, str):
+    def _validate_email_string(
+        self,
+        email_address: str,
+        *,
+        check_deliverability: bool = False,
+        dns_resolver: Resolver | None = None,
+    ):
+        """
+        Check whether a provided email address has valid syntax.
+
+        First, python's email module is used to parse the email address
+        from the string (in cases of name <email> syntax).
+        Then, the email_validator library's validate_email function
+        is used for full syntax validation. Optionally, the email domain
+        can also have its deliverability checked via DNS records.
+
+        Args:
+            email_address:
+                Email address to validate
+
+        Keyword Args:
+            check_deliverability:
+                Query DNS to ensure that the domain name can receive mail
+                Default: False
+            dns_resolver:
+                Caching dns resolver to reuse in each call.
+                You can create one with ``email_validator.caching_resolver(timeout=10)``
+
+        Returns:
+            bool
+                Whether the provided email address is valid. As validate_email
+                raises an error for invalid addresses, only a True value is expected.
+
+        Raise:
+            EmailSyntaxError
+                If python's email.utils.parseaddr function is unable to
+                validate the address syntax. The validate_email function also raises
+                if email is not valid. EmailSyntaxError inherits from ValueError.
+
+        """
         self.log.debug(f"Validating email {str}...")
-        realname, email_addr = parseaddr(str)
+        _, email_addr = parseaddr(email_address)
 
-        if not email_addr or not validate_email(email_addr):
-            raise ValueError("Invalid email address.")
+        if not email_addr:
+            err_msg = f"Invalid email address, could not parse '{email_address}'."
+            raise EmailSyntaxError(err_msg)
 
-        return True
+        return validate_email(
+            email_addr, check_deliverability=check_deliverability, dns_resolver=dns_resolver
+        )
 
-    def send_email(self, sender, to, subject, message_text, message_html=None, files=None):
+    def send_email(
+        self,
+        sender: str,
+        to: str | list[str],
+        subject: str,
+        message_text: str,
+        message_html: str | None = None,
+        files: str | list[str] | None = None,
+        *,
+        check_deliverability: bool = False,
+        dns_resolver: Resolver | None = None,
+    ):
         """Send an email message.
 
         Args:
-            sender: str
+            sender:
                 Email address of the sender.
-            to: str or list
-                Email address(es) of the receiver(s). Must be in correct email
-                string syntax. For example, `name@email.com` or
-                `"Name" <email@email.com>`.
-            subject: str
+            to:
+                Email address(es) of the receiver(s).
+                Must be in correct email string syntax.
+                For example, ``name@email.com`` or ``"Name" <email@email.com>``.
+            subject:
                 The subject of the email message.
-            message_text: str
+            message_text:
                 The text of the email message.
-            message_html: str
-                The html formatted text of the email message. If ommitted, the
-                email is sent a text-only body.
-            files: str or list
+            message_html:
+                The html formatted text of the email message.
+                If ommitted, the email is sent a text-only body.
+            files:
                 The path to the file(s) to be attached.
+
+        Keyword Args:
+            check_deliverability:
+                Query DNS to ensure that the domain name(s) can receive mail.
+            dns_resolver:
+                Caching dns resolver to reuse in each call.
+                You can create one with email_validator.caching_resolver(timeout=10)
+                If check_deliverability is not True, this has no effect.
+                If resolver is not provided, but check_deliverability is True,
+                one will be created with a 10 second timeout.
+
+        Raises:
+            EmptyListError
+                If to parameter is an empty list.
 
         """
         self.log.info("Preparing to send an email...")
 
         self.log.info("Validating email(s)")
-        if isinstance(to, list):
-            if len(to) == 0:
-                raise EmptyListError("Must contain at least 1 email.")
+        if isinstance(to, list) and not to:
+            raise EmptyListError("Must provide at least 1 email.")
 
-            for e in to:
-                self._validate_email_string(e)
+        if isinstance(to, str):
+            to = [to]
 
-            to = ", ".join(to)
+        if check_deliverability and not dns_resolver:
+            dns_resolver = caching_resolver(timeout=10)
 
-        elif isinstance(to, str):
-            self._validate_email_string(to)
+        for e in to:
+            self._validate_email_string(
+                e, check_deliverability=check_deliverability, dns_resolver=dns_resolver
+            )
+
+        to = ", ".join(to)
 
         if not message_html and not files:
             msg_type = "simple"

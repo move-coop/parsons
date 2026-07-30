@@ -68,10 +68,10 @@ instance/
 
 # documentation
 docs/html
-docs/_build/html
+docs/_build
 docs/dirhtml
-/site
-doctrees/
+site/
+.doctrees/
 
 # PyBuilder
 target/

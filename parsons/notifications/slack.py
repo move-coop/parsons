@@ -1,4 +1,3 @@
-import os
 import warnings
 from pathlib import Path
 
@@ -7,23 +6,12 @@ from slack_sdk import WebClient
 from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
 
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 
 class Slack:
     def __init__(self, api_key=None):
-        if api_key is None:
-            try:
-                self.api_key = os.environ["SLACK_API_TOKEN"]
-
-            except KeyError as e:
-                raise KeyError(
-                    "Missing api_key. It must be passed as an "
-                    "argument or stored as environmental variable"
-                ) from e
-
-        else:
-            self.api_key = api_key
+        self.api_key = check_env.check("SLACK_API_TOKEN", api_key)
 
         # Create client with built-in rate limit handler
         rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)
@@ -49,8 +37,8 @@ class Slack:
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         if types is None:
@@ -87,11 +75,10 @@ class Slack:
                 available fields. `Notes:` nested fields are unpacked.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if fields is None:
             fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
         tbl = self._paginate_request("users_list", "members", include_locale=True)
@@ -122,7 +109,7 @@ class Slack:
                 The `ts` value of the parent message. If used, this will thread the message.
 
         """
-        webhook = check("SLACK_API_WEBHOOK", webhook, optional=True)
+        webhook = check_env.check("SLACK_API_WEBHOOK", webhook, optional=True)
         payload = {"channel": channel, "text": text}
         if parent_message_id:
             payload["thread_ts"] = parent_message_id
@@ -130,7 +117,7 @@ class Slack:
 
     def message_channel(self, channel, text, parent_message_id=None, **kwargs):
         """
-        Send a message to a Slack channel
+        Send a message to a Slack channel.
 
         Args:
             channel: str
@@ -140,21 +127,22 @@ class Slack:
                 Text of the message to send.
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
+
+        Keyword Args:
+            as_user: str
+                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
+                args to customize the attributes of the user posting the message.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+                for more information about legacy authorship
             `**kwargs`: kwargs
-                - as_user: str
-                  This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-                  args to customize the attributes of the user posting the message.
-                  See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
-                  more information about legacy authorship
-                - Additional arguments for chat.postMessage API call. See `documentation
-                  <https://api.slack.com/methods/chat.postMessage>`__ for more info.
+                Additional arguments for chat.postMessage API call.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage>`__ for more info.
 
         Returns:
-            `dict`:
+            dict
                 A response json
 
         """
-
         if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",

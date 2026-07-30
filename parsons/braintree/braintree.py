@@ -4,7 +4,7 @@ import logging
 import braintree
 
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check as check_env
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -184,10 +184,10 @@ class Braintree:
         timeout=None,
         production=True,
     ):
-        merchant_id = check_env("BRAINTREE_MERCHANT_ID", merchant_id)
-        public_key = check_env("BRAINTREE_PUBLIC_KEY", public_key)
-        private_key = check_env("BRAINTREE_PRIVATE_KEY", private_key)
-        timeout = check_env("BRAINTREE_TIMEOUT", timeout, optional=True) or 200
+        merchant_id = check_env.check("BRAINTREE_MERCHANT_ID", merchant_id)
+        public_key = check_env.check("BRAINTREE_PUBLIC_KEY", public_key)
+        private_key = check_env.check("BRAINTREE_PRIVATE_KEY", private_key)
+        timeout = check_env.check("BRAINTREE_TIMEOUT", timeout, optional=True) or 200
 
         self.gateway = braintree.BraintreeGateway(
             braintree.Configuration(

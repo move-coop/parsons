@@ -1,5 +1,4 @@
 import logging
-import os
 import pickle
 from contextlib import contextmanager
 from pathlib import Path
@@ -37,18 +36,27 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         db: str
             Required if env variable ``MYSQL_DB`` not populated
         port: int
-            Can be set by env variable ``MYSQL_PORT`` or argument.
+            If omitted or ``None``, uses ``MYSQL_PORT`` when set, otherwise 3306. If passed
+            (including ``3306``), the argument takes precedence over ``MYSQL_PORT``.
+        timeout: int
+            Seconds to timeout if connection not established. Defaults to 10.
 
     """
 
-    def __init__(self, host=None, username=None, password=None, db=None, port=3306):
+    def __init__(self, host=None, username=None, password=None, db=None, port=None, timeout=10):
         super().__init__()
 
         self.username = check_env.check("MYSQL_USERNAME", username)
         self.password = check_env.check("MYSQL_PASSWORD", password)
         self.host = check_env.check("MYSQL_HOST", host)
         self.db = check_env.check("MYSQL_DB", db)
-        self.port = port or os.environ.get("MYSQL_PORT")
+        if port is not None:
+            self.port = port
+        else:
+            env_port = check_env.check("MYSQL_PORT", None, optional=True)
+            self.port = int(env_port) if env_port is not None else 3306
+
+        self.timeout = timeout
 
     @contextmanager
     def connection(self):
@@ -65,7 +73,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             MySQL `connection` object
 
         """
-
         # Create a mysql connection and cursor
         connection = mysql.connect(
             host=self.host,
@@ -73,6 +80,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             passwd=self.password,
             database=self.db,
             port=self.port,
+            connection_timeout=self.timeout,
         )
 
         try:
@@ -127,11 +135,10 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 A list of python variables to be converted into SQL values in your query
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -153,8 +160,8 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 commit manually with ``connection.commit()``).
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         with self.cursor(connection) as cursor:
@@ -207,7 +214,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
         strict_length: bool = True,
     ):
         """
-        Copy a :ref:`parsons-table` to the database.
+        Copy a :ref:`Table` to the database.
 
         .. note::
 
@@ -216,7 +223,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             loaded. It results in a minor performance hit compared to `LOAD DATA`.
 
         Args:
-            tbl: parsons.Table
+            tbl: Table
                 A Parsons table object
             table_name: str
                 The destination schema and table (e.g. ``my_schema.my_table``)
@@ -232,7 +239,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 then the current dataset. defaults to ``True``
 
         """
-
         if tbl.num_rows == 0:
             logger.info("Parsons table is empty. Table will not be created.")
             return None
@@ -252,7 +258,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
 
     def _insert_statement(self, tbl, table_name):
         """Convert the table data into a string for bulk importing."""
-
         # Single column tables
         if len(tbl.columns) == 1:
             values = [f"({row[0]})" for row in tbl.data]
@@ -288,7 +293,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 True if the table needs to be created, False otherwise.
 
         """
-
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -325,7 +329,6 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                 ``True`` if the table exists and ``False`` if it does not.
 
         """
-
         return self.query(f"SHOW TABLES LIKE '{table_name}'").first == table_name
 
     def table(self, table_name):

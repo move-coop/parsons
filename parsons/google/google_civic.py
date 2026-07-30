@@ -39,11 +39,10 @@ class GoogleCivic:
         Get a collection of information about elections and voter information.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
@@ -70,11 +69,10 @@ class GoogleCivic:
                 A valid US address in a single string.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
@@ -93,11 +91,10 @@ class GoogleCivic:
                 The name of the column where the address is stored.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -176,11 +173,10 @@ class GoogleCivic:
                 - "specialPurposeOfficer"
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

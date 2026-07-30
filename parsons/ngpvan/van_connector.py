@@ -1,6 +1,7 @@
 import logging
 from typing import Literal
 
+from requests.auth import HTTPBasicAuth
 from suds.client import Client
 
 from parsons.utilities import check_env
@@ -19,7 +20,7 @@ class VANConnector:
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
     ):
-        self.api_key = check_env.check("VAN_API_KEY", api_key)
+        self.api_key: str = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
             self.db_code = 0
@@ -35,7 +36,7 @@ class VANConnector:
         self.db = db
         self.auth_name = auth_name
         self.pagination_key = "nextPageLink"
-        self.auth = (self.auth_name, self.api_key + "|" + str(self.db_code))
+        self.auth = HTTPBasicAuth(self.auth_name, self.api_key + "|" + str(self.db_code))
         self.api = APIConnector(
             self.uri,
             auth=self.auth,
@@ -51,7 +52,6 @@ class VANConnector:
     @property
     def api_key_profile(self):
         """Returns the API key profile with includes permissions and other metadata."""
-
         return self.get_request("apiKeyProfiles")[0]
 
     @property
@@ -70,7 +70,6 @@ class VANConnector:
 
     def soap_client_db(self):
         """Parse the REST database name to the accepted SOAP format"""
-
         if self.db == "MyVoters":
             return "MyVoterFile"
         if self.db == "EveryAction":
@@ -79,27 +78,33 @@ class VANConnector:
             return self.db
 
     def get_request(self, endpoint, **kwargs):
-        r = self.api.get_request(self.uri + endpoint, **kwargs)
+        r = self.api.get_request(url=(self.uri + endpoint), **kwargs)
         data = self.api.data_parse(r)
 
-        # Paginate
+        # Paginate. `nextPageLink` is a fully-formed URL that already encodes the
+        # original query parameters, so we must not re-pass `params` on
+        # subsequent pages -- requests would append them a second time. VAN
+        # returns each page's link with the prior params still attached, so they
+        # accumulate page over page and the URL eventually 404s (observed on the
+        # events endpoint around $skip=700).
+        page_kwargs = {k: v for k, v in kwargs.items() if k != "params"}
         while isinstance(r, dict) and self.api.next_page_check_url(r):
             if endpoint == "savedLists" and not r["items"]:
                 break
             if endpoint == "printedLists" and not r["items"]:
                 break
-            r = self.api.get_request(r[self.pagination_key], **kwargs)
+            r = self.api.get_request(url=r[self.pagination_key], **page_kwargs)
             data.extend(self.api.data_parse(r))
         return data
 
     def post_request(self, endpoint, **kwargs):
-        return self.api.post_request(endpoint, **kwargs)
+        return self.api.post_request(url=endpoint, **kwargs)
 
     def delete_request(self, endpoint, **kwargs):
-        return self.api.delete_request(endpoint, **kwargs)
+        return self.api.delete_request(url=endpoint, **kwargs)
 
     def patch_request(self, endpoint, **kwargs):
-        return self.api.patch_request(endpoint, **kwargs)
+        return self.api.patch_request(url=endpoint, **kwargs)
 
     def put_request(self, endpoint, **kwargs):
-        return self.api.put_request(endpoint, **kwargs)
+        return self.api.put_request(url=endpoint, **kwargs)

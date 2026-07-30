@@ -4,7 +4,7 @@ import uuid
 from pathlib import Path
 from typing import Literal
 
-from google.oauth2.credentials import Credentials
+from google.auth.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
@@ -24,7 +24,7 @@ class GoogleDrive:
         app_creds: dict | str | Credentials
             Can be a dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console, or a path string pointing to credentials
-            saved on disk, or a google.oauth2.credentials.Credentials object. Required
+            saved on disk, or a google.auth.credentials.Credentials object. Required
             if env variable ``GOOGLE_DRIVE_CREDENTIALS`` is not populated.
 
     """
@@ -229,7 +229,6 @@ class GoogleDrive:
             permission dict
 
         """
-
         p = self.client.permissions().list(fileId=file_id).execute()
 
         return p

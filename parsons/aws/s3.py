@@ -1,11 +1,10 @@
 import logging
-import os
 import re
 
 import boto3
 from botocore.client import ClientError
 
-from parsons.utilities import files
+from parsons.utilities import check_env, files
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ class AWSConnection:
             # whenever the aws_access_key_id and aws_secret_access_key are passed.
 
             if aws_session_token is None and use_env_token:
-                aws_session_token = os.getenv("AWS_SESSION_TOKEN")
+                aws_session_token = check_env.check("AWS_SESSION_TOKEN", None, optional=True)
 
             self.session = boto3.Session(
                 aws_access_key_id=aws_access_key_id,
@@ -95,7 +94,6 @@ class S3:
             list
 
         """
-
         return [bucket.name for bucket in self.s3.buckets.all()]
 
     def bucket_exists(self, bucket):
@@ -110,7 +108,6 @@ class S3:
                 ``True`` if the bucket exists and ``False`` if not.
 
         """
-
         try:
             # If we can list the keys, the bucket definitely exists. We do this check since
             # it will account for buckets that live on other AWS accounts and that we
@@ -159,7 +156,6 @@ class S3:
                 'Size', and 'Owner'.
 
         """
-
         keys_dict = {}
         logger.debug(f"Fetching keys in {bucket} bucket")
 
@@ -238,7 +234,6 @@ class S3:
                 ``True`` if key exists and ``False`` if not.
 
         """
-
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
@@ -272,7 +267,6 @@ class S3:
                 The name of the bucket to create
 
         """
-
         self.client.create_bucket(Bucket=bucket)
 
     def put_file(self, bucket, key, local_path, acl="bucket-owner-full-control", **kwargs):
@@ -294,7 +288,6 @@ class S3:
                 info.
 
         """
-
         self.client.upload_file(local_path, bucket, key, ExtraArgs={"ACL": acl, **kwargs})
 
     def remove_file(self, bucket, key):
@@ -308,7 +301,6 @@ class S3:
                 The object key
 
         """
-
         self.client.delete_object(Bucket=bucket, Key=key)
 
     def get_file(self, bucket, key, local_path=None, **kwargs):
@@ -334,7 +326,6 @@ class S3:
                 The path of the new file
 
         """
-
         if not local_path:
             local_path = files.create_temp_file_for_path(key)
 
@@ -354,11 +345,10 @@ class S3:
             expires_in: int
                 The time, in seconds, until the url expires
         Returns:
-            Url:
+            str
                 A link to download the object
 
         """
-
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": bucket, "Key": key},
@@ -410,7 +400,6 @@ class S3:
                 for more info.
 
         """
-
         # If prefix, get all files for the prefix
         if origin_key.endswith("/"):
             resp = self.list_keys(
@@ -465,7 +454,6 @@ class S3:
                 list of buckets
 
         """
-
         all_buckets = self.list_buckets()
         buckets = [x for x in all_buckets if bucket_subname in x.split("-")]
 

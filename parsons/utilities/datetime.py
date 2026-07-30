@@ -16,7 +16,6 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
         Unix timestamp (int)
 
     """
-
     parsed_date = parse_date(value)
 
     if not parsed_date:
@@ -30,7 +29,6 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
 
 def convert_unix_to_readable(ts):
     """Converts UNIX timestamps to readable timestamps."""
-
     ts = datetime.utcfromtimestamp(int(ts) / 1000)
     ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
 
@@ -53,7 +51,6 @@ def parse_date(value: int | str | datetime.datetime, tzinfo=datetime.timezone.ut
         datetime.datetime or None
 
     """
-
     if not value:
         return None
 

@@ -11,7 +11,7 @@ def format_phone_number(phone_number, country_code="1"):
             The phone number to be formatted.
         country_code (str):
             The country code to be used as a prefix.
-        Defaults to "1" (United States).
+            Defaults to "1" (United States).
 
     Returns:
         str:

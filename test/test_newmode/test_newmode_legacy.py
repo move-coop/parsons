@@ -281,7 +281,7 @@ class TestNewmodeV2(unittest.TestCase):
             status_code=500,
         )
 
-        with pytest.raises(HTTPError, match="500 Server Error: None for url"):
+        with pytest.raises(HTTPError, match=f"Code: 500; URL: {V2_API_URL}v2.1/test-endpoint"):
             self.nm.base_request(
                 method="GET",
                 url=f"{V2_API_URL}v2.1/test-endpoint",
@@ -335,9 +335,11 @@ class TestNewmodeV2(unittest.TestCase):
         m.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=404)
 
         response = self.nm.default_client.request(
-            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+            url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET", raise_on_error=False
         )
-        with pytest.raises(HTTPError, match="404 Client Error: None for url"):
+        with pytest.raises(
+            HTTPError, match=f"404 Client Error: None for url: {V2_API_URL}v2.1/test-endpoint"
+        ):
             self.nm.checked_response(response, self.nm.default_client)
 
     @requests_mock.Mocker()

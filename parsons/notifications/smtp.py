@@ -1,7 +1,7 @@
 import smtplib
 
 from parsons.notifications.sendmail import SendMail
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 
 class SMTP(SendMail):
@@ -32,11 +32,16 @@ class SMTP(SendMail):
         tls=None,
         close_manually=False,
     ):
-        self.host = check("SMTP_HOST", host)
-        self.port = check("SMTP_PORT", port, optional=True) or 587
-        self.username = check("SMTP_USER", username)
-        self.password = check("SMTP_PASSWORD", password)
-        self.tls = check("SMTP_TLS", tls, optional=True) not in ("false", "False", "0", False)
+        self.host = check_env.check("SMTP_HOST", host)
+        self.port = check_env.check("SMTP_PORT", port, optional=True) or 587
+        self.username = check_env.check("SMTP_USER", username)
+        self.password = check_env.check("SMTP_PASSWORD", password)
+        self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in (
+            "false",
+            "False",
+            "0",
+            False,
+        )
         self.close_manually = close_manually
 
         self.conn = None

@@ -25,11 +25,10 @@ class SavedLists:
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
         logger.info(f"Found {tbl.num_rows} saved lists.")
         return tbl
@@ -46,7 +45,6 @@ class SavedLists:
             dict
 
         """
-
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
         logger.info(f"Found saved list {saved_list_id}.")
         return r
@@ -60,11 +58,10 @@ class SavedLists:
                 The saved list id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         ej = ExportJobs(self.connection)
         job = ej.export_job_create(saved_list_id)
 
@@ -94,11 +91,11 @@ class SavedLists:
         must be shared on the target folder.
 
         Args:
-            tbl: parsons.Table
+            tbl: Table
                 A parsons table object containing one column of person ids.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             folder_id: int
                 The folder id where the list will be stored.
             list_name: str
@@ -124,7 +121,7 @@ class SavedLists:
                 existing list that you would like to overwrite.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             dict
@@ -199,13 +196,13 @@ class SavedLists:
     ):
         """
             .. warning::
-               .. deprecated:: 0.X Use :func:`parsons.VAN.upload_saved_list_rest` instead.
+               .. deprecated:: 0.X Use :meth:`parsons.ngpvan.saved_lists.SavedLists.upload_saved_list_rest` instead.
 
         Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
         must be shared on the target folder.
 
         Args:
-            tbl: parsons.Table
+            tbl: Table
                 A parsons table object containing one column of person ids.
             list_name: str
                 The saved list name.
@@ -213,7 +210,7 @@ class SavedLists:
                 The folder id where the list will be stored.
             url_type: str
                 The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`Cloud Storage <cloud-storage>` for more details.
+                See :ref:`google/cloud_storage:Cloud Storage` for more details.
             id_type: str
                 The primary key type. The options, beyond ``vanid`` are specific to your
                 instance of VAN.
@@ -221,7 +218,7 @@ class SavedLists:
                 Replace saved list if already exists.
             `**url_kwargs`: kwargs
                 Arguments to configure your cloud storage url type. See
-                :ref:`Cloud Storage <cloud-storage>` for more details.
+                :ref:`google/cloud_storage:Cloud Storage` for more details.
 
         Returns:
             dict
@@ -294,11 +291,10 @@ class Folders:
         Get all folders owned or shared with the API user.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.connection.get_request("folders"))
         logger.info(f"Found {tbl.num_rows} folders.")
         return tbl
@@ -312,11 +308,10 @@ class Folders:
                 The folder id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         r = self.connection.get_request(f"folders/{folder_id}")
         logger.info(f"Found folder {folder_id}.")
         return r
@@ -331,21 +326,20 @@ class ExportJobs:
         Get export job types
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.connection.get_request("exportJobTypes"))
         logger.info(f"Found {tbl.num_rows} export job types.")
         return tbl
 
-    def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.nothing.com"):
+    def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.example.com"):
         """
         Creates an export job
 
         Currently, this is only used for exporting saved lists. It is
-        recommended that you use the :meth:`saved_list_download` method
+        recommended that you use the :meth:`parsons.ngpvan.saved_lists.SavedLists.download_saved_list` method
         instead.
 
         Args:
@@ -355,12 +349,12 @@ class ExportJobs:
                 The export type id, which defines the columns to export
             webhookUrl:
                 A webhook to include to notify as to the status of the export
+
         Returns:
             dict
                 The export job object
 
         """
-
         json = {
             "savedListId": str(list_id),
             "type": str(export_type),
@@ -380,11 +374,10 @@ class ExportJobs:
                 The xxport job id.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         r = self.connection.get_request(f"exportJobs/{export_job_id}")
         logger.info(f"Found export job {export_job_id}.")
         return r

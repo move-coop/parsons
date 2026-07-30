@@ -27,7 +27,7 @@ else:
 # Temporary deprecation warning for changes to install process
 warnings.warn(
     (
-        "The behavior of 'pip install parsons' has changed so only core dependencies are installed."
+        "The behavior of 'pip install parsons' has changed so only core dependencies are installed. "
         "Learn more: https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
     ),
     category=RuntimeWarning,
@@ -57,9 +57,9 @@ _CONNECTORS = {
     "Community": "parsons.community.community",
     "Controlshift": "parsons.controlshift.controlshift",
     "Copper": "parsons.copper.copper",
-    "CrowdTangle": "parsons.crowdtangle.crowdtangle",
     "DatabaseConnector": "parsons.databases.database_connector",
     "DBSync": "parsons.databases.db_sync",
+    "Daisychain": "parsons.daisychain.daisychain",
     "discover_database": "parsons.databases.discover_database",
     "MySQL": "parsons.databases.mysql.mysql",
     "Postgres": "parsons.databases.postgres.postgres",

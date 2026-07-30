@@ -2,7 +2,7 @@
 """Per-connector test-quality parity: coverage + mutation score.
 
 This is the measurement tool behind the test-refactor migration process
-(see docs/write_tests.rst, "Migrating an existing connector"). It answers the
+(see docs/contrib_docs/write_tests.rst, "Migrating an existing connector"). It answers the
 question that "all tests green" cannot: **is the new test suite at least as
 strong as the old one?**
 

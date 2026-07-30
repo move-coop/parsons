@@ -159,5 +159,14 @@ def test_check_env_field_beats_environment(monkeypatch):
 def test_check_env_missing_raises(monkeypatch):
     """No value and no environment variable raises."""
     monkeypatch.delenv("PARAM", raising=False)
-    with pytest.raises(KeyError):
+    with pytest.raises(
+        KeyError,
+        match="No 'PARAM' found. Store as environment variable or pass as an argument.",
+    ):
         check_env.check("PARAM", None)
+
+
+def test_check_env_optional_returns_none(monkeypatch):
+    """With optional=True and no value or environment variable, returns None instead of raising."""
+    monkeypatch.delenv("PARAM", raising=False)
+    assert check_env.check("PARAM", None, optional=True) is None

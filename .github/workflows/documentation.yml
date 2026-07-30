@@ -7,7 +7,8 @@ on:
     branches:
       - main
       - major-release
-
+    tags:
+      - "v*"
 permissions: read-all
 
 env:
@@ -23,25 +24,28 @@ env:
     *.github.com:443
     *.githubusercontent.com:443
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  linkcheck:
     runs-on: ubuntu-latest
 
+    if: github.event_name != 'pull_request'
+
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          # If it's a pull request, don't get full history.
-          fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
         with:
-          python-version: 3.13
+          python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
@@ -50,30 +54,93 @@ jobs:
           --upgrade
           --no-default-groups
           --group docs
+          --all-extras
+
+      - run: make linkcheck ${{ runner.debug == '1' && '--verbose' || '' }}
+        working-directory: docs
+        continue-on-error: true
+
+  test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
+        with:
+          disable-sudo: true
+          egress-policy: audit
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
+        with:
+          python-version: 3.14
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
+          --all-extras
+
+      - run: make test ${{ runner.debug == '1' && '--verbose' || '' }}
+        working-directory: docs
+
+  build-multiversion:
+    needs: test-build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
+        with:
+          disable-sudo: true
+          egress-policy: audit
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          # If it's a pull request, don't get full history.
+          fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
+
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
+        with:
+          python-version: 3.14
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --no-default-groups
+          --group docs
+          --all-extras
 
       - name: configure git
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: docs/html
-          key: sphinx-${{ hashFiles('pyproject.toml', 'setup.py', 'requirements-dev.txt', 'docs/make.py', 'docs/conf.py') }}
+          key: sphinx-${{ hashFiles('docs/make.py', 'docs/conf.py') }}
 
       - run: make build_docs
         working-directory: docs
 
-      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9
         with:
           path: docs/html/
 
   deploy:
-    needs: build
-    # Don't run this job on pull requests
-    if: github.event_name != 'pull_request'
+    needs: build-multiversion
 
     runs-on: ubuntu-latest
+
+    if: github.event_name != 'pull_request'
 
     permissions:
       pages: write
@@ -84,7 +151,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: step-security/harden-runner@fe104658747b27e96e4f7e80cd0a94068e53901d
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
         with:
           disable-sudo: true
           egress-policy: block

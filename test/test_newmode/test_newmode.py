@@ -221,7 +221,7 @@ def test_base_request_retries(newmode_v2, requests_mock, mocker):
         status_code=500,
     )
 
-    with pytest.raises(HTTPError, match="500 Server Error: None for url"):
+    with pytest.raises(HTTPError, match=f"Code: 500; URL: {V2_API_URL}v2.1/test-endpoint"):
         newmode_v2.base_request(
             method="GET",
             url=f"{V2_API_URL}v2.1/test-endpoint",
@@ -271,9 +271,11 @@ def test_checked_response_http_error(newmode_v2, requests_mock):
     requests_mock.get(f"{V2_API_URL}v2.1/test-endpoint", status_code=404)
 
     response = newmode_v2.default_client.request(
-        url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET"
+        url=f"{V2_API_URL}v2.1/test-endpoint", req_type="GET", raise_on_error=False
     )
-    with pytest.raises(HTTPError, match="404 Client Error: None for url"):
+    with pytest.raises(
+        HTTPError, match=f"404 Client Error: None for url: {V2_API_URL}v2.1/test-endpoint"
+    ):
         newmode_v2.checked_response(response, newmode_v2.default_client)
 
 

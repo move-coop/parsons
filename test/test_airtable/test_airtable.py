@@ -1,6 +1,6 @@
 """Tests for the Airtable connector.
 
-Reference example of the HTTP/REST testing pattern (see docs/write_tests.rst):
+Reference example of the HTTP/REST testing pattern (see docs/contrib_docs/write_tests.rst):
 pytest-native functions, the ``requests_mock`` fixture for the HTTP boundary, and
 canned response payloads loaded from ``data/`` via the ``load`` fixture.
 """

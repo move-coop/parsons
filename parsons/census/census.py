@@ -42,7 +42,7 @@ class Census:
                 e.g. ``'us:*'``
 
         Returns:
-            parsons.Table
+            Table
 
         """
         # set up the URL

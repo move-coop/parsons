@@ -13,7 +13,7 @@
 
 ## Tests
 
-- [ ] New/changed code is covered by tests that follow the [testing standard](../docs/write_tests.rst) (or explain below why not).
+- [ ] New/changed code is covered by tests that follow the [testing standard](../docs/contrib_docs/write_tests.rst) (or explain below why not).
 
 ## Breaking Changes
 

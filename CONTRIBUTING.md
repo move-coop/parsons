@@ -19,7 +19,7 @@ You can contribute by:
 Every code contribution should come with tests. Parsons has a single, canonical
 testing standard — how to structure a connector's tests, how to mock external
 services, and where to store test data — documented in
-[docs/write_tests.rst](docs/write_tests.rst). Please follow it for new tests, and
+[docs/contrib_docs/write_tests.rst](docs/contrib_docs/write_tests.rst). Please follow it for new tests, and
 migrate older tests toward it as you touch them.
 
 We are incrementally migrating the existing suite onto this standard. If you touch

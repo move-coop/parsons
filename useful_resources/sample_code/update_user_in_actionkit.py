@@ -25,10 +25,10 @@ config_vars = {
 
 # ### CODE
 
-import datetime  # noqa: E402
-import os  # noqa: E402
+import datetime  # noqa E402 module-import-not-at-top-of-file
+import os  # noqa E402 module-import-not-at-top-of-file
 
-from parsons import ActionKit, Redshift, Table, logger  # noqa: E402
+from parsons import ActionKit, Redshift, Table, logger  # noqa E402 module-import-not-at-top-of-file
 
 # Setup
 
@@ -62,7 +62,7 @@ query = """
 source_data = rs.query(query)
 
 if source_data.num_rows > 0:
-    logger.info(f"Will be updating voterbase_id for {source_data.num_rows}...")
+    logger.info("Will be updating voterbase_id for %s...", source_data.num_rows)
     for row in source_data:
         user = ak.get_user(user_id=row["id"])
         user_dict = {"fields": {"vb_voterbase_id": row["voterbase_id"]}}

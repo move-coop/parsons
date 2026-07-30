@@ -26,7 +26,7 @@ class Email:
                 for the dateModified field. Defaults to True (ascending).
 
         Returns:
-            Parsons Table
+            Table
                 Data from the email/messages endpoint. List of columns:
 
                 foreignMessageId, name, createdBy, dateCreated, dateScheduled, campaignID,
@@ -64,7 +64,6 @@ class Email:
             dict
 
         """
-
         params = {
             "$expand": (
                 "emailMessageContent, EmailMessageContentDistributions" if expand else None
@@ -88,7 +87,7 @@ class Email:
                 If A/B test results for emails should get aggregated.
 
         Returns:
-            Parsons Table
+            Table
                 All statistics returned from the get_email added to get_emails. Columns:
 
                 name, createdBy, dateCreated, dateModified, dateScheduled, foreignMessageId,
@@ -97,7 +96,6 @@ class Email:
                 unsubscribeCount, subject
 
         """
-
         email_list = []
 
         final_email_list = []

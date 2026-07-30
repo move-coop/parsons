@@ -41,7 +41,6 @@ class Airtable:
             A dictionary of the record
 
         """
-
         return self.client.get(record_id)
 
     def get_records(
@@ -97,11 +96,10 @@ class Airtable:
                 Number of rows to sample before determining columns
 
         Returns:
-            parsons.Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         if isinstance(fields, str):
             fields = [fields]
         # Raises an error if sort is None type. Thus, only adding if populated.
@@ -147,7 +145,6 @@ class Airtable:
                 Inserted row
 
         """
-
         resp = self.client.create(row, typecast=typecast)
         logger.info("Record inserted")
         return resp
@@ -159,8 +156,8 @@ class Airtable:
         order of the columns is irrelevant.
 
         Args:
-            table: A Parsons Table or list of dicts
-                Insert a Parsons table or list
+            table: A Table or list of dicts
+                Insert a Table or list
             typecast: boolean
                 Automatic data conversion from string values.
 
@@ -169,7 +166,6 @@ class Airtable:
                 Inserted rows
 
         """
-
         if isinstance(table, Table):
             table = table.to_dicts()
 
@@ -200,7 +196,6 @@ class Airtable:
                 Updated row
 
         """
-
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
         logger.info(f"{record_id} updated")
         return resp
@@ -212,8 +207,8 @@ class Airtable:
         will attempt to map based on column name, so the order of the columns is irrelevant.
 
         Args:
-            table: A Parsons Table or list of dicts
-                Insert a Parsons table or list. Record must contain the record `id` column
+            table: A Table or list of dicts
+                Insert a Table or list. Record must contain the record `id` column
                 and columns containing the fields to update
             typecast: boolean
                 Automatic data conversion from string values.
@@ -227,7 +222,6 @@ class Airtable:
                 Updated records
 
         """
-
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -266,7 +260,6 @@ class Airtable:
                 - `records`, a list of records
 
         """
-
         # the update/upsert API call expects a dict/object shape of:
         # { id: string, fields: { column_name: value, ... } }
         # the map_update_fields helper will convert the flat table field
@@ -300,7 +293,6 @@ class Airtable:
                 Record `id` and `deleted` status
 
         """
-
         resp = self.client.delete(record_id)
         logger.info(f"{record_id} updated")
         return resp
@@ -311,14 +303,13 @@ class Airtable:
 
         Args:
             table: Table | list[dict]
-                A Parsons Table or list containing each record `id` to delete.
+                A Table or list containing each record `id` to delete.
 
         Returns:
             list[dict]
                 Containing record `id` and `deleted` status
 
         """
-
         if isinstance(table, Table):
             table = table.to_dicts()
 

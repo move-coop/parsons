@@ -45,7 +45,7 @@ class Empower:
     def _get_data(self, cache):
         """Gets fresh data from Empower API based on cache setting."""
         if not cache or self.data is None:
-            r = self.client.get_request(self.empower_uri)
+            r = self.client.get_request(url=self.empower_uri)
             logger.info("Empower data downloaded.")
             return r
 
@@ -54,7 +54,6 @@ class Empower:
 
     def _empty_obj(self, obj_name):
         """Determine if a dict object is empty."""
-
         return len(self.data[obj_name]) == 0
 
     def get_profiles(self):
@@ -62,11 +61,10 @@ class Empower:
         Get Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["profiles"])
         for col in ["createdMts", "lastUsedEmpowerMts", "updatedMts"]:
             tbl.convert_column(col, lambda x: convert_unix_to_readable(x))
@@ -78,11 +76,10 @@ class Empower:
         Get active ctas assigned to Empower profiles.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["profiles"]).long_table("eid", "activeCtaIds")
         return tbl
 
@@ -91,11 +88,10 @@ class Empower:
         Get Empower regions.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["regions"])
         tbl.convert_column("inviteCodeCreatedMts", lambda x: convert_unix_to_readable(x))
         return tbl
@@ -105,11 +101,10 @@ class Empower:
         Get Empower call to action results.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         # unpacks answerIdsByPromptId into standalone rows
         tbl = Table(self.data["ctaResults"])
         tbl.convert_column("contactedMts", lambda x: convert_unix_to_readable(x))
@@ -125,7 +120,6 @@ class Empower:
 
     def _split_ctas(self):
         """Internal method to split CTA objects into tables."""
-
         ctas = Table(self.data["ctas"])
         for col in [
             "createdMts",
@@ -156,11 +150,10 @@ class Empower:
         Get Empower calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         return self._split_ctas()["ctas"]
 
     def get_cta_prompts(self):
@@ -168,11 +161,10 @@ class Empower:
         Get Empower calls to action prompts.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         return self._split_ctas()["cta_prompts"]
 
     def get_cta_prompt_answers(self):
@@ -180,11 +172,10 @@ class Empower:
         Get Empower calls to action prompt answers.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         return self._split_ctas()["cta_prompt_answers"]
 
     def get_cta_regions(self):
@@ -192,11 +183,10 @@ class Empower:
         Get a list of regions that each call to active is active in.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "regionIds")
         return tbl
 
@@ -205,11 +195,10 @@ class Empower:
         Get a list of shareables associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "shareables")
         return tbl
 
@@ -218,11 +207,10 @@ class Empower:
         Get a list prioritizations associated with calls to action.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table(self.data["ctas"]).long_table("id", "prioritizations")
         return tbl
 
@@ -231,8 +219,8 @@ class Empower:
         Get outreach entries.
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
         if self._empty_obj("outreachEntries"):
@@ -254,10 +242,9 @@ class Empower:
         Meant to facilitate pure ELT pipelines
 
         Returns:
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+            Table
+                See :ref:`Table` for output options.
 
         """
-
         tbl = Table([self.data])
         return tbl

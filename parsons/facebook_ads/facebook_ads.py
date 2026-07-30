@@ -10,6 +10,7 @@ from facebook_business.api import FacebookAdsApi
 from joblib import Parallel, delayed
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ class FacebookAds:
     # unambiguous.
     # IMPORTANT - Keep these maps in sync with the comments in the ``add_users_to_custom_audience``
     # method!
-    # TODO add support for parsing full names from one column
+    # TODO(jburchard): add support for parsing full names from one column
     KeyMatchMap = {
         FBKeySchema.email: ["email", "email address", "voterbase_email"],
         FBKeySchema.fn: ["fn", "first", "first name", "vb_tsmart_first_name"],
@@ -79,16 +80,10 @@ class FacebookAds:
     }
 
     def __init__(self, app_id=None, app_secret=None, access_token=None, ad_account_id=None):
-        try:
-            self.app_id = app_id or os.environ["FB_APP_ID"]
-            self.app_secret = app_secret or os.environ["FB_APP_SECRET"]
-            self.access_token = access_token or os.environ["FB_ACCESS_TOKEN"]
-            self.ad_account_id = ad_account_id or os.environ["FB_AD_ACCOUNT_ID"]
-        except KeyError as error:
-            logger.error(
-                "FB Marketing API credentials missing. Must be specified as env vars or kwargs"
-            )
-            raise error
+        self.app_id = check_env.check("FB_APP_ID", app_id)
+        self.app_secret = check_env.check("FB_APP_SECRET", app_secret)
+        self.access_token = check_env.check("FB_ACCESS_TOKEN", access_token)
+        self.ad_account_id = check_env.check("FB_AD_ACCOUNT_ID", ad_account_id)
 
         FacebookAdsApi.init(self.app_id, self.app_secret, self.access_token)
         self.ad_account = AdAccount(f"act_{self.ad_account_id}")
@@ -118,7 +113,7 @@ class FacebookAds:
     @staticmethod
     def _preprocess_dob_column(table, column):
         # Parse the DOB column into 3 new columns, and remove the original column
-        # TODO Throw an error if the values are not 6 characters long?
+        # TODO(jburchard): Throw an error if the values are not 6 characters long?
 
         table.add_column(FBKeySchema.doby, lambda row: row[column][:4] if row[column] else None)
         table.add_column(FBKeySchema.dobm, lambda row: row[column][4:6] if row[column] else None)
@@ -159,7 +154,6 @@ class FacebookAds:
                 The prepared table
 
         """
-
         # Copy the table to avoid messing up the source table
         t = copy.deepcopy(users_table)
 
@@ -241,7 +235,6 @@ class FacebookAds:
             ID of the created audience
 
         """
-
         if not self._is_valid_data_source(data_source):
             raise KeyError("Invalid data_source provided")
 
@@ -264,7 +257,6 @@ class FacebookAds:
                 The ID of the custom audience to delete.
 
         """
-
         CustomAudience(audience_id).api_delete()
 
     @staticmethod
@@ -358,10 +350,9 @@ class FacebookAds:
             audience_id: str
                 The ID of the custom audience to delete.
             users_table: obj
-                Parsons table
+                Table
 
         """
-
         logger.info(
             f"Adding custom audience users from provided table with {users_table.num_rows} rows"
         )

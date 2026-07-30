@@ -1,7 +1,7 @@
 """Tests for the Airmeet connector.
 
 Airmeet is built on ``APIConnector``, so tests mock the real HTTP boundary with
-the ``requests_mock`` fixture (see docs/write_tests.rst). Registering the exact
+the ``requests_mock`` fixture (see docs/contrib_docs/write_tests.rst). Registering the exact
 endpoint URL means an unexpected call raises ``NoMockAddress``, so the request
 path is verified implicitly; query-string params are checked where they matter.
 """

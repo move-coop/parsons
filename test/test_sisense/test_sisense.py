@@ -1,7 +1,7 @@
 """Tests for the Sisense connector.
 
 Sisense is built on APIConnector, so tests mock the HTTP boundary with the
-``requests_mock`` fixture (see docs/write_tests.rst).
+``requests_mock`` fixture (see docs/contrib_docs/write_tests.rst).
 """
 
 from parsons import Sisense

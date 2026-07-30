@@ -17,7 +17,6 @@ https://developer.box.com/guides/applications/platform-apps/create/
 """
 
 import logging
-import os
 import tempfile
 from pathlib import Path
 from typing import Literal
@@ -31,6 +30,7 @@ from box_sdk_gen.managers.uploads import (
 from box_sdk_gen.networking.auth import Authentication
 
 from parsons.etl.table import Table
+from parsons.utilities import check_env
 from parsons.utilities.files import create_temp_file, create_temp_file_for_path
 
 logger = logging.getLogger(__name__)
@@ -65,7 +65,7 @@ class Box:
 
     def __init__(self, auth: Authentication | None = None) -> None:
         if auth is None:
-            access_token = os.environ["BOX_ACCESS_TOKEN"]
+            access_token = check_env.check("BOX_ACCESS_TOKEN", None)
             oauth = BoxDeveloperTokenAuth(token=access_token)
             self.client = BoxClient(auth=oauth)
         else:
@@ -351,15 +351,15 @@ class Box:
         """Save the passed file to Box.
 
         Args:
-            file: Path
+            file:
                The local file to be saved to Box.
-            path: str
+            path:
                Optionally, Box path str where table should be saved. Any back
                slashes will be treated as forward slashes. Defaults to default folder with
                a name matching the file name.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         """
         if path is not None:
@@ -375,16 +375,16 @@ class Box:
         """Save the passed file to Box.
 
         Args:
-            file: Path
+            file:
                The local file to be saved to Box.
-            file_name: str
+            file_name:
                Optionally, the filename under which it should be saved in Box. Defaults to
                the file name.
-            folder_id: str
+            folder_id:
                Optionally, the id of the subfolder in which it should be saved.
 
         Returns:
-            str: The uploaded Box File object's id.
+            The uploaded Box File object's id.
 
         Raises:
             SystemError:
@@ -429,20 +429,19 @@ class Box:
         """Download a Box object to a local file.
 
         Args:
-            path: str
+            path:
                 The Box path str. Any back slashes will be
                 treated as forward slashes.
-            local_path: Path
+            local_path:
                 The local path where the file will be downloaded. If not
                 specified, a temporary file will be created and returned, and
                 that file will be removed automatically when the script is done
                 running.
 
         Returns:
-            Path: The Path of the new file.
+            The Path of the new file.
 
         """
-
         # Temp file will be around as long as enclosing process is running,
         # which we need, because the Table we return will continue to use it.
         use_local_path = Path(create_temp_file_for_path(path)) if local_path is None else local_path

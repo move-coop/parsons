@@ -72,7 +72,6 @@ class Alchemer:
             Table Class
 
         """
-
         r = self._client.api.survey.list(page)
         data = r["data"]
 
@@ -104,7 +103,6 @@ class Alchemer:
             Table Class
 
         """
-
         r = self._client.api.surveyresponse.list(survey_id, page)
         logger.info(f"{survey_id}: {r['total_count']} responses.")
         data = r["data"]

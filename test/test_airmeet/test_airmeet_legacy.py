@@ -451,10 +451,6 @@ class TestAirmeet(unittest.TestCase):
         assert len(result) == 1, "The result should contain exactly one record"
         assert len(result[0]["utms"]) == 3, "The record should contain exactly three UTMs"
 
-    @pytest.mark.skip(
-        reason="download_session_recordings had a TypeError fixed during migration; this "
-        "pre-migration test asserts the old, broken call signature. See test_airmeet.py."
-    )
     def test_download_session_recordings(self):
         # Test get the session recordings for an Airmeet.
         self.airmeet.client.get_request = mock.MagicMock(

@@ -231,6 +231,12 @@ jobs:
   parity-mutation:
     runs-on: ubuntu-latest
 
+    # Gate on the pytest matrix. Mutation testing re-runs the tests itself and is
+    # only meaningful when they pass on clean code, so there's nothing to learn from
+    # running it on an already-red PR — and this way it shows as skipped, not failed,
+    # when the suite is broken, instead of burning the slow mutation compute.
+    needs: pytest
+
     # Advisory only (see below): mutation runs are slow, and a PR that touches many
     # connectors can exceed the time budget, so never let this block the build.
     continue-on-error: true

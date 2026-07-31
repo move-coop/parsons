@@ -1,6 +1,6 @@
-=========================================
+#########################################
 How to Write Tests for Parsons Connectors
-=========================================
+#########################################
 
 This is the single, canonical guide for writing tests in Parsons. It defines
 **one** way to structure a connector's tests, **one** decision rule for how to
@@ -14,9 +14,8 @@ migrate it to this standard as you go.
    :depth: 2
 
 
-*******************
 Guiding principle
-*******************
+=================
 
 **Mock the outermost boundary you do not own. Never mock the connector's own
 methods.**
@@ -51,9 +50,8 @@ Almost every connector falls into one of three categories:
 The rest of this guide walks through each one.
 
 
-*******************
 Getting started
-*******************
+===============
 
 Every connector's tests live in a single directory with a fixed layout:
 
@@ -81,9 +79,8 @@ fixtures for setup instead of ``setUp``/``tearDown``. At minimum, add one
 plus tests for the error handling and edge cases that matter for that method.
 
 
-***************************
 HTTP / REST API connectors
-***************************
+==========================
 
 This is the most common category — any connector built on ``APIConnector`` or
 that uses ``requests`` directly. Because those calls go through the ``requests``
@@ -164,9 +161,8 @@ assert the connector raises or handles it:
             mailchimp.get_campaigns()
 
 
-************************************
 Third-party SDK / library connectors
-************************************
+====================================
 
 Some connectors wrap a vendor's Python client (``simple-salesforce``,
 ``slack_sdk``, ``boto3``, the Google API clients, etc.) rather than calling HTTP
@@ -215,9 +211,8 @@ constructor at its import site instead:
 ``mocker.patch("parsons.salesforce.salesforce.SalesforceClient", ...)``.
 
 
-*******************************
 Protocol / database connectors
-*******************************
+==============================
 
 Connectors that speak a stateful protocol — SMTP, SFTP, a DB-API database — are
 awkward to mock method-by-method. Prefer a small **fake class** that implements
@@ -248,9 +243,8 @@ conversation (connect → act → quit) or when the same fake is reused across m
 tests. For a one-off, a ``mocker.MagicMock`` is fine.
 
 
-***********
 Test data
-***********
+=========
 
 Keep canned data out of the test body so tests stay readable.
 
@@ -281,9 +275,8 @@ as ``.json`` keeps them language-neutral, diffable, and easy to regenerate from 
 real API response.
 
 
-*************************
 Fixtures and shared setup
-*************************
+=========================
 
 Use pytest fixtures, defined in the connector's ``conftest.py``, in place of
 ``setUp``/``tearDown``:
@@ -314,9 +307,8 @@ The **root** ``test/conftest.py`` provides helpers available everywhere:
 * ``sample_data`` / ``tbl`` — ready-made sample data fixtures.
 
 
-***********
 Live tests
-***********
+==========
 
 A **live test** hits a real external service with real credentials. These cannot
 run in CI (no secrets, no network guarantees), so they are **skipped by default**.
@@ -341,9 +333,8 @@ Live tests **supplement** mocked unit tests; they never replace them. Every publ
 method still needs a mocked test that runs in CI.
 
 
-***********
 Checklist
-***********
+=========
 
 Before opening a PR, confirm your connector's tests:
 

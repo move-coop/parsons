@@ -55,7 +55,14 @@ def _show(ref_path: str) -> str | None:
 
 def legacy_files() -> list[str]:
     out = _git("ls-files", "test/**/*_legacy.py", "test/*_legacy.py").stdout
-    return sorted(line for line in out.splitlines() if line.endswith("_legacy.py"))
+    # Connector legacy suites are named ``test_<connector>_legacy.py``; the
+    # ``test_`` prefix filter keeps this tool (``verify_legacy.py``) from matching
+    # itself.
+    return sorted(
+        line
+        for line in out.splitlines()
+        if Path(line).name.startswith("test_") and line.endswith("_legacy.py")
+    )
 
 
 def find_original(legacy_path: str, base: str) -> str | None:

@@ -9,10 +9,6 @@ mock the outside world, and **one** convention for where test data lives.
 If you are updating an older test that does not follow these conventions, please
 migrate it to this standard as you go.
 
-.. contents:: On this page
-   :local:
-   :depth: 2
-
 
 Guiding principle
 =================

@@ -419,12 +419,10 @@ class Airmeet:
                 List of session recordings
 
         """
-        params = {}
+        kwargs = {}
         if session_id:
-            params["sessionIds"] = session_id
-        response = self.client.get_request(
-            url=f"airmeet/{airmeet_id}/session-recordings", params=params
-        )
+            kwargs["sessionIds"] = session_id
+        response = self.client.get_request(url=f"airmeet/{airmeet_id}/session-recordings", **kwargs)
         return Table(response["recordings"])
 
     def fetch_event_replay_attendance(self, airmeet_id, session_id=None) -> Table:

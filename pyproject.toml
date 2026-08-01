@@ -75,10 +75,10 @@ dbt-postgres = [
     "rich >= 14.0"
 ]
 dbt-snowflake = [
-    "dbt-snowflake >= 1.8,<1.12;python_version < '3.11'",
-    "dbt-snowflake >= 1.8;python_version >= '3.11'",
+    "dbt-snowflake >= 1.8",
     "dbt-core >= 1.8;python_version < '3.14'",
     "dbt-core >= 1.12;python_version >= '3.14'",
+    "cryptography < 50;python_version < '3.11'",
     "rich >= 14.0"
 ]
 facebook = [

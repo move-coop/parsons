@@ -51,34 +51,34 @@ catalist = ["paramiko >= 3.0"]
 civis = ["civis >= 2.0"]
 dbt-duckdb = [
     "dbt-duckdb >= 1.8",
-    "dbt-core >= 1.8;python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
     "rich >= 14.0"
 ]
 dbt-redshift = [
     "dbt-redshift >= 1.8",
-    "dbt-core >= 1.8;python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
     "lxml >= 6.0.1",
     "rich >= 14.0",
 ]
 dbt-bigquery = [
     "dbt-bigquery >= 1.8",
-    "dbt-core >= 1.8;python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
     "rich >= 14.0"
 ]
 dbt-postgres = [
     "dbt-postgres >= 1.8",
-    "dbt-core >= 1.8;python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
     "rich >= 14.0"
 ]
 dbt-snowflake = [
     "dbt-snowflake >= 1.8",
-    "dbt-core >= 1.8;python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
-    "cryptography < 50;python_version < '3.11'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
+    "cryptography < 50; python_version < '3.11'",
     "rich >= 14.0"
 ]
 facebook = [
@@ -202,8 +202,8 @@ docs = [
     "sphinxcontrib-googleanalytics ~= 0.5",
     "sphinx-lint == 1.0.2",
     "sphinx-multiversion ~= 0.2.4",
-    "Sphinx ~= 7.4.7;python_version < '3.11'",
-    "Sphinx ~= 8.2.3;python_version >= '3.11'",
+    "Sphinx ~= 7.4.7; python_version < '3.11'",
+    "Sphinx ~= 8.2.3; python_version >= '3.11'",
 ]
 lint = [
     "ruff == 0.15.14",
@@ -226,8 +226,8 @@ test = [
     "pytest-recording ~= 0.13.4",
     "pytest-xdist ~= 3.8.0",
     "requests-mock ~= 1.12.1",
-    "testfixtures ~= 8.3.0;python_version < '3.11'",
-    "testfixtures ~= 9.1.0;python_version >= '3.11'",
+    "testfixtures ~= 8.3.0; python_version < '3.11'",
+    "testfixtures ~= 9.1.0; python_version >= '3.11'",
     "dbt-duckdb >= 1.8, <1.11",
 ]
 

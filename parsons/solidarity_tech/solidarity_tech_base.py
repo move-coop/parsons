@@ -1,6 +1,7 @@
 import logging
 from collections.abc import Mapping
 from datetime import datetime
+from typing import cast
 
 import numpy as np
 import requests
@@ -25,7 +26,7 @@ class SolidarityTechBase:
                 Not required if the `SOLIDARITY_TECH_TOKEN` env variable is set.
 
         """
-        self.api_token: str = check_env.check("SOLIDARITY_TECH_TOKEN", api_token)
+        self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_TOKEN", api_token))
         self.headers = {"authorization": f"Bearer {self.api_token}"}
         self.api_url = "https://api.solidarity.tech/v1/"
         self.api = RateLimitedAPIConnector(

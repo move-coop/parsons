@@ -204,7 +204,7 @@ docs = [
     "Sphinx>=8.1,<9.0",
 ]
 lint = [
-    "ruff>=0.15,<0.16",
+    "ruff>=0.16,<0.17",
 ]
 pre-commit = [
     "pre-commit>=4.6",

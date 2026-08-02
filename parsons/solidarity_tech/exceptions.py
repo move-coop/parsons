@@ -11,7 +11,7 @@ class STUnexpectedResponseError(HTTPError):
             err_msg += f" (Status Code {response.status_code})"
         if message:
             err_msg += f" -- {message}"
-        super().__init__(err_msg)
+        super().__init__(err_msg, response=response)
 
 
 class STFailedResponseError(HTTPError):
@@ -23,4 +23,4 @@ class STFailedResponseError(HTTPError):
             err_msg += f" (Status Code {response.status_code})"
         if message:
             err_msg += f" -- {message}"
-        super().__init__(err_msg)
+        super().__init__(err_msg, response=response)

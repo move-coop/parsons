@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -28,6 +25,10 @@ class SolidarityTechOrganizations(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the organizations.
 
@@ -42,8 +43,8 @@ class SolidarityTechOrganizations(SolidarityTechBase):
             since=since,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "organizations listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -58,12 +59,12 @@ class SolidarityTechOrganizations(SolidarityTechBase):
             id:
                 ID of the organization to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single organization entry.
-
-        Raises:
-            HTTPError: If the organization is not found.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_organizations-id>`__
@@ -71,10 +72,10 @@ class SolidarityTechOrganizations(SolidarityTechBase):
         """
         res = self._get_single_resource("organizations", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("Organization not found.", response=res)
+        expected_responses = {
+            200: (True, "organization found"),
+            404: (False, "organization not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

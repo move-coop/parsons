@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import InviteType, ScopeType
 
@@ -29,6 +26,10 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the team member entries.
 
@@ -43,8 +44,8 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             since=since,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "team members listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -89,14 +90,14 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             task_id:
                 Optional task ID to assign the member to.
 
+        Raises:
+            :class:`ValueError`: If none of ``member_id``, ``phone_number`` or ``email`` is provided.
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            ValueError: If ``member_id``, ``phone_number``, and ``email`` are all None.
-            HTTPError: If the parameters are invalid.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
@@ -122,13 +123,11 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             "team_members", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
-        if res.status_code not in (201, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Invalid parameters", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "team member created"),
+            422: (False, "invalid parameters"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_team_member(
         self,
@@ -155,7 +154,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             True if the operation was successful, False otherwise.
 
         Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
@@ -173,7 +172,5 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {200: (True, "team member updated")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

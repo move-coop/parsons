@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -34,6 +33,10 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             agent_user_id:
                 Agent User ID to filter agent user assignments related to a specific agent user.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the scheduled task entries.
 
@@ -50,8 +53,8 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "scheduled tasks listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -66,11 +69,12 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             id:
                 ID of the scheduled task to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single scheduled task entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_scheduled-tasks-id>`__
@@ -78,8 +82,11 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         """
         res = self._get_single_resource("scheduled_tasks", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "scheduled task found"),
+            404: (False, "scheduled task not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -113,12 +120,13 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             marked_as_completed:
                 Indicates if the task has been marked as completed.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_scheduled-tasks>`__
@@ -138,10 +146,11 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "scheduled task created"),
+            404: (False, "agent or user agent not in organization"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_scheduled_task(
         self,
@@ -174,13 +183,13 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             marked_as_completed:
                 Indicates if the task has been marked as completed.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the update could not be processed.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_scheduled-tasks-id>`__
@@ -201,10 +210,12 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "scheduled task updated"),
+            404: (False, "scheduled task not found"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_scheduled_task(
         self,
@@ -217,12 +228,13 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             id:
                 Identifier for the scheduled task to delete.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_scheduled-tasks-id>`__
@@ -230,7 +242,5 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         """
         res = self._del_request("scheduled_tasks", id)
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "scheduled task not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

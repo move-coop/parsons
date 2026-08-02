@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -28,6 +25,10 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the donation charges.
 
@@ -43,8 +44,8 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "donation charges listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -59,11 +60,12 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
             id:
                 ID of the donation charge to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single agent assignment entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_donation-charges-id>`__
@@ -71,10 +73,7 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
         """
         res = self._get_single_resource("donation_charges", id)
 
-        if res.status_code == 404:
-            raise HTTPError("Donation charge not found", response=res)
-
-        if res.status_code:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {404: (False, "donation charge not found")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

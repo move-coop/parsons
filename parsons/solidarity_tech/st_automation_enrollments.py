@@ -1,8 +1,5 @@
 import logging
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -23,13 +20,13 @@ class SolidarityTechAutomationEnrollments(SolidarityTechBase):
             user_id:
                 The ID of the user to enroll.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: Operation failed because automation is inactive.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_automation-enrollments>`__
@@ -42,10 +39,9 @@ class SolidarityTechAutomationEnrollments(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 403, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Automation is inactive", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "enrollment created"),
+            403: (False, "automation not accessible"),
+            422: (False, "inactive automation"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

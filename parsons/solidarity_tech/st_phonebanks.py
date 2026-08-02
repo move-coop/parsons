@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -16,7 +13,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         event_id: int = 0,
-        ids: list[int] | None = None,
+        ids: list[int] | str | None = None,
         include_stats: bool = False,
     ) -> str:
         """
@@ -33,12 +30,17 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             event_id:
                 Filters phonebanks by event_id within the accessible scope.
             ids:
-                Filters to specific phonebank ids. Accepts a comma-separated string (e.g. "12,34").
+                Filters to specific phonebank ids.
+                Accepts a comma-separated string (e.g. "12,34").
             include_stats:
                 If True, each phonebank row also includes aggregate funnel numbers
                 ``attempts`` (contact attempts), ``contacted`` (distinct people attempted),
                 and ``reached`` (distinct people on answered calls).
                 Default is False.
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
             All the phonebanks.
@@ -47,6 +49,9 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_phonebanks>`__
 
         """
+        if isinstance(ids, list):
+            ids = ",".join(str(id) for id in ids)
+
         params = {"event_id": event_id, "ids": ids, "include_stats": include_stats}
         res = self._get_resources(
             "phonebanks",
@@ -56,8 +61,8 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "phonebanks listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -72,12 +77,12 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             id:
                 ID of the phonebank to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single phonebank entry.
-
-        Raises:
-            HTTPError: If the phonebank is not found.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_phonebanks-id>`__
@@ -85,10 +90,10 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         """
         res = self._get_single_resource("phonebanks", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("Phonebank not found.", response=res)
+        expected_responses = {
+            200: (True, "phonebank found"),
+            404: (False, "phonebank not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

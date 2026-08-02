@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -28,6 +25,10 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the email blasts.
 
@@ -42,8 +43,8 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
             since=since,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "email blasts listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -58,11 +59,12 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
             id:
                 ID of the email blast to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single email blast entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_email-blasts-id>`__
@@ -70,10 +72,10 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
         """
         res = self._get_single_resource("email_blasts", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("Email blast not found", response=res)
+        expected_responses = {
+            200: (True, "email blast found"),
+            422: (False, "email blast not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

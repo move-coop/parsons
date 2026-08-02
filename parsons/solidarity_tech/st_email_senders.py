@@ -1,6 +1,5 @@
 import logging
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -23,6 +22,10 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
             offset:
                 Number of items to skip before starting to return the results.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the email senders.
 
@@ -37,7 +40,7 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "email senders listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

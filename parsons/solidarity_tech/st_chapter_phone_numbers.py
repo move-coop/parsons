@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -29,11 +28,12 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
             chapter_id:
                 Filters chapter phone numbers by chapter_id within the accessible scope.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the chapter phone numbers entries.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_chapter-phone-numbers>`__
@@ -48,7 +48,7 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "chapter phone numbers listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

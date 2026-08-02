@@ -3,9 +3,7 @@ from datetime import datetime
 from typing import Literal
 
 import numpy as np
-from requests.exceptions import HTTPError
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import EventType, ScopeType
 
@@ -46,6 +44,10 @@ class SolidarityTechEvents(SolidarityTechBase):
             scope_type:
                 Type of the scope to filter events by.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the events.
 
@@ -65,8 +67,8 @@ class SolidarityTechEvents(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "events listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -126,15 +128,13 @@ class SolidarityTechEvents(SolidarityTechBase):
             skip_duplicate_check:
                 If True, bypasses duplicate event detection. Default is False.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the required scope is not found.
-            HTTPError: If a duplicate event is detected.
-            HTTPError: If event data validation fails.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_events>`__
@@ -160,20 +160,13 @@ class SolidarityTechEvents(SolidarityTechBase):
         res = self._post_request(
             "events", payload=payload, additional_headers={"content-type": "application/json"}
         )
-
-        if res.status_code not in (201, 404, 409, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("Event scope not found", response=res)
-
-        if res.status_code == 409:
-            raise HTTPError("Duplicate event detected", response=res)
-
-        if res.status_code == 422:
-            raise HTTPError("Data validation error", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "event created"),
+            404: (False, "scope not found"),
+            409: (False, "duplicate event detected"),
+            422: (False, "validation error"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def get_event(
         self,
@@ -197,11 +190,12 @@ class SolidarityTechEvents(SolidarityTechBase):
             id:
                 ID of the event to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single event.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_events-id>`__
@@ -210,7 +204,10 @@ class SolidarityTechEvents(SolidarityTechBase):
         params = {"include_hosts": include_hosts}
         res = self._get_single_resource("event_sessions", id, params=params)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "event found"),
+            404: (False, "event not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

@@ -1,8 +1,5 @@
 import logging
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import InteractionType
 
@@ -38,13 +35,13 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             interaction_method:
                 Interaction type that produced the note.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the operation fails with a 422 status code.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_user-notes>`__
@@ -60,15 +57,12 @@ class SolidarityTechUserNotes(SolidarityTechBase):
         }
         res = self._post_request("user_notes", params=params)
 
-        if res.status_code not in (201, 404, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError(
-                "Unprocessable request, perhaps interaction_method is invalid?", response=res
-            )
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "user note created successfully"),
+            404: (False, "unprocessable entity"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_user_note(
         self,
@@ -88,12 +82,13 @@ class SolidarityTechUserNotes(SolidarityTechBase):
                 Identifier for the agent to whom the note
                 is attributed, if applicable.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_user-notes-id>`__
@@ -102,7 +97,8 @@ class SolidarityTechUserNotes(SolidarityTechBase):
         params = {"user_id": user_id, "agent_id": agent_id}
         res = self._del_request("user_notes", id, params=params)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "user note deleted"),
+            404: (False, "user note not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

@@ -2,9 +2,7 @@ import logging
 from datetime import datetime
 
 import numpy as np
-from requests.exceptions import HTTPError
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import EventType
 
@@ -22,7 +20,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         starts_after: int | datetime | None = None,
         starts_before: int | datetime | None = None,
         chapter_id: int | None = None,
-        event_tags: str | None = None,
+        event_tags: list[str] | str | None = None,
         include_rsvp_counts: bool | None = None,
         include_confirmed_counts: bool | None = None,
         include_hosts: bool | None = None,
@@ -69,6 +67,10 @@ class SolidarityTechEventSessions(SolidarityTechBase):
                 If True, returns {"count": n} of matching sessions instead of the rows.
                 Combines with all other filters.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the event sessions.
 
@@ -76,6 +78,9 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-sessions>`__
 
         """
+        if isinstance(event_tags, list):
+            event_tags = ",".join(str(tag) for tag in event_tags)
+
         params = {
             "event_id": event_id,
             "upcoming": upcoming,
@@ -96,8 +101,8 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "filtered event sessions listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -152,13 +157,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             tags:
                 Array of tags for the event session.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the entity is not processable.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_event-sessions>`__
@@ -183,13 +188,11 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
-        if res.status_code not in (201, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Unprocessable entity", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "event session created"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def get_event_session(
         self,
@@ -207,11 +210,12 @@ class SolidarityTechEventSessions(SolidarityTechBase):
                 {id, first_name, last_name} objects resolved from host_user_ids,
                 in host order.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single event session.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_event-sessions-id>`__
@@ -220,9 +224,11 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         params = {"include_hosts": include_hosts}
         res = self._get_single_resource("event_sessions", id, params=params)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
+        expected_responses = {
+            200: (True, "event session found"),
+            404: (False, "event session not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
         return res.text
 
     def update_event_session(
@@ -272,13 +278,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             tags:
                 List of tags for the event session.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: Unprocessable Entity (422) error.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_event-sessions-id>`__
@@ -304,13 +310,12 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Unprocessable entity", response=res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "event session updated"),
+            404: (False, "event session not found"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_event_session(
         self,
@@ -323,12 +328,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             id:
                 Identifier of the event session to delete
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_event-sessions-id>`__
@@ -339,10 +345,10 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             id,
         )
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {
+            404: (False, "event session not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def add_event_host(
         self,
@@ -366,12 +372,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             user_id:
                 ID of the user to add as a host.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_event-sessions-id-hosts>`__
@@ -386,10 +393,11 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "host added"),
+            404: (False, "user or event session not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def remove_event_host(
         self,
@@ -410,12 +418,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             user_id:
                 ID of the user to remove from hosts.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_event-sessions-id-hosts-user-id>`__
@@ -426,7 +435,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             f"{id}/hosts/{user_id}",
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "host removed"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

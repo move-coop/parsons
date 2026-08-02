@@ -3,9 +3,7 @@ import numbers
 from datetime import datetime
 
 import numpy as np
-from requests.exceptions import HTTPError
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
 
@@ -36,6 +34,10 @@ class SolidarityTechUserLists(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the user lists.
 
@@ -50,8 +52,8 @@ class SolidarityTechUserLists(SolidarityTechBase):
             since=since,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "user lists listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -66,11 +68,12 @@ class SolidarityTechUserLists(SolidarityTechBase):
             id:
                 ID of the user list to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single user list.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_user-lists-id>`__
@@ -78,8 +81,11 @@ class SolidarityTechUserLists(SolidarityTechBase):
         """
         res = self._get_single_resource("user_lists", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "user list found"),
+            404: (False, "user list not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -112,13 +118,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
             ``parameters``:
                 Parameters for filtering users in QueryBuilder format.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the operation fails with a 422 status code.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_user-lists>`__
@@ -136,13 +142,11 @@ class SolidarityTechUserLists(SolidarityTechBase):
             "user_lists", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
-        if res.status_code not in (201, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Unprocessable request, likely issue with parameters", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "user list created"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_user_list(
         self,
@@ -173,13 +177,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
             event_id:
                 Identifier for the associated event, if applicable.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_user-lists-id>`__
@@ -199,10 +203,11 @@ class SolidarityTechUserLists(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "user list updated"),
+            404: (False, "user list not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_user_list(
         self,
@@ -215,12 +220,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
             id:
                 Identifier of the user list to delete
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_user-lists-id>`__
@@ -231,7 +237,8 @@ class SolidarityTechUserLists(SolidarityTechBase):
             id,
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "user list deleted"),
+            404: (False, "user list not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

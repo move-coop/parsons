@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -34,6 +33,10 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             session_id:
                 Filters attendances by session_id (calendar item id) within the accessible scope.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the event attendance entries.
 
@@ -50,8 +53,8 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "event attendances listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -75,12 +78,13 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             attended:
                 Indicates if the user attended the event.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_event-attendances>`__
@@ -98,10 +102,11 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "event attendance created"),
+            404: (False, "event not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_event_attendance(
         self,
@@ -114,12 +119,13 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             id:
                 Identifier of the event attendance to delete
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_event-attendances-id>`__
@@ -130,7 +136,8 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             id,
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "event attendance deleted"),
+            404: (False, "event attendance not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

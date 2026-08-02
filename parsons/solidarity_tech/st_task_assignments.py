@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -34,6 +33,10 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             agent_user_id:
                 Filters task assignments by agent user within the accessible scope.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the task assignment entries.
 
@@ -50,8 +53,8 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "task assignments listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -66,11 +69,12 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             id:
                 ID of the task assignment to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single task assignment entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_task-assignments-id>`__
@@ -78,8 +82,11 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         """
         res = self._get_single_resource("task_assignments", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "task assignment found"),
+            404: (False, "task assignment not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -102,12 +109,13 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             agent_user_id:
                 Identifier for the agent user who will conduct outreach (volunteer or staff member).
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_task-assignments>`__
@@ -124,10 +132,8 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code != 201:
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {201: (True, "task assignment created")}
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_task_assignment(
         self,
@@ -143,12 +149,13 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             agent_user_id:
                 Identifier for the agent user, if applicable.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
@@ -164,10 +171,11 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "task assignment updated"),
+            404: (False, "event rsvp not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_task_assignment(
         self,
@@ -180,12 +188,13 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             id:
                 Identifier of the task assignment to delete.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
@@ -193,7 +202,5 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         """
         res = self._del_request("task_assignments", id)
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "task assignment not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

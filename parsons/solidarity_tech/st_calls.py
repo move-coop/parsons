@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -29,11 +28,12 @@ class SolidarityTechCalls(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the calls entries.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_calls>`__
@@ -49,7 +49,7 @@ class SolidarityTechCalls(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "successful")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

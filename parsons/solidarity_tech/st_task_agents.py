@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -31,6 +30,10 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             task_id:
                 Filters task agents by task within the accessible scope.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the task agent entries.
 
@@ -47,8 +50,8 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "task agents listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -63,11 +66,12 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             id:
                 ID of the task agent to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single task agent entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_task-agents-id>`__
@@ -75,8 +79,11 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
         """
         res = self._get_single_resource("task_agents", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "task agent found"),
+            404: (False, "task agent not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -94,12 +101,13 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             task_id:
                 Identifier for the task.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_task-agents>`__
@@ -113,10 +121,8 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             "task_agents", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {201: (True, "task agent created")}
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_task_agent(
         self,
@@ -129,12 +135,13 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             id:
                 Identifier for the task agent to delete.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_task-agents-id>`__
@@ -142,7 +149,5 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
         """
         res = self._del_request("task_agents", id)
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "task agent not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

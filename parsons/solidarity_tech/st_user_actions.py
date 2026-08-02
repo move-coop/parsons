@@ -3,9 +3,7 @@ from datetime import datetime
 from typing import Literal
 
 import numpy as np
-from requests.exceptions import HTTPError
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -54,6 +52,10 @@ class SolidarityTechUserActions(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the user actions.
 
@@ -75,12 +77,11 @@ class SolidarityTechUserActions(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code not in (200, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            err_msg = "Could not process request. group_by value may be invalid."
-            raise HTTPError(err_msg, response=res)
+        expected_responses = {
+            200: (True, "user actions retrieved"),
+            422: (False, "unprocessable entity"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -109,14 +110,14 @@ class SolidarityTechUserActions(SolidarityTechBase):
             data:
                 Action data. See documentation.
 
+        Raises:
+            :class:`ValueError`: If none of ``user_id``, ``phone_number`` or ``email`` is provided.
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            ValueError: If neither ``user_id``, ``phone_number``, nor ``email`` is provided.
-            HTTPError: If the operation fails with a 422 status code.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_user-actions>`__
@@ -142,12 +143,8 @@ class SolidarityTechUserActions(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError(
-                "Request could not be processed, provided data may be invalid", response=res
-            )
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "user action created"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

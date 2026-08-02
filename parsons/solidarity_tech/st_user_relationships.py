@@ -1,9 +1,6 @@
 import logging
 import numbers
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 CompareValueType = str | numbers.Rational | bool
@@ -26,6 +23,10 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             user_id:
                 ID of the user to retrieve relationships for.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the user relationships.
 
@@ -40,8 +41,10 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "user relationships listed"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -62,13 +65,13 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             relationship_type:
                 Type of the relationship.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If the operation fails with a 422 status code.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_user-relationships>`__
@@ -81,13 +84,11 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
         }
         res = self._post_request("user_relationships", params=params)
 
-        if res.status_code not in (201, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 422:
-            raise HTTPError("Invalid request", response=res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "user relationship created"),
+            422: (False, "invalid request"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_user_relationship(
         self,
@@ -103,12 +104,13 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             user_id:
                 Identifier for the user.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_user-relationships-id>`__
@@ -121,7 +123,8 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "user relationship deleted"),
+            404: (False, "user relationship not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

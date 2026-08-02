@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -34,6 +33,10 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             agent_user_id:
                 Agent User ID to filter agent user assignments related to a specific agent user.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the agent assignment entries.
 
@@ -50,8 +53,8 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "successful")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -66,11 +69,12 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             id:
                 ID of the agent assignment to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single agent assignment entry.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_agent-assignments-id>`__
@@ -78,8 +82,11 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         """
         res = self._get_single_resource("agent_assignments", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "agent assignment found"),
+            404: (False, "agent assignment not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -100,12 +107,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             is_active:
                 Whether the assignment is currently active.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_agent-assignments>`__
@@ -118,10 +126,11 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "agent assignment created"),
+            404: (False, "agent or user agent not in organization"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_agent_assignment(
         self,
@@ -143,12 +152,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             is_active:
                 Whether the assignment is currently active.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_agent-assignments-id>`__
@@ -162,10 +172,12 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "agent assignment updated"),
+            404: (False, "agent assignment not found"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_agent_assignment(
         self,
@@ -178,12 +190,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             id:
                 Identifier for the agent assignment to update.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_agent-assignments-id>`__
@@ -191,7 +204,5 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         """
         res = self._del_request("agent_assignments", id)
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "agent assignment not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

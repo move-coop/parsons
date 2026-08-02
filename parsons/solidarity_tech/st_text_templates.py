@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
 
@@ -32,6 +31,10 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             event_id:
                 Filters rsvps by event_id within the accessible scope.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the text templates.
 
@@ -48,8 +51,8 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "text templates listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -64,11 +67,12 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             id:
                 ID of the text template to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single text template.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_text-templates-id>`__
@@ -76,8 +80,11 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         """
         res = self._get_single_resource("text_templates", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "text template found"),
+            404: (False, "text template not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -106,12 +113,13 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             event_id:
                 Identifier for the associated event, if applicable.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_text-templates>`__
@@ -130,10 +138,11 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "text template created"),
+            404: (False, "event not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_text_template(
         self,
@@ -163,12 +172,13 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             event_id:
                 Identifier for the associated event, if applicable.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_text-templates-id>`__
@@ -188,10 +198,11 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "text template updated"),
+            404: (False, "text template not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_text_template(
         self,
@@ -204,12 +215,13 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             id:
                 Identifier of the text template to delete.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_text-templates-id>`__
@@ -217,7 +229,5 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         """
         res = self._del_request("text_templates", id)
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "text template not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

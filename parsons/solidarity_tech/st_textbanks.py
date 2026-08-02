@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -14,7 +13,7 @@ class SolidarityTechTextbanks(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         event_id: int = 0,
-        ids: str | None = None,
+        ids: list[int] | str | None = None,
         include_stats: bool = False,
     ) -> str:
         """
@@ -39,6 +38,10 @@ class SolidarityTechTextbanks(SolidarityTechBase):
                 and ``replies`` (distinct attempts that got a response).
                 Default is False.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the textbanks.
 
@@ -46,6 +49,9 @@ class SolidarityTechTextbanks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_textbanks>`__
 
         """
+        if isinstance(ids, list):
+            ids = ",".join(str(id) for id in ids)
+
         params = {"event_id": event_id, "ids": ids, "include_stats": include_stats}
         res = self._get_resources(
             "textbanks",
@@ -55,8 +61,8 @@ class SolidarityTechTextbanks(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "textbanks listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -71,11 +77,12 @@ class SolidarityTechTextbanks(SolidarityTechBase):
             id:
                 ID of the textbank to retrieve.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single textbank.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_textbanks-id>`__
@@ -83,7 +90,10 @@ class SolidarityTechTextbanks(SolidarityTechBase):
         """
         res = self._get_single_resource("textbanks", id)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "textbank found"),
+            404: (False, "textbank not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

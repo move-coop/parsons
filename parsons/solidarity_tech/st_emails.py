@@ -1,8 +1,5 @@
 import logging
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -45,13 +42,13 @@ class SolidarityTechEmails(SolidarityTechBase):
             track_clicks:
                 Enable click tracking. Default is True.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: Missing required parameters.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_emails>`__
@@ -68,16 +65,13 @@ class SolidarityTechEmails(SolidarityTechBase):
             "track_opens": track_opens,
             "track_clicks": track_clicks,
         }
-
         res = self._post_request("emails", params=email_params)
 
-        if res.status_code not in (201, 404, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("User not found", response=res)
-
-        if res.status_code == 422:
-            raise HTTPError("Missing required parameters", response=res)
+        expected_responses = {
+            201: (True, "email sent successfully"),
+            404: (False, "user not found"),
+            422: (False, "missing required parameters"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

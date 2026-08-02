@@ -1,8 +1,5 @@
 import logging
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -29,14 +26,13 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             page_id:
                 The ID of the action page (field survey).
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            HTTPError: If user, agent, or page are not found.
-            HTTPError: If required parameters are missing.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_field-survey-urls>`__
@@ -53,13 +49,9 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             additional_headers={"accept": "application/json", "content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404, 409, 422):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("User, agent, or page not found", response=res)
-
-        if res.status_code == 422:
-            raise HTTPError("Required parameters are missing", response=res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "field survey URL generated"),
+            404: (False, "user, agent, or page not found"),
+            422: (False, "missing required parameters"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

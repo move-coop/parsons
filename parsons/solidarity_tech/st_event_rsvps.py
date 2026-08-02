@@ -3,7 +3,6 @@ from datetime import datetime
 
 import numpy as np
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import AttendanceType
 
@@ -41,6 +40,10 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             full_user_payload:
                 If True, includes complete user data in the response instead of just basic details.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the event rsvps.
 
@@ -62,8 +65,8 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "event rsvps listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -81,11 +84,12 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             full_user_payload:
                 If True, includes complete user data in the response instead of just basic details.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single event rsvp.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_event-rsvps-id>`__
@@ -94,8 +98,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         params = {"full_user_payload": full_user_payload}
         res = self._get_single_resource("event_rsvps", id, params=params)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {
+            200: (True, "event rsvp found"),
+            404: (False, "event rsvp not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -134,12 +141,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             skip_email_confirmation:
                 If True, skips sending the initial email confirmation to the user.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_event-rsvps>`__
@@ -160,10 +168,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {
+            201: (True, "event rsvp created"),
+            404: (False, "event not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def update_event_rsvp(
         self,
@@ -191,13 +200,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             source_system:
                 System from which the RSVP originated.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/put_event-rsvps-id>`__
@@ -217,10 +226,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             additional_headers={"content-type": "application/json"},
         )
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 200
+        expected_responses = {
+            200: (True, "event rsvp updated"),
+            404: (False, "event rsvp not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
 
     def delete_event_rsvp(
         self,
@@ -233,12 +243,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             id:
                 Identifier of the event rsvp to delete
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_event-rsvps-id>`__
@@ -249,7 +260,5 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             id,
         )
 
-        if res and res.status_code != 404:
-            raise STUnexpectedResponseCodeError(res)
-
-        return not res.status_code
+        expected_responses = {404: (False, "event rsvp not found")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

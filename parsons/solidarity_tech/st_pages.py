@@ -1,9 +1,6 @@
 import logging
 from datetime import datetime
 
-from requests.exceptions import HTTPError
-
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -33,6 +30,10 @@ class SolidarityTechPages(SolidarityTechBase):
                 (the next milestone the public progress bar would display for that count).
                 Default is False.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the pages.
 
@@ -49,8 +50,8 @@ class SolidarityTechPages(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "pages listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -70,23 +71,28 @@ class SolidarityTechPages(SolidarityTechBase):
                 (the next milestone the public progress bar would display for that count).
                 Default is False.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             A single page entry.
 
         Raises:
-            HTTPError: If the page is not found.
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
+            STFailedResponseError: If the page is not found.
+            STUnexpectedResponseError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_pages-id>`__
 
         """
-        res = self._get_single_resource("pages", id)
+        params = {"include_action_counts": include_action_counts}
+        res = self._get_single_resource("pages", id, params=params)
 
-        if res.status_code not in (200, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        if res.status_code == 404:
-            raise HTTPError("page not found.", response=res)
+        expected_responses = {
+            200: (True, "page found"),
+            404: (False, "page not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text

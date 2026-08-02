@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from parsons.solidarity_tech.exceptions import STUnexpectedResponseCodeError
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -29,6 +28,10 @@ class SolidarityTechTexts(SolidarityTechBase):
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             All the texts.
 
@@ -46,8 +49,8 @@ class SolidarityTechTexts(SolidarityTechBase):
             additional_headers={"accept": "application/json"},
         )
 
-        if res.status_code != 200:
-            raise STUnexpectedResponseCodeError(res)
+        expected_responses = {200: (True, "texts listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
 
         return res.text
 
@@ -74,12 +77,13 @@ class SolidarityTechTexts(SolidarityTechBase):
             shorten_urls:
                 Whether to shorten URLs in the text.
 
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
         Returns:
             Boolean representing success of the operation.
             True if the operation was successful, False otherwise.
-
-        Raises:
-            STUnexpectedResponseCodeError: If the operation fails with an unexpected status code.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_texts>`__
@@ -97,7 +101,5 @@ class SolidarityTechTexts(SolidarityTechBase):
             params=params,
         )
 
-        if res.status_code not in (201, 404):
-            raise STUnexpectedResponseCodeError(res)
-
-        return res.status_code == 201
+        expected_responses = {201: (True, "text sent")}
+        return self._handle_status_codes(res=res, codes=expected_responses)

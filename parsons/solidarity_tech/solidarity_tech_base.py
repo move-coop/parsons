@@ -24,10 +24,10 @@ class SolidarityTechBase:
         Args:
             api_token:
                 A valid Bearer token for authorization.
-                Not required if the `SOLIDARITY_TECH_TOKEN` env variable is set.
+                Not required if the `SOLIDARITY_TECH_BEARER_KEY` env variable is set.
 
         """
-        self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_TOKEN", api_token))
+        self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
         self.headers = {"authorization": f"Bearer {self.api_token}"}
         self.api_url = "https://api.solidarity.tech/v1/"
         self.api = RateLimitedAPIConnector(

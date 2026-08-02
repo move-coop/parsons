@@ -28,7 +28,7 @@ an environmental variable (``SOLIDARITY_TECH_BEARER_KEY``) or pass it as a keywo
    :caption: Pass bearer authorization key as argument
 
    from parsons import SolidarityTech
-   st = SolidarityTech(api_token='my_bearer_key')
+   st = SolidarityTech(api_token='SOME_BEARER_KEY')
 
 You can then call various endpoints:
 

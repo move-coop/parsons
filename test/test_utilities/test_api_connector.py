@@ -38,7 +38,9 @@ def test_request_with_additional_headers(connector: APIConnector, requests_mock)
     assert req.headers["X-Custom-Header"] == "value"
 
 
-def test_request_merges_base_and_additional_headers(connector: APIConnector, requests_mock: Mocker) -> None:
+def test_request_merges_base_and_additional_headers(
+    connector: APIConnector, requests_mock: Mocker
+) -> None:
     requests_mock.get("https://api.example.com/v1/data", json={}, status_code=200)
 
     connector.request(

@@ -181,7 +181,7 @@ class APIConnector:
         return_format: Literal["json", "content"] = "json",
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict | bytes:
+    ) -> dict[str, Any] | bytes:
         """
         Make a GET request.
 

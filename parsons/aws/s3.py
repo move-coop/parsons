@@ -432,7 +432,7 @@ class S3:
                 try:
                     self.remove_file(origin_bucket, origin_key)
                 except Exception:
-                    logger.exception("Failed to delete original key")
+                    logger.error("Failed to delete original key")
 
             if public_read:
                 object_acl = self.s3.ObjectAcl(destination_bucket, destination_key)

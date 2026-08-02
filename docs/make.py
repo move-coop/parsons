@@ -40,7 +40,7 @@ def run_command(
         err_msg = f"Command failed: {' '.join(cmd_str)}"
         if not verbose and e.stderr:
             err_msg += f"\nDetails: {e.stderr.strip()}"
-        logger.exception(err_msg)
+        logger.error(err_msg)
         sys.exit(e.returncode)
 
 

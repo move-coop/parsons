@@ -500,7 +500,7 @@ class NewmodeV2:
                 if client.json_check(response):
                     return response.json()
             except Exception:
-                logger.exception("Response is not in JSON format.")
+                logger.error("Response is not in JSON format.")
         raise ValueError(f"API request encountered an error. Response: {response}")
 
     def base_request(

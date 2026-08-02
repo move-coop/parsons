@@ -1,16 +1,22 @@
 import logging
 import numbers
 from datetime import datetime
+from typing import Any
 from zoneinfo import ZoneInfo
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+logger = logging.getLogger(__name__)
 
 CompareValueType = str | numbers.Rational | bool
 QueryParamType = dict[
     str, str | bool | list[dict[str, CompareValueType | list[dict[str, CompareValueType]]]]
 ]
-
-logger = logging.getLogger(__name__)
+UserData = dict[str, str | int | list[int] | list[str] | dict[str, Any] | bool]
+UserMetadata = dict[str, int]
+UserMergeMetadata = dict[str, str | int | list[int]]
+UserDeleteMetadata = dict[str, int]
 
 
 class SolidarityTechUsers(SolidarityTechBase):
@@ -22,7 +28,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         user_list_ids: str | list[int] | None = None,
         phone_number: str | None = None,
         email: str | None = None,
-    ) -> str:
+    ) -> tuple[Table, UserMetadata]:
         """
         Retrieve a list of users.
 
@@ -76,12 +82,15 @@ class SolidarityTechUsers(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[UserData] = res.json()["data"]
+        meta: UserMetadata = res.json()["meta"]
+
+        return Table(data), meta
 
     def get_user(
         self,
         id: int,
-    ) -> str:
+    ) -> UserData:
         """
         Retrieve a single user.
 
@@ -110,7 +119,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()
 
     def create_user(
         self,
@@ -426,7 +435,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         self,
         primary_user_id: int,
         user_ids: list[int] | str,
-    ) -> bool:
+    ) -> UserMergeMetadata:
         """
         Merge two or more users.
 
@@ -444,8 +453,7 @@ class SolidarityTechUsers(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            Data about the merge attempt.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_users-merge>`__
@@ -469,12 +477,14 @@ class SolidarityTechUsers(SolidarityTechBase):
             404: (False, "user not found"),
             422: (False, "invalid parameters"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()
 
     def delete_user(
         self,
         id: str,
-    ) -> bool:
+    ) -> UserDeleteMetadata:
         """
         Delete a user with the specified ID.
 
@@ -487,8 +497,7 @@ class SolidarityTechUsers(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            Data about the delete operation.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_users-id>`__
@@ -500,4 +509,6 @@ class SolidarityTechUsers(SolidarityTechBase):
             200: (True, "user deleted"),
             404: (False, "user not found"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()

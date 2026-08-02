@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import AttendanceType
 
@@ -19,7 +20,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         session_id: int | None = None,
         user_id: int | None = None,
         full_user_payload: bool = False,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of event rsvps.
 
@@ -68,13 +69,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         expected_responses = {200: (True, "event rsvps listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_event_rsvp(
         self,
         id: int,
         full_user_payload: bool = False,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single event rsvp.
 
@@ -104,7 +105,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()
 
     def create_event_rsvp(
         self,

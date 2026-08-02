@@ -1,10 +1,14 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import FieldType, ScopeType
 
 logger = logging.getLogger(__name__)
+
+UserPropertyData = dict[str, int | str | list[dict[str, str | dict]]]
+UserPropertyMetadata = dict[str, int]
 
 
 class SolidarityTechCustomUserProperties(SolidarityTechBase):
@@ -15,7 +19,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         since: int | datetime = 0,
         scope_id: int | None = None,
         scope_type: ScopeType | None = None,
-    ) -> str:
+    ) -> tuple[Table, UserPropertyMetadata]:
         """
         Retrieve a list of custom user properties.
 
@@ -36,7 +40,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            All the custom user properties entries
+            All custom user properties entries.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_custom-user-properties>`__
@@ -55,7 +59,10 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         expected_responses = {200: (True, "successful")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[UserPropertyData] = res.json()["data"]
+        meta: UserPropertyMetadata = res.json()["meta"]
+
+        return Table(data), meta
 
     def create_custom_user_property(
         self,
@@ -65,7 +72,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         options: list[dict[str, str | dict[str, str]]] | None = None,
         scope_type: ScopeType | None = None,
         scope_id: int | None = None,
-    ) -> bool:
+    ) -> UserPropertyData:
         """
         Create a custom user property.
 
@@ -89,8 +96,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            Created custom user property entry.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_custom-user-properties>`__
@@ -114,13 +120,15 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             201: (True, "created"),
             422: (False, "validation failed"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()["data"]
 
     def delete_custom_user_property_option(
         self,
         custom_user_property_id: int,
         id: str,
-    ) -> bool:
+    ) -> UserPropertyData:
         """
         Remove an option from a custom user property.
 
@@ -135,8 +143,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            Custom user property entry, as it exists after deleting the option.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/delete_custom-user-properties-custom-user-property-id-options-id>`__
@@ -153,14 +160,16 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             404: (False, "option or custom user property not found"),
             422: (False, "validation failed"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()["data"]
 
     def create_custom_user_property_option(
         self,
         id: int,
         label: list[dict[str, str | dict[str, str]]],
         value: str | None = None,
-    ) -> bool:
+    ) -> UserPropertyData:
         """
         Create an option for a custom user property.
 
@@ -178,8 +187,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            Custom user property entry, as it exists after creating the new option.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_custom-user-properties-id-options>`__
@@ -200,4 +208,6 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             404: (False, "custom user property not found"),
             422: (False, "validation failed"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()["data"]

@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -15,7 +16,7 @@ class SolidarityTechTextbanks(SolidarityTechBase):
         event_id: int = 0,
         ids: list[int] | str | None = None,
         include_stats: bool = False,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of textbanks.
 
@@ -64,12 +65,12 @@ class SolidarityTechTextbanks(SolidarityTechBase):
         expected_responses = {200: (True, "textbanks listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_textbank(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single textbank.
 
@@ -96,4 +97,4 @@ class SolidarityTechTextbanks(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()

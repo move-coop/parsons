@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         since: int | datetime = 0,
         task_id: int = 0,
         agent_user_id: int = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of task assignments.
 
@@ -56,12 +57,12 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         expected_responses = {200: (True, "task assignments listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_task_assignment(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single task assignment.
 
@@ -88,7 +89,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()
 
     def create_task_assignment(
         self,

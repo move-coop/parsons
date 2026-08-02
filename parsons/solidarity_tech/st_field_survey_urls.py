@@ -1,8 +1,11 @@
 import logging
+from typing import Literal
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
+
+FieldSurveyURL = dict[Literal["url", "expires_at"], str]
 
 
 class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
@@ -11,7 +14,7 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
         user_id: int,
         agent_user_id: int,
         page_id: int,
-    ) -> bool:
+    ) -> FieldSurveyURL:
         """
         Generates a field survey URL for the given user, agent, and page.
 
@@ -31,8 +34,7 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            Boolean representing success of the operation.
-            True if the operation was successful, False otherwise.
+            URL and expiration timestamp.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/post_field-survey-urls>`__
@@ -54,4 +56,6 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             404: (False, "user, agent, or page not found"),
             422: (False, "missing required parameters"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()

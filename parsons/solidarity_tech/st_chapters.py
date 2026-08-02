@@ -1,9 +1,13 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
+
+ChapterData = dict[str, int | str]
+ChapterMetadata = dict[str, int]
 
 
 class SolidarityTechChapters(SolidarityTechBase):
@@ -12,7 +16,7 @@ class SolidarityTechChapters(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> tuple[Table, ChapterMetadata]:
         """
         Retrieve a list of chapters.
 
@@ -47,4 +51,7 @@ class SolidarityTechChapters(SolidarityTechBase):
         expected_responses = {200: (True, "successful")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[ChapterData] = res.json()["data"]
+        meta: ChapterMetadata = res.json()["meta"]
+
+        return Table(data), meta

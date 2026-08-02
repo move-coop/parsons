@@ -4,6 +4,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
 
@@ -21,7 +22,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of user lists.
 
@@ -55,12 +56,12 @@ class SolidarityTechUserLists(SolidarityTechBase):
         expected_responses = {200: (True, "user lists listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_user_list(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single user list.
 
@@ -87,7 +88,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()
 
     def create_user_list(
         self,

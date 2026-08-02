@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ class SolidarityTechTextBlasts(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of text blasts.
 
@@ -46,12 +47,12 @@ class SolidarityTechTextBlasts(SolidarityTechBase):
         expected_responses = {200: (True, "text blasts listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_text_blast(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single text blast.
 
@@ -78,4 +79,4 @@ class SolidarityTechTextBlasts(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()

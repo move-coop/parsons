@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         since: int | datetime = 0,
         event_id: int | None = None,
         session_id: int | None = None,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of event attendances.
 
@@ -56,7 +57,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         expected_responses = {200: (True, "event attendances listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def create_event_attendance(
         self,

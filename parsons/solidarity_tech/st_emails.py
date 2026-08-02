@@ -17,10 +17,10 @@ class SolidarityTechEmails(SolidarityTechBase):
         attachment_urls: list[str] | None = None,
         track_opens: bool = True,
         track_clicks: bool = True,
-    ) -> str:
+    ) -> bool:
         """
-        Returns a list of email senders available for the API key's scope.
-        Use these sender IDs when sending emails via the POST /emails endpoint.
+        Sends a single transactional email to a user.
+        Supports Liquid templating for personalization (e.g., {{ first_name }}).
 
         Args:
             user_id:
@@ -72,6 +72,4 @@ class SolidarityTechEmails(SolidarityTechBase):
             404: (False, "user not found"),
             422: (False, "missing required parameters"),
         }
-        self._handle_status_codes(res=res, codes=expected_responses)
-
-        return res.text
+        return self._handle_status_codes(res=res, codes=expected_responses)

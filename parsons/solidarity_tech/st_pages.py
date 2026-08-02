@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ class SolidarityTechPages(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         include_action_counts: bool = False,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of pages.
 
@@ -53,13 +54,13 @@ class SolidarityTechPages(SolidarityTechBase):
         expected_responses = {200: (True, "pages listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_page(
         self,
         id: int,
         include_action_counts: bool = False,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single page.
 
@@ -95,4 +96,4 @@ class SolidarityTechPages(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()

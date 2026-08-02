@@ -1,9 +1,14 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
+
+ActionData = dict[str, int | str]
+ActivityData = dict[str, int | str | ActionData]
+ActivityMetadata = dict[str, int]
 
 
 class SolidarityTechActivities(SolidarityTechBase):
@@ -14,7 +19,7 @@ class SolidarityTechActivities(SolidarityTechBase):
         since: int | datetime = 0,
         include_count: bool = False,
         user_id: int | None = None,
-    ) -> str:
+    ) -> tuple[Table, ActivityMetadata]:
         """
         Retrieve a list of activities.
 
@@ -61,4 +66,7 @@ class SolidarityTechActivities(SolidarityTechBase):
         expected_responses = {200: (True, "successful")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[ActivityData] = res.json()["data"]
+        meta: ActivityMetadata = res.json()["meta"]
+
+        return Table(data), meta

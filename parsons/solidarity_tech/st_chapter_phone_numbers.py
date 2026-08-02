@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         chapter_id: int = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of chapter phone numbers.
 
@@ -51,4 +52,4 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
         expected_responses = {200: (True, "chapter phone numbers listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())

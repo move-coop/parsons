@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import EventType
 
@@ -25,7 +26,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         include_confirmed_counts: bool | None = None,
         include_hosts: bool | None = None,
         count: bool | None = None,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of event rsvps.
 
@@ -104,7 +105,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         expected_responses = {200: (True, "filtered event sessions listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def create_event_sessions(
         self,
@@ -198,7 +199,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         self,
         id: int,
         include_hosts: bool = False,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single event session.
 
@@ -229,7 +230,8 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             404: (False, "event session not found"),
         }
         self._handle_status_codes(res=res, codes=expected_responses)
-        return res.text
+
+        return res.json()
 
     def update_event_session(
         self,

@@ -3,6 +3,7 @@ from datetime import datetime
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
 
@@ -16,7 +17,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         event_id: int = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of text templates.
 
@@ -54,12 +55,12 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         expected_responses = {200: (True, "text templates listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_text_template(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single text template.
 
@@ -86,7 +87,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()
 
     def create_text_template(
         self,

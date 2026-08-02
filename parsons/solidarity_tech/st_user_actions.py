@@ -4,6 +4,7 @@ from typing import Literal
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -18,7 +19,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> Table:
         """
         Lists user actions (form submissions).
 
@@ -83,7 +84,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def create_user_action(
         self,

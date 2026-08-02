@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
@@ -14,7 +15,7 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
         since: int | datetime = 0,
         user_id: int | None = None,
         agent_user_id: int | None = None,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of scheduled calls.
 
@@ -54,12 +55,12 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
         expected_responses = {200: (True, "scheduled calls listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def get_scheduled_call(
         self,
         id: int,
-    ) -> str:
+    ) -> dict:
         """
         Retrieve a single scheduled call.
 
@@ -86,4 +87,4 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()

@@ -4,6 +4,7 @@ from typing import Literal
 
 import numpy as np
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import EventType, ScopeType
 
@@ -18,7 +19,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         since: int | datetime = 0,
         scope_id: int | None = None,
         scope_type: ScopeType | None = None,
-    ) -> str:
+    ) -> Table:
         """
         Lists events accessible within the given scope.
 
@@ -70,7 +71,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         expected_responses = {200: (True, "events listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def create_event(
         self,
@@ -172,7 +173,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         self,
         id: int,
         include_hosts: bool = False,
-    ) -> str:
+    ) -> dict:
         """
         Returns a single event.
 
@@ -210,4 +211,4 @@ class SolidarityTechEvents(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return res.json()

@@ -1,21 +1,24 @@
 import logging
 import numbers
+from typing import Literal
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+logger = logging.getLogger(__name__)
 
 CompareValueType = str | numbers.Rational | bool
 QueryParamType = dict[
     str, str | bool | list[dict[str, CompareValueType | list[dict[str, CompareValueType]]]]
 ]
-
-logger = logging.getLogger(__name__)
+UserRelationshipData = dict[Literal["id", "text"], str]
 
 
 class SolidarityTechUserRelationships(SolidarityTechBase):
     def get_user_relationships(
         self,
         user_id: int,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of user relationships.
 
@@ -46,7 +49,8 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[UserRelationshipData] = res.json()
+        return Table(data)
 
     def create_user_relationship(
         self,

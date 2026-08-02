@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_literals import InviteType, ScopeType
 
@@ -13,7 +14,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> Table:
         """
         Retrieve a list of team members.
 
@@ -47,7 +48,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         expected_responses = {200: (True, "team members listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        return Table(res.json())
 
     def create_team_member(
         self,

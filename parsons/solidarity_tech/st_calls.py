@@ -1,9 +1,14 @@
 import logging
 from datetime import datetime
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
+
+TranscriptData = dict[str, str | int]
+CallData = dict[str, int | str | bool | TranscriptData]
+CallMetadata = dict[str, int]
 
 
 class SolidarityTechCalls(SolidarityTechBase):
@@ -13,7 +18,7 @@ class SolidarityTechCalls(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> str:
+    ) -> tuple[Table, CallMetadata]:
         """
         Retrieve a list of calls.
 
@@ -52,4 +57,7 @@ class SolidarityTechCalls(SolidarityTechBase):
         expected_responses = {200: (True, "successful")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[CallData] = res.json()["data"]
+        meta: CallMetadata = res.json()["meta"]
+
+        return Table(data), meta

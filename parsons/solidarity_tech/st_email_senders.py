@@ -1,8 +1,12 @@
 import logging
 
+from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
+
+EmailSenderData = dict[str, int | str | bool]
+EmailSenderMetadata = dict[str, int]
 
 
 class SolidarityTechEmailSenders(SolidarityTechBase):
@@ -10,7 +14,7 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-    ) -> str:
+    ) -> tuple[Table, EmailSenderMetadata]:
         """
         Returns a list of email senders available for the API key's scope.
         Use these sender IDs when sending emails via the POST /emails endpoint.
@@ -43,4 +47,6 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
         expected_responses = {200: (True, "email senders listed")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.text
+        data: list[EmailSenderData] = res.json()["data"]
+        meta: EmailSenderMetadata = res.json()["meta"]
+        return Table(data), meta

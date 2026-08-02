@@ -103,8 +103,7 @@ class APIConnector:
                 The url request string.
                 If ``url`` is a relative URL,
                 it will be joined with the ``uri`` of the ``APIConnector`.
-                If ``url`` is an absolute URL,
-                it will be used as is.
+                If ``url`` is an absolute URL, it will be used as is.
             req_type: The request type.
             json:
                 The payload of the request object.
@@ -117,28 +116,33 @@ class APIConnector:
                 E.g. ``http://myapi.com/things?id=1``
             raise_on_error:
                 If the request yields an error status code (anything above 400),
-                raise an error. In most cases, this should be ``True``,
+                raise an :class:`HTTPError`. In most cases, this should be ``True``,
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
+            additional_headers:
+                Additional headers to include in this specific request.
+                If a header key exists in both ``self.headers`` and
+                ``additional_headers``, the value from ``additional_headers``
+                takes precedence. This does not mutate ``self.headers``.
             `**kwargs`:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
-        complete_headers = (
-            {**self.headers, **additional_headers}
-            if (self.headers and additional_headers)
-            else (self.headers or additional_headers)
-        )
+        complete_headers: _Headers = {}
+        if self.headers:
+            complete_headers.update(self.headers)
+        if additional_headers:
+            complete_headers.update(additional_headers)
 
         resp = requests.request(
             req_type,
             full_url,
-            headers=complete_headers,
+            headers=complete_headers,  # type: ignore[arg-type]
             auth=self.auth,
             json=json,
             data=data,
-            params=params,
+            params=params,  # type: ignore[arg-type]
             **kwargs,
         )
 

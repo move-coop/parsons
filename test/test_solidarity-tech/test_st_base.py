@@ -3,7 +3,7 @@ import re
 import pytest
 import requests
 from pytest_mock import MockerFixture
-from requests_mock import GET, Mocker
+from requests_mock import GET, POST, Mocker
 
 from parsons.solidarity_tech import SolidarityTech
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
@@ -17,6 +17,30 @@ def known_status_codes() -> dict[int, tuple[bool, str]]:
         404: (False, "could not find resource"),
         422: (False, "could not process request"),
     }
+
+
+class Test_Post_Request:
+    def test_get_single_resource_makes_request_with_payload(
+        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+    ) -> None:
+        payload = {"user_id": 654123}
+
+        requests_mock.post(st.api_url)
+        spy = mocker.spy(st.api, "request")
+
+        st._post_request(st.api_url, payload=payload)
+        spy.assert_called_once_with(url=st.api_url, req_type=POST, json=payload)
+
+    def test_get_single_resource_makes_request_with_params(
+        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+    ) -> None:
+        params = {"automation_id": 35876}
+
+        requests_mock.post(st.api_url)
+        spy = mocker.spy(st.api, "request")
+
+        st._post_request(st.api_url, params=params)
+        spy.assert_called_once_with(url=st.api_url, req_type=POST, json=None, params=params)
 
 
 class Test_Get_Single_Resource:

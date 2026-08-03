@@ -29,7 +29,7 @@ class SolidarityTechBase:
         """
         self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
         self.headers = {"authorization": f"Bearer {self.api_token}"}
-        self.api_url = "https://api.solidarity.tech/v1/"
+        self.api_url = "https://api.solidarity.tech/v1"
         self.api = RateLimitedAPIConnector(
             self.api_url, headers=self.headers, ratelimit=Rate(60, Duration.SECOND * 30)
         )
@@ -143,11 +143,11 @@ class SolidarityTechBase:
 
         """
         if res.status_code in codes:
-            status_code = codes[res.status_code][0]
+            success = codes[res.status_code][0]
             result_message = codes[res.status_code][1]
-            if status_code is True:
+            if success is True:
                 logger.debug(result_message, extra={"status_code": res.status_code})
-                return status_code
+                return success
             raise STFailedResponseError(result_message, response=res)
 
         raise STUnexpectedResponseError(response=res)

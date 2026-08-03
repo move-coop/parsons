@@ -94,6 +94,15 @@ class Test_Get_Resources:
             },
         )
 
+    def test_get_resources_param_collision_error(
+        self,
+        st: SolidarityTech,
+        requests_mock: Mocker,
+    ) -> None:
+        requests_mock.get(st.api_url)
+        with pytest.raises(KeyError, match="Request param '_limit' already exists"):
+            st._get_resources(st.api_url, limit=15, params={"_limit": 30})
+
 
 class Test_Add_If_Field_Not_Empty:
     @pytest.mark.parametrize(

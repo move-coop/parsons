@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timezone
 
 import pytest
 import requests
@@ -65,6 +66,28 @@ class Test_Get_Resources:
         spy = mocker.spy(st.api, "request")
         st._get_resources(st.api_url)
         spy.assert_called_once_with(url=st.api_url, req_type=GET)
+
+    def test_get_resources_datetime(
+        self,
+        st: SolidarityTech,
+        requests_mock: Mocker,
+        mocker: MockerFixture,
+    ) -> None:
+        now_datetime = datetime.now(tz=timezone.utc)
+        now_timestamp = int(now_datetime.timestamp())
+
+        requests_mock.get(st.api_url)
+        spy = mocker.spy(st.api, "request")
+
+        st._get_resources(
+            st.api_url,
+            since=now_datetime,
+        )
+        spy.assert_called_once_with(
+            url=st.api_url,
+            req_type=GET,
+            params={"_since": now_timestamp},
+        )
 
     def test_get_resources_remaps_special_query_strings(
         self,

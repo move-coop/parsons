@@ -75,7 +75,7 @@ class SolidarityTechBase:
         params: dict[str, ParamTypes] = {}
         for key, value in param_mapping.items():
             if key in kwargs:
-                params[key] = value
+                params[value] = kwargs[key]
                 del kwargs[key]
 
         if "params" in kwargs:
@@ -87,8 +87,11 @@ class SolidarityTechBase:
                     continue
                 params[key] = value
 
+        if params:
+            kwargs["params"] = params
+
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)
-        return self.api.request(url=endpoint, req_type="GET", params=params, **kwargs)
+        return self.api.request(url=endpoint, req_type="GET", **kwargs)
 
     def _get_single_resource(self, endpoint: str, id: int, **kwargs) -> requests.Response:
         """Handle GET requests for single resources."""

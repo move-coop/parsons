@@ -3,7 +3,7 @@ import os
 import pytest
 from pytest_mock import MockerFixture
 
-from parsons.solidarity_tech.solidarity_tech import SolidarityTech
+from parsons.solidarity_tech import SolidarityTech
 
 TOKEN_ENV_NAME = "SOLIDARITY_TECH_BEARER_KEY"
 TOKEN_PLACEHOLDER = "SOME_BEARER_KEY"

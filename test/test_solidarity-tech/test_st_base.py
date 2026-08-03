@@ -2,9 +2,10 @@ import re
 
 import pytest
 import requests
-from requests_mock import Mocker
+from pytest_mock import MockerFixture
+from requests_mock import GET, Mocker
 
-from parsons import SolidarityTech
+from parsons.solidarity_tech import SolidarityTech
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
 
 
@@ -18,76 +19,135 @@ def known_status_codes() -> dict[int, tuple[bool, str]]:
     }
 
 
-@pytest.mark.parametrize(
-    ("key", "value", "expected"),
-    [
-        ("test_key1", "test_value", {"test_key1": "test_value"}),
-        ("test_key2", 123456, {"test_key2": 123456}),
-        ("test_key_none", None, {}),
-    ],
-)
-def test_get_resources(
-    st: SolidarityTech,
-    key: str,
-    value: str | int | None,
-    expected: dict[str, str | int],
-) -> None:
-    init_dict = {}
-    result = st._add_if_field_not_empty(init_dict, key, value)
-    assert result == expected
+class Test_Get_Single_Resource:
+    def test_get_single_resource_makes_request_with_id(
+        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+    ) -> None:
+        id = 42
+        endpoint = f"{st.api_url}/{id}"
+
+        requests_mock.get(endpoint)
+        spy = mocker.spy(st.api, "request")
+
+        st._get_single_resource(st.api_url, id)
+        spy.assert_called_once_with(url=endpoint, req_type=GET)
 
 
-def test_get_resources_overwrite(st: SolidarityTech) -> None:
-    init_dict = {"test_key": "original_value"}
-    result = st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value", overwrite=True)
-    assert result["test_key"] == "overwrite_value"
+class Test_Get_Resources:
+    def test_get_resources_makes_request(
+        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+    ) -> None:
+        requests_mock.get(st.api_url)
+        spy = mocker.spy(st.api, "request")
+        st._get_resources(st.api_url)
+        spy.assert_called_once_with(url=st.api_url, req_type=GET)
+
+    def test_get_resources_remaps_special_query_strings(
+        self,
+        st: SolidarityTech,
+        requests_mock: Mocker,
+        mocker: MockerFixture,
+    ) -> None:
+        requests_mock.get(st.api_url)
+        spy = mocker.spy(st.api, "request")
+        st._get_resources(
+            st.api_url,
+            limit=123456,
+            cursor=654321,
+            offset=321456,
+            since=456321,
+            include_count=123654,
+        )
+        spy.assert_called_once_with(
+            url=st.api_url,
+            req_type=GET,
+            params={
+                "_limit": 123456,
+                "_cursor": 654321,
+                "_offset": 321456,
+                "_since": 456321,
+                "_include_count": 123654,
+            },
+        )
 
 
-def test_get_resources_no_overwrite_default(st: SolidarityTech) -> None:
-    init_dict = {"test_key": "original_value"}
-    with pytest.raises(KeyError, match="'test_key' already exists"):
-        st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value")
+class Test_Add_If_Field_Not_Empty:
+    @pytest.mark.parametrize(
+        ("key", "value", "expected"),
+        [
+            ("test_key1", "test_value", {"test_key1": "test_value"}),
+            ("test_key2", 123456, {"test_key2": 123456}),
+            ("test_key_none", None, {}),
+        ],
+    )
+    def test_add_if_field_not_empty(
+        self,
+        st: SolidarityTech,
+        key: str,
+        value: str | int | None,
+        expected: dict[str, str | int],
+    ) -> None:
+        init_dict = {}
+        result = st._add_if_field_not_empty(init_dict, key, value)
+        assert result == expected
+
+    def test_add_if_field_not_empty_overwrite(self, st: SolidarityTech) -> None:
+        init_dict = {"test_key": "original_value"}
+        result = st._add_if_field_not_empty(
+            init_dict, "test_key", "overwrite_value", overwrite=True
+        )
+        assert result["test_key"] == "overwrite_value"
+
+    def test_add_if_field_not_empty_no_overwrite_default(self, st: SolidarityTech) -> None:
+        init_dict = {"test_key": "original_value"}
+        with pytest.raises(KeyError, match="'test_key' already exists"):
+            st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value")
+
+    def test_add_if_field_not_empty_no_overwrite(self, st: SolidarityTech) -> None:
+        init_dict = {"test_key": "original_value"}
+        with pytest.raises(KeyError, match="'test_key' already exists"):
+            st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value", overwrite=False)
 
 
-def test_get_resources_no_overwrite(st: SolidarityTech) -> None:
-    init_dict = {"test_key": "original_value"}
-    with pytest.raises(KeyError, match="'test_key' already exists"):
-        st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value", overwrite=False)
+class Test_Handle_Status_Codes:
+    @pytest.mark.parametrize(
+        "status_code",
+        [200, 201, 404, 422],
+    )
+    def test_handle_status_codes(
+        self,
+        st: SolidarityTech,
+        requests_mock: Mocker,
+        known_status_codes: dict[int, tuple[bool, str]],
+        status_code: int,
+    ) -> None:
+        requests_mock.get("https://api.example.com", status_code=status_code)
+        res = requests.get("https://api.example.com")
 
+        success_expected = known_status_codes[status_code][0]
+        if success_expected:
+            assert st._handle_status_codes(res, known_status_codes)
+        else:
+            failure_description = known_status_codes[status_code][1]
+            err_msg = re.escape(
+                f"Request Failed (Status Code {status_code}) -- {failure_description}"
+            )
+            with pytest.raises(STFailedResponseError, match=err_msg):
+                st._handle_status_codes(res, known_status_codes)
 
-@pytest.mark.parametrize(
-    "status_code",
-    [200, 201, 404, 422],
-)
-def test_handle_status_codes(
-    st: SolidarityTech,
-    requests_mock: Mocker,
-    known_status_codes: dict[int, tuple[bool, str]],
-    status_code: int,
-) -> None:
-    requests_mock.get("https://api.example.com", status_code=status_code)
-    res = requests.get("https://api.example.com")
+    def test_handle_status_codes_unrecognized(
+        self,
+        st: SolidarityTech,
+        requests_mock: Mocker,
+        known_status_codes: dict[int, tuple[bool, str]],
+    ) -> None:
+        status_code = 500
 
-    success_expected = known_status_codes[status_code][0]
-    if success_expected:
-        assert st._handle_status_codes(res, known_status_codes)
-    else:
-        failure_description = known_status_codes[status_code][1]
-        err_msg = re.escape(f"Request Failed (Status Code {status_code}) -- {failure_description}")
-        with pytest.raises(STFailedResponseError, match=err_msg):
+        requests_mock.get("https://api.example.com", status_code=status_code)
+        res = requests.get("https://api.example.com")
+
+        with pytest.raises(
+            STUnexpectedResponseError,
+            match=re.escape(f"Unexpected Response (Status Code {status_code})"),
+        ):
             st._handle_status_codes(res, known_status_codes)
-
-
-def test_handle_status_codes_unrecognized(
-    st: SolidarityTech, requests_mock: Mocker, known_status_codes: dict[int, tuple[bool, str]]
-) -> None:
-    status_code = 500
-
-    requests_mock.get("https://api.example.com", status_code=status_code)
-    res = requests.get("https://api.example.com")
-
-    with pytest.raises(
-        STUnexpectedResponseError,
-        match=re.escape(f"Unexpected Response (Status Code {status_code})"),
-    ):
-        st._handle_status_codes(res, known_status_codes)

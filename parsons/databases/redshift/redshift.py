@@ -128,7 +128,7 @@ class Redshift(
             Psycopg2 ``connection`` object
 
         """
-        # Create a psycopg2 connection and cursor
+        # Create a psycopg connection and cursor
         conn = psycopg.connect(
             user=self.username,
             password=self.password,
@@ -136,11 +136,14 @@ class Redshift(
             dbname=self.db,
             port=self.port,
             connect_timeout=self.timeout,
+            client_encoding="utf-8",
         )
+
         try:
             yield conn
 
             conn.commit()
+
         finally:
             conn.close()
 

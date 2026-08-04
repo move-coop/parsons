@@ -117,15 +117,18 @@ class Redshift(
     def connection(self):
         """
         Generate a Redshift connection.
+
         The connection is set up as a python "context manager", so it will be closed
         automatically (and all queries committed) when the connection goes out of scope.
+        When using the connection, make sure to put it in a ``with`` block.
+        This is necessary for any context manager.
 
-        When using the connection, make sure to put it in a ``with`` block (necessary for
-        any context manager):
-        ``with rs.connection() as conn:``
+        .. code-block:: python
+
+            with rs.connection() as conn:
 
         Yields:
-            Psycopg2 ``connection`` object
+            :class:`psycopg.Connection` object.
 
         """
         # Create a psycopg connection and cursor

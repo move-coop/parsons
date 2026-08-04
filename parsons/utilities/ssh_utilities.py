@@ -1,6 +1,6 @@
 import logging
 
-import psycopg2
+import psycopg
 import sshtunnel
 
 
@@ -56,7 +56,7 @@ def query_through_ssh(
         server.start()
         logging.info("SSH tunnel established successfully.")
 
-        con = psycopg2.connect(
+        con = psycopg.connect(
             host="localhost",
             port=server.local_bind_port,
             database=db_name,

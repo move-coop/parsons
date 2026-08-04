@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Literal
 
 import petl
-import psycopg2
-import psycopg2.extras
+import psycopg
+import psycopg.rows
 
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
@@ -117,36 +117,42 @@ class Redshift(
     def connection(self):
         """
         Generate a Redshift connection.
+
         The connection is set up as a python "context manager", so it will be closed
         automatically (and all queries committed) when the connection goes out of scope.
+        When using the connection, make sure to put it in a ``with`` block.
+        This is necessary for any context manager.
 
-        When using the connection, make sure to put it in a ``with`` block (necessary for
-        any context manager):
-        ``with rs.connection() as conn:``
+        .. code-block:: python
+
+            with rs.connection() as conn:
 
         Yields:
-            Psycopg2 ``connection`` object
+            :class:`psycopg.Connection` object.
 
         """
-        # Create a psycopg2 connection and cursor
-        conn = psycopg2.connect(
+        # Create a psycopg connection and cursor
+        conn = psycopg.connect(
             user=self.username,
             password=self.password,
             host=self.host,
             dbname=self.db,
             port=self.port,
             connect_timeout=self.timeout,
+            client_encoding="utf-8",
         )
+
         try:
             yield conn
 
             conn.commit()
+
         finally:
             conn.close()
 
     @contextmanager
     def cursor(self, connection):
-        cur = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = connection.cursor(row_factory=psycopg.rows.namedtuple_row)
         try:
             yield cur
         finally:

@@ -47,14 +47,14 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
             env_port = check_env.check("PGPORT", None, optional=True)
             self.port = int(env_port) if env_port is not None else 5432
 
-        # Check if there is a pgpass file. Psycopg2 will search for this file first when
+        # Check if there is a pgpass file. Psycopg3 will search for this file first when
         # creating a connection.
         pgpass = Path("~/.pgpass").expanduser().is_file()
 
         if not any([self.username, self.password, self.host, self.db]) and not pgpass:
             raise ValueError(
-                "Connection arguments missing. Please pass as a pgpass file, kwargs",
-                "or env variables.",
+                "Connection arguments missing. "
+                "Please pass as a pgpass file, kwargs or env variables.",
             )
 
         self.timeout = timeout

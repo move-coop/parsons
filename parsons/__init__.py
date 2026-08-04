@@ -9,17 +9,13 @@ from parsons.etl.table import Table
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more
 # appropriate, so the end user must decide on logging behavior.
-
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
 _formatter = logging.Formatter("%(module)s %(levelname)s %(message)s")
 _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 
-if os.environ.get("TESTING"):
-    # Log less stuff in automated tests
-    logger.setLevel("WARNING")
-elif os.environ.get("DEBUG"):
+if os.environ.get("DEBUG") or os.environ.get("RUNNER_DEBUG"):
     logger.setLevel("DEBUG")
 else:
     logger.setLevel("INFO")

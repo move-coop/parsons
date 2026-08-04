@@ -5,9 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from parsons import DBSync, Postgres, Redshift, Table
-from parsons.databases.database_connector import DatabaseConnector
-from parsons.databases.sqlite import Sqlite
+from parsons import DatabaseConnector, DBSync, Postgres, Redshift, Sqlite, Table
 from test.conftest import assert_matching_tables
 from test.test_databases.fakes import FakeDatabase
 

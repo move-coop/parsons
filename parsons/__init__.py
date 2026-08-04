@@ -122,3 +122,7 @@ def __getattr__(name):
             "Only core dependencies are installed by default. Learn more: "
             "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
         ) from e
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals().keys()) | set(_CONNECTORS.keys()))

@@ -139,11 +139,11 @@ class APIConnector:
         resp = requests.request(
             req_type,
             full_url,
-            headers=complete_headers,
+            headers=complete_headers,  # type: ignore[arg-type]
             auth=self.auth,
             json=json,
             data=data,
-            params=params,
+            params=params,  # type: ignore[arg-type]
             **kwargs,
         )
 

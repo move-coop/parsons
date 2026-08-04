@@ -132,6 +132,13 @@ OAuth API Connector
    :inherited-members:
    :members:
 
+Rate-Limited API Connector
+==========================
+
+.. automodule:: parsons.utilities.ratelimited_api_connector
+   :inherited-members:
+   :members:
+
 SQL Helpers
 ===========
 

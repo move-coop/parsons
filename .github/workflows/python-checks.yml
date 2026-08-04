@@ -186,7 +186,7 @@ jobs:
         shell: bash
         run: |
           HASH=${{ hashFiles('pyproject.toml') }}
-          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39

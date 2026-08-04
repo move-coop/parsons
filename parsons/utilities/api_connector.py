@@ -9,7 +9,7 @@ from requests.exceptions import HTTPError
 from requests.models import PreparedRequest
 from simplejson.errors import JSONDecodeError
 
-from parsons import Table
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

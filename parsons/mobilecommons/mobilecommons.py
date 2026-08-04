@@ -4,7 +4,7 @@ import xmltodict
 from bs4 import BeautifulSoup
 from requests import HTTPError
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import parse_date

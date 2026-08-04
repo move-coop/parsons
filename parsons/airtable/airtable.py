@@ -2,7 +2,7 @@ import logging
 
 from pyairtable import Api as client
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)

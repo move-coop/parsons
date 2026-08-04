@@ -5,7 +5,7 @@ from typing import Literal
 
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 

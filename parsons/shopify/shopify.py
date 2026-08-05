@@ -1,6 +1,8 @@
 import re
 from datetime import datetime, timedelta
 
+import pyrate_limiter
+import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 
 from parsons.etl.table import Table
@@ -43,21 +45,30 @@ class Shopify:
         api_version=None,
         access_token=None,
     ):
-        self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
-        self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
+        self.subdomain: str = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
+        self.access_token: str | None = check_env.check(
+            "SHOPIFY_ACCESS_TOKEN", access_token, optional=True
+        )
         self.password: str = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
         self.api_key: str = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
-        self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
+        self.api_version: str = check_env.check("SHOPIFY_API_VERSION", api_version)
         self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
+        ratelimiter = requests_ratelimiter.Limiter(
+            pyrate_limiter.Rate(40, pyrate_limiter.Duration.MINUTE)
+        )
         if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
         if self.access_token is not None:
             self.client = APIConnector(
-                self.base_url, headers={"X-Shopify-Access-Token": access_token}
+                self.base_url,
+                headers={"X-Shopify-Access-Token": access_token},
+                ratelimiter=ratelimiter,
             )
         else:
             self.client = APIConnector(
-                self.base_url, auth=HTTPBasicAuth(self.api_key, self.password)
+                self.base_url,
+                auth=HTTPBasicAuth(self.api_key, self.password),
+                ratelimiter=ratelimiter,
             )
 
     def get_count(self, query_date=None, since_id=None, table_name=None):

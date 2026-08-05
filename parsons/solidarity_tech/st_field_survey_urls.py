@@ -1,5 +1,5 @@
 import logging
-from typing import Literal
+from typing import Any, Literal
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
@@ -40,11 +40,12 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_field-survey-urls>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "user_id": user_id,
             "agent_user_id": agent_user_id,
             "page_id": page_id,
         }
+
         res = self._post_request(
             "field_survey_urls",
             payload=payload,

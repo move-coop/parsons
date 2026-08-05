@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -45,7 +46,8 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-assignments>`__
 
         """
-        params = {"task_id": task_id, "agent_user_id": agent_user_id}
+        params: dict[str, Any] = {"task_id": task_id, "agent_user_id": agent_user_id}
+
         res = self._get_resources(
             "task_assignments",
             limit=limit,
@@ -122,11 +124,12 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_task-assignments>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "user_id": user_id,
             "task_id": task_id,
-            "agent_user_id": agent_user_id,
         }
+        self._add_if_field_not_empty(payload, "agent_user_id", agent_user_id)
+
         res = self._post_request(
             "task_assignments",
             payload=payload,
@@ -162,9 +165,9 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
-        payload = {
-            "agent_user_id": agent_user_id,
-        }
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "agent_user_id", agent_user_id)
+
         res = self._put_request(
             "scheduled_tasks",
             id,

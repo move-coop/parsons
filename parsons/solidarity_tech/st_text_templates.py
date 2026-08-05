@@ -1,11 +1,12 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
+from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,8 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_text-templates>`__
 
         """
-        params = {"event_id": event_id}
+        params: dict[str, Any] = {"event_id": event_id}
+
         res = self._get_resources(
             "text_templates",
             limit=limit,
@@ -126,13 +128,14 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_text-templates>`__
 
         """
-        payload = {
-            "name": name,
+        payload: dict[str, Any] = {
             "scope_id": scope_id,
-            "scope_type": scope_type,
-            "template": template,
-            "event_id": event_id,
+            "scope_type": scope_type.value,
         }
+        self._add_if_field_not_empty(payload, "name", name)
+        self._add_if_field_not_empty(payload, "template", template)
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+
         res = self._post_request(
             "text_templates",
             payload=payload,
@@ -185,13 +188,13 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_text-templates-id>`__
 
         """
-        payload = {
-            "name": name,
-            "scope_id": scope_id,
-            "scope_type": scope_type,
-            "template": template,
-            "event_id": event_id,
-        }
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "name", name)
+        self._add_if_field_not_empty(payload, "scope_id", scope_id)
+        self._add_if_field_not_empty(payload, "scope_type", scope_type)
+        self._add_if_field_not_empty(payload, "template", template)
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+
         res = self._put_request(
             "text_templates",
             id,

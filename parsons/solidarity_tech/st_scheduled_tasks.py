@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -45,7 +46,10 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_scheduled-tasks>`__
 
         """
-        params = {"user_id": user_id, "agent_user_id": agent_user_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_id", user_id)
+        self._add_if_field_not_empty(params, "agent_user_id", agent_user_id)
+
         res = self._get_resources(
             "scheduled_tasks",
             limit=limit,
@@ -93,8 +97,8 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
 
     def create_scheduled_task(
         self,
-        due_at: str | int | datetime,
-        remind_at: str | int | datetime | None = None,
+        due_at: str | int | float | datetime,
+        remind_at: str | int | float | datetime | None = None,
         agent_user_id: np.int64 | None = None,
         user_id: np.int64 | None = None,
         notes: str | None = None,
@@ -133,14 +137,18 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_scheduled-tasks>`__
 
         """
-        payload = {
-            "due_at": due_at.timestamp() if isinstance(due_at, datetime) else due_at,
-            "remind_at": remind_at.timestamp() if isinstance(remind_at, datetime) else remind_at,
-            "agent_user_id": agent_user_id,
-            "user_id": user_id,
-            "notes": notes,
-            "marked_as_completed": marked_as_completed,
-        }
+        if isinstance(due_at, datetime):
+            due_at = due_at.timestamp()
+        if isinstance(remind_at, datetime):
+            remind_at = remind_at.timestamp()
+
+        payload: dict[str, Any] = {"due_at": due_at}
+        self._add_if_field_not_empty(payload, "remind_at", remind_at)
+        self._add_if_field_not_empty(payload, "agent_user_id", agent_user_id)
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "notes", notes)
+        self._add_if_field_not_empty(payload, "marked_as_completed", marked_as_completed)
+
         res = self._post_request(
             "scheduled_tasks",
             payload=payload,
@@ -156,8 +164,8 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
     def update_scheduled_task(
         self,
         id: int,
-        due_at: str | int | datetime | None = None,
-        remind_at: str | int | datetime | None = None,
+        due_at: str | int | float | datetime | None = None,
+        remind_at: str | int | float | datetime | None = None,
         agent_user_id: np.int64 | None = None,
         user_id: np.int64 | None = None,
         notes: str | None = None,
@@ -196,14 +204,19 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_scheduled-tasks-id>`__
 
         """
-        payload = {
-            "due_at": due_at.timestamp() if isinstance(due_at, datetime) else due_at,
-            "remind_at": remind_at.timestamp() if isinstance(remind_at, datetime) else remind_at,
-            "agent_user_id": agent_user_id,
-            "user_id": user_id,
-            "notes": notes,
-            "marked_as_completed": marked_as_completed,
-        }
+        if isinstance(due_at, datetime):
+            due_at = due_at.timestamp()
+        if isinstance(remind_at, datetime):
+            remind_at = remind_at.timestamp()
+
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "due_at", due_at)
+        self._add_if_field_not_empty(payload, "remind_at", remind_at)
+        self._add_if_field_not_empty(payload, "agent_user_id", agent_user_id)
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "notes", notes)
+        self._add_if_field_not_empty(payload, "marked_as_completed", marked_as_completed)
+
         res = self._put_request(
             "scheduled_tasks",
             id,

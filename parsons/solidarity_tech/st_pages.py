@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -42,7 +43,8 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages>`__
 
         """
-        params = {"include_action_counts": include_action_counts}
+        params: dict[str, Any] = {"include_action_counts": include_action_counts}
+
         res = self._get_resources(
             "pages",
             limit=limit,
@@ -87,7 +89,8 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages-id>`__
 
         """
-        params = {"include_action_counts": include_action_counts}
+        params: dict[str, Any] = {"include_action_counts": include_action_counts}
+
         res = self._get_single_resource("pages", id, params=params)
 
         expected_responses = {

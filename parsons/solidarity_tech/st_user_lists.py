@@ -1,12 +1,13 @@
 import logging
 import numbers
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import ScopeType
+from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
 
 CompareValueType = str | numbers.Rational | bool
 QueryParamType = dict[
@@ -131,14 +132,15 @@ class SolidarityTechUserLists(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-lists>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "name": name,
             "scope_id": scope_id,
-            "scope_type": scope_type,
-            "event_id": event_id,
-            "user_id": user_id,
-            "parameters": parameters,
+            "scope_type": scope_type.value,
         }
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "parameters", parameters)
+
         res = self._post_request(
             "user_lists", payload=payload, additional_headers={"content-type": "application/json"}
         )
@@ -190,13 +192,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_user-lists-id>`__
 
         """
-        payload = {
-            "name": name,
-            "scope_id": scope_id,
-            "scope_type": scope_type,
-            "parameters": parameters,
-            "event_id": event_id,
-        }
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "name", name)
+        self._add_if_field_not_empty(payload, "scope_id", scope_id)
+        self._add_if_field_not_empty(payload, "scope_type", scope_type)
+        self._add_if_field_not_empty(payload, "parameters", parameters)
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+
         res = self._put_request(
             "user_lists",
             id,

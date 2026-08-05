@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -42,7 +43,9 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-agents>`__
 
         """
-        params = {"task_id": task_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "task_id", task_id)
+
         res = self._get_resources(
             "task_agents",
             limit=limit,
@@ -114,10 +117,8 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_task-agents>`__
 
         """
-        payload = {
-            "user_id": user_id,
-            "task_id": task_id,
-        }
+        payload: dict[str, Any] = {"user_id": user_id, "task_id": task_id}
+
         res = self._post_request(
             "task_agents", payload=payload, additional_headers={"content-type": "application/json"}
         )

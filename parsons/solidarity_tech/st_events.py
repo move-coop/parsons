@@ -1,12 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Literal
+from typing import Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import EventType, ScopeType
+from parsons.solidarity_tech.solidarity_tech_enums import EventType, ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -56,10 +56,10 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events>`__
 
         """
-        params = {
-            "scope_id": scope_id,
-            "scope_type": scope_type,
-        }
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "scope_id", scope_id)
+        self._add_if_field_not_empty(params, "scope_type", scope_type)
+
         res = self._get_resources(
             "events",
             limit=limit,
@@ -76,7 +76,7 @@ class SolidarityTechEvents(SolidarityTechBase):
     def create_event(
         self,
         title: str,
-        event_type: EventType | Literal["hybrid"],
+        event_type: EventType,
         start_time: np.int64,
         end_time: np.int64,
         scope_id: str,
@@ -141,26 +141,28 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_events>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "title": title,
             "event_type": event_type,
             "start_time": start_time,
             "end_time": end_time,
-            "location_address": location_address,
-            "virtual_url": virtual_url,
-            "location_name": location_name,
             "scope_id": scope_id,
             "scope_type": scope_type,
-            "session_title": session_title,
-            "tags": tags,
-            "max_capacity": max_capacity,
-            "latitude": latitude,
-            "longitude": longitude,
-            "skip_duplicate_check": skip_duplicate_check,
         }
+        self._add_if_field_not_empty(payload, "location_address", location_address)
+        self._add_if_field_not_empty(payload, "virtual_url", virtual_url)
+        self._add_if_field_not_empty(payload, "location_name", location_name)
+        self._add_if_field_not_empty(payload, "session_title", session_title)
+        self._add_if_field_not_empty(payload, "tags", tags)
+        self._add_if_field_not_empty(payload, "max_capacity", max_capacity)
+        self._add_if_field_not_empty(payload, "latitude", latitude)
+        self._add_if_field_not_empty(payload, "longitude", longitude)
+        self._add_if_field_not_empty(payload, "skip_duplicate_check", skip_duplicate_check)
+
         res = self._post_request(
             "events", payload=payload, additional_headers={"content-type": "application/json"}
         )
+
         expected_responses = {
             201: (True, "event created"),
             404: (False, "scope not found"),
@@ -202,7 +204,8 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events-id>`__
 
         """
-        params = {"include_hosts": include_hosts}
+        params: dict[str, Any] = {"include_hosts": include_hosts}
+
         res = self._get_single_resource("event_sessions", id, params=params)
 
         expected_responses = {

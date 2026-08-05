@@ -1,9 +1,10 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import FieldType, ScopeType
+from parsons.solidarity_tech.solidarity_tech_enums import FieldType, ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,12 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_custom-user-properties>`__
 
         """
-        params = {"scope_id": scope_id, "scope_type": scope_type}
+        params: dict[str, Any] = {}
+        if scope_id is not None:
+            params["scope_id"] = scope_id
+        if scope_type is not None:
+            params["scope_type"] = scope_type.value
+
         res = self._get_resources(
             "custom_user_properties",
             limit=limit,
@@ -102,14 +108,12 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_custom-user-properties>`__
 
         """
-        payload = {
-            "label": label,
-            "description": description,
-            "field_type": field_type,
-            "options": options,
-            "scope_type": scope_type,
-            "scope_id": scope_id,
-        }
+        payload: dict[str, Any] = {"label": label, "field_type": field_type.value}
+        self._add_if_field_not_empty(payload, "description", description)
+        self._add_if_field_not_empty(payload, "options", options)
+        self._add_if_field_not_empty(payload, "scope_type", scope_type)
+        self._add_if_field_not_empty(payload, "scope_id", scope_id)
+
         res = self._post_request(
             "custom_user_properties",
             payload=payload,
@@ -193,10 +197,9 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_custom-user-properties-id-options>`__
 
         """
-        payload = {
-            "label": label,
-            "value": value,
-        }
+        payload: dict[str, Any] = {"label": label}
+        self._add_if_field_not_empty(payload, "value", value)
+
         res = self._post_request(
             f"custom_user_properties/{id}/options",
             payload=payload,

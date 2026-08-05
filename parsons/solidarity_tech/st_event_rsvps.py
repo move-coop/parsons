@@ -1,11 +1,12 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import AttendanceType
+from parsons.solidarity_tech.solidarity_tech_enums import AttendanceStatus
 
 logger = logging.getLogger(__name__)
 
@@ -52,12 +53,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps>`__
 
         """
-        params = {
-            "event_id": event_id,
-            "session_id": session_id,
-            "user_id": user_id,
-            "full_user_payload": full_user_payload,
-        }
+        params: dict[str, Any] = {"full_user_payload": full_user_payload}
+        self._add_if_field_not_empty(params, "event_id", event_id)
+        self._add_if_field_not_empty(params, "session_id", session_id)
+        self._add_if_field_not_empty(params, "user_id", user_id)
+
         res = self._get_resources(
             "event_rsvps",
             limit=limit,
@@ -96,7 +96,8 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps-id>`__
 
         """
-        params = {"full_user_payload": full_user_payload}
+        params: dict[str, Any] = {"full_user_payload": full_user_payload}
+
         res = self._get_single_resource("event_rsvps", id, params=params)
 
         expected_responses = {
@@ -111,7 +112,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         self,
         event_id: np.int64,
         event_session_id: np.int64,
-        is_attending: AttendanceType,
+        is_attending: AttendanceStatus,
         agent_user_id: np.int64 | None,
         user_id: np.int64 | None = None,
         is_confirmed: bool | None = None,
@@ -154,17 +155,18 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_event-rsvps>`__
 
         """
-        payload = {
-            "is_attending": is_attending,
+        payload: dict[str, Any] = {
+            "is_attending": is_attending.value,
             "agent_user_id": agent_user_id,
             "event_id": event_id,
             "event_session_id": event_session_id,
-            "user_id": user_id,
-            "is_confirmed": is_confirmed,
-            "source": source,
-            "source_system": source_system,
             "skip_email_confirmation": skip_email_confirmation,
         }
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "is_confirmed", is_confirmed)
+        self._add_if_field_not_empty(payload, "source", source)
+        self._add_if_field_not_empty(payload, "source_system", source_system)
+
         res = self._post_request(
             "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
@@ -178,7 +180,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
     def update_event_rsvp(
         self,
         id: int,
-        is_attending: AttendanceType | None = None,
+        is_attending: AttendanceStatus | None = None,
         is_confirmed: bool | None = None,
         agent_user_id: np.int64 | None = None,
         source: str | None = None,
@@ -213,13 +215,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_event-rsvps-id>`__
 
         """
-        payload = {
-            is_attending: is_attending,
-            is_confirmed: is_confirmed,
-            agent_user_id: agent_user_id,
-            source: source,
-            source_system: source_system,
-        }
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "is_attending", is_attending)
+        self._add_if_field_not_empty(payload, "is_confirmed", is_confirmed)
+        self._add_if_field_not_empty(payload, "agent_user_id", agent_user_id)
+        self._add_if_field_not_empty(payload, "source", source)
+        self._add_if_field_not_empty(payload, "source_system", source_system)
+
         res = self._put_request(
             "event_rsvps",
             id,

@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -44,7 +45,8 @@ class SolidarityTechCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_calls>`__
 
         """
-        params = {"user_id": user_id}
+        params: dict[str, Any] = {"user_id": user_id}
+
         res = self._get_resources(
             "calls",
             limit=limit,

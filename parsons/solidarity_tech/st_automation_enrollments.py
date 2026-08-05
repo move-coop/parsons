@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
@@ -32,7 +33,8 @@ class SolidarityTechAutomationEnrollments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_automation-enrollments>`__
 
         """
-        payload = {"automation_id": automation_id, "user_id": user_id}
+        payload: dict[str, Any] = {"automation_id": automation_id, "user_id": user_id}
+
         res = self._post_request(
             "automation_enrollments",
             payload=payload,

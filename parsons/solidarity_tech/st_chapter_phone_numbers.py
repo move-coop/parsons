@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -40,7 +41,8 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_chapter-phone-numbers>`__
 
         """
-        params = {"chapter_id": chapter_id}
+        params: dict[str, Any] = {"chapter_id": chapter_id}
+
         res = self._get_resources(
             "chapter_phone_numbers",
             limit=limit,

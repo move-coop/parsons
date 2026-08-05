@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
@@ -54,18 +55,19 @@ class SolidarityTechEmails(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_emails>`__
 
         """
-        email_params = {
+        params: dict[str, Any] = {
             "user_id": user_id,
             "subject": subject,
             "body_html": body_html,
-            "body_plain": body_plain,
-            "email_sender_id": email_sender_id,
-            "reply_to": reply_to,
-            "attachment_urls": attachment_urls,
             "track_opens": track_opens,
             "track_clicks": track_clicks,
         }
-        res = self._post_request("emails", params=email_params)
+        self._add_if_field_not_empty(params, "body_plain", body_plain)
+        self._add_if_field_not_empty(params, "email_sender_id", email_sender_id)
+        self._add_if_field_not_empty(params, "reply_to", reply_to)
+        self._add_if_field_not_empty(params, "attachment_urls", attachment_urls)
+
+        res = self._post_request("emails", params=params)
 
         expected_responses = {
             201: (True, "email sent successfully"),

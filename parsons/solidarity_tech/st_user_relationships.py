@@ -1,6 +1,6 @@
 import logging
 import numbers
-from typing import Literal
+from typing import Any, Literal
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -37,7 +37,8 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-relationships>`__
 
         """
-        params = {"user_id": user_id}
+        params: dict[str, Any] = {"user_id": user_id}
+
         res = self._get_resources(
             "user_relationships",
             params=params,
@@ -81,11 +82,12 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-relationships>`__
 
         """
-        params = {
+        params: dict[str, Any] = {
             "user_id": user_id,
             "related_user_id": related_user_id,
             "relationship_type": relationship_type,
         }
+
         res = self._post_request("user_relationships", params=params)
 
         expected_responses = {
@@ -120,7 +122,8 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_user-relationships-id>`__
 
         """
-        params = {"user_id": user_id}
+        params: dict[str, Any] = {"user_id": user_id}
+
         res = self._del_request(
             "user_relationships",
             id,

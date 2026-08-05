@@ -1,7 +1,8 @@
 import logging
+from typing import Any
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import InteractionType
+from parsons.solidarity_tech.solidarity_tech_enums import InteractionType
 
 logger = logging.getLogger(__name__)
 
@@ -47,14 +48,15 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-notes>`__
 
         """
-        params = {
+        params: dict[str, Any] = {
             "user_id": user_id,
-            "agent_id": agent_id,
             "content": content,
-            "created_at": created_at,
             "restricted": restricted,
-            "interaction_method": interaction_method,
         }
+        self._add_if_field_not_empty(params, "agent_id", agent_id)
+        self._add_if_field_not_empty(params, "created_at", created_at)
+        self._add_if_field_not_empty(params, "interaction_method", interaction_method)
+
         res = self._post_request("user_notes", params=params)
 
         expected_responses = {
@@ -94,7 +96,9 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_user-notes-id>`__
 
         """
-        params = {"user_id": user_id, "agent_id": agent_id}
+        params: dict[str, Any] = {"user_id": user_id}
+        self._add_if_field_not_empty(params, "agent_id", agent_id)
+
         res = self._del_request("user_notes", id, params=params)
 
         expected_responses = {

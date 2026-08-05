@@ -1,7 +1,8 @@
 import logging
 from collections.abc import Mapping
 from datetime import datetime
-from typing import cast
+from enum import Enum
+from typing import Any, cast
 
 import numpy as np
 import requests
@@ -156,7 +157,7 @@ class SolidarityTechBase:
         raise STUnexpectedResponseError(response=res)
 
     def _add_if_field_not_empty(
-        self, receiving_dict: dict, key: str, value, overwrite: bool = False
+        self, receiving_dict: dict, key: str, value: Any | None, overwrite: bool = False
     ) -> dict:
         """
         Add a key/value pair to a dictionary if the value is not None.
@@ -182,7 +183,7 @@ class SolidarityTechBase:
             err_msg = f"'{key}' already exists."
             raise KeyError(err_msg)
         if value:
-            receiving_dict[key] = value
+            receiving_dict[key] = value.value if isinstance(value, Enum) else value
             logger.debug(
                 "Added '%s' with value '%s' to payload or parameters dictionary", key, value
             )

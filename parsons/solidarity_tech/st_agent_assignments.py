@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -45,7 +46,10 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_agent-assignments>`__
 
         """
-        params = {"user_id": user_id, "agent_user_id": agent_user_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_id", user_id)
+        self._add_if_field_not_empty(params, "agent_user_id", agent_user_id)
+
         res = self._get_resources(
             "agent_assignments",
             limit=limit,
@@ -120,7 +124,9 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_agent-assignments>`__
 
         """
-        payload = {"user_id": user_id, "agent_user_id": agent_user_id, "is_active": is_active}
+        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
+        self._add_if_field_not_empty(payload, "is_active", is_active)
+
         res = self._post_request(
             "agent_assignments",
             payload=payload,
@@ -165,7 +171,9 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_agent-assignments-id>`__
 
         """
-        payload = {"user_id": user_id, "agent_user_id": agent_user_id, "is_active": is_active}
+        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
+        self._add_if_field_not_empty(payload, "is_active", is_active)
+
         res = self._put_request(
             "agent_assignments",
             id,

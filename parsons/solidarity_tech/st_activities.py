@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -52,7 +53,9 @@ class SolidarityTechActivities(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_activities>`__
 
         """
-        params = {"user_id": user_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_id", user_id)
+
         res = self._get_resources(
             "activities",
             limit=limit,

@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
@@ -40,7 +41,9 @@ class SolidarityTechTexts(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_texts>`__
 
         """
-        params = {"user_id": user_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_id", user_id)
+
         res = self._get_resources(
             "texts",
             limit=limit,
@@ -90,13 +93,14 @@ class SolidarityTechTexts(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_texts>`__
 
         """
-        params = {
+        params: dict[str, Any] = {
             "user_id": user_id,
             "body": body,
-            "media_urls": media_urls,
-            "attach_contact_card": attach_contact_card,
-            "shorten_urls": shorten_urls,
         }
+        self._add_if_field_not_empty(params, "media_urls", media_urls)
+        self._add_if_field_not_empty(params, "attach_contact_card", attach_contact_card)
+        self._add_if_field_not_empty(params, "shorten_urls", shorten_urls)
+
         res = self._post_request(
             "texts",
             params=params,

@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 import numpy as np
 
@@ -45,7 +46,10 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-attendances>`__
 
         """
-        params = {"event_id": event_id, "session_id": session_id}
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "event_id", event_id)
+        self._add_if_field_not_empty(params, "session_id", session_id)
+
         res = self._get_resources(
             "event_attendances",
             limit=limit,
@@ -91,12 +95,13 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_event-attendances>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "attended": attended,
             "event_id": event_id,
             "event_session_id": event_session_id,
             "user_id": user_id,
         }
+
         res = self._post_request(
             "event_attendances",
             payload=payload,

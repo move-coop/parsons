@@ -1,9 +1,10 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import InviteType, ScopeType
+from parsons.solidarity_tech.solidarity_tech_enums import InviteType, ScopeType
 
 logger = logging.getLogger(__name__)
 
@@ -107,19 +108,20 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         if not member_id and not phone_number and not email:
             raise ValueError("One of member_id, phone_number, or email is required.")
 
-        payload = {
-            "member_id": member_id,
-            "phone_number": phone_number,
-            "email": email,
-            "full_name": full_name,
-            "first_name": first_name,
-            "last_name": last_name,
+        payload: dict[str, Any] = {
             "role_id": role_id,
-            "scope_type": scope_type,
+            "scope_type": scope_type.value,
             "scope_id": scope_id,
-            "invite_via": invite_via,
-            "task_id": task_id,
+            "invite_via": invite_via.value,
         }
+        self._add_if_field_not_empty(payload, "member_id", member_id)
+        self._add_if_field_not_empty(payload, "phone_number", phone_number)
+        self._add_if_field_not_empty(payload, "email", email)
+        self._add_if_field_not_empty(payload, "full_name", full_name)
+        self._add_if_field_not_empty(payload, "first_name", first_name)
+        self._add_if_field_not_empty(payload, "last_name", last_name)
+        self._add_if_field_not_empty(payload, "task_id", task_id)
+
         res = self._post_request(
             "team_members", payload=payload, additional_headers={"content-type": "application/json"}
         )
@@ -161,11 +163,12 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "role_id": role_id,
-            "scope_type": scope_type,
+            "scope_type": scope_type.value,
             "scope_id": scope_id,
         }
+
         res = self._put_request(
             "team_members",
             id,

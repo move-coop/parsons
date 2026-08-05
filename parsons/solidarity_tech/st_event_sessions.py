@@ -1,11 +1,12 @@
 import logging
 from datetime import datetime
+from typing import Any, Literal
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_literals import EventType
+from parsons.solidarity_tech.solidarity_tech_enums import EventType
 
 logger = logging.getLogger(__name__)
 
@@ -82,18 +83,19 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         if isinstance(event_tags, list):
             event_tags = ",".join(str(tag) for tag in event_tags)
 
-        params = {
+        params: dict[str, Any] = {
             "event_id": event_id,
-            "upcoming": upcoming,
-            "starts_after": starts_after,
-            "starts_before": starts_before,
-            "chapter_id": chapter_id,
-            "event_tags": event_tags,
-            "include_rsvp_counts": include_rsvp_counts,
-            "include_confirmed_counts": include_confirmed_counts,
-            "include_hosts": include_hosts,
-            "count": count,
         }
+        self._add_if_field_not_empty(params, "upcoming", upcoming)
+        self._add_if_field_not_empty(params, "starts_after", starts_after)
+        self._add_if_field_not_empty(params, "starts_before", starts_before)
+        self._add_if_field_not_empty(params, "chapter_id", chapter_id)
+        self._add_if_field_not_empty(params, "event_tags", event_tags)
+        self._add_if_field_not_empty(params, "include_rsvp_counts", include_rsvp_counts)
+        self._add_if_field_not_empty(params, "include_confirmed_counts", include_confirmed_counts)
+        self._add_if_field_not_empty(params, "include_hosts", include_hosts)
+        self._add_if_field_not_empty(params, "count", count)
+
         res = self._get_resources(
             "event_sessions",
             limit=limit,
@@ -113,7 +115,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         start_time: np.int64,
         end_time: np.int64,
         title: str,
-        event_type: EventType | None = None,
+        event_type: Literal[EventType.VIRTUAL, EventType.IN_PERSON] | None = None,
         location_name: str | None = None,
         location_data: dict[str, str] | None = None,
         location_address: str | None = None,
@@ -170,21 +172,22 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_event-sessions>`__
 
         """
-        payload = {
+        payload: dict[str, Any] = {
             "event_id": event_id,
             "start_time": start_time,
             "end_time": end_time,
-            "event_type": event_type,
             "title": title,
-            "location_name": location_name,
-            "location_data": location_data,
-            "location_address": location_address,
-            "show_rsvp_bar": show_rsvp_bar,
-            "show_title_in_form": show_title_in_form,
-            "note": note,
-            "max_capacity": max_capacity,
-            "tags": tags,
         }
+        self._add_if_field_not_empty(payload, "event_type", event_type)
+        self._add_if_field_not_empty(payload, "location_name", location_name)
+        self._add_if_field_not_empty(payload, "location_data", location_data)
+        self._add_if_field_not_empty(payload, "location_address", location_address)
+        self._add_if_field_not_empty(payload, "show_rsvp_bar", show_rsvp_bar)
+        self._add_if_field_not_empty(payload, "show_title_in_form", show_title_in_form)
+        self._add_if_field_not_empty(payload, "note", note)
+        self._add_if_field_not_empty(payload, "max_capacity", max_capacity)
+        self._add_if_field_not_empty(payload, "tags", tags)
+
         res = self._post_request(
             "event_rsvps", payload=payload, additional_headers={"content-type": "application/json"}
         )
@@ -222,7 +225,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-sessions-id>`__
 
         """
-        params = {"include_hosts": include_hosts}
+        params: dict[str, Any] = {"include_hosts": include_hosts}
         res = self._get_single_resource("event_sessions", id, params=params)
 
         expected_responses = {
@@ -292,19 +295,19 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_event-sessions-id>`__
 
         """
-        payload = {
-            "start_time": start_time,
-            "end_time": end_time,
-            "title": title,
-            "location_name": location_name,
-            "location_address": location_address,
-            "location_data": location_data,
-            "show_rsvp_bar": show_rsvp_bar,
-            "show_title_in_form": show_title_in_form,
-            "note": note,
-            "max_capacity": max_capacity,
-            "tags": tags,
-        }
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "start_time", start_time)
+        self._add_if_field_not_empty(payload, "end_time", end_time)
+        self._add_if_field_not_empty(payload, "title", title)
+        self._add_if_field_not_empty(payload, "location_name", location_name)
+        self._add_if_field_not_empty(payload, "location_address", location_address)
+        self._add_if_field_not_empty(payload, "location_data", location_data)
+        self._add_if_field_not_empty(payload, "show_rsvp_bar", show_rsvp_bar)
+        self._add_if_field_not_empty(payload, "show_title_in_form", show_title_in_form)
+        self._add_if_field_not_empty(payload, "note", note)
+        self._add_if_field_not_empty(payload, "max_capacity", max_capacity)
+        self._add_if_field_not_empty(payload, "tags", tags)
+
         res = self._put_request(
             "event_sessions",
             id,
@@ -386,11 +389,10 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_event-sessions-id-hosts>`__
 
         """
-        payload = {
-            "user_id": user_id,
-        }
+        payload: dict[str, Any] = {"user_id": user_id}
+
         res = self._post_request(
-            "event_sessions",
+            f"event_sessions/{id}/hosts",
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )

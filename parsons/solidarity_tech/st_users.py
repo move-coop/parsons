@@ -62,11 +62,11 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(user_list_ids, list):
             user_list_ids = ",".join(str(id) for id in user_list_ids)
 
-        params = {
-            "user_list_ids": user_list_ids,
-            "phone_number": phone_number,
-            "email": email,
-        }
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_list_ids", user_list_ids)
+        self._add_if_field_not_empty(params, "phone_number", phone_number)
+        self._add_if_field_not_empty(params, "email", email)
+
         res = self._get_resources(
             "users",
             limit=limit,
@@ -240,32 +240,33 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(timezone, ZoneInfo):
             timezone = str(timezone.key)
 
-        payload = {
-            "phone_number": phone_number,
-            "email": email,
-            "first_name": first_name,
-            "last_name": last_name,
-            "alternate_name": alternate_name,
-            "preferred_language": preferred_language,
-            "second_language": second_language,
-            "chapter_id": chapter_id,
-            "chapter_ids": chapter_ids,
-            "referred_by_user_id": referred_by_user_id,
-            "custom_user_properties": custom_user_properties,
+        payload: dict[str, Any] = {
             "append_custom_user_properties": append_custom_user_properties,
-            "add_tags": add_tags,
-            "remove_tags": remove_tags,
-            "donation_charge": donation_charge,
-            "address": address,
-            "assessment": assessment,
-            "sms_permission": sms_permission,
-            "call_permission": call_permission,
-            "email_permission": email_permission,
-            "timezone": timezone,
             "require_contact_info": require_contact_info,
             "phone_number_textable_validation": phone_number_textable_validation,
-            "lookup_key": lookup_key,
         }
+        self._add_if_field_not_empty(payload, "phone_number", phone_number)
+        self._add_if_field_not_empty(payload, "email", email)
+        self._add_if_field_not_empty(payload, "first_name", first_name)
+        self._add_if_field_not_empty(payload, "last_name", last_name)
+        self._add_if_field_not_empty(payload, "alternate_name", alternate_name)
+        self._add_if_field_not_empty(payload, "preferred_language", preferred_language)
+        self._add_if_field_not_empty(payload, "second_language", second_language)
+        self._add_if_field_not_empty(payload, "chapter_id", chapter_id)
+        self._add_if_field_not_empty(payload, "chapter_ids", chapter_ids)
+        self._add_if_field_not_empty(payload, "referred_by_user_id", referred_by_user_id)
+        self._add_if_field_not_empty(payload, "custom_user_properties", custom_user_properties)
+        self._add_if_field_not_empty(payload, "add_tags", add_tags)
+        self._add_if_field_not_empty(payload, "remove_tags", remove_tags)
+        self._add_if_field_not_empty(payload, "donation_charge", donation_charge)
+        self._add_if_field_not_empty(payload, "address", address)
+        self._add_if_field_not_empty(payload, "assessment", assessment)
+        self._add_if_field_not_empty(payload, "sms_permission", sms_permission)
+        self._add_if_field_not_empty(payload, "call_permission", call_permission)
+        self._add_if_field_not_empty(payload, "email_permission", email_permission)
+        self._add_if_field_not_empty(payload, "timezone", timezone)
+        self._add_if_field_not_empty(payload, "lookup_key", lookup_key)
+
         res = self._post_request(
             "users", payload=payload, additional_headers={"content-type": "application/json"}
         )
@@ -393,31 +394,32 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(timezone, ZoneInfo):
             timezone = str(timezone.key)
 
-        payload = {
-            "phone_number": phone_number,
-            "clear_phone_number": clear_phone_number,
-            "email": email,
-            "first_name": first_name,
-            "last_name": last_name,
-            "alternate_name": alternate_name,
-            "preferred_language": preferred_language,
-            "chapter_id": chapter_id,
-            "chapter_ids": chapter_ids,
-            "add_chapter_ids": add_chapter_ids,
-            "remove_chapter_ids": remove_chapter_ids,
-            "set_exclusive_chapter": set_exclusive_chapter,
-            "second_language": second_language,
-            "referred_by_user_id": referred_by_user_id,
-            "custom_user_properties": custom_user_properties,
+        payload: dict[str, Any] = {
             "append_custom_user_properties": append_custom_user_properties,
-            "address": address,
-            "assessment": assessment,
-            "sms_permission": sms_permission,
-            "call_permission": call_permission,
-            "email_permission": email_permission,
-            "timezone": timezone,
-            "donation_charge": donation_charge,
         }
+        self._add_if_field_not_empty(payload, "phone_number", phone_number)
+        self._add_if_field_not_empty(payload, "clear_phone_number", clear_phone_number)
+        self._add_if_field_not_empty(payload, "email", email)
+        self._add_if_field_not_empty(payload, "first_name", first_name)
+        self._add_if_field_not_empty(payload, "last_name", last_name)
+        self._add_if_field_not_empty(payload, "alternate_name", alternate_name)
+        self._add_if_field_not_empty(payload, "preferred_language", preferred_language)
+        self._add_if_field_not_empty(payload, "chapter_id", chapter_id)
+        self._add_if_field_not_empty(payload, "chapter_ids", chapter_ids)
+        self._add_if_field_not_empty(payload, "add_chapter_ids", add_chapter_ids)
+        self._add_if_field_not_empty(payload, "remove_chapter_ids", remove_chapter_ids)
+        self._add_if_field_not_empty(payload, "set_exclusive_chapter", set_exclusive_chapter)
+        self._add_if_field_not_empty(payload, "second_language", second_language)
+        self._add_if_field_not_empty(payload, "referred_by_user_id", referred_by_user_id)
+        self._add_if_field_not_empty(payload, "custom_user_properties", custom_user_properties)
+        self._add_if_field_not_empty(payload, "address", address)
+        self._add_if_field_not_empty(payload, "assessment", assessment)
+        self._add_if_field_not_empty(payload, "sms_permission", sms_permission)
+        self._add_if_field_not_empty(payload, "call_permission", call_permission)
+        self._add_if_field_not_empty(payload, "email_permission", email_permission)
+        self._add_if_field_not_empty(payload, "timezone", timezone)
+        self._add_if_field_not_empty(payload, "donation_charge", donation_charge)
+
         res = self._put_request(
             "users",
             id,
@@ -462,10 +464,11 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(user_ids, list):
             user_ids = ",".join(str(id) for id in user_ids)
 
-        payload = {
+        payload: dict[str, Any] = {
             "primary_user_id": primary_user_id,
             "user_ids": user_ids,
         }
+
         res = self._post_request(
             "users/merge",
             payload=payload,

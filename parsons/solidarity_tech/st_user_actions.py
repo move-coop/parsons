@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Literal
+from typing import Any, Literal
 
 import numpy as np
 
@@ -64,11 +64,11 @@ class SolidarityTechUserActions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-actions>`__
 
         """
-        params = {
-            "user_id": user_id,
-            "page_id": page_id,
-            "group_by": group_by,
-        }
+        params: dict[str, Any] = {}
+        self._add_if_field_not_empty(params, "user_id", user_id)
+        self._add_if_field_not_empty(params, "page_id", page_id)
+        self._add_if_field_not_empty(params, "group_by", group_by)
+
         res = self._get_resources(
             "user_actions",
             limit=limit,
@@ -132,12 +132,11 @@ class SolidarityTechUserActions(SolidarityTechBase):
         ):
             raise ValueError("Either user_id, phone_number, or email must be provided")
 
-        payload = {
-            "page_id": page_id,
-            "user_id": user_id,
-            "created_at": created_at,
-            "data": data,
-        }
+        payload: dict[str, Any] = {"page_id": page_id}
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "created_at", created_at)
+        self._add_if_field_not_empty(payload, "data", data)
+
         res = self._post_request(
             "user_actions",
             payload=payload,

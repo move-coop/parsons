@@ -12,7 +12,9 @@ repos:
     hooks:
       - id: ruff-check
         args: ['--fix']
+        exclude_types: ["pyi"]
       - id: ruff-format
+        exclude_types: ["pyi"]
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.4

@@ -102,7 +102,7 @@ class APIConnector:
             self.session.auth = auth
 
         if headers:
-            self.session.headers = headers
+            self.session.headers = headers  # ignore: type[invalid-assignment]
 
     @property
     def auth(self) -> _AuthType:
@@ -122,7 +122,7 @@ class APIConnector:
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
-        self.session.headers = inp
+        self.session.headers = inp  # ignore: type[invalid-assignment]
 
     @headers.deleter
     def headers(self) -> None:

@@ -31,7 +31,6 @@ if TYPE_CHECKING:
 
     import pyrate_limiter
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -101,8 +100,33 @@ class APIConnector:
 
         if auth:
             self.session.auth = auth
+
         if headers:
-            self.session.headers = headers  # type: ignore[invalid-assignment]
+            self.session.headers = headers
+
+    @property
+    def auth(self) -> _AuthType:
+        return self.session.auth
+
+    @auth.setter
+    def auth(self, inp: _AuthType) -> None:
+        self.session.auth = inp
+
+    @auth.deleter
+    def auth(self) -> None:
+        del self.session.auth
+
+    @property
+    def headers(self) -> _HeadersType:
+        return self.session.headers
+
+    @headers.setter
+    def headers(self, inp: _HeadersType) -> None:
+        self.session.headers = inp
+
+    @headers.deleter
+    def headers(self) -> None:
+        del self.session.headers
 
     def request(
         self,

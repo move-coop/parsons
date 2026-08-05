@@ -1,10 +1,7 @@
-# Provide shortcuts to importing Parsons submodules and set up logging
 import importlib
 import logging
 import os
 import warnings
-
-from parsons.etl.table import Table
 
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more
@@ -20,7 +17,6 @@ if os.environ.get("DEBUG") or os.environ.get("RUNNER_DEBUG"):
 else:
     logger.setLevel("INFO")
 
-# Temporary deprecation warning for changes to install process
 warnings.warn(
     (
         "The behavior of 'pip install parsons' has changed so only core dependencies are installed. "
@@ -53,9 +49,9 @@ _CONNECTORS = {
     "Community": "parsons.community.community",
     "Controlshift": "parsons.controlshift.controlshift",
     "Copper": "parsons.copper.copper",
+    "Daisychain": "parsons.daisychain.daisychain",
     "DatabaseConnector": "parsons.databases.database_connector",
     "DBSync": "parsons.databases.db_sync",
-    "Daisychain": "parsons.daisychain.daisychain",
     "discover_database": "parsons.databases.discover_database",
     "MySQL": "parsons.databases.mysql.mysql",
     "Postgres": "parsons.databases.postgres.postgres",
@@ -63,6 +59,7 @@ _CONNECTORS = {
     "Sqlite": "parsons.databases.sqlite.sqlite",
     "Donorbox": "parsons.donorbox.donorbox",
     "Empower": "parsons.empower.empower",
+    "Table": "parsons.etl.table",
     "FacebookAds": "parsons.facebook_ads.facebook_ads",
     "Formstack": "parsons.formstack.formstack",
     "Freshdesk": "parsons.freshdesk.freshdesk",
@@ -103,7 +100,7 @@ _CONNECTORS = {
     "Zoom": "parsons.zoom.zoom",
 }
 
-__all__ = ["Table"] + list(_CONNECTORS.keys())
+__all__ = list(_CONNECTORS.keys())  # type: ignore
 
 
 def __getattr__(name):

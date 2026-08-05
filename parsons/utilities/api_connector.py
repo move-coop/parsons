@@ -75,12 +75,15 @@ class APIConnector:
                 where the data is contained.
                 Required if the data is nested in the response json.
             ratelimiter:
-                A :class:`~pyrate_limiter.limiter.Limiter` instance to use for rate limiting.
+                A :class:`~pyrate_limiter.limiter.Limiter` instance to use.
                 If not provided, no rate limiting will be applied.
             session:
-                A preconfigured :class`~requests.Session` to use.
-                If not provided, a new session will be created.
-                If provided, `ratelimit` will be ignored.
+                A preconfigured :class`~requests.Session` for advanced users.
+                If using `session`, `ratelimiter` must be None.
+
+        Raises:
+            ValueError:
+                If both `session` and `ratelimiter` are provided.
 
         """
         # Add a trailing slash if it's missing
@@ -90,6 +93,9 @@ class APIConnector:
         self.uri = uri
         self.pagination_key = pagination_key
         self.data_key = data_key
+
+        if session and ratelimiter:
+            raise ValueError("session and ratelimiter cannot both be provided")
 
         if session:
             self.session = session

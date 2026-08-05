@@ -11,18 +11,26 @@ from simplejson.errors import JSONDecodeError
 
 from parsons import Table
 
+from ._api_connector_types import (
+    _AuthType,
+    _DataType,
+    _HeadersType,
+    _JsonType,
+    _ParamsType,
+)
+
+# There are here for backwards compatibility
+_Auth = _AuthType
+_Headers = _HeadersType
+_Data = _DataType
+_Params = _ParamsType
+
+
 if TYPE_CHECKING:
     from typing import Literal
 
     import pyrate_limiter
 
-    from ._api_connector_types import (
-        _AuthType,
-        _DataType,
-        _HeadersType,
-        _JsonType,
-        _ParamsType,
-    )
 
 logger = logging.getLogger(__name__)
 

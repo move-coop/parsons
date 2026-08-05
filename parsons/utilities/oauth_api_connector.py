@@ -6,7 +6,7 @@ from oauthlib.oauth2 import BackendApplicationClient, OAuth2Token
 from requests import Response
 from requests_oauthlib import OAuth2Session
 
-from parsons.utilities.api_connector import APIConnector, _Data, _Params
+from parsons.utilities.api_connector import APIConnector, _DataType, _ParamsType
 
 
 class OAuth2APIConnector(APIConnector):
@@ -84,8 +84,8 @@ class OAuth2APIConnector(APIConnector):
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
         json: dict | None = None,
-        data: _Data | None = None,
-        params: _Params | None = None,
+        data: _DataType | None = None,
+        params: _ParamsType | None = None,
         raise_on_error: bool = True,
         **kwargs,
     ) -> Response:

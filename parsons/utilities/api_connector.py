@@ -459,7 +459,7 @@ class APIConnector:
         while others might return only a single record.
 
         """
-        # TODO: Some response jsons are enclosed in a list.
+        # TODO(jburchard): Some response jsons are enclosed in a list.
         # Need to deal with unpacking and/or not assuming that it is going to be a dict.
 
         # In some instances responses are just lists.

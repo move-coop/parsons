@@ -440,7 +440,7 @@ class NewmodeV1:
 
 
 class NewmodeV2:
-    # TODO: Add param definition and requirements once official Newmode docs are published
+    # TODO(sharinetmc): Add param definition and requirements once official Newmode docs are published
     def __init__(
         self,
         client_id: str | None = None,

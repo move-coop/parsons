@@ -31,9 +31,9 @@ classifiers = [
 ]
 dependencies = [
     "petl >= 1.7.17",
-    "pyrate-limiter >= 4.0",
     "python-dateutil >= 2.0",
     "requests >= 2.0",
+    "requests-ratelimiter >= 0.10",
     "requests-oauthlib >= 1.0",
     "simplejson >= 3.18",
 ]

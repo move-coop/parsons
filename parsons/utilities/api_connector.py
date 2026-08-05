@@ -1,37 +1,30 @@
+from __future__ import annotations
+
 import logging
 import urllib.parse
-from collections.abc import Callable, Iterable, Mapping
-from typing import Any, Literal, overload
+from typing import TYPE_CHECKING, Any, overload
 
 import requests
-from requests.auth import AuthBase
+import requests_ratelimiter
 from requests.exceptions import HTTPError
-from requests.models import PreparedRequest
 from simplejson.errors import JSONDecodeError
 
 from parsons import Table
 
-logger = logging.getLogger(__name__)
+if TYPE_CHECKING:
+    from typing import Literal
 
-_Auth = tuple[str, str] | AuthBase | Callable[[PreparedRequest], PreparedRequest]
-_Headers = Mapping[str, str | bytes | None]
-_Data = (
-    Iterable[bytes]
-    | str
-    | bytes
-    | list[tuple[Any, Any]]
-    | tuple[tuple[Any, Any], ...]
-    | Mapping[Any, Any]
-)
-_ParamsMappingKeyType = str | bytes | int | float
-_ParamsMappingValueType = str | bytes | int | float | Iterable[str | bytes | int | float] | None
-_Params = (
-    Mapping[_ParamsMappingKeyType, _ParamsMappingValueType]
-    | tuple[_ParamsMappingKeyType, _ParamsMappingValueType]
-    | Iterable[tuple[_ParamsMappingKeyType, _ParamsMappingValueType]]
-    | str
-    | bytes
-)
+    import pyrate_limiter
+
+    from ._api_connector_types import (
+        _AuthType,
+        _DataType,
+        _HeadersType,
+        _JsonType,
+        _ParamsType,
+    )
+
+logger = logging.getLogger(__name__)
 
 
 class APIConnector:
@@ -48,10 +41,13 @@ class APIConnector:
     def __init__(
         self,
         uri: str,
-        headers: _Headers | None = None,
-        auth: _Auth | None = None,
+        headers: _HeadersType | None = None,
+        auth: _AuthType | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
+        *,
+        ratelimiter: pyrate_limiter.Limiter | None = None,
+        session: requests.Session | None = None,
     ) -> None:
         """
         Initialize the APIConnector.
@@ -71,17 +67,34 @@ class APIConnector:
                 The name of the key in the response json
                 where the data is contained.
                 Required if the data is nested in the response json.
+            ratelimiter:
+                A :class:`~pyrate_limiter.limiter.Limiter` instance to use for rate limiting.
+                If not provided, no rate limiting will be applied.
+            session:
+                A preconfigured :class`~requests.Session` to use.
+                If not provided, a new session will be created.
+                If provided, `ratelimit` will be ignored.
 
         """
-        # Add a trailing slash if its missing
+        # Add a trailing slash if it's missing
         if not uri.endswith("/"):
             uri = uri + "/"
 
         self.uri = uri
-        self.headers = headers
-        self.auth = auth
         self.pagination_key = pagination_key
         self.data_key = data_key
+
+        if session:
+            self.session = session
+        elif ratelimiter:
+            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimiter)
+        else:
+            self.session = requests.Session()
+
+        if auth:
+            self.session.auth = auth
+        if headers:
+            self.session.headers = headers  # type: ignore[invalid-assignment]
 
     def request(
         self,
@@ -89,8 +102,8 @@ class APIConnector:
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
         json: Any | None = None,
-        data: _Data | None = None,
-        params: _Params | None = None,
+        data: _DataType | None = None,
+        params: _ParamsType | None = None,
         raise_on_error: bool = True,
         **kwargs,
     ) -> requests.Response:
@@ -120,21 +133,22 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to add to the :class:`~requests.Request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
 
-        resp = requests.request(
-            req_type,
-            full_url,
-            headers=self.headers,
-            auth=self.auth,
+        req = requests.Request(
+            method=req_type,
+            url=full_url,
             json=json,
             data=data,
-            params=params,
             **kwargs,
         )
+        if params:
+            req.params = params
+
+        resp = self.session.send(req.prepare())
 
         if raise_on_error:
             self.validate_response(resp)
@@ -150,7 +164,7 @@ class APIConnector:
         return_format: Literal["json"] = "json",
         raise_on_error: ... = ...,
         **kwargs,
-    ) -> dict[str, Any]: ...
+    ) -> _JsonType: ...
 
     @overload
     def get_request(
@@ -167,11 +181,11 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
+        params: _ParamsType | None = None,
         return_format: Literal["json", "content"] = "json",
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict | bytes:
+    ) -> _JsonType | bytes:
         """
         Make a GET request.
 
@@ -184,7 +198,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to the :class:`~requests.Request`.
 
         Returns:
             The :meth:`requests.Response.json` from the response if `return_format` is ``json``,
@@ -209,13 +223,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
-        data: _Data | None = None,
+        params: _ParamsType | None = None,
+        data: _DataType | None = None,
         json: Any | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a POST request.
 
@@ -233,7 +247,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -267,11 +281,11 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
+        params: _ParamsType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a DELETE request.
 
@@ -287,7 +301,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -313,13 +327,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        data: _Data | None = None,
+        data: _DataType | None = None,
         json: Any | None = None,
-        params: _Params | None = None,
+        params: _ParamsType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a PUT request.
 
@@ -337,7 +351,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -365,13 +379,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
-        data: _Data | None = None,
+        params: _ParamsType | None = None,
+        data: _DataType | None = None,
         json: Any | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a PATCH request.
 
@@ -389,7 +403,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`

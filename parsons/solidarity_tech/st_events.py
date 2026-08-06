@@ -1,12 +1,15 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import EventType, ScopeType
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +59,7 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events>`__
 
         """
-        params: dict[str, Any] = {}
+        params: ParamsType = {}
         self._add_if_field_not_empty(params, "scope_id", scope_id)
         self._add_if_field_not_empty(params, "scope_type", scope_type)
 
@@ -204,7 +207,7 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events-id>`__
 
         """
-        params: dict[str, Any] = {"include_hosts": include_hosts}
+        params: ParamsType = {"include_hosts": include_hosts}
 
         res = self._get_single_resource("event_sessions", id, params=params)
 

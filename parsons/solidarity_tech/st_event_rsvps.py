@@ -1,12 +1,15 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import AttendanceStatus
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +56,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps>`__
 
         """
-        params: dict[str, Any] = {"full_user_payload": full_user_payload}
+        params: ParamsType = {"full_user_payload": full_user_payload}
         self._add_if_field_not_empty(params, "event_id", event_id)
         self._add_if_field_not_empty(params, "session_id", session_id)
         self._add_if_field_not_empty(params, "user_id", user_id)
@@ -96,7 +99,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps-id>`__
 
         """
-        params: dict[str, Any] = {"full_user_payload": full_user_payload}
+        params: ParamsType = {"full_user_payload": full_user_payload}
 
         res = self._get_single_resource("event_rsvps", id, params=params)
 

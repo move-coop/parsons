@@ -1,11 +1,14 @@
 import logging
 import numbers
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from zoneinfo import ZoneInfo
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +65,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(user_list_ids, list):
             user_list_ids = ",".join(str(id) for id in user_list_ids)
 
-        params: dict[str, Any] = {}
+        params: ParamsType = {}
         self._add_if_field_not_empty(params, "user_list_ids", user_list_ids)
         self._add_if_field_not_empty(params, "phone_number", phone_number)
         self._add_if_field_not_empty(params, "email", email)

@@ -1,12 +1,15 @@
 import logging
 from datetime import datetime
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import EventType
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +86,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         if isinstance(event_tags, list):
             event_tags = ",".join(str(tag) for tag in event_tags)
 
-        params: dict[str, Any] = {
+        params: ParamsType = {
             "event_id": event_id,
         }
         self._add_if_field_not_empty(params, "upcoming", upcoming)
@@ -225,7 +228,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-sessions-id>`__
 
         """
-        params: dict[str, Any] = {"include_hosts": include_hosts}
+        params: ParamsType = {"include_hosts": include_hosts}
         res = self._get_single_resource("event_sessions", id, params=params)
 
         expected_responses = {

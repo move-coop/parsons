@@ -1,11 +1,14 @@
 import logging
 from datetime import datetime
-from typing import Any, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +67,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-actions>`__
 
         """
-        params: dict[str, Any] = {}
+        params: ParamsType = {}
         self._add_if_field_not_empty(params, "user_id", user_id)
         self._add_if_field_not_empty(params, "page_id", page_id)
         self._add_if_field_not_empty(params, "group_by", group_by)

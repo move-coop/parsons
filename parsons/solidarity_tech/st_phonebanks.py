@@ -1,9 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +57,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         if isinstance(ids, list):
             ids = ",".join(str(id) for id in ids)
 
-        params: dict[str, Any] = {"event_id": event_id, "include_stats": include_stats}
+        params: ParamsType = {"event_id": event_id, "include_stats": include_stats}
         self._add_if_field_not_empty(params, "ids", ids)
 
         res = self._get_resources(

@@ -1,8 +1,11 @@
 import logging
-from typing import Any
+from typing import TYPE_CHECKING
 
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import InteractionType
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +51,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-notes>`__
 
         """
-        params: dict[str, Any] = {
+        params: ParamsType = {
             "user_id": user_id,
             "content": content,
             "restricted": restricted,
@@ -96,7 +99,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_user-notes-id>`__
 
         """
-        params: dict[str, Any] = {"user_id": user_id}
+        params: ParamsType = {"user_id": user_id}
         self._add_if_field_not_empty(params, "agent_id", agent_id)
 
         res = self._del_request("user_notes", id, params=params)

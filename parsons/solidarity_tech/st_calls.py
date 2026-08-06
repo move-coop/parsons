@@ -1,9 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +48,7 @@ class SolidarityTechCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_calls>`__
 
         """
-        params: dict[str, Any] = {"user_id": user_id}
+        params: ParamsType = {"user_id": user_id}
 
         res = self._get_resources(
             "calls",

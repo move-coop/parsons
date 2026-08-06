@@ -1,11 +1,14 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +49,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-assignments>`__
 
         """
-        params: dict[str, Any] = {"task_id": task_id, "agent_user_id": agent_user_id}
+        params: ParamsType = {"task_id": task_id, "agent_user_id": agent_user_id}
 
         res = self._get_resources(
             "task_assignments",

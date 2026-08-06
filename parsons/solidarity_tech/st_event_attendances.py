@@ -1,11 +1,14 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +49,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-attendances>`__
 
         """
-        params: dict[str, Any] = {}
+        params: ParamsType = {}
         self._add_if_field_not_empty(params, "event_id", event_id)
         self._add_if_field_not_empty(params, "session_id", session_id)
 

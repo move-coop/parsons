@@ -1,12 +1,15 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +47,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_text-templates>`__
 
         """
-        params: dict[str, Any] = {"event_id": event_id}
+        params: ParamsType = {"event_id": event_id}
 
         res = self._get_resources(
             "text_templates",

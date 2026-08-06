@@ -5,16 +5,18 @@ from enum import Enum
 from typing import Any, cast
 
 import numpy as np
+import pyrate_limiter
 import requests
-from pyrate_limiter import Duration, Rate
+import requests_ratelimiter
+from requests.structures import CaseInsensitiveDict
 
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
 from parsons.utilities import check_env
-from parsons.utilities.ratelimited_api_connector import RateLimitedAPIConnector
+from parsons.utilities.api_connector import APIConnector, _ParamsType
 
 logger = logging.getLogger(__name__)
 
-ParamTypes = str | int | np.int64 | float | None
+ParamsType = _ParamsType | np.int64
 
 
 class SolidarityTechBase:
@@ -29,10 +31,14 @@ class SolidarityTechBase:
 
         """
         self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
-        self.headers = {"authorization": f"Bearer {self.api_token}"}
+        self.headers = CaseInsensitiveDict({"authorization": f"Bearer {self.api_token}"})
         self.api_url = "https://api.solidarity.tech/v1"
-        self.api = RateLimitedAPIConnector(
-            self.api_url, headers=self.headers, ratelimit=Rate(60, Duration.SECOND * 30)
+        self.api = APIConnector(
+            self.api_url,
+            headers=self.headers,
+            ratelimiter=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)
+            ),
         )
 
     def _get_resources(self, endpoint: str, **kwargs) -> requests.Response:
@@ -73,7 +79,7 @@ class SolidarityTechBase:
             "since": "_since",
             "include_count": "_include_count",
         }
-        params: dict[str, ParamTypes] = {}
+        params: dict[str, ParamsType] = {}
         for key, value in param_mapping.items():
             if key in kwargs:
                 params[value] = kwargs[key]
@@ -103,7 +109,7 @@ class SolidarityTechBase:
     def _post_request(
         self,
         endpoint: str,
-        payload: Mapping[str, ParamTypes] | None = None,
+        payload: Mapping[str, ParamsType] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle POST requests."""
@@ -114,7 +120,7 @@ class SolidarityTechBase:
         self,
         endpoint: str,
         id: int,
-        payload: Mapping[str, ParamTypes] | None = None,
+        payload: Mapping[str, ParamsType] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle PUT requests."""
@@ -126,7 +132,7 @@ class SolidarityTechBase:
         """Handle DEL requests."""
         complete_endpoint = f"{endpoint}/{id}"
         logger.debug("Processing DEL request at endpoint: %s", complete_endpoint)
-        return self.api.request(url=complete_endpoint, req_type="DEL", **kwargs)
+        return self.api.request(url=complete_endpoint, req_type="DELETE", **kwargs)
 
     def _handle_status_codes(
         self, res: requests.Response, codes: dict[int, tuple[bool, str]]

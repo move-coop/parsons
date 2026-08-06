@@ -1,10 +1,13 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 from parsons.solidarity_tech.solidarity_tech_enums import FieldType, ScopeType
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -47,11 +50,9 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_custom-user-properties>`__
 
         """
-        params: dict[str, Any] = {}
-        if scope_id is not None:
-            params["scope_id"] = scope_id
-        if scope_type is not None:
-            params["scope_type"] = scope_type.value
+        params: ParamsType = {}
+        self._add_if_field_not_empty(params, "scope_id", scope_id)
+        self._add_if_field_not_empty(params, "description", scope_type)
 
         res = self._get_resources(
             "custom_user_properties",

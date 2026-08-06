@@ -1,9 +1,12 @@
 import logging
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +46,7 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages>`__
 
         """
-        params: dict[str, Any] = {"include_action_counts": include_action_counts}
+        params: ParamsType = {"include_action_counts": include_action_counts}
 
         res = self._get_resources(
             "pages",
@@ -89,7 +92,7 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages-id>`__
 
         """
-        params: dict[str, Any] = {"include_action_counts": include_action_counts}
+        params: ParamsType = {"include_action_counts": include_action_counts}
 
         res = self._get_single_resource("pages", id, params=params)
 

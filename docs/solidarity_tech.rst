@@ -71,4 +71,8 @@ API
    :inherited-members:
    :members:
 
+.. automodule:: parsons.solidarity_tech.enums
+   :inherited-members:
+   :members:
+
 .. _Solidarity Tech: https://www.solidarity.tech/

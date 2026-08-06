@@ -5,6 +5,9 @@ Solidarity Tech
 Overview
 ========
 
+What is Solidarity Tech?
+------------------------
+
 `Solidarity Tech`_'s all-in-one nonprofit CRM includes digital tools like
 `texting <https://www.solidarity.tech/texting>`__,
 `calling <https://www.solidarity.tech/calling>`__,
@@ -14,7 +17,10 @@ Overview
 `unions <https://www.solidarity.tech/for/unions>`__ &
 grassroots organizers.
 
-As of September 2026, the :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTech` connector supports
+The SolidarityTech Connector
+----------------------------
+
+As of September 2026, parsons' :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTech` connector supports
 all endpoints described in the `Solidarity Tech API Documentation <https://www.solidarity.tech/reference/solidarity-tech-api>`_.
 The documented `rate limits <https://www.solidarity.tech/reference/solidarity-tech-api#api-authorization--rate-limits>`__
 are applied automatically, although advanced configuration is available.
@@ -61,4 +67,8 @@ API
    :inherited-members:
    :members:
 
-.. _Solidarity Tech: https://domain.invalid/
+.. automodule:: parsons.solidarity_tech.exceptions
+   :inherited-members:
+   :members:
+
+.. _Solidarity Tech: https://www.solidarity.tech/

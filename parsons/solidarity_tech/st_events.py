@@ -1,15 +1,18 @@
-import logging
-from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from __future__ import annotations
 
-import numpy as np
+import logging
+from typing import TYPE_CHECKING, Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_enums import EventType, ScopeType
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
+    import numpy as np
+
     from parsons.solidarity_tech.solidarity_tech_base import ParamsType
+    from parsons.solidarity_tech.solidarity_tech_enums import EventType, ScopeType
 
 logger = logging.getLogger(__name__)
 

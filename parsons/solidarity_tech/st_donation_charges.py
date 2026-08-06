@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 import logging
-from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 logger = logging.getLogger(__name__)
 

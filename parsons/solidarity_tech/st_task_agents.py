@@ -1,13 +1,16 @@
-import logging
-from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from __future__ import annotations
 
-import numpy as np
+import logging
+from typing import TYPE_CHECKING, Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
+    import numpy as np
+
     from parsons.solidarity_tech.solidarity_tech_base import ParamsType
 
 logger = logging.getLogger(__name__)

@@ -1,13 +1,18 @@
+from __future__ import annotations
+
 import logging
 import numbers
-from datetime import datetime
-from typing import Any
-
-import numpy as np
+from typing import TYPE_CHECKING, Any
 
 from parsons import Table
 from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
-from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    import numpy as np
+
+    from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
 
 CompareValueType = str | numbers.Rational | bool
 QueryParamType = dict[

@@ -1,18 +1,23 @@
+from __future__ import annotations
+
 import logging
-from collections.abc import Mapping
 from datetime import datetime
 from enum import Enum
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import numpy as np
 import pyrate_limiter
-import requests
 import requests_ratelimiter
 from requests.structures import CaseInsensitiveDict
 
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector, _ParamsType
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
+
+    import requests
 
 logger = logging.getLogger(__name__)
 

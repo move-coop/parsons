@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 from parsons.solidarity_tech.st_activities import SolidarityTechActivities

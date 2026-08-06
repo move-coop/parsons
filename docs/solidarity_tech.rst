@@ -6,10 +6,18 @@ Overview
 ========
 
 `Solidarity Tech`_'s all-in-one nonprofit CRM includes digital tools like
-texting, calling, email & websites for advocacy groups, unions & grassroots organizers.
+`texting <https://www.solidarity.tech/texting>`__,
+`calling <https://www.solidarity.tech/calling>`__,
+`email <https://www.solidarity.tech/email>`__ &
+`websites <https://www.solidarity.tech/website>`__ for
+`advocacy groups <https://www.solidarity.tech/for/advocacy>`__,
+`unions <https://www.solidarity.tech/for/unions>`__ &
+grassroots organizers.
 
 As of September 2026, the :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTech` connector supports
 all endpoints described in the `Solidarity Tech API Documentation <https://www.solidarity.tech/reference/solidarity-tech-api>`_.
+The documented `rate limits <https://www.solidarity.tech/reference/solidarity-tech-api#api-authorization--rate-limits>`__
+are applied automatically, although advanced configuration is available.
 
 Quickstart
 ==========

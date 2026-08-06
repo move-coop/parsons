@@ -25,7 +25,9 @@ ParamsType = _ParamsType | np.int64
 
 
 class SolidarityTechBase:
-    def __init__(self, api_token: str | None = None) -> None:
+    def __init__(
+        self, api_token: str | None = None, *, session: requests.Session | None = None
+    ) -> None:
         """
         Instantiate the SolidarityTech class.
 
@@ -33,6 +35,10 @@ class SolidarityTechBase:
             api_token:
                 A valid Bearer token for authorization.
                 Not required if the `SOLIDARITY_TECH_BEARER_KEY` env variable is set.
+            session:
+                A custom :class:`requests.Session` instance for advanced configuration.
+                Providing your own :class:`~requests.Session` will bypass
+                built-in rate limiting, so you will need to provide your own solution.
 
         """
         self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
@@ -43,7 +49,10 @@ class SolidarityTechBase:
             headers=self.headers,
             ratelimiter=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)
-            ),
+            )
+            if not session
+            else None,
+            session=session,
         )
 
     def _get_resources(self, endpoint: str, **kwargs) -> requests.Response:

@@ -1,6 +1,7 @@
 import logging
 from typing import Literal
 
+import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 from suds.client import Client
 
@@ -19,6 +20,8 @@ class VANConnector:
         api_key=None,
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
+        *,
+        ratelimiter: requests_ratelimiter.Limiter | None = None,
     ):
         self.api_key: str = check_env.check("VAN_API_KEY", api_key)
 
@@ -42,6 +45,7 @@ class VANConnector:
             auth=self.auth,
             data_key="items",
             pagination_key=self.pagination_key,
+            ratelimiter=ratelimiter,
         )
 
         # We will not create the SOAP client unless we need to as this triggers checking for

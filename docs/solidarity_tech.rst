@@ -5,7 +5,7 @@ Solidarity Tech
 Overview
 ========
 
-Solidarity Tech's all-in-one nonprofit CRM includes digital tools like
+`Solidarity Tech`_'s all-in-one nonprofit CRM includes digital tools like
 texting, calling, email & websites for advocacy groups, unions & grassroots organizers.
 
 As of September 2026, the :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTech` connector supports
@@ -52,3 +52,5 @@ API
 .. autoclass:: parsons.solidarity_tech.solidarity_tech.SolidarityTech
    :inherited-members:
    :members:
+
+.. _Solidarity Tech: https://domain.invalid/

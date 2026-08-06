@@ -74,4 +74,23 @@ class SolidarityTech(
     SolidarityTechUserRelationships,
     SolidarityTechUsers,
 ):
+    """
+    Parsons connector for interacting with `Solidarity Tech`_ endpoints.
+
+    The SolidarityTech connector provides a complete
+    interface for interacting with the Solidarity Tech API.
+    It inherits from multiple endpoint-specific classes,
+    all of which ultimately inherit shared methods from
+    :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTechBase`.
+
+    If you only need limited functionality rather than the full connector,
+    you can import an individual component class directly.
+
+    .. code-block:: python
+       :caption: Importing a component class directly.
+
+        from parsons.solidarity_tech import SolidarityTechEvents
+
+    """
+
     pass

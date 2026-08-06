@@ -49,10 +49,12 @@ nitpick_ignore_regex = {
 # -- Intersphinx Mapping -----------------------------------------------------
 intersphinx_mapping_core = {
     "petl": ("https://petl.readthedocs.io/latest/", None),
+    "pyrate-limiter": ("https://pyratelimiter.readthedocs.io/en/latest/", None),
     "python": ("https://docs.python.org/3", None),
     "python-dateutil": ("https://dateutil.readthedocs.io/en/stable/", None),
     "requests": ("https://requests.readthedocs.io/en/latest/", None),
     "requests-oauthlib": ("https://requests-oauthlib.readthedocs.io/en/latest/", None),
+    "requests-ratelimiter": ("https://requests-ratelimiter.readthedocs.io/en/stable/", None),
     "simplejson": ("https://simplejson.readthedocs.io/en/latest/", None),
 }
 intersphinx_mapping_extras = {
@@ -92,7 +94,6 @@ intersphinx_mapping_extras = {
     "psycopg2-binary": ("https://www.psycopg.org/docs/", None),
     "pyairtable": ("https://pyairtable.readthedocs.io/en/stable/", None),
     "PyGitHub": ("https://pygithub.readthedocs.io/en/latest/", None),
-    "pyratelimiter": ("https://pyratelimiter.readthedocs.io/en/latest/", None),
     "requests-toolbelt": ("https://toolbelt.readthedocs.io/en/stable/", None),
     "rich": ("https://rich.readthedocs.io/en/stable/", None),
     "simple-salesforce": ("https://simple-salesforce.readthedocs.io/en/latest/", None),

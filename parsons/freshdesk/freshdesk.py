@@ -15,7 +15,7 @@ PAGE_SIZE = 100
 
 class Freshdesk:
     def __init__(
-        self, domain: str, api_key: str, ratelimiter: requests_ratelimiter.Limiter | None = None
+        self, domain: str, api_key: str, *, ratelimiter: requests_ratelimiter.Limiter | None = None
     ):
         """
         Instantiate Freshdesk class

@@ -27,7 +27,10 @@ class Formstack:
     """
 
     def __init__(
-        self, api_token: str | None = None, ratelimiter: requests_ratelimiter.Limiter | None = None
+        self,
+        api_token: str | None = None,
+        *,
+        ratelimiter: requests_ratelimiter.Limiter | None = None,
     ):
         self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
         headers = {

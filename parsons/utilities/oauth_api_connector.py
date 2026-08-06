@@ -1,12 +1,17 @@
 import urllib.parse
-from collections.abc import Mapping
 from typing import Any, Literal
 
 from oauthlib.oauth2 import BackendApplicationClient, OAuth2Token
 from requests import Response
 from requests_oauthlib import OAuth2Session
 
-from parsons.utilities.api_connector import APIConnector, _DataType, _ParamsType
+from parsons.utilities.api_connector import (
+    APIConnector,
+    _DataType,
+    _HeadersType,
+    _JsonType,
+    _ParamsType,
+)
 
 
 class OAuth2APIConnector(APIConnector):
@@ -25,11 +30,12 @@ class OAuth2APIConnector(APIConnector):
         client_secret: str,
         token_url: str,
         auto_refresh_url: str | None,
-        headers: Mapping[str, str | bytes | None] | None = None,
+        headers: _HeadersType | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
         grant_type: str = "client_credentials",
         authorization_kwargs: dict[str, Any] | None = None,
+        **kwargs,
     ) -> None:
         """
         Initialize the APIConnector.
@@ -56,6 +62,7 @@ class OAuth2APIConnector(APIConnector):
             headers=headers,
             pagination_key=pagination_key,
             data_key=data_key,
+            **kwargs,
         )
 
         if not authorization_kwargs:
@@ -83,7 +90,7 @@ class OAuth2APIConnector(APIConnector):
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
-        json: dict | None = None,
+        json: _JsonType | None = None,
         data: _DataType | None = None,
         params: _ParamsType | None = None,
         raise_on_error: bool = True,

@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
 

@@ -5,14 +5,14 @@ import numbers
 from typing import TYPE_CHECKING, Any
 
 from parsons import Table
-from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
 
     import numpy as np
 
-    from parsons.solidarity_tech.solidarity_tech_enums import ScopeType
+    from parsons.solidarity_tech.enums import ScopeType
 
 CompareValueType = str | numbers.Rational | bool
 QueryParamType = dict[

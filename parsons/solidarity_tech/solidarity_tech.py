@@ -81,7 +81,7 @@ class SolidarityTech(
     interface for interacting with the Solidarity Tech API.
     It inherits from multiple endpoint-specific classes,
     all of which ultimately inherit shared methods from
-    :class:`~parsons.solidarity_tech.solidarity_tech.SolidarityTechBase`.
+    :class:`~parsons.solidarity_tech.base.SolidarityTechBase`.
 
     If you only need limited functionality rather than the full connector,
     you can import an individual component class directly.

@@ -4,12 +4,12 @@ import logging
 from typing import TYPE_CHECKING
 
 from parsons import Table
-from parsons.solidarity_tech.solidarity_tech_base import SolidarityTechBase
+from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.solidarity_tech_base import ParamsType
+    from parsons.solidarity_tech.base import ParamsType
 
 logger = logging.getLogger(__name__)
 

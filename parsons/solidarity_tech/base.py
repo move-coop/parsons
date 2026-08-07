@@ -12,7 +12,7 @@ from requests.structures import CaseInsensitiveDict
 
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
 from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector, _ParamsType
+from parsons.utilities.api_connector import APIConnector, _JsonType
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-ParamsType = _ParamsType | np.int64
+ParamsType = _JsonType | np.int64
 
 
 class SolidarityTechBase:
@@ -123,7 +123,7 @@ class SolidarityTechBase:
     def _post_request(
         self,
         endpoint: str,
-        payload: Mapping[str, ParamsType] | None = None,
+        payload: Mapping[str, _JsonType] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle POST requests."""
@@ -134,7 +134,7 @@ class SolidarityTechBase:
         self,
         endpoint: str,
         id: int,
-        payload: Mapping[str, ParamsType] | None = None,
+        payload: Mapping[str, _JsonType] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle PUT requests."""

@@ -107,11 +107,8 @@ jobs:
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
-          uv sync
-          --frozen
-          --no-default-groups
+          uv pip install .[all]
           --group test-coverage
-          --all-extras
 
       - id: cache-pytest
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -220,9 +217,7 @@ jobs:
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
-          uv sync
-          --frozen
-          --no-default-groups
+          uv pip install .
           --group test
           --extra ${{ matrix.extra }}
 

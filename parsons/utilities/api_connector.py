@@ -108,7 +108,7 @@ class APIConnector:
             self.session.auth = auth
 
         if headers:
-            self.session.headers = headers  # ignore: type[invalid-assignment]
+            self.session.headers = headers  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
     def auth(self) -> _AuthType:
@@ -128,7 +128,7 @@ class APIConnector:
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
-        self.session.headers = inp  # ignore: type[invalid-assignment]
+        self.session.headers = inp  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     def headers(self) -> None:
@@ -139,7 +139,7 @@ class APIConnector:
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
-        json: Any | None = None,
+        json: _JsonType | None = None,
         data: _DataType | None = None,
         params: _ParamsType | None = None,
         raise_on_error: bool = True,
@@ -263,7 +263,7 @@ class APIConnector:
         *,
         params: _ParamsType | None = None,
         data: _DataType | None = None,
-        json: Any | None = None,
+        json: _JsonType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
@@ -366,7 +366,7 @@ class APIConnector:
         url: str,
         *,
         data: _DataType | None = None,
-        json: Any | None = None,
+        json: _JsonType | None = None,
         params: _ParamsType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
@@ -419,7 +419,7 @@ class APIConnector:
         *,
         params: _ParamsType | None = None,
         data: _DataType | None = None,
-        json: Any | None = None,
+        json: _JsonType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,

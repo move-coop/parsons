@@ -108,7 +108,7 @@ class APIConnector:
             self.session.auth = auth
 
         if headers:
-            self.session.headers = headers  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+            self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
     def auth(self) -> _AuthType:
@@ -128,7 +128,7 @@ class APIConnector:
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
-        self.session.headers = inp  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+        self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     def headers(self) -> None:
@@ -196,22 +196,22 @@ class APIConnector:
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["json"] = "json",
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> _JsonType: ...
 
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["content"],
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> bytes: ...
 

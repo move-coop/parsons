@@ -66,8 +66,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_278bde6e185ccb9c___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.15.2">coverage.py v7.15.2</a>,
-            created at 2026-08-03 00:50 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.15.4">coverage.py v7.15.4</a>,
+            created at 2026-08-10 00:31 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -90,7 +90,7 @@
     <p class="run"><span class="n"><a id="t6" href="#t6">6</a></span><span class="t"><span class="key">def</span> <span class="nam">connection_exists</span><span class="op">(</span><span class="nam">args</span><span class="op">,</span> <span class="nam">kwargs</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t7" href="#t7">7</a></span><span class="t">    <span class="key">if</span> <span class="nam">any</span><span class="op">(</span><span class="nam">isinstance</span><span class="op">(</span><span class="nam">arg</span><span class="op">,</span> <span class="nam">paramiko</span><span class="op">.</span><span class="nam">sftp_client</span><span class="op">.</span><span class="nam">SFTPClient</span><span class="op">)</span> <span class="key">for</span> <span class="nam">arg</span> <span class="key">in</span> <span class="nam">args</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t8" href="#t8">8</a></span><span class="t">        <span class="key">return</span> <span class="key">True</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t">    <span class="key">return</span> <span class="nam">bool</span><span class="op">(</span><span class="str">"connection"</span> <span class="key">in</span> <span class="nam">kwargs</span> <span class="key">and</span> <span class="nam">kwargs</span><span class="op">[</span><span class="str">"connection"</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t9" href="#t9">9</a></span><span class="t">    <span class="key">return</span> <span class="nam">bool</span><span class="op">(</span><span class="str">&quot;connection&quot;</span> <span class="key">in</span> <span class="nam">kwargs</span> <span class="key">and</span> <span class="nam">kwargs</span><span class="op">[</span><span class="str">&quot;connection&quot;</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t10" href="#t10">10</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t11" href="#t11">11</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t12" href="#t12">12</a></span><span class="t"><span class="key">def</span> <span class="nam">connect</span><span class="op">(</span><span class="nam">func</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -98,7 +98,7 @@
     <p class="run"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t">    <span class="key">def</span> <span class="nam">wrapper</span><span class="op">(</span><span class="op">*</span><span class="nam">args</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">        <span class="key">if</span> <span class="key">not</span> <span class="nam">connection_exists</span><span class="op">(</span><span class="nam">args</span><span class="op">,</span> <span class="nam">kwargs</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t">            <span class="key">with</span> <span class="nam">args</span><span class="op">[</span><span class="num">0</span><span class="op">]</span><span class="op">.</span><span class="nam">create_connection</span><span class="op">(</span><span class="op">)</span> <span class="key">as</span> <span class="nam">connection</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t">                <span class="nam">kwargs</span><span class="op">[</span><span class="str">"connection"</span><span class="op">]</span> <span class="op">=</span> <span class="nam">connection</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t">                <span class="nam">kwargs</span><span class="op">[</span><span class="str">&quot;connection&quot;</span><span class="op">]</span> <span class="op">=</span> <span class="nam">connection</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t">                <span class="key">return</span> <span class="nam">func</span><span class="op">(</span><span class="op">*</span><span class="nam">args</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t">        <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">            <span class="key">return</span> <span class="nam">func</span><span class="op">(</span><span class="op">*</span><span class="nam">args</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwargs</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -112,8 +112,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_278bde6e185ccb9c___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.15.2">coverage.py v7.15.2</a>,
-            created at 2026-08-03 00:50 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.15.4">coverage.py v7.15.4</a>,
+            created at 2026-08-10 00:31 +0000
         </p>
     </div>
 </footer>

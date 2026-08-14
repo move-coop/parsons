@@ -39,7 +39,7 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
+          --frozen
           --all-extras
 
       - run: >-

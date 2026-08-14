@@ -158,7 +158,7 @@ class Redshift(
         if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries`.
+        following the documentation for `passing parameters to SQL queries <https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries>`__.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 

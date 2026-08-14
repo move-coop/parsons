@@ -5,7 +5,7 @@ import pickle
 import random
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 import petl
 import psycopg2
@@ -152,13 +152,13 @@ class Redshift(
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: list | None = None) -> Table | None:
+    def query(self, sql: str, parameters: list[Any] | dict[str, Any] | None = None) -> Table | None:
         """
         Execute a query against the Redshift database. Will return ``None``
         if the query returns zero rows.
 
         To include python variables in your query, it is recommended to pass them as parameters,
-        following the `psycopg style <http://initd.org/psycopg/docs/usage.html#passing-parameters-to-sql-queries>`_.
+        following the `https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries`.
         Using the ``parameters`` argument ensures that values are escaped properly, and avoids SQL
         injection attacks.
 
@@ -179,11 +179,18 @@ class Redshift(
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        Args:
+        .. code-block:: python
+
+            name = "Beatrice O'Brady"
+            sql = "SELECT * FROM my_table WHERE name = %(name)s"
+            rs.query(sql, parameters={"name": name})
+
+        `Args:`
             sql: str
                 A valid SQL statement
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
+            parameters: list | dict[str, Any]
+                A list of python variables to be converted into SQL values in your query.
+                Or a dict.
 
         Returns:
             Table
@@ -193,7 +200,13 @@ class Redshift(
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
-    def query_with_connection(self, sql, connection, parameters=None, commit=True):
+    def query_with_connection(
+        self,
+        sql,
+        connection,
+        parameters: list[Any] | dict[str, Any] | None = None,
+        commit=True,
+    ):
         """
         Execute a query against the Redshift database, with an existing connection.
         Useful for batching queries together. Will return ``None`` if the query
@@ -204,8 +217,8 @@ class Redshift(
                 A valid SQL statement
             connection: obj
                 A connection object obtained from ``redshift.connection()``
-            parameters: list
-                A list of python variables to be converted into SQL values in your query
+            parameters: list | dict
+                A list of python variables to be converted into SQL values in your query.
             commit: boolean
                 Whether to commit the transaction immediately. If ``False`` the transaction will
                 be committed when the connection goes out of scope and is closed (or you can

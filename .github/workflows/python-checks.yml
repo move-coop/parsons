@@ -217,9 +217,8 @@ jobs:
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
-          uv pip install .
+          uv pip install .[${{ matrix.extra }}]
           --group test
-          --extra ${{ matrix.extra }}
 
       - id: cache-pytest
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9

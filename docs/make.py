@@ -1,6 +1,7 @@
 """Build multi-version Sphinx documentation."""
 
 import logging
+import os
 import shutil
 import subprocess
 import sys
@@ -167,6 +168,9 @@ if __name__ == "__main__":
     target: str = command_args[0]
     extra_args: list[str] = command_args[1:] if len(command_args) > 1 else []
     verbose: bool = ("--verbose" in extra_args) or ("-v" in extra_args)
+    if not verbose and os.getenv("RUNNER_DEBUG"):
+        verbose = True
+        extra_args += ["--verbose"]
 
     targets = {
         "clean": clean,

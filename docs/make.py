@@ -30,13 +30,11 @@ def check_dependencies() -> None:
     logger.debug("All required tools found in PATH.")
 
 
-def run_command(
-    command: list[str | Path], cwd: Path = ROOT_DIR, *, verbose: bool = False
-) -> subprocess.CompletedProcess:
+def run_command(command: list[str | Path], cwd: Path = ROOT_DIR) -> subprocess.CompletedProcess:
     """Execute a shell command with error handling and output capture."""
     cmd_str = [str(arg) for arg in command]
     try:
-        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=not verbose, text=True)
+        return subprocess.run(cmd_str, cwd=cwd, check=True, text=True)
     except subprocess.CalledProcessError as e:
         logger.exception("Command failed: %s", " ".join(cmd_str))
         sys.exit(e.returncode)
@@ -90,8 +88,6 @@ def test(extra_args: list[str]) -> None:
         "Building single-version docs with strict syntax and reference checks%s.", extra_log_info
     )
 
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     run_command(
         [
             SPHINXBUILD,
@@ -101,8 +97,7 @@ def test(extra_args: list[str]) -> None:
             *extra_args,
             SOURCEDIR,
             BUILDDIR / "html_test",
-        ],
-        verbose=verbose,
+        ]
     )
 
 
@@ -113,11 +108,8 @@ def linkcheck(extra_args: list[str]) -> None:
     extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
     logger.info("Building single-version docs, checking all links for validity%s.", extra_log_info)
 
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     run_command(
-        [SPHINXBUILD, "--builder", "linkcheck", *extra_args, SOURCEDIR, BUILDDIR / "linkcheck"],
-        verbose=verbose,
+        [SPHINXBUILD, "--builder", "linkcheck", *extra_args, SOURCEDIR, BUILDDIR / "linkcheck"]
     )
 
 
@@ -183,7 +175,4 @@ if __name__ == "__main__":
         sys.exit(0)
 
     logger.debug("Makefile target '%s' not found. Calling 'sphinx-build -M %s'...", target, target)
-    run_command(
-        [SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR, *extra_args],
-        verbose=verbose,
-    )
+    run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR, *extra_args])

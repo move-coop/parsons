@@ -161,18 +161,21 @@ def build(extra_args: list[str]) -> None:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 1 or sys.argv[1] == "--help":
+        run_command([SPHINXBUILD, "--help"])
+        sys.exit(0)
+
+    command_args = sys.argv[1:]
+    target: str = command_args[0]
+    extra_args: list[str] = command_args[1:] if len(command_args) > 1 else []
+    verbose: bool = ("--verbose" in extra_args) or ("-v" in extra_args)
+
     targets = {
         "clean": clean,
         "test": test,
         "linkcheck": linkcheck,
         "build_docs": build,
-        "help": lambda: run_command([SPHINXBUILD, "--help"]),
     }
-
-    target = sys.argv[1] if len(sys.argv) > 1 else "help"
-    extra_args = sys.argv[2:] if len(sys.argv) > 2 else []
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     if target in targets:
         targets[target](extra_args)
         sys.exit(0)

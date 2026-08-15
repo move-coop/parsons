@@ -37,9 +37,7 @@ def run_command(
     try:
         return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=not verbose, text=True)
     except subprocess.CalledProcessError as e:
-        logger.error("Command failed: %s", " ".join(cmd_str))
-        if not verbose and e.stderr:
-            logger.error("Details: %s", e.stderr.strip())
+        logger.exception("Command failed: %s", " ".join(cmd_str))
         sys.exit(e.returncode)
 
 

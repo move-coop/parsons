@@ -99,9 +99,7 @@ def test(extra_args: list[str]) -> None:
             "--jobs=auto",
             "--fail-on-warning",
             "--fresh-env",
-        ]
-        + extra_args
-        + [
+            *extra_args,
             SOURCEDIR,
             BUILDDIR / "html_test",
         ],
@@ -119,7 +117,7 @@ def linkcheck(extra_args: list[str]) -> None:
     verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
 
     run_command(
-        [SPHINXBUILD, "--builder", "linkcheck"] + extra_args + [SOURCEDIR, BUILDDIR / "linkcheck"],
+        [SPHINXBUILD, "--builder", "linkcheck", *extra_args, SOURCEDIR, BUILDDIR / "linkcheck"],
         verbose=verbose,
     )
 
@@ -149,7 +147,7 @@ def build(extra_args: list[str]) -> None:
 
     extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
     logger.info("Building multiversion documentation%s...", extra_log_info)
-    run_command(["sphinx-multiversion"] + extra_args + [SOURCEDIR, HTMLDIR])
+    run_command(["sphinx-multiversion", *extra_args, SOURCEDIR, HTMLDIR])
 
     src_redirect = SOURCEDIR / "index-redirect.html"
     if src_redirect.exists():
@@ -177,8 +175,10 @@ if __name__ == "__main__":
 
     if target in targets:
         targets[target](extra_args)
-    else:
-        run_command(
-            [SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR] + extra_args,
-            verbose=verbose,
-        )
+        sys.exit(0)
+
+    logger.debug("Makefile target '%s' not found. Calling 'sphinx-build -M %s'...", target, target)
+    run_command(
+        [SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR, *extra_args],
+        verbose=verbose,
+    )

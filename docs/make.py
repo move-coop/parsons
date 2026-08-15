@@ -5,6 +5,7 @@ import os
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from pathlib import Path
 
 from packaging import version
@@ -156,15 +157,14 @@ if __name__ == "__main__":
         run_command([SPHINXBUILD, "--help"])
         sys.exit(0)
 
-    command_args = sys.argv[1:]
+    command_args: list[str] = sys.argv[1:]
     target: str = command_args[0]
     extra_args: list[str] = command_args[1:] if len(command_args) > 1 else []
-    verbose: bool = ("--verbose" in extra_args) or ("-v" in extra_args)
-    if not verbose and os.getenv("RUNNER_DEBUG"):
-        verbose = True
+    is_verbose: bool = any(flag in extra_args for flag in ("--verbose", "-v"))
+    if not is_verbose and os.getenv("RUNNER_DEBUG"):
         extra_args += ["--verbose"]
 
-    targets = {
+    targets: dict[str, Callable] = {
         "clean": clean,
         "test": test,
         "linkcheck": linkcheck,

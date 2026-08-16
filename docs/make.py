@@ -31,11 +31,15 @@ def check_dependencies() -> None:
     logger.debug("All required tools found in PATH.")
 
 
-def run_command(command: list[str | Path], cwd: Path = ROOT_DIR) -> subprocess.CompletedProcess:
+def run_command(
+    command: list[str | Path], cwd: Path = ROOT_DIR, *, capture_output: bool = False
+) -> subprocess.CompletedProcess:
     """Execute a shell command with error handling and output capture."""
     cmd_str = [str(arg) for arg in command]
     try:
-        return subprocess.run(cmd_str, cwd=cwd, check=True, text=True)
+        return subprocess.run(
+            cmd_str, cwd=cwd, capture_output=capture_output, check=True, text=True
+        )
     except subprocess.CalledProcessError as e:
         logger.exception("Command failed: %s", " ".join(cmd_str))
         sys.exit(e.returncode)
@@ -126,7 +130,7 @@ def build(extra_args: list[str]) -> None:
     logger.info("Mapping `latest` to current directory...")
     run_command([*git_base, "branch", "-f", "latest"])
 
-    tag_proc = run_command([*git_base, "tag", "-l", "--sort=-v:refname"])
+    tag_proc = run_command([*git_base, "tag", "-l", "--sort=-v:refname"], capture_output=True)
     tags = tag_proc.stdout.strip().split("\n")
 
     if tags and tags[0]:

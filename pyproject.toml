@@ -31,8 +31,10 @@ classifiers = [
 ]
 dependencies = [
     "petl >= 1.7.17",
+    "pyrate-limiter >= 4.0",
     "python-dateutil >= 2.0",
     "requests >= 2.0",
+    "requests-ratelimiter >= 0.10",
     "requests-oauthlib >= 1.0",
     "simplejson >= 3.18",
 ]
@@ -127,17 +129,21 @@ scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
+solidarity-tech = [
+    "numpy >= 2.1;python_version<'3.14'",
+    "numpy >= 2.4;python_version>='3.14'",
+]
+ssh = [
+    "sshtunnel >= 0.4",
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
 targetsmart = [
     "defusedxml >= 0.7",
     "paramiko >= 3.0",
     "xmltodict >= 1.0"
 ]
 twilio = ["twilio >= 9.0"]
-ssh = [
-    "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9.11",
-    "sqlalchemy >= 1.4",
-]
 all = [
     "parsons[airtable]",
     "parsons[alchemer]",
@@ -169,9 +175,10 @@ all = [
     "parsons[sftp]",
     "parsons[slack]",
     "parsons[smtp]",
+    "parsons[solidarity-tech]",
+    "parsons[ssh]",
     "parsons[targetsmart]",
     "parsons[twilio]",
-    "parsons[ssh]",
 ]
 
 [project.urls]

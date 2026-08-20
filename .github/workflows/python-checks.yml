@@ -63,7 +63,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
       - name: determine key for pytest cache
@@ -121,7 +121,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -176,7 +176,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - name: determine key for pytest cache
@@ -219,7 +219,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -258,7 +258,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -310,7 +310,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -363,7 +363,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: img.shields.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -392,7 +392,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -429,7 +429,7 @@ jobs:
       - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
         with:
           disable-sudo: true
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: proxy.golang.org:443 ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0

@@ -468,6 +468,11 @@ class TestRedshiftDB(unittest.TestCase):
         r = self.rs.query(sql, parameters=names)
         assert r.num_rows == 2
 
+        sql = f"select * from {table_name} where name = %s"
+        name = "Sarah"
+        r = self.rs.query(sql, parameters={"name": name})
+        assert r[0]["name"] == name
+
     def test_schema_exists(self):
         assert self.rs.schema_exists(self.temp_schema)
         assert not self.rs.schema_exists("nonsense")

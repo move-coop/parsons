@@ -163,6 +163,7 @@ html_sidebars = {
 
 # -- Sphinx Multiversion Tag Creation ----------------------------------------
 def get_git_tags() -> list[str]:
+    """Get a list of git tags that start with 'v' (version tags)."""
     try:
         tags = subprocess.check_output(
             ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8", stderr=subprocess.DEVNULL

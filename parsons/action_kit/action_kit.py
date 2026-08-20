@@ -1391,9 +1391,10 @@ class ActionKit:
                 This doesn't work, if you upload a zipped csv though.
 
         Returns:
-            success: whether upload was successful
-            progress_url: an API URL to get progress on upload processing
-            res: requests http response object
+            dict:
+                success: whether upload was successful
+                progress_url: an API URL to get progress on upload processing
+                res: requests http response object
 
         """
         # self.conn defaults to JSON, but this has to be form/multi-part....

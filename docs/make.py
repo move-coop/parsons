@@ -1,9 +1,11 @@
 """Build multi-version Sphinx documentation."""
 
 import logging
+import os
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from pathlib import Path
 
 from packaging import version
@@ -30,16 +32,16 @@ def check_dependencies() -> None:
 
 
 def run_command(
-    command: list[str | Path], cwd: Path = ROOT_DIR, *, verbose: bool = False
+    command: list[str | Path], cwd: Path = ROOT_DIR, *, capture_output: bool = False
 ) -> subprocess.CompletedProcess:
     """Execute a shell command with error handling and output capture."""
     cmd_str = [str(arg) for arg in command]
     try:
-        return subprocess.run(cmd_str, cwd=cwd, check=True, capture_output=not verbose, text=True)
+        return subprocess.run(
+            cmd_str, cwd=cwd, capture_output=capture_output, check=True, text=True
+        )
     except subprocess.CalledProcessError as e:
-        logger.error("Command failed: %s", " ".join(cmd_str))
-        if not verbose and e.stderr:
-            logger.error("Details: %s", e.stderr.strip())
+        logger.exception("Command failed: %s", " ".join(cmd_str))
         sys.exit(e.returncode)
 
 
@@ -91,21 +93,16 @@ def test(extra_args: list[str]) -> None:
         "Building single-version docs with strict syntax and reference checks%s.", extra_log_info
     )
 
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     run_command(
         [
             SPHINXBUILD,
             "--jobs=auto",
             "--fail-on-warning",
             "--fresh-env",
-        ]
-        + extra_args
-        + [
+            *extra_args,
             SOURCEDIR,
             BUILDDIR / "html_test",
-        ],
-        verbose=verbose,
+        ]
     )
 
 
@@ -116,11 +113,8 @@ def linkcheck(extra_args: list[str]) -> None:
     extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
     logger.info("Building single-version docs, checking all links for validity%s.", extra_log_info)
 
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     run_command(
-        [SPHINXBUILD, "--builder", "linkcheck"] + extra_args + [SOURCEDIR, BUILDDIR / "linkcheck"],
-        verbose=verbose,
+        [SPHINXBUILD, "--builder", "linkcheck", *extra_args, SOURCEDIR, BUILDDIR / "linkcheck"]
     )
 
 
@@ -136,7 +130,7 @@ def build(extra_args: list[str]) -> None:
     logger.info("Mapping `latest` to current directory...")
     run_command([*git_base, "branch", "-f", "latest"])
 
-    tag_proc = run_command([*git_base, "tag", "-l", "--sort=-v:refname"])
+    tag_proc = run_command([*git_base, "tag", "-l", "--sort=-v:refname"], capture_output=True)
     tags = tag_proc.stdout.strip().split("\n")
 
     if tags and tags[0]:
@@ -149,7 +143,7 @@ def build(extra_args: list[str]) -> None:
 
     extra_log_info = " with extra command-line args: " + " ".join(extra_args) if extra_args else ""
     logger.info("Building multiversion documentation%s...", extra_log_info)
-    run_command(["sphinx-multiversion"] + extra_args + [SOURCEDIR, HTMLDIR])
+    run_command(["sphinx-multiversion", *extra_args, SOURCEDIR, HTMLDIR])
 
     src_redirect = SOURCEDIR / "index-redirect.html"
     if src_redirect.exists():
@@ -163,22 +157,26 @@ def build(extra_args: list[str]) -> None:
 
 
 if __name__ == "__main__":
-    targets = {
+    if len(sys.argv) == 1 or sys.argv[1] == "--help":
+        run_command([SPHINXBUILD, "--help"])
+        sys.exit(0)
+
+    command_args: list[str] = sys.argv[1:]
+    target: str = command_args[0]
+    extra_args: list[str] = command_args[1:] if len(command_args) > 1 else []
+    is_verbose: bool = any(flag in extra_args for flag in ("--verbose", "-v"))
+    if not is_verbose and os.getenv("RUNNER_DEBUG"):
+        extra_args += ["--verbose"]
+
+    targets: dict[str, Callable] = {
         "clean": clean,
         "test": test,
         "linkcheck": linkcheck,
         "build_docs": build,
-        "help": lambda: run_command([SPHINXBUILD, "--help"]),
     }
-
-    target = sys.argv[1] if len(sys.argv) > 1 else "help"
-    extra_args = sys.argv[2:] if len(sys.argv) > 2 else []
-    verbose = ("--verbose" in extra_args) or any(arg.__contains__("-v") for arg in extra_args)
-
     if target in targets:
         targets[target](extra_args)
-    else:
-        run_command(
-            [SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR] + extra_args,
-            verbose=verbose,
-        )
+        sys.exit(0)
+
+    logger.debug("Makefile target '%s' not found. Calling 'sphinx-build -M %s'...", target, target)
+    run_command([SPHINXBUILD, "-M", target, SOURCEDIR, BUILDDIR, *extra_args])

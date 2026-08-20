@@ -20,11 +20,10 @@ env:
   ENDPOINT_WHITELIST: >-
     pypi.org:443
     github.com:443
-    releases.astral.sh
+    releases.astral.sh:443
     files.pythonhosted.org:443
     *.github.com:443
     *.githubusercontent.com:443
-    raw.githubusercontent.com/astral-sh
 
 jobs:
   pytest:

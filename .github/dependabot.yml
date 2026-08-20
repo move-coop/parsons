@@ -16,7 +16,3 @@ updates:
     directory: /
     schedule:
       interval: monthly
-    ignore:
-      - dependency-name: bandit
-      - dependency-name: ruff
-      - dependency-name: sphinx-lint

@@ -95,7 +95,8 @@ class APIConnector:
         self.data_key = data_key
 
         if session and ratelimiter:
-            raise ValueError("session and ratelimiter cannot both be provided")
+            err_msg = "session and ratelimiter cannot both be provided"
+            raise ValueError(err_msg)
 
         if session:
             self.session = session
@@ -143,18 +144,18 @@ class APIConnector:
         data: _DataType | None = None,
         params: _ParamsType | None = None,
         raise_on_error: bool = True,
+        additional_headers: _HeadersType | None = None,
         **kwargs,
     ) -> requests.Response:
         """
-        Base request using requests libary.
+        Make a request using requests libary.
 
         Args:
             url:
                 The url request string.
                 If ``url`` is a relative URL,
                 it will be joined with the ``uri`` of the ``APIConnector`.
-                If ``url`` is an absolute URL,
-                it will be used as is.
+                If ``url`` is an absolute URL, it will be used as is.
             req_type: The request type.
             json:
                 The payload of the request object.
@@ -167,18 +168,30 @@ class APIConnector:
                 E.g. ``http://myapi.com/things?id=1``
             raise_on_error:
                 If the request yields an error status code (anything above 400),
-                raise an error. In most cases, this should be ``True``,
+                raise an :class:`HTTPError`. In most cases, this should be ``True``,
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
+            additional_headers:
+                Additional headers to include in this specific request.
+                If a header key exists in both ``self.headers`` and
+                ``additional_headers``, the value from ``additional_headers``
+                takes precedence. This does not mutate ``self.headers``.
             `**kwargs`:
                 Additional keyword arguments to add to the :class:`~requests.Request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
+        complete_headers: _Headers = {}
+        if self.headers:
+            complete_headers.update(self.headers)
+        if additional_headers:
+            complete_headers.update(additional_headers)
 
         req = requests.Request(
-            method=req_type,
-            url=full_url,
+            req_type,
+            full_url,
+            headers=complete_headers,
+            auth=self.auth,
             json=json,
             data=data,
             **kwargs,
@@ -255,7 +268,8 @@ class APIConnector:
         if return_format == "content":
             return r.content
 
-        raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
+        err_msg = f"{return_format} is not a valid format, change to json or content"
+        raise RuntimeError(err_msg)
 
     def post_request(
         self,
@@ -315,6 +329,8 @@ class APIConnector:
 
             return r.status_code
 
+        return None
+
     def delete_request(
         self,
         url: str,
@@ -360,6 +376,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def put_request(
         self,
@@ -412,6 +430,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def patch_request(
         self,
@@ -471,6 +491,8 @@ class APIConnector:
 
             return r.status_code
 
+        return None
+
     def validate_response(self, resp: requests.Response) -> None:
         """
         Validate that the response is not an error code.
@@ -504,7 +526,7 @@ class APIConnector:
 
     def data_parse(self, resp: dict[str, Any] | list) -> dict[str, Any] | list:
         """
-        Determines if the response json has nested data.
+        Determine if the response json has nested data.
 
         If it is nested, it just returns the data.
         This is useful in dealing with requests that might return multiple records,
@@ -529,7 +551,7 @@ class APIConnector:
 
     def next_page_check_url(self, resp: dict[str, Any]) -> bool:
         """
-        Check to determine if there is a next page.
+        Determine if there is a next page.
 
         This requires that the response json contains a pagination key
         that is empty if there is not a next page.
@@ -541,7 +563,7 @@ class APIConnector:
         return False
 
     def json_check(self, resp: requests.Response) -> bool:
-        """Check to see if a response has a json included in it."""
+        """Check if a response has a json included in it."""
         try:
             resp.json()
             return True
@@ -550,5 +572,5 @@ class APIConnector:
             return False
 
     def convert_to_table(self, data: list | Any) -> Table:
-        """Internal method to create a Parsons table from a data element."""
+        """Create a Parsons table from a data element."""
         return Table(data) if isinstance(data, list) else Table([data])

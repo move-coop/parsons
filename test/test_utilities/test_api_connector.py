@@ -4,6 +4,7 @@ import requests
 import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 from requests.structures import CaseInsensitiveDict
+from requests_mock import Mocker
 
 from parsons.utilities.api_connector import APIConnector
 
@@ -11,7 +12,48 @@ EXAMPLE_URL = "https://api.example.com"
 EXAMPLE_ENDPOINT = f"{EXAMPLE_URL}/test-endpoint"
 
 
+@pytest.fixture
+def connector() -> APIConnector:
+    """Fixture that provides an APIConnector instance with a base URL and headers."""
+    return APIConnector(
+        uri="https://api.example.com/v1", headers={"content-type": "application/json"}
+    )
+
+
+def test_init_adds_headers(connector: APIConnector, requests_mock: Mocker) -> None:
+    """Test that base headers are added to the session during initialization."""
+    requests_mock.get(
+        "https://api.example.com/v1/data", json={"status": "authorized"}, status_code=200
+    )
+
+    connector.request("data", "GET")
+
+    req = requests_mock.last_request
+    assert req is not None
+    assert req.headers["content-type"] == "application/json"
+
+
+def test_request_with_additional_headers(connector: APIConnector, requests_mock: Mocker) -> None:
+    """Test that additional headers and base headers are included in a request."""
+    requests_mock.get(
+        "https://api.example.com/v1/data", json={"status": "authorized"}, status_code=200
+    )
+
+    connector.request(
+        "data",
+        "GET",
+        additional_headers={"Authorization": "Bearer token123", "X-Custom-Header": "value"},
+    )
+
+    req = requests_mock.last_request
+    assert req is not None
+    assert req.headers["content-type"] == "application/json"
+    assert req.headers["Authorization"] == "Bearer token123"
+    assert req.headers["X-Custom-Header"] == "value"
+
+
 def test_init_loads_headers() -> None:
+    """Test that providing headers sets the base headers on the session."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})
     conn = APIConnector(uri=EXAMPLE_URL, headers=headers)
     assert conn.session.headers == headers
@@ -22,6 +64,7 @@ def test_init_loads_headers() -> None:
 
 
 def test_init_loads_auth() -> None:
+    """Test that providing auth object sets the auth on the session."""
     auth = HTTPBasicAuth("user_name", "user_pass")
     conn = APIConnector(uri=EXAMPLE_URL, auth=auth)
     assert conn.session.auth == auth
@@ -32,6 +75,7 @@ def test_init_loads_auth() -> None:
 
 
 def test_init_accepts_ratelimiter() -> None:
+    """Test that providing a ratelimiter creates a :class:`requests_ratelimiter.LimiterSession`."""
     rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
     limiter = pyrate_limiter.Limiter(rate)
     conn = APIConnector(uri=EXAMPLE_URL, ratelimiter=limiter)
@@ -40,6 +84,7 @@ def test_init_accepts_ratelimiter() -> None:
 
 
 def test_init_accepts_session() -> None:
+    """Test that providing a session overrides the default session."""
     session = requests.Session()
     conn = APIConnector(uri=EXAMPLE_URL, session=session)
     assert isinstance(conn.session, requests.Session)
@@ -47,6 +92,7 @@ def test_init_accepts_session() -> None:
 
 
 def test_init_does_not_accept_ratelimiter_and_session() -> None:
+    """Test that providing both a ratelimiter and a session raises a ValueError."""
     rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
     limiter = pyrate_limiter.Limiter(rate)
     session = requests.Session()
@@ -55,6 +101,7 @@ def test_init_does_not_accept_ratelimiter_and_session() -> None:
 
 
 def test_init_creates_regular_session() -> None:
+    """Test that the default session is a regular (non-limited) requests session."""
     conn = APIConnector(uri=EXAMPLE_URL)
     assert isinstance(conn.session, requests.Session)
     assert not isinstance(conn.session, requests_ratelimiter.LimiterSession)

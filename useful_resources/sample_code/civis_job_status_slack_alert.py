@@ -3,6 +3,7 @@
 
 import datetime
 import logging
+import os
 
 import civis
 
@@ -18,8 +19,10 @@ slack = Slack()
 # https://move-coop.github.io/parsons/html/use_cases/contribute_use_cases.html#sensitive-information
 
 # Configuration variables
-SLACK_CHANNEL = ""  # Slack channel where the alert will post.
-CIVIS_PROJECT = ""  # ID of the Civis project with jobs and workflows you want to see the status of.
+SLACK_CHANNEL: str = os.environ["SLACK_ALERT_CHANNEL"]  # Slack channel where the alert will post.
+CIVIS_PROJECT: int = int(
+    os.environ["CIVIS_PROJECT_ID"]
+)  # ID of the Civis project with jobs and workflows you want to see the status of.
 
 logger = logging.getLogger(__name__)
 _handler = logging.StreamHandler()
@@ -109,9 +112,7 @@ def get_last_success(object_id, object_type):
 
 def main():
     project_name = client.projects.get(CIVIS_PROJECT)["name"]
-
     scripts_table = get_workflows_and_jobs(CIVIS_PROJECT).sort(columns=["state", "name"])
-
     logger.info("Found %s jobs and workflows in %s project.", scripts_table.num_rows, project_name)
 
     # This is a list of strings we will build with each job's status
@@ -128,8 +129,9 @@ def main():
     # Combine the list of statuses into one string
     line_items = "\n".join(output_lines)
     message = f"*{project_name} Status*\n{line_items}"
-    logger.info("Posting message to Slack channel %s", SLACK_CHANNEL)
+
     # Post message
+    logger.info("Posting message to Slack channel %s", SLACK_CHANNEL)
     slack.message_channel(SLACK_CHANNEL, message)
     logger.info("Slack message posted")
 

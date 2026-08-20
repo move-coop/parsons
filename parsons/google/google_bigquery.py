@@ -536,8 +536,8 @@ class GoogleBigQuery(DatabaseConnector):
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
                 logger.debug(
-                    f"{gcs_blob_uri.split('/')[-1]} exceeds max size ... \
-                    running decompression function..."
+                    "%s exceeds max size ... \\\n                    running decompression function...",
+                    gcs_blob_uri.split("/")[-1],
                 )
 
                 return self.copy_large_compressed_file_from_gcs(
@@ -558,14 +558,14 @@ class GoogleBigQuery(DatabaseConnector):
                     max_timeout=max_timeout,
                 )
             elif "Schema has no field" in str(e):
-                logger.debug(f"{gcs_blob_uri.split('/')[-1]} is empty, skipping file")
+                logger.debug("%s is empty, skipping file", gcs_blob_uri.split("/")[-1])
                 return "Empty file"
 
             else:
                 raise e
 
         except exceptions.DeadlineExceeded as e:
-            logger.error(f"Max timeout exceeded for {gcs_blob_uri.split('/')[-1]}")
+            logger.error("Max timeout exceeded for %s", gcs_blob_uri.split("/")[-1])
             raise e
 
     def copy_large_compressed_file_from_gcs(
@@ -691,7 +691,7 @@ class GoogleBigQuery(DatabaseConnector):
                 compression_type=compression_type,
             )
 
-            logger.debug(f"Loading uncompressed uri into BigQuery {uncompressed_gcs_uri}...")
+            logger.debug("Loading uncompressed uri into BigQuery %s...", uncompressed_gcs_uri)
             table_ref = self.get_table_ref(table_name=table_name)
             return self._load_table_from_uri(
                 source_uris=uncompressed_gcs_uri,
@@ -898,10 +898,13 @@ class GoogleBigQuery(DatabaseConnector):
                 return load_job
             except exceptions.BadRequest as e:
                 for idx, error_ in enumerate(load_job.errors):
-                    if idx == 0:
-                        logger.error("* Load job failed. Enumerating errors collection below:")
-                    logger.error(f"** Error collection - index {idx}:")
-                    logger.error(error_)
+                    err_msg = (
+                        "* Load job failed. Enumerating errors collection below:\n"
+                        if idx == 0
+                        else ""
+                    )
+                    err_msg += f"** Error collection - index {idx}:\n"
+                    logger.error("%s\\n%s", err_msg, error_)
 
                 raise e
 
@@ -1195,7 +1198,7 @@ class GoogleBigQuery(DatabaseConnector):
         staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
         # Copy to a staging table
-        logger.info(f"Building staging table: {staging_tbl}")
+        logger.info("Building staging table: %s", staging_tbl)
 
         if from_s3:
             if table_obj is not None:
@@ -1237,7 +1240,7 @@ class GoogleBigQuery(DatabaseConnector):
             return self.query_with_transaction(queries=queries)
         finally:
             if cleanup_temp_table:
-                logger.info(f"Deleting staging table: {staging_tbl}")
+                logger.info("Deleting staging table: %s", staging_tbl)
                 self.query(f"DROP TABLE IF EXISTS {staging_tbl}", return_values=False)
 
     def delete_table(self, table_name):
@@ -1429,7 +1432,7 @@ class GoogleBigQuery(DatabaseConnector):
                 return bigquery_table.schema
             except google.api_core.exceptions.NotFound:
                 logger.warning(
-                    f"template_table '{template_table}' not found. Unable to set schema."
+                    "template_table '%s' not found. Unable to set schema.", template_table
                 )
         # if load is coming from a Parsons table, use that to generate schema
         if parsons_table:
@@ -1630,12 +1633,14 @@ class GoogleBigQuery(DatabaseConnector):
         try:
             load_job.result(timeout=max_timeout)
             return load_job
+
         except exceptions.BadRequest as e:
             for idx, error_ in enumerate(load_job.errors):
-                if idx == 0:
-                    logger.error("* Load job failed. Enumerating errors collection below:")
-                logger.error(f"** Error collection - index {idx}:")
-                logger.error(error_)
+                err_msg = (
+                    "* Load job failed. Enumerating errors collection below:\n" if idx == 0 else ""
+                )
+                err_msg += f"** Error collection - index {idx}:\n"
+                logger.error("%s\\n%s", err_msg, error_)
 
             raise e
 
@@ -1692,7 +1697,7 @@ class GoogleBigQuery(DatabaseConnector):
             )
         source = f"{dataset}.{table_name}"
         gs_destination = f"gs://{gcs_bucket}/{gcs_blob_name}"
-        logger.info(f"Project (parsons): {project}")
+        logger.info("Project (parsons): %s", project)
         extract_job = self.client.extract_table(
             source=source,
             destination_uris=gs_destination,
@@ -1703,7 +1708,7 @@ class GoogleBigQuery(DatabaseConnector):
         )
         if wait_for_job_to_complete:
             extract_job.result()
-            logger.info(f"Finished exporting query result to {gs_destination}.")
+            logger.info("Finished exporting query result to %s.", gs_destination)
 
         return extract_job
 
@@ -1764,9 +1769,8 @@ class GoogleBigQuery(DatabaseConnector):
                 dataset = bigquery.Dataset(dataset_id)
                 self.client.create_dataset(dataset, timeout=30)
             else:  # if it doesn't exist and it's not ok to create it, fail
-                logger.error("BigQuery copy failed")
                 logger.error(
-                    f"Dataset {destination_dataset} does not exist and if_dataset_not_exists set to {if_dataset_not_exists}"
+                    f"BigQuery copy failed. Dataset {destination_dataset} does not exist and `if_dataset_not_exists` set to {if_dataset_not_exists}"
                 )
 
         job_config = bigquery.CopyJobConfig()
@@ -1787,7 +1791,9 @@ class GoogleBigQuery(DatabaseConnector):
                 logger.info(result)
             else:
                 logger.error(
-                    f"BigQuery copy failed, Table {destination_table} exists and if_table_exists set to {if_table_exists}"
+                    "BigQuery copy failed, Table %s exists and if_table_exists set to %s",
+                    destination_table,
+                    if_table_exists,
                 )
 
         except NotFound:

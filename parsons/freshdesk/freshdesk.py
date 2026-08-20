@@ -47,7 +47,7 @@ class Freshdesk:
 
         # Paginate
         while "link" in r.headers:
-            logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
+            logger.info("Retrieving another page of %s records.", PAGE_SIZE)
             url = re.search("<(.*)>", r.headers["link"]).group(1)
             r = self.client.request(url=url, req_type="GET", params=params)
             self.client.validate_response(r)
@@ -138,7 +138,7 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("tickets", params=params))
-        logger.info(f"Found {tbl.num_rows} tickets.")
+        logger.info("Found %s tickets.", tbl.num_rows)
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_contacts(
@@ -180,7 +180,7 @@ class Freshdesk:
         }
 
         tbl = Table(self._get_request("contacts", params=params))
-        logger.info(f"Found {tbl.num_rows} contacts.")
+        logger.info("Found %s contacts.", tbl.num_rows)
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_companies(self, expand_custom_fields=False):
@@ -200,7 +200,7 @@ class Freshdesk:
 
         """
         tbl = Table(self._get_request("companies"))
-        logger.info(f"Found {tbl.num_rows} companies.")
+        logger.info("Found %s companies.", tbl.num_rows)
         return self._transform_table(tbl, expand_custom_fields)
 
     def get_agents(self, email=None, mobile=None, phone=None, state=None):
@@ -226,7 +226,7 @@ class Freshdesk:
         """
         params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
         tbl = Table(self._get_request("agents", params=params))
-        logger.info(f"Found {tbl.num_rows} agents.")
+        logger.info("Found %s agents.", tbl.num_rows)
         tbl = self._transform_table(tbl)
         tbl = tbl.unpack_dict("contact", prepend=False)
         tbl.remove_column("signature")  # Removing since raw HTML might cause issues.

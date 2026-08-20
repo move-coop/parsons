@@ -385,7 +385,7 @@ class ActionBuilder:
                 raise ValueError(error_msg)
 
             tag_id = tag_data["identifiers"][0][0].split(":")[1]
-            logger.info(f"Tag {tag_name} has ID {tag_id}")
+            logger.info("Tag %s has ID %s", tag_name, tag_id)
 
         if tagging_id and not tag_id:
             raise ValueError("Cannot search based on tagging ID alone.")
@@ -405,7 +405,7 @@ class ActionBuilder:
                 if "action_builder" in x
             ][0]
 
-        logger.info(f"Removing tag {tag_id} from {identifier or tagging_id}")
+        logger.info("Removing tag %s from %s", tag_id, identifier or tagging_id)
         return self.api.delete_request(
             url=f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )

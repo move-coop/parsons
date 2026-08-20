@@ -47,8 +47,8 @@ class QuickBooksTime:
         while more:
             # After every 10 pages, log the progress
             if page % 10 == 0:
-                logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
-                logger.info(f"Currently on page {page}.")
+                logger.info("Retrieved %s records from %s endpoint.", len(output_list), end_point)
+                logger.info("Currently on page %s.", page)
 
             # Add the current page to the querystring
             querystring = {**querystring, **{"page": page}}
@@ -71,7 +71,7 @@ class QuickBooksTime:
             output_list.extend(temp_list)
 
         # Log the total number of records retrieved
-        logger.info(f"Retrieved {len(output_list)} records from {end_point} endpoint.")
+        logger.info("Retrieved %s records from %s endpoint.", len(output_list), end_point)
 
         # Return the results as a Table
         return Table(output_list)
@@ -144,7 +144,7 @@ class QuickBooksTime:
         logger.info("Retrieving groups.")
         tbl = self.qb_get_request(end_point="groups", querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} groups.")
+        logger.info("Found %s groups.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -244,7 +244,7 @@ class QuickBooksTime:
         logger.info("Retrieving jobcodes.")
         tbl = self.qb_get_request(end_point="jobcodes", querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} jobs.")
+        logger.info("Found %s jobs.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -356,7 +356,7 @@ class QuickBooksTime:
         logger.info("Retrieving timesheets.")
         tbl = self.qb_get_request(end_point="timesheets", querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} timesheets.")
+        logger.info("Found %s timesheets.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -464,7 +464,7 @@ class QuickBooksTime:
         logger.info("Retrieving users.")
         tbl = self.qb_get_request(end_point="users", querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} users.")
+        logger.info("Found %s users.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -530,7 +530,7 @@ class QuickBooksTime:
             int(row["id"]) for row in tbl
         ]  # Creates list of integers of the schedule_calendar_ids
 
-        logger.info(f"Found {tbl.num_rows} schedule calendars.")
+        logger.info("Found %s schedule calendars.", tbl.num_rows)
 
         return schedule_calendar_ids_list
 
@@ -657,7 +657,7 @@ class QuickBooksTime:
         logger.info("Retrieving schedule events.")
         tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} schedules.")
+        logger.info("Found %s schedules.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -726,7 +726,7 @@ class QuickBooksTime:
         logger.info("Retrieving geolocations.")
         tbl = self.qb_get_request(end_point=endpoint, querystring=querystring)
 
-        logger.info(f"Found {tbl.num_rows} geolocations.")
+        logger.info("Found %s geolocations.", tbl.num_rows)
 
         if tbl.num_rows > 0:
             return tbl

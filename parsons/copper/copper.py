@@ -92,7 +92,7 @@ class Copper:
                 else:
                     rows = f"{str(page_size)} or less"
                     total_pages = 1
-            logger.info(f"Retrieving page {page} of {total_pages}, total rows: {rows}")
+            logger.info("Retrieving page %s of %s, total rows: %s", page, total_pages, rows)
             page += 1
 
             if r.text == "":
@@ -202,7 +202,7 @@ class Copper:
     def get_standard_object(self, object_name, filters=None, tidy=False):
         # Retrieve and process a standard endpoint object (e.g. people, companies, etc.)
 
-        logger.info(f"Retrieving {object_name} records.")
+        logger.info("Retrieving %s records.", object_name)
         blob = self.paginate_request(f"/{object_name}/search", req_type="POST", filters=filters)
 
         return self.process_json(blob, object_name, tidy=tidy)

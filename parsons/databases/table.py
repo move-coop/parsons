@@ -129,9 +129,9 @@ class BaseTable:
             sql += " CASCADE"
 
         self.db.query(sql)
-        logger.info(f"{self.table} dropped.")
+        logger.info("%s dropped.", self.table)
 
     def truncate(self):
         """Truncate the table."""
         self.db.query(f"TRUNCATE TABLE {self.table}")
-        logger.info(f"{self.table} truncated.")
+        logger.info("%s truncated.", self.table)

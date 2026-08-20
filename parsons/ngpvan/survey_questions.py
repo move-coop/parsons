@@ -47,7 +47,7 @@ class SurveyQuestions:
         }
 
         tbl = Table(self.connection.get_request("surveyQuestions", params=params))
-        logger.info(f"Found {tbl.num_rows} survey questions.")
+        logger.info("Found %s survey questions.", tbl.num_rows)
         return tbl
 
     def get_survey_question(self, survey_question_id):
@@ -64,7 +64,7 @@ class SurveyQuestions:
 
         """
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
-        logger.info(f"Found survey question {survey_question_id}.")
+        logger.info("Found survey question %s.", survey_question_id)
         return r
 
     def apply_survey_response(
@@ -110,7 +110,7 @@ class SurveyQuestions:
             "type": "surveyResponse",
         }
 
-        logger.info(f"Applying survey question {survey_question_id} to {id_type} {id}")
+        logger.info("Applying survey question %s to %s %s", survey_question_id, id_type, id)
         self.apply_response(
             id,
             response,

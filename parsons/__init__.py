@@ -120,7 +120,7 @@ def __getattr__(name):
         globals()[name] = connector
         return connector
     except ImportError as e:
-        logger.error(f"Failed to import {name} from {module_path}.")
+        logger.error("Failed to import %s from %s.", name, module_path)
         raise ImportError(
             "The behavior of 'pip install parsons' has changed. "
             "Only core dependencies are installed by default. Learn more: "

@@ -82,6 +82,6 @@ class Gmail(SendMail):
             raise
         else:
             self.log.debug(message)
-            self.log.info(f"Message sent succesfully (Message Id: {message['id']})")
+            self.log.info("Message sent succesfully (Message Id: %s)", message["id"])
 
             return message

@@ -82,7 +82,7 @@ class DBSync:
         source_tbl = self.source_db.table(source_table)
         destination_tbl = self.dest_db.table(destination_table)
 
-        logger.info(f"Syncing full table data from {source_table} to {destination_table}")
+        logger.info("Syncing full table data from %s to %s", source_table, destination_table)
 
         # Drop or truncate if the destination table exists
         if destination_tbl.exists:
@@ -96,7 +96,7 @@ class DBSync:
                     self._check_column_match(source_tbl, destination_tbl)
                     destination_tbl.truncate()
                 except Exception:
-                    logger.info(f"needed to drop {destination_tbl}...")
+                    logger.info("needed to drop %s...", destination_tbl)
                     destination_tbl.drop()
             else:
                 raise ValueError("Invalid if_exists argument. Must be drop or truncate.")
@@ -110,7 +110,7 @@ class DBSync:
         if verify_row_count:
             self._row_count_verify(source_tbl, destination_tbl)
 
-        logger.info(f"{source_table} synced: {copied_rows} total rows copied.")
+        logger.info("%s synced: %s total rows copied.", source_table, copied_rows)
 
     def table_sync_incremental(
         self,
@@ -206,7 +206,7 @@ class DBSync:
         if verify_row_count:
             self._row_count_verify(source_tbl, destination_tbl)
 
-        logger.info(f"{source_table} synced to {destination_table}.")
+        logger.info("%s synced to %s.", source_table, destination_table)
 
     def copy_rows(self, source_table_name, destination_table_name, cutoff, order_by, **kwargs):
         """

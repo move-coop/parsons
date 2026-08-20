@@ -83,7 +83,7 @@ class Alchemer:
         tbl = Table(data).remove_column("links")
         tbl.unpack_dict("statistics", prepend=False)
 
-        logger.info(f"Found {tbl.num_rows} surveys.")
+        logger.info("Found %s surveys.", tbl.num_rows)
 
         return tbl
 
@@ -104,7 +104,7 @@ class Alchemer:
 
         """
         r = self._client.api.surveyresponse.list(survey_id, page)
-        logger.info(f"{survey_id}: {r['total_count']} responses.")
+        logger.info("%s: %s responses.", survey_id, r["total_count"])
         data = r["data"]
 
         if not page:
@@ -114,7 +114,7 @@ class Alchemer:
 
         tbl = Table(data).add_column("survey_id", survey_id, index=1)
 
-        logger.info(f"Found #{tbl.num_rows} responses.")
+        logger.info("Found #%s responses.", tbl.num_rows)
 
         return tbl
 

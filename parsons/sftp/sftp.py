@@ -226,7 +226,9 @@ class SFTP:
                 Optional. Size in bytes to iteratively export from the remote server.
 
         """
-        logger.info(f"Reading from {remote_path} to {local_path} in {export_chunk_size}B chunks")
+        logger.info(
+            "Reading from %s to %s in %sB chunks", remote_path, local_path, export_chunk_size
+        )
 
         with connection.open(remote_path, "rb") as _remote_file:
             # This disables paramiko's prefetching behavior
@@ -242,7 +244,7 @@ class SFTP:
 
                 # Write to the destination file
                 Path(local_path).write_bytes(response)
-                logger.debug(f"Successfully read {export_chunk_size} rows to {local_path}")
+                logger.debug("Successfully read %s rows to %s", export_chunk_size, local_path)
 
     @connect
     def get_files(
@@ -278,8 +280,7 @@ class SFTP:
         """
         if not (files_to_download or remote):
             raise ValueError(
-                "You must provide either `files_to_download`, `remote`, or both, as "
-                "an argument to `get_files`."
+                "You must provide either `files_to_download`, `remote`, or both, as an argument to `get_files`."
             )
 
         if not files_to_download:

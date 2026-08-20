@@ -533,7 +533,7 @@ class NewmodeV2:
                     )
                     return self.checked_response(response, client)
                 except TokenExpiredError as e:
-                    logger.warning(f"Token expired: {e}. Refreshing it...")
+                    logger.warning("Token expired: %s. Refreshing it...", e)
                     self.default_client = self.get_default_oauth_client()
                     self.campaigns_client = self.get_campaigns_oauth_client()
                     client = (
@@ -541,9 +541,11 @@ class NewmodeV2:
                     )
             except Exception as e:
                 if attempt < retries:
-                    logger.warning(f"Request failed (attempt {attempt + 1}/{retries}). Retrying...")
+                    logger.warning(
+                        "Request failed (attempt %s/%s). Retrying...", attempt + 1, retries
+                    )
                 else:
-                    logger.error(f"Request failed after {retries} retries.")
+                    logger.error("Request failed after %s retries.", retries)
                     raise e
         raise Exception(f"Failed to retrieve data from {url} after {retries} attempts.")
 

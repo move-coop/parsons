@@ -44,7 +44,7 @@ class RedshiftCopyTable:
         bucket_region=None,
         json_option="auto",
     ):
-        logger.info(f"Data type is {data_type}")
+        logger.info("Data type is %s", data_type)
         # Source / Destination
         source = f"s3://{bucket}/{key}"
 

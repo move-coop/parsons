@@ -4,7 +4,7 @@ import re
 import warnings
 from typing import Literal
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 

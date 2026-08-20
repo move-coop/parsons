@@ -3,7 +3,7 @@ from typing import Literal
 
 from twilio.rest import Client
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env, json_format
 
 logger = logging.getLogger(__name__)

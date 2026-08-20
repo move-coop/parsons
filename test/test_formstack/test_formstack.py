@@ -2,8 +2,8 @@ import unittest
 
 import requests_mock
 
-from parsons import Table
-from parsons.formstack.formstack import API_URI, Formstack
+from parsons import Formstack, Table
+from parsons.formstack.formstack import API_URI
 from test.test_formstack.formstack_json import (
     folder_json,
     form_fields_json,

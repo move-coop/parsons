@@ -12,7 +12,9 @@ repos:
     hooks:
       - id: ruff-check
         args: ['--fix']
+        exclude_types: ["pyi"]
       - id: ruff-format
+        exclude_types: ["pyi"]
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.9.4
@@ -25,3 +27,12 @@ repos:
     rev: v1.0.2
     hooks:
       - id: sphinx-lint
+        name: sphinx lint
+
+  - repo: local
+    hooks:
+      - id: generate-stubs
+        name: generate stubs
+        entry: python ./types/generate_init_pyi.py
+        language: system
+        pass_filenames: false

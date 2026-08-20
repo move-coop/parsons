@@ -5,6 +5,7 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, overload
 
 import requests
+import requests_ratelimiter
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 
@@ -28,6 +29,8 @@ _Params = _ParamsType
 if TYPE_CHECKING:
     from typing import Literal
 
+    import pyrate_limiter
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,6 +52,9 @@ class APIConnector:
         auth: _AuthType | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
+        *,
+        ratelimiter: pyrate_limiter.Limiter | None = None,
+        session: requests.Session | None = None,
     ) -> None:
         """
         Initialize the APIConnector.
@@ -68,6 +74,16 @@ class APIConnector:
                 The name of the key in the response json
                 where the data is contained.
                 Required if the data is nested in the response json.
+            ratelimiter:
+                A :class:`~pyrate_limiter.limiter.Limiter` instance to use.
+                If not provided, no rate limiting will be applied.
+            session:
+                A preconfigured :class`~requests.Session` for advanced users.
+                If using `session`, `ratelimiter` must be None.
+
+        Raises:
+            ValueError:
+                If both `session` and `ratelimiter` are provided.
 
         """
         # Add a trailing slash if it's missing
@@ -75,17 +91,56 @@ class APIConnector:
             uri = uri + "/"
 
         self.uri = uri
-        self.headers = headers
-        self.auth = auth
         self.pagination_key = pagination_key
         self.data_key = data_key
+
+        if session and ratelimiter:
+            err_msg = "session and ratelimiter cannot both be provided"
+            raise ValueError(err_msg)
+
+        if session:
+            self.session = session
+        elif ratelimiter:
+            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimiter)
+        else:
+            self.session = requests.Session()
+
+        if auth:
+            self.session.auth = auth
+
+        if headers:
+            self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+
+    @property
+    def auth(self) -> _AuthType:
+        return self.session.auth
+
+    @auth.setter
+    def auth(self, inp: _AuthType) -> None:
+        self.session.auth = inp
+
+    @auth.deleter
+    def auth(self) -> None:
+        del self.session.auth
+
+    @property
+    def headers(self) -> _HeadersType:
+        return self.session.headers
+
+    @headers.setter
+    def headers(self, inp: _HeadersType) -> None:
+        self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+
+    @headers.deleter
+    def headers(self) -> None:
+        del self.session.headers
 
     def request(
         self,
         url: str,
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
-        json: Any | None = None,
+        json: _JsonType | None = None,
         data: _DataType | None = None,
         params: _ParamsType | None = None,
         raise_on_error: bool = True,
@@ -93,7 +148,7 @@ class APIConnector:
         **kwargs,
     ) -> requests.Response:
         """
-        Base request using requests libary.
+        Make a request using requests libary.
 
         Args:
             url:
@@ -122,7 +177,7 @@ class APIConnector:
                 ``additional_headers``, the value from ``additional_headers``
                 takes precedence. This does not mutate ``self.headers``.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to add to the :class:`~requests.Request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
@@ -132,16 +187,19 @@ class APIConnector:
         if additional_headers:
             complete_headers.update(additional_headers)
 
-        resp = requests.request(
+        req = requests.Request(
             req_type,
             full_url,
             headers=complete_headers,
             auth=self.auth,
             json=json,
             data=data,
-            params=params,
             **kwargs,
         )
+        if params:
+            req.params = params
+
+        resp = self.session.send(req.prepare())
 
         if raise_on_error:
             self.validate_response(resp)
@@ -151,22 +209,22 @@ class APIConnector:
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["json"] = "json",
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> _JsonType: ...
 
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["content"],
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> bytes: ...
 
@@ -191,14 +249,14 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to the :class:`~requests.Request`.
 
         Returns:
             The :meth:`requests.Response.json` from the response if `return_format` is ``json``,
             or :attr:`requests.Response.content` from the response if `return_format` is ``content``.
 
         Raises:
-            RuntimeError: If `return_format` is not ``json`` or ``content``.
+            RuntimeError: If return_format is not ``json`` or ``content``.
 
         """
         r = self.request(url, "GET", params=params, raise_on_error=raise_on_error, **kwargs)
@@ -210,7 +268,8 @@ class APIConnector:
         if return_format == "content":
             return r.content
 
-        raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
+        err_msg = f"{return_format} is not a valid format, change to json or content"
+        raise RuntimeError(err_msg)
 
     def post_request(
         self,
@@ -240,7 +299,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -270,6 +329,8 @@ class APIConnector:
 
             return r.status_code
 
+        return None
+
     def delete_request(
         self,
         url: str,
@@ -294,7 +355,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -315,6 +376,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def put_request(
         self,
@@ -344,7 +407,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -367,6 +430,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def patch_request(
         self,
@@ -396,7 +461,7 @@ class APIConnector:
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
             If successful, json date from :meth:`requests.Response.json`
@@ -425,6 +490,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def validate_response(self, resp: requests.Response) -> None:
         """
@@ -459,7 +526,7 @@ class APIConnector:
 
     def data_parse(self, resp: dict[str, Any] | list) -> dict[str, Any] | list:
         """
-        Determines if the response json has nested data.
+        Determine if the response json has nested data.
 
         If it is nested, it just returns the data.
         This is useful in dealing with requests that might return multiple records,
@@ -484,7 +551,7 @@ class APIConnector:
 
     def next_page_check_url(self, resp: dict[str, Any]) -> bool:
         """
-        Check to determine if there is a next page.
+        Determine if there is a next page.
 
         This requires that the response json contains a pagination key
         that is empty if there is not a next page.
@@ -496,7 +563,7 @@ class APIConnector:
         return False
 
     def json_check(self, resp: requests.Response) -> bool:
-        """Check to see if a response has a json included in it."""
+        """Check if a response has a json included in it."""
         try:
             resp.json()
             return True
@@ -505,5 +572,5 @@ class APIConnector:
             return False
 
     def convert_to_table(self, data: list | Any) -> Table:
-        """Internal method to create a Parsons table from a data element."""
+        """Create a Parsons table from a data element."""
         return Table(data) if isinstance(data, list) else Table([data])

@@ -1,0 +1,19 @@
+{
+  "connector": "catalist",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/catalist",
+  "cov_module": "parsons.catalist",
+  "test_path": "test/test_catalist",
+  "coverage": {
+    "line_pct": 62.04,
+    "branch_pct": 35.0,
+    "num_statements": 137,
+    "num_branches": 40
+  },
+  "mutation": {
+    "score_pct": 69.55,
+    "killed": 249,
+    "survived": 109,
+    "total": 358
+  }
+}

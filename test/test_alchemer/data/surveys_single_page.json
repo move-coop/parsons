@@ -1,0 +1,44 @@
+{
+  "result_ok": true,
+  "total_count": "1461",
+  "page": 1,
+  "total_pages": 1,
+  "results_per_page": 50,
+  "data": [
+    {
+      "id": "1234567",
+      "team": "433737",
+      "type": "Standard Survey",
+      "status": "Launched",
+      "created_on": "2017-04-24 10:44:23",
+      "modified_on": "2017-04-24 10:58:20",
+      "title": "Survey",
+      "statistics": {
+        "Partial": 4,
+        "Complete": 2
+      },
+      "links": {
+        "edit": "[Link to Build Tab]",
+        "publish": "[Link to Share Tab]",
+        "default": "[Default Share Link]"
+      }
+    },
+    {
+      "id": "1234568",
+      "team": "433737",
+      "type": "Standard Survey",
+      "status": "Launched",
+      "created_on": "2017-04-24 09:53:01",
+      "modified_on": "2017-04-24 09:53:55",
+      "title": "Survey",
+      "statistics": {
+        "Partial": 1
+      },
+      "links": {
+        "edit": "[Link to Build Tab]",
+        "publish": "[Link to Share Tab]",
+        "default": "[Default Share Link]"
+      }
+    }
+  ]
+}

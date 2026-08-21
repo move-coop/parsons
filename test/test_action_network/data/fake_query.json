@@ -1,0 +1,27 @@
+{
+  "identifiers": [
+    "action_network:fake_id"
+  ],
+  "origin_system": "Action Network",
+  "created_date": "2014-03-24T18:03:45Z",
+  "modified_date": "2014-03-25T15:00:22Z",
+  "name": "All donors",
+  "browser_url": "https://actionnetwork.org/queries/1/edit",
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

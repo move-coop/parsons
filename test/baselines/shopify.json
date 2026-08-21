@@ -1,0 +1,19 @@
+{
+  "connector": "shopify",
+  "git_sha": "210bce2644",
+  "source_path": "parsons/shopify",
+  "cov_module": "parsons.shopify",
+  "test_path": "test/test_shopify",
+  "coverage": {
+    "line_pct": 80.6,
+    "branch_pct": 57.14,
+    "num_statements": 67,
+    "num_branches": 28
+  },
+  "mutation": {
+    "score_pct": 40.0,
+    "killed": 72,
+    "survived": 108,
+    "total": 180
+  }
+}

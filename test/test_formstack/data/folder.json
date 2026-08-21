@@ -1,0 +1,37 @@
+{
+  "folders": [
+    {
+      "id": "123",
+      "name": "Voter Events",
+      "parent": "0",
+      "permissions": "full",
+      "subfolders": [
+        {
+          "id": "200",
+          "name": "Phone Banks",
+          "parent": "123",
+          "permissions": "full"
+        },
+        {
+          "id": "201",
+          "name": "Text Banks",
+          "parent": "121",
+          "permissions": "full"
+        }
+      ]
+    },
+    {
+      "id": "121",
+      "name": "Fundraising",
+      "parent": "0",
+      "permissions": "full"
+    },
+    {
+      "id": "122",
+      "name": "Internal",
+      "parent": "0",
+      "permissions": "full"
+    }
+  ],
+  "total": 3
+}

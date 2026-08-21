@@ -1,0 +1,33 @@
+{
+  "identifiers": [
+    "action_network:fake_id"
+  ],
+  "created_date": "2014-03-26T18:04:00Z",
+  "modified_date": "2014-03-26T18:04:00Z",
+  "action_network:person_id": "699da712-929f-11e3-a2e9-12313d316c29",
+  "action_network:petition_id": "fake_id",
+  "comments": "Stop doing the thing",
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/petitions/fake_id/signatures/fake_id"
+    },
+    "osdi:petition": {
+      "href": "https://actionnetwork.org/api/v2/petitions/fake_id"
+    },
+    "osdi:person": {
+      "href": "https://actionnetwork.org/api/v2/people/699da712-929f-11e3-a2e9-12313d316c29"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

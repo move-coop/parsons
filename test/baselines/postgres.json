@@ -1,0 +1,19 @@
+{
+  "connector": "postgres",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/databases/postgres",
+  "cov_module": "parsons.databases.postgres",
+  "test_path": "test/test_postgres",
+  "coverage": {
+    "line_pct": 56.2,
+    "branch_pct": 38.24,
+    "num_statements": 242,
+    "num_branches": 68
+  },
+  "mutation": {
+    "score_pct": 56.92,
+    "killed": 181,
+    "survived": 137,
+    "total": 318
+  }
+}

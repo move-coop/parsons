@@ -1,220 +1,178 @@
-import os
-import unittest
+"""Tests for the Airtable connector.
 
-import requests_mock
-from airtable_responses import (
-    delete_responses,
-    insert_response,
-    insert_responses,
-    records_response,
-    records_response_with_more_columns,
-    update_responses,
-    upsert_with_id_responses,
-    upsert_with_key_responses,
-)
+Reference example of the HTTP/REST testing pattern (see docs/contrib_docs/write_tests.rst):
+pytest-native functions, the ``requests_mock`` fixture for the HTTP boundary, and
+canned response payloads loaded from ``data/`` via the ``load`` fixture.
+"""
 
-from parsons import Airtable, Table
+from parsons import Table
 from test.conftest import assert_matching_tables
 
-os.environ["AIRTABLE_PERSONAL_ACCESS_TOKEN"] = "SOME_TOKEN"
-BASE_KEY = "BASEKEY"
-TABLE_NAME = "TABLENAME"
+
+def test_get_record(airtable, base_uri, requests_mock):
+    record_id = "recObtmLUrD5dOnmD"
+    response = {
+        "id": record_id,
+        "fields": {},
+        "createdTime": "2019-05-08T19:37:58.000Z",
+    }
+    requests_mock.get(f"{base_uri}/{record_id}", json=response)
+
+    assert airtable.get_record(record_id) == response
 
 
-class TestAirtable(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        self.base_uri = f"https://api.airtable.com/v0/{BASE_KEY}/{TABLE_NAME}"
+def test_get_records(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response"))
 
-        m.get(self.base_uri, status_code=200)
+    expected = Table(
+        [
+            {
+                "id": "recaBMSHTgXREa5ef",
+                "createdTime": "2019-05-08T19:37:58.000Z",
+                "Name": "This is a row!",
+            },
+            {
+                "id": "recObtmLUrD5dOnmD",
+                "createdTime": "2019-05-08T19:37:58.000Z",
+                "Name": None,
+            },
+            {
+                "id": "recmeBNnj4cuHPOSI",
+                "createdTime": "2019-05-08T19:37:58.000Z",
+                "Name": None,
+            },
+        ]
+    )
 
-        self.at = Airtable(base_key=BASE_KEY, table_name=TABLE_NAME)
+    assert_matching_tables(airtable.get_records(), expected)
 
-    @requests_mock.Mocker()
-    def test_get_record(self, m):
-        record_id = "recObtmLUrD5dOnmD"
 
-        response = {
-            "id": record_id,
-            "fields": {},
-            "createdTime": "2019-05-08T19:37:58.000Z",
-        }
-        m.get(self.base_uri + "/" + record_id, json=response)
+def test_get_records_with_1_sample(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
-        # Assert the method returns expected dict response
-        assert self.at.get_record(record_id) == response
+    res = airtable.get_records(sample_size=1)
 
-    @requests_mock.Mocker()
-    def test_get_records(self, m):
-        m.get(self.base_uri, json=records_response)
+    assert res.columns == ["id", "createdTime", "Name"]
 
-        tbl = Table(
-            [
-                {
-                    "id": "recaBMSHTgXREa5ef",
-                    "createdTime": "2019-05-08T19:37:58.000Z",
-                    "Name": "This is a row!",
-                },
-                {
-                    "id": "recObtmLUrD5dOnmD",
-                    "createdTime": "2019-05-08T19:37:58.000Z",
-                    "Name": None,
-                },
-                {
-                    "id": "recmeBNnj4cuHPOSI",
-                    "createdTime": "2019-05-08T19:37:58.000Z",
-                    "Name": None,
-                },
-            ]
-        )
 
-        self.at.get_records(max_records=1)
-        # Assert that Parsons tables match
-        assert_matching_tables(self.at.get_records(), tbl)
+def test_get_records_with_5_sample(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
-    @requests_mock.Mocker()
-    def test_get_records_with_1_sample(self, m):
-        m.get(self.base_uri, json=records_response_with_more_columns)
+    res = airtable.get_records(sample_size=5)
 
-        airtable_res = self.at.get_records(sample_size=1)
+    assert res.columns == ["id", "createdTime", "Name", "SecondColumn"]
 
-        assert airtable_res.columns == ["id", "createdTime", "Name"]
 
-    @requests_mock.Mocker()
-    def test_get_records_with_5_sample(self, m):
-        m.get(self.base_uri, json=records_response_with_more_columns)
+def test_get_records_with_explicit_headers(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
-        airtable_res = self.at.get_records(sample_size=5)
+    res = airtable.get_records(["Name", "SecondColumn"], sample_size=1)
 
-        assert airtable_res.columns == ["id", "createdTime", "Name", "SecondColumn"]
+    assert res.columns == ["id", "createdTime", "Name", "SecondColumn"]
 
-    @requests_mock.Mocker()
-    def test_get_records_with_explicit_headers(self, m):
-        m.get(self.base_uri, json=records_response_with_more_columns)
 
-        fields = ["Name", "SecondColumn"]
+def test_get_records_with_single_field(airtable, base_uri, requests_mock, load):
+    requests_mock.get(base_uri, json=load("records_response_with_more_columns"))
 
-        airtable_res = self.at.get_records(fields, sample_size=1)
+    res = airtable.get_records("Name", sample_size=1)
 
-        assert airtable_res.columns == ["id", "createdTime", "Name", "SecondColumn"]
+    assert res.columns == ["id", "createdTime", "Name"]
 
-    @requests_mock.Mocker()
-    def test_get_records_with_single_field(self, m):
-        m.get(self.base_uri, json=records_response_with_more_columns)
 
-        fields = "Name"
+def test_insert_record(airtable, base_uri, requests_mock, load):
+    insert_response = load("insert_response")
+    requests_mock.post(base_uri, json=insert_response)
 
-        airtable_res = self.at.get_records(fields, sample_size=1)
+    assert airtable.insert_record({"Name": "Another row!"}) == insert_response
 
-        assert airtable_res.columns == ["id", "createdTime", "Name"]
 
-    @requests_mock.Mocker()
-    def test_insert_record(self, m):
-        m.post(self.base_uri, json=insert_response)
+def test_insert_records(airtable, base_uri, requests_mock, load):
+    requests_mock.post(base_uri, json=load("insert_responses"))
 
-        resp = self.at.insert_record({"Name": "Another row!"})
+    resp = airtable.insert_records(Table([{"Name": "Another row!"}, {"Name": "Another!"}]))
 
-        # Assert that returned dict conforms to expected.
-        assert resp == insert_response
+    assert len(resp) == 2
 
-    @requests_mock.Mocker()
-    def test_insert_records(self, m):
-        m.post(self.base_uri, json=insert_responses)
 
-        tbl = Table([{"Name": "Another row!"}, {"Name": "Another!"}])
-        resp = self.at.insert_records(tbl)
+def test_update_record(airtable, base_uri, requests_mock):
+    record_id = "recObtmLUrD5dOnmD"
+    update_response = {
+        "id": record_id,
+        "fields": {"Name": "AName"},
+        "createdTime": "2023-05-22T21:24:15.333134Z",
+    }
+    requests_mock.patch(f"{base_uri}/{record_id}", json=update_response)
 
-        # Assert that row count is expected
-        assert len(resp) == 2
+    assert airtable.update_record(record_id, {"Name": "AName"}) == update_response
 
-    @requests_mock.Mocker()
-    def test_update_record(self, m):
-        record_id = "recObtmLUrD5dOnmD"
 
-        update_response = {
-            "id": record_id,
-            "fields": {"Name": "AName"},
-            "createdTime": "2023-05-22T21:24:15.333134Z",
-        }
+def test_update_records(airtable, base_uri, requests_mock, load):
+    update_responses = load("update_responses")
+    requests_mock.patch(base_uri, json=update_responses)
 
-        m.patch(self.base_uri + "/" + record_id, json=update_response)
-
-        # Assert the method returns expected dict response
-        assert self.at.update_record(record_id, {"Name": "AName"}) == update_response
-
-    @requests_mock.Mocker()
-    def test_update_records(self, m):
-        m.patch(self.base_uri, json=update_responses)
-
-        tbl = Table(
+    resp = airtable.update_records(
+        Table(
             [
                 {"id": "recaBMSHTgXREa5ef", "Name": "Updated Name1"},
                 {"id": "recObtmLUrD5dOnmD", "Name": "Updated Name2"},
                 {"id": "recmeBNnj4cuHPOSI", "Name": "Updated Name3"},
             ]
         )
+    )
 
-        resp = self.at.update_records(tbl)
+    assert len(resp) == len(update_responses["records"])
 
-        assert len(update_responses["records"]), len(resp)
 
-    @requests_mock.Mocker()
-    def test_upsert_records_with_id(self, m):
-        m.patch(self.base_uri, json=upsert_with_id_responses)
+def test_upsert_records_with_id(airtable, base_uri, requests_mock, load):
+    requests_mock.patch(base_uri, json=load("upsert_with_id_responses"))
 
-        tbl = Table(
+    resp = airtable.upsert_records(
+        Table(
             [
                 {"id": "recz9W2ojGNwMdN2y", "Name": "Updated Name1"},
                 {"id": "recB5njCET7AvHBbg", "Name": "Updated Name2"},
                 {"id": "recz9W2ojgPwMdN2y", "Name": "New Name3"},
             ]
         )
+    )
 
-        resp = self.at.upsert_records(tbl)
+    assert len(resp["records"]) == 3
+    assert len(resp["updated_records"]) == 2
+    assert len(resp["created_records"]) == 1
 
-        assert len(upsert_with_id_responses["records"]), len(resp)
-        assert len(resp["updated_records"]), 2
-        assert len(resp["created_records"]), 1
 
-    @requests_mock.Mocker()
-    def test_upsert_records_with_key(self, m):
-        m.patch(self.base_uri, json=upsert_with_key_responses)
+def test_upsert_records_with_key(airtable, base_uri, requests_mock, load):
+    requests_mock.patch(base_uri, json=load("upsert_with_key_responses"))
 
-        tbl = Table(
+    resp = airtable.upsert_records(
+        Table(
             [
                 {"key": "1", "Name": "New Name1"},
                 {"key": "2", "Name": "New Name2"},
                 {"key": "3", "Name": "Updated Name3"},
             ]
-        )
+        ),
+        key_fields=["key"],
+    )
 
-        resp = self.at.upsert_records(tbl, key_fields=["key"])
+    assert len(resp["records"]) == 3
+    assert len(resp["updated_records"]) == 1
+    assert len(resp["created_records"]) == 2
 
-        assert len(upsert_with_key_responses["records"]), len(resp)
-        assert len(resp["updated_records"]), 1
-        assert len(resp["created_records"]), 2
 
-    @requests_mock.Mocker()
-    def test_delete_record(self, m):
-        record_id = "recObtmLUrD5dOnmD"
+def test_delete_record(airtable, base_uri, requests_mock):
+    record_id = "recObtmLUrD5dOnmD"
+    response = {"id": record_id, "deleted": True}
+    requests_mock.delete(f"{base_uri}/{record_id}", json=response)
 
-        response = {
-            "id": record_id,
-            "deleted": True,
-        }
+    assert airtable.delete_record(record_id) == response
 
-        m.delete(self.base_uri + "/" + record_id, json=response)
 
-        # Assert the method returns expected dict response
-        assert self.at.delete_record(record_id) == response
+def test_delete_records(airtable, base_uri, requests_mock, load):
+    delete_responses = load("delete_responses")
+    requests_mock.delete(base_uri, json=delete_responses)
 
-    @requests_mock.Mocker()
-    def test_delete_records(self, m):
-        m.delete(self.base_uri, json=delete_responses)
+    resp = airtable.delete_records(Table(delete_responses["records"]).cut("id"))
 
-        tbl = Table(delete_responses["records"]).cut("id")
-
-        resp = self.at.delete_records(tbl)
-
-        assert len(delete_responses["records"]) == len(resp)
-        assert all(r["deleted"] for r in resp)
+    assert len(resp) == len(delete_responses["records"])
+    assert all(r["deleted"] for r in resp)

@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "id": "LePEoKzD3",
+      "type": "Organization",
+      "name": "Org A",
+      "createdAt": "2018-03-01T17:05:15.386Z"
+    },
+    {
+      "id": "lnCrK2fSD",
+      "type": "Organization",
+      "name": "Org B",
+      "createdAt": "2019-01-17T19:47:18.133Z"
+    },
+    {
+      "id": "raqlV2HGd",
+      "type": "Organization",
+      "name": "Org C",
+      "createdAt": "2019-01-17T19:49:55.249Z"
+    }
+  ],
+  "pagination": {
+    "cursor": "WzEsMTAwMF",
+    "hasNextPage": false,
+    "total": 3
+  }
+}

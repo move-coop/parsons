@@ -1,0 +1,23 @@
+{
+  "name": "Action Network",
+  "_links": {
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://dev.actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://dev.actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ],
+    "self": {
+      "href": "https://dev.actionnetwork.org/api/v2/metadata"
+    },
+    "action_network:custom_fields": {
+      "href": "https://dev.actionnetwork.org/api/v2/metadata/custom_fields"
+    }
+  }
+}

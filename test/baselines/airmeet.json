@@ -1,0 +1,19 @@
+{
+  "connector": "airmeet",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/airmeet",
+  "cov_module": "parsons.airmeet",
+  "test_path": "test/test_airmeet.py",
+  "coverage": {
+    "line_pct": 98.88,
+    "branch_pct": 83.33,
+    "num_statements": 89,
+    "num_branches": 18
+  },
+  "mutation": {
+    "score_pct": 73.38,
+    "killed": 102,
+    "survived": 37,
+    "total": 139
+  }
+}

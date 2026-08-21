@@ -1,3 +1,4 @@
+import json
 import os
 import warnings
 from pathlib import Path
@@ -135,3 +136,18 @@ def tbl(sample_data) -> Table:
     The table contains the data from the sample_data fixture.
     """
     return Table(sample_data["lst_dicts"])
+
+
+@pytest.fixture
+def load(shared_datadir):
+    """Load a canned response payload from the test module's ``data/`` directory.
+
+    ``load("records")`` reads ``data/records.json`` (via the pytest-datadir
+    ``shared_datadir`` fixture) and returns the parsed JSON. Available to every
+    connector's tests, so individual conftests need not redefine it.
+    """
+
+    def _load(name: str):
+        return json.loads((shared_datadir / f"{name}.json").read_text())
+
+    return _load

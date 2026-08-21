@@ -1,0 +1,10 @@
+{
+  "venue": "White House",
+  "address_lines": [
+    "1600 Pennsylvania Ave"
+  ],
+  "locality": "Washington",
+  "region": "DC",
+  "postal_code": "20009",
+  "country": "US"
+}

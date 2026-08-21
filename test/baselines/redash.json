@@ -1,0 +1,19 @@
+{
+  "connector": "redash",
+  "git_sha": "210bce2644",
+  "source_path": "parsons/redash",
+  "cov_module": "parsons.redash",
+  "test_path": "test/test_redash",
+  "coverage": {
+    "line_pct": 89.87,
+    "branch_pct": 62.5,
+    "num_statements": 79,
+    "num_branches": 24
+  },
+  "mutation": {
+    "score_pct": 59.57,
+    "killed": 56,
+    "survived": 38,
+    "total": 94
+  }
+}

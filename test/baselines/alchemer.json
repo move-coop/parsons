@@ -1,0 +1,19 @@
+{
+  "connector": "alchemer",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/alchemer",
+  "cov_module": "parsons.alchemer",
+  "test_path": "test/test_alchemer",
+  "coverage": {
+    "line_pct": 84.44,
+    "branch_pct": 50.0,
+    "num_statements": 45,
+    "num_branches": 14
+  },
+  "mutation": {
+    "score_pct": 25.0,
+    "killed": 13,
+    "survived": 39,
+    "total": 52
+  }
+}

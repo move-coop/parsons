@@ -1,7 +1,5 @@
 import datetime
-import os
 from pathlib import Path
-from unittest import mock
 
 import pytest
 
@@ -141,38 +139,34 @@ def test_redact_credentials():
     assert sql_helpers.redact_credentials(test_str) == test_result
 
 
-class TestCheckEnv:
-    @pytest.mark.parametrize(
-        ("environment_value", "input_value", "expected_result"),
-        [
-            ({}, "param", "param"),
-            ({"PARAM": "env_param"}, None, "env_param"),
-            ({"PARAM": "env_param"}, "param", "param"),
-        ],
-        ids=["test_environment_field", "test_environment_env", "test_environment_field_env"],
-    )
-    def test_check_env_success(
-        self, environment_value: dict, input_value: str | None, expected_result: str
+def test_check_env_field():
+    """A provided value is used as-is."""
+    assert check_env.check("PARAM", "param") == "param"
+
+
+def test_check_env_from_environment(monkeypatch):
+    """With no value, the environment variable is used."""
+    monkeypatch.setenv("PARAM", "env_param")
+    assert check_env.check("PARAM", None) == "env_param"
+
+
+def test_check_env_field_beats_environment(monkeypatch):
+    """A provided value takes precedence over the environment variable."""
+    monkeypatch.setenv("PARAM", "env_param")
+    assert check_env.check("PARAM", "param") == "param"
+
+
+def test_check_env_missing_raises(monkeypatch):
+    """No value and no environment variable raises."""
+    monkeypatch.delenv("PARAM", raising=False)
+    with pytest.raises(
+        KeyError,
+        match="No 'PARAM' found. Store as environment variable or pass as an argument.",
     ):
-        """Tests successful retrieval of parameters from field or environment."""
-        with mock.patch.dict(os.environ, environment_value):
-            result = check_env.check("PARAM", input_value)
-        assert result == expected_result
+        check_env.check("PARAM", None)
 
-    def test_check_env_returns_none(self):
-        """Tests returning None when environment and value are empty and optional value is passed."""
-        with mock.patch.dict(os.environ, {}, clear=True):
-            result = check_env.check("PARAM", None, optional=True)
-        assert result is None
 
-    def test_environment_error(self):
-        """Test check env raises error when both are missing."""
-        # We ensure the environment is empty for this key to trigger the KeyError
-        with (
-            mock.patch.dict(os.environ, {}, clear=True),
-            pytest.raises(
-                KeyError,
-                match="No 'PARAM' found. Store as environment variable or pass as an argument.",
-            ),
-        ):
-            check_env.check("PARAM", None)
+def test_check_env_optional_returns_none(monkeypatch):
+    """With optional=True and no value or environment variable, returns None instead of raising."""
+    monkeypatch.delenv("PARAM", raising=False)
+    assert check_env.check("PARAM", None, optional=True) is None

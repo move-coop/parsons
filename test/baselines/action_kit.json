@@ -1,0 +1,13 @@
+{
+  "connector": "action_kit",
+  "git_sha": "2406a6727c",
+  "source_path": "parsons/action_kit",
+  "cov_module": "parsons.action_kit",
+  "test_path": "test/test_action_kit.py",
+  "coverage": {
+    "line_pct": 88.12,
+    "branch_pct": 63.24,
+    "num_statements": 303,
+    "num_branches": 68
+  }
+}

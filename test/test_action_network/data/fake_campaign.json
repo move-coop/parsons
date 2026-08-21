@@ -1,0 +1,44 @@
+{
+  "identifiers": [
+    "action_network:fake_id"
+  ],
+  "origin_system": "Action Network",
+  "created_date": "2013-10-02T14:21:32Z",
+  "modified_date": "2013-10-02T14:22:06Z",
+  "title": "Join our week of actions!",
+  "description": "<p>Our week of action is here --click the links on the right to join in!</p>",
+  "browser_url": "https://actionnetwork.org/campaigns/join-our-week-of-action",
+  "featured_image_url": "https://actionnetwork.org/images/week-of-action.jpg",
+  "action_network:hidden": false,
+  "action_network:sponsor": {
+    "title": "Progressive Action Now",
+    "browser_url": "https://actionnetwork.org/groups/progressive-action-now"
+  },
+  "actions": [
+    {
+      "title": "Sign the petition",
+      "browser_url": "https://actionnetwork.org/petitions/sign-the-petition"
+    },
+    {
+      "title": "Attend the rally",
+      "browser_url": "https://actionnetwork.org/events/attend-the-rally"
+    }
+  ],
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/campaigns/fake_id"
+    },
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  }
+}

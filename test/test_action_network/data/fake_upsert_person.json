@@ -1,0 +1,16 @@
+{
+  "given_name": "Fakey",
+  "family_name": "McFakerson",
+  "identifiers": [
+    "action_network:fake_person_id_1"
+  ],
+  "email_address": [
+    {
+      "primary": true,
+      "address": "fakey@mcfakerson.com",
+      "status": "unsubscribed"
+    }
+  ],
+  "created_date": "2019-02-29T00:00:00.000+0000",
+  "modified_date": "2019-02-29T00:00:00.000+0000"
+}

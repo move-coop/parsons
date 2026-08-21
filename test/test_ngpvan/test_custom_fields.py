@@ -1,8 +1,3 @@
-import os
-import unittest
-
-import requests_mock
-
 from parsons import VAN
 from test.conftest import assert_matching_tables
 
@@ -44,24 +39,17 @@ custom_field_values = [
     {"customFieldId": 157, "id": 4, "name": "Doctorate", "parentValueId": None},
 ]
 
-os.environ["VAN_API_KEY"] = "SOME_KEY"
+
+def test_get_custom_fields(van: VAN, requests_mock):
+    requests_mock.get(van.connection.uri + "customFields", json=custom_field)
+    assert_matching_tables(custom_field, van.get_custom_fields())
 
 
-class TestCustomFields(unittest.TestCase):
-    def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="MyVoters")
+def test_get_custom_field_values(van: VAN, requests_mock):
+    requests_mock.get(van.connection.uri + "customFields", json=custom_field)
+    assert_matching_tables(custom_field_values, van.get_custom_fields_values())
 
-    @requests_mock.Mocker()
-    def test_get_custom_fields(self, m):
-        m.get(self.van.connection.uri + "customFields", json=custom_field)
-        assert_matching_tables(custom_field, self.van.get_custom_fields())
 
-    @requests_mock.Mocker()
-    def test_get_custom_field_values(self, m):
-        m.get(self.van.connection.uri + "customFields", json=custom_field)
-        assert_matching_tables(custom_field_values, self.van.get_custom_fields_values())
-
-    @requests_mock.Mocker()
-    def test_get_custom_field(self, m):
-        m.get(self.van.connection.uri + "customFields/157", json=custom_field)
-        assert_matching_tables(custom_field, self.van.get_custom_field(157))
+def test_get_custom_field(van: VAN, requests_mock):
+    requests_mock.get(van.connection.uri + "customFields/157", json=custom_field)
+    assert_matching_tables(custom_field, van.get_custom_field(157))

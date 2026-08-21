@@ -190,6 +190,7 @@ dev = [
     {include-group = "pre-commit"},
     {include-group = "security"},
     {include-group = "test-coverage"},
+    {include-group = "mutation"},
 ]
 ci = [
     "build>=1.4",
@@ -228,6 +229,13 @@ test = [
     "testfixtures~=8.3.0;python_version<'3.11'",
     "testfixtures~=9.1.0;python_version>='3.11'",
     "dbt-duckdb>=1.8,<1.11",
+]
+# Mutation testing for the per-connector parity gate (test/tools/parity.py).
+# Kept in its own group so cosmic-ray's dependencies are not pulled into every
+# ordinary test run; installed only for parity/mutation jobs and local dev.
+mutation = [
+    "cosmic-ray~=8.4",
+    {include-group = "test-coverage"},
 ]
 
 [tool]
@@ -346,7 +354,8 @@ filterwarnings = [
     "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these on older python versions as of 2026-04
 ]
 markers = [
-    "live: mark test as requiring authentication and/or network access"
+    "live: mark test as requiring authentication and/or network access",
+    "legacy: pre-refactor test kept temporarily beside its migrated replacement during the parallel-change bake (see test/MIGRATION.md)",
 ]
 
 [tool.isort]

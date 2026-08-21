@@ -1,0 +1,19 @@
+{
+  "connector": "geocode",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/geocode",
+  "cov_module": "parsons.geocode",
+  "test_path": "test/test_geocode",
+  "coverage": {
+    "line_pct": 34.09,
+    "branch_pct": 0.0,
+    "num_statements": 44,
+    "num_branches": 8
+  },
+  "mutation": {
+    "score_pct": 0.0,
+    "killed": 0,
+    "survived": 33,
+    "total": 33
+  }
+}

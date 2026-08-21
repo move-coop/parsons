@@ -1,156 +1,124 @@
-import unittest
+"""Tests for the Empower connector.
 
-import requests_mock
+Empower exposes one export endpoint; each ``get_*`` method reshapes a slice of
+that cached payload, so these tests assert the resulting Table columns.
+"""
 
-from parsons import Empower, Table
-from test.test_empower.dummy_empower_data import dummy_data
+import pytest
 
-TEST_EMPOWER_API_KEY = "MYKEY"
-EMPOWER_API_ENDPOINT = "https://api.getempower.com/v1/export"
+from parsons import Table
+
+PROFILE_COLUMNS = [
+    "eid",
+    "parentEid",
+    "role",
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "city",
+    "state",
+    "zip",
+    "address",
+    "address2",
+    "vanId",
+    "myCampaignVanId",
+    "lastUsedEmpowerMts",
+    "notes",
+    "regionId",
+    "createdMts",
+    "updatedMts",
+    "currentCtaId",
+]
+
+CTA_COLUMNS = [
+    "id",
+    "name",
+    "description",
+    "instructionsHtml",
+    "createdMts",
+    "updatedMts",
+    "organizationId",
+    "recruitmentQuestionType",
+    "recruitmentTrainingUrl",
+    "isIntroCta",
+    "scheduledLaunchTimeMts",
+    "activeUntilMts",
+    "shouldUseAdvancedTargeting",
+    "advancedTargetingFilter",
+    "defaultPriorityLabelKey",
+    "actionType",
+    "spokeCampaignId",
+    "textCanvassingType",
+    "turfCuttingType",
+    "conversationStarter",
+    "isPersonal",
+    "isGeocodingDone",
+    "customRecruitmentPromptText",
+    "isBatchImportDone",
+    "hasAssignableTurfs",
+    "associatedElectionId",
+    "shouldDisplayElectionDayPollingLocation",
+    "shouldDisplayEarlyVotingPollingLocation",
+    "shouldShowMatchButton",
+]
 
 
-class TestEmpower(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        m.get(EMPOWER_API_ENDPOINT, json=dummy_data)
-        self.empower = Empower(api_key=TEST_EMPOWER_API_KEY)
+@pytest.mark.parametrize(
+    ("method", "expected_columns"),
+    [
+        ("get_profiles", PROFILE_COLUMNS),
+        ("get_profiles_active_ctas", ["eid", "activeCtaIds"]),
+        ("get_ctas", CTA_COLUMNS),
+        (
+            "get_cta_results",
+            [
+                "profileEid",
+                "ctaId",
+                "contactedMts",
+                "notes",
+                "answerIdsByPromptId",
+                "answer_id",
+            ],
+        ),
+        (
+            "get_cta_prompts",
+            [
+                "id",
+                "answerInputType",
+                "dependsOnInitialDispositionResponse",
+                "id",
+                "isDeleted",
+                "ordering",
+                "promptText",
+                "vanId",
+            ],
+        ),
+        (
+            "get_cta_prompt_answers",
+            ["id", "answerText", "id", "isDeleted", "ordering", "promptId", "vanId"],
+        ),
+        ("get_cta_regions", ["id", "regionIds"]),
+        (
+            "get_cta_shareables",
+            ["id", "shareables_displayLabel", "shareables_type", "shareables_url"],
+        ),
+        ("get_cta_prioritizations", ["id", "prioritizations"]),
+    ],
+)
+def test_export_slices_have_expected_columns(empower, method, expected_columns):
+    assert getattr(empower, method)().columns == expected_columns
 
-    @requests_mock.Mocker()
-    def test_get_profiles(self, m):
-        exp_columns = [
-            "eid",
-            "parentEid",
-            "role",
-            "firstName",
-            "lastName",
-            "email",
-            "phone",
-            "city",
-            "state",
-            "zip",
-            "address",
-            "address2",
-            "vanId",
-            "myCampaignVanId",
-            "lastUsedEmpowerMts",
-            "notes",
-            "regionId",
-            "createdMts",
-            "updatedMts",
-            "currentCtaId",
-        ]
 
-        assert self.empower.get_profiles().columns == exp_columns
+def test_get_regions(empower, export_data):
+    assert empower.get_regions().columns == Table(export_data["regions"]).columns
 
-    @requests_mock.Mocker()
-    def test_get_profiles_active_ctas(self, m):
-        exp_columns = ["eid", "activeCtaIds"]
 
-        assert self.empower.get_profiles_active_ctas().columns == exp_columns
+def test_export_is_fetched_once_at_construction(empower, requests_mock):
+    """The connector caches the export; reading slices makes no further requests."""
+    before = len(requests_mock.request_history)
 
-    @requests_mock.Mocker()
-    def test_get_regions(self, m):
-        exp_columns = Table(dummy_data["regions"]).columns
+    empower.get_profiles()
+    empower.get_ctas()
 
-        assert self.empower.get_regions().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_results(self, m):
-        exp_columns = [
-            "profileEid",
-            "ctaId",
-            "contactedMts",
-            "notes",
-            "answerIdsByPromptId",
-            "answer_id",
-        ]
-
-        assert self.empower.get_cta_results().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_ctas(self, m):
-        exp_columns = [
-            "id",
-            "name",
-            "description",
-            "instructionsHtml",
-            "createdMts",
-            "updatedMts",
-            "organizationId",
-            "recruitmentQuestionType",
-            "recruitmentTrainingUrl",
-            "isIntroCta",
-            "scheduledLaunchTimeMts",
-            "activeUntilMts",
-            "shouldUseAdvancedTargeting",
-            "advancedTargetingFilter",
-            "defaultPriorityLabelKey",
-            "actionType",
-            "spokeCampaignId",
-            "textCanvassingType",
-            "turfCuttingType",
-            "conversationStarter",
-            "isPersonal",
-            "isGeocodingDone",
-            "customRecruitmentPromptText",
-            "isBatchImportDone",
-            "hasAssignableTurfs",
-            "associatedElectionId",
-            "shouldDisplayElectionDayPollingLocation",
-            "shouldDisplayEarlyVotingPollingLocation",
-            "shouldShowMatchButton",
-        ]
-
-        assert self.empower.get_ctas().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_prompts(self, m):
-        exp_columns = [
-            "id",
-            "answerInputType",
-            "dependsOnInitialDispositionResponse",
-            "id",
-            "isDeleted",
-            "ordering",
-            "promptText",
-            "vanId",
-        ]
-
-        assert self.empower.get_cta_prompts().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_prompt_answers(self, m):
-        exp_columns = [
-            "id",
-            "answerText",
-            "id",
-            "isDeleted",
-            "ordering",
-            "promptId",
-            "vanId",
-        ]
-
-        assert self.empower.get_cta_prompt_answers().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_regions(self, m):
-        exp_columns = ["id", "regionIds"]
-
-        assert self.empower.get_cta_regions().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_shareables(self, m):
-        exp_columns = [
-            "id",
-            "shareables_displayLabel",
-            "shareables_type",
-            "shareables_url",
-        ]
-
-        assert self.empower.get_cta_shareables().columns == exp_columns
-
-    @requests_mock.Mocker()
-    def test_get_cta_prioritizations(self, m):
-        exp_columns = ["id", "prioritizations"]
-
-        assert self.empower.get_cta_prioritizations().columns == exp_columns
+    assert len(requests_mock.request_history) == before

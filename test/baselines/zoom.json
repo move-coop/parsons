@@ -1,0 +1,19 @@
+{
+  "connector": "zoom",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/zoom",
+  "cov_module": "parsons.zoom",
+  "test_path": "test/test_zoom.py",
+  "coverage": {
+    "line_pct": 67.0,
+    "branch_pct": 56.9,
+    "num_statements": 303,
+    "num_branches": 58
+  },
+  "mutation": {
+    "score_pct": 67.92,
+    "killed": 288,
+    "survived": 136,
+    "total": 424
+  }
+}

@@ -1,12 +1,20 @@
 import pytest
 
-from parsons import Table
+from parsons import SFTP, Table
 
 """
 Simple Table
 
 The bare minimum Parsons table, and matching files representing that table.
 """
+
+
+@pytest.fixture
+def sftp():
+    """An SFTP connector with fake credentials. Construction opens no connection, so
+    the mocked tests inject a FakeSFTP (see fakes.py) via each method's `connection=`.
+    """
+    return SFTP("sftp.example.com", "user", "password")
 
 
 @pytest.fixture

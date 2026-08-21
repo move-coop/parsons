@@ -1,0 +1,52 @@
+[
+  {
+    "matchedAddress": "1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20500",
+    "coordinates": {
+      "x": -77.03535,
+      "y": 38.898754
+    },
+    "tigerLine": {
+      "tigerLineId": "76225813",
+      "side": "L"
+    },
+    "addressComponents": {
+      "fromAddress": "1600",
+      "toAddress": "1698",
+      "preQualifier": "",
+      "preDirection": "",
+      "preType": "",
+      "streetName": "PENNSYLVANIA",
+      "suffixType": "AVE",
+      "suffixDirection": "NW",
+      "suffixQualifier": "",
+      "city": "WASHINGTON",
+      "state": "DC",
+      "zip": "20500"
+    }
+  },
+  {
+    "matchedAddress": "1600 PENNSYLVANIA AVE SE, WASHINGTON, DC, 20003",
+    "coordinates": {
+      "x": -76.981895,
+      "y": 38.87898
+    },
+    "tigerLine": {
+      "tigerLineId": "638666807",
+      "side": "L"
+    },
+    "addressComponents": {
+      "fromAddress": "1600",
+      "toAddress": "1698",
+      "preQualifier": "",
+      "preDirection": "",
+      "preType": "",
+      "streetName": "PENNSYLVANIA",
+      "suffixType": "AVE",
+      "suffixDirection": "SE",
+      "suffixQualifier": "",
+      "city": "WASHINGTON",
+      "state": "DC",
+      "zip": "20003"
+    }
+  }
+]

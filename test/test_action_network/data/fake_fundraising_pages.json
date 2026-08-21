@@ -1,0 +1,67 @@
+{
+  "total_pages": 1,
+  "per_page": 1,
+  "page": 1,
+  "total_records": 1,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/fundraising_pages?page=2"
+    },
+    "osdi:fundraising_pages": [
+      {
+        "href": "https://actionnetwork.org/api/v2/fundraising_pages/fake_tag_id_1"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "templated": true
+      }
+    ],
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/fundraising_pages"
+    }
+  },
+  "_embedded": {
+    "osdi:fundraising_pages": [
+      {
+        "identifiers": [
+          ""
+        ],
+        "created_date": "2019-02-29",
+        "total_donations": 0,
+        "total_amount": "0.00",
+        "currency": "USD",
+        "action_network:sponsor": {
+          "title": "",
+          "browser_url": ""
+        },
+        "_links": {
+          "self": {
+            "href": "https://actionnetwork.org/api/v2/fundraising_pages"
+          },
+          "osdi:creator": {
+            "href": "fake_url"
+          },
+          "osdi:donations": {
+            "href": "fake_url"
+          },
+          "osdi:record_donation_helper": {
+            "href": "fake_url"
+          }
+        },
+        "modified_date": "2019-02-29",
+        "origin_system": "Test",
+        "title": "Hello",
+        "_embedded": {
+          "osdi:creator": ""
+        },
+        "action_network:hidden": false
+      }
+    ]
+  }
+}

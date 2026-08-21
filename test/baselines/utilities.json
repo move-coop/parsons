@@ -1,0 +1,19 @@
+{
+  "connector": "utilities",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/utilities",
+  "cov_module": "parsons.utilities",
+  "test_path": "test/test_utilities",
+  "coverage": {
+    "line_pct": 56.1,
+    "branch_pct": 44.86,
+    "num_statements": 697,
+    "num_branches": 214
+  },
+  "mutation": {
+    "score_pct": 49.27,
+    "killed": 470,
+    "survived": 484,
+    "total": 954
+  }
+}

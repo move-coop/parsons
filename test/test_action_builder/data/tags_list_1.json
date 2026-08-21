@@ -1,0 +1,37 @@
+{
+  "per_page": 2,
+  "page": 1,
+  "total_pages": 9,
+  "_embedded": {
+    "osdi:tags": [
+      {
+        "origin_system": "Action Builder",
+        "identifiers": [
+          "action_builder:fake-action-builder-id-1"
+        ],
+        "created_date": "2023-05-19T00:00:00.000Z",
+        "modified_date": "2023-05-19T00:00:00.000Z",
+        "name": "Fake Tag 1",
+        "action_builder:section": "Fake Section 1",
+        "action_builder:field": "Fake Field 1",
+        "action_builder:field_type": "standard",
+        "action_builder:locked": false,
+        "action_builder:allow_multiple_responses": false
+      },
+      {
+        "origin_system": "Action Builder",
+        "identifiers": [
+          "action_builder:fake-action-builder-id-2"
+        ],
+        "created_date": "2023-05-19T00:00:00.000Z",
+        "modified_date": "2023-05-19T00:00:00.000Z",
+        "name": "Fake Tag 2",
+        "action_builder:section": "Fake Section 1",
+        "action_builder:field": "Fake Field 1",
+        "action_builder:field_type": "standard",
+        "action_builder:locked": false,
+        "action_builder:allow_multiple_responses": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "yK5jo2tlms",
+  "type": "Lead",
+  "customFields": {
+    "address": "123 Main Street"
+  },
+  "globalOptedOut": false,
+  "groupIds": [
+    "cMCH0hxwGt"
+  ],
+  "firstName": "Lyndon",
+  "lastName": "Johnson",
+  "organizationId": "LePEoKzD3Z",
+  "phoneNumber": "+14435705355",
+  "tagIds": [],
+  "createdAt": "2019-09-20T22:15:46.706Z"
+}

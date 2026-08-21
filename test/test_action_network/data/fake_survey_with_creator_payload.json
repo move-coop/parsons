@@ -1,0 +1,9 @@
+{
+  "title": "My Free Survey",
+  "origin_system": "FreeSurveys.com",
+  "_links": {
+    "osdi:creator": {
+      "href": "https://actionnetwork.org/api/v2/people/1234567890"
+    }
+  }
+}

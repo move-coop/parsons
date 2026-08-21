@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": "zEx5rjbg5",
+      "type": "Tag",
+      "name": "2018_09_14_Hustle",
+      "organizationId": "LePEoKzD3",
+      "createdAt": "2018-09-17T18:59:09.903Z"
+    },
+    {
+      "id": "lfGhS5weS",
+      "type": "Tag",
+      "name": "2018_09_19_Hustle",
+      "organizationId": "LePEoKzD3",
+      "createdAt": "2018-09-18T20:53:16.096Z"
+    },
+    {
+      "id": "a8DV7DC5E",
+      "type": "Tag",
+      "name": "2018_09_21_Hustle",
+      "organizationId": "LePEoKzD3",
+      "createdAt": "2018-09-25T16:28:32.868Z"
+    },
+    {
+      "id": "6bHjStnDD",
+      "type": "Tag",
+      "name": "wrong_number",
+      "organizationId": "LePEoKzD3",
+      "createdAt": "2018-03-01T17:08:44.296Z"
+    }
+  ],
+  "pagination": {
+    "cursor": "WzEsMTAwMF0",
+    "hasNextPage": false,
+    "total": 4
+  }
+}

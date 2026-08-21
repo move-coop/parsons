@@ -1,0 +1,12 @@
+[
+  {
+    "action_builder:name": "Fake Tag 3",
+    "action_builder:field": "Fake Field 1",
+    "action_builder:section": "Fake Section 1"
+  },
+  {
+    "action_builder:name": "Fake Tag 5",
+    "action_builder:field": "Fake Field 2",
+    "action_builder:section": "Fake Section 1"
+  }
+]

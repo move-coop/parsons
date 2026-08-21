@@ -1,0 +1,19 @@
+{
+  "connector": "action_builder",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/action_builder",
+  "cov_module": "parsons.action_builder",
+  "test_path": "test/test_action_builder",
+  "coverage": {
+    "line_pct": 83.22,
+    "branch_pct": 74.0,
+    "num_statements": 143,
+    "num_branches": 50
+  },
+  "mutation": {
+    "score_pct": 59.88,
+    "killed": 100,
+    "survived": 67,
+    "total": 167
+  }
+}

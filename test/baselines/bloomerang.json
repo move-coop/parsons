@@ -1,0 +1,19 @@
+{
+  "connector": "bloomerang",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/bloomerang",
+  "cov_module": "parsons.bloomerang",
+  "test_path": "test/test_bloomerang",
+  "coverage": {
+    "line_pct": 96.36,
+    "branch_pct": 66.67,
+    "num_statements": 110,
+    "num_branches": 12
+  },
+  "mutation": {
+    "score_pct": 79.82,
+    "killed": 91,
+    "survived": 23,
+    "total": 114
+  }
+}

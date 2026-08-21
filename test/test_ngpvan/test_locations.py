@@ -1,15 +1,8 @@
-import os
-import unittest
-
 import pytest
-import requests_mock
 from requests.exceptions import HTTPError
 
 from parsons import VAN
 from test.conftest import validate_list
-
-os.environ["VAN_API_KEY"] = "SOME_KEY"
-
 
 location_json = {
     "locationId": 34,
@@ -59,45 +52,41 @@ expected_loc = [
 ]
 
 
-class TestLocations(unittest.TestCase):
-    def setUp(self):
-        self.van = VAN(os.environ["VAN_API_KEY"], db="EveryAction")
+def test_get_locations(van_everyaction: VAN, requests_mock):
+    van = van_everyaction
+    json = {"items": [location_json], "nextPageLink": None, "count": 1}
+    requests_mock.get(van.connection.uri + "locations", json=json)
 
-    def tearDown(self):
-        pass
+    assert validate_list(expected_loc, van.get_locations())
 
-    @requests_mock.Mocker()
-    def test_get_locations(self, m):
-        json = {"items": [location_json], "nextPageLink": None, "count": 1}
-        m.get(self.van.connection.uri + "locations", json=json)
 
-        assert validate_list(expected_loc, self.van.get_locations())
+def test_get_location(van_everyaction: VAN, requests_mock):
+    van = van_everyaction
+    # Valid location id
+    requests_mock.get(van.connection.uri + "locations/34", json=location_json)
+    assert location_json == van.get_location(34)
 
-    @requests_mock.Mocker()
-    def test_get_location(self, m):
-        # Valid location id
-        m.get(self.van.connection.uri + "locations/34", json=location_json)
-        assert location_json == self.van.get_location(34)
 
-    @requests_mock.Mocker()
-    def test_delete_location(self, m):
-        # Test good location delete
-        m.delete(self.van.connection.uri + "locations/1", status_code=200)
-        self.van.delete_location(1)
+def test_delete_location(van_everyaction: VAN, requests_mock):
+    van = van_everyaction
+    # Test good location delete
+    requests_mock.delete(van.connection.uri + "locations/1", status_code=200)
+    van.delete_location(1)
 
-        # Test invalid location delete
-        m.delete(self.van.connection.uri + "locations/2", status_code=404)
-        with pytest.raises(HTTPError):
-            self.van.delete_location(2)
+    # Test invalid location delete
+    requests_mock.delete(van.connection.uri + "locations/2", status_code=404)
+    with pytest.raises(HTTPError):
+        van.delete_location(2)
 
-    @requests_mock.Mocker()
-    def test_create_location(self, m):
-        loc_id = 32
 
-        m.post(
-            self.van.connection.uri + "locations/findOrCreate",
-            json=loc_id,
-            status_code=204,
-        )
+def test_create_location(van_everyaction: VAN, requests_mock):
+    van = van_everyaction
+    loc_id = 32
 
-        assert self.van.create_location(name="Chicagowide", city="Chicago", state="IL") == loc_id
+    requests_mock.post(
+        van.connection.uri + "locations/findOrCreate",
+        json=loc_id,
+        status_code=204,
+    )
+
+    assert van.create_location(name="Chicagowide", city="Chicago", state="IL") == loc_id

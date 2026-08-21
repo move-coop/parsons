@@ -1,0 +1,58 @@
+{
+  "total_pages": 3,
+  "per_page": 25,
+  "page": 1,
+  "total_records": 50,
+  "_links": {
+    "next": {
+      "href": "https://actionnetwork.org/api/v2/unique_id_lists?page=2"
+    },
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/unique_id_lists"
+    },
+    "osdi:unique_id_lists": [
+      {
+        "href": "https://actionnetwork.org/api/v2/unique_id_lists/fake_id"
+      },
+      {
+        "href": "https://actionnetwork.org/api/v2/unique_id_lists/fake_id"
+      }
+    ],
+    "curies": [
+      {
+        "name": "osdi",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      },
+      {
+        "name": "action_network",
+        "href": "https://actionnetwork.org/docs/v2/{rel}",
+        "templated": true
+      }
+    ]
+  },
+  "_embedded": {
+    "osdi:unique_id_lists": [
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "name": "Example Unique ID List",
+        "created_date": "2022-01-01T00:00:00Z",
+        "modified_date": "2022-01-01T00:00:00Z",
+        "description": "This is an example unique ID list.",
+        "administrative_url": "https://actionnetwork.org/unique_id_lists/1/edit"
+      },
+      {
+        "identifiers": [
+          "action_network:fake_id"
+        ],
+        "name": "Another Unique ID List",
+        "created_date": "2022-01-02T00:00:00Z",
+        "modified_date": "2022-01-02T00:00:00Z",
+        "description": "This is another example unique ID list.",
+        "administrative_url": "https://actionnetwork.org/unique_id_lists/2/edit"
+      }
+    ]
+  }
+}

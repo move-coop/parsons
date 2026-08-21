@@ -1,0 +1,13 @@
+{
+  "connector": "redshift",
+  "git_sha": "de1cafd978",
+  "source_path": "parsons/databases/redshift",
+  "cov_module": "parsons.databases.redshift",
+  "test_path": "test/test_redshift",
+  "coverage": {
+    "line_pct": 37.41,
+    "branch_pct": 24.79,
+    "num_statements": 703,
+    "num_branches": 238
+  }
+}

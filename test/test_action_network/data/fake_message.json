@@ -1,0 +1,50 @@
+{
+  "identifiers": [
+    "action_network:fake_id"
+  ],
+  "origin_system": "Action Network",
+  "created_date": "2014-03-24T18:03:45Z",
+  "modified_date": "2014-03-25T15:00:22Z",
+  "subject": "Stop doing the bad thing",
+  "body": "<p>The mayor should stop doing the bad thing.</p>",
+  "from": "Progressive Action Now",
+  "reply_to": "jane@progressiveactionnow.org",
+  "administrative_url": "fake_url",
+  "total_targeted": 2354,
+  "status": "sent",
+  "sent_start_date": "2014-03-26T15:00:22Z",
+  "type": "email",
+  "targets": [
+    {
+      "href": "https://actionnetwork.org/api/v2/queries/fake_id"
+    }
+  ],
+  "statistics": {
+    "sent": 2354,
+    "opened": 563,
+    "clicked": 472,
+    "actions": 380,
+    "action_network:donated": 14,
+    "action_network:total_amount": 320.25,
+    "unsubscribed": 12,
+    "bounced": 2,
+    "spam_reports": 1
+  },
+  "_links": {
+    "self": {
+      "href": "https://actionnetwork.org/api/v2/messages/fake_id"
+    },
+    "osdi:wrapper": {
+      "href": "https://actionnetwork.org/api/v2/wrappers/fake_id"
+    },
+    "osdi:recipients": {
+      "href": "https://actionnetwork.org/api/v2/lists/950e9954-606f-43e6-be99-2bc0bc2072a1"
+    },
+    "osdi:send_helper": {
+      "href": "https://actionnetwork.org/api/v2/messages/fake_id/send"
+    },
+    "osdi:schedule_helper": {
+      "href": "https://actionnetwork.org/api/v2/messages/fake_id/schedule"
+    }
+  }
+}

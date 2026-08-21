@@ -1,0 +1,19 @@
+{
+  "connector": "capitol_canary",
+  "git_sha": "1cebba018b",
+  "source_path": "parsons/capitol_canary",
+  "cov_module": "parsons.capitol_canary",
+  "test_path": "test/test_capitol_canary",
+  "coverage": {
+    "line_pct": 93.98,
+    "branch_pct": 78.57,
+    "num_statements": 83,
+    "num_branches": 28
+  },
+  "mutation": {
+    "score_pct": 75.36,
+    "killed": 104,
+    "survived": 34,
+    "total": 138
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "connector": "pdi",
+  "git_sha": "e411807f83",
+  "source_path": "parsons/pdi",
+  "cov_module": "parsons.pdi",
+  "test_path": "test/test_pdi",
+  "coverage": {
+    "line_pct": 44.95,
+    "branch_pct": 11.11,
+    "num_statements": 327,
+    "num_branches": 54
+  },
+  "mutation": {
+    "score_pct": 61.81,
+    "killed": 356,
+    "survived": 220,
+    "total": 576
+  }
+}

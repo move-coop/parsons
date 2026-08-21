@@ -1,181 +1,153 @@
-import unittest
+"""Tests for the NationBuilder connector."""
 
 import pytest
-import requests_mock
 
 from parsons import NationBuilder as NB
 
-from .fixtures import GET_PEOPLE_RESPONSE, PERSON_RESPONSE
+INVALID_SLUGS = ["", "  ", None, 1337, {}, []]
 
 
-class TestNationBuilder(unittest.TestCase):
-    def test_client(self):
-        nb = NB("test-slug", "test-token")
-        assert nb.client.uri == "https://test-slug.nationbuilder.com/api/v1/"
-        assert nb.client.headers == {
-            "authorization": "Bearer test-token",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
+def test_client(nb):
+    assert nb.client.uri == "https://test-slug.nationbuilder.com/api/v1/"
+    assert nb.client.headers == {
+        "authorization": "Bearer test-token",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
 
-    def test_get_uri_success(self):
-        assert NB.get_uri("foo") == "https://foo.nationbuilder.com/api/v1"
-        assert NB.get_uri("bar") == "https://bar.nationbuilder.com/api/v1"
 
-    def test_get_uri_errors(self):
-        values = ["", "  ", None, 1337, {}, []]
+def test_get_uri_success():
+    assert NB.get_uri("foo") == "https://foo.nationbuilder.com/api/v1"
+    assert NB.get_uri("bar") == "https://bar.nationbuilder.com/api/v1"
 
-        for v in values:
-            with pytest.raises(
-                ValueError, match=r"(slug must be an str|slug can't be (None|an empty str))"
-            ):
-                NB.get_uri(v)
 
-    def test_get_auth_headers_success(self):
-        assert NB.get_auth_headers("foo") == {"authorization": "Bearer foo"}
-        assert NB.get_auth_headers("bar") == {"authorization": "Bearer bar"}
+@pytest.mark.parametrize("value", INVALID_SLUGS)
+def test_get_uri_errors(value):
+    with pytest.raises(
+        ValueError, match=r"(slug must be an str|slug can't be (None|an empty str))"
+    ):
+        NB.get_uri(value)
 
-    def test_get_auth_headers_errors(self):
-        values = ["", "  ", None, 1337, {}, []]
 
-        for v in values:
-            with pytest.raises(
-                ValueError,
-                match=r"(access_token must be an str|access_token can't be (None|an empty str))",
-            ):
-                NB.get_auth_headers(v)
+def test_get_auth_headers_success():
+    assert NB.get_auth_headers("foo") == {"authorization": "Bearer foo"}
+    assert NB.get_auth_headers("bar") == {"authorization": "Bearer bar"}
 
-    def test_parse_next_params_success(self):
-        n, t = NB.parse_next_params("/a/b/c?__nonce=foo&__token=bar")
-        assert n == "foo"
-        assert t == "bar"
 
-    def test_get_next_params_errors(self):
-        with pytest.raises(ValueError, match="__nonce param not found"):
-            NB.parse_next_params("/a/b/c?baz=1")
+@pytest.mark.parametrize("value", INVALID_SLUGS)
+def test_get_auth_headers_errors(value):
+    with pytest.raises(
+        ValueError,
+        match=r"(access_token must be an str|access_token can't be (None|an empty str))",
+    ):
+        NB.get_auth_headers(value)
 
-        with pytest.raises(ValueError, match="__token param not found"):
-            NB.parse_next_params("/a/b/c?__nonce=1")
 
-        with pytest.raises(ValueError, match="__nonce param not found"):
-            NB.parse_next_params("/a/b/c?__token=1")
+def test_parse_next_params_success():
+    nonce, token = NB.parse_next_params("/a/b/c?__nonce=foo&__token=bar")
 
-    def test_make_next_url(self):
-        assert (
-            NB.make_next_url("example.com", "bar", "baz")
-            == "example.com?limit=100&__nonce=bar&__token=baz"
-        )
+    assert nonce == "foo"
+    assert token == "bar"
 
-    @requests_mock.Mocker()
-    def test_get_people_handle_empty_response(self, m):
-        nb = NB("test-slug", "test-token")
-        m.get("https://test-slug.nationbuilder.com/api/v1/people", json={"results": []})
-        table = nb.get_people()
-        assert table.num_rows == 0
 
-    @requests_mock.Mocker()
-    def test_get_people(self, m):
-        nb = NB("test-slug", "test-token")
-        m.get(
-            "https://test-slug.nationbuilder.com/api/v1/people",
-            json=GET_PEOPLE_RESPONSE,
-        )
-        table = nb.get_people()
+@pytest.mark.parametrize(
+    ("path", "match"),
+    [
+        ("/a/b/c?baz=1", "__nonce param not found"),
+        ("/a/b/c?__nonce=1", "__token param not found"),
+        ("/a/b/c?__token=1", "__nonce param not found"),
+    ],
+)
+def test_parse_next_params_errors(path, match):
+    with pytest.raises(ValueError, match=match):
+        NB.parse_next_params(path)
 
-        assert table.num_rows == 2
-        assert len(table.columns) == 59
 
-        assert table[0]["first_name"] == "Foo"
-        assert table[0]["last_name"] == "Bar"
-        assert table[0]["email"] == "foo@example.com"
+def test_make_next_url():
+    assert (
+        NB.make_next_url("example.com", "bar", "baz")
+        == "example.com?limit=100&__nonce=bar&__token=baz"
+    )
 
-    @requests_mock.Mocker()
-    def test_get_people_with_next(self, m):
-        """Make two requests and get the same data twice. This will exercise the while loop."""
-        nb = NB("test-slug", "test-token")
 
-        GET_PEOPLE_RESPONSE_WITH_NEXT = GET_PEOPLE_RESPONSE.copy()
-        GET_PEOPLE_RESPONSE_WITH_NEXT["next"] = (
-            "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz"
-        )
+def test_get_people_handle_empty_response(nb, base_url, requests_mock):
+    requests_mock.get(f"{base_url}/people", json={"results": []})
 
-        m.get(
-            "https://test-slug.nationbuilder.com/api/v1/people",
-            json=GET_PEOPLE_RESPONSE_WITH_NEXT,
-        )
+    assert nb.get_people().num_rows == 0
 
-        m.get(
-            "https://test-slug.nationbuilder.com/api/v1/people?limit=100&__nonce=bar&__token=baz",
-            json=GET_PEOPLE_RESPONSE,
-        )
 
-        table = nb.get_people()
+def test_get_people(nb, base_url, requests_mock, load):
+    requests_mock.get(f"{base_url}/people", json=load("get_people_response"))
 
-        assert table.num_rows == 4
-        assert len(table.columns) == 59
+    table = nb.get_people()
 
-        assert table[1]["first_name"] == "Zoo"
-        assert table[1]["last_name"] == "Baz"
-        assert table[1]["email"] == "bar@example.com"
+    assert table.num_rows == 2
+    assert len(table.columns) == 59
+    assert table[0]["first_name"] == "Foo"
+    assert table[0]["last_name"] == "Bar"
+    assert table[0]["email"] == "foo@example.com"
 
-    def test_update_person_raises_with_bad_params(self):
-        nb = NB("test-slug", "test-token")
 
-        with pytest.raises(ValueError, match="person_id can't be None"):
-            nb.update_person(None, {})
+def test_get_people_follows_next(nb, base_url, requests_mock, load):
+    """The `next` link is followed, so paging accumulates rows across requests."""
+    first_page = load("get_people_response")
+    first_page["next"] = f"{base_url}/people?limit=100&__nonce=bar&__token=baz"
 
-        with pytest.raises(ValueError, match="person_id must be a str"):
-            nb.update_person(1, {})
+    requests_mock.get(f"{base_url}/people", json=first_page)
+    requests_mock.get(
+        f"{base_url}/people?limit=100&__nonce=bar&__token=baz",
+        json=load("get_people_response"),
+    )
 
-        with pytest.raises(ValueError, match="person_id can't be an empty str"):
-            nb.update_person(" ", {})
+    table = nb.get_people()
 
-        with pytest.raises(ValueError, match="person must be a dict"):
-            nb.update_person("1", None)
+    assert table.num_rows == 4
+    assert len(table.columns) == 59
+    assert table[1]["first_name"] == "Zoo"
+    assert table[1]["last_name"] == "Baz"
+    assert table[1]["email"] == "bar@example.com"
 
-        with pytest.raises(ValueError, match="person must be a dict"):
-            nb.update_person("1", "bad value")
 
-    @requests_mock.Mocker()
-    def test_update_person(self, m):
-        """Requests the correct URL, returns the correct data and doesn't raise exceptions."""
-        nb = NB("test-slug", "test-token")
+@pytest.mark.parametrize(
+    ("person_id", "person", "match"),
+    [
+        (None, {}, "person_id can't be None"),
+        (1, {}, "person_id must be a str"),
+        (" ", {}, "person_id can't be an empty str"),
+        ("1", None, "person must be a dict"),
+        ("1", "bad value", "person must be a dict"),
+    ],
+)
+def test_update_person_raises_with_bad_params(nb, person_id, person, match):
+    with pytest.raises(ValueError, match=match):
+        nb.update_person(person_id, person)
 
-        m.put(
-            "https://test-slug.nationbuilder.com/api/v1/people/1",
-            json=PERSON_RESPONSE,
-        )
 
-        response = nb.update_person("1", {"tags": ["zoot", "boot"]})
-        person = response["person"]
+def test_update_person(nb, base_url, requests_mock, load):
+    requests_mock.put(f"{base_url}/people/1", json=load("person_response"))
 
-        assert person["id"] == 1
-        assert person["first_name"] == "Foo"
-        assert person["last_name"] == "Bar"
-        assert person["email"] == "foo@example.com"
+    response = nb.update_person("1", {"tags": ["zoot", "boot"]})
 
-    def test_upsert_person_raises_with_bad_params(self):
-        nb = NB("test-slug", "test-token")
+    person = response["person"]
+    assert person["id"] == 1
+    assert person["first_name"] == "Foo"
+    assert person["last_name"] == "Bar"
+    assert person["email"] == "foo@example.com"
 
-        with pytest.raises(ValueError, match="person dict must contain at least one key of"):
-            nb.upsert_person({"tags": ["zoot", "boot"]})
 
-    @requests_mock.Mocker()
-    def test_upsert_person(self, m):
-        """Requests the correct URL, returns the correct data and doesn't raise exceptions."""
-        nb = NB("test-slug", "test-token")
+def test_upsert_person_raises_with_bad_params(nb):
+    with pytest.raises(ValueError, match="person dict must contain at least one key of"):
+        nb.upsert_person({"tags": ["zoot", "boot"]})
 
-        m.put(
-            "https://test-slug.nationbuilder.com/api/v1/people/push",
-            json=PERSON_RESPONSE,
-        )
 
-        created, response = nb.upsert_person({"email": "foo@example.com"})
-        assert not created
+def test_upsert_person(nb, base_url, requests_mock, load):
+    requests_mock.put(f"{base_url}/people/push", json=load("person_response"))
 
-        person = response["person"]
+    created, response = nb.upsert_person({"email": "foo@example.com"})
 
-        assert person["id"] == 1
-        assert person["first_name"] == "Foo"
-        assert person["last_name"] == "Bar"
-        assert person["email"] == "foo@example.com"
+    assert not created
+    person = response["person"]
+    assert person["id"] == 1
+    assert person["first_name"] == "Foo"
+    assert person["last_name"] == "Bar"
+    assert person["email"] == "foo@example.com"

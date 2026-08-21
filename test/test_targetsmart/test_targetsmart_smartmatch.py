@@ -3,10 +3,10 @@ import gzip
 import io
 import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import petl
 import pytest
+import requests_mock as requests_mock_lib
 from petl.util.base import TableWrapper
 
 from parsons.targetsmart.targetsmart_api import TargetSmartAPI
@@ -70,7 +70,7 @@ def final_outtable(prep_intable: TableWrapper, raw_outtable: tuple) -> TableWrap
     return petl.leftjoin(prep_intable, raw_outtable, key="matchback_id").cutout("matchback_id")
 
 
-def smartmatch_requests_mock(requests_mock: MagicMock, raw_outgz: bytes):
+def smartmatch_requests_mock(requests_mock: requests_mock_lib.Mocker, raw_outgz: bytes):
     resp1 = {"url": "https://mock_smartmatch_upload_endpoint", "error": None}
     requests_mock.get("https://api.targetsmart.com/service/smartmatch", json=resp1)
     requests_mock.put(resp1["url"])
@@ -84,7 +84,7 @@ def test_smartmatch_returned_petl(
     intable: TableWrapper,
     raw_outgz: bytes,
     final_outtable: TableWrapper,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)
@@ -96,7 +96,7 @@ def test_smartmatch_returned_petl(
 def test_smartmatch_output_csv_exists(
     intable: TableWrapper,
     raw_outgz: bytes,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)
@@ -109,7 +109,7 @@ def test_smartmatch_output_csv_exists(
 def test_smartmatch_keep_smartmatch_input_csv(
     intable: TableWrapper,
     raw_outgz: bytes,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)
@@ -122,7 +122,7 @@ def test_smartmatch_keep_smartmatch_input_csv(
 def test_smartmatch_keep_smartmatch_input_csv_false(
     intable: TableWrapper,
     raw_outgz: bytes,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)
@@ -135,7 +135,7 @@ def test_smartmatch_keep_smartmatch_input_csv_false(
 def test_smartmatch_keep_smartmatch_output_gz(
     intable: TableWrapper,
     raw_outgz: bytes,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)
@@ -148,7 +148,7 @@ def test_smartmatch_keep_smartmatch_output_gz(
 def test_smartmatch_keep_smartmatch_output_gz_false(
     intable: TableWrapper,
     raw_outgz: bytes,
-    requests_mock: MagicMock,
+    requests_mock: requests_mock_lib.Mocker,
 ):
     ts = TargetSmartAPI("mockkey")
     smartmatch_requests_mock(requests_mock, raw_outgz)

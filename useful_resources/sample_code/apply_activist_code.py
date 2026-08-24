@@ -26,7 +26,7 @@ config_vars = {
 
 # ### CODE
 
-from parsons import Table, Redshift, VAN  # noqa E402 module-import-not-at-top-of-file
+from parsons import Redshift, VAN  # noqa E402 module-import-not-at-top-of-file
 from parsons import logger  # noqa E402 module-import-not-at-top-of-file
 import os  # noqa E402 module-import-not-at-top-of-file
 

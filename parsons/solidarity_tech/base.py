@@ -25,6 +25,8 @@ ParamsType = _JsonType | np.int64
 
 
 class SolidarityTechBase:
+    """Base class for interacting with the SolidarityTech API."""
+
     def __init__(
         self, api_token: str | None = None, *, session: requests.Session | None = None
     ) -> None:
@@ -43,9 +45,9 @@ class SolidarityTechBase:
         """
         self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
         self.headers = CaseInsensitiveDict({"authorization": f"Bearer {self.api_token}"})
-        self.api_url = "https://api.solidarity.tech/v1"
+        self.api_url = "https://api.solidarity.tech/v1/"
         self.api = APIConnector(
-            self.api_url,
+            uri=self.api_url,
             headers=self.headers,
             ratelimiter=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)
@@ -114,9 +116,9 @@ class SolidarityTechBase:
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)
         return self.api.request(url=endpoint, req_type="GET", **kwargs)
 
-    def _get_single_resource(self, endpoint: str, id: int, **kwargs) -> requests.Response:
+    def _get_single_resource(self, endpoint: str, resource_id: int, **kwargs) -> requests.Response:
         """Handle GET requests for single resources."""
-        complete_endpoint = f"{endpoint}/{id}"
+        complete_endpoint = f"{endpoint}/{resource_id}"
         logger.debug("Processing GET request at endpoint: %s", complete_endpoint)
         return self.api.request(url=complete_endpoint, req_type="GET", **kwargs)
 
@@ -133,18 +135,18 @@ class SolidarityTechBase:
     def _put_request(
         self,
         endpoint: str,
-        id: int,
+        resource_id: int,
         payload: Mapping[str, _JsonType] | None = None,
         **kwargs,
     ) -> requests.Response:
         """Handle PUT requests."""
-        complete_endpoint = f"{endpoint}/{id}"
+        complete_endpoint = f"{endpoint}/{resource_id}"
         logger.debug("Processing PUT request at endpoint: %s", complete_endpoint, extra=payload)
         return self.api.request(url=complete_endpoint, req_type="PUT", json=payload, **kwargs)
 
-    def _del_request(self, endpoint: str, id: int | str, **kwargs) -> requests.Response:
+    def _del_request(self, endpoint: str, resource_id: int | str, **kwargs) -> requests.Response:
         """Handle DEL requests."""
-        complete_endpoint = f"{endpoint}/{id}"
+        complete_endpoint = f"{endpoint}/{resource_id}"
         logger.debug("Processing DEL request at endpoint: %s", complete_endpoint)
         return self.api.request(url=complete_endpoint, req_type="DELETE", **kwargs)
 
@@ -177,7 +179,7 @@ class SolidarityTechBase:
         raise STUnexpectedResponseError(response=res)
 
     def _add_if_field_not_empty(
-        self, receiving_dict: dict, key: str, value: Any | None, overwrite: bool = False
+        self, receiving_dict: dict, key: str, value: Any | None, *, overwrite: bool = False
     ) -> dict:
         """
         Add a key/value pair to a dictionary if the value is not None.
@@ -211,6 +213,5 @@ class SolidarityTechBase:
             logger.debug(
                 "Skipping adding '%s' to payload or parameters dictionary as value is None",
                 key,
-                value,
             )
         return receiving_dict

@@ -38,4 +38,4 @@ def test_init_with_no_api_token() -> None:
 
 def test_init_api_url(st: SolidarityTech) -> None:
     """Set api_url property."""
-    assert st.api_url == "https://api.solidarity.tech/v1"
+    assert st.api_url == "https://api.solidarity.tech/v1/"

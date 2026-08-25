@@ -3,15 +3,15 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
+from urllib.parse import urlencode, urlsplit
 
 import pytest
 import requests
-from requests_mock import GET, POST, Mocker
 
 from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
 
 if TYPE_CHECKING:
-    from pytest_mock import MockerFixture
+    from requests_mock import Mocker
 
     from parsons.solidarity_tech import SolidarityTech
     from parsons.utilities.api_connector import _JsonType, _ParamsType
@@ -28,122 +28,129 @@ def known_status_codes() -> dict[int, tuple[bool, str]]:
     }
 
 
-class Test_Post_Request:
+class TestPostRequest:
     """Tests for the _post_request method."""
 
     @pytest.mark.parametrize(
         "endpoint", ["custom_user_properties", "event_sessions/295876/hosts", "field_survey_urls"]
     )
     def test_get_single_resource_handles_varied_endpoints(
-        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture, endpoint: str
+        self, st: SolidarityTech, requests_mock: Mocker, endpoint: str
     ) -> None:
         """Make a POST request to varied endpoints."""
-        endpoint_url = f"{st.api_url}/{endpoint}"
+        endpoint_url = f"{st.api_url}{endpoint}"
+        _ = requests_mock.post(endpoint_url)
 
-        requests_mock.post(endpoint_url)
-        spy = mocker.spy(st.api, "request")
+        _ = st._post_request(endpoint)
 
-        st._post_request(endpoint)
-
-        spy.assert_called_once_with(url=endpoint_url, req_type=POST)
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "POST"
+        assert requests_mock.last_request.url == endpoint_url
 
     def test_get_single_resource_makes_request_with_payload(
-        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+        self, st: SolidarityTech, requests_mock: Mocker
     ) -> None:
         """Makes a POST request with payload."""
         payload: _JsonType = {"user_id": 654123}
+        _ = requests_mock.post(st.api_url)
 
-        requests_mock.post(st.api_url)
-        spy = mocker.spy(st.api, "request")
+        _ = st._post_request(st.api_url, payload=payload)
 
-        st._post_request(st.api_url, payload=payload)
-
-        spy.assert_called_once_with(url=st.api_url, req_type=POST, json=payload)
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "POST"
+        assert requests_mock.last_request.url == st.api_url
+        assert requests_mock.last_request.json() == payload
 
     def test_get_single_resource_makes_request_with_params(
-        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+        self, st: SolidarityTech, requests_mock: Mocker
     ) -> None:
         """Make a POST request with params."""
         params: _ParamsType = {"automation_id": 35876}
+        _ = requests_mock.post(st.api_url)
 
-        requests_mock.post(st.api_url)
-        spy = mocker.spy(st.api, "request")
+        _ = st._post_request(st.api_url, params=params)
 
-        st._post_request(st.api_url, params=params)
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "POST"
 
-        spy.assert_called_once_with(url=st.api_url, req_type=POST, json=None, params=params)
+        last_url = urlsplit(requests_mock.last_request.url)
+        assert f"{last_url.scheme}://{last_url.netloc}{last_url.path}" == st.api_url
+        assert last_url.query == urlencode(params)
 
 
-class Test_Get_Single_Resource:
+class TestGetSingleResource:
     """Tests for the _get_single_resource method."""
 
     def test_get_single_resource_makes_request_with_id(
-        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture
+        self, st: SolidarityTech, requests_mock: Mocker
     ) -> None:
         """Make a GET request with an ID."""
-        id = 42
+        resource_id = 42
         endpoint = "users"
-        endpoint_url = f"{st.api_url}/{endpoint}/{id}"
+        endpoint_url = f"{st.api_url}{endpoint}/{resource_id}"
+        _ = requests_mock.get(endpoint_url, json={"id": resource_id})
 
-        requests_mock.get(endpoint_url)
-        spy = mocker.spy(st.api, "request")
+        _ = st._get_single_resource(endpoint, resource_id)
 
-        st._get_single_resource(endpoint, id)
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "GET"
+        assert requests_mock.last_request.url == endpoint_url
 
-        spy.assert_called_once_with(url=endpoint_url, req_type=GET)
 
-
-class Test_Get_Resources:
+class TestGetResources:
     """Tests for the _get_resources method."""
 
     @pytest.mark.parametrize("endpoint", ["activities", "agent_assignments", "users/124876"])
     def test_get_resources_makes_request(
-        self, st: SolidarityTech, requests_mock: Mocker, mocker: MockerFixture, endpoint: str
+        self, st: SolidarityTech, requests_mock: Mocker, endpoint: str
     ) -> None:
         """Make a GET request to varied endpoints."""
-        endpoint_url = f"{st.api_url}/{endpoint}"
+        endpoint_url = f"{st.api_url}{endpoint}"
+        _ = requests_mock.get(endpoint_url)
 
-        requests_mock.get(endpoint_url)
-        spy = mocker.spy(st.api, "request")
+        _ = st._get_resources(endpoint)
 
-        st._get_resources(endpoint)
-
-        spy.assert_called_once_with(url=endpoint_url, req_type=GET)
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "GET"
+        assert requests_mock.last_request.url == endpoint_url
 
     def test_get_resources_datetime(
         self,
         st: SolidarityTech,
         requests_mock: Mocker,
-        mocker: MockerFixture,
     ) -> None:
         """Convert datetime-typed ``since``."""
         now_datetime = datetime.now(tz=timezone.utc)
         now_timestamp = int(now_datetime.timestamp())
+        _ = requests_mock.get(st.api_url)
 
-        requests_mock.get(st.api_url)
-        spy = mocker.spy(st.api, "request")
-
-        st._get_resources(
+        _ = st._get_resources(
             st.api_url,
             since=now_datetime,
         )
-        spy.assert_called_once_with(
-            url=st.api_url,
-            req_type=GET,
-            params={"_since": now_timestamp},
-        )
+
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "GET"
+
+        last_url = urlsplit(requests_mock.last_request.url)
+        assert f"{last_url.scheme}://{last_url.netloc}{last_url.path}" == st.api_url
+        assert last_url.query == urlencode({"_since": now_timestamp})
 
     def test_get_resources_remaps_special_query_strings(
         self,
         st: SolidarityTech,
         requests_mock: Mocker,
-        mocker: MockerFixture,
     ) -> None:
         """Integrate special query names provided as keyword arguments."""
-        requests_mock.get(st.api_url)
-        spy = mocker.spy(st.api, "request")
+        _ = requests_mock.get(st.api_url)
 
-        st._get_resources(
+        _ = st._get_resources(
             st.api_url,
             limit=123456,
             cursor=654321,
@@ -152,16 +159,20 @@ class Test_Get_Resources:
             include_count=123654,
         )
 
-        spy.assert_called_once_with(
-            url=st.api_url,
-            req_type=GET,
-            params={
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "GET"
+
+        last_url = urlsplit(requests_mock.last_request.url)
+        assert f"{last_url.scheme}://{last_url.netloc}{last_url.path}" == st.api_url
+        assert last_url.query == urlencode(
+            {
                 "_limit": 123456,
                 "_cursor": 654321,
                 "_offset": 321456,
                 "_since": 456321,
                 "_include_count": 123654,
-            },
+            }
         )
 
     def test_get_resources_param_collision_error(
@@ -170,13 +181,13 @@ class Test_Get_Resources:
         requests_mock: Mocker,
     ) -> None:
         """Raise a :class:`KeyError` when a query passed in keyword arguments collides with one passed in params."""
-        requests_mock.get(st.api_url)
+        _ = requests_mock.get(st.api_url)
 
         with pytest.raises(KeyError, match="Request param '_limit' already exists"):
-            st._get_resources(st.api_url, limit=15, params={"_limit": 30})
+            _ = st._get_resources(st.api_url, limit=15, params={"_limit": 30})
 
 
-class Test_Add_If_Field_Not_Empty:
+class TestAddIfFieldNotEmpty:
     """Test the ``_add_if_field_not_empty`` method."""
 
     @pytest.mark.parametrize(
@@ -211,16 +222,18 @@ class Test_Add_If_Field_Not_Empty:
         """Don't overwrite existing keys when ``overwrite`` is not provided."""
         init_dict = {"test_key": "original_value"}
         with pytest.raises(KeyError, match="'test_key' already exists"):
-            st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value")
+            _ = st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value")
 
     def test_add_if_field_not_empty_no_overwrite(self, st: SolidarityTech) -> None:
         """Raise a :class`KeyError` when ``overwrite`` is ``False`` and the key already exists."""
         init_dict = {"test_key": "original_value"}
         with pytest.raises(KeyError, match="'test_key' already exists"):
-            st._add_if_field_not_empty(init_dict, "test_key", "overwrite_value", overwrite=False)
+            _ = st._add_if_field_not_empty(
+                init_dict, "test_key", "overwrite_value", overwrite=False
+            )
 
 
-class Test_Handle_Status_Codes:
+class TestHandleStatusCodes:
     """Test the ``_handle_status_codes`` method."""
 
     @pytest.mark.parametrize(
@@ -241,7 +254,7 @@ class Test_Handle_Status_Codes:
         return ``True`` if parsing a known success status code.
 
         """
-        requests_mock.get("https://api.example.com", status_code=status_code)
+        _ = requests_mock.get("https://api.example.com", status_code=status_code)
         res = requests.get("https://api.example.com")
 
         success_expected = known_status_codes[status_code][0]
@@ -253,7 +266,7 @@ class Test_Handle_Status_Codes:
                 f"Request Failed (Status Code {status_code}) -- {failure_description}"
             )
             with pytest.raises(STFailedResponseError, match=err_msg):
-                st._handle_status_codes(res, known_status_codes)
+                _ = st._handle_status_codes(res, known_status_codes)
 
     def test_handle_status_codes_unrecognized(
         self,
@@ -264,11 +277,11 @@ class Test_Handle_Status_Codes:
         """Raise a :class:`STUnexpectedResponseError` if parsing an unrecognized status code."""
         status_code = 500
 
-        requests_mock.get("https://api.example.com", status_code=status_code)
+        _ = requests_mock.get("https://api.example.com", status_code=status_code)
         res = requests.get("https://api.example.com")
 
         with pytest.raises(
             STUnexpectedResponseError,
             match=re.escape(f"Unexpected Response (Status Code {status_code})"),
         ):
-            st._handle_status_codes(res, known_status_codes)
+            _ = st._handle_status_codes(res, known_status_codes)

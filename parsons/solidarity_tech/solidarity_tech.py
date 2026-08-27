@@ -92,5 +92,3 @@ class SolidarityTech(
         from parsons.solidarity_tech import SolidarityTechEvents
 
     """
-
-    pass

@@ -109,6 +109,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         agent_user_id: np.int64 | None = None,
         user_id: np.int64 | None = None,
         notes: str | None = None,
+        *,
         marked_as_completed: bool | None = None,
     ) -> bool:
         """
@@ -176,6 +177,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         agent_user_id: np.int64 | None = None,
         user_id: np.int64 | None = None,
         notes: str | None = None,
+        *,
         marked_as_completed: bool | None = None,
     ) -> bool:
         """

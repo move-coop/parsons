@@ -28,6 +28,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         event_id: int | None = None,
         session_id: int | None = None,
         user_id: int | None = None,
+        *,
         full_user_payload: bool = False,
     ) -> Table:
         """
@@ -124,9 +125,10 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         is_attending: AttendanceStatus,
         agent_user_id: np.int64 | None,
         user_id: np.int64 | None = None,
-        is_confirmed: bool | None = None,
         source: str | None = None,
         source_system: str | None = None,
+        *,
+        is_confirmed: bool | None = None,
         skip_email_confirmation: bool = False,
     ) -> bool:
         """
@@ -143,12 +145,12 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
                 Identifier for the agent user, if applicable.
             user_id:
                 Identifier for the user RSVPing to the event.
-            is_confirmed:
-                Indicates if the RSVP is confirmed.
             source:
                 Source of the RSVP.
             source_system:
                 System from which the RSVP originated.
+            is_confirmed:
+                Indicates if the RSVP is confirmed.
             skip_email_confirmation:
                 If True, skips sending the initial email confirmation to the user.
 
@@ -190,10 +192,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         self,
         resource_id: int,
         is_attending: AttendanceStatus | None = None,
-        is_confirmed: bool | None = None,
         agent_user_id: np.int64 | None = None,
         source: str | None = None,
         source_system: str | None = None,
+        *,
+        is_confirmed: bool | None = None,
     ) -> bool:
         """
         Update an event rsvp with the specified details.
@@ -203,14 +206,14 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
                 Identifier of the event rsvp to update.
             is_attending:
                 Indicates if the user is attending the event.
-            is_confirmed:
-                Indicates if the RSVP is confirmed.
             agent_user_id:
                 Identifier for the agent user, if applicable.
             source:
                 Source of the RSVP.
             source_system:
                 System from which the RSVP originated.
+            is_confirmed:
+                Indicates if the RSVP is confirmed.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.

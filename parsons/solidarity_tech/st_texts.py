@@ -71,6 +71,7 @@ class SolidarityTechTexts(SolidarityTechBase):
         user_id: int,
         body: str,
         media_urls: list[str] | None = None,
+        *,
         attach_contact_card: bool | None = None,
         shorten_urls: bool | None = None,
     ) -> bool:

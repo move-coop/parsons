@@ -76,6 +76,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         event_id: np.int64,
         event_session_id: np.int64,
         user_id: np.int64,
+        *,
         attended: bool,
     ) -> bool:
         """

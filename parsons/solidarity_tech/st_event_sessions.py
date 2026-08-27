@@ -26,11 +26,12 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         offset: int = 0,
         since: int | datetime = 0,
         event_id: int = 0,
-        upcoming: bool | None = None,
         starts_after: int | datetime | None = None,
         starts_before: int | datetime | None = None,
         chapter_id: int | None = None,
         event_tags: list[str] | str | None = None,
+        *,
+        upcoming: bool | None = None,
         include_rsvp_counts: bool | None = None,
         include_confirmed_counts: bool | None = None,
         include_hosts: bool | None = None,
@@ -49,9 +50,6 @@ class SolidarityTechEventSessions(SolidarityTechBase):
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
             event_id:
                 Filters sessions by event_id within the accessible scope.
-            upcoming:
-                If True, returns only sessions that have not ended yet,
-                sorted by start_time ascending (soonest first).
             starts_after:
                 UTC timestamp in seconds since the Unix epoch;
                 only sessions with start_time at or after this moment.
@@ -64,6 +62,9 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             event_tags:
                 Comma-separated list of tags.
                 Matches sessions whose own tags OR whose parent event tags overlap with the list.
+            upcoming:
+                If True, returns only sessions that have not ended yet,
+                sorted by start_time ascending (soonest first).
             include_rsvp_counts:
                 If True, each session in the response includes an rsvp_counts object keyed by RSVP status.
                 (e.g. {"yes": 12, "no": 3})
@@ -127,11 +128,12 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         location_name: str | None = None,
         location_data: dict[str, str] | None = None,
         location_address: str | None = None,
-        show_rsvp_bar: bool | None = None,
-        show_title_in_form: bool | None = None,
         note: str | None = None,
         max_capacity: int | None = None,
         tags: list[str] | None = None,
+        *,
+        show_rsvp_bar: bool | None = None,
+        show_title_in_form: bool | None = None,
     ) -> bool:
         """
         Create an event rsvp with the specified details.
@@ -157,16 +159,16 @@ class SolidarityTechEventSessions(SolidarityTechBase):
                 NYC borough is the entry whose types include "sublocality_level_1".
             location_address:
                 Physical address of the event location.
-            show_rsvp_bar:
-                Flag to show RSVP buttons bar.
-            show_title_in_form:
-                Flag to show title in the form.
             note:
                 Additional notes for the event session.
             max_capacity:
                 Maximum capacity for the event session.
             tags:
                 Array of tags for the event session.
+            show_rsvp_bar:
+                Flag to show RSVP buttons bar.
+            show_title_in_form:
+                Flag to show title in the form.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.
@@ -209,6 +211,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
     def get_event_session(
         self,
         resource_id: int,
+        *,
         include_hosts: bool = False,
     ) -> dict:
         """
@@ -253,11 +256,12 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         location_name: str | None = None,
         location_address: str | None = None,
         location_data: dict[str, str] | None = None,
-        show_rsvp_bar: bool | None = None,
-        show_title_in_form: bool | None = None,
         note: str | None = None,
         max_capacity: int | None = None,
         tags: list[str] | None = None,
+        *,
+        show_rsvp_bar: bool | None = None,
+        show_title_in_form: bool | None = None,
     ) -> bool:
         """
         Update an event session with the specified details.
@@ -280,16 +284,16 @@ class SolidarityTechEventSessions(SolidarityTechBase):
                 ``components``/``coordinates`` accept native JSON or JSON strings
                 and are stored/returned as JSON strings.
                 Omit to leave the existing location_data unchanged.
-            show_rsvp_bar:
-                Flag to show RSVP buttons bar.
-            show_title_in_form:
-                Flag to show title in the form.
             note:
                 Additional notes for the event session.
             max_capacity:
                 Maximum capacity of the event session.
             tags:
                 List of tags for the event session.
+            show_rsvp_bar:
+                Flag to show RSVP buttons bar.
+            show_title_in_form:
+                Flag to show title in the form.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.

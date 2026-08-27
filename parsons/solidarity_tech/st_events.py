@@ -97,6 +97,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         max_capacity: int | None = None,
         latitude: float | None = None,
         longitude: float | None = None,
+        *,
         skip_duplicate_check: bool = False,
     ) -> bool:
         """
@@ -182,6 +183,7 @@ class SolidarityTechEvents(SolidarityTechBase):
     def get_event(
         self,
         resource_id: int,
+        *,
         include_hosts: bool = False,
     ) -> dict:
         """

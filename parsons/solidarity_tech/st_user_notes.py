@@ -21,8 +21,9 @@ class SolidarityTechUserNotes(SolidarityTechBase):
         content: str,
         agent_id: int | None = None,
         created_at: int | None = None,
-        restricted: bool = False,
         interaction_method: InteractionType | None = None,
+        *,
+        restricted: bool = False,
     ) -> bool:
         """
         Create a user note with the specified details.
@@ -37,11 +38,11 @@ class SolidarityTechUserNotes(SolidarityTechBase):
                 Content of the user note.
             created_at:
                 Timestamp for when the note was created.
+            interaction_method:
+                Interaction type that produced the note.
             restricted:
                 If True, the note is only visible to team members
                 with the View Restricted Properties permission.
-            interaction_method:
-                Interaction type that produced the note.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.

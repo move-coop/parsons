@@ -22,6 +22,7 @@ class SolidarityTechPages(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
+        *,
         include_action_counts: bool = False,
     ) -> Table:
         """
@@ -69,6 +70,7 @@ class SolidarityTechPages(SolidarityTechBase):
     def get_page(
         self,
         resource_id: int,
+        *,
         include_action_counts: bool = False,
     ) -> dict:
         """

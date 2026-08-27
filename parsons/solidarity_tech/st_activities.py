@@ -26,8 +26,9 @@ class SolidarityTechActivities(SolidarityTechBase):
         limit: int = 20,
         cursor: int | None = None,
         since: int | datetime = 0,
-        include_count: bool = False,
         user_id: int | None = None,
+        *,
+        include_count: bool = False,
     ) -> tuple[Table, ActivityMetadata]:
         """
         Retrieve a list of activities.
@@ -43,12 +44,12 @@ class SolidarityTechActivities(SolidarityTechBase):
                 Records are returned newest first (descending id).
             since:
                 UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
+            user_id:
+                User ID to filter activities for a specific user.
             include_count:
                 When true, meta.total_count is populated with the full result count.
                 Off by default because counting an entire history is expensive.
                 Omit it for normal paging.
-            user_id:
-                User ID to filter activities for a specific user.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.

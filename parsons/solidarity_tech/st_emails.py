@@ -23,6 +23,7 @@ class SolidarityTechEmails(SolidarityTechBase):
         email_sender_id: int | None = None,
         reply_to: str | None = None,
         attachment_urls: list[str] | None = None,
+        *,
         track_opens: bool = True,
         track_clicks: bool = True,
     ) -> bool:

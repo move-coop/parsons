@@ -24,6 +24,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         since: int | datetime = 0,
         event_id: int = 0,
         ids: list[int] | str | None = None,
+        *,
         include_stats: bool = False,
     ) -> Table:
         """

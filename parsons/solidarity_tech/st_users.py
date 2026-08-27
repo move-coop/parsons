@@ -142,19 +142,20 @@ class SolidarityTechUsers(SolidarityTechBase):
         chapter_ids: list[int] | None = None,
         referred_by_user_id: int | None = None,
         custom_user_properties: dict[str, str | list[str]] | None = None,
-        append_custom_user_properties: bool = True,
         add_tags: list[str] | None = None,
         remove_tags: list[str] | None = None,
         donation_charge: dict[str, numbers.Number | str] | None = None,
         address: dict[str, str | float] | None = None,
         assessment: str | None = None,
+        timezone: ZoneInfo | str | None = None,
+        lookup_key: str | None = None,
+        *,
+        append_custom_user_properties: bool = True,
         sms_permission: bool | None = None,
         call_permission: bool | None = None,
         email_permission: bool | None = None,
-        timezone: ZoneInfo | str | None = None,
         require_contact_info: bool = True,
         phone_number_textable_validation: bool = True,
-        lookup_key: str | None = None,
     ) -> bool:
         """
         Create or update a user with the specified details.
@@ -194,11 +195,6 @@ class SolidarityTechUsers(SolidarityTechBase):
                 (e.g. ``"Option A, Option B"``).
                 For Multiple Checkboxes, see ``append_custom_user_properties`` to
                 control whether values are merged with or replace existing values.
-            append_custom_user_properties:
-                Controls how Multiple Checkboxes custom properties are written.
-                Defaults to True (union new values with existing values, the long-standing API behavior).
-                Set to False to overwrite existing values, mirroring bulk update REPLACE mode.
-                Has no effect on non-array field types.
             add_tags:
                 List of tags to add to the user.
             remove_tags:
@@ -210,24 +206,29 @@ class SolidarityTechUsers(SolidarityTechBase):
                 We will attempt to geocode the address if ``latitude`` and ``longitude`` are not provided.
             assessment:
                 Assessment status key to set on the user (maps to classification).
+            timezone:
+                IANA timezone identifier (e.g., "America/New_York", "Europe/London").
+            lookup_key:
+                Custom property key (internal_name) to use for user lookup/deduplication.
+                Value is read from ``custom_user_properties[lookup_key]``.
+                Allows matching existing users by external IDs stored in custom properties.
+            append_custom_user_properties:
+                Controls how Multiple Checkboxes custom properties are written.
+                Defaults to True (union new values with existing values, the long-standing API behavior).
+                Set to False to overwrite existing values, mirroring bulk update REPLACE mode.
+                Has no effect on non-array field types.
             sms_permission:
                 SMS permission status.
             call_permission:
                 Call permission status.
             email_permission:
                 Email permission status.
-            timezone:
-                IANA timezone identifier (e.g., "America/New_York", "Europe/London").
             require_contact_info:
                 Whether to require phone_number or email for user creation.
                 Defaults to True.
             phone_number_textable_validation:
                 Whether to validate that phone number is textable.
                 Defaults to True.
-            lookup_key:
-                Custom property key (internal_name) to use for user lookup/deduplication.
-                Value is read from ``custom_user_properties[lookup_key]``.
-                Allows matching existing users by external IDs stored in custom properties.
 
         Raises:
             :class:`ValueError`: If neither ``phone_number`` nor ``email`` is provided.
@@ -292,7 +293,6 @@ class SolidarityTechUsers(SolidarityTechBase):
         self,
         resource_id: int,
         phone_number: str | None = None,
-        clear_phone_number: bool | None = None,
         email: str | None = None,
         first_name: str | None = None,
         last_name: str | None = None,
@@ -302,18 +302,20 @@ class SolidarityTechUsers(SolidarityTechBase):
         chapter_ids: list[int] | None = None,
         add_chapter_ids: list[int] | None = None,
         remove_chapter_ids: list[int] | None = None,
-        set_exclusive_chapter: bool | None = None,
         second_language: str | None = None,
         referred_by_user_id: int | None = None,
         custom_user_properties: dict[str, str | list[str]] | None = None,
-        append_custom_user_properties: bool = True,
         address: dict[str, str | float] | None = None,
         assessment: str | None = None,
+        timezone: ZoneInfo | str | None = None,
+        donation_charge: dict[str, numbers.Number | str] | None = None,
+        *,
+        clear_phone_number: bool | None = None,
+        set_exclusive_chapter: bool | None = None,
+        append_custom_user_properties: bool = True,
         sms_permission: bool | None = None,
         call_permission: bool | None = None,
         email_permission: bool | None = None,
-        timezone: ZoneInfo | str | None = None,
-        donation_charge: dict[str, numbers.Number | str] | None = None,
     ) -> bool:
         """
         Update a user with the specified details.
@@ -323,13 +325,6 @@ class SolidarityTechUsers(SolidarityTechBase):
                 Identifier of the user to update.
             phone_number:
                 Phone number of the user.
-            clear_phone_number:
-                If True, clears the user's primary phone number
-                (and removes it from ``other_phone_numbers``).
-                Blank ``phone_number`` values are always ignored, so this
-                explicit flag is the only way to clear a phone number via the API.
-                Cannot be combined with a non-blank ``phone_number``
-                in the same request (returns 422).
             email:
                 Email of the user.
             first_name:
@@ -349,10 +344,6 @@ class SolidarityTechUsers(SolidarityTechBase):
                 Array of chapter IDs to add. Requires multi-chapter feature.
             remove_chapter_ids:
                 Array of chapter IDs to remove. Requires multi-chapter feature.
-            set_exclusive_chapter:
-                When True with ``chapter_id``,
-                sets that chapter as the only chapter
-                (removes all other chapter memberships).
             second_language:
                 Second language of the user.
             referred_by_user_id:
@@ -366,27 +357,38 @@ class SolidarityTechUsers(SolidarityTechBase):
                 (e.g. ``"Option A, Option B"``).
                 For Multiple Checkboxes, see ``append_custom_user_properties`` to
                 control whether values are merged with or replace existing values.
-            append_custom_user_properties:
-                Controls how Multiple Checkboxes custom properties are written.
-                Defaults to True (union new values with existing values, the long-standing API behavior).
-                Set to False to overwrite existing values, mirroring bulk update REPLACE mode.
-                Has no effect on non-array field types.
             address:
                 Optional address to update.
                 We will attempt to geocode the address if
                 latitude and longitude are not provided.
             assessment:
                 Assessment status key to set on the user (maps to classification).
+            timezone:
+                IANA timezone identifier (e.g., "America/New_York", "Europe/London").
+            donation_charge:
+                Optional external donation charge to create.
+            clear_phone_number:
+                If True, clears the user's primary phone number
+                (and removes it from ``other_phone_numbers``).
+                Blank ``phone_number`` values are always ignored, so this
+                explicit flag is the only way to clear a phone number via the API.
+                Cannot be combined with a non-blank ``phone_number``
+                in the same request (returns 422).
+            set_exclusive_chapter:
+                When True with ``chapter_id``,
+                sets that chapter as the only chapter
+                (removes all other chapter memberships).
+            append_custom_user_properties:
+                Controls how Multiple Checkboxes custom properties are written.
+                Defaults to True (union new values with existing values, the long-standing API behavior).
+                Set to False to overwrite existing values, mirroring bulk update REPLACE mode.
+                Has no effect on non-array field types.
             sms_permission:
                 If True, the user has permission to receive SMS messages.
             call_permission:
                 If True, the user has permission to receive call messages.
             email_permission:
                 If True, the user has permission to receive email messages.
-            timezone:
-                IANA timezone identifier (e.g., "America/New_York", "Europe/London").
-            donation_charge:
-                Optional external donation charge to create.
 
         Raises:
             :class:`STFailedResponseError`: If the operation fails with a known error code.

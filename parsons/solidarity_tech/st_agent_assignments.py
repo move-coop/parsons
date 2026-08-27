@@ -107,6 +107,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         self,
         user_id: np.int64,
         agent_user_id: np.int64,
+        *,
         is_active: bool | None = None,
     ) -> bool:
         """
@@ -152,6 +153,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         resource_id: int,
         user_id: np.int64,
         agent_user_id: np.int64,
+        *,
         is_active: bool | None = None,
     ) -> bool:
         """

@@ -243,7 +243,8 @@ class SolidarityTechUsers(SolidarityTechBase):
 
         """
         if not phone_number and not email:
-            raise ValueError("Either phone_number or email must be provided")
+            err_msg = "Either phone_number or email must be provided"
+            raise ValueError(err_msg)
 
         if isinstance(timezone, ZoneInfo):
             timezone = str(timezone.key)

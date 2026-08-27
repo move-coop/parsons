@@ -138,7 +138,8 @@ class SolidarityTechUserActions(SolidarityTechBase):
             and "phone_number" not in data
             and "email" not in data
         ):
-            raise ValueError("Either user_id, phone_number, or email must be provided")
+            err_msg = "Either user_id, phone_number, or email must be provided"
+            raise ValueError(err_msg)
 
         payload: dict[str, Any] = {"page_id": page_id}
         self._add_if_field_not_empty(payload, "user_id", user_id)

@@ -113,7 +113,8 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
 
         """
         if not member_id and not phone_number and not email:
-            raise ValueError("One of member_id, phone_number, or email is required.")
+            err_msg = "One of member_id, phone_number, or email is required."
+            raise ValueError(err_msg)
 
         payload: dict[str, Any] = {
             "role_id": role_id,

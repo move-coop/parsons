@@ -95,7 +95,8 @@ class APIConnector:
         self.data_key = data_key
 
         if session and ratelimiter:
-            raise ValueError("session and ratelimiter cannot both be provided")
+            err_msg = "session and ratelimiter cannot both be provided"
+            raise ValueError(err_msg)
 
         if session:
             self.session = session
@@ -108,7 +109,7 @@ class APIConnector:
             self.session.auth = auth
 
         if headers:
-            self.session.headers = headers  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+            self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
     def auth(self) -> _AuthType:
@@ -128,7 +129,7 @@ class APIConnector:
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
-        self.session.headers = inp  # ignore: type[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+        self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     def headers(self) -> None:
@@ -147,7 +148,7 @@ class APIConnector:
         **kwargs,
     ) -> requests.Response:
         """
-        Base request using requests libary.
+        Make a request using requests libary.
 
         Args:
             url:
@@ -208,22 +209,22 @@ class APIConnector:
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["json"] = "json",
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> _JsonType: ...
 
     @overload
     def get_request(
         self,
-        url: ...,
+        url: str,
         *,
-        params: ... = ...,
+        params: _ParamsType | None = None,
         return_format: Literal["content"],
-        raise_on_error: ... = ...,
+        raise_on_error: bool = True,
         **kwargs,
     ) -> bytes: ...
 
@@ -267,7 +268,8 @@ class APIConnector:
         if return_format == "content":
             return r.content
 
-        raise RuntimeError(f"{return_format} is not a valid format, change to json or content")
+        err_msg = f"{return_format} is not a valid format, change to json or content"
+        raise RuntimeError(err_msg)
 
     def post_request(
         self,
@@ -327,6 +329,8 @@ class APIConnector:
 
             return r.status_code
 
+        return None
+
     def delete_request(
         self,
         url: str,
@@ -372,6 +376,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def put_request(
         self,
@@ -424,6 +430,8 @@ class APIConnector:
                 return r.json()
 
             return r.status_code
+
+        return None
 
     def patch_request(
         self,
@@ -483,6 +491,8 @@ class APIConnector:
 
             return r.status_code
 
+        return None
+
     def validate_response(self, resp: requests.Response) -> None:
         """
         Validate that the response is not an error code.
@@ -516,7 +526,7 @@ class APIConnector:
 
     def data_parse(self, resp: dict[str, Any] | list) -> dict[str, Any] | list:
         """
-        Determines if the response json has nested data.
+        Determine if the response json has nested data.
 
         If it is nested, it just returns the data.
         This is useful in dealing with requests that might return multiple records,
@@ -541,7 +551,7 @@ class APIConnector:
 
     def next_page_check_url(self, resp: dict[str, Any]) -> bool:
         """
-        Check to determine if there is a next page.
+        Determine if there is a next page.
 
         This requires that the response json contains a pagination key
         that is empty if there is not a next page.
@@ -553,7 +563,7 @@ class APIConnector:
         return False
 
     def json_check(self, resp: requests.Response) -> bool:
-        """Check to see if a response has a json included in it."""
+        """Check if a response has a json included in it."""
         try:
             resp.json()
             return True
@@ -562,5 +572,5 @@ class APIConnector:
             return False
 
     def convert_to_table(self, data: list | Any) -> Table:
-        """Internal method to create a Parsons table from a data element."""
+        """Create a Parsons table from a data element."""
         return Table(data) if isinstance(data, list) else Table([data])

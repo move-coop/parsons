@@ -68,7 +68,7 @@ class SolidarityTechUsers(SolidarityTechBase):
 
         """
         if isinstance(user_list_ids, list):
-            user_list_ids = ",".join(str(id) for id in user_list_ids)
+            user_list_ids = ",".join(str(userlist_id) for userlist_id in user_list_ids)
 
         params: ParamsType = {}
         self._add_if_field_not_empty(params, "user_list_ids", user_list_ids)
@@ -97,13 +97,13 @@ class SolidarityTechUsers(SolidarityTechBase):
 
     def get_user(
         self,
-        id: int,
+        resource_id: int,
     ) -> UserData:
         """
         Retrieve a single user.
 
         Args:
-            id:
+            resource_id:
                 ID of the user to retrieve.
 
         Raises:
@@ -118,7 +118,7 @@ class SolidarityTechUsers(SolidarityTechBase):
 
         """
         res = self._get_single_resource(
-            "users", id, additional_headers={"accept": "application/json"}
+            "users", resource_id, additional_headers={"accept": "application/json"}
         )
 
         expected_responses = {
@@ -290,7 +290,7 @@ class SolidarityTechUsers(SolidarityTechBase):
 
     def update_user(
         self,
-        id: int,
+        resource_id: int,
         phone_number: str | None = None,
         clear_phone_number: bool | None = None,
         email: str | None = None,
@@ -319,7 +319,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         Update a user with the specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user to update.
             phone_number:
                 Phone number of the user.
@@ -431,7 +431,7 @@ class SolidarityTechUsers(SolidarityTechBase):
 
         res = self._put_request(
             "users",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -471,7 +471,7 @@ class SolidarityTechUsers(SolidarityTechBase):
 
         """
         if isinstance(user_ids, list):
-            user_ids = ",".join(str(id) for id in user_ids)
+            user_ids = ",".join(str(user_id) for user_id in user_ids)
 
         payload: dict[str, Any] = {
             "primary_user_id": primary_user_id,
@@ -495,13 +495,13 @@ class SolidarityTechUsers(SolidarityTechBase):
 
     def delete_user(
         self,
-        id: str,
+        resource_id: str,
     ) -> UserDeleteMetadata:
         """
         Delete a user with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user to delete
 
         Raises:
@@ -515,7 +515,9 @@ class SolidarityTechUsers(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_users-id>`__
 
         """
-        res = self._del_request("users", id, additional_headers={"accept": "application/json"})
+        res = self._del_request(
+            "users", resource_id, additional_headers={"accept": "application/json"}
+        )
 
         expected_responses = {
             200: (True, "user deleted"),

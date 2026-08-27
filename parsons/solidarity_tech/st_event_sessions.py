@@ -208,14 +208,14 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def get_event_session(
         self,
-        id: int,
+        resource_id: int,
         include_hosts: bool = False,
     ) -> dict:
         """
         Retrieve a single event session.
 
         Args:
-            id:
+            resource_id:
                 ID of the event session to retrieve.
             include_hosts:
                 If True, the session includes a hosts array of
@@ -234,7 +234,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
         """
         params: ParamsType = {"include_hosts": include_hosts}
-        res = self._get_single_resource("event_sessions", id, params=params)
+        res = self._get_single_resource("event_sessions", resource_id, params=params)
 
         expected_responses = {
             200: (True, "event session found"),
@@ -246,7 +246,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def update_event_session(
         self,
-        id: int,
+        resource_id: int,
         start_time: np.int64 | None = None,
         end_time: np.int64 | None = None,
         title: str | None = None,
@@ -263,7 +263,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         Update an event session with the specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event session to update.
             start_time:
                 UTC timestamp in seconds since the Unix epoch.
@@ -318,7 +318,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
         res = self._put_request(
             "event_sessions",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -332,13 +332,13 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def delete_event_session(
         self,
-        id: str,
+        resource_id: str,
     ) -> bool:
         """
         Delete an event session with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event session to delete
 
         Raises:
@@ -355,7 +355,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         """
         res = self._del_request(
             "event_sessions",
-            id,
+            resource_id,
         )
 
         expected_responses = {
@@ -365,7 +365,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def add_event_host(
         self,
-        id: int,
+        resource_id: int,
         user_id: np.int64,
     ) -> bool:
         """
@@ -380,7 +380,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             {{ event-session.host }}, and {{ event-session.host-names }} merge tags.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event session.
             user_id:
                 ID of the user to add as a host.
@@ -400,7 +400,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         payload: dict[str, Any] = {"user_id": user_id}
 
         res = self._post_request(
-            f"event_sessions/{id}/hosts",
+            f"event_sessions/{resource_id}/hosts",
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -413,7 +413,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def remove_event_host(
         self,
-        id: str,
+        resource_id: str,
         user_id: int,
     ) -> bool:
         """
@@ -425,7 +425,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event session.
             user_id:
                 ID of the user to remove from hosts.
@@ -444,7 +444,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         """
         res = self._del_request(
             "event_sessions",
-            f"{id}/hosts/{user_id}",
+            f"{resource_id}/hosts/{user_id}",
         )
 
         expected_responses = {

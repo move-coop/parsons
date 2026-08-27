@@ -81,14 +81,15 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
     def get_event_rsvp(
         self,
-        id: int,
+        resource_id: int,
+        *,
         full_user_payload: bool = False,
     ) -> dict:
         """
         Retrieve a single event rsvp.
 
         Args:
-            id:
+            resource_id:
                 ID of the event rsvp to retrieve.
             full_user_payload:
                 If True, includes complete user data in the response instead of just basic details.
@@ -106,7 +107,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         """
         params: ParamsType = {"full_user_payload": full_user_payload}
 
-        res = self._get_single_resource("event_rsvps", id, params=params)
+        res = self._get_single_resource("event_rsvps", resource_id, params=params)
 
         expected_responses = {
             200: (True, "event rsvp found"),
@@ -187,7 +188,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
     def update_event_rsvp(
         self,
-        id: int,
+        resource_id: int,
         is_attending: AttendanceStatus | None = None,
         is_confirmed: bool | None = None,
         agent_user_id: np.int64 | None = None,
@@ -198,7 +199,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         Update an event rsvp with the specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event rsvp to update.
             is_attending:
                 Indicates if the user is attending the event.
@@ -232,7 +233,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
         res = self._put_request(
             "event_rsvps",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -245,13 +246,13 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
     def delete_event_rsvp(
         self,
-        id: str,
+        resource_id: str,
     ) -> bool:
         """
         Delete an event rsvp with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event rsvp to delete
 
         Raises:
@@ -268,7 +269,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         """
         res = self._del_request(
             "event_rsvps",
-            id,
+            resource_id,
         )
 
         expected_responses = {404: (False, "event rsvp not found")}

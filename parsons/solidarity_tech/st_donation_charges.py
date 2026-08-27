@@ -65,13 +65,13 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
 
     def get_donation_charge(
         self,
-        id: int,
+        resource_id: int,
     ) -> DonationChargeData:
         """
         Retrieve a single donation charge.
 
         Args:
-            id:
+            resource_id:
                 ID of the donation charge to retrieve.
 
         Raises:
@@ -85,7 +85,7 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_donation-charges-id>`__
 
         """
-        res = self._get_single_resource("donation_charges", id)
+        res = self._get_single_resource("donation_charges", resource_id)
 
         expected_responses = {404: (False, "donation charge not found")}
         self._handle_status_codes(res=res, codes=expected_responses)

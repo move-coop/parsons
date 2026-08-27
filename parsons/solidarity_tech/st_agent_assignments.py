@@ -73,13 +73,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
     def get_agent_assignment(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single agent assignment.
 
         Args:
-            id:
+            resource_id:
                 ID of the agent assignment to retrieve.
 
         Raises:
@@ -93,7 +93,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_agent-assignments-id>`__
 
         """
-        res = self._get_single_resource("agent_assignments", id)
+        res = self._get_single_resource("agent_assignments", resource_id)
 
         expected_responses = {
             200: (True, "agent assignment found"),
@@ -149,7 +149,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
     def update_agent_assignment(
         self,
-        id: int,
+        resource_id: int,
         user_id: np.int64,
         agent_user_id: np.int64,
         is_active: bool | None = None,
@@ -158,7 +158,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         Update an agent assignment with specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier for the agent assignment to update.
             user_id:
                 Identifier for the user.
@@ -184,7 +184,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
         res = self._put_request(
             "agent_assignments",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -198,13 +198,13 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
     def delete_agent_assignment(
         self,
-        id: int,
+        resource_id: int,
     ) -> bool:
         """
         Delete an agent assignment with specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier for the agent assignment to update.
 
         Raises:
@@ -219,7 +219,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_agent-assignments-id>`__
 
         """
-        res = self._del_request("agent_assignments", id)
+        res = self._del_request("agent_assignments", resource_id)
 
         expected_responses = {404: (False, "agent assignment not found")}
         return self._handle_status_codes(res=res, codes=expected_responses)

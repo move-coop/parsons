@@ -181,7 +181,7 @@ class SolidarityTechEvents(SolidarityTechBase):
 
     def get_event(
         self,
-        id: int,
+        resource_id: int,
         include_hosts: bool = False,
     ) -> dict:
         """
@@ -198,7 +198,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         These fields are null when no event page exists or the value is not set.
 
         Args:
-            id:
+            resource_id:
                 ID of the event to retrieve.
 
         Raises:
@@ -214,7 +214,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         """
         params: ParamsType = {"include_hosts": include_hosts}
 
-        res = self._get_single_resource("event_sessions", id, params=params)
+        res = self._get_single_resource("event_sessions", resource_id, params=params)
 
         expected_responses = {
             200: (True, "event found"),

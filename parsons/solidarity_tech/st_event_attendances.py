@@ -124,13 +124,13 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
 
     def delete_event_attendance(
         self,
-        id: str,
+        resource_id: str,
     ) -> bool:
         """
         Delete an event attendance with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the event attendance to delete
 
         Raises:
@@ -147,7 +147,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
         """
         res = self._del_request(
             "event_attendances",
-            id,
+            resource_id,
         )
 
         expected_responses = {

@@ -72,13 +72,13 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
 
     def get_scheduled_task(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single scheduled task.
 
         Args:
-            id:
+            resource_id:
                 ID of the scheduled task to retrieve.
 
         Raises:
@@ -92,7 +92,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_scheduled-tasks-id>`__
 
         """
-        res = self._get_single_resource("scheduled_tasks", id)
+        res = self._get_single_resource("scheduled_tasks", resource_id)
 
         expected_responses = {
             200: (True, "scheduled task found"),
@@ -170,7 +170,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
 
     def update_scheduled_task(
         self,
-        id: int,
+        resource_id: int,
         due_at: str | int | float | datetime | None = None,
         remind_at: str | int | float | datetime | None = None,
         agent_user_id: np.int64 | None = None,
@@ -182,7 +182,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         Update a scheduled task with specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier for the scheduled task to update.
             due_at:
                 The date and time when the task is due.
@@ -226,7 +226,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
 
         res = self._put_request(
             "scheduled_tasks",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -240,13 +240,13 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
 
     def delete_scheduled_task(
         self,
-        id: int,
+        resource_id: int,
     ) -> bool:
         """
         Delete a scheduled task with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier for the scheduled task to delete.
 
         Raises:
@@ -261,7 +261,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_scheduled-tasks-id>`__
 
         """
-        res = self._del_request("scheduled_tasks", id)
+        res = self._del_request("scheduled_tasks", resource_id)
 
         expected_responses = {404: (False, "scheduled task not found")}
         return self._handle_status_codes(res=res, codes=expected_responses)

@@ -68,13 +68,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
 
     def get_user_list(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single user list.
 
         Args:
-            id:
+            resource_id:
                 ID of the user list to retrieve.
 
         Raises:
@@ -88,7 +88,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-lists-id>`__
 
         """
-        res = self._get_single_resource("user_lists", id)
+        res = self._get_single_resource("user_lists", resource_id)
 
         expected_responses = {
             200: (True, "user list found"),
@@ -160,7 +160,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
 
     def update_user_list(
         self,
-        id: int,
+        resource_id: int,
         name: str | None = None,
         scope_id: np.int64 | None = None,
         scope_type: str | None = None,
@@ -174,7 +174,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         For documentation, see `<https://querybuilder.js.org/#filters>`__.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user list to update.
             name:
                 Name of the user list.
@@ -208,7 +208,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
 
         res = self._put_request(
             "user_lists",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -221,13 +221,13 @@ class SolidarityTechUserLists(SolidarityTechBase):
 
     def delete_user_list(
         self,
-        id: str,
+        resource_id: str,
     ) -> bool:
         """
         Delete a user list with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user list to delete
 
         Raises:
@@ -244,7 +244,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         """
         res = self._del_request(
             "user_lists",
-            id,
+            resource_id,
         )
 
         expected_responses = {

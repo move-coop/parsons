@@ -71,13 +71,13 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
 
     def get_scheduled_call(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single scheduled call.
 
         Args:
-            id:
+            resource_id:
                 ID of the scheduled call to retrieve.
 
         Raises:
@@ -91,7 +91,7 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_scheduled-calls-id>`__
 
         """
-        res = self._get_single_resource("scheduled_calls", id)
+        res = self._get_single_resource("scheduled_calls", resource_id)
 
         expected_responses = {
             200: (True, "scheduled call found"),

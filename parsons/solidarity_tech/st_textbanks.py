@@ -60,7 +60,7 @@ class SolidarityTechTextbanks(SolidarityTechBase):
 
         """
         if isinstance(ids, list):
-            ids = ",".join(str(id) for id in ids)
+            ids = ",".join(str(textbank_id) for textbank_id in ids)
 
         params: ParamsType = {"event_id": event_id, "include_stats": include_stats}
         self._add_if_field_not_empty(params, "ids", ids)
@@ -80,13 +80,13 @@ class SolidarityTechTextbanks(SolidarityTechBase):
 
     def get_textbank(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single textbank.
 
         Args:
-            id:
+            resource_id:
                 ID of the textbank to retrieve.
 
         Raises:
@@ -100,7 +100,7 @@ class SolidarityTechTextbanks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_textbanks-id>`__
 
         """
-        res = self._get_single_resource("textbanks", id)
+        res = self._get_single_resource("textbanks", resource_id)
 
         expected_responses = {
             200: (True, "textbank found"),

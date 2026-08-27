@@ -75,7 +75,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
 
     def delete_user_note(
         self,
-        id: str,
+        resource_id: str,
         user_id: int,
         agent_id: int | None = None,
     ) -> bool:
@@ -83,7 +83,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
         Delete a user note with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user note to delete
             user_id:
                 Identifier for the user the note refers to.
@@ -106,7 +106,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
         params: ParamsType = {"user_id": user_id}
         self._add_if_field_not_empty(params, "agent_id", agent_id)
 
-        res = self._del_request("user_notes", id, params=params)
+        res = self._del_request("user_notes", resource_id, params=params)
 
         expected_responses = {
             200: (True, "user note deleted"),

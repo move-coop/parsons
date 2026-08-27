@@ -105,14 +105,14 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
 
     def delete_user_relationship(
         self,
-        id: int,
+        resource_id: int,
         user_id: int,
     ) -> bool:
         """
         Delete a user relationship.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the user relationship to delete.
             user_id:
                 Identifier for the user.
@@ -133,7 +133,7 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
 
         res = self._del_request(
             "user_relationships",
-            id,
+            resource_id,
             params=params,
         )
 

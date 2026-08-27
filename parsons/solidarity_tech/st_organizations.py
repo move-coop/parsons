@@ -58,13 +58,13 @@ class SolidarityTechOrganizations(SolidarityTechBase):
 
     def get_organization(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single organization.
 
         Args:
-            id:
+            resource_id:
                 ID of the organization to retrieve.
 
         Raises:
@@ -78,7 +78,7 @@ class SolidarityTechOrganizations(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_organizations-id>`__
 
         """
-        res = self._get_single_resource("organizations", id)
+        res = self._get_single_resource("organizations", resource_id)
 
         expected_responses = {
             200: (True, "organization found"),

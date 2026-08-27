@@ -58,13 +58,13 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
 
     def get_email_blast(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single email blast.
 
         Args:
-            id:
+            resource_id:
                 ID of the email blast to retrieve.
 
         Raises:
@@ -78,7 +78,7 @@ class SolidarityTechEmailBlasts(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_email-blasts-id>`__
 
         """
-        res = self._get_single_resource("email_blasts", id)
+        res = self._get_single_resource("email_blasts", resource_id)
 
         expected_responses = {
             200: (True, "email blast found"),

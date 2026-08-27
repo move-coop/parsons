@@ -60,7 +60,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
 
         """
         if isinstance(ids, list):
-            ids = ",".join(str(id) for id in ids)
+            ids = ",".join(str(phonebank_id) for phonebank_id in ids)
 
         params: ParamsType = {"event_id": event_id, "include_stats": include_stats}
         self._add_if_field_not_empty(params, "ids", ids)
@@ -80,13 +80,13 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
 
     def get_phonebank(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single phonebank.
 
         Args:
-            id:
+            resource_id:
                 ID of the phonebank to retrieve.
 
         Raises:
@@ -100,7 +100,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_phonebanks-id>`__
 
         """
-        res = self._get_single_resource("phonebanks", id)
+        res = self._get_single_resource("phonebanks", resource_id)
 
         expected_responses = {
             200: (True, "phonebank found"),

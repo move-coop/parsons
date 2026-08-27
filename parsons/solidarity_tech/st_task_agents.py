@@ -69,13 +69,13 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
 
     def get_task_agent(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single task agent.
 
         Args:
-            id:
+            resource_id:
                 ID of the task agent to retrieve.
 
         Raises:
@@ -89,7 +89,7 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-agents-id>`__
 
         """
-        res = self._get_single_resource("task_agents", id)
+        res = self._get_single_resource("task_agents", resource_id)
 
         expected_responses = {
             200: (True, "task agent found"),
@@ -136,13 +136,13 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
 
     def delete_task_agent(
         self,
-        id: int,
+        resource_id: int,
     ) -> bool:
         """
         Delete a task agent with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier for the task agent to delete.
 
         Raises:
@@ -157,7 +157,7 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_task-agents-id>`__
 
         """
-        res = self._del_request("task_agents", id)
+        res = self._del_request("task_agents", resource_id)
 
         expected_responses = {404: (False, "task agent not found")}
         return self._handle_status_codes(res=res, codes=expected_responses)

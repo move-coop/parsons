@@ -68,14 +68,14 @@ class SolidarityTechPages(SolidarityTechBase):
 
     def get_page(
         self,
-        id: int,
+        resource_id: int,
         include_action_counts: bool = False,
     ) -> dict:
         """
         Retrieve a single page.
 
         Args:
-            id:
+            resource_id:
                 ID of the page to retrieve.
             include_action_counts:
                 If True, the page includes ``action_count`` (total submissions) and ``action_goal``
@@ -99,7 +99,7 @@ class SolidarityTechPages(SolidarityTechBase):
         """
         params: ParamsType = {"include_action_counts": include_action_counts}
 
-        res = self._get_single_resource("pages", id, params=params)
+        res = self._get_single_resource("pages", resource_id, params=params)
 
         expected_responses = {
             200: (True, "page found"),

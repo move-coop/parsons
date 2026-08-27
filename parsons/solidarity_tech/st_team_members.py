@@ -142,7 +142,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
 
     def update_team_member(
         self,
-        id: int,
+        resource_id: int,
         role_id: int,
         scope_type: ScopeType,
         scope_id: int,
@@ -151,7 +151,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
         Update a team member with the specified details.
 
         Args:
-            id:
+            resource_id:
                 Team member ID (UserRoleScope ID).
             role_id:
                 ID of the role to assign.
@@ -179,7 +179,7 @@ class SolidarityTechTeamMembers(SolidarityTechBase):
 
         res = self._put_request(
             "team_members",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )

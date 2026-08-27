@@ -58,13 +58,13 @@ class SolidarityTechTextBlasts(SolidarityTechBase):
 
     def get_text_blast(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single text blast.
 
         Args:
-            id:
+            resource_id:
                 ID of the text blast to retrieve.
 
         Raises:
@@ -78,7 +78,7 @@ class SolidarityTechTextBlasts(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_text-blasts-id>`__
 
         """
-        res = self._get_single_resource("text_blasts", id)
+        res = self._get_single_resource("text_blasts", resource_id)
 
         expected_responses = {
             200: (True, "text blast found"),

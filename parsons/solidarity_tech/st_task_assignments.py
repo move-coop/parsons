@@ -71,13 +71,13 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
 
     def get_task_assignment(
         self,
-        id: int,
+        resource_id: int,
     ) -> dict:
         """
         Retrieve a single task assignment.
 
         Args:
-            id:
+            resource_id:
                 ID of the task assignment to retrieve.
 
         Raises:
@@ -91,7 +91,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-assignments-id>`__
 
         """
-        res = self._get_single_resource("task_assignments", id)
+        res = self._get_single_resource("task_assignments", resource_id)
 
         expected_responses = {
             200: (True, "task assignment found"),
@@ -149,14 +149,14 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
 
     def update_task_assignment(
         self,
-        id: int,
+        resource_id: int,
         agent_user_id: np.int64 | None = None,
     ) -> bool:
         """
         Update an task assignment with the specified details.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the task assignment to update.
             agent_user_id:
                 Identifier for the agent user, if applicable.
@@ -178,7 +178,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
 
         res = self._put_request(
             "scheduled_tasks",
-            id,
+            resource_id,
             payload=payload,
             additional_headers={"content-type": "application/json"},
         )
@@ -191,13 +191,13 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
 
     def delete_task_assignment(
         self,
-        id: int,
+        resource_id: int,
     ) -> bool:
         """
         Delete a task assignment with the specified ID.
 
         Args:
-            id:
+            resource_id:
                 Identifier of the task assignment to delete.
 
         Raises:
@@ -212,7 +212,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_task-assignments-id>`__
 
         """
-        res = self._del_request("task_assignments", id)
+        res = self._del_request("task_assignments", resource_id)
 
         expected_responses = {404: (False, "task assignment not found")}
         return self._handle_status_codes(res=res, codes=expected_responses)

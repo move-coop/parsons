@@ -137,7 +137,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
     def delete_custom_user_property_option(
         self,
         custom_user_property_id: int,
-        id: str,
+        resource_id: str,
     ) -> UserPropertyData:
         """
         Remove an option from a custom user property.
@@ -145,7 +145,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         Args:
             custom_user_property_id:
                 Custom user property ID
-            id:
+            resource_id:
                 Value of the option to remove
 
         Raises:
@@ -161,7 +161,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         """
         res = self._del_request(
             "custom_user_properties",
-            f"{custom_user_property_id}/options/{id}",
+            f"{custom_user_property_id}/options/{resource_id}",
             additional_headers={"accept": "application/json"},
         )
 
@@ -176,7 +176,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
 
     def create_custom_user_property_option(
         self,
-        id: int,
+        resource_id: int,
         label: list[dict[str, str | dict[str, str]]],
         value: str | None = None,
     ) -> UserPropertyData:
@@ -184,7 +184,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         Create an option for a custom user property.
 
         Args:
-            id:
+            resource_id:
                 Custom user property ID
             label:
                 Multi-language labels for the option
@@ -207,7 +207,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         self._add_if_field_not_empty(payload, "value", value)
 
         res = self._post_request(
-            f"custom_user_properties/{id}/options",
+            f"custom_user_properties/{resource_id}/options",
             payload=payload,
             additional_headers={"accept": "application/json", "content-type": "application/json"},
         )

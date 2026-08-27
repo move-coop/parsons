@@ -11,6 +11,8 @@ FieldSurveyURL = dict[Literal["url", "expires_at"], str]
 
 
 class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
+    """Methods for generating SolidarityTech field survey URLs."""
+
     def generate_field_survey_url(
         self,
         user_id: int,
@@ -18,7 +20,7 @@ class SolidarityTechFieldSurveyURLs(SolidarityTechBase):
         page_id: int,
     ) -> FieldSurveyURL:
         """
-        Generates a field survey URL for the given user, agent, and page.
+        Generate a field survey URL for the given user, agent, and page.
 
         Response contains complete URL with access token (expires in 24 hours),
         and an ISO 8601 timestamp of when the access token expires.

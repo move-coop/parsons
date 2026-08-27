@@ -19,6 +19,8 @@ CallMetadata = dict[str, int]
 
 
 class SolidarityTechCalls(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech calls endpoint."""
+
     def get_calls(
         self,
         user_id: int | None = None,

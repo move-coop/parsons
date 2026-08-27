@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTexts(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech texts endpoint."""
+
     def get_texts(
         self,
         user_id: int | None = None,
@@ -73,7 +75,7 @@ class SolidarityTechTexts(SolidarityTechBase):
         shorten_urls: bool | None = None,
     ) -> bool:
         """
-        Sends a text to a specific user.
+        Send a text to a specific user.
 
         Args:
             user_id:

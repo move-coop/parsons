@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEvents(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech events API."""
+
     def get_events(
         self,
         limit: int = 20,
@@ -27,7 +29,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         scope_type: ScopeType | None = None,
     ) -> Table:
         """
-        Lists events accessible within the given scope.
+        Retrieve events accessible within the given scope.
 
         Each event in the response includes ``primary_event_id`` and ``is_co_hosted_mirror``.
         For co-hosted events that appear across multiple organizations,
@@ -183,7 +185,7 @@ class SolidarityTechEvents(SolidarityTechBase):
         include_hosts: bool = False,
     ) -> dict:
         """
-        Returns a single event.
+        Retrieve a single event.
 
         The response includes ``primary_event_id``
         (always resolves to the original event ID, even for co-hosted mirrors) and

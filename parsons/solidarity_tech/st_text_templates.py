@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTextTemplates(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech text templates endpoint."""
+
     def get_text_templates(
         self,
         limit: int = 20,

@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechPages(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech pages endpoint."""
+
     def get_pages(
         self,
         limit: int = 20,

@@ -23,6 +23,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechUserLists(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech user lists endpoint."""
+
     def get_user_lists(
         self,
         limit: int = 20,

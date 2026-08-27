@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechOrganizations(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech organizations API."""
+
     def get_organizations(
         self,
         limit: int = 20,

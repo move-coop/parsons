@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTextBlasts(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech text blasts endpoint."""
+
     def get_text_blasts(
         self,
         limit: int = 20,

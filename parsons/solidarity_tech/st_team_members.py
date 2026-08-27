@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTeamMembers(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech team members endpoint."""
+
     def get_team_members(
         self,
         limit: int = 20,

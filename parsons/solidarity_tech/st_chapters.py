@@ -16,6 +16,8 @@ ChapterMetadata = dict[str, int]
 
 
 class SolidarityTechChapters(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech chapters endpoint."""
+
     def get_chapters(
         self,
         limit: int = 20,

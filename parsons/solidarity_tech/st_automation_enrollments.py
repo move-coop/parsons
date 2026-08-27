@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechAutomationEnrollments(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech automation enrollments endpoint."""
+
     def enroll_user_in_automation(
         self,
         automation_id: int,

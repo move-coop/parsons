@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEmails(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech emails endpoint."""
+
     def send_one_off_email(
         self,
         user_id: int,
@@ -25,7 +27,8 @@ class SolidarityTechEmails(SolidarityTechBase):
         track_clicks: bool = True,
     ) -> bool:
         """
-        Sends a single transactional email to a user.
+        Send a single transactional email to a user.
+
         Supports Liquid templating for personalization (e.g., {{ first_name }}).
 
         Args:

@@ -12,13 +12,16 @@ EmailSenderMetadata = dict[str, int]
 
 
 class SolidarityTechEmailSenders(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech email senders endpoint."""
+
     def get_email_senders(
         self,
         limit: int = 20,
         offset: int = 0,
     ) -> tuple[Table, EmailSenderMetadata]:
         """
-        Returns a list of email senders available for the API key's scope.
+        Retrieve a list of email senders available for the API key's scope.
+
         Use these sender IDs when sending emails via the POST /emails endpoint.
 
         Args:

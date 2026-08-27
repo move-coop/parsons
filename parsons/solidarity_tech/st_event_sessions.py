@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEventSessions(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech event sessions endpoint."""
+
     def get_event_sessions(
         self,
         limit: int = 20,
@@ -367,7 +369,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         user_id: np.int64,
     ) -> bool:
         """
-        Adds a user as a host of the event session.
+        Add a user as a host of the event session.
 
         .. admonition:: Atomic and Idempotent
 
@@ -415,7 +417,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         user_id: int,
     ) -> bool:
         """
-        Removes a user from the event session hosts.
+        Remove a user from the event session hosts.
 
         .. admonition:: Atomic and Idempotent
 

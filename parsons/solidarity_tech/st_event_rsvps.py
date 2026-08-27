@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEventRSVPs(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech event rsvps endpoint."""
+
     def get_event_rsvps(
         self,
         limit: int = 20,

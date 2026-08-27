@@ -17,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechUserActions(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech user actions endpoint."""
+
     def get_user_actions(
         self,
         user_id: int | None = None,
@@ -27,7 +29,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
         since: int | datetime = 0,
     ) -> Table:
         """
-        Lists user actions (form submissions).
+        Retrieve user actions (form submissions).
 
         .. admonition:: Filtering
 

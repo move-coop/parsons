@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechUserNotes(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech user notes endpoint."""
+
     def create_user_note(
         self,
         user_id: int,

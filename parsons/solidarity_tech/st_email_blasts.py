@@ -13,6 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEmailBlasts(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech email blasts endpoint."""
+
     def get_email_blasts(
         self,
         limit: int = 20,

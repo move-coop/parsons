@@ -19,6 +19,8 @@ UserPropertyMetadata = dict[str, int]
 
 
 class SolidarityTechCustomUserProperties(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech custom user properties endpoint."""
+
     def get_custom_user_properties(
         self,
         limit: int = 20,

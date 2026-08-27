@@ -16,6 +16,8 @@ DonationChargeMetadata = dict[str, int]
 
 
 class SolidarityTechDonationCharges(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech donation charges endpoint."""
+
     def get_donation_charges(
         self,
         limit: int = 20,

@@ -19,6 +19,8 @@ ActivityMetadata = dict[str, int]
 
 
 class SolidarityTechActivities(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech activities endpoint."""
+
     def get_activities(
         self,
         limit: int = 20,

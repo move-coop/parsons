@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechScheduledCalls(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech scheduled calls endpoint."""
+
     def get_scheduled_calls(
         self,
         limit: int = 20,

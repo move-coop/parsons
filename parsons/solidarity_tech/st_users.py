@@ -26,6 +26,8 @@ UserDeleteMetadata = dict[str, int]
 
 
 class SolidarityTechUsers(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech users endpoint."""
+
     def get_users(
         self,
         limit: int = 20,

@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech chapter phone numbers endpoint."""
+
     def get_chapter_phone_numbers(
         self,
         limit: int = 20,

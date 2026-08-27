@@ -17,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTaskAssignments(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech task assignments endpoint."""
+
     def get_task_assignments(
         self,
         limit: int = 20,

@@ -20,6 +20,8 @@ UserRelationshipData = dict[Literal["id", "text"], str]
 
 
 class SolidarityTechUserRelationships(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech user relationships endpoint."""
+
     def get_user_relationships(
         self,
         user_id: int,

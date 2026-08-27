@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechTextbanks(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech text banks endpoint."""
+
     def get_textbanks(
         self,
         limit: int = 20,

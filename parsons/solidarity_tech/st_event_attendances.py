@@ -17,6 +17,8 @@ logger = logging.getLogger(__name__)
 
 
 class SolidarityTechEventAttendances(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech event attendances endpoint."""
+
     def get_event_attendances(
         self,
         limit: int = 20,

@@ -1,8 +1,10 @@
 import logging
+import time
 
 import censusgeocode
 import petl
 from censusgeocode.censusgeocode import GeographyResult
+from requests.exceptions import RequestException
 
 from parsons import Table
 
@@ -25,11 +27,35 @@ class CensusGeocoder:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+        retries: int
+            Number of additional attempts to make when a request fails with a transient
+            network error, waiting ``2 ** attempt`` seconds in between. Only connection-level
+            failures are retried; the Census API's own error responses do not raise. By
+            default no retry is attempted.
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
+    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", retries=0):
+        if retries < 0:
+            msg = f"retries must be 0 or greater, got {retries}"
+            raise ValueError(msg)
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
+        self.retries = retries
+
+    def _request(self, func, *args, **kwargs):
+        # Retries transient network failures only; see the class docstring for the limits.
+        for attempt in range(self.retries + 1):
+            try:
+                return func(*args, **kwargs)
+            except RequestException as error:
+                if attempt == self.retries:
+                    raise
+                wait = 2**attempt
+                logger.warning(
+                    f"Census request failed with {type(error).__name__}; retrying in "
+                    f"{wait}s ({attempt + 1} of {self.retries})."
+                )
+                time.sleep(wait)
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
         """
@@ -48,7 +74,7 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.onelineaddress(address, returntype=return_type)
+        geo = self._request(self.cg.onelineaddress, address, returntype=return_type)
         self._log_result(geo)
         return geo
 
@@ -81,7 +107,7 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
+        geo = self._request(self.cg.address, address_line, city=city, state=state, zipcode=zipcode)
         self._log_result(geo)
         return geo
 
@@ -122,7 +148,7 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+            geocoded_tbl.concat(Table(petl.fromdicts(self._request(self.cg.addressbatch, tbl))))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")
 
@@ -145,7 +171,7 @@ class CensusGeocoder:
             longitude: A valid longitude in the United States
 
         """
-        geo = self.cg.coordinates(x=longitude, y=latitude)
+        geo = self._request(self.cg.coordinates, x=longitude, y=latitude)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")
         else:

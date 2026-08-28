@@ -9,8 +9,9 @@ from parsons import Table
 logger = logging.getLogger(__name__)
 
 
-# The size of batches to send to the batch geocode endpoint. Currently
-# the recommendation is less than 1K records.
+# Default number of records sent per batch geocode request. The Census documents an upper limit
+# of 10,000 records per batch file, and censusgeocode does no chunking of its own, so this
+# default is deliberately conservative. Override it with the ``batch_size`` argument.
 BATCH_SIZE = 999
 
 
@@ -25,11 +26,21 @@ class CensusGeocoder:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+        batch_size: int
+            Number of records sent per request by :meth:`geocode_address_batch`. The Census
+            documents an upper limit of 10,000 records per batch file. Defaults to
+            ``BATCH_SIZE``.
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
+    def __init__(
+        self, benchmark="Public_AR_Current", vintage="Current_Current", batch_size=BATCH_SIZE
+    ):
+        if batch_size < 1:
+            msg = f"batch_size must be 1 or greater, got {batch_size}"
+            raise ValueError(msg)
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
+        self.batch_size = batch_size
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
         """
@@ -117,7 +128,7 @@ class CensusGeocoder:
             )
             raise ValueError(msg)
 
-        chunked_tables = table.chunk(BATCH_SIZE)
+        chunked_tables = table.chunk(self.batch_size)
         records_processed = 0
 
         geocoded_tbl = Table([[]])

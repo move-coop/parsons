@@ -1,18 +1,24 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-ChapterData = dict[str, int | str]
-ChapterMetadata = dict[str, int]
+
+class ChapterData(TypedDict):
+    id: int
+    name: str
+    logo_url: str
+    organization_id: int
+    chapter_phone_number: str
+    calendar_feed_url: str
 
 
 class SolidarityTechChapters(SolidarityTechBase):
@@ -23,7 +29,7 @@ class SolidarityTechChapters(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> tuple[Table, ChapterMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of chapters.
 
@@ -59,6 +65,6 @@ class SolidarityTechChapters(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[ChapterData] = res.json()["data"]
-        meta: ChapterMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
 
         return Table(data), meta

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import numbers
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 from parsons import Table
 from parsons.solidarity_tech.base import SolidarityTechBase
@@ -14,12 +14,22 @@ if TYPE_CHECKING:
 
     from parsons.solidarity_tech.enums import ScopeType
 
-CompareValueType = str | numbers.Rational | bool
-QueryParamType = dict[
-    str, str | bool | list[dict[str, CompareValueType | list[dict[str, CompareValueType]]]]
-]
-
 logger = logging.getLogger(__name__)
+
+CompareValueType = str | numbers.Rational | bool
+
+
+class QueryRule(TypedDict):
+    id: str
+    type: str
+    operator: str
+    value: CompareValueType | list[CompareValueType]
+
+
+class QueryParams(TypedDict):
+    condition: Literal["AND", "OR"]
+    valid: bool
+    rules: list[QueryRule]
 
 
 class SolidarityTechUserLists(SolidarityTechBase):
@@ -105,7 +115,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         scope_type: ScopeType,
         event_id: np.int64 | None = None,
         user_id: np.int64 | None = None,
-        parameters: QueryParamType | None = None,
+        parameters: QueryParams | None = None,
     ) -> bool:
         """
         Create a user list with the specified details.
@@ -164,7 +174,7 @@ class SolidarityTechUserLists(SolidarityTechBase):
         name: str | None = None,
         scope_id: np.int64 | None = None,
         scope_type: str | None = None,
-        parameters: QueryParamType | None = None,
+        parameters: QueryParams | None = None,
         event_id: np.int64 | None = None,
     ) -> bool:
         """

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import logging
-import numbers
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, TypedDict
 
 from parsons import Table
 from parsons.solidarity_tech.base import SolidarityTechBase
@@ -12,11 +11,10 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-CompareValueType = str | numbers.Rational | bool
-QueryParamType = dict[
-    str, str | bool | list[dict[str, CompareValueType | list[dict[str, CompareValueType]]]]
-]
-UserRelationshipData = dict[Literal["id", "text"], str]
+
+class UserRelationshipData(TypedDict):
+    id: str
+    text: str
 
 
 class SolidarityTechUserRelationships(SolidarityTechBase):

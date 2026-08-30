@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Literal
+from typing import Any, TypedDict
 
 from parsons.solidarity_tech.base import SolidarityTechBase
 
 logger = logging.getLogger(__name__)
 
-FieldSurveyURL = dict[Literal["url", "expires_at"], str]
+
+class FieldSurveyURL(TypedDict):
+    url: str
+    expires_at: str
 
 
 class SolidarityTechFieldSurveyURLs(SolidarityTechBase):

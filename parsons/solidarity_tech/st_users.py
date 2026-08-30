@@ -1,28 +1,64 @@
 from __future__ import annotations
 
 import logging
-import numbers
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 from zoneinfo import ZoneInfo
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
+    import numbers
     from datetime import datetime
 
     from parsons.solidarity_tech.base import ParamsType
 
 logger = logging.getLogger(__name__)
 
-CompareValueType = str | numbers.Rational | bool
-QueryParamType = dict[
-    str, str | bool | list[dict[str, CompareValueType | list[dict[str, CompareValueType]]]]
-]
-UserData = dict[str, str | int | list[int] | list[str] | dict[str, Any] | bool]
-UserMetadata = dict[str, int]
-UserMergeMetadata = dict[str, str | int | list[int]]
-UserDeleteMetadata = dict[str, int]
+
+class AddressData(TypedDict):
+    address1: str | None
+    address2: str | None
+    city: str | None
+    state: str | None
+    zip_code: str | None
+    country: str | None
+
+
+class UserData(TypedDict):
+    id: int
+    hash_id: str
+    phone_number: str | None
+    email: str | None
+    first_name: str | None
+    last_name: str | None
+    alternate_name: str | None
+    preferred_language: str
+    second_language: str | None
+    chapter_id: int
+    chapter_ids: list[int]
+    branch_id: int | None
+    created_at: str
+    custom_user_properties: dict[str, str | list[str]]
+    address: AddressData
+    sms_permission: bool
+    call_permission: bool
+    email_permission: bool
+    other_emails: list[str]
+    other_phone_numbers: list[str]
+
+
+class UserMergeMetadata(TypedDict):
+    message: str
+    primary_user_id: int
+    merged_user_ids: list[int]
+    merged_count: int
+    not_found_user_ids: list[int] | None
+
+
+class UserDeleteMetadata(TypedDict):
+    message: str
+    id: int | None
 
 
 class SolidarityTechUsers(SolidarityTechBase):
@@ -36,7 +72,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         user_list_ids: str | list[int] | None = None,
         phone_number: str | None = None,
         email: str | None = None,
-    ) -> tuple[Table, UserMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of users.
 
@@ -91,7 +127,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[UserData] = res.json()["data"]
-        meta: UserMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
 
         return Table(data), meta
 

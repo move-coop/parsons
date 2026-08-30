@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -14,8 +14,20 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-UserPropertyData = dict[str, int | str | list[dict[str, str | dict]]]
-UserPropertyMetadata = dict[str, int]
+
+class UserPropertyDataValue(TypedDict):
+    label: dict[str, Any]
+    value: str
+
+
+class UserPropertyData(TypedDict):
+    id: int
+    name: str
+    key: str
+    field_type: FieldType
+    options: list[UserPropertyDataValue] | None
+    scope_id: int | None
+    scope_type: ScopeType | None
 
 
 class SolidarityTechCustomUserProperties(SolidarityTechBase):
@@ -28,7 +40,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         since: int | datetime = 0,
         scope_id: int | None = None,
         scope_type: ScopeType | None = None,
-    ) -> tuple[Table, UserPropertyMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of custom user properties.
 
@@ -72,7 +84,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[UserPropertyData] = res.json()["data"]
-        meta: UserPropertyMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
 
         return Table(data), meta
 

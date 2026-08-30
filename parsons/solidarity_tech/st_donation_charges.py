@@ -1,18 +1,66 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-DonationChargeData = dict[str, int | str | bool | dict | dict[str, Any]]
-DonationChargeMetadata = dict[str, int]
+
+class DonationChargeDataChapter(TypedDict):
+    id: int
+    name: str
+
+
+class DonationChargeDataUser(TypedDict):
+    id: int
+    email: str
+    first_name: str
+    last_name: str
+    phone_number: str
+    created_at: str
+    address1: str | None
+    address2: str | None
+    city: str | None
+    state: str | None
+    zip_code: str | None
+    country_name: str | None
+
+
+class DonationChargeDataActionPage(TypedDict):
+    id: int
+    title: str
+    url_slug: str
+
+
+class DonationChargeData(TypedDict):
+    id: int
+    amount: int
+    created_at: str
+    updated_at: str
+    success: bool
+    refunded: bool
+    receipt_number: str
+    hash_id: str
+    processing_fee_cents: int | None
+    external_donation_id: str | None
+    external_donation_date: str | None
+    is_external: bool
+    amount_in_dollars: str
+    currency: str
+    currency_symbol: str
+    receipt_url: str
+    brand: str
+    last4: str
+    json: dict[str, Any]
+    user: DonationChargeDataUser
+    action_page: DonationChargeDataActionPage
+    chapter: DonationChargeDataChapter
 
 
 class SolidarityTechDonationCharges(SolidarityTechBase):
@@ -23,7 +71,7 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> tuple[Table, DonationChargeMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of donation charges.
 
@@ -59,7 +107,7 @@ class SolidarityTechDonationCharges(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[DonationChargeData] = res.json()["data"]
-        meta: DonationChargeMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
 
         return Table(data), meta
 

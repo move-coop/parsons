@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -13,9 +13,32 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-TranscriptData = dict[str, str | int]
-CallData = dict[str, int | str | bool | TranscriptData]
-CallMetadata = dict[str, int]
+
+class TranscriptData(TypedDict):
+    summary: str | None
+    rating: int | None
+    sentiment: str | None
+    engagement_analysis: str | None
+    engagement_analysis_justification: str | None
+
+
+class CallData(TypedDict):
+    id: int
+    user_id: int
+    chapter_id: int | None
+    direction: str
+    from_number: str | None
+    to_number: str | None
+    phonebank_id: int | None
+    agent_user_id: int | None
+    notes: str | None
+    duration: int
+    picked_up: bool
+    left_voicemail: bool
+    twilio_call_sid: str
+    created_at: str
+    ended_at: str | None
+    transcription: TranscriptData | None
 
 
 class SolidarityTechCalls(SolidarityTechBase):
@@ -27,7 +50,7 @@ class SolidarityTechCalls(SolidarityTechBase):
         limit: int = 20,
         offset: int = 0,
         since: int | datetime = 0,
-    ) -> tuple[Table, CallMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of calls.
 
@@ -68,6 +91,6 @@ class SolidarityTechCalls(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[CallData] = res.json()["data"]
-        meta: CallMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
 
         return Table(data), meta

@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, TypedDict, cast
 
 import numpy as np
 import pyrate_limiter
@@ -22,6 +22,12 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 ParamsType = _JsonType | np.int64
+
+
+class Metadata(TypedDict):
+    total_count: int
+    limit: int
+    offset: int
 
 
 class SolidarityTechBase:

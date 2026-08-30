@@ -1,14 +1,27 @@
 from __future__ import annotations
 
 import logging
+from typing import TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 logger = logging.getLogger(__name__)
 
-EmailSenderData = dict[str, int | str | bool]
-EmailSenderMetadata = dict[str, int]
+
+EmailSenderData = TypedDict(
+    "EmailSenderData",
+    {
+        "id": int,
+        "name": str,
+        "email": str,
+        "from": str,
+        "default_for_scope": bool,
+        "scope_type": str,
+        "scope_id": int,
+        "created_at": str,
+    },
+)
 
 
 class SolidarityTechEmailSenders(SolidarityTechBase):
@@ -18,7 +31,7 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
         self,
         limit: int = 20,
         offset: int = 0,
-    ) -> tuple[Table, EmailSenderMetadata]:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of email senders available for the API key's scope.
 
@@ -53,5 +66,5 @@ class SolidarityTechEmailSenders(SolidarityTechBase):
         self._handle_status_codes(res=res, codes=expected_responses)
 
         data: list[EmailSenderData] = res.json()["data"]
-        meta: EmailSenderMetadata = res.json()["meta"]
+        meta: Metadata = res.json()["meta"]
         return Table(data), meta

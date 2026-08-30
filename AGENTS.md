@@ -9,7 +9,6 @@ These instructions apply to the entire repository unless a more specific
 
 Before making code, documentation, test, or workflow changes, read
 [Contributing Guide](https://www.parsonsproject.org/pub/contributing-guide/),
-[Parsons Best Practices for Pull Request Review](https://www.parsonsproject.org/pub/pr-best-practices/),
 [Parsons Coding Conventions](https://www.parsonsproject.org/pub/coding-conventions/),
 and [Building a New Connector](https://www.parsonsproject.org/pub/build-a-new-connector/).
 Treat these guides as the source of truth for how contributors are expected

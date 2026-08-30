@@ -1,3 +1,5 @@
+"""Sphinx configuration for Parsons documentation."""
+
 import subprocess
 
 # -- Project Setup -----------------------------------------------------------

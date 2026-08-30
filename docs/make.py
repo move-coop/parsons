@@ -1,4 +1,4 @@
-"""Build multi-version Sphinx documentation."""
+"""Centralized makefile logic for generating Parsons documentation."""
 
 import logging
 import os

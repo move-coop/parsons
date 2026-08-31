@@ -22,13 +22,13 @@ def test_geocode_onelineaddress(cg):
     # Assert one line with geographies parameter returns expected
     cg.cg.onelineaddress = mock.MagicMock(return_value=geographies_resp)
     geo = cg.geocode_onelineaddress(address, return_type="geographies")
-    cg.cg.onelineaddress.assert_called_with(address, returntype="geographies")
+    cg.cg.onelineaddress.assert_called_with(address, returntype="geographies", timeout=None)
     assert geo == geographies_resp
 
     # Assert one line with locations parameter returns expected
     cg.cg.onelineaddress = mock.MagicMock(return_value=locations_resp)
     geo = cg.geocode_onelineaddress(address, return_type="locations")
-    cg.cg.onelineaddress.assert_called_with(address, returntype="locations")
+    cg.cg.onelineaddress.assert_called_with(address, returntype="locations", timeout=None)
     assert geo == locations_resp
 
 
@@ -74,3 +74,31 @@ def test_coordinates(cg):
     cg.cg.address = mock.MagicMock(return_value=coord_resp)
     geo = cg.get_coordinates_data("38.8884212", "-77.0441907")
     assert geo == coord_resp
+
+
+def test_timeout_forwarded_to_every_request():
+    cg = CensusGeocoder(timeout=30)
+    cg.cg = mock.MagicMock()
+    cg.cg.onelineaddress = mock.MagicMock(return_value=geographies_resp)
+    cg.cg.address = mock.MagicMock(return_value=geographies_resp)
+    cg.cg.coordinates = mock.MagicMock(return_value={"States": [{}]})
+    cg.cg.addressbatch = mock.MagicMock(return_value=batch_resp)
+
+    cg.geocode_onelineaddress("1600 Pennsylvania Avenue, Washington, DC")
+    assert cg.cg.onelineaddress.call_args.kwargs["timeout"] == 30
+
+    cg.geocode_address("1600 Pennsylvania Avenue", city="Washington", state="DC")
+    assert cg.cg.address.call_args.kwargs["timeout"] == 30
+
+    cg.get_coordinates_data("38.8884212", "-77.0441907")
+    assert cg.cg.coordinates.call_args.kwargs["timeout"] == 30
+
+    cg.geocode_address_batch(
+        Table(
+            [
+                ["id", "street", "city", "state", "zip"],
+                ["1", "908 N Washtenaw", "Chicago", "IL", "60622"],
+            ]
+        )
+    )
+    assert cg.cg.addressbatch.call_args.kwargs["timeout"] == 30

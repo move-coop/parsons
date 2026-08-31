@@ -85,7 +85,7 @@ class CensusGeocoder:
         self._log_result(geo)
         return geo
 
-    def geocode_address_batch(self, table):
+    def geocode_address_batch(self, table, return_partial_on_error=False):
         """
         Geocode multiple addresses from a parsons table.
 
@@ -105,6 +105,12 @@ class CensusGeocoder:
         Args:
             table: Parsons Table
                 A Parsons table
+            return_partial_on_error: bool
+                If ``True``, a chunk that fails ends the run and returns the rows geocoded up to
+                that point instead of raising. The failed chunk and every chunk after it are
+                absent from the result, so compare the row count against the input. By default
+                the error is raised and all completed work is discarded.
+
         Returns:
             A Parsons table
 
@@ -122,7 +128,16 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+            try:
+                geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+            except Exception as error:
+                if not return_partial_on_error:
+                    raise
+                logger.error(
+                    f"Geocoding failed after {records_processed} of {table.num_rows} records "
+                    f"({error}). Returning the records geocoded so far."
+                )
+                return geocoded_tbl
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")
 

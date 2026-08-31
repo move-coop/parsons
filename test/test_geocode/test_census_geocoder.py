@@ -4,6 +4,7 @@ import petl
 import pytest
 
 from parsons import CensusGeocoder, Table
+from parsons.geocode.census_geocoder import BATCH_SIZE
 from test.conftest import assert_matching_tables
 
 from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
@@ -74,3 +75,38 @@ def test_coordinates(cg):
     cg.cg.address = mock.MagicMock(return_value=coord_resp)
     geo = cg.get_coordinates_data("38.8884212", "-77.0441907")
     assert geo == coord_resp
+
+
+def _batch_table(n):
+    return Table(
+        [["id", "street", "city", "state", "zip"]]
+        + [[str(i), f"{i} Main St", "Chicago", "IL", "60622"] for i in range(1, n + 1)]
+    )
+
+
+def test_batch_size_defaults_to_module_constant(cg):
+    assert cg.batch_size == BATCH_SIZE
+
+    cg.cg.addressbatch = mock.MagicMock(return_value=batch_resp)
+    cg.geocode_address_batch(_batch_table(5))
+
+    # one chunk, because 5 records fit inside the default
+    assert cg.cg.addressbatch.call_count == 1
+
+
+def test_batch_size_controls_chunking():
+    cg = CensusGeocoder(batch_size=2)
+    cg.cg = mock.MagicMock()
+    cg.cg.addressbatch = mock.MagicMock(return_value=batch_resp)
+
+    cg.geocode_address_batch(_batch_table(5))
+
+    # 5 records at 2 per request -> 3 chunks
+    assert cg.cg.addressbatch.call_count == 3
+    assert [call.args[0].num_rows for call in cg.cg.addressbatch.call_args_list] == [2, 2, 1]
+
+
+@pytest.mark.parametrize("size", [0, -1])
+def test_non_positive_batch_size_rejected(size):
+    with pytest.raises(ValueError, match="batch_size must be 1 or greater"):
+        CensusGeocoder(batch_size=size)

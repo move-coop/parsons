@@ -13,6 +13,10 @@ logger = logging.getLogger(__name__)
 # the recommendation is less than 1K records.
 BATCH_SIZE = 999
 
+# The only columns the batch endpoint accepts. Anything else is dropped before sending,
+# since the underlying CSV writer rejects unknown fields.
+REQUIRED_BATCH_COLUMNS = ["id", "street", "city", "state", "zip"]
+
 
 class CensusGeocoder:
     """
@@ -89,7 +93,8 @@ class CensusGeocoder:
         """
         Geocode multiple addresses from a parsons table.
 
-        The table must **only** include the following columns in the following order.
+        The table must include the following columns. Any others are ignored, so a table can be
+        passed in whole rather than cut down first, and column order does not matter.
 
         .. list-table::
             :widths: 40
@@ -110,13 +115,15 @@ class CensusGeocoder:
 
         """
         logger.info(f"Geocoding {table.num_rows} records.")
-        if set(table.columns) != {"id", "street", "city", "state", "zip"}:
+        missing = [column for column in REQUIRED_BATCH_COLUMNS if column not in table.columns]
+        if missing:
             msg = (
-                "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
-                "columns. Tip: try using `table.cut()`"
+                f"Table is missing required columns: {missing}. It must include "
+                f"{REQUIRED_BATCH_COLUMNS}; any other columns are ignored."
             )
             raise ValueError(msg)
 
+        table = table.cut(*REQUIRED_BATCH_COLUMNS)
         chunked_tables = table.chunk(BATCH_SIZE)
         records_processed = 0
 

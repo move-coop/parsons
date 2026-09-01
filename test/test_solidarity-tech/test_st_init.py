@@ -35,7 +35,7 @@ def test_init_with_env(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_init_with_no_api_token(monkeypatch: pytest.MonkeyPatch) -> None:
     """Raise :class:`KeyError` when no API token is provided and the environment variable is not set."""
     with monkeypatch.context() as m:
-        m.delenv(TOKEN_ENV_NAME)
+        m.delenv(TOKEN_ENV_NAME, raising=False)
         with pytest.raises(KeyError, match=f"No '{TOKEN_ENV_NAME}' found."):
             SolidarityTech()
 

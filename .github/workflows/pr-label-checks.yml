@@ -35,7 +35,7 @@ jobs:
             github.com:443
 
       - name: Update labels based on modified files
-        uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13
         with:
           sync-labels: true
 

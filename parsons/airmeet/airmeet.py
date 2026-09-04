@@ -12,15 +12,15 @@ class Airmeet:
     Instantiate class.
 
     Args:
-            airmeet_uri: string
-                The URI of the Airmeet API endpoint. Not required. The default
-                is https://api-gateway.airmeet.com/prod/. You can set an
-                ``AIRMEET_URI`` env variable or use this parameter when
-                instantiating the class.
-            airmeet_access_key: string
-                The Airmeet API access key.
-            airmeet_secret_key: string
-                The Airmeet API secret key.
+        airmeet_uri: string
+            The URI of the Airmeet API endpoint. Not required. The default
+            is https://api-gateway.airmeet.com/prod/. You can set an
+            ``AIRMEET_URI`` env variable or use this parameter when
+            instantiating the class.
+        airmeet_access_key: string
+            The Airmeet API access key.
+        airmeet_secret_key: string
+            The Airmeet API secret key.
 
         For instructions on how to generate an access key and secret key set,
         see `Airmeet's Event Details API documentation
@@ -30,8 +30,7 @@ class Airmeet:
 
     def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
         """
-        Authenticate with the Airmeet API and update the connection headers
-        with the access token.
+        Authenticate with the Airmeet API.
 
         Args:
             airmeet_uri: string
@@ -42,14 +41,18 @@ class Airmeet:
                 The Airmeet API secret key.
 
         """
-        self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
-        self.client = APIConnector(self.uri)
-        self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
-        self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
-        self.client.headers = {
-            "X-Airmeet-Access-Key": self.airmeet_client_key,
-            "X-Airmeet-Secret-Key": self.airmeet_client_secret,
-        }
+        self.uri: str = (
+            check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
+        )
+        self.airmeet_client_key: str = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
+        self.airmeet_client_secret: str = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
+        self.client = APIConnector(
+            self.uri,
+            {
+                "X-Airmeet-Access-Key": self.airmeet_client_key,
+                "X-Airmeet-Secret-Key": self.airmeet_client_secret,
+            },
+        )
         response = self.client.post_request(url="auth", success_codes=[200])
         self.token = response["token"]
 

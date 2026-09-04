@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import urllib.parse
+import warnings
 from typing import TYPE_CHECKING, Any, overload
 
 import requests
@@ -119,26 +120,58 @@ class APIConnector:
 
     @property
     def auth(self) -> _AuthType:
+        """Deprecated access to session authentication. Use session.auth instead."""
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         return self.session.auth
 
     @auth.setter
     def auth(self, inp: _AuthType) -> None:
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         self.session.auth = inp
 
     @auth.deleter
     def auth(self) -> None:
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         del self.session.auth
 
     @property
     def headers(self) -> _HeadersType:
+        """Deprecated access to session headers. Use session.headers instead."""
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         return self.session.headers
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     def headers(self) -> None:
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         del self.session.headers
 
     def request(

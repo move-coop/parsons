@@ -16,7 +16,11 @@ def test_init_loads_headers() -> None:
     conn = APIConnector(uri=EXAMPLE_URL, headers=headers)
     assert conn.session.headers == headers
 
+
+def test_property_loads_headers() -> None:
+    """Test that providing headers via deprecated property sets the base headers on the session."""
     headers = CaseInsensitiveDict({"authorization": "Bearer n8hn9e4hme4h4"})
+    conn = APIConnector(uri=EXAMPLE_URL)
     conn.headers = headers
     assert conn.session.headers == headers
 
@@ -26,17 +30,22 @@ def test_init_loads_auth() -> None:
     conn = APIConnector(uri=EXAMPLE_URL, auth=auth)
     assert conn.session.auth == auth
 
+
+def test_property_loads_auth() -> None:
+    """Test that providing auth via deprecated property sets the base auth on the session."""
     auth = HTTPBasicAuth("user_name2", "user_pass2")
+    conn = APIConnector(uri=EXAMPLE_URL)
     conn.auth = auth
     assert conn.session.auth == auth
 
-    def test_init_accepts_ratelimit_as_limiter() -> None:
-        """Test that providing a :class:`requests_ratelimiter.Limiter` ratelimit creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
-        rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
-        limiter = pyrate_limiter.Limiter(rate)
-        conn = APIConnector(uri=EXAMPLE_URL, ratelimit=limiter)
-        assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
-        assert conn.session.limiter == limiter
+
+def test_init_accepts_ratelimit_as_limiter() -> None:
+    """Test that providing a :class:`requests_ratelimiter.Limiter` ratelimit creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+    rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+    limiter = pyrate_limiter.Limiter(rate)
+    conn = APIConnector(uri=EXAMPLE_URL, ratelimit=limiter)
+    assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+    assert conn.session.limiter == limiter
 
 
 def test_init_accepts_ratelimit_as_rate() -> None:

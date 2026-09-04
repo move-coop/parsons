@@ -64,7 +64,7 @@ class ActBlue:
             self.uri,
             auth=HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(10, pyrate_limiter.Duration.MINUTE)
             ),
         )

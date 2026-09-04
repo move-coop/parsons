@@ -19,7 +19,7 @@ class Formstack:
         api_token:
             API token to access the Formstack API.
             Not required if the ``FORMSTACK_API_TOKEN`` env variable is set.
-        ratelimiter:
+        ratelimit:
             Optional :class:`requests_ratelimiter.Limiter` to use for the API connector.
             To prevent abuse, the Formstack V2025 API implements daily rate limiting per access token.
             The specific limits vary based on your account plan type.
@@ -30,14 +30,14 @@ class Formstack:
         self,
         api_token: str | None = None,
         *,
-        ratelimiter: requests_ratelimiter.Limiter | None = None,
+        ratelimit: requests_ratelimiter.Limiter | None = None,
     ):
         self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
         headers = {
             "Accept": "application/json",
             "Authorization": f"Bearer {self.api_token}",
         }
-        self.client = APIConnector(API_URI, headers=headers, ratelimiter=ratelimiter)
+        self.client = APIConnector(API_URI, headers=headers, ratelimit=ratelimit)
 
     def _get_paginated_request(
         self, url: str, data_key: str, params: dict | None = None, large_request: bool = False

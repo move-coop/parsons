@@ -15,10 +15,10 @@ PAGE_SIZE = 100
 
 class Freshdesk:
     def __init__(
-        self, domain: str, api_key: str, *, ratelimiter: requests_ratelimiter.Limiter | None = None
+        self, domain: str, api_key: str, *, ratelimit: requests_ratelimiter.Limiter | None = None
     ):
         """
-        Instantiate Freshdesk class
+        Instantiate Freshdesk class.
 
         Args:
             domain: str
@@ -27,7 +27,7 @@ class Freshdesk:
             api_key: str
                 The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
                 env variable set.
-            ratelimiter:
+            ratelimit:
                 Optional :class:`requests_ratelimiter.Limiter` to use for the API connector.
                 The number of API calls you can make is based on your plan.
                 This limit is applied to your account irrespective of the
@@ -38,7 +38,7 @@ class Freshdesk:
         self.domain: str = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
         self.client = APIConnector(
-            self.uri, auth=HTTPBasicAuth(self.api_key, "x"), ratelimiter=ratelimiter
+            self.uri, auth=HTTPBasicAuth(self.api_key, "x"), ratelimit=ratelimit
         )
 
     def _get_request(self, endpoint, params=None):

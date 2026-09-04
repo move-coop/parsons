@@ -21,7 +21,7 @@ class VANConnector:
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
         *,
-        ratelimiter: requests_ratelimiter.Limiter | None = None,
+        ratelimit: requests_ratelimiter.Limiter | None = None,
     ):
         self.api_key: str = check_env.check("VAN_API_KEY", api_key)
 
@@ -45,7 +45,7 @@ class VANConnector:
             auth=self.auth,
             data_key="items",
             pagination_key=self.pagination_key,
-            ratelimiter=ratelimiter,
+            ratelimit=ratelimit,
         )
 
         # We will not create the SOAP client unless we need to as this triggers checking for

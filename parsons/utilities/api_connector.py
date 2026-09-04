@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, overload
 
 import requests
 import requests_ratelimiter
+from pyrate_limiter import Duration, Limiter, Rate
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 
@@ -29,8 +30,6 @@ _Params = _ParamsType
 if TYPE_CHECKING:
     from typing import Literal
 
-    import pyrate_limiter
-
 logger = logging.getLogger(__name__)
 
 
@@ -53,7 +52,7 @@ class APIConnector:
         pagination_key: str | None = None,
         data_key: str | None = None,
         *,
-        ratelimiter: pyrate_limiter.Limiter | None = None,
+        ratelimit: Limiter | Rate | int | None = None,
         session: requests.Session | None = None,
     ) -> None:
         """
@@ -74,16 +73,19 @@ class APIConnector:
                 The name of the key in the response json
                 where the data is contained.
                 Required if the data is nested in the response json.
-            ratelimiter:
-                A :class:`~pyrate_limiter.limiter.Limiter` instance to use.
-                If not provided, no rate limiting will be applied.
+            ratelimit:
+                The rate limit to use in the connectors.
+                Can be a :class:`~pyrate_limiter.limiter.Limiter` instance,
+                a :class:`~pyrate_limiter.limiter.Rate` instance, or
+                an integer representing the number of requests per second,
+                or None to disable rate limiting.
             session:
                 A preconfigured :class`~requests.Session` for advanced users.
-                If using `session`, `ratelimiter` must be None.
+                If using `session`, `ratelimit` must be None.
 
         Raises:
             ValueError:
-                If both `session` and `ratelimiter` are provided.
+                If both `session` and `ratelimit` are provided.
 
         """
         # Add a trailing slash if it's missing
@@ -94,14 +96,18 @@ class APIConnector:
         self.pagination_key = pagination_key
         self.data_key = data_key
 
-        if session and ratelimiter:
-            err_msg = "session and ratelimiter cannot both be provided"
+        if session and ratelimit:
+            err_msg = "session and ratelimit cannot both be provided"
             raise ValueError(err_msg)
 
         if session:
             self.session = session
-        elif ratelimiter:
-            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimiter)
+        elif ratelimit:
+            if isinstance(ratelimit, Rate):
+                ratelimit = Limiter(ratelimit)
+            elif isinstance(ratelimit, int):
+                ratelimit = Limiter(requests_ratelimiter.Rate(ratelimit, Duration.SECOND))
+            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimit)
         else:
             self.session = requests.Session()
 

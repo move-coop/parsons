@@ -73,14 +73,30 @@ def test_init_loads_auth() -> None:
     conn.auth = auth
     assert conn.session.auth == auth
 
+    def test_init_accepts_ratelimit_as_limiter() -> None:
+        """Test that providing a :class:`requests_ratelimiter.Limiter` ratelimit creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+        rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+        limiter = pyrate_limiter.Limiter(rate)
+        conn = APIConnector(uri=EXAMPLE_URL, ratelimit=limiter)
+        assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+        assert conn.session.limiter == limiter
 
-def test_init_accepts_ratelimiter() -> None:
-    """Test that providing a ratelimiter creates a :class:`requests_ratelimiter.LimiterSession`."""
-    rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
-    limiter = pyrate_limiter.Limiter(rate)
-    conn = APIConnector(uri=EXAMPLE_URL, ratelimiter=limiter)
-    assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
-    assert conn.session.limiter == limiter
+    def test_init_accepts_ratelimit_as_rate() -> None:
+        """Test that providing a :class:`requests_ratelimiter.Rate` ratelimit creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+        rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+        conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate)
+        assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+        assert conn.session.limiter.buckets._rates[0] == rate  # type: ignore[ty:unresolved-attribute]
+
+    def test_init_accepts_ratelimit_as_int() -> None:
+        """Test that providing an integer ratelimit creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+        rate_limit = 60
+        conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate_limit)
+        assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+        assert isinstance(conn.session.limiter, pyrate_limiter.Limiter)
+        assert conn.session.limiter.buckets._rates[0] == pyrate_limiter.Rate(  # type: ignore[ty:unresolved-attribute]
+            rate_limit, pyrate_limiter.Duration.SECOND
+        )
 
 
 def test_init_accepts_session() -> None:
@@ -92,12 +108,12 @@ def test_init_accepts_session() -> None:
 
 
 def test_init_does_not_accept_ratelimiter_and_session() -> None:
-    """Test that providing both a ratelimiter and a session raises a ValueError."""
+    """Test that providing both a ratelimit and a session raises a ValueError."""
     rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
     limiter = pyrate_limiter.Limiter(rate)
     session = requests.Session()
-    with pytest.raises(ValueError, match="session and ratelimiter cannot both be provided"):
-        APIConnector(uri=EXAMPLE_URL, ratelimiter=limiter, session=session)
+    with pytest.raises(ValueError, match="session and ratelimit cannot both be provided"):
+        APIConnector(uri=EXAMPLE_URL, ratelimit=limiter, session=session)
 
 
 def test_init_creates_regular_session() -> None:

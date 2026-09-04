@@ -38,7 +38,7 @@ class ActionBuilder:
         self.api = APIConnector(
             self.api_url,
             headers=self.headers,
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
             ),
         )

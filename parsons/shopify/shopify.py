@@ -62,13 +62,13 @@ class Shopify:
             self.client = APIConnector(
                 self.base_url,
                 headers={"X-Shopify-Access-Token": access_token},
-                ratelimiter=ratelimiter,
+                ratelimit=ratelimiter,
             )
         else:
             self.client = APIConnector(
                 self.base_url,
                 auth=HTTPBasicAuth(self.api_key, self.password),
-                ratelimiter=ratelimiter,
+                ratelimit=ratelimiter,
             )
 
     def get_count(self, query_date=None, since_id=None, table_name=None):

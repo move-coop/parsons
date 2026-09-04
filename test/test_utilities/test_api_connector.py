@@ -96,7 +96,7 @@ def test_init_accepts_ratelimit_as_rate() -> None:
     rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
     conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate)
     assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
-    assert conn.session.limiter.buckets._rates[0] == rate  # type: ignore[ty:unresolved-attribute]
+    assert conn.session.limiter.buckets()[0]._rates[0] == rate
 
 
 def test_init_accepts_ratelimit_as_int() -> None:
@@ -105,8 +105,8 @@ def test_init_accepts_ratelimit_as_int() -> None:
     conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate_limit)
     assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
     assert isinstance(conn.session.limiter, pyrate_limiter.Limiter)
-    assert conn.session.limiter.buckets._rates[0] == pyrate_limiter.Rate(  # type: ignore[ty:unresolved-attribute]
-        rate_limit, pyrate_limiter.Duration.SECOND
+    assert str(conn.session.limiter.buckets()[0]._rates[0]) == str(
+        pyrate_limiter.Rate(rate_limit, pyrate_limiter.Duration.SECOND)
     )
 
 

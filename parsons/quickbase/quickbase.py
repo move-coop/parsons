@@ -37,7 +37,7 @@ class Quickbase:
                 "QB-Realm-Hostname": self.hostname,
                 "AUTHORIZATION": f"QB-USER-TOKEN {self.user_token}",
             },
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(100, pyrate_limiter.Duration.SECOND * 10)
             ),
         )

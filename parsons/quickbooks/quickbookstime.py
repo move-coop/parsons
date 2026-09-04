@@ -34,7 +34,7 @@ class QuickBooksTime:
         self.client = APIConnector(
             QB_URI,
             headers=self.headers,
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(300, pyrate_limiter.Duration.MINUTE * 5)
             ),
         )

@@ -39,7 +39,7 @@ class NationBuilder:
         self.client = APIConnector(
             NationBuilder.get_uri(slug),
             headers=headers,
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 pyrate_limiter.Rate(250, pyrate_limiter.Duration.SECOND * 10)
             ),
         )

@@ -1,6 +1,9 @@
 import logging
 from typing import Literal
 
+import pyrate_limiter
+import requests_ratelimiter
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -12,23 +15,29 @@ QB_URI = "https://rest.tsheets.com/api/v1/"
 
 
 class QuickBooksTime:
-    """
-    Instantiate the QuickBooksTime class.
+    def __init__(self, token: str | None = None):
+        """
+        Instantiate the QuickBooksTime class.
 
-    Args:
-        token: str
-            A valid QuickBooksTime Auth Token. Not required if ``QB_AUTH_TOKEN`` env
-            variable set.
-            [Find instructions to create yours here](https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0) # noqa E501 line-too-long
+        Args:
+            token:
+                A valid QuickBooksTime Auth Token.
+                Not required if ``QB_AUTH_TOKEN`` env variable set.
 
-            [QuickBooksTime API Documentation](https://tsheetsteam.github.io/api_docs/#introduction)
+                `Find instructions to create yours here <https://developer.intuit.com/app/developer/qbo/docs/develop/authentication-and-authorization/oauth-2.0>`__
 
-    """
+                `QuickBooksTime API Documentation <https://tsheetsteam.github.io/api_docs/#introduction>`__
 
-    def __init__(self, token=None):
-        self.token = check_env.check("QB_AUTH_TOKEN", token)
+        """
+        self.token: str = check_env.check("QB_AUTH_TOKEN", token)
         self.headers = {"Authorization": "Bearer " + self.token}
-        self.client = APIConnector(QB_URI, headers=self.headers)
+        self.client = APIConnector(
+            QB_URI,
+            headers=self.headers,
+            ratelimit=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(300, pyrate_limiter.Duration.MINUTE * 5)
+            ),
+        )
 
     # Helper functions
 

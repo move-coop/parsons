@@ -4,6 +4,9 @@ import time
 from typing import Any, cast
 from urllib.parse import parse_qs, urlparse
 
+import pyrate_limiter
+import requests_ratelimiter
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -33,7 +36,13 @@ class NationBuilder:
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         headers.update(NationBuilder.get_auth_headers(token))
 
-        self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
+        self.client = APIConnector(
+            NationBuilder.get_uri(slug),
+            headers=headers,
+            ratelimit=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(250, pyrate_limiter.Duration.SECOND * 10)
+            ),
+        )
 
     @classmethod
     def get_uri(cls, slug: str | None) -> str:

@@ -1,6 +1,7 @@
 import logging
 import re
 
+import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 
 from parsons import Table
@@ -13,27 +14,32 @@ PAGE_SIZE = 100
 
 
 class Freshdesk:
-    """
-    Instantiate Freshdesk class
+    def __init__(
+        self, domain: str, api_key: str, *, ratelimit: requests_ratelimiter.Limiter | None = None
+    ):
+        """
+        Instantiate Freshdesk class.
 
-    Args:
-        domain: str
-            The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
-            env variable set.
-        api_key: str
-            The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
-            env variable set.
+        Args:
+            domain: str
+                The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
+                env variable set.
+            api_key: str
+                The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
+                env variable set.
+            ratelimit:
+                Optional :class:`requests_ratelimiter.Limiter` to use for the API connector.
+                The number of API calls you can make is based on your plan.
+                This limit is applied to your account irrespective of the
+                number of agents you have or IP addresses used to make the calls.
 
-    Returns:
-        Freshdesk class
-
-    """
-
-    def __init__(self, domain, api_key):
+        """
         self.api_key: str = check_env.check("FRESHDESK_API_KEY", api_key)
         self.domain: str = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
-        self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.api_key, "x"))
+        self.client = APIConnector(
+            self.uri, auth=HTTPBasicAuth(self.api_key, "x"), ratelimit=ratelimit
+        )
 
     def _get_request(self, endpoint, params=None):
         base_params = {"per_page": PAGE_SIZE}

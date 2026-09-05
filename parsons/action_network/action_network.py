@@ -4,6 +4,9 @@ import re
 import warnings
 from typing import Literal
 
+import pyrate_limiter
+import requests_ratelimiter
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -28,7 +31,13 @@ class ActionNetwork:
             "OSDI-API-Token": self.api_token,
         }
         self.api_url = API_URL
-        self.api = APIConnector(self.api_url, headers=self.headers)
+        self.api = APIConnector(
+            self.api_url,
+            headers=self.headers,
+            ratelimit=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
+            ),
+        )
 
     def _get_page(self, object_name, page, per_page=25, filter=None):
         # returns data from one page of results

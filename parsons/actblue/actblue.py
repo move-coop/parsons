@@ -2,6 +2,8 @@ import logging
 import time
 from typing import Literal
 
+import pyrate_limiter
+import requests_ratelimiter
 from requests import Response
 from requests.auth import HTTPBasicAuth
 
@@ -62,6 +64,9 @@ class ActBlue:
             self.uri,
             auth=HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
+            ratelimit=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(10, pyrate_limiter.Duration.MINUTE)
+            ),
         )
         self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
         self.max_retries = int(self.max_retries) if self.max_retries else None

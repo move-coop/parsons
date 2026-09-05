@@ -83,7 +83,7 @@ class SolidarityTechActivities(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            All the activities entries.
+            All the activities entries, along with request metadata.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_activities>`__

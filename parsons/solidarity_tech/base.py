@@ -230,7 +230,7 @@ class SolidarityTechBase:
             err_msg = f"'{key}' already exists."
             raise KeyError(err_msg)
 
-        if value:
+        if value is not None:
             receiving_dict[key] = value.value if isinstance(value, Enum) else value
             logger.debug(
                 "Added '%s' with value '%s' to payload or parameters dictionary", key, value

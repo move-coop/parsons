@@ -193,8 +193,10 @@ class TestAddIfFieldNotEmpty:
     @pytest.mark.parametrize(
         ("key", "value", "expected"),
         [
-            ("test_key1", "test_value", {"test_key1": "test_value"}),
-            ("test_key2", 123456, {"test_key2": 123456}),
+            ("test_key_string", "test_value", {"test_key_string": "test_value"}),
+            ("test_key_int", 123456, {"test_key_int": 123456}),
+            ("test_key_true", True, {"test_key_true": True}),
+            ("test_key_false", False, {"test_key_false": False}),
             ("test_key_none", None, {}),
         ],
     )

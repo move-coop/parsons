@@ -89,7 +89,7 @@ intersphinx_mapping_extras = {
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "paramiko": ("https://docs.paramiko.org/en/stable/", None),
     "protobuf": ("https://googleapis.dev/python/protobuf/latest/", None),
-    "psycopg2-binary": ("https://www.psycopg.org/docs/", None),
+    "psycopg": ("https://www.psycopg.org/psycopg3/docs/", None),
     "pyairtable": ("https://pyairtable.readthedocs.io/en/stable/", None),
     "PyGitHub": ("https://pygithub.readthedocs.io/en/latest/", None),
     "requests-toolbelt": ("https://toolbelt.readthedocs.io/en/stable/", None),

@@ -25,3 +25,11 @@ repos:
     rev: v1.0.2
     hooks:
       - id: sphinx-lint
+
+  - repo: local
+    hooks:
+      - id: uv-lockfile-check
+        name: uv lockfile check
+        entry: uv lock --check
+        language: system
+        pass_filenames: false

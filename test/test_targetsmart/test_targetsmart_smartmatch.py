@@ -9,7 +9,7 @@ import petl
 import pytest
 from petl.util.base import TableWrapper
 
-from parsons.targetsmart.targetsmart_api import TargetSmartAPI
+from parsons import TargetSmartAPI
 
 
 @pytest.fixture

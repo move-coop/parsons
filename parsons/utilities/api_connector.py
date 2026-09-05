@@ -8,7 +8,7 @@ import requests
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 
-from parsons import Table
+from parsons.etl.table import Table
 
 from ._api_connector_types import (
     _AuthType,

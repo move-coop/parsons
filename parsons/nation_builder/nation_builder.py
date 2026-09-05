@@ -4,7 +4,7 @@ import time
 from typing import Any, cast
 from urllib.parse import parse_qs, urlparse
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 

@@ -1,7 +1,6 @@
 import logging
 
-from parsons.databases.database_connector import DatabaseConnector
-from parsons.etl.table import Table
+from parsons import DatabaseConnector, Table
 
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,51 @@
+name: Type Stubs
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - major-release
+
+permissions: read-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-stubs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
+      - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39
+        with:
+          python-version: 3.14
+          activate-environment: true
+
+      - run: >-
+          uv sync
+          --no-default-groups
+          --all-extras
+
+      - run: python types/generate_init_pyi.py
+
+      - name: check if __init__.pyi needs to be updated
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "::group::diff of __init__.pyi"
+            git diff
+            echo "::endgroup::"
+            echo "::error title=Type stubs are out of date::Run 'python types/generate_init_pyi.py' to update '__init__.pyi'."
+            exit 1
+          else
+            echo "::debug::Type stubs validated successfully"
+          fi

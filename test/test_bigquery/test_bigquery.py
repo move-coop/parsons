@@ -10,8 +10,7 @@ import pytest
 from google.cloud import bigquery, exceptions
 from testfixtures import log_capture
 
-from parsons import GoogleBigQuery, Table
-from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons import GoogleBigQuery, GoogleCloudStorage, Table
 from test.test_google.test_utilities import FakeCredentialTest
 
 

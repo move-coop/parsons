@@ -1,37 +1,34 @@
+from __future__ import annotations
+
 import logging
 import urllib.parse
-from collections.abc import Callable, Iterable, Mapping
-from typing import Any, Literal, overload
+from typing import TYPE_CHECKING, Any, overload
 
 import requests
-from requests.auth import AuthBase
 from requests.exceptions import HTTPError
-from requests.models import PreparedRequest
 from simplejson.errors import JSONDecodeError
 
 from parsons import Table
 
-logger = logging.getLogger(__name__)
+from ._api_connector_types import (
+    _AuthType,
+    _DataType,
+    _HeadersType,
+    _JsonType,
+    _ParamsType,
+)
 
-_Auth = tuple[str, str] | AuthBase | Callable[[PreparedRequest], PreparedRequest]
-_Headers = Mapping[str, str | bytes | None]
-_Data = (
-    Iterable[bytes]
-    | str
-    | bytes
-    | list[tuple[Any, Any]]
-    | tuple[tuple[Any, Any], ...]
-    | Mapping[Any, Any]
-)
-_ParamsMappingKeyType = str | bytes | int | float
-_ParamsMappingValueType = str | bytes | int | float | Iterable[str | bytes | int | float] | None
-_Params = (
-    Mapping[_ParamsMappingKeyType, _ParamsMappingValueType]
-    | tuple[_ParamsMappingKeyType, _ParamsMappingValueType]
-    | Iterable[tuple[_ParamsMappingKeyType, _ParamsMappingValueType]]
-    | str
-    | bytes
-)
+# There are here for backwards compatibility
+_Auth = _AuthType
+_Headers = _HeadersType
+_Data = _DataType
+_Params = _ParamsType
+
+
+if TYPE_CHECKING:
+    from typing import Literal
+
+logger = logging.getLogger(__name__)
 
 
 class APIConnector:
@@ -48,8 +45,8 @@ class APIConnector:
     def __init__(
         self,
         uri: str,
-        headers: _Headers | None = None,
-        auth: _Auth | None = None,
+        headers: _HeadersType | None = None,
+        auth: _AuthType | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
     ) -> None:
@@ -73,7 +70,7 @@ class APIConnector:
                 Required if the data is nested in the response json.
 
         """
-        # Add a trailing slash if its missing
+        # Add a trailing slash if it's missing
         if not uri.endswith("/"):
             uri = uri + "/"
 
@@ -89,9 +86,10 @@ class APIConnector:
         req_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         *,
         json: Any | None = None,
-        data: _Data | None = None,
-        params: _Params | None = None,
+        data: _DataType | None = None,
+        params: _ParamsType | None = None,
         raise_on_error: bool = True,
+        additional_headers: _HeadersType | None = None,
         **kwargs,
     ) -> requests.Response:
         """
@@ -102,8 +100,7 @@ class APIConnector:
                 The url request string.
                 If ``url`` is a relative URL,
                 it will be joined with the ``uri`` of the ``APIConnector`.
-                If ``url`` is an absolute URL,
-                it will be used as is.
+                If ``url`` is an absolute URL, it will be used as is.
             req_type: The request type.
             json:
                 The payload of the request object.
@@ -116,19 +113,29 @@ class APIConnector:
                 E.g. ``http://myapi.com/things?id=1``
             raise_on_error:
                 If the request yields an error status code (anything above 400),
-                raise an error. In most cases, this should be ``True``,
+                raise an :class:`HTTPError`. In most cases, this should be ``True``,
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
+            additional_headers:
+                Additional headers to include in this specific request.
+                If a header key exists in both ``self.headers`` and
+                ``additional_headers``, the value from ``additional_headers``
+                takes precedence. This does not mutate ``self.headers``.
             `**kwargs`:
                 Additional keyword arguments to pass to :func:`requests.request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)
+        complete_headers: _Headers = {}
+        if self.headers:
+            complete_headers.update(self.headers)
+        if additional_headers:
+            complete_headers.update(additional_headers)
 
         resp = requests.request(
             req_type,
             full_url,
-            headers=self.headers,
+            headers=complete_headers,
             auth=self.auth,
             json=json,
             data=data,
@@ -150,7 +157,7 @@ class APIConnector:
         return_format: Literal["json"] = "json",
         raise_on_error: ... = ...,
         **kwargs,
-    ) -> dict[str, Any]: ...
+    ) -> _JsonType: ...
 
     @overload
     def get_request(
@@ -167,11 +174,11 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
+        params: _ParamsType | None = None,
         return_format: Literal["json", "content"] = "json",
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict | bytes:
+    ) -> _JsonType | bytes:
         """
         Make a GET request.
 
@@ -191,7 +198,7 @@ class APIConnector:
             or :attr:`requests.Response.content` from the response if `return_format` is ``content``.
 
         Raises:
-            RuntimeError: If return_format is not ``json`` or ``content``.
+            RuntimeError: If `return_format` is not ``json`` or ``content``.
 
         """
         r = self.request(url, "GET", params=params, raise_on_error=raise_on_error, **kwargs)
@@ -209,13 +216,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
-        data: _Data | None = None,
-        json: Any | None = None,
+        params: _ParamsType | None = None,
+        data: _DataType | None = None,
+        json: _JsonType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a POST request.
 
@@ -267,11 +274,11 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
+        params: _ParamsType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a DELETE request.
 
@@ -313,13 +320,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        data: _Data | None = None,
-        json: Any | None = None,
-        params: _Params | None = None,
+        data: _DataType | None = None,
+        json: _JsonType | None = None,
+        params: _ParamsType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a PUT request.
 
@@ -365,13 +372,13 @@ class APIConnector:
         self,
         url: str,
         *,
-        params: _Params | None = None,
-        data: _Data | None = None,
-        json: Any | None = None,
+        params: _ParamsType | None = None,
+        data: _DataType | None = None,
+        json: _JsonType | None = None,
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> dict[str, Any] | int | None:
+    ) -> _JsonType:
         """
         Make a PATCH request.
 

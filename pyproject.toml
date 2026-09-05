@@ -127,17 +127,17 @@ scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
+ssh = [
+    "sshtunnel >= 0.4",
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
 targetsmart = [
     "defusedxml >= 0.7",
     "paramiko >= 3.0",
     "xmltodict >= 1.0"
 ]
 twilio = ["twilio >= 9.0"]
-ssh = [
-    "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9.11",
-    "sqlalchemy >= 1.4",
-]
 all = [
     "parsons[airtable]",
     "parsons[alchemer]",
@@ -169,9 +169,9 @@ all = [
     "parsons[sftp]",
     "parsons[slack]",
     "parsons[smtp]",
+    "parsons[ssh]",
     "parsons[targetsmart]",
     "parsons[twilio]",
-    "parsons[ssh]",
 ]
 
 [project.urls]
@@ -214,7 +214,7 @@ security = [
     "bandit[sarif]==1.9.4",
 ]
 test-coverage = [
-    "coverage>=7.13.3,<7.15.0",
+    "coverage>=7.13.3,<7.16.0",
     "pytest-cov>=7.0,<7.2",
     {include-group = "test"},
 ]

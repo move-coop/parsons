@@ -1,3 +1,5 @@
+"""Connector-wide classes for Parsons Solidarity Tech API."""
+
 from __future__ import annotations
 
 import logging
@@ -25,6 +27,8 @@ ParamsType = _JsonType | np.int64
 
 
 class Metadata(TypedDict):
+    """Standard metadata dictionary returned by the SolidarityTech API."""
+
     total_count: int
     limit: int
     offset: int
@@ -125,6 +129,7 @@ class SolidarityTechBase:
     def _get_single_resource(self, endpoint: str, resource_id: int, **kwargs) -> requests.Response:
         """Handle GET requests for single resources."""
         complete_endpoint = f"{endpoint}/{resource_id}"
+
         logger.debug("Processing GET request at endpoint: %s", complete_endpoint)
         return self.api.request(url=complete_endpoint, req_type="GET", **kwargs)
 
@@ -210,6 +215,7 @@ class SolidarityTechBase:
         if overwrite is not True and key in receiving_dict:
             err_msg = f"'{key}' already exists."
             raise KeyError(err_msg)
+
         if value:
             receiving_dict[key] = value.value if isinstance(value, Enum) else value
             logger.debug(
@@ -220,4 +226,5 @@ class SolidarityTechBase:
                 "Skipping adding '%s' to payload or parameters dictionary as value is None",
                 key,
             )
+
         return receiving_dict

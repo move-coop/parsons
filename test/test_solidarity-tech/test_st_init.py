@@ -30,10 +30,12 @@ def test_init_with_env(mocker: MockerFixture) -> None:
     assert st.headers.get("authorization") == f"Bearer {TOKEN_PLACEHOLDER}"
 
 
-def test_init_with_no_api_token() -> None:
+def test_init_with_no_api_token(monkeypatch: pytest.MonkeyPatch) -> None:
     """Raise :class:`KeyError` when no API token is provided and the environment variable is not set."""
-    with pytest.raises(KeyError, match=f"No '{TOKEN_ENV_NAME}' found."):
-        SolidarityTech()
+    with monkeypatch.context() as m:
+        m.delenv(TOKEN_ENV_NAME)
+        with pytest.raises(KeyError, match=f"No '{TOKEN_ENV_NAME}' found."):
+            SolidarityTech()
 
 
 def test_init_api_url(st: SolidarityTech) -> None:

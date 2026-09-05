@@ -611,6 +611,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self, table_exists=True, app_creds: str | dict | None = None
     ):
         bq_client = mock.MagicMock()
+        bq_client.project = "project"
         if not table_exists:
             bq_client.get_table.side_effect = exceptions.NotFound("not found")
         bq = BigQuery(app_creds=app_creds)
@@ -619,6 +620,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
     def _build_mock_base_client(self, app_creds: str | dict | None = None):
         bq_client = mock.MagicMock()
+        bq_client.project = "project"
         bq = BigQuery(app_creds=app_creds)
         bq._client = bq_client
         return bq

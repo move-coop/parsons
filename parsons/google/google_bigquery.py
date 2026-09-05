@@ -11,10 +11,10 @@ from typing import Literal
 import google
 import petl
 from google.api_core import exceptions
+from google.auth.credentials import Credentials
 from google.cloud import bigquery
 from google.cloud.bigquery import ExtractJob, dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
-from google.oauth2.credentials import Credentials
 
 from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
@@ -1403,7 +1403,9 @@ class GoogleBigQuery(DatabaseConnector):
     def get_table_ref(self, table_name):
         # Helper function to build a TableReference for our table
         parsed = parse_table_name(table_name)
-        dataset_ref = self.client.dataset(parsed["dataset"])
+        dataset_ref = bigquery.DatasetReference(
+            parsed["project"] or self.client.project, parsed["dataset"]
+        )
         return dataset_ref.table(parsed["table"])
 
     def _get_job_config_schema(

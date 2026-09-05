@@ -17,6 +17,16 @@ class STResponseError(HTTPError):
         super().__init__(err_msg, *args, **kwargs)
 
 
+class STFailedAuthenticationError(STResponseError):
+    """Status code 401, Unauthorized."""
+
+    def __init__(
+        self, message: str | None = None, *args, response: requests.Response, **kwargs
+    ) -> None:
+        err_msg = "Authentication failed or not provided"
+        super().__init__(message, *args, err_msg=err_msg, response=response, **kwargs)
+
+
 class STFailedResponseError(STResponseError):
     """Status code indicates a known failure."""
 

@@ -12,7 +12,11 @@ import pyrate_limiter
 import requests_ratelimiter
 from requests.structures import CaseInsensitiveDict
 
-from parsons.solidarity_tech.exceptions import STFailedResponseError, STUnexpectedResponseError
+from parsons.solidarity_tech.exceptions import (
+    STFailedAuthenticationError,
+    STFailedResponseError,
+    STUnexpectedResponseError,
+)
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector, _JsonType
 
@@ -172,6 +176,7 @@ class SolidarityTechBase:
             codes: Expected status codes and their corresponding pass/fail status and descriptive messages.
 
         Raises:
+            :class:`STFailedAuthenticationError`: If the operation fails with HTTP error 401 (Unauthorized).
             :class:`STFailedResponseError`: If the operation fails with a known error code.
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
@@ -179,6 +184,9 @@ class SolidarityTechBase:
             bool: True if the status code indicates success, False otherwise.
 
         """
+        if res.status_code == 401:
+            raise STFailedAuthenticationError(response=res)
+
         if res.status_code in codes:
             success = codes[res.status_code][0]
             result_message = codes[res.status_code][1]

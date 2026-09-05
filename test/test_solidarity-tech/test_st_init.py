@@ -1,15 +1,10 @@
 from __future__ import annotations
 
-import os
-from typing import TYPE_CHECKING
-
 import pytest
+import requests
 
 from parsons.solidarity_tech import SolidarityTech
-
-if TYPE_CHECKING:
-    from pytest_mock import MockerFixture
-
+from parsons.solidarity_tech.auth import SolidarityTechAuth
 
 TOKEN_ENV_NAME = "SOLIDARITY_TECH_BEARER_KEY"
 TOKEN_PLACEHOLDER = "SOME_BEARER_KEY"
@@ -18,16 +13,23 @@ TOKEN_PLACEHOLDER = "SOME_BEARER_KEY"
 def test_init_with_arg() -> None:
     """Set api_token property and header when initialized via an argument."""
     st = SolidarityTech(api_token=TOKEN_PLACEHOLDER)
-    assert st.api_token == TOKEN_PLACEHOLDER
-    assert st.headers.get("authorization") == f"Bearer {TOKEN_PLACEHOLDER}"
+    assert isinstance(st.api.auth, SolidarityTechAuth)
+
+    req = requests.Request("GET", url="https://api.example.com", auth=st.api.auth)
+    req = req.prepare()
+    assert req.headers.get("authorization") == f"Bearer {TOKEN_PLACEHOLDER}"
 
 
-def test_init_with_env(mocker: MockerFixture) -> None:
+def test_init_with_env(monkeypatch: pytest.MonkeyPatch) -> None:
     """Set api_token property and header when initialized via environment variable."""
-    mocker.patch.dict(os.environ, {TOKEN_ENV_NAME: TOKEN_PLACEHOLDER})
-    st = SolidarityTech()
-    assert st.api_token == TOKEN_PLACEHOLDER
-    assert st.headers.get("authorization") == f"Bearer {TOKEN_PLACEHOLDER}"
+    with monkeypatch.context() as m:
+        m.setenv(TOKEN_ENV_NAME, TOKEN_PLACEHOLDER)
+        st = SolidarityTech()
+    assert isinstance(st.api.auth, SolidarityTechAuth)
+
+    req = requests.Request("GET", url="https://api.example.com", auth=st.api.auth)
+    req = req.prepare()
+    assert req.headers.get("authorization") == f"Bearer {TOKEN_PLACEHOLDER}"
 
 
 def test_init_with_no_api_token(monkeypatch: pytest.MonkeyPatch) -> None:

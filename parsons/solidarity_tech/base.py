@@ -5,13 +5,13 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import TYPE_CHECKING, Any, TypedDict, cast
+from typing import TYPE_CHECKING, Any, TypedDict
 
 import numpy as np
 import pyrate_limiter
 import requests_ratelimiter
-from requests.structures import CaseInsensitiveDict
 
+from parsons.solidarity_tech.auth import SolidarityTechAuth
 from parsons.solidarity_tech.exceptions import (
     STFailedAuthenticationError,
     STFailedResponseError,
@@ -57,14 +57,15 @@ class SolidarityTechBase:
                 built-in rate limiting, so you will need to provide your own solution.
 
         """
-        self.api_token = cast("str", check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token))
-        self.headers = CaseInsensitiveDict({"authorization": f"Bearer {self.api_token}"})
+        api_token = str(check_env.check("SOLIDARITY_TECH_BEARER_KEY", api_token)).strip()
         self.api_url = "https://api.solidarity.tech/v1/"
         self.api = APIConnector(
             uri=self.api_url,
-            headers=self.headers,
+            auth=SolidarityTechAuth(api_token),
             ratelimiter=requests_ratelimiter.Limiter(
-                pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)
+                requests_ratelimiter.HostBucketFactory(
+                    rates=[pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)]
+                )
             )
             if not session
             else None,

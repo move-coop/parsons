@@ -1,0 +1,262 @@
+from __future__ import annotations
+
+import logging
+import numbers
+from typing import TYPE_CHECKING, Any, Literal, TypedDict
+
+from parsons import Table
+from parsons.solidarity_tech.base import SolidarityTechBase
+
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from parsons.solidarity_tech.enums import ScopeType
+
+logger = logging.getLogger(__name__)
+
+CompareValueType = str | numbers.Rational | bool
+
+
+class QueryRule(TypedDict):
+    id: str
+    type: str
+    operator: str
+    value: CompareValueType | list[CompareValueType]
+
+
+class QueryParams(TypedDict):
+    condition: Literal["AND", "OR"]
+    valid: bool
+    rules: list[QueryRule]
+
+
+class SolidarityTechUserLists(SolidarityTechBase):
+    """Methods for interacting with the SolidarityTech user lists endpoint."""
+
+    def get_user_lists(
+        self,
+        limit: int = 20,
+        offset: int = 0,
+        since: int | datetime = 0,
+    ) -> Table:
+        """
+        Retrieve a list of user lists.
+
+        Args:
+            limit:
+                Limits the number of items returned.
+                Default is 20, maximum is 100.
+            offset:
+                Number of items to skip before starting to return the results.
+            since:
+                UTC timestamp in seconds since the Unix epoch to filter calls created after this time.
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
+        Returns:
+            All the user lists.
+
+        Documentation Reference:
+            `<https://www.solidarity.tech/reference/get_user-lists>`__
+
+        """
+        res = self._get_resources(
+            "user_lists",
+            limit=limit,
+            offset=offset,
+            since=since,
+        )
+
+        expected_responses = {200: (True, "user lists listed")}
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return Table(res.json())
+
+    def get_user_list(
+        self,
+        resource_id: int,
+    ) -> dict:
+        """
+        Retrieve a single user list.
+
+        Args:
+            resource_id:
+                ID of the user list to retrieve.
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
+        Returns:
+            A single user list.
+
+        Documentation Reference:
+            `<https://www.solidarity.tech/reference/get_user-lists-id>`__
+
+        """
+        res = self._get_single_resource("user_lists", resource_id)
+
+        expected_responses = {
+            200: (True, "user list found"),
+            404: (False, "user list not found"),
+        }
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return res.json()
+
+    def create_user_list(
+        self,
+        name: str,
+        scope_id: int,
+        scope_type: ScopeType,
+        event_id: int | None = None,
+        user_id: int | None = None,
+        parameters: QueryParams | None = None,
+    ) -> bool:
+        """
+        Create a user list with the specified details.
+
+        The parameters field must conform to the QueryBuilder format.
+        For documentation, see `<https://querybuilder.js.org/#filters>`__.
+
+        Args:
+            name:
+                Name of the user list.
+            scope_id:
+                Identifier for the scope.
+            scope_type:
+                Type of the scope.
+            event_id:
+                Identifier for the associated event, if applicable.
+            user_id:
+                Identifier for the associated user.
+            ``parameters``:
+                Parameters for filtering users in QueryBuilder format.
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
+        Returns:
+            Boolean representing success of the operation.
+            True if the operation was successful, False otherwise.
+
+        Documentation Reference:
+            `<https://www.solidarity.tech/reference/post_user-lists>`__
+
+        """
+        payload: dict[str, Any] = {
+            "name": name,
+            "scope_id": scope_id,
+            "scope_type": scope_type.value,
+        }
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+        self._add_if_field_not_empty(payload, "user_id", user_id)
+        self._add_if_field_not_empty(payload, "parameters", parameters)
+
+        res = self._post_request(
+            "user_lists", payload=payload, additional_headers={"content-type": "application/json"}
+        )
+
+        expected_responses = {
+            201: (True, "user list created"),
+            422: (False, "unprocessable entity"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
+
+    def update_user_list(
+        self,
+        resource_id: int,
+        name: str | None = None,
+        scope_id: int | None = None,
+        scope_type: str | None = None,
+        parameters: QueryParams | None = None,
+        event_id: int | None = None,
+    ) -> bool:
+        """
+        Update a user list with the specified details.
+
+        The parameters field must conform to the QueryBuilder format.
+        For documentation, see `<https://querybuilder.js.org/#filters>`__.
+
+        Args:
+            resource_id:
+                Identifier of the user list to update.
+            name:
+                Name of the user list.
+            scope_id:
+                Identifier of the scope.
+            scope_type:
+                Type of the scope.
+            ``parameters``:
+                Parameters for filtering users in QueryBuilder format.
+            event_id:
+                Identifier for the associated event, if applicable.
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
+        Returns:
+            Boolean representing success of the operation.
+            True if the operation was successful, False otherwise.
+
+        Documentation Reference:
+            `<https://www.solidarity.tech/reference/put_user-lists-id>`__
+
+        """
+        payload: dict[str, Any] = {}
+        self._add_if_field_not_empty(payload, "name", name)
+        self._add_if_field_not_empty(payload, "scope_id", scope_id)
+        self._add_if_field_not_empty(payload, "scope_type", scope_type)
+        self._add_if_field_not_empty(payload, "parameters", parameters)
+        self._add_if_field_not_empty(payload, "event_id", event_id)
+
+        res = self._put_request(
+            "user_lists",
+            resource_id,
+            payload=payload,
+            additional_headers={"content-type": "application/json"},
+        )
+
+        expected_responses = {
+            200: (True, "user list updated"),
+            404: (False, "user list not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)
+
+    def delete_user_list(
+        self,
+        resource_id: str,
+    ) -> bool:
+        """
+        Delete a user list with the specified ID.
+
+        Args:
+            resource_id:
+                Identifier of the user list to delete
+
+        Raises:
+            :class:`STFailedResponseError`: If the operation fails with a known error code.
+            :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
+
+        Returns:
+            Boolean representing success of the operation.
+            True if the operation was successful, False otherwise.
+
+        Documentation Reference:
+            `<https://www.solidarity.tech/reference/delete_user-lists-id>`__
+
+        """
+        res = self._del_request(
+            "user_lists",
+            resource_id,
+        )
+
+        expected_responses = {
+            200: (True, "user list deleted"),
+            404: (False, "user list not found"),
+        }
+        return self._handle_status_codes(res=res, codes=expected_responses)

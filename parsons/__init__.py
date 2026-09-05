@@ -100,6 +100,7 @@ _CONNECTORS = {
     "SFTP": "parsons.sftp.sftp",
     "Shopify": "parsons.shopify.shopify",
     "Sisense": "parsons.sisense.sisense",
+    "SolidarityTech": "parsons.solidarity_tech.solidarity_tech",
     "TargetSmartAPI": "parsons.targetsmart.targetsmart_api",
     "TargetSmartAutomation": "parsons.targetsmart.targetsmart_automation",
     "TurboVote": "parsons.turbovote.turbovote",

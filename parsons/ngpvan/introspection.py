@@ -18,5 +18,5 @@ class Introspection:
 
         """
         response = self.connection.get_request("apiKeyProfiles")
-        logger.info(f"Returned {len(response[0])} API key profiles.")
+        logger.info("Returned %s API key profiles.", len(response[0]))
         return response[0]

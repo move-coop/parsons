@@ -30,7 +30,7 @@ class SavedLists:
 
         """
         tbl = Table(self.connection.get_request("savedLists", params={"folderId": folder_id}))
-        logger.info(f"Found {tbl.num_rows} saved lists.")
+        logger.info("Found %s saved lists.", tbl.num_rows)
         return tbl
 
     def get_saved_list(self, saved_list_id):
@@ -46,7 +46,7 @@ class SavedLists:
 
         """
         r = self.connection.get_request(f"savedLists/{saved_list_id}")
-        logger.info(f"Found saved list {saved_list_id}.")
+        logger.info("Found saved list %s.", saved_list_id)
         return r
 
     def download_saved_list(self, saved_list_id):
@@ -132,7 +132,7 @@ class SavedLists:
         rando = str(uuid.uuid1())
         file_name = rando + ".csv"
         url = cloud_storage.post_file(tbl, url_type, file_path=rando + ".zip", **url_kwargs)
-        logger.info(f"Table uploaded to {url_type}.")
+        logger.info("Table uploaded to %s.", url_type)
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
         # will check that the folder exists and if the list already exists.
@@ -180,7 +180,7 @@ class SavedLists:
         file_load_job_response = self.connection.post_request("fileLoadingJobs", json=json)
         job_id = file_load_job_response["jobId"]
         logger.info(
-            f"Saved list job {job_id} created. Reference callback url to check for job status"
+            "Saved list job %s created. Reference callback url to check for job status", job_id
         )
         return file_load_job_response
 
@@ -229,7 +229,7 @@ class SavedLists:
         # Move to cloud storage
         file_name = str(uuid.uuid1())
         url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
-        logger.info(f"Table uploaded to {url_type}.")
+        logger.info("Table uploaded to %s.", url_type)
 
         # VAN errors for this method are not particularly useful or helpful. For that reason, we
         # will check that the folder exists and if the list already exists.
@@ -276,7 +276,7 @@ class SavedLists:
 
         r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
         if r:
-            logger.info(f"Uploaded {r['ListSize']} records to {r['_Name']} saved list.")
+            logger.info("Uploaded %s records to %s saved list.", r["ListSize"], r["_Name"])
         return r
 
 
@@ -296,7 +296,7 @@ class Folders:
 
         """
         tbl = Table(self.connection.get_request("folders"))
-        logger.info(f"Found {tbl.num_rows} folders.")
+        logger.info("Found %s folders.", tbl.num_rows)
         return tbl
 
     def get_folder(self, folder_id):
@@ -313,7 +313,7 @@ class Folders:
 
         """
         r = self.connection.get_request(f"folders/{folder_id}")
-        logger.info(f"Found folder {folder_id}.")
+        logger.info("Found folder %s.", folder_id)
         return r
 
 
@@ -331,7 +331,7 @@ class ExportJobs:
 
         """
         tbl = Table(self.connection.get_request("exportJobTypes"))
-        logger.info(f"Found {tbl.num_rows} export job types.")
+        logger.info("Found %s export job types.", tbl.num_rows)
         return tbl
 
     def export_job_create(self, list_id, export_type=4, webhookUrl="https://www.example.com"):
@@ -379,5 +379,5 @@ class ExportJobs:
 
         """
         r = self.connection.get_request(f"exportJobs/{export_job_id}")
-        logger.info(f"Found export job {export_job_id}.")
+        logger.info("Found export job %s.", export_job_id)
         return r

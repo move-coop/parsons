@@ -43,7 +43,7 @@ class Email:
             }
 
         tbl = Table(self.connection.get_request("email/messages", params=params))
-        logger.debug(f"Found {tbl.num_rows} emails.")
+        logger.debug("Found %s emails.", tbl.num_rows)
         return tbl
 
     def get_email(self, email_id: int, expand: bool = True) -> Table:
@@ -71,7 +71,7 @@ class Email:
         }
 
         r = self.connection.get_request(f"email/message/{email_id}", params=params)
-        logger.debug(f"Found email {email_id}.")
+        logger.debug("Found email %s.", email_id)
         return r
 
     def get_email_stats(self, aggregate_ab: bool = True) -> Table:
@@ -141,7 +141,8 @@ class Email:
                     # Pending emails don't have emailMessageContentDistributions, just have defaults
                     if not i["emailMessageContentDistributions"]:
                         logger.info(
-                            f"No emailMessageContentDistributions for email {i['name']}, defaulting values to 0"
+                            "No emailMessageContentDistributions for email %s, defaulting values to 0",
+                            i["name"],
                         )
                     else:
                         try:
@@ -161,7 +162,8 @@ class Email:
                     inner = dict.fromkeys(inner_fields, 0)
                     if not i["emailMessageContentDistributions"]:
                         logger.info(
-                            f"No emailMessageContentDistributions for email {i['name']}, defaulting values to 0"
+                            "No emailMessageContentDistributions for email %s, defaulting values to 0",
+                            i["name"],
                         )
                     else:
                         try:

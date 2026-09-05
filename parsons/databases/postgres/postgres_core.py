@@ -128,7 +128,7 @@ class PostgresCore(PostgresCreateStatement):
 
         """
         with self.cursor(connection) as cursor:
-            logger.debug(f"SQL Query: {sql}")
+            logger.debug("SQL Query: %s", sql)
             cursor.execute(sql, parameters)
 
             if commit:
@@ -156,14 +156,14 @@ class PostgresCore(PostgresCreateStatement):
                         if not batch:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(list(row), f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def _create_table_precheck(
@@ -196,11 +196,11 @@ class PostgresCore(PostgresCreateStatement):
 
             if if_exists == "truncate":
                 truncate_sql = f"TRUNCATE TABLE {table_name};"
-                logger.info(f"Truncating {table_name}.")
+                logger.info("Truncating %s.", table_name)
                 self.query_with_connection(truncate_sql, connection, commit=False)
 
             if if_exists == "drop":
-                logger.info(f"Dropping {table_name}.")
+                logger.info("Dropping %s.", table_name)
                 drop_sql = f"DROP TABLE {table_name};"
                 self.query_with_connection(drop_sql, connection, commit=False)
                 return True

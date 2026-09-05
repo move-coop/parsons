@@ -1371,11 +1371,13 @@ class ActionNetwork:
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number: str
-        | int
-        | list[str | int]
-        | list[dict[Literal["address", "primary", "status"], str | bool]]
-        | None = None,
+        mobile_number: (
+            str
+            | int
+            | list[str | int]
+            | list[dict[Literal["address", "primary", "status"], str | bool]]
+            | None
+        ) = None,
         mobile_status: Literal["subscribed", "unsubscribed"] | None = None,
         background_processing=False,
         **kwargs,
@@ -1534,13 +1536,13 @@ class ActionNetwork:
             entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ]
         if not person_id:
-            logger.error(f"Response gave no valid person_id: {identifiers}")
+            logger.error("Response gave no valid person_id: %s", identifiers)
         else:
             person_id = person_id[0]
         if response["created_date"] == response["modified_date"]:
-            logger.info(f"Entry {person_id} successfully added.")
+            logger.info("Entry %s successfully added.", person_id)
         else:
-            logger.info(f"Entry {person_id} successfully updated.")
+            logger.info("Entry %s successfully updated.", person_id)
         return response
 
     def add_person(
@@ -1554,11 +1556,13 @@ class ActionNetwork:
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number: str
-        | int
-        | list[str | int]
-        | list[dict[Literal["address", "primary", "status"], str | bool]]
-        | None = None,
+        mobile_number: (
+            str
+            | int
+            | list[str | int]
+            | list[dict[Literal["address", "primary", "status"], str | bool]]
+            | None
+        ) = None,
         mobile_status: Literal["subscribed", "unsubscribed"] | None = "subscribed",
         **kwargs,
     ):
@@ -1638,7 +1642,7 @@ class ActionNetwork:
             data=json.dumps(data),
             success_codes=[204, 201, 200],
         )
-        logger.info(f"Person {entry_id} successfully updated")
+        logger.info("Person %s successfully updated", entry_id)
         return response
 
     # Petitions
@@ -1717,7 +1721,7 @@ class ActionNetwork:
             url=url,
             data=json.dumps(data),
         )
-        logger.info(f"Petition {title} successfully created")
+        logger.info("Petition %s successfully created", title)
         return response
 
     def update_petition(
@@ -1764,7 +1768,7 @@ class ActionNetwork:
             url=url,
             data=json.dumps(data),
         )
-        logger.info(f"Petition {title} successfully updated")
+        logger.info("Petition %s successfully updated", title)
         return response
 
     # Queries
@@ -2237,7 +2241,7 @@ class ActionNetwork:
         person_id = [
             entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ][0]
-        logger.info(f"Tag {person_id} successfully added to tags.")
+        logger.info("Tag %s successfully added to tags.", person_id)
         return response
 
     # Taggings

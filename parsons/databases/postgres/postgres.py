@@ -93,13 +93,13 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 sql = self.create_statement(tbl, table_name, strict_length=strict_length)
 
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f"{table_name} created.")
+                logger.info("%s created.", table_name)
 
             sql = f"""COPY "{table_name}" ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
 
             with self.cursor(connection) as cursor, Path(tbl.to_csv()).open() as f:
                 cursor.copy_expert(sql, f)
-                logger.info(f"{tbl.num_rows} rows copied to {table_name}.")
+                logger.info("%s rows copied to %s.", tbl.num_rows, table_name)
 
     def table(self, table_name):
         # Return a Postgres table object

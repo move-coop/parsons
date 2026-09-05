@@ -25,7 +25,7 @@ class ContactNotes:
 
         """
         tbl = Table(self.connection.get_request(f"people/{van_id}/notes"))
-        logger.info(f"Found {tbl.num_rows} custom fields.")
+        logger.info("Found %s custom fields.", tbl.num_rows)
         return tbl
 
     def create_contact_note(
@@ -87,5 +87,5 @@ class ContactNotes:
             note["contactHistory"] = contact_history
 
         r = self.connection.post_request(f"people/{van_id}/notes", json=note)
-        logger.info(f"Contact note {r} created.")
+        logger.info("Contact note %s created.", r)
         return r

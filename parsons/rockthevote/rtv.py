@@ -112,8 +112,11 @@ class RockTheVote:
         # of the request.
         report_str = f"{report_type} report" if report_type else "report"
         logger.info(
-            f"Creating {report_str} for {self.partner_id} "
-            f"for dates: {since_date} to {before_date}..."
+            "Creating %s for %s for dates: %s to %s...",
+            report_str,
+            self.partner_id,
+            since_date,
+            before_date,
         )
         response = self.client.request(url=report_url, req_type="POST", json=report_parameters)
         if response.status_code != requests.codes.ok:
@@ -124,7 +127,7 @@ class RockTheVote:
         # that to be the case
         report_id = response_json.get("report_id")
         if report_id:
-            logger.info(f"Created report with id {report_id}.")
+            logger.info("Created report with id %s.", report_id)
             return report_id
 
         # If the response didn't include the report_id, then we will parse it out of the URL.
@@ -133,7 +136,7 @@ class RockTheVote:
         if url_match:
             report_id = url_match.group(1)
 
-        logger.info(f"Created report with id {report_id}.")
+        logger.info("Created report with id %s.", report_id)
         return report_id
 
     def get_registration_report(
@@ -160,7 +163,7 @@ class RockTheVote:
                 Parsons table with the report data.
 
         """
-        logger.info(f"Getting report with id {report_id}...")
+        logger.info("Getting report with id %s...", report_id)
         credentials = {
             "partner_id": self.partner_id,
             "partner_API_key": self.partner_api_key,
@@ -177,7 +180,7 @@ class RockTheVote:
         # check the status.
         while not download_url and datetime.datetime.now() < end_time:
             logger.debug(
-                f"Registrations report not ready yet, sleeping {poll_interval_seconds} seconds"
+                "Registrations report not ready yet, sleeping %s seconds", poll_interval_seconds
             )
 
             # Check the status again via the status endpoint
@@ -264,7 +267,9 @@ class RockTheVote:
 
         """
         report_str = f"{report_type} report" if report_type else "report"
-        logger.info(f"Running {report_str} for {self.partner_id} for dates: {since} to {before}...")
+        logger.info(
+            "Running %s for %s for dates: %s to %s...", report_str, self.partner_id, since, before
+        )
         report_id = self.create_registration_report(
             before=before, since=since, report_type=report_type
         )
@@ -299,7 +304,7 @@ class RockTheVote:
         """
         requirements_url = "state_requirements.json"
 
-        logger.info(f"Getting the requirements for {home_state_id}...")
+        logger.info("Getting the requirements for %s...", home_state_id)
 
         params = {
             "lang": lang,
@@ -323,5 +328,5 @@ class RockTheVote:
             return table
         else:
             error_json = requirements_response.json()
-            logger.info(f"{error_json}")
+            logger.info("%s", error_json)
             raise RTVFailure("Could not retrieve state requirements")

@@ -26,7 +26,7 @@ class BulkImport:
 
         """
         r = self.connection.get_request("bulkImportJobs/resources")
-        logger.info(f"Found {len(r)} bulk import resources.")
+        logger.info("Found %s bulk import resources.", len(r))
         return r
 
     def get_bulk_import_job(self, job_id):
@@ -43,7 +43,7 @@ class BulkImport:
 
         """
         r = self.connection.get_request(f"bulkImportJobs/{job_id}")
-        logger.info(f"Found bulk import job {job_id}.")
+        logger.info("Found bulk import job %s.", job_id)
         return r
 
     def get_bulk_import_job_results(self, job_id):
@@ -64,7 +64,7 @@ class BulkImport:
 
         """
         r = self.get_bulk_import_job(job_id)
-        logger.info(f"Bulk Import Job Status: {r['status']}")
+        logger.info("Bulk Import Job Status: %s", r["status"])
         if r["status"] == "Completed":
             return Table.from_csv(r["resultFiles"][0]["url"])
 
@@ -80,7 +80,7 @@ class BulkImport:
 
         """
         tbl = Table(self.connection.get_request("bulkImportMappingTypes"))
-        logger.info(f"Found {tbl.num_rows} bulk import mapping types.")
+        logger.info("Found %s bulk import mapping types.", tbl.num_rows)
         return tbl
 
     def get_bulk_import_mapping_type(self, type_name):
@@ -95,7 +95,7 @@ class BulkImport:
 
         """
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}")
-        logger.info(f"Found {type_name} bulk import mapping type.")
+        logger.info("Found %s bulk import mapping type.", type_name)
         return r
 
     def get_bulk_import_mapping_type_fields(self, type_name, field_name):
@@ -113,7 +113,7 @@ class BulkImport:
 
         """
         r = self.connection.get_request(f"bulkImportMappingTypes/{type_name}/{field_name}/values")
-        logger.info(f"Found {type_name} bulk import mapping type field values.")
+        logger.info("Found %s bulk import mapping type field values.", type_name)
         return r
 
     def post_bulk_import(
@@ -137,7 +137,7 @@ class BulkImport:
             quoting=csv.QUOTE_ALL,
             **url_kwargs,
         )
-        logger.info(f"Table uploaded to {url_type}.")
+        logger.info("Table uploaded to %s.", url_type)
 
         # Generate request json
         json = {
@@ -165,7 +165,7 @@ class BulkImport:
             json["actions"][0]["columnsToIncludeInResultsFile"] = result_fields
 
         r = self.connection.post_request("bulkImportJobs", json=json)
-        logger.info(f"Bulk upload {r['jobId']} created.")
+        logger.info("Bulk upload %s created.", r["jobId"])
         return r["jobId"]
 
     def bulk_apply_activist_codes(self, tbl, url_type, **url_kwargs):

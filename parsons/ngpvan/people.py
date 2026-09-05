@@ -64,7 +64,7 @@ class People:
             A person dict object
 
         """
-        logger.info(f"Finding {first_name} {last_name}.")
+        logger.info("Finding %s %s.", first_name, last_name)
 
         return self._people_search(
             first_name=first_name,
@@ -476,7 +476,7 @@ class People:
 
         expand_fields = ",".join(json_format.arg_format(f) for f in expand_fields)
 
-        logger.info(f"Getting person with {id_type or 'vanid'} of {id} at url {url}")
+        logger.info("Getting person with %s of %s at url %s", id_type or "vanid", id, url)
         return self.connection.get_request(url, params={"$expand": expand_fields})
 
     def delete_person(self, vanid):
@@ -493,7 +493,7 @@ class People:
         """
         url = f"people/{vanid}"
         r = self.connection.delete_request(url)
-        logger.info(f"Van ID {vanid} suppressed.")
+        logger.info("Van ID %s suppressed.", vanid)
         return r
 
     def apply_canvass_result(
@@ -530,7 +530,7 @@ class People:
                 `Optional`; Phone number of any type (Work, Cell, Home)
 
         """
-        logger.info(f"Applying result code {result_code_id} to {id_type} {id}.")
+        logger.info("Applying result code %s to %s %s.", result_code_id, id_type, id)
         self.apply_response(
             id,
             None,
@@ -718,7 +718,7 @@ class People:
         json = {"relationshipId": relationship_id, "vanId": vanid_2}
 
         self.connection.post_request(f"people/{vanid_1}/relationships", json=json)
-        logger.info(f"Relationship {vanid_1} to {vanid_2} created.")
+        logger.info("Relationship %s to %s created.", vanid_1, vanid_2)
 
     def apply_person_code(self, id, code_id, id_type="vanid"):
         """
@@ -740,7 +740,7 @@ class People:
         json = {"codeId": code_id}
 
         self.connection.post_request(url, json=json)
-        logger.info(f"Code {code_id} applied to person id {id}.")
+        logger.info("Code %s applied to person id %s.", code_id, id)
 
     def merge_contacts(self, primary_vanid, source_vanid):
         """

@@ -121,7 +121,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         agent_user_id: int,
         *,
         is_active: bool | None = None,
-    ) -> bool:
+    ) -> AgentAssignmentData:
         """
         Create an agent assignment with specified details.
 
@@ -145,7 +145,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_agent-assignments>`__
 
         """
-        payload: dict[str, Any] = {"user_id": int(user_id), "agent_user_id": int(agent_user_id)}
+        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
         self._add_if_field_not_empty(payload, "is_active", is_active)
 
         res = self._post_request(
@@ -158,7 +158,9 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             201: (True, "agent assignment created"),
             404: (False, "agent or user agent not in organization"),
         }
-        return self._handle_status_codes(res=res, codes=expected_responses)
+        self._handle_status_codes(res=res, codes=expected_responses)
+
+        return AgentAssignmentData(res.json()["data"])
 
     def update_agent_assignment(
         self,
@@ -193,7 +195,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_agent-assignments-id>`__
 
         """
-        payload: dict[str, Any] = {"user_id": int(user_id), "agent_user_id": int(agent_user_id)}
+        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
         self._add_if_field_not_empty(payload, "is_active", is_active)
 
         res = self._put_request(

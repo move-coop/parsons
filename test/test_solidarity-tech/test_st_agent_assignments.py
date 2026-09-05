@@ -113,3 +113,40 @@ class TestGetAgentAssignment:
         assert requests_mock.last_request is not None
         assert requests_mock.last_request.method == "GET"
         assert requests_mock.last_request.url == endpoint_url
+
+
+class TestCreateAgentAssignment:
+    @pytest.mark.vcr
+    def test_create_agent_assignment_live_success(self, st: SolidarityTech) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.create_agent_assignment` returns the data for the created agent assignment."""
+        agent_assignment = st.create_agent_assignment(user_id=1191722, agent_user_id=2192958)
+
+        assert isinstance(agent_assignment["id"], int)
+        assert agent_assignment["user_id"] == 1191722
+        assert agent_assignment["agent_user_id"] == 2192958
+
+    @pytest.mark.vcr
+    def test_create_agent_assignment_live_failure(self, st: SolidarityTech) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.create_agent_assignment` fails if either user_id or agent_user_id is invalid."""
+        with pytest.raises(STFailedResponseError, match="Not Found"):
+            _ = st.create_agent_assignment(user_id=1191722, agent_user_id=99)
+
+    def test_create_agent_assignment(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.create_agent_assignment` makes the appropriate calls."""
+        user_id = 1191722
+        agent_user_id = 2192958
+        is_active = False
+        endpoint_url = f"{st.api_url}{ENDPOINT}"
+        _ = requests_mock.post(endpoint_url, status_code=201, json={"data": {}})
+
+        _ = st.create_agent_assignment(
+            user_id=user_id, agent_user_id=agent_user_id, is_active=is_active
+        )
+
+        assert requests_mock.call_count == 1
+        assert requests_mock.last_request is not None
+        assert requests_mock.last_request.method == "POST"
+        assert requests_mock.last_request.url == endpoint_url
+        assert requests_mock.last_request.json()["user_id"] == user_id
+        assert requests_mock.last_request.json()["agent_user_id"] == agent_user_id
+        assert requests_mock.last_request.json()["is_active"] == is_active

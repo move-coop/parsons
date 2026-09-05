@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import logging
 import urllib.parse
+import warnings
 from typing import TYPE_CHECKING, Any, overload
 
 import requests
 import requests_ratelimiter
+from pyrate_limiter import Duration, Limiter, Rate
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 
@@ -29,8 +31,6 @@ _Params = _ParamsType
 if TYPE_CHECKING:
     from typing import Literal
 
-    import pyrate_limiter
-
 logger = logging.getLogger(__name__)
 
 
@@ -53,7 +53,7 @@ class APIConnector:
         pagination_key: str | None = None,
         data_key: str | None = None,
         *,
-        ratelimiter: pyrate_limiter.Limiter | None = None,
+        ratelimit: Limiter | Rate | int | None = None,
         session: requests.Session | None = None,
     ) -> None:
         """
@@ -74,16 +74,19 @@ class APIConnector:
                 The name of the key in the response json
                 where the data is contained.
                 Required if the data is nested in the response json.
-            ratelimiter:
-                A :class:`~pyrate_limiter.limiter.Limiter` instance to use.
-                If not provided, no rate limiting will be applied.
+            ratelimit:
+                The rate limit to use in the connectors.
+                Can be a :class:`~pyrate_limiter.limiter.Limiter` instance,
+                a :class:`~pyrate_limiter.limiter.Rate` instance, or
+                an integer representing the number of requests per second,
+                or None to disable rate limiting.
             session:
                 A preconfigured :class`~requests.Session` for advanced users.
-                If using `session`, `ratelimiter` must be None.
+                If using `session`, `ratelimit` must be None.
 
         Raises:
             ValueError:
-                If both `session` and `ratelimiter` are provided.
+                If both `session` and `ratelimit` are provided.
 
         """
         # Add a trailing slash if it's missing
@@ -94,14 +97,18 @@ class APIConnector:
         self.pagination_key = pagination_key
         self.data_key = data_key
 
-        if session and ratelimiter:
-            err_msg = "session and ratelimiter cannot both be provided"
+        if session and ratelimit:
+            err_msg = "session and ratelimit cannot both be provided"
             raise ValueError(err_msg)
 
         if session:
             self.session = session
-        elif ratelimiter:
-            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimiter)
+        elif ratelimit:
+            if isinstance(ratelimit, Rate):
+                ratelimit = Limiter(ratelimit)
+            elif isinstance(ratelimit, int):
+                ratelimit = Limiter(requests_ratelimiter.Rate(ratelimit, Duration.SECOND))
+            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimit)
         else:
             self.session = requests.Session()
 
@@ -113,26 +120,58 @@ class APIConnector:
 
     @property
     def auth(self) -> _AuthType:
+        """Deprecated access to session authentication. Use session.auth instead."""
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         return self.session.auth
 
     @auth.setter
     def auth(self, inp: _AuthType) -> None:
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         self.session.auth = inp
 
     @auth.deleter
     def auth(self) -> None:
+        warnings.warn(
+            "The auth property is deprecated, use session.auth instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         del self.session.auth
 
     @property
     def headers(self) -> _HeadersType:
+        """Deprecated access to session headers. Use session.headers instead."""
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         return self.session.headers
 
     @headers.setter
     def headers(self, inp: _HeadersType) -> None:
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     def headers(self) -> None:
+        warnings.warn(
+            "The headers property is deprecated, use session.headers instead.",
+            DeprecationWarning,
+            stacklevel=1,
+        )
         del self.session.headers
 
     def request(
@@ -188,8 +227,8 @@ class APIConnector:
             complete_headers.update(additional_headers)
 
         req = requests.Request(
-            method=req_type,
-            url=full_url,
+            req_type,
+            full_url,
             headers=complete_headers,
             auth=self.auth,
             json=json,
@@ -256,7 +295,7 @@ class APIConnector:
             or :attr:`requests.Response.content` from the response if `return_format` is ``content``.
 
         Raises:
-            RuntimeError: If `return_format` is not ``json`` or ``content``.
+            RuntimeError: If return_format is not ``json`` or ``content``.
 
         """
         r = self.request(url, "GET", params=params, raise_on_error=raise_on_error, **kwargs)

@@ -59,7 +59,7 @@ class SolidarityTechBase:
         self.api = APIConnector(
             uri=self.api_url,
             auth=SolidarityTechAuth(api_token),
-            ratelimiter=requests_ratelimiter.Limiter(
+            ratelimit=requests_ratelimiter.Limiter(
                 requests_ratelimiter.HostBucketFactory(
                     rates=[pyrate_limiter.Rate(60, pyrate_limiter.Duration.SECOND * 30)]
                 )

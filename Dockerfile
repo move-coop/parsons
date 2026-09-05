@@ -1,25 +1,35 @@
-FROM --platform=linux/amd64 python:3.11
-
-###################
-## Parsons setup ##
-###################
-
-RUN mkdir /src
-COPY . /src/
-WORKDIR /src
-
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-# Install parsons
-RUN uv sync --upgrade --all-extras --python python3.11
-ENV PATH="/src/.venv/bin:$PATH"
-
-# The /app directory can house the scripts that will actually execute on this Docker image.
-# Eg. If using this image in a Civis container script, Civis will install your script repo
-# (from Github) to /app.
-RUN mkdir /app
+#########################
+## Image Configuration ##
+#########################
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:sha256:015fe7b33cea4a9a0a2fcda085cbfa3fa03419f973ff1b6a3e337edde48ba9ff
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
 WORKDIR /app
 
-# Useful for importing modules that are associated with your python scripts:
-ENV PYTHONPATH=.:/app
+###########################################
+## UV / Python Environment Configuration ##
+###########################################
+ENV PYTHONUNBUFFERED=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+ENV UV_NO_DEV=1
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
+
+#############################
+## Dependency Installation ##
+#############################
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --all-extras
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --all-extras
+ENV PATH="/app/.venv/bin:$PATH"
+
+#############
+## Startup ##
+#############
+ENTRYPOINT []
+USER nonroot
+CMD ["python3"]

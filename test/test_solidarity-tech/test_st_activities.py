@@ -33,10 +33,11 @@ class TestGetActivities:
         assert activities_meta["cursor"] is None
         assert activities_meta["next_cursor"] == 16640151
 
-    def test_activities_minimal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.activities` makes the appropriate calls."""
+    def test_get_activities_minimal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_activities` makes the appropriate calls."""
         endpoint_url = f"{st.api_url}{ENDPOINT}?_limit=20&_since=0"
         _ = requests_mock.get(f"{st.api_url}{ENDPOINT}", json={"data": [{}], "meta": {}})
+
         _, _ = st.get_activities()
 
         assert requests_mock.call_count == 1
@@ -44,16 +45,22 @@ class TestGetActivities:
         assert requests_mock.last_request.method == "GET"
         assert requests_mock.last_request.url == endpoint_url
 
-    def test_activities_maximal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.activities` makes the appropriate calls."""
-        endpoint_url = f"{st.api_url}{ENDPOINT}?_limit=30&_cursor=5&_since=1788075104&_include_count=True&user_id=8758764"
+    def test_get_activities_maximal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_activities` makes the appropriate calls."""
+        limit = 30
+        cursor = 5
+        since = 1788075104
+        include_count = True
+        user_id = 8758764
+        endpoint_url = f"{st.api_url}{ENDPOINT}?_limit={limit}&_cursor={cursor}&_since={since}&_include_count={include_count}&user_id={user_id}"
         _ = requests_mock.get(f"{st.api_url}{ENDPOINT}", json={"data": [{}], "meta": {}})
+
         _, _ = st.get_activities(
-            limit=30,
-            cursor=5,
-            since=1788075104,
-            include_count=True,
-            user_id=8758764,
+            limit=limit,
+            cursor=cursor,
+            since=since,
+            include_count=include_count,
+            user_id=user_id,
         )
 
         assert requests_mock.call_count == 1

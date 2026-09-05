@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: null
+    body: '{"user_id": 99, "agent_user_id": 999}'
     headers:
       Accept:
       - '*/*'
@@ -8,15 +8,19 @@ interactions:
       - gzip, deflate, zstd
       Connection:
       - keep-alive
+      Content-Length:
+      - '37'
       User-Agent:
       - python-requests/2.34.2
       authorization:
       - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
-    method: GET
-    uri: https://api.solidarity.tech/v1/agent_assignments/478171
+      content-type:
+      - application/json
+    method: POST
+    uri: https://api.solidarity.tech/v1/agent_assignments
   response:
     body:
-      string: '{"data":{"id":478171,"agent_user_id":2189275,"user_id":2192958,"created_at":"2025-08-11T09:18:47.747-07:00","is_active":true},"meta":{"total_count":1,"limit":1,"offset":0}}'
+      string: '{"error":"User or Agent User not found in the organization"}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=86400
@@ -71,14 +75,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 05 Sep 2026 02:51:28 GMT
+      - Sat, 05 Sep 2026 13:50:14 GMT
       Referrer-Policy:
       - strict-origin-when-cross-origin
-      Set-Cookie:
-      - ahoy_visitor=373abf9e-535f-4742-8599-ec995adc181f; path=/; expires=Tue, 05
-        Sep 2028 02:51:28 GMT; samesite=lax; secure
-      - ahoy_visit=8fe9b13f-6351-488c-b034-4c5dc53ba30e; path=/; expires=Sat, 05 Sep
-        2026 06:51:28 GMT; samesite=lax; secure
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -86,13 +85,13 @@ interactions:
       Vary:
       - Accept-Encoding
       Via:
-      - 1.1 f0306c17f884db191fbee30b058f950c.cloudfront.net (CloudFront)
+      - 1.1 989f99ee395e1518e57a7f379f85a526.cloudfront.net (CloudFront)
       X-Amz-Cf-Id:
-      - PwPNyDwA6ru91Mby5LFl9pDspmcNRTr7msYJexkp6lHHRNaa0j9TmA==
+      - 0weIwA5CBj0FVDfWY_eCwh3IOJgmyQviZ3Vn4zkTrEhLWAQDW6uofQ==
       X-Amz-Cf-Pop:
-      - BOS50-P1
+      - BOS50-P6
       X-Cache:
-      - Miss from cloudfront
+      - Error from cloudfront
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -102,10 +101,10 @@ interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - 537c7df7-e628-4690-9cf1-a36f132c8470
+      - a4e941bb-8d29-4b70-b7f8-519c64403f79
       X-Xss-Protection:
       - '0'
     status:
-      code: 200
-      message: OK
+      code: 404
+      message: Not Found
 version: 1

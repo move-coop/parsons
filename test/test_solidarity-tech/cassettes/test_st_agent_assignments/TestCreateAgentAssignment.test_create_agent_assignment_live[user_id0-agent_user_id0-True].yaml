@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: null
+    body: '{"user_id": 478171, "agent_user_id": 298562}'
     headers:
       Accept:
       - '*/*'
@@ -8,15 +8,19 @@ interactions:
       - gzip, deflate, zstd
       Connection:
       - keep-alive
+      Content-Length:
+      - '44'
       User-Agent:
       - python-requests/2.34.2
       authorization:
       - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
-    method: GET
-    uri: https://api.solidarity.tech/v1/agent_assignments?_limit=20&_offset=0&_since=0
+      content-type:
+      - application/json
+    method: POST
+    uri: https://api.solidarity.tech/v1/agent_assignments
   response:
     body:
-      string: '{"data":[{"id":478171,"agent_user_id":2189275,"user_id":2192958,"created_at":"2025-08-11T09:18:47.747-07:00","is_active":true},{"id":478172,"agent_user_id":2189275,"user_id":2192959,"created_at":"2025-08-11T09:19:11.202-07:00","is_active":true},{"id":610872,"agent_user_id":7328098,"user_id":7328098,"created_at":"2026-04-23T11:46:02.345-07:00","is_active":true}],"meta":{"total_count":3,"limit":20,"offset":0}}'
+      string: '{"error":"User or Agent User not found in the organization"}'
     headers:
       Alt-Svc:
       - h3=":443"; ma=86400
@@ -71,14 +75,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 05 Sep 2026 02:44:29 GMT
+      - Sat, 05 Sep 2026 13:50:14 GMT
       Referrer-Policy:
       - strict-origin-when-cross-origin
-      Set-Cookie:
-      - ahoy_visitor=ea09e1f7-e3e8-4c05-8a60-1f29d6d2b7a0; path=/; expires=Tue, 05
-        Sep 2028 02:44:28 GMT; samesite=lax; secure
-      - ahoy_visit=176e75e5-0500-4419-aa90-f0ae32ba297f; path=/; expires=Sat, 05 Sep
-        2026 06:44:28 GMT; samesite=lax; secure
       Strict-Transport-Security:
       - max-age=63072000; includeSubDomains
       Transfer-Encoding:
@@ -86,13 +85,13 @@ interactions:
       Vary:
       - Accept-Encoding
       Via:
-      - 1.1 7c9cfa087c0ef457593c1e12ecfc5ca8.cloudfront.net (CloudFront)
+      - 1.1 337d88078ff923a29006ed9c5984df62.cloudfront.net (CloudFront)
       X-Amz-Cf-Id:
-      - Rjt80deOMftlS99pTDCpZAvYPF5X8r1fN8ZI9Rjuygs_IppKzMst2w==
+      - OI3lQfAp_4-6UP2XOqInfK2uxWFLKDgkMBiAFQmMDvpA1MW6EB9U9Q==
       X-Amz-Cf-Pop:
-      - BOS50-P3
+      - BOS50-P4
       X-Cache:
-      - Miss from cloudfront
+      - Error from cloudfront
       X-Content-Type-Options:
       - nosniff
       X-Download-Options:
@@ -102,10 +101,10 @@ interactions:
       X-Permitted-Cross-Domain-Policies:
       - none
       X-Request-Id:
-      - fb47f3cb-f1ff-439f-9119-3d3106fed210
+      - 742e0b49-a0ad-4cb0-a65f-d32c85ef0370
       X-Xss-Protection:
       - '0'
     status:
-      code: 200
-      message: OK
+      code: 404
+      message: Not Found
 version: 1

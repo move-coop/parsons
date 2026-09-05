@@ -19,7 +19,7 @@ ENDPOINT = "agent_assignments"
 
 class TestGetAgentAssignments:
     @pytest.mark.vcr
-    def test_agent_assignments_live(self, st: SolidarityTech) -> None:
+    def test_get_agent_assignments_live(self, st: SolidarityTech) -> None:
         """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignments` returns both a Table of results and the associated metadata."""
         agent_assignments, agent_assignments_meta = st.get_agent_assignments()
 
@@ -32,10 +32,11 @@ class TestGetAgentAssignments:
         assert agent_assignments_meta["limit"] == 20
         assert agent_assignments_meta["offset"] == 0
 
-    def test_agent_assignments_minimal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.agent_assignments` makes the appropriate calls."""
+    def test_get_agent_assignments_minimal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignments` makes the appropriate calls."""
         endpoint_url = f"{st.api_url}{ENDPOINT}"
         _ = requests_mock.get(endpoint_url, json={"data": [{}], "meta": {}})
+
         _, _ = st.get_agent_assignments()
 
         assert requests_mock.call_count == 1
@@ -43,16 +44,22 @@ class TestGetAgentAssignments:
         assert requests_mock.last_request.method == "GET"
         assert requests_mock.last_request.url == f"{endpoint_url}?_limit=20&_offset=0&_since=0"
 
-    def test_agent_assignments_maximal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.agent_assignments` makes the appropriate calls."""
+    def test_get_agent_assignments_maximal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignments` makes the appropriate calls."""
+        limit = 30
+        offset = 5
+        since = 1788075104
+        user_id = 3295823659
+        agent_user_id = 12350912375
         endpoint_url = f"{st.api_url}{ENDPOINT}"
         _ = requests_mock.get(endpoint_url, json={"data": [{}], "meta": {}})
+
         _, _ = st.get_agent_assignments(
-            limit=30,
-            offset=5,
-            since=1788075104,
-            user_id=3295823659,
-            agent_user_id=12350912375,
+            limit=limit,
+            offset=offset,
+            since=since,
+            user_id=user_id,
+            agent_user_id=agent_user_id,
         )
 
         assert requests_mock.call_count == 1
@@ -60,38 +67,45 @@ class TestGetAgentAssignments:
         assert requests_mock.last_request.method == "GET"
         assert (
             requests_mock.last_request.url
-            == f"{endpoint_url}?_limit=30&_offset=5&_since=1788075104&user_id=3295823659&agent_user_id=12350912375"
+            == f"{endpoint_url}?_limit={limit}&_offset={offset}&_since={since}&user_id={user_id}&agent_user_id={agent_user_id}"
         )
 
 
 class TestGetAgentAssignment:
     @pytest.mark.vcr
-    def test_agent_assignment_live(self, st: SolidarityTech) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignments` returns both a Table of results and the associated metadata."""
-        agent_assignment, agent_assignment_meta = st.get_agent_assignment(resource_id=478171)
+    def test_get_agent_assignment_live(self, st: SolidarityTech) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignment` returns both a Table of results and the associated metadata."""
+        resource_id = 478171
+        agent_assignment, agent_assignment_meta = st.get_agent_assignment(resource_id=resource_id)
 
         assert isinstance(agent_assignment, dict)
+        assert agent_assignment["id"] == resource_id
 
         assert isinstance(agent_assignment_meta, dict)
         assert agent_assignment_meta["total_count"] == 1
         assert agent_assignment_meta["limit"] == 1
         assert agent_assignment_meta["offset"] == 0
 
-    def test_agent_assignment_minimal(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.agent_assignments` makes the appropriate calls."""
-        endpoint_url = f"{st.api_url}{ENDPOINT}/3598327"
+    def test_get_agent_assignment(self, st: SolidarityTech, requests_mock: Mocker) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignment` makes the appropriate calls."""
+        resource_id = 3598327
+        endpoint_url = f"{st.api_url}{ENDPOINT}/{resource_id}"
         _ = requests_mock.get(endpoint_url, json={"data": [{}], "meta": {}})
-        _, _ = st.get_agent_assignment(resource_id=3598327)
+
+        _, _ = st.get_agent_assignment(resource_id=resource_id)
 
         assert requests_mock.call_count == 1
         assert requests_mock.last_request is not None
         assert requests_mock.last_request.method == "GET"
         assert requests_mock.last_request.url == endpoint_url
 
-    def test_agent_assignment_not_found(self, st: SolidarityTech, requests_mock: Mocker) -> None:
-        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.agent_assignments` makes the appropriate calls."""
+    def test_get_agent_assignment_not_found(
+        self, st: SolidarityTech, requests_mock: Mocker
+    ) -> None:
+        """Verify that :meth:`~parsons.solidarity_tech.SolidarityTech.get_agent_assignment` makes the appropriate calls."""
         endpoint_url = f"{st.api_url}{ENDPOINT}/99"
         _ = requests_mock.get(endpoint_url, status_code=404, reason="Agent assignment not found")
+
         with pytest.raises(STFailedResponseError, match="Agent assignment not found"):
             _, _ = st.get_agent_assignment(resource_id=99)
 

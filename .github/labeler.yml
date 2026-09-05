@@ -2,10 +2,6 @@ documentation:
   - changed-files:
       - any-glob-to-any-file: ["**/*.md", "**/*.rst", "docs/**"]
 
-dependencies:
-  - changed-files:
-      - any-glob-to-any-file: ["setup.py", "requirements.txt"]
-
 testing:
   - changed-files:
       - any-glob-to-any-file: "test/**"

@@ -129,14 +129,16 @@ class SolidarityTechBase:
             kwargs["params"] = params
 
         logger.debug("Processing GET request at endpoint: %s", endpoint, extra=params)
-        return self.api.request(url=endpoint, req_type="GET", **kwargs)
+        return self.api.request(url=endpoint, req_type="GET", raise_on_error=False, **kwargs)
 
     def _get_single_resource(self, endpoint: str, resource_id: int, **kwargs) -> requests.Response:
         """Handle GET requests for single resources."""
         complete_endpoint = f"{endpoint}/{resource_id}"
 
         logger.debug("Processing GET request at endpoint: %s", complete_endpoint)
-        return self.api.request(url=complete_endpoint, req_type="GET", **kwargs)
+        return self.api.request(
+            url=complete_endpoint, req_type="GET", raise_on_error=False, **kwargs
+        )
 
     def _post_request(
         self,
@@ -146,7 +148,9 @@ class SolidarityTechBase:
     ) -> requests.Response:
         """Handle POST requests."""
         logger.debug("Processing POST request at endpoint: %s", endpoint, extra=payload)
-        return self.api.request(url=endpoint, req_type="POST", json=payload, **kwargs)
+        return self.api.request(
+            url=endpoint, req_type="POST", json=payload, raise_on_error=False, **kwargs
+        )
 
     def _put_request(
         self,
@@ -158,13 +162,17 @@ class SolidarityTechBase:
         """Handle PUT requests."""
         complete_endpoint = f"{endpoint}/{resource_id}"
         logger.debug("Processing PUT request at endpoint: %s", complete_endpoint, extra=payload)
-        return self.api.request(url=complete_endpoint, req_type="PUT", json=payload, **kwargs)
+        return self.api.request(
+            url=complete_endpoint, req_type="PUT", json=payload, raise_on_error=False, **kwargs
+        )
 
     def _del_request(self, endpoint: str, resource_id: int | str, **kwargs) -> requests.Response:
         """Handle DEL requests."""
         complete_endpoint = f"{endpoint}/{resource_id}"
         logger.debug("Processing DEL request at endpoint: %s", complete_endpoint)
-        return self.api.request(url=complete_endpoint, req_type="DELETE", **kwargs)
+        return self.api.request(
+            url=complete_endpoint, req_type="DELETE", raise_on_error=False, **kwargs
+        )
 
     def _handle_status_codes(
         self, res: requests.Response, codes: dict[int, tuple[bool, str]]
@@ -190,7 +198,7 @@ class SolidarityTechBase:
 
         if res.status_code in codes:
             success = codes[res.status_code][0]
-            result_message = codes[res.status_code][1]
+            result_message = res.reason or codes[res.status_code][1]
             if success is True:
                 logger.debug(result_message, extra={"status_code": res.status_code})
                 return success

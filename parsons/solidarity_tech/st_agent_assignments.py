@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from parsons import Table
-from parsons.solidarity_tech.base import SolidarityTechBase
+from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -14,6 +14,14 @@ if TYPE_CHECKING:
     from parsons.solidarity_tech.base import ParamsType
 
 logger = logging.getLogger(__name__)
+
+
+class AgentAssignmentData(TypedDict):
+    id: int
+    agent_user_id: int
+    user_id: int
+    created_at: str
+    is_active: bool
 
 
 class SolidarityTechAgentAssignments(SolidarityTechBase):
@@ -26,7 +34,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         since: int | datetime = 0,
         user_id: int | None = None,
         agent_user_id: int | None = None,
-    ) -> Table:
+    ) -> tuple[Table, Metadata]:
         """
         Retrieve a list of agent assignments.
 
@@ -48,7 +56,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             :class:`STUnexpectedResponseError`: If the operation fails with an unexpected status code.
 
         Returns:
-            All the agent assignment entries.
+            All the agent assignment entries, along with request metadata.
 
         Documentation Reference:
             `<https://www.solidarity.tech/reference/get_agent-assignments>`__
@@ -69,12 +77,15 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         expected_responses = {200: (True, "successful")}
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return Table(res.json())
+        data: list[AgentAssignmentData] = res.json()["data"]
+        meta: Metadata = res.json()["meta"]
+
+        return Table(data), meta
 
     def get_agent_assignment(
         self,
         resource_id: int,
-    ) -> dict:
+    ) -> tuple[AgentAssignmentData, Metadata]:
         """
         Retrieve a single agent assignment.
 
@@ -101,7 +112,10 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.json()
+        data: AgentAssignmentData = res.json()["data"]
+        meta: Metadata = res.json()["meta"]
+
+        return data, meta
 
     def create_agent_assignment(
         self,

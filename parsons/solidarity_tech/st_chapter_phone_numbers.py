@@ -9,7 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class SolidarityTechChapterPhoneNumbers(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_chapter-phone-numbers>`__
 
         """
-        params: ParamsType = {"chapter_id": chapter_id}
+        params: _JsonType = {"chapter_id": chapter_id}
 
         res = self._get_resources(
             "chapter_phone_numbers",

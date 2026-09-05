@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING
 from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import InteractionType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-notes>`__
 
         """
-        params: ParamsType = {
+        params: _JsonType = {
             "user_id": user_id,
             "content": content,
             "restricted": restricted,
@@ -104,7 +104,7 @@ class SolidarityTechUserNotes(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_user-notes-id>`__
 
         """
-        params: ParamsType = {"user_id": user_id}
+        params: _JsonType = {"user_id": user_id}
         self._add_if_field_not_empty(params, "agent_id", agent_id)
 
         res = self._del_request("user_notes", resource_id, params=params)

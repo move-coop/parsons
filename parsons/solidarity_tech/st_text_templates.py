@@ -9,10 +9,8 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import ScopeType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +50,7 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_text-templates>`__
 
         """
-        params: ParamsType = {"event_id": event_id}
+        params: _JsonType = {"event_id": event_id}
 
         res = self._get_resources(
             "text_templates",
@@ -101,11 +99,11 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
 
     def create_text_template(
         self,
-        scope_id: np.int64,
+        scope_id: int,
         scope_type: ScopeType,
         name: str | None = None,
         template: dict[str, str] | None = None,
-        event_id: np.int64 | None = None,
+        event_id: int | None = None,
     ) -> bool:
         """
         Create an text template with the specified details.
@@ -160,10 +158,10 @@ class SolidarityTechTextTemplates(SolidarityTechBase):
         self,
         resource_id: int,
         name: str | None = None,
-        scope_id: np.int64 | None = None,
+        scope_id: int | None = None,
         scope_type: ScopeType | None = None,
         template: dict[str, str] | None = None,
-        event_id: np.int64 | None = None,
+        event_id: int | None = None,
     ) -> bool:
         """
         Update an text template with the specified details.

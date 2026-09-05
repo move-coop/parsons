@@ -7,7 +7,6 @@ from datetime import datetime
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypedDict
 
-import numpy as np
 import pyrate_limiter
 import requests_ratelimiter
 
@@ -26,8 +25,6 @@ if TYPE_CHECKING:
     import requests
 
 logger = logging.getLogger(__name__)
-
-ParamsType = _JsonType | np.int64
 
 
 class Metadata(TypedDict):
@@ -110,7 +107,7 @@ class SolidarityTechBase:
             "since": "_since",
             "include_count": "_include_count",
         }
-        params: dict[str, ParamsType] = {}
+        params: dict[str, _JsonType] = {}
         for key, value in param_mapping.items():
             if key in kwargs:
                 params[value] = kwargs[key]

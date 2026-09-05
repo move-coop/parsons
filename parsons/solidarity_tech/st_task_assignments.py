@@ -9,9 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +52,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-assignments>`__
 
         """
-        params: ParamsType = {"task_id": task_id, "agent_user_id": agent_user_id}
+        params: _JsonType = {"task_id": task_id, "agent_user_id": agent_user_id}
 
         res = self._get_resources(
             "task_assignments",
@@ -103,9 +101,9 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
 
     def create_task_assignment(
         self,
-        user_id: np.int64,
-        task_id: np.int64,
-        agent_user_id: np.int64 | None = None,
+        user_id: int,
+        task_id: int,
+        agent_user_id: int | None = None,
     ) -> bool:
         """
         Create a task assignment.
@@ -150,7 +148,7 @@ class SolidarityTechTaskAssignments(SolidarityTechBase):
     def update_task_assignment(
         self,
         resource_id: int,
-        agent_user_id: np.int64 | None = None,
+        agent_user_id: int | None = None,
     ) -> bool:
         """
         Update an task assignment with the specified details.

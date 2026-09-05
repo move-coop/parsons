@@ -9,7 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages>`__
 
         """
-        params: ParamsType = {"include_action_counts": include_action_counts}
+        params: _JsonType = {"include_action_counts": include_action_counts}
 
         res = self._get_resources(
             "pages",
@@ -99,7 +99,7 @@ class SolidarityTechPages(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_pages-id>`__
 
         """
-        params: ParamsType = {"include_action_counts": include_action_counts}
+        params: _JsonType = {"include_action_counts": include_action_counts}
 
         res = self._get_single_resource("pages", resource_id, params=params)
 

@@ -9,9 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +70,7 @@ class SolidarityTechUserActions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-actions>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "user_id", user_id)
         self._add_if_field_not_empty(params, "page_id", page_id)
         self._add_if_field_not_empty(params, "group_by", group_by)
@@ -96,9 +94,9 @@ class SolidarityTechUserActions(SolidarityTechBase):
 
     def create_user_action(
         self,
-        page_id: np.int64,
-        user_id: np.int64 | None = None,
-        created_at: np.int64 | None = None,
+        page_id: int,
+        user_id: int | None = None,
+        created_at: int | None = None,
         data: dict[str, str | int | bool | dict[str, str]] | None = None,
     ) -> bool:
         """

@@ -9,10 +9,8 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import EventType, ScopeType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +62,7 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "scope_id", scope_id)
         self._add_if_field_not_empty(params, "scope_type", scope_type)
 
@@ -85,8 +83,8 @@ class SolidarityTechEvents(SolidarityTechBase):
         self,
         title: str,
         event_type: EventType,
-        start_time: np.int64,
-        end_time: np.int64,
+        start_time: int,
+        end_time: int,
         scope_id: str,
         scope_type: ScopeType,
         location_address: str | None = None,
@@ -214,7 +212,7 @@ class SolidarityTechEvents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_events-id>`__
 
         """
-        params: ParamsType = {"include_hosts": include_hosts}
+        params: _JsonType = {"include_hosts": include_hosts}
 
         res = self._get_single_resource("event_sessions", resource_id, params=params)
 

@@ -9,8 +9,8 @@ from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import FieldType, ScopeType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +67,7 @@ class SolidarityTechCustomUserProperties(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_custom-user-properties>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "scope_id", scope_id)
         self._add_if_field_not_empty(params, "description", scope_type)
 

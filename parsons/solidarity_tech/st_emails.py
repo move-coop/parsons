@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -64,7 +64,7 @@ class SolidarityTechEmails(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_emails>`__
 
         """
-        params: ParamsType = {
+        params: _JsonType = {
             "user_id": user_id,
             "subject": subject,
             "body_html": body_html,

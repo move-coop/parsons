@@ -9,10 +9,8 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import AttendanceStatus
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +60,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps>`__
 
         """
-        params: ParamsType = {"full_user_payload": full_user_payload}
+        params: _JsonType = {"full_user_payload": full_user_payload}
         self._add_if_field_not_empty(params, "event_id", event_id)
         self._add_if_field_not_empty(params, "session_id", session_id)
         self._add_if_field_not_empty(params, "user_id", user_id)
@@ -106,7 +104,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-rsvps-id>`__
 
         """
-        params: ParamsType = {"full_user_payload": full_user_payload}
+        params: _JsonType = {"full_user_payload": full_user_payload}
 
         res = self._get_single_resource("event_rsvps", resource_id, params=params)
 
@@ -120,11 +118,11 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
 
     def create_event_rsvp(
         self,
-        event_id: np.int64,
-        event_session_id: np.int64,
+        event_id: int,
+        event_session_id: int,
         is_attending: AttendanceStatus,
-        agent_user_id: np.int64 | None,
-        user_id: np.int64 | None = None,
+        agent_user_id: int | None,
+        user_id: int | None = None,
         source: str | None = None,
         source_system: str | None = None,
         *,
@@ -192,7 +190,7 @@ class SolidarityTechEventRSVPs(SolidarityTechBase):
         self,
         resource_id: int,
         is_attending: AttendanceStatus | None = None,
-        agent_user_id: np.int64 | None = None,
+        agent_user_id: int | None = None,
         source: str | None = None,
         source_system: str | None = None,
         *,

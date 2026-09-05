@@ -8,9 +8,7 @@ from parsons import Table
 from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +51,7 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_scheduled-tasks>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "user_id", user_id)
         self._add_if_field_not_empty(params, "agent_user_id", agent_user_id)
 
@@ -106,8 +104,8 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         self,
         due_at: str | int | float | datetime,
         remind_at: str | int | float | datetime | None = None,
-        agent_user_id: np.int64 | None = None,
-        user_id: np.int64 | None = None,
+        agent_user_id: int | None = None,
+        user_id: int | None = None,
         notes: str | None = None,
         *,
         marked_as_completed: bool | None = None,
@@ -174,8 +172,8 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         resource_id: int,
         due_at: str | int | float | datetime | None = None,
         remind_at: str | int | float | datetime | None = None,
-        agent_user_id: np.int64 | None = None,
-        user_id: np.int64 | None = None,
+        agent_user_id: int | None = None,
+        user_id: int | None = None,
         notes: str | None = None,
         *,
         marked_as_completed: bool | None = None,

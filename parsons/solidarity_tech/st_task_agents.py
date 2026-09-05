@@ -9,9 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +49,7 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_task-agents>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "task_id", task_id)
 
         res = self._get_resources(
@@ -101,8 +99,8 @@ class SolidarityTechTaskAgents(SolidarityTechBase):
 
     def create_task_agent(
         self,
-        user_id: np.int64,
-        task_id: np.int64,
+        user_id: int,
+        task_id: int,
     ) -> bool:
         """
         Create an task agent with specified details.

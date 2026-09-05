@@ -9,9 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +52,7 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-attendances>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "event_id", event_id)
         self._add_if_field_not_empty(params, "session_id", session_id)
 
@@ -73,9 +71,9 @@ class SolidarityTechEventAttendances(SolidarityTechBase):
 
     def create_event_attendance(
         self,
-        event_id: np.int64,
-        event_session_id: np.int64,
-        user_id: np.int64,
+        event_id: int,
+        event_session_id: int,
+        user_id: int,
         *,
         attended: bool,
     ) -> bool:

@@ -10,8 +10,6 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
     from parsons.solidarity_tech.enums import ScopeType
 
 logger = logging.getLogger(__name__)
@@ -111,10 +109,10 @@ class SolidarityTechUserLists(SolidarityTechBase):
     def create_user_list(
         self,
         name: str,
-        scope_id: np.int64,
+        scope_id: int,
         scope_type: ScopeType,
-        event_id: np.int64 | None = None,
-        user_id: np.int64 | None = None,
+        event_id: int | None = None,
+        user_id: int | None = None,
         parameters: QueryParams | None = None,
     ) -> bool:
         """
@@ -172,10 +170,10 @@ class SolidarityTechUserLists(SolidarityTechBase):
         self,
         resource_id: int,
         name: str | None = None,
-        scope_id: np.int64 | None = None,
+        scope_id: int | None = None,
         scope_type: str | None = None,
         parameters: QueryParams | None = None,
-        event_id: np.int64 | None = None,
+        event_id: int | None = None,
     ) -> bool:
         """
         Update a user list with the specified details.

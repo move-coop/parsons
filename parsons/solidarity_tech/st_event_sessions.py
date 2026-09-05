@@ -9,10 +9,8 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
     from parsons.solidarity_tech.enums import EventType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +90,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
         if isinstance(event_tags, list):
             event_tags = ",".join(str(tag) for tag in event_tags)
 
-        params: ParamsType = {
+        params: _JsonType = {
             "event_id": event_id,
         }
         self._add_if_field_not_empty(params, "upcoming", upcoming)
@@ -120,9 +118,9 @@ class SolidarityTechEventSessions(SolidarityTechBase):
 
     def create_event_sessions(
         self,
-        event_id: np.int64,
-        start_time: np.int64,
-        end_time: np.int64,
+        event_id: int,
+        start_time: int,
+        end_time: int,
         title: str,
         event_type: Literal[EventType.VIRTUAL, EventType.IN_PERSON] | None = None,
         location_name: str | None = None,
@@ -236,7 +234,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_event-sessions-id>`__
 
         """
-        params: ParamsType = {"include_hosts": include_hosts}
+        params: _JsonType = {"include_hosts": include_hosts}
         res = self._get_single_resource("event_sessions", resource_id, params=params)
 
         expected_responses = {
@@ -250,8 +248,8 @@ class SolidarityTechEventSessions(SolidarityTechBase):
     def update_event_session(
         self,
         resource_id: int,
-        start_time: np.int64 | None = None,
-        end_time: np.int64 | None = None,
+        start_time: int | None = None,
+        end_time: int | None = None,
         title: str | None = None,
         location_name: str | None = None,
         location_address: str | None = None,
@@ -370,7 +368,7 @@ class SolidarityTechEventSessions(SolidarityTechBase):
     def add_event_host(
         self,
         resource_id: int,
-        user_id: np.int64,
+        user_id: int,
     ) -> bool:
         """
         Add a user as a host of the event session.

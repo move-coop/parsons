@@ -9,7 +9,7 @@ from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ class SolidarityTechCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_calls>`__
 
         """
-        params: ParamsType = {"user_id": user_id}
+        params: _JsonType = {"user_id": user_id}
 
         res = self._get_resources(
             "calls",

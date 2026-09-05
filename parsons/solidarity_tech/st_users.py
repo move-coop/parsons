@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     import numbers
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -106,7 +106,7 @@ class SolidarityTechUsers(SolidarityTechBase):
         if isinstance(user_list_ids, list):
             user_list_ids = ",".join(str(userlist_id) for userlist_id in user_list_ids)
 
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "user_list_ids", user_list_ids)
         self._add_if_field_not_empty(params, "phone_number", phone_number)
         self._add_if_field_not_empty(params, "email", email)

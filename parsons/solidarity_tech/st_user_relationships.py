@@ -7,7 +7,7 @@ from parsons import Table
 from parsons.solidarity_tech.base import SolidarityTechBase
 
 if TYPE_CHECKING:
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_user-relationships>`__
 
         """
-        params: ParamsType = {"user_id": user_id}
+        params: _JsonType = {"user_id": user_id}
 
         res = self._get_resources(
             "user_relationships",
@@ -87,7 +87,7 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_user-relationships>`__
 
         """
-        params: ParamsType = {
+        params: _JsonType = {
             "user_id": user_id,
             "related_user_id": related_user_id,
             "relationship_type": relationship_type,
@@ -127,7 +127,7 @@ class SolidarityTechUserRelationships(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/delete_user-relationships-id>`__
 
         """
-        params: ParamsType = {"user_id": user_id}
+        params: _JsonType = {"user_id": user_id}
 
         res = self._del_request(
             "user_relationships",

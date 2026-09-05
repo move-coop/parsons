@@ -9,7 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class SolidarityTechScheduledCalls(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_scheduled-calls>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "user_id", user_id)
         self._add_if_field_not_empty(params, "agent_user_id", agent_user_id)
 

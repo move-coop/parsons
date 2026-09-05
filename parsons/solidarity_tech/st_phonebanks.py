@@ -9,7 +9,7 @@ from parsons.solidarity_tech.base import SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -63,7 +63,7 @@ class SolidarityTechPhonebanks(SolidarityTechBase):
         if isinstance(ids, list):
             ids = ",".join(str(phonebank_id) for phonebank_id in ids)
 
-        params: ParamsType = {"event_id": event_id, "include_stats": include_stats}
+        params: _JsonType = {"event_id": event_id, "include_stats": include_stats}
         self._add_if_field_not_empty(params, "ids", ids)
 
         res = self._get_resources(

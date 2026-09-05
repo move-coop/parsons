@@ -9,9 +9,7 @@ from parsons.solidarity_tech.base import Metadata, SolidarityTechBase
 if TYPE_CHECKING:
     from datetime import datetime
 
-    import numpy as np
-
-    from parsons.solidarity_tech.base import ParamsType
+    from parsons.utilities.api_connector import _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +60,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/get_agent-assignments>`__
 
         """
-        params: ParamsType = {}
+        params: _JsonType = {}
         self._add_if_field_not_empty(params, "user_id", user_id)
         self._add_if_field_not_empty(params, "agent_user_id", agent_user_id)
 
@@ -119,8 +117,8 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
 
     def create_agent_assignment(
         self,
-        user_id: np.int64,
-        agent_user_id: np.int64,
+        user_id: int,
+        agent_user_id: int,
         *,
         is_active: bool | None = None,
     ) -> bool:
@@ -147,7 +145,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/post_agent-assignments>`__
 
         """
-        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
+        payload: dict[str, Any] = {"user_id": int(user_id), "agent_user_id": int(agent_user_id)}
         self._add_if_field_not_empty(payload, "is_active", is_active)
 
         res = self._post_request(
@@ -165,8 +163,8 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
     def update_agent_assignment(
         self,
         resource_id: int,
-        user_id: np.int64,
-        agent_user_id: np.int64,
+        user_id: int,
+        agent_user_id: int,
         *,
         is_active: bool | None = None,
     ) -> bool:
@@ -195,7 +193,7 @@ class SolidarityTechAgentAssignments(SolidarityTechBase):
             `<https://www.solidarity.tech/reference/put_agent-assignments-id>`__
 
         """
-        payload: dict[str, Any] = {"user_id": user_id, "agent_user_id": agent_user_id}
+        payload: dict[str, Any] = {"user_id": int(user_id), "agent_user_id": int(agent_user_id)}
         self._add_if_field_not_empty(payload, "is_active", is_active)
 
         res = self._put_request(

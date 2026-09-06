@@ -221,8 +221,8 @@ class APIConnector:
         """
         full_url = urllib.parse.urljoin(self.uri, url)
         complete_headers: _Headers = {}
-        if self.headers:
-            complete_headers.update(self.headers)
+        if self.session.headers:
+            complete_headers.update(self.session.headers)
         if additional_headers:
             complete_headers.update(additional_headers)
 
@@ -230,7 +230,7 @@ class APIConnector:
             req_type,
             full_url,
             headers=complete_headers,
-            auth=self.auth,
+            auth=self.session.auth,
             json=json,
             data=data,
             **kwargs,

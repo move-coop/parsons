@@ -4,6 +4,7 @@ import requests
 import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 from requests.structures import CaseInsensitiveDict
+from requests_mock import Mocker
 
 from parsons.utilities.api_connector import APIConnector
 
@@ -11,7 +12,58 @@ EXAMPLE_URL = "https://api.example.com"
 EXAMPLE_ENDPOINT = f"{EXAMPLE_URL}/test-endpoint"
 
 
+@pytest.fixture
+def connector() -> APIConnector:
+    """Fixture that provides an APIConnector instance with a base URL and headers."""
+    return APIConnector(
+        uri="https://api.example.com/v1", headers={"content-type": "application/json"}
+    )
+
+
+def test_init_adds_headers(connector: APIConnector, requests_mock: Mocker) -> None:
+    """Test that base headers are added to the session during initialization."""
+    requests_mock.get(
+        "https://api.example.com/v1/data", json={"status": "authorized"}, status_code=200
+    )
+
+    connector.request("data", "GET")
+
+    req = requests_mock.last_request
+    assert req is not None
+    assert req.headers["content-type"] == "application/json"
+
+
+def test_request_with_additional_headers(connector: APIConnector, requests_mock: Mocker) -> None:
+    """Test that additional headers and base headers are included in a request."""
+    requests_mock.get(
+        "https://api.example.com/v1/data", json={"status": "authorized"}, status_code=200
+    )
+
+    connector.request(
+        "data",
+        "GET",
+        additional_headers={"Authorization": "Bearer token123", "X-Custom-Header": "value"},
+    )
+
+    req = requests_mock.last_request
+    assert req is not None
+    assert req.headers["content-type"] == "application/json"
+    assert req.headers["Authorization"] == "Bearer token123"
+    assert req.headers["X-Custom-Header"] == "value"
+
+
+def test_get_request_with_invalid_return_format(
+    connector: APIConnector, requests_mock: Mocker
+) -> None:
+    """Test that get_request method raises RuntimeError if `return_format` is invalid."""
+    requests_mock.get("https://api.example.com/v1/data")
+
+    with pytest.raises(RuntimeError, match="not a valid format, change to json or content"):
+        connector.get_request("data", return_format="invalid")  # type: ignore[ty:no-matching-overload]
+
+
 def test_init_loads_headers() -> None:
+    """Test that providing headers sets the base headers on the session."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})
     conn = APIConnector(uri=EXAMPLE_URL, headers=headers)
     assert conn.session.headers == headers
@@ -26,6 +78,7 @@ def test_property_loads_headers() -> None:
 
 
 def test_init_loads_auth() -> None:
+    """Test that providing auth object sets the auth on the session."""
     auth = HTTPBasicAuth("user_name", "user_pass")
     conn = APIConnector(uri=EXAMPLE_URL, auth=auth)
     assert conn.session.auth == auth
@@ -68,6 +121,7 @@ def test_init_accepts_ratelimit_as_int() -> None:
 
 
 def test_init_accepts_session() -> None:
+    """Test that providing a session overrides the default session."""
     session = requests.Session()
     conn = APIConnector(uri=EXAMPLE_URL, session=session)
     assert isinstance(conn.session, requests.Session)
@@ -84,6 +138,32 @@ def test_init_does_not_accept_ratelimiter_and_session() -> None:
 
 
 def test_init_creates_regular_session() -> None:
+    """Test that the default session is a regular (non-limited) requests session."""
     conn = APIConnector(uri=EXAMPLE_URL)
     assert isinstance(conn.session, requests.Session)
     assert not isinstance(conn.session, requests_ratelimiter.LimiterSession)
+
+
+def test_can_access_deprecated_properties() -> None:
+    """Test that the deprecated auth and headers properties still work."""
+    headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})
+    auth = HTTPBasicAuth("user", "passwd")
+    conn = APIConnector(uri=EXAMPLE_URL, headers=headers, auth=auth)
+
+    # Ensure deprecated properties pass through session data
+    assert conn.headers == conn.session.headers
+    assert conn.auth == conn.session.auth
+
+    # Ensure setting value of deprecated properties updates session data
+    conn.headers = CaseInsensitiveDict({"authorization": "Bearer i3f937792g37739b937"})
+    conn.auth = HTTPBasicAuth("lizzy", "solidarity")
+
+    assert conn.headers == conn.session.headers
+    assert conn.auth == conn.session.auth
+
+    # Ensure deleting deprecated properties deletes session data
+    del conn.headers
+    del conn.auth
+
+    assert getattr(conn, "headers", None) == getattr(conn.session, "headers", None)
+    assert getattr(conn, "auth", None) == getattr(conn.session, "auth", None)

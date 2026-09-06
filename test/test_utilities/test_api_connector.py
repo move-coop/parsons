@@ -62,6 +62,18 @@ def test_get_request_with_invalid_return_format(
         connector.get_request("data", return_format="invalid")  # type: ignore[ty:no-matching-overload]
 
 
+@pytest.mark.parametrize("method", ["get", "post", "put", "patch", "delete"])
+def test_request_raise_on_error_false(
+    connector: APIConnector, requests_mock: Mocker, method: str
+) -> None:
+    """Test that request methods do not raise an error if request fails and `raise_on_error` is False."""
+    requests_mock.request(method.upper(), "https://api.example.com/v1/data", status_code=500)
+
+    resp = getattr(connector, f"{method}_request")("data", raise_on_error=False)
+
+    assert resp is None
+
+
 def test_init_loads_headers() -> None:
     """Test that providing headers sets the base headers on the session."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})

@@ -128,8 +128,8 @@ class OAuth2APIConnector(APIConnector):
         resp = self.client.request(
             req_type,
             full_url,
-            headers=self.headers,
-            auth=self.auth,
+            headers=self.session.headers,
+            auth=self.session.auth,
             json=json,
             data=data,
             params=params,

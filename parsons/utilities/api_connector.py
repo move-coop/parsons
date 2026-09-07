@@ -545,7 +545,7 @@ class APIConnector:
 
         return None
 
-    def validate_response(self, resp: requests.Response, raise_on_error: bool = True) -> None:
+    def validate_response(self, resp: requests.Response) -> None:
         """
         Validate that the response is not an error code.
 

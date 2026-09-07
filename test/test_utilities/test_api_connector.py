@@ -81,26 +81,10 @@ def test_init_loads_headers() -> None:
     assert conn.session.headers == headers
 
 
-def test_property_loads_headers() -> None:
-    """Test that providing headers via deprecated property sets the base headers on the session."""
-    headers = CaseInsensitiveDict({"authorization": "Bearer n8hn9e4hme4h4"})
-    conn = APIConnector(uri=EXAMPLE_URL)
-    conn.headers = headers
-    assert conn.session.headers == headers
-
-
 def test_init_loads_auth() -> None:
     """Test that providing auth object sets the auth on the session."""
     auth = HTTPBasicAuth("user_name", "user_pass")
     conn = APIConnector(uri=EXAMPLE_URL, auth=auth)
-    assert conn.session.auth == auth
-
-
-def test_property_loads_auth() -> None:
-    """Test that providing auth via deprecated property sets the base auth on the session."""
-    auth = HTTPBasicAuth("user_name2", "user_pass2")
-    conn = APIConnector(uri=EXAMPLE_URL)
-    conn.auth = auth
     assert conn.session.auth == auth
 
 
@@ -156,6 +140,7 @@ def test_init_creates_regular_session() -> None:
     assert not isinstance(conn.session, requests_ratelimiter.LimiterSession)
 
 
+@pytest.mark.filterwarnings("ignore:.*property is deprecated, use session\\..*:DeprecationWarning")
 def test_can_access_deprecated_properties() -> None:
     """Test that the deprecated auth and headers properties still work."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})

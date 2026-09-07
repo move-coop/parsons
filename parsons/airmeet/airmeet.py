@@ -59,7 +59,7 @@ class Airmeet:
         self.token = response["token"]
 
         # API calls expect the token in the header.
-        self.client.headers = {
+        self.client.session.headers = {
             "Content-Type": "application/json",
             "X-Airmeet-Access-Token": self.token,
         }

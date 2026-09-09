@@ -140,7 +140,7 @@ def test_init_creates_regular_session() -> None:
     assert not isinstance(conn.session, requests_ratelimiter.LimiterSession)
 
 
-@pytest.mark.filterwarnings("ignore:.*property is deprecated, use session\\..*:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:use session\\.(auth|headers) instead:DeprecationWarning")
 def test_can_access_deprecated_properties() -> None:
     """Test that the deprecated auth and headers properties still work."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})

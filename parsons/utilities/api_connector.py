@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 import urllib.parse
-import warnings
 from typing import TYPE_CHECKING, Any, overload
 
 import requests
@@ -10,6 +9,9 @@ import requests_ratelimiter
 from pyrate_limiter import Duration, Limiter, Rate
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
 
 from parsons import Table
 
@@ -119,59 +121,35 @@ class APIConnector:
             self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
+    @deprecated("Use session.auth instead.", stacklevel=1)
     def auth(self) -> _AuthType:
         """Deprecated access to session authentication. Use session.auth instead."""
-        warnings.warn(
-            "The auth property is deprecated, use session.auth instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         return self.session.auth
 
     @auth.setter
+    @deprecated("Use session.auth instead.", stacklevel=1)
     def auth(self, inp: _AuthType) -> None:
-        warnings.warn(
-            "The auth property is deprecated, use session.auth instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         self.session.auth = inp
 
     @auth.deleter
+    @deprecated("Use session.auth instead.", stacklevel=1)
     def auth(self) -> None:
-        warnings.warn(
-            "The auth property is deprecated, use session.auth instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         del self.session.auth
 
     @property
+    @deprecated("Use session.headers instead.", stacklevel=1)
     def headers(self) -> _HeadersType:
         """Deprecated access to session headers. Use session.headers instead."""
-        warnings.warn(
-            "The headers property is deprecated, use session.headers instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         return self.session.headers
 
     @headers.setter
+    @deprecated("Use session.headers instead.", stacklevel=1)
     def headers(self, inp: _HeadersType) -> None:
-        warnings.warn(
-            "The headers property is deprecated, use session.headers instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
+    @deprecated("Use session.headers instead.", stacklevel=1)
     def headers(self) -> None:
-        warnings.warn(
-            "The headers property is deprecated, use session.headers instead.",
-            DeprecationWarning,
-            stacklevel=1,
-        )
         del self.session.headers
 
     def request(

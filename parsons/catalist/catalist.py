@@ -5,18 +5,20 @@ Install dependencies with `pip install parsons[catalist]`
 
 import base64
 import logging
-import os
 import tempfile
 import time
 import urllib
-from typing import Optional, Union, Dict, List
-from zipfile import ZipFile
+from pathlib import Path
+from zipfile import ZipFile, is_zipfile
 
-from parsons.etl import Table
+from parsons import Table
 from parsons.sftp import SFTP
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 logger = logging.getLogger(__name__)
+
+# Default byte size to export under the hood via Paramiko
+DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
 
 
 class CatalistMatch:
@@ -34,24 +36,24 @@ class CatalistMatch:
     Accessing the Catalist sftp bucket and Match API both require the source IP address
     to be explicitly white-listed by Catalist.
 
-    Example usage:
-    ```
-    tbl = Table.from_csv(...)
-    client = CatalistMatch(...)
-    match_result = client.match(tbl)
-    ```
+    .. highlight:: python
+
+    Example usage::
+
+        tbl = Table.from_csv(...)
+        client = CatalistMatch(...)
+        match_result = client.match(tbl)
 
     Note that matching can take from 10 minutes up to 6 hours or longer to complete, so
     you may want to think strategically about how to await completion without straining
     your compute resources on idling.
 
-    To separate submitting the job and fetching the result:
-    ```
-    tbl = Table.from_csv(...)
-    client = CatalistMatch(...)
-    response = client.upload(tbl)
-    match_result = client.await_completion(response["id"])
-    ```
+    To separate submitting the job and fetching the result::
+
+        tbl = Table.from_csv(...)
+        client = CatalistMatch(...)
+        response = client.upload(tbl)
+        match_result = client.await_completion(response["id"])
 
     """
 
@@ -61,7 +63,7 @@ class CatalistMatch:
         client_secret: str,
         sftp_username: str,
         sftp_password: str,
-        client_audience: Optional[str] = None,
+        client_audience: str | None = None,
     ) -> None:
         self.client_id = client_id
         self.client_secret = client_secret
@@ -73,15 +75,15 @@ class CatalistMatch:
             token_url="https://auth.catalist.us/oauth/token",
             auto_refresh_url="https://auth.catalist.us/oauth/token",
         )
-        self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password)
+        self.sftp = SFTP("t.catalist.us", sftp_username, sftp_password, timeout=7200)
 
-    def load_table_to_sftp(self, table: Table, input_subfolder: Optional[str] = None) -> str:
+    def load_table_to_sftp(self, table: Table, input_subfolder: str | None = None) -> str:
         """Load table to Catalist sftp bucket as gzipped CSV for matching.
 
         If input_subfolder is specific, the file will be uploaded to a subfolder of the
         myUploads directory in the SFTP server.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -90,6 +92,7 @@ class CatalistMatch:
              input_subfolder: str
                  Optional. If specified, the file will be uploaded to a subfolder of the
                  myUploads directory in the SFTP server.
+
         """
         local_path = table.to_csv(temp_file_compression="gzip")
         hashed_name = hash(time.time())
@@ -111,18 +114,19 @@ class CatalistMatch:
         self,
         table: Table,
         export: bool = False,
-        description: Optional[str] = None,
-        export_filename_suffix: Optional[str] = None,
-        input_subfolder: Optional[str] = None,
+        description: str | None = None,
+        export_filename_suffix: str | None = None,
+        input_subfolder: str | None = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[Dict[str, Union[str, int]]] = None,
+        static_values: dict[str, str | int] | None = None,
+        wait: int = 30,
     ) -> Table:
         """Load table to the Catalist Match API, returns matched table.
 
          This method blocks until the match completes, which can take from 10 minutes to
          6 hours or more depending on concurrent traffic.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -141,6 +145,9 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
+             wait: int
+                  Seconds to poll, defaults to 30.
+
         """
         response = self.upload(
             table=table,
@@ -151,7 +158,7 @@ class CatalistMatch:
             copy_to_sandbox=copy_to_sandbox,
             static_values=static_values,
         )
-        result = self.await_completion(response["id"])
+        result = self.await_completion(response["id"], wait=wait)
         return result
 
     def upload(
@@ -159,15 +166,15 @@ class CatalistMatch:
         table: Table,
         template_id: str = "48827",
         export: bool = False,
-        description: Optional[str] = None,
-        export_filename_suffix: Optional[str] = None,
-        input_subfolder: Optional[str] = None,
+        description: str | None = None,
+        export_filename_suffix: str | None = None,
+        input_subfolder: str | None = None,
         copy_to_sandbox: bool = False,
-        static_values: Optional[Dict[str, Union[str, int]]] = None,
+        static_values: dict[str, str | int] | None = None,
     ) -> dict:
         """Load table to the Catalist Match API, returns response with job metadata.
 
-        `Args:`
+        Args:
              table: Table
                  Parsons Table for matching. "first_name" and "last_name" columns
                  are required. Optional columns for matching: last_name, name_suffix,
@@ -189,18 +196,15 @@ class CatalistMatch:
                   Defaults to False.
              static_values: dict
                   Optional. Any included values are mapped to every row of the input table.
-        """
 
+        """
         self.validate_table(table, template_id)
 
         # upload table to s3 temp location
         sftp_file_path = self.load_table_to_sftp(table, input_subfolder)
         sftp_file_path_encoded = base64.b64encode(sftp_file_path.encode("ascii")).decode("ascii")
 
-        if export:
-            action = "export%2Cpublish"
-        else:
-            action = "publish"
+        action = "export%2Cpublish" if export else "publish"
 
         # Create endpoint using options
         endpoint_params = [
@@ -219,7 +223,7 @@ class CatalistMatch:
         endpoint = "/".join(endpoint_params)
 
         # Assemble query parameters
-        query_params: Dict[str, Union[str, int]] = {"token": self.connection.token["access_token"]}
+        query_params: dict[str, str | int] = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
             query_params["copyToSandbox"] = "true"
         if static_values:
@@ -239,20 +243,20 @@ class CatalistMatch:
 
     def action(
         self,
-        file_ids: Union[str, List[str]],
+        file_ids: str | list[str],
         match: bool = False,
         export: bool = False,
-        export_filename_suffix: Optional[str] = None,
+        export_filename_suffix: str | None = None,
         copy_to_sandbox: bool = False,
-    ) -> List[dict]:
+    ) -> list[dict]:
         """Perform actions on existing files.
 
         All files must be in Finished status (if the action requested is publish), and
         must mapped against the same template. The request will return as soon as the
         action has been queued.
 
-        `Args:`
-             file_ids: str or List[str]
+        Args:
+             file_ids: str or list[str]
                  one or more file_ids (found in the `id` key of responses from the
                  upload() or status() methods)
              match: bool
@@ -305,15 +309,21 @@ class CatalistMatch:
         result = self.connection.get_request(endpoint, params=query_params)
         return result
 
-    def await_completion(self, id: str, wait: int = 30) -> Table:
-        """Await completion of a match job. Return matches when ready.
+    def await_completion(
+        self,
+        id: str,
+        wait: int = 30,
+    ) -> Table:
+        """
+        Await completion of a match job. Return matches when ready.
 
         This method will poll the status of a match job on a timer until the job is
         complete. By default, polls once every 30 seconds.
 
         Note that match job completion can take from 10 minutes up to 6 hours or more
         depending on concurrent traffic. Consider your strategy for polling for
-        completion."""
+        completion.
+        """
         while True:
             response = self.status(id)
             status = response["process"]["processState"]
@@ -324,7 +334,7 @@ class CatalistMatch:
             logger.info(f"Job {id} has status {status}, awaiting completion.")
             time.sleep(wait)
 
-        result = self.load_matches(id)
+        result = self.load_matches(id=id)
         return result
 
     def load_matches(self, id: str) -> Table:
@@ -332,7 +342,8 @@ class CatalistMatch:
 
         Result will be a Table with all the original columns along with columns 'DWID',
         'CONFIDENCE', 'ZIP9', and 'STATE'. The original column headers will be prepended
-        with 'COL#-'."""
+        with 'COL#-'.
+        """
         # Validate that the job is complete
         response = self.status(str(id))
         status = response["process"]["processState"]
@@ -358,21 +369,37 @@ class CatalistMatch:
         remote_filepaths = self.sftp.list_directory("/myDownloads/")
         remote_filename = [filename for filename in remote_filepaths if id in filename][0]
         remote_filepath = "/myDownloads/" + remote_filename
-        temp_file_zip = self.sftp.get_file(remote_filepath)
-        temp_dir = tempfile.mkdtemp()
 
+        temp_file_zip = Path(
+            self.sftp.get_file(
+                remote_path=remote_filepath,
+                export_chunk_size=DEFAULT_EXPORT_CHUNK_SIZE,
+            )
+        )
+
+        if not is_zipfile(temp_file_zip):
+            raise RuntimeError(
+                f"Downloaded file for job {id} is not a valid zip file "
+                f"(size: {temp_file_zip.stat().st_size} bytes, remote path: {remote_filepath}). "
+                "The SFTP download may be corrupt or incomplete."
+            )
+
+        logger.debug(
+            "Download complete for job %s (local size: %s bytes).", id, temp_file_zip.stat().st_size
+        )
+        temp_dir = tempfile.mkdtemp()
         with ZipFile(temp_file_zip) as zf:
             zf.extractall(path=temp_dir)
 
-        filepath = os.listdir(temp_dir)[0]
+        filepath = next(Path(temp_dir).iterdir())
 
-        result = Table.from_csv(os.path.join(temp_dir, filepath), delimiter="\t")
+        result = Table.from_csv(str(filepath), delimiter="\t")
         return result
 
     def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
-        if not template_id == "48827":
-            logger.warn(f"No validator implemented for template {template_id}.")
+        if template_id != "48827":
+            logger.warning(f"No validator implemented for template {template_id}.")
             return
 
         expected_table_columns = [
@@ -391,9 +418,10 @@ class CatalistMatch:
             "dob",
             "dob_year",
             "matchbackid",
+            "statefileid",
         ]
 
-        required_columns: List[str] = ["first_name", "last_name"]
+        required_columns: list[str] = ["first_name", "last_name"]
         actual_table_columns = table.columns
 
         unexpected_columns = [

@@ -1,0 +1,249 @@
+import os
+import unittest
+import unittest.mock as mock
+
+import pytest
+
+from parsons import MySQL, Table
+from parsons.databases.mysql.create_table import MySQLCreateTable
+from test.conftest import assert_matching_tables
+
+_MYSQL_CONN_KWARGS = {
+    "host": "test-host",
+    "username": "test-user",
+    "password": "test-pass",
+    "db": "test-db",
+}
+
+
+class TestMySQLPortPrecedence(unittest.TestCase):
+    """
+    Port resolution for MySQL:
+
+    - ``MYSQL_PORT`` is used when ``port`` is omitted (or ``port=None``).
+    - An explicit ``port=`` argument wins over ``MYSQL_PORT`` (including ``port=3306``).
+    """
+
+    def _env_without_mysql_port(self):
+        return {key: value for key, value in os.environ.items() if key != "MYSQL_PORT"}
+
+    def test_mysql_port_env_overrides_default_port(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS)
+            assert mysql.port == 3307
+
+    def test_default_port_when_mysql_port_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_mysql_port(), clear=True):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS)
+            assert mysql.port == 3306
+
+    def test_explicit_port_kwarg_when_mysql_port_unset(self):
+        with mock.patch.dict(os.environ, self._env_without_mysql_port(), clear=True):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
+            assert mysql.port == 8888
+
+    def test_explicit_port_kwarg_overrides_mysql_port_env(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=8888)
+            assert mysql.port == 8888
+
+    def test_explicit_default_port_kwarg_ignores_mysql_port_env(self):
+        with mock.patch.dict(os.environ, {"MYSQL_PORT": "3307"}, clear=False):
+            mysql = MySQL(**_MYSQL_CONN_KWARGS, port=3306)
+            assert mysql.port == 3306
+
+
+class TestMySQLConnectionTimeout(unittest.TestCase):
+    """
+    Connection timeout for MySQL:
+
+    - ``timeout`` defaults to 10 seconds, matching the Postgres and Redshift connectors.
+    - An explicit ``timeout=`` argument is respected.
+    - The resolved timeout is forwarded to ``mysql.connector.connect`` as
+      ``connection_timeout``.
+    """
+
+    def test_default_timeout(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        assert mysql.timeout == 10
+
+    def test_explicit_timeout_kwarg(self):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=30)
+        assert mysql.timeout == 30
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_default_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 10
+
+    @mock.patch("parsons.databases.mysql.mysql.mysql.connect")
+    def test_explicit_timeout_forwarded_to_connect(self, mock_connect):
+        mysql = MySQL(**_MYSQL_CONN_KWARGS, timeout=42)
+        with mysql.connection():
+            pass
+        _, kwargs = mock_connect.call_args
+        assert kwargs["connection_timeout"] == 42
+
+
+# These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
+@pytest.mark.live
+class TestMySQLLive(unittest.TestCase):
+    def setUp(self):
+        self.mysql = MySQL()
+
+    def tearDown(self):
+        # Drop the view, the table and the schema
+        sql = "DROP TABLE IF EXISTS test;"
+        self.mysql.query(sql)
+
+    def test_query(self):
+        # Check that query sending back expected result
+        r = self.mysql.query("SELECT 1")
+        assert r.first == 1
+
+    def test_query_no_response(self):
+        # Check that a query that has no response and doesn't fail
+        sql = "CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255))"
+        r = self.mysql.query(sql)
+        assert r is None
+
+    def test_insert_data(self):
+        sql = "CREATE TABLE test (name VARCHAR(255), user_name VARCHAR(255));"
+        self.mysql.query(sql)
+
+        sql = "INSERT INTO test (name, user_name) VALUES ('me', 'myuser');"
+        self.mysql.query(sql)
+
+        r = self.mysql.query("select * from test")
+
+        assert_matching_tables(Table([{"name": "me", "user_name": "myuser"}]), r)
+
+
+# These tests interact directly with the MySQL database. To run, set env variable "LIVE_TEST=True"
+@pytest.mark.live
+class TestMySQL(unittest.TestCase):
+    def setUp(self):
+        self.mysql = MySQL()
+
+        # Create tables
+        self.mysql.query(
+            "CREATE TABLE IF NOT EXISTS test (name VARCHAR(255), user_name VARCHAR(255), id INT)"
+        )
+        self.mysql.query(
+            """
+                         INSERT INTO test (name, user_name, id)
+                         VALUES ('me', 'myuser', '1'),
+                                ('you', 'hey', '2'),
+                                ('you', 'hey', '3')
+                         """
+        )
+
+        self.tbl = MySQLCreateTable(self.mysql, "test")
+
+    def tearDown(self):
+        self.mysql.query("DROP TABLE IF EXISTS test;")
+
+    def test_num_rows(self):
+        assert self.tbl.num_rows == 3
+
+    def test_max_primary_key(self):
+        assert self.tbl.max_primary_key("id") == 3
+
+    def test_distinct_primary_key(self):
+        assert self.tbl.distinct_primary_key("id")
+        assert not self.tbl.distinct_primary_key("user_name")
+
+    def test_columns(self):
+        assert self.tbl.columns == ["name", "user_name", "id"]
+
+    def test_exists(self):
+        assert self.tbl.exists
+
+        tbl_bad = MySQLCreateTable(self.mysql, "bad_test")
+        assert not tbl_bad.exists
+
+    def test_drop(self):
+        self.tbl.drop()
+        assert not self.tbl.exists
+
+    def test_truncate(self):
+        self.tbl.truncate()
+        assert self.tbl.num_rows == 0
+
+    def test_get_rows(self):
+        data = [
+            ["name", "user_name", "id"],
+            ["me", "myuser", "1"],
+            ["you", "hey", "2"],
+            ["you", "hey", "3"],
+        ]
+        tbl = Table(data)
+
+        assert_matching_tables(self.tbl.get_rows(), tbl)
+
+    def test_get_new_rows(self):
+        data = [["name", "user_name", "id"], ["you", "hey", "2"], ["you", "hey", "3"]]
+        tbl = Table(data)
+
+        # Basic
+        assert_matching_tables(self.tbl.get_new_rows("id", 1), tbl)
+
+        # Chunking
+        assert_matching_tables(self.tbl.get_new_rows("id", 1, chunk_size=1), tbl)
+
+    def test_get_new_rows_count(self):
+        assert self.tbl.get_new_rows_count("id", 1) == 2
+
+
+class TestMySQLTable(unittest.TestCase):
+    def setUp(self):
+        self.mysql = MySQL(username="test", password="test", host="test", db="test", port=123)
+
+        self.tbl = Table(
+            [
+                ["ID", "Name", "Score"],
+                [1, "Jim", 1.9],
+                [2, "John", -0.5],
+                [3, "Sarah", 0.0004],
+            ]
+        )
+
+    def test_data_type(self):
+        # Test bool
+        assert self.mysql.data_type(False, "") == "bool"
+        assert self.mysql.data_type(True, "") == "bool"
+
+        # Test smallint
+        assert self.mysql.data_type(1, "") == "smallint"
+        assert self.mysql.data_type(2, "") == "smallint"
+        # Test int
+        assert self.mysql.data_type(32769, "") == "mediumint"
+        # Test bigint
+        assert self.mysql.data_type(2147483648, "") == "bigint"
+        # Test varchar that looks like an int
+        assert self.mysql.data_type("00001", "") == "varchar"
+        # Test a float as a decimal
+        assert self.mysql.data_type(5.001, "") == "float"
+        # Test varchar
+        assert self.mysql.data_type("word", "") == "varchar"
+        # Test int with underscore as string
+        assert self.mysql.data_type("1_2", "") == "varchar"
+        # Test int with underscore
+        assert self.mysql.data_type(12, "") == "smallint"
+        # Test int with leading zero
+        assert self.mysql.data_type("01", "") == "varchar"
+
+    def test_evaluate_table(self):
+        table_map = [
+            {"name": "ID", "type": "smallint", "width": 0},
+            {"name": "Name", "type": "varchar", "width": 8},
+            {"name": "Score", "type": "float", "width": 0},
+        ]
+        assert self.mysql.evaluate_table(self.tbl) == table_map
+
+    def test_create_statement(self):
+        stmt = "CREATE TABLE test_table ( \n id smallint \n,name varchar(10) \n,score float \n);"
+        assert self.mysql.create_statement(self.tbl, "test_table") == stmt

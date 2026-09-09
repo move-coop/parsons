@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 from parsons import Table
 from parsons.utilities import check_env
@@ -10,17 +9,18 @@ logger = logging.getLogger(__name__)
 API_URI = "https://www.formstack.com/api/v2"
 
 
-class Formstack(object):
+class Formstack:
     """
     Instantiate Formstack class.
 
-       `Args:`
+    Args:
             api_token:
                 API token to access the Formstack API. Not required if the
                 ``FORMSTACK_API_TOKEN`` env variable is set.
+
     """
 
-    def __init__(self, api_token: Optional[str] = None):
+    def __init__(self, api_token: str | None = None):
         self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
         headers = {
             "Accept": "application/json",
@@ -29,7 +29,7 @@ class Formstack(object):
         self.client = APIConnector(API_URI, headers=headers)
 
     def _get_paginated_request(
-        self, url: str, data_key: str, params: dict = {}, large_request: bool = False
+        self, url: str, data_key: str, params: dict | None = None, large_request: bool = False
     ) -> Table:
         """
         Make a GET request for any endpoint that returns a list of data. Will check pagination.
@@ -48,7 +48,7 @@ class Formstack(object):
             udated the methods in this class as needed when/if Formstack changes pagination on
             their API.
 
-        `Args:`
+        Args:
             url: string
                 Relative URL (from the Formstack base URL) to make the request.
 
@@ -60,20 +60,23 @@ class Formstack(object):
 
             large_request: Boolean, optional
                 If the response is likely to include a large number of pages. Defaults to `False`.
-                In rare cases the API will return more pages than `parsons.Table` is able to handle.
+                In rare cases the API will return more pages than :ref:`Table` is able to handle.
                 Pass `True` to enable a workaround for these endpoints.
 
-        `Returns:`
+        Returns:
             Table Class
                 A table with the returned data.
+
         """
+        if params is None:
+            params = {}
         data = Table()
         page = 1
         pages = None
 
         while pages is None or page <= pages:
             req_params = {**params, "page": page}
-            response_data = self.client.get_request(url, req_params)
+            response_data = self.client.get_request(url=url, params=req_params)
             pages = response_data["pages"]
             data.concat(Table(response_data[data_key]))
 
@@ -88,11 +91,12 @@ class Formstack(object):
         """
         Get all folders on your account and their subfolders.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the folders data.
+
         """
-        response_data = self.client.get_request("folder")
+        response_data = self.client.get_request(url="folder")
         logger.debug(response_data)
 
         # The API returns folders in a tree structure that doesn't fit well
@@ -114,26 +118,27 @@ class Formstack(object):
         tbl.remove_column("subfolders")
         return tbl
 
-    def get_forms(self, form_name: Optional[str] = None, folder_id: Optional[int] = None) -> Table:
+    def get_forms(self, form_name: str | None = None, folder_id: int | None = None) -> Table:
         """
         Get all forms on your account.
 
-        `Args:`
+        Args:
             form_name: string, optional
                 Search by form name.
             folder_id: int, optional
                 Return forms in the specified folder.
 
-        `Returns:`
+        Returns:
             Table Class
                 A table with the forms data.
+
         """
         params = {}
         if form_name:
             params["search"] = form_name
         if folder_id:
             params["folder"] = folder_id
-        response_data = self.client.get_request("form", params)
+        response_data = self.client.get_request(url="form", params=params)
         logger.debug(response_data)
         return Table(response_data["forms"])
 
@@ -141,15 +146,16 @@ class Formstack(object):
         """
         Get the details of the specified submission.
 
-        `Args:`
+        Args:
             id: int
                 ID for the submission to retrieve.
 
-        `Returns:`
+        Returns:
             Dictionary
                 Submission data.
+
         """
-        response_data = self.client.get_request(f"submission/{id}")
+        response_data = self.client.get_request(url=f"submission/{id}")
         logger.debug(response_data)
         return response_data
 
@@ -163,15 +169,16 @@ class Formstack(object):
         For more useful options, such as how to filter the responses by date,
         check the Formstack documentation.
 
-        `Args:`
+        Args:
             form_id: int
                 The form ID for the form of the submissions.
             query_params: kwargs
                 Query arguments to pass to the form/submissions endpoint.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the submission data for the form.
+
         """
         tbl = self._get_paginated_request(
             f"form/{form_id}/submission", "submissions", query_params, True
@@ -183,15 +190,16 @@ class Formstack(object):
         """
         Get all fields for the specified form.
 
-        `Args:`
+        Args:
             form_id: int
                 The form ID for the form of the submissions.
 
-        `Returns:`
+        Returns:
             Table Class
                 A Table with the fields on the form.
+
         """
-        response_data = self.client.get_request(f"form/{form_id}/field")
+        response_data = self.client.get_request(url=f"form/{form_id}/field")
         logger.debug(response_data)
         tbl = Table(response_data)
         return tbl

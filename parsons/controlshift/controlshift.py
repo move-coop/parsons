@@ -3,13 +3,13 @@ from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
 
-class Controlshift(object):
+class Controlshift:
     """
     Instantiate the Controlshift class. Requires an API Application integration.
     For more info on setup, see:
     https://developers.controlshiftlabs.com/#authenticated-rest-api-quickstart-guide
 
-    `Args:`
+    Args:
         hostname: str
             The URL for the homepage/login page of the organization's Controlshift
             instance (e.g. https://demo.controlshift.app). Not required if
@@ -20,12 +20,13 @@ class Controlshift(object):
         client_secret: str
             The Client Secret for your REST API Application. Not required if
             ``CONTROLSHIFT_CLIENT_SECRET`` env variable is set.
-    `Returns:`
+
+    Returns:
         Controlshift Class
+
     """
 
     def __init__(self, hostname=None, client_id=None, client_secret=None):
-
         self.hostname = check_env.check("CONTROLSHIFT_HOSTNAME", hostname)
 
         # Hostname must start with 'https://'
@@ -48,14 +49,15 @@ class Controlshift(object):
         Get a full list of all petitions, including ones that are unlaunched or otherwise not
         visible to the public.
 
-        `Return:`
+        Returns:
             Table Class
+
         """
         next_page = 1
         petitions = []
         while next_page:
             response = self.client.get_request(
-                f"{self.hostname}/api/v1/petitions", {"page": next_page}
+                url=f"{self.hostname}/api/v1/petitions", params={"page": next_page}
             )
             next_page = response["meta"]["next_page"]
             petitions.extend(response["petitions"])

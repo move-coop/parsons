@@ -1,4 +1,5 @@
 import logging
+from typing import Literal
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class Events:
     def get_events(self, first_event_date: str, last_event_date: str, limit=None):
         """Get a table of PDI events in a given time frame
 
-        `Args:`
+        Args:
             first_event_date: str
                 First date in the timeframe from which you want events formatted at 'yyy-MM-dd'
             last_event_date: str
@@ -26,11 +27,11 @@ class Events:
             limit: int
                 The max number of events to return
 
-        `Returns:`
-            parsons.Table
-                A Parsons table containing all requested events data.
-        """
+        Returns:
+            Table
+                All requested events data.
 
+        """
         params = {
             "startDate": first_event_date,
             "endDate": last_event_date,
@@ -41,17 +42,17 @@ class Events:
     def get_event_invitations(self, event_id: str, expand=True, limit=None):
         """Get a table of PDI event invitations for a specified event
 
-        `Args:`
+        Args:
             event_id: str
                 ID of event for which you want invitations
             expand: bool
                 If True returns columns for contact (and all contact info) and event)
 
-        `Returns:`
-            parsons.Table
-                A Parsons table containing all requested event invitation data.
-        """
+        Returns:
+            Table
+                All requested event invitation data.
 
+        """
         params = {"expand": expand}
 
         return self._request(f"{self.events_url}/{event_id}/invitations", args=params, limit=limit)
@@ -65,7 +66,7 @@ class Events:
         end_datetime: str,
         description=None,
         all_day=False,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         host_phone=None,
         host_email=None,
@@ -73,7 +74,7 @@ class Events:
     ):
         """Create event in a specified calendar
 
-        `Args:`
+        Args:
             calendar_id: str
                 The calendar in which you'd like to create an event
             location_id: str
@@ -101,12 +102,11 @@ class Events:
             website: str
                 An optional website for the event. Defualts to None
 
-        `Returns:`
+        Returns:
             dict
                 Response from PDI in dictionary object
 
         """
-
         payload = {
             "locationId": location_id,
             "recurrenceType": recurrencetype,
@@ -142,53 +142,56 @@ class Events:
         end_datetime: str,
         description=None,
         all_day=False,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         host_phone=None,
         host_email=None,
         website=None,
         signup_goal=None,
     ):
-        """Create event in a specified calendar with an associated activity. The activty will
-        be assigned the same start, end time, and recurrance settings as the event.
+        """Create event in a specified calendar with an associated activity.
 
-            `Args:`
-                calendar_id: str
-                    The unique ID of the calendar in which you'd like to create an event
-                location_id: str
-                    The unique ID of the PDI location whek this event took place/is to take
-                    place
-                activity_id:
-                    The unique ID of the activity type you'd like to add to the event
-                event_name: str
-                    The name of your event
-                activity_name: str
-                    The name of your activity. e.g. 'Pictionary!'
-                description: str
-                    A short description for your event
-                start_datetime: str
-                    The start datetime of the event in UTC timezone formatted as
-                    yyyy-MM-ddThh:mm:ss.fffZ
-                end_datetime: str
-                    The end date formatted like start_datetime
-                is_all_day = bool
-                    set to True if event is an all day event. Defaults to False
-                recurrencetype: str
-                    Either 'daily', 'weekly', or 'monthly'. Defaults to None
-                recurrence_end_datetime: str
-                    The end time of the last recurrence of the event formatted as
-                    yyyy-MM-ddThh:mm:ss.fffZ
-                host_phone: str
-                    An optional contact phone number for the host. Defaults to None
-                host_email: str
-                    An optional contact email for the host. Defaults to None
-                website: str
-                    An optional website for the event. Defualts to None
-                signup_goal: int
-                    The goal of how many people you want to complete the activity
-            `Returns:`
-                dict
-                    Response from PDI in dictionary object
+        The activty will be assigned the same start, end time, and recurrance settings as the event.
+
+        Args:
+            calendar_id: str
+                The unique ID of the calendar in which you'd like to create an event
+            location_id: str
+                The unique ID of the PDI location whek this event took place/is to take
+                place
+            activity_id:
+                The unique ID of the activity type you'd like to add to the event
+            event_name: str
+                The name of your event
+            activity_name: str
+                The name of your activity. e.g. 'Pictionary!'
+            description: str
+                A short description for your event
+            start_datetime: str
+                The start datetime of the event in UTC timezone formatted as
+                yyyy-MM-ddThh:mm:ss.fffZ
+            end_datetime: str
+                The end date formatted like start_datetime
+            is_all_day: bool
+                set to True if event is an all day event. Defaults to False
+            recurrencetype: str
+                Either 'daily', 'weekly', or 'monthly'. Defaults to None
+            recurrence_end_datetime: str
+                The end time of the last recurrence of the event formatted as
+                yyyy-MM-ddThh:mm:ss.fffZ
+            host_phone: str
+                An optional contact phone number for the host. Defaults to None
+            host_email: str
+                An optional contact email for the host. Defaults to None
+            website: str
+                An optional website for the event. Defualts to None
+            signup_goal: int
+                The goal of how many people you want to complete the activity
+
+        Returns:
+            dict
+                Response from PDI in dictionary object
+
         """
         event_data = self.create_event(
             calendar_id,
@@ -238,13 +241,13 @@ class Events:
         start_datetime: str,
         end_datetime: str,
         description=None,
-        recurrencetype=None,
+        recurrencetype: Literal["daily", "weekly", "monthly"] | None = None,
         recurrence_end_datetime=None,
         signup_goal=None,
     ):
         """Create event in a specified calendar with an associated activity
 
-        `Args:`
+        Args:
             calendar_id: str
                 The unique ID of the calendar in which you'd like to create an event
             event_id: str
@@ -271,12 +274,11 @@ class Events:
             signup_goal: int
                 The goal of how many people you want to complete the activity
 
-
-        `Returns:`
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         event_activity_payload = {
             "CalendarId": calendar_id,
             "EventId": event_id,
@@ -302,13 +304,16 @@ class Events:
         self,
         event_id: str,
         contact_id: str,
-        status: str,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ],
         attended: bool,
         confirmed=False,
         specific_occurrence_start=None,
     ):
         """Create a PDI event invitation indicating a contact has been registered for an event
-        `Args:`
+
+        Args:
             event_id: str
                 The ID of the event to write the RSVP to
             contact_id: str
@@ -324,11 +329,12 @@ class Events:
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
-        `Returns:`
+
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         event_invitation_payload = {
             "contactId": contact_id,
             "rsvpStatus": status,
@@ -351,13 +357,16 @@ class Events:
         invitation_id: str,
         event_id: str,
         contact_id: str,
-        status=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
         attended=None,
         confirmed=None,
         specific_occurrence_start=None,
     ):
         """Modify a PDI event invitation
-        `Args:`
+
+        Args:
             invitation_id: str
                 The ID of the event invitation
             event_id: str
@@ -374,11 +383,12 @@ class Events:
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
-        `Returns:`
+
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         event_invitation_payload = {"contactId": contact_id}
 
         if status:
@@ -401,13 +411,16 @@ class Events:
         self,
         eventactivityid: str,
         contact_id: str,
-        status: str,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ],
         completed: bool,
         confirmed=False,
         specific_occurrence_start=None,
     ):
-        """Create an activity assignement
-        `Args:`
+        """Create an activity assignment
+
+        Args:
             eventactivityid: str
                 The ID of the specific event activity you'd like to assign a contact
             contact_id: str
@@ -422,11 +435,12 @@ class Events:
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
-        `Returns:`
+
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         assignment_payload = {
             "rsvpStatus": status,
             "isConfirmed": confirmed,
@@ -446,18 +460,21 @@ class Events:
 
     def update_activity_assignment(
         self,
-        activityassignementid: str,
+        activityassignmentid: str,
         eventactivityid: str,
         contact_id: str,
-        status=None,
+        status: Literal[
+            "Yes", "No", "Maybe", "Scheduled", "Invited", "Cancelled", "No-Show", "Completed", ""
+        ] = None,
         completed=None,
         confirmed=None,
         specific_occurrence_start=None,
     ):
-        """Create an activity assignement
-        `Args:`
-            activityassignementid: str
-                Id of the specific event activity assignement you want to modify
+        """Create an activity assignment
+
+        Args:
+            activityassignmentid: str
+                Id of the specific event activity assignment you want to modify
             eventactivityid: str
                 The ID of the specific event activity you'd like to assign a contact
             contact_id: str
@@ -472,11 +489,12 @@ class Events:
             specific_occurrence_start: str
                 If invitation is for a specific occurrence of a recurring event, then the start
                 datetime of the event in UTC formatted as yyyy-MM-ddTHH:mm:ss.fffZ
-        `Returns:`
+
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         assignment_payload = {
             "contactId": contact_id,
             "eventActivityId": eventactivityid,
@@ -492,7 +510,7 @@ class Events:
             assignment_payload["specificOcurrenceStartUtc"] = specific_occurrence_start
 
         response = self._request(
-            self.activityassignment_url + f"/{activityassignementid}",
+            self.activityassignment_url + f"/{activityassignmentid}",
             req_type="PUT",
             post_data=assignment_payload,
         )
@@ -502,29 +520,28 @@ class Events:
     def get_event_activity_assignments(self, start_date, end_date, expand, limit=None):
         """
         Get a list of event activity assignments.
-        Relevant API docs:
-            https://api.bluevote.com/docs/index#/EventActivityAssignments
 
-        `Args`:
+        Args:
             start_date: str
                 Earliest records to be returned in the API response
                 Per the API docs, use "YYYY-MM-DD" format
-
             end_date: str
                 Latest records to be returned in the API response.
                 Per the API docs, use "YYYY-MM-DD" format
-
             expand: bool
                 Parameter to determine if we return the list of shift assigments
                 expanded or not
-
             limit: int
                 Specify limit to return (max=2000)
 
-        `Returns`:
-            Parsons Table with event activity assignment responses
-        """
+        Returns:
+            Table
+                Event activity assignment responses
 
+        Documentation Reference:
+            `<https://api.bluevote.com/docs/index#/EventActivityAssignments>`__
+
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -534,25 +551,25 @@ class Events:
     def get_event_activities(self, start_date, end_date, limit=None):
         """
         Get a list of event activities.
-        Relevant API docs:
-            https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll
 
-        `Args`:
+        Args:
             start_date: str
                 Earliest records to be returned in the API response
                 Per the API docs, use "YYYY-MM-DD" format
-
             end_date: str
                 Latest records to be returned in the API response.
                 Per the API docs, use "YYYY-MM-DD" format
-
             limit: int
                 Specify limit to return (max=2000)
 
-        `Returns`:
-            Parsons Table with event activity responses
-        """
+        Returns:
+            Table
+                Event activity responses
 
+        Documentation Reference:
+            `<https://api.bluevote.com/docs/index#!/EventActivities/EventActivities_GetAll>`__
+
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 
@@ -562,17 +579,19 @@ class Events:
     def get_calendars(self, limit=None):
         """
         Gets a list of calendars.
-        Relevant API docs:
-            https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll
 
-        `Args`:
+        Args:
             limit: int
                 Specify limit to return (max=2000)
 
-        `Returns`:
-            Parsons Table object with id, name, description, and timeZone records
-        """
+        Returns:
+            Table
+                id, name, description, and timeZone records
 
+        Documentation Reference:
+            `<https://api.bluevote.com/docs/index#!/Calendars/Calendars_GetAll>`__
+
+        """
         if limit and limit > 2000:
             raise ValueError("Maximum allowed limit is 2000")
 

@@ -1,8 +1,11 @@
+import logging
+import re
+
+from requests.auth import HTTPBasicAuth
+
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import re
-from parsons.etl import Table
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -13,23 +16,24 @@ class Freshdesk:
     """
     Instantiate Freshdesk class
 
-    `Args:`
+    Args:
         domain: str
             The subdomain of the Freshdesk account. Not required if ``FRESHDESK_DOMAIN``
             env variable set.
         api_key: str
             The Freshdesk provided application key. Not required if ``FRESHDESK_API_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         Freshdesk class
+
     """
 
     def __init__(self, domain, api_key):
-
-        self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
-        self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
+        self.api_key: str = check_env.check("FRESHDESK_API_KEY", api_key)
+        self.domain: str = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
-        self.client = APIConnector(self.uri, auth=(self.api_key, "x"))
+        self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.api_key, "x"))
 
     def _get_request(self, endpoint, params=None):
         base_params = {"per_page": PAGE_SIZE}
@@ -37,19 +41,39 @@ class Freshdesk:
         if params:
             base_params.update(params)
 
-        r = self.client.request(endpoint, "GET", params=base_params)
+        r = self.client.request(url=endpoint, req_type="GET", params=base_params)
         self.client.validate_response(r)
         data = r.json()
 
         # Paginate
-        while "link" in r.headers.keys():
+        while "link" in r.headers:
             logger.info(f"Retrieving another page of {PAGE_SIZE} records.")
             url = re.search("<(.*)>", r.headers["link"]).group(1)
-            r = self.client.request(url, "GET", params=params)
+            r = self.client.request(url=url, req_type="GET", params=params)
             self.client.validate_response(r)
             data.extend(r.json())
 
         return data
+
+    def _post_request(self, endpoint, data):
+        """
+        Send a POST request to the specified Freshdesk endpoint.
+
+        Args:
+            endpoint: str
+                The endpoint of the Freshdesk API to which the request is being sent.
+            data: dict
+                The data to be sent in the request body.
+
+        Returns:
+            dict
+                The JSON response from the API.
+
+        """
+        url = self.uri + endpoint
+        r = self.client.request(url=url, req_type="POST", json=data)
+        self.client.validate_response(r)
+        return r.json()
 
     @staticmethod
     def _transform_table(tbl, expand_custom_fields=None):
@@ -73,7 +97,7 @@ class Freshdesk:
         """
         List tickets.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_tickets>`__
         for more information.
 
         .. warning::
@@ -85,7 +109,7 @@ class Freshdesk:
             the past 30 days are returned. To access additional tickets, utilize the
             ``updated_since`` parameter.
 
-        `Args:`
+        Args:
             ticket_type: str
                 Filter by type of ticket to filter by. Valid fields include ``new_and_my_open``,
                 ``watching``, ``spam`` and ``deleted``.
@@ -99,11 +123,12 @@ class Freshdesk:
                 Earliest date to include in results.
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         params = {
             "filter": ticket_type,
             "requester_id": requester_id,
@@ -129,29 +154,22 @@ class Freshdesk:
         """
         Get contacts.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_contacts>`__
         for more information.
 
-        `Args:`
-            email: str
-                Filter by email address.
-            mobile: str
-                Filter by mobile phone number.
-            phone: str
-                Filter by phone number.
-            company_id: int
-                Filter by company ID.
-            state: str
-                Filter by state.
-            updated_since: str
-                Earliest date to include in results.
-            expand_custom_fields: boolean
-                Expand nested custom fields to their own columns.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Args:
+            email (str): Filter by email address.
+            mobile (str): Filter by mobile phone number.
+            phone (str): Filter by phone number.
+            company_id (int): Filter by company ID.
+            state (str): Filter by state.
+            updated_since (str): Earliest date to include in results.
+            expand_custom_fields (bool): Expand nested custom fields to their own columns.
 
+        Returns:
+            Table: See :ref:`Table` for output options.
+
+        """
         params = {
             "email": email,
             "mobile": mobile,
@@ -169,17 +187,18 @@ class Freshdesk:
         """
         List companies.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_companies>`__
         for more information.
 
-        `Args:`
+        Args:
             expand_custom_fields: boolean
                 Expand nested custom fields to their own columns.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         tbl = Table(self._get_request("companies"))
         logger.info(f"Found {tbl.num_rows} companies.")
         return self._transform_table(tbl, expand_custom_fields)
@@ -188,10 +207,10 @@ class Freshdesk:
         """
         List agents.
 
-        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`_
+        See the `API Docs <https://developers.freshdesk.com/api/#list_all_agents>`__
         for more information.
 
-        `Args:`
+        Args:
             email: str
                 Filter by email address.
             mobile: str
@@ -200,11 +219,11 @@ class Freshdesk:
                 Filter by phone number
             state: str
                 Filter by state
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         params = {"email": email, "mobile": mobile, "phone": phone, "state": state}
         tbl = Table(self._get_request("agents", params=params))
         logger.info(f"Found {tbl.num_rows} agents.")
@@ -213,3 +232,42 @@ class Freshdesk:
         tbl.remove_column("signature")  # Removing since raw HTML might cause issues.
 
         return tbl
+
+    def create_ticket(
+        self, subject, description, email, priority, status, cc_emails=None, custom_fields=None
+    ):
+        """
+        Create a ticket in Freshdesk.
+
+        Args:
+            subject: str
+                The subject of the ticket.
+            description: str
+                The description of the ticket.
+            email: str
+                The email address of the requester.
+            priority: int
+                The priority of the ticket.
+            status: int
+                The status of the ticket.
+            cc_emails: list (optional)
+                List of email addresses to CC.
+            custom_fields: dict (optional)
+                Custom fields data.
+
+        Returns:
+            dict
+                JSON response from the API.
+
+        """
+        endpoint = "tickets"
+        data = {
+            "subject": subject,
+            "description": description,
+            "email": email,
+            "priority": priority,
+            "status": status,
+            "cc_emails": cc_emails if cc_emails else [],
+            "custom_fields": custom_fields if custom_fields else {},
+        }
+        return self._post_request(endpoint, data)

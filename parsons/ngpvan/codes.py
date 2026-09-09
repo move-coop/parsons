@@ -1,21 +1,21 @@
 """NGPVAN Code Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class Codes(object):
+class Codes:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_codes(self, name=None, supported_entities=None, parent_code_id=None, code_type=None):
         """
         Get codes.
 
-        `Args:`
+        Args:
             name : str
                 Filter by name of code.
             supported_entities: str
@@ -24,11 +24,12 @@ class Codes(object):
                 Filter by parent code id.
             code_type: str
                 Filter by code type.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         params = {
             "name": name,
             "supportedEntities": supported_entities,
@@ -45,14 +46,15 @@ class Codes(object):
         """
         Get a code.
 
-        `Args:`
+        Args:
             code_id : int
                 The code id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
         logger.info(f"Found code {code_id}.")
@@ -62,11 +64,11 @@ class Codes(object):
         """
         Get code types.
 
-        `Returns:`
+        Returns:
             list
                 A list of code types.
-        """
 
+        """
         lst = self.connection.get_request("codeTypes")
         logger.info(f"Found {len(lst)} code types.")
         return lst
@@ -82,7 +84,7 @@ class Codes(object):
         """
         Create a code.
 
-        `Args:`
+        Args:
             name: str
                 The name of the code.
             parent_code_id: int
@@ -93,9 +95,8 @@ class Codes(object):
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
@@ -103,15 +104,15 @@ class Codes(object):
                          'name': 'Event',
                          'is_searchable': True,
                          'is_applicable': True
-                        }
+                        },
                         {
                          'name': 'Locations',
                          'start_time': '12-31-2018T13:00:00',
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
-        """
 
+        """
         json = {
             "parentCodeId": parent_code_id,
             "name": name,
@@ -120,7 +121,6 @@ class Codes(object):
         }
 
         if supported_entities:
-
             se = [
                 {
                     "name": s["name"],
@@ -148,7 +148,7 @@ class Codes(object):
         """
         Update a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
             name: str
@@ -161,9 +161,8 @@ class Codes(object):
                 The code type. ``Tag`` and ``SourceCode`` are valid values.
             supported_entities: list
                 A list of dicts that enumerate the searchability and applicability rules of the
-                code. You can find supported entities with the :meth:`code_supported_entities`
+                code. You can find supported entities with the :meth:`get_code_supported_entities`
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
@@ -171,15 +170,15 @@ class Codes(object):
                          'name': 'Event',
                          'is_searchable': True,
                          'is_applicable': True
-                        }
+                        },
                         {
                          'name': 'Locations',
                          'start_time': '12-31-2018T13:00:00',
                          'end_time': '12-31-2018T14:00:00'
                         }
                     ]
-        """
 
+        """
         post_data = {}
 
         if name:
@@ -192,7 +191,6 @@ class Codes(object):
             post_data["description"] = description
 
         if supported_entities:
-
             se = [
                 {
                     "name": s["name"],
@@ -211,13 +209,11 @@ class Codes(object):
         """
         Delete a code.
 
-        `Args:`
+        Args:
             code_id: int
                 The code id.
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"codes/{code_id}")
         logger.info(f"Code {code_id} deleted.")
         return r
@@ -226,11 +222,11 @@ class Codes(object):
         """
         Get code supported entities.
 
-        `Returns:`
+        Returns:
             list
                 A list of code supported entities.
-        """
 
+        """
         lst = self.connection.get_request("codes/supportedEntities")
         logger.info(f"Found {len(lst)} code supported entities.")
         return lst

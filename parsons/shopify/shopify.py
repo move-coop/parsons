@@ -1,15 +1,18 @@
-from datetime import datetime, timedelta
 import re
+from datetime import datetime, timedelta
+
+from requests.auth import HTTPBasicAuth
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
 
-class Shopify(object):
+class Shopify:
     """
     Instantiate the Shopify class
-    `Args:`
+
+    Args:
         subdomain: str
             The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com) Not required if
             ``SHOPIFY_SUBDOMAIN`` env variable set.
@@ -26,8 +29,10 @@ class Shopify(object):
             The Shopify access token.  Not required if ``SHOPIFY_ACCESS_TOKEN`` env
             variable set. If argument or env variable is set, password and api_key
             are ignored.
-    `Returns:`
+
+    Returns:
         Shopify Class
+
     """
 
     def __init__(
@@ -40,13 +45,10 @@ class Shopify(object):
     ):
         self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
         self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
-        self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
-        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
+        self.password: str = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
+        self.api_key: str = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
         self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
-        self.base_url = "https://%s.myshopify.com/admin/api/%s/" % (
-            self.subdomain,
-            self.api_version,
-        )
+        self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
         if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
         if self.access_token is not None:
@@ -54,12 +56,15 @@ class Shopify(object):
                 self.base_url, headers={"X-Shopify-Access-Token": access_token}
             )
         else:
-            self.client = APIConnector(self.base_url, auth=(self.api_key, self.password))
+            self.client = APIConnector(
+                self.base_url, auth=HTTPBasicAuth(self.api_key, self.password)
+            )
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """
         Get the count of rows in a table.
-        `Args:`
+
+        Args:
             query_date: str
                 Filter query by a date that rows were created. This filter is ignored if value
                 is None.
@@ -67,11 +72,15 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             table_name: str
                 The name of the Shopify table to query.
-        `Returns:`
+
+        Returns:
             int
+
         """
         return (
-            self.client.request(self.get_query_url(query_date, since_id, table_name), "GET")
+            self.client.request(
+                url=self.get_query_url(query_date, since_id, table_name), req_type="GET"
+            )
             .json()
             .get("count", 0)
         )
@@ -79,7 +88,8 @@ class Shopify(object):
     def get_orders(self, query_date=None, since_id=None, completed=True):
         """
         Get Shopify orders.
-        `Args:`
+
+        Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
                 is ignored if value is None.
@@ -87,8 +97,10 @@ class Shopify(object):
                 Filter query by a minimum ID. This filter is ignored if value is None.
             completed: bool
                 True if only getting completed orders, False otherwise.
-        `Returns:`
-            Table Class
+
+        Returns:
+            Table
+
         """
         orders = []
 
@@ -98,7 +110,7 @@ class Shopify(object):
             if completed:
                 url += "&financial_status=paid"
 
-            res = self.client.request(url, "GET")
+            res = self.client.request(url=url, req_type="GET")
 
             cur_orders = res.json().get("orders", [])
 
@@ -139,7 +151,8 @@ class Shopify(object):
     def get_query_url(self, query_date=None, since_id=None, table_name=None, count=True):
         """
         Get the URL of a Shopify API request
-        `Args:`
+
+        Args:
             query_date: str
                 Filter query by a date that rows were created. Format: yyyy-mm-dd. This filter
                 is ignored if value is None.
@@ -149,40 +162,44 @@ class Shopify(object):
                 The name of the Shopify table to query.
             count: bool
                 True if refund should be included in Table, False otherwise.
-        `Returns:`
+
+        Returns:
             str
+
         """
         filters = "limit=250&status=any"
 
-        if count:
-            table = table_name + "/count.json"
-        else:
-            table = table_name + ".json"
+        table = table_name + "/count.json" if count else table_name + ".json"
 
         if query_date:
             # Specific date if provided
             query_date = datetime.strptime(query_date, "%Y-%m-%d")
             max_date = query_date + timedelta(days=1)
-            filters += "&created_at_min={}&created_at_max={}".format(
-                query_date.isoformat(), max_date.isoformat()
+            filters += (
+                f"&created_at_min={query_date.isoformat()}&created_at_max={max_date.isoformat()}"
             )
         elif since_id:
             # Since ID if provided
-            filters += "&since_id=%s" % since_id
+            filters += f"&since_id={since_id}"
 
-        return self.base_url + "%s?%s" % (table, filters)
+        return self.base_url + f"{table}?{filters}"
 
     def graphql(self, query):
         """
         Make GraphQL request. Reference: https://shopify.dev/api/admin-graphql
-        `Args:`
+
+        Args:
             query: str
                 GraphQL query.
-        `Returns:`
+
+        Returns:
             dict
+
         """
         return (
-            self.client.request(self.base_url + "graphql.json", "POST", json={"query": query})
+            self.client.request(
+                url=(self.base_url + "graphql.json"), req_type="POST", json={"query": query}
+            )
             .json()
             .get("data")
         )
@@ -199,14 +216,24 @@ class Shopify(object):
         completed=True,
     ):
         """
-        Fast classmethod so you can get the data all at once:
-            tabledata = Shopify.load_to_table(subdomain='myorg', password='abc123',
-                                            api_key='abc123', api_version='2020-10',
-                                            query_date='2020-10-20', since_id='8414',
-                                            completed=True)
+        Fast classmethod so you can get the data all at once.
+
+        .. code-block:: python
+
+            tabledata = Shopify.load_to_table(
+                subdomain='myorg',
+                password='abc123',
+                api_key='abc123',
+                api_version='2020-10',
+                query_date='2020-10-20',
+                since_id='8414',
+                completed=True
+            )
+
         This instantiates the class and makes the appropriate query type to Shopify's orders
         table based on which arguments are supplied.
-        `Args:`
+
+        Args:
             subdomain: str
                 The Shopify subdomain (e.g. ``myorg`` for myorg.myshopify.com).
             password: str
@@ -223,8 +250,10 @@ class Shopify(object):
             completed: bool
                 True if only getting completed orders, False otherwise.
                 value as value
-        `Returns:`
-            Table Class
+
+        Returns:
+            Table
+
         """
         return cls(subdomain, password, api_key, api_version).get_orders(
             query_date, since_id, completed

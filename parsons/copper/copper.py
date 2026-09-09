@@ -1,33 +1,36 @@
-from requests import request
-import math
 import json
-import time
-from parsons.etl import Table
-from parsons.utilities import check_env
 import logging
+import math
+import time
+
+from requests import request
+
+from parsons import Table
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
-COPPER_URI = "https://api.prosperworks.com/developer_api/v1"
+COPPER_URI = "https://api.copper.com/developer_api/v1"
 
 
-class Copper(object):
+class Copper:
     """
     Instantiate Copper Class
 
-    `Args:`
+    Args:
         user_email:
             The email of the API user for Copper. Not required if ``COPPER_USER_EMAIL``
             env variable set.
         api_key:
             The Copper provided application key. Not required if ``COPPER_API_KEY``
             env. variable set.
-    `Returns:`
+
+    Returns:
         Copper Class
+
     """
 
     def __init__(self, user_email=None, api_key=None):
-
         self.api_key = check_env.check("COPPER_API_KEY", api_key)
         self.user_email = check_env.check("COPPER_USER_EMAIL", user_email)
         self.uri = COPPER_URI
@@ -46,9 +49,8 @@ class Copper(object):
         }
 
         payload = {}
-        if filters is not None:
-            if len(filters) > 0 and isinstance(filters, dict):
-                payload.update(filters)
+        if filters is not None and len(filters) > 0 and isinstance(filters, dict):
+            payload.update(filters)
 
         # GET request with non-None data arg is malformed
         if req_type == "GET":
@@ -79,7 +81,6 @@ class Copper(object):
             filters = {}
 
         while page <= total_pages:
-
             r = self.base_request(
                 endpoint, req_type, page_size=page_size, page=page, filters=filters
             )
@@ -110,92 +111,92 @@ class Copper(object):
         """
         Get people
 
-        `Args:`
-            `filters: dict`
+        Args:
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`_ for choices
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/?version=latest#9c15869b-c894-4fa2-9346-d65a6602c129>`__ for choices
+            tidy: boolean or int
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * people
                 * people_emails
                 * people_phone_numbers
                 * people_custom_fields
                 * people_socials
                 * people_websites
-        """  # noqa: E501,E261
 
+        """
         return self.get_standard_object("people", filters=filters, tidy=tidy)
 
     def get_companies(self, filters=None, tidy=False):
         """
         Get companies
 
-        `Args:`
-            `filters: dict`
+        Args:
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`_ for choices
-            `tidy: boolean or int`
+                See `Copper documentation <https://developer.copper.com/?version=latest#0b4f267f-3180-4041-861c-13f3cf17bcf9>`__ for choices
+            tidy: boolean or int
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * companies
                 * companies_phone_numbers
                 * companies_custom_fields
                 * companies_socials
                 * companies_websites
-        """  # noqa: E501,E261
 
+        """
         return self.get_standard_object("companies", filters=filters, tidy=tidy)
 
     def get_activities(self, filters=None, tidy=False):
         """
         Get activities
 
-        `Args:`
-            `filters: dict`
+        Args:
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9>`_ for choices
+                See `Copper documentation <https://developer.copper.com/?version=latest#d2e6ddd8-6699-4ff3-87e3-1febb0410dc9>`__ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * activities
-        """  # noqa: E501,E261
 
+        """
         return self.get_standard_object("activities", filters=filters, tidy=tidy)
 
     def get_opportunities(self, filters=None, tidy=False):
         """
         Get opportunities (i.e. donations)
 
-        `Args:`
-            `filters: dict`
+        Args:
+            filters: dict
                 Optional; pass additional parameters to filter the records returned.
-                See `Copper documentation <https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57>`_ for choices
+                See `Copper documentation <https://developer.copper.com/?version=latest#5bb8adc1-137f-46bf-aa86-7df037840e57>`__ for choices
                 Optional; unpack list and dict columns as additional rows instead of columns
                 If `True`: creates new table out of unpacked rows
                 If 'int': adds rows to original table if max rows per key <= given number
                 (so `tidy=0` guarantees new table)
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * opportunities
                 * opportunities_custom_fields
-        """  # noqa: E501,E261
 
+        """
         return self.get_standard_object("opportunities", filters=filters, tidy=tidy)
 
     def get_standard_object(self, object_name, filters=None, tidy=False):
@@ -210,18 +211,18 @@ class Copper(object):
         """
         Get custom fields
 
-        `Args:`
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#bf389290-0c19-46a7-85bf-f5e6884fa4e1>`_ for choices
+        Args:
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/?version=latest#bf389290-0c19-46a7-85bf-f5e6884fa4e1>`__ for choices
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * custom_fields
                 * custom_fields_available
                 * custom_fields_options
-        """  # noqa: E501,E261
 
+        """
         logger.info("Retrieving custom fields.")
         blob = self.paginate_request("/custom_field_definitions/", req_type="GET")
         return self.process_custom_fields(blob)
@@ -230,16 +231,16 @@ class Copper(object):
         """
         Get activity types
 
-        `Args:`
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#6bd339f1-f0de-48b4-8c34-5a5e245e036f>`_ for choices
+        Args:
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/?version=latest#6bd339f1-f0de-48b4-8c34-5a5e245e036f>`__ for choices
 
-        `Returns:`
-            List of dicts of Parsons Tables:
+        Returns:
+            list[dict[str, Table]:
                 * activitiy_types
-        """  # noqa: E501,E261
 
+        """
         logger.info("Retrieving activity types.")
 
         response = self.paginate_request("/activity_types/", req_type="GET")
@@ -254,23 +255,21 @@ class Copper(object):
         """
         Get contact types
 
-        `Args:`
-            `filters: dict`
-            Optional; pass additional parameters to filter the records returned.
-            See `Copper documentation <https://developer.copper.com/?version=latest#8b6e6ed8-c594-4eed-a2af-586aa2100f09>`_ for choices
+        Args:
+            filters: dict
+                Optional; pass additional parameters to filter the records returned.
+                See `Copper documentation <https://developer.copper.com/?version=latest#8b6e6ed8-c594-4eed-a2af-586aa2100f09>`__ for choices
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """  # noqa: E501,E261
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         response = self.paginate_request("/contact_types/", req_type="GET")
         return Table(response)
 
     def process_json(self, json_blob, obj_type, tidy=False):
-        # Internal method for converting most types of json responses into a list of Parsons tables
-
-        # Output goes here
+        """Internal method for converting most types of json responses into a list of Tables."""
         table_list = []
 
         # Original table & columns
@@ -281,20 +280,22 @@ class Copper(object):
 
         # Unpack all list columns
         if len(list_cols) > 0:
-            for l in list_cols:  # noqa E741
+            for column in list_cols:
                 # Check for nested data
                 list_rows = obj_table.select_rows(
-                    lambda row: isinstance(row[l], list)
-                    and any(isinstance(x, dict) for x in row[l])
+                    lambda row: (
+                        isinstance(row[column], list)  # noqa B023 function-uses-loop-variable
+                        and any(isinstance(x, dict) for x in row[column])  # noqa B023 function-uses-loop-variable
+                    )
                 )
                 # Add separate long table for each column with nested data
                 if list_rows.num_rows > 0:
-                    logger.debug(l, "is a nested column")
-                    if len([x for x in cols if x["name"] == l]) == 1:
+                    logger.debug(column, "is a nested column")
+                    if len([x for x in cols if x["name"] == column]) == 1:
                         table_list.append(
                             {
-                                "name": f"{obj_type}_{l}",
-                                "tbl": obj_table.long_table(["id"], l),
+                                "name": f"{obj_type}_{column}",
+                                "tbl": obj_table.long_table(["id"], column),
                             }
                         )
                     else:
@@ -302,8 +303,8 @@ class Copper(object):
                         continue
                 else:
                     if tidy is False:
-                        logger.debug(l, "is a normal list column")
-                        obj_table.unpack_list(l)
+                        logger.debug(column, "is a normal list column")
+                        obj_table.unpack_list(column)
 
         # Unpack all dict columns
         if len(dict_cols) > 0 and tidy is False:
@@ -332,8 +333,7 @@ class Copper(object):
         return table_list
 
     def process_custom_fields(self, json_blob):
-        # Internal method to convert custom fields responses into a list of Parsons tables
-
+        """Internal method to convert custom fields responses into a list of Tables."""
         # Original table & columns
         custom_fields = Table(json_blob)
 

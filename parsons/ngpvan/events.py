@@ -7,9 +7,8 @@ from parsons.etl.table import Table
 logger = logging.getLogger(__name__)
 
 
-class Events(object):
+class Events:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_events(
@@ -20,21 +19,12 @@ class Events(object):
         starting_after=None,
         starting_before=None,
         district_field=None,
-        expand_fields=[
-            "locations",
-            "codes",
-            "shifts",
-            "roles",
-            "notes",
-            "financialProgram",
-            "ticketCategories",
-            "onlineForms",
-        ],
+        expand_fields=None,
     ):
         """
         Get events.
 
-        `Args:`
+        Args:
             code_ids: str
                 Filter by code id.
             event_type_ids: str
@@ -52,11 +42,23 @@ class Events(object):
                 ``None`` will be returned for that field. Can be ``locations``, ``codes``,
                 ``shifts``,``roles``, ``notes``, ``financialProgram``, ``ticketCategories``,
                 ``onlineForms``.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
+        if expand_fields is None:
+            expand_fields = [
+                "locations",
+                "codes",
+                "shifts",
+                "roles",
+                "notes",
+                "financialProgram",
+                "ticketCategories",
+                "onlineForms",
+            ]
         if expand_fields:
             expand_fields = ",".join(expand_fields)
 
@@ -78,33 +80,36 @@ class Events(object):
     def get_event(
         self,
         event_id,
-        expand_fields=[
-            "locations",
-            "codes",
-            "shifts",
-            "roles",
-            "notes",
-            "financialProgram",
-            "ticketCategories",
-            "voterRegistrationBatches",
-        ],
+        expand_fields=None,
     ):
         """
         Get an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             expand_fields: list
                 A list of fields for which to include data. If a field is omitted,
                 ``None`` will be returned for that field. Can be ``locations``,
                 ``codes``, ``shifts``, ``roles``, ``notes``, ``financialProgram``,
-                ``ticketCategories``, ``voterRegistrationBatches`.`
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+                ``ticketCategories``, ``voterRegistrationBatches``.
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
+        if expand_fields is None:
+            expand_fields = [
+                "locations",
+                "codes",
+                "shifts",
+                "roles",
+                "notes",
+                "financialProgram",
+                "ticketCategories",
+                "voterRegistrationBatches",
+            ]
         if expand_fields:
             expand_fields = ",".join(expand_fields)
 
@@ -133,7 +138,7 @@ class Events(object):
         """
         Create an event
 
-        `Args:`
+        Args:
             name: str
                 A name for this event, no longer than 500 characters.
             short_name: str
@@ -149,19 +154,18 @@ class Events(object):
             shifts:
                 A list of dicts with shifts formatted as:
 
-                .. highlight:: python
                 .. code-block:: python
 
                     [
                         {
-                         'name': 'Shift 1',
-                         'start_time': '12-31-2018T12:00:00',
-                         'end_time': '12-31-2018T13:00:00'
-                        }
+                            'name': 'Shift 1',
+                            'start_time': '12-31-2018T12:00:00',
+                            'end_time': '12-31-2018T13:00:00'
+                        },
                         {
-                         'name': 'Shift 2',
-                         'start_time': '12-31-2018T13:00:00',
-                         'end_time': '12-31-2018T14:00:00'
+                            'name': 'Shift 2',
+                            'start_time': '12-31-2018T13:00:00',
+                            'end_time': '12-31-2018T14:00:00'
                         }
                     ]
 
@@ -181,11 +185,12 @@ class Events(object):
                 that at most one source code and any number of tags, may be applied to an event.
             notes: list
                 A list of notes
-        `Returns:`
+
+        Returns:
             int
               The event code.
-        """
 
+        """
         if shifts is None:
             shifts = [{"name": "Default Shift", "startTime": start_date, "endTime": end_date}]
         else:
@@ -215,7 +220,7 @@ class Events(object):
         }
 
         if location_ids:
-            event["locations"] = ([{"locationId": location_id} for location_id in location_ids],)
+            event["locations"] = [{"locationId": location_id} for location_id in location_ids]
 
         if code_ids:
             event["codes"] = [{"codeID": c} for c in code_ids]
@@ -228,13 +233,11 @@ class Events(object):
         """
         Delete an event.
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"events/{event_id}")
         logger.info(f"Event {event_id} deleted.")
         return r
@@ -243,7 +246,7 @@ class Events(object):
         """
         Add shifts to an event
 
-        `Args:`
+        Args:
             event_id: int
                 The event id.
             shift_name: str
@@ -252,11 +255,12 @@ class Events(object):
                 The start time for the shift (``iso8601`` formatted date).
             end_time: str
                 The end time of the shift (``iso8601`` formatted date).
-        `Returns:`
+
+        Returns:
             int
               The shift id.
-        """
 
+        """
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
@@ -267,11 +271,11 @@ class Events(object):
         """
         Get event types.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("events/types"))
         logger.info(f"Found {tbl.num_rows} events.")
         return tbl

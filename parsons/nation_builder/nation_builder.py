@@ -1,7 +1,7 @@
 import json
 import logging
 import time
-from typing import Any, Dict, Optional, Tuple, cast
+from typing import Any, cast
 from urllib.parse import parse_qs, urlparse
 
 from parsons import Table
@@ -15,7 +15,7 @@ class NationBuilder:
     """
     Instantiate the NationBuilder class
 
-    `Args:`
+    Args:
         slug: str
             The Nation Builder slug Not required if ``NB_SLUG`` env variable set. The slug is the
             nation slug of the nation from which your application is requesting approval to retrieve
@@ -23,9 +23,10 @@ class NationBuilder:
             slug via a text field in your application.
         access_token: str
             The Nation Builder access_token Not required if ``NB_ACCESS_TOKEN`` env variable set.
+
     """
 
-    def __init__(self, slug: Optional[str] = None, access_token: Optional[str] = None) -> None:
+    def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
         slug = check_env.check("NB_SLUG", slug)
         token = check_env.check("NB_ACCESS_TOKEN", access_token)
 
@@ -35,9 +36,9 @@ class NationBuilder:
         self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
 
     @classmethod
-    def get_uri(cls, slug: Optional[str]) -> str:
+    def get_uri(cls, slug: str | None) -> str:
         if slug is None:
-            raise ValueError("slug can't None")
+            raise ValueError("slug can't be None")
 
         if not isinstance(slug, str):
             raise ValueError("slug must be an str")
@@ -48,9 +49,9 @@ class NationBuilder:
         return f"https://{slug}.nationbuilder.com/api/v1"
 
     @classmethod
-    def get_auth_headers(cls, access_token: Optional[str]) -> Dict[str, str]:
+    def get_auth_headers(cls, access_token: str | None) -> dict[str, str]:
         if access_token is None:
-            raise ValueError("access_token can't None")
+            raise ValueError("access_token can't be None")
 
         if not isinstance(access_token, str):
             raise ValueError("access_token must be an str")
@@ -61,7 +62,7 @@ class NationBuilder:
         return {"authorization": f"Bearer {access_token}"}
 
     @classmethod
-    def parse_next_params(cls, next_value: str) -> Tuple[str, str]:
+    def parse_next_params(cls, next_value: str) -> tuple[str, str]:
         next_params = parse_qs(urlparse(next_value).query)
 
         if "__nonce" not in next_params:
@@ -81,8 +82,9 @@ class NationBuilder:
 
     def get_people(self) -> Table:
         """
-        `Returns:`
+        Returns:
             A Table of all people stored in Nation Builder.
+
         """
         data = []
         original_url = "people"
@@ -91,15 +93,15 @@ class NationBuilder:
 
         while True:
             try:
-                logging.debug("sending request %s" % url)
-                response = self.client.get_request(url)
+                logging.debug(f"sending request {url}")
+                response = self.client.get_request(url=url)
 
                 res = response.get("results", None)
 
                 if res is None:
                     break
 
-                logging.debug("response got %s records" % len(res))
+                logging.debug(f"response got {len(res)} records")
 
                 data.extend(res)
 
@@ -109,31 +111,34 @@ class NationBuilder:
                 else:
                     break
             except Exception as error:
-                logging.error("error requesting data from Nation Builder: %s" % error)
+                logging.error(f"error requesting data from Nation Builder: {error}")
 
                 wait_time = 30
-                logging.info("waiting %d seconds before retrying" % wait_time)
+                logging.info("waiting %s seconds before retrying", wait_time)
                 time.sleep(wait_time)
 
         return Table(data)
 
-    def update_person(self, person_id: str, person: Dict[str, Any]) -> Dict[str, Any]:
+    def update_person(self, person_id: str, person: dict[str, Any]) -> dict[str, Any]:
         """
-        This method updates a person with the provided id to have the provided data. It returns a
-        full representation of the updated person.
+        Update a person with the provided id to have the provided data.
 
-        `Args:`
+        It returns a full representation of the updated person.
+
+        Args:
             person_id: str
                 Nation Builder person id.
             data: dict
                 Nation builder person object.
                 For example {"email": "user@example.com", "tags": ["foo", "bar"]}
                 Docs: https://nationbuilder.com/people_api
-        `Returns:`
+
+        Returns:
             A person object with the updated data.
+
         """
         if person_id is None:
-            raise ValueError("person_id can't None")
+            raise ValueError("person_id can't be None")
 
         if not isinstance(person_id, str):
             raise ValueError("person_id must be a str")
@@ -145,12 +150,12 @@ class NationBuilder:
             raise ValueError("person must be a dict")
 
         url = f"people/{person_id}"
-        response = self.client.put_request(url, data=json.dumps({"person": person}))
-        response = cast(Dict[str, Any], response)
+        response = self.client.put_request(url=url, data=json.dumps({"person": person}))
+        response = cast("dict[str, Any]", response)
 
         return response
 
-    def upsert_person(self, person: Dict[str, Any]) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    def upsert_person(self, person: dict[str, Any]) -> tuple[bool, dict[str, Any] | None]:
         """
         Updates a matched person or creates a new one if the person doesn't exist.
 
@@ -169,16 +174,16 @@ class NationBuilder:
             - twitter_login
             - van_id
 
-        `Args:`
+        Args:
             data: dict
                 Nation builder person object.
                 For example {"email": "user@example.com", "tags": ["foo", "bar"]}
                 Docs: https://nationbuilder.com/people_api
-        `Returns:`
+        Returns:
             A tuple of `created` and `person` object with the updated data. If the request fails
             the method will return a tuple of `False` and `None`.
-        """
 
+        """
         _required_keys = [
             "civicrm_id",
             "county_file_id",
@@ -202,16 +207,14 @@ class NationBuilder:
             raise ValueError(f"person dict must contain at least one key of {_keys}")
 
         url = "people/push"
-        response = self.client.request(url, "PUT", data=json.dumps({"person": person}))
+        response = self.client.request(url=url, req_type="PUT", data=json.dumps({"person": person}))
 
         self.client.validate_response(response)
 
-        if response.status_code == 200:
-            if self.client.json_check(response):
-                return (False, response.json())
+        if response.status_code == 200 and self.client.json_check(response):
+            return (False, response.json())
 
-        if response.status_code == 201:
-            if self.client.json_check(response):
-                return (True, response.json())
+        if response.status_code == 201 and self.client.json_check(response):
+            return (True, response.json())
 
         return (False, None)

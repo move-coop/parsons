@@ -1,11 +1,12 @@
 import logging
+from typing import Literal
 
 # import pkgutil
 
 logger = logging.getLogger(__name__)
 
 
-class RedshiftTableUtilities(object):
+class RedshiftTableUtilities:
     def __init__(self):
         pass
 
@@ -13,15 +14,16 @@ class RedshiftTableUtilities(object):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
             view: boolean
                 Check to see if a view exists by the same name
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)
@@ -31,24 +33,19 @@ class RedshiftTableUtilities(object):
         table_name = [x.strip() for x in table_name]
 
         # Check in pg tables for the table
-        sql = """select count(*) from pg_tables where schemaname='{}' and
-                 tablename='{}';""".format(
-            table_name[0], table_name[1]
-        )
+        sql = f"""select count(*) from pg_tables where schemaname='{table_name[0]}' and
+                 tablename='{table_name[1]}';"""
 
-        # TODO maybe convert these queries to use self.query_with_connection
+        # TODO(jburchard): maybe convert these queries to use self.query_with_connection
 
         with self.cursor(connection) as cursor:
-
             cursor.execute(sql)
             result = cursor.fetchone()[0]
 
             # Check in the pg_views for the table
             if view:
-                sql = """select count(*) from pg_views where schemaname='{}' and
-                         viewname='{}';""".format(
-                    table_name[0], table_name[1]
-                )
+                sql = f"""select count(*) from pg_views where schemaname='{table_name[0]}' and
+                         viewname='{table_name[1]}';"""
 
             cursor.execute(sql)
             result += cursor.fetchone()[0]
@@ -71,13 +68,14 @@ class RedshiftTableUtilities(object):
 
            SELECT COUNT(*) FROM myschema.mytable
 
-        `Args:`
+        Args:
             table_name: str
                 The schema and name (e.g. ``myschema.mytable``) of the table.
-        `Returns:`
-            int
-        """
 
+        Returns:
+            int
+
+        """
         count_query = self.query(f"select count(*) from {table_name}")
         return count_query[0]["count"]
 
@@ -86,16 +84,17 @@ class RedshiftTableUtilities(object):
         Rename an existing table.
 
         .. note::
+
             You cannot move schemas when renaming a table. Instead, utilize
-            the :meth:`table_duplicate()`. method.
+            the :meth:`~.duplicate_table` method.
 
         Args:
             table_name: str
                 Name of existing schema and table (e.g. ``myschema.oldtable``)
             new_table_name: str
                 New name for table with the schema omitted (e.g. ``newtable``).
-        """
 
+        """
         sql = f"alter table {table_name} rename to {new_table_name}"
         self.query(sql)
         logger.info(f"{table_name} renamed to {new_table_name}")
@@ -106,19 +105,17 @@ class RedshiftTableUtilities(object):
         and distkey. **Once run, the source table rows will be empty.** This is
         more efficiant than running ``"create newtable as select * from oldtable"``.
 
-        For more information see: `ALTER TABLE APPEND <https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html>`_
+        For more information see: `ALTER TABLE APPEND <https://docs.aws.amazon.com/redshift/latest/dg/r_ALTER_TABLE_APPEND.html>`__
 
         Args:
             source_table: str
                 Name of existing schema and table (e.g. ``my_schema.old_table``)
             new_table: str
                 New name of schema and table (e.g. ``my_schema.newtable``)
-            drop_original: boolean
+            drop_source_table: boolean
                 Drop the source table.
-        Returns:
-                None
-        """  # noqa: E501,E261
 
+        """
         # To Do: Add the grants
         # To Do: Argument for if the table exists?
         # To Do: Add the ignore extra kwarg.
@@ -130,7 +127,6 @@ class RedshiftTableUtilities(object):
         self.query(create_sql)
 
         with self.connection() as conn:
-
             #  An ALTER TABLE statement can't be run within a block, meaning
             #  that it needs to be committed on running. To enable this,
             #  the connection must be set to autocommit.
@@ -145,11 +141,13 @@ class RedshiftTableUtilities(object):
 
         logger.info(f"{source_table} data moved from {new_table}  .")
 
-    def _create_table_precheck(self, connection, table_name, if_exists):
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
+        Args:
             connection: obj
                 A connection object obtained from ``redshift.connection()``
             table_name: str
@@ -157,11 +155,12 @@ class RedshiftTableUtilities(object):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-        `Returns:`
+
+        Returns:
             bool
                 True if the table needs to be created, False otherwise.
-        """
 
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
@@ -185,13 +184,18 @@ class RedshiftTableUtilities(object):
         return False
 
     def populate_table_from_query(
-        self, query, destination_table, if_exists="fail", distkey=None, sortkey=None
+        self,
+        query,
+        destination_table,
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
+        distkey=None,
+        sortkey=None,
     ):
         """
         Populate a Redshift table with the results of a SQL query, creating the table if it
         doesn't yet exist.
 
-        `Args:`
+        Args:
             query: str
                 The SQL query
             destination_table: str
@@ -203,6 +207,7 @@ class RedshiftTableUtilities(object):
                 The column to use as the distkey for the table.
             sortkey: str
                 The column to use as the sortkey for the table.
+
         """
         with self.connection() as conn:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
@@ -228,14 +233,14 @@ class RedshiftTableUtilities(object):
         source_table,
         destination_table,
         where_clause="",
-        if_exists="fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         drop_source_table=False,
     ):
         """
         Create a copy of an existing table (or subset of rows) in a new
         table. It will inherit encoding, sortkey and distkey.
 
-        `Args:`
+        Args:
             source_table: str
                 Name of existing schema and table (e.g. ``myschema.oldtable``)
             destination_table: str
@@ -247,8 +252,8 @@ class RedshiftTableUtilities(object):
                 or ``truncate`` the table.
             drop_source_table: boolean
                 Drop the source table
-        """
 
+        """
         with self.connection() as conn:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
@@ -283,10 +288,8 @@ class RedshiftTableUtilities(object):
                 duplicate rows.
             view: boolean
                 Create a view rather than a static table
-        Returns:
-            None
-        """
 
+        """
         union_type = " UNION ALL" if union_all else " UNION"
         table_type = "VIEW" if view else "TABLE"
 
@@ -309,11 +312,12 @@ class RedshiftTableUtilities(object):
                 Filter by a schema
             table_name: str
                 Filter by a table name
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         logger.info("Retrieving tables info.")
         sql = "select * from pg_tables"
         if schema or table_name:
@@ -333,16 +337,17 @@ class RedshiftTableUtilities(object):
         .. warning::
            This method is only accessible by Redshift *superusers*.
 
-        `Args:`
+        Args:
             schema: str
                 Filter by a schema
             table_name: str
                 Filter by a table name
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         logger.info("Retrieving table statistics.")
         sql = "select * from svv_table_info"
         if schema or table_name:
@@ -366,27 +371,27 @@ class RedshiftTableUtilities(object):
             for col in rs.get_columns('some_schema', 'some_table'):
                 print(col)
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             table_name: str
                 The table name
-        `Returns:`
+
+        Returns:
             A dict mapping column name to a dict with extra info. The keys of the dict are ordered
             just like the columns in the table. The extra info is a dict with format
 
             .. code-block:: python
 
                 {
-                'data_type': str,
-                'max_length': int or None,
-                'max_precision': int or None,
-                'max_scale': int or None,
-                'is_nullable': bool
+                    'data_type': str,
+                    'max_length': int or None,
+                    'max_precision': int or None,
+                    'max_scale': int or None,
+                    'is_nullable': bool
                 }
 
         """
-
         query = f"""
             select ordinal_position,
                    column_name,
@@ -416,13 +421,15 @@ class RedshiftTableUtilities(object):
         """
         Gets the just the column names for a table.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             table_name: str
                 The table name
-        `Returns:`
+
+        Returns:
             A list of column names.
+
         """
         schema = f'"{schema}"' if not (schema.startswith('"') and schema.endswith('"')) else schema
 
@@ -445,11 +452,12 @@ class RedshiftTableUtilities(object):
                 Filter by a schema
             view: str
                 Filter by a table name
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         logger.info("Retrieving views info.")
         sql = """
               select table_schema as schema_name,
@@ -471,14 +479,14 @@ class RedshiftTableUtilities(object):
         .. warning::
             Must be a Redshift superuser to run this method.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         logger.info("Retrieving running and queued queries.")
 
-        # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql # noqa: E501
+        # Lifted from Redshift Utils https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/running_queues.sql
         sql = """
               select trim(u.usename) as user,
                 s.pid,
@@ -502,21 +510,21 @@ class RedshiftTableUtilities(object):
                 decode(m.blocks_to_disk,-1,null,m.blocks_to_disk) spill_mb,
                 m2.rows as return_rows,
                 m3.rows as NL_rows,
-                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, -- # noqa: E501
-                trim(decode(event&1,1,'SK ','') || decode(event&2,2,'Del ','') || decode(event&4,4,'NL ','') ||  decode(event&8,8,'Dist ','') || decode(event&16,16,'Bcast ','') || decode(event&32,32,'Stats ','')) as Alert -- # noqa: E501
+                substring(replace(nvl(qrytext_cur.text,trim(translate(s.text,chr(10)||chr(13)||chr(9) ,''))),'\\n',' '),1,90) as sql, --
+                trim(decode(event&1,1,'SK ','') || decode(event&2,2,'Del ','') || decode(event&4,4,'NL ','') ||  decode(event&8,8,'Dist ','') || decode(event&16,16,'Bcast ','') || decode(event&32,32,'Stats ','')) as Alert --
             from stv_wlm_query_state q
             left outer join stl_querytext s on (s.query=q.query and sequence = 0)
             left outer join stv_query_metrics m on ( q.query = m.query and m.segment=-1 and m.step=-1 )
             left outer join stv_query_metrics m2 on ( q.query = m2.query and m2.step_type = 38 )
-            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) -- # noqa: E501
+            left outer join ( select query, sum(rows) as rows from stv_query_metrics m3 where step_type = 15 group by 1) as m3 on ( q.query = m3.query ) --
             left outer join pg_user u on ( s.userid = u.usesysid )
             LEFT OUTER JOIN (SELECT ut.xid,'CURSOR ' || TRIM( substring ( TEXT from strpos(upper(TEXT),'SELECT') )) as TEXT
             FROM stl_utilitytext ut
             WHERE sequence = 0
                AND upper(TEXT) like 'DECLARE%'
                GROUP BY text, ut.xid) qrytext_cur ON (q.xid = qrytext_cur.xid)
-            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG -- # noqa: E501
-            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query -- # noqa: E501
+            left outer join ( select query,sum(decode(trim(split_part(event,':',1)),'Very selective query filter',1,'Scanned a large number of deleted rows',2,'Nested Loop Join in the query plan',4,'Distributed a large number of rows across the network',8,'Broadcasted a large number of rows across the network',16,'Missing query planner statistics',32,0)) as event from STL_ALERT_EVENT_LOG --
+            where event_time >=  dateadd(hour, -8, current_Date) group by query  ) as alrt on alrt.query = q.query --
             """
 
         return self.query(sql)
@@ -525,13 +533,13 @@ class RedshiftTableUtilities(object):
         """
         Return the max value from a table.
 
-        `Args:`
+        Args:
             table_name: str
                 Schema and table name
             value_column: str
                 The column containing the values
-        """
 
+        """
         return self.query(f"SELECT MAX({value_column}) value from {table_name}")[0]["value"]
 
     def get_object_type(self, object_name):
@@ -540,10 +548,11 @@ class RedshiftTableUtilities(object):
 
         One of `view`, `table`, `index`, `sequence`, or `TOAST table`.
 
-        `Args:`
+        Args:
             object_name: str
                 The schema.obj for which to get the object type.
-        `Returns:`
+
+        Returns:
             `str` of the object type.
 
         """
@@ -573,10 +582,11 @@ class RedshiftTableUtilities(object):
         """
         Return true if the object is a view.
 
-        `Args:`
+        Args:
             object_name: str
                 The schema.obj to test if it's a view.
-        `Returns:`
+
+        Returns:
             `bool`
 
         """
@@ -588,10 +598,11 @@ class RedshiftTableUtilities(object):
         """
         Return true if the object is a table.
 
-        `Args:`
+        Args:
             object_name: str
                 The schema.obj to test if it's a table.
-        `Returns:`
+
+        Returns:
             `bool`
 
         """
@@ -603,13 +614,14 @@ class RedshiftTableUtilities(object):
         """
         Get the table definition (i.e. the create statement).
 
-        `Args:`
+        Args:
             table: str
                 The schema.table for which to get the table definition.
-        `Returns:`
-            str
-        """
 
+        Returns:
+            str
+
+        """
         schema, table = self.split_full_table_name(table)
 
         if not self.is_table(f"{schema}.{table}"):
@@ -628,16 +640,16 @@ class RedshiftTableUtilities(object):
         `schema` and `table`. Only returns the ddl for _tables_ that match
         `schema` and `table` if they exist.
 
-        `Args:`
+        Args:
             schema: str
                 The schema to filter by.
             table: str
                 The table to filter by.
-        `Returns:`
+
+        Returns:
             `list` of dicts with matching tables.
 
         """
-
         conditions = []
         if schema:
             conditions.append(f"schemaname like '{schema}'")
@@ -661,7 +673,7 @@ class RedshiftTableUtilities(object):
             return None
 
         def join_sql_parts(columns, rows):
-            return [f"{columns[1]}.{columns[2]}", "\n".join([row[4] for row in rows])]
+            return [f"{columns[1]}.{columns[2]}", "\n".join(row[4] for row in rows)]
 
         # The query returns the sql over multiple rows
         # We need to join then into a single row
@@ -678,13 +690,14 @@ class RedshiftTableUtilities(object):
         """
         Get the view definition (i.e. the create statement).
 
-        `Args:`
+        Args:
             view: str
                 The schema.view for which to get the view definition.
-        `Returns:`
-            str
-        """
 
+        Returns:
+            str
+
+        """
         schema, view = self.split_full_table_name(view)
 
         if not self.is_view(f"{schema}.{view}"):
@@ -703,16 +716,16 @@ class RedshiftTableUtilities(object):
         `schema` and `view`. Only returns the ddl for _views_ that match
         `schema` and `view` if they exist.
 
-        `Args:`
+        Args:
             schema: str
                 The schema to filter by.
             view: str
                 The view to filter by.
-        `Returns:`
+
+        Returns:
             `list` of dicts with matching views.
 
         """
-
         conditions = []
         if schema:
             conditions.append(f"schemaname like '{schema}'")
@@ -747,12 +760,14 @@ class RedshiftTableUtilities(object):
         Eg:
         ``(schema, table) = Redshift.split_full_table_name("some_schema.some_table")``
 
-        `Args:`
+        Args:
             full_table_name: str
                 The table name, as "schema.table"
-        `Returns:`
+
+        Returns:
             tuple
                 A tuple containing (schema, table)
+
         """
         if "." not in full_table_name:
             return "public", full_table_name
@@ -761,7 +776,7 @@ class RedshiftTableUtilities(object):
             schema, table = full_table_name.split(".")
         except ValueError as e:
             if "too many values to unpack" in str(e):
-                raise ValueError(f"Invalid Redshift table {full_table_name}")
+                raise ValueError(f"Invalid Redshift table {full_table_name}") from e
 
         return schema, table
 
@@ -770,13 +785,15 @@ class RedshiftTableUtilities(object):
         """
         Creates a full table name by combining a schema and table.
 
-        `Args:`
+        Args:
             schema: str
                 The schema name
             table: str
                 The table name
-        `Returns:`
+
+        Returns:
             str
                 The combined full table name
+
         """
         return f"{schema}.{table}"

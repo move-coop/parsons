@@ -1,8 +1,10 @@
 """NGPVAN Target Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
 import petl
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -11,9 +13,8 @@ class TargetsFailed(Exception):
     pass
 
 
-class Targets(object):
+class Targets:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def obj_dict(obj):
@@ -23,11 +24,11 @@ class Targets(object):
         """
         Get targets.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("targets"))
         logger.info(f"Found {tbl.num_rows} targets.")
         return tbl
@@ -36,14 +37,15 @@ class Targets(object):
         """
         Get a single target.
 
-        `Args:`
+        Args:
             target_id : int
                 The target id.
-        `Returns:`
+
+        Returns:
             dict
                 The target
-        """
 
+        """
         r = self.connection.get_request(f"targets/{target_id}")
         logger.info(f"Found target {target_id}.")
         return r
@@ -52,11 +54,11 @@ class Targets(object):
         """
         Get specific target export job id's status.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         response = self.connection.get_request(f"targetExportJobs/{export_job_id}")
         job_status = response.get("jobStatus")
         if job_status == "Complete":
@@ -71,12 +73,14 @@ class Targets(object):
         """
         Create new target export job
 
-        `Args:`
+        Args:
             target_id : int
                 The target id the export job is creating for.
-        `Returns:`
+
+        Returns:
             dict
                 The target export job ID
+
         """
         target_export = {"targetId": target_id}
 

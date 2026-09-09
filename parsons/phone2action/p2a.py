@@ -1,22 +1,27 @@
-from parsons.capitol_canary import CapitolCanary
 import logging
+from datetime import datetime
+
+from parsons import Table
+from parsons.capitol_canary import CapitolCanary
 
 logger = logging.getLogger(__name__)
 
 
-class Phone2Action(object):
+class Phone2Action:
     """
     Instantiate Phone2Action Class
 
-    `Args:`
+    Args:
         app_id: str
             The Phone2Action provided application id. Not required if ``PHONE2ACTION_APP_ID``
             env variable set.
         app_key: str
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         Phone2Action Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -26,17 +31,23 @@ class Phone2Action(object):
     def __getattr__(self, name):
         try:
             return getattr(self.capitol_canary, name)
-        except AttributeError:
-            raise AttributeError(f"{type(self).__name__} object has no attribute {name}")
+        except AttributeError as e:
+            raise AttributeError(f"{type(self).__name__} object has no attribute {name}") from e
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
+    def get_advocates(
+        self,
+        state=None,
+        campaign_id=None,
+        updated_since: str | int | datetime | None = None,
+        page=None,
+    ):
         """
         Return advocates (person records).
 
         If no page is specified, the method will automatically paginate through the available
         advocates.
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state
                 or territory e.g., "CA" "NY" or "DC"
@@ -48,8 +59,9 @@ class Phone2Action(object):
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
-        `Returns:`
-            A dict of parsons tables:
+
+        Returns:
+            dict[Table]:
                 * emails
                 * phones
                 * memberships
@@ -57,6 +69,7 @@ class Phone2Action(object):
                 * ids
                 * fields
                 * advocates
+
         """
         return self.capitol_canary.get_advocates(state, campaign_id, updated_since, page)
 
@@ -67,11 +80,11 @@ class Phone2Action(object):
         include_generic=False,
         include_private=False,
         include_content=True,
-    ):
+    ) -> Table:
         """
         Returns a list of campaigns
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
             zip: int
@@ -83,11 +96,11 @@ class Phone2Action(object):
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            See :ref:`Table` for output options.
+
+        """
         return self.capitol_canary.get_campaigns(
             state, zip, include_generic, include_private, include_content
         )
@@ -120,7 +133,7 @@ class Phone2Action(object):
         For a complete list of fields that can be updated, see
         `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
             first_name: str
@@ -158,10 +171,11 @@ class Phone2Action(object):
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
-        `Returns:`
+        Returns:
             The int ID of the created advocate.
+
         """
         return self.capitol_canary.create_advocate(
             campaigns,
@@ -203,7 +217,7 @@ class Phone2Action(object):
         For a complete list of fields that can be updated, see
         `the Phone2Action API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             advocate_id: integer
                 The ID of the advocate being updates
             campaigns: list
@@ -227,8 +241,9 @@ class Phone2Action(object):
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
+
         """
         return self.capitol_canary.update_advocate(
             advocate_id,

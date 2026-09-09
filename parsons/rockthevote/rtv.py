@@ -1,10 +1,10 @@
 import datetime
 import logging
-import petl
 import re
-import requests
 import time
 
+import petl
+import requests
 from dateutil.parser import parse as parse_date
 
 from parsons import Table
@@ -43,7 +43,7 @@ class RockTheVote:
     """
     Instantiate the RockTheVote class
 
-    `Args:`
+    Args:
         partner_id: str
             The RockTheVote partner ID for the RTV account.
             Not required if the ``RTV_PARTNER_ID`` environmental variable is set.
@@ -52,8 +52,10 @@ class RockTheVote:
             Not required if the ``RTV_PARTNER_API_KEY`` environmental variable is set.
         testing: bool
             Whether or not to use the staging instance. Defaults to False.
-    `Returns`:
+
+    Returns:
         RockTheVote class
+
     """
 
     def __init__(self, partner_id=None, partner_api_key=None, testing=False):
@@ -69,7 +71,7 @@ class RockTheVote:
         """
         Create a new registration report.
 
-        `Args:`
+        Args:
             before: str
                 Limit to registrations that were started before this date, in
                 ISO format (e.g. 2020-01-01)
@@ -79,9 +81,11 @@ class RockTheVote:
             report_type: str
                 The type of report to create. If left as None, it creates the default report. The
                 ``extended`` report includes additional fields. Currently only accepts ``extended``.
-        `Returns:`
+
+        Returns:
             int
                 The ID of the created report.
+
         """
         report_url = "registrant_reports.json"
         # Create the report for the new data
@@ -111,7 +115,7 @@ class RockTheVote:
             f"Creating {report_str} for {self.partner_id} "
             f"for dates: {since_date} to {before_date}..."
         )
-        response = self.client.request(report_url, "post", json=report_parameters)
+        response = self.client.request(url=report_url, req_type="POST", json=report_parameters)
         if response.status_code != requests.codes.ok:
             raise RTVFailure("Couldn't create RTV registrations report")
 
@@ -142,7 +146,7 @@ class RockTheVote:
         """
         Get data from an existing registration report.
 
-        `Args:`
+        Args:
             report_id: int
                 The ID of the report to get data from
             block: bool
@@ -151,9 +155,10 @@ class RockTheVote:
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int
                 If blocking, how long to wait for the report before timing out
-        `Returns:`
-            Parsons Table
+        Returns:
+            Table
                 Parsons table with the report data.
+
         """
         logger.info(f"Getting report with id {report_id}...")
         credentials = {
@@ -176,7 +181,9 @@ class RockTheVote:
             )
 
             # Check the status again via the status endpoint
-            status_response = self.client.request(status_url, "get", params=credentials)
+            status_response = self.client.request(
+                url=status_url, req_type="GET", params=credentials
+            )
 
             # Check to make sure the call got a valid response
             if status_response.status_code == requests.codes.ok:
@@ -201,7 +208,9 @@ class RockTheVote:
             raise RTVFailure("Timed out waiting for report")
 
         # Download the report data
-        download_response = self.client.request(download_url, "get", params=credentials)
+        download_response = self.client.request(
+            url=download_url, req_type="GET", params=credentials
+        )
 
         # Check to make sure the call got a valid response
         if download_response.status_code == requests.codes.ok:
@@ -235,7 +244,7 @@ class RockTheVote:
         This method will block until the report has finished generating, or until the specified
         timeout is reached.
 
-        `Args:`
+        Args:
             before: str
                 Limit to registrations that were started before this date, in
                 ISO format (e.g. 2020-01-01)
@@ -249,14 +258,13 @@ class RockTheVote:
                 If blocking, how long to pause between attempts to check if the report is done
             report_timeout_seconds: int
                 If blocking, how long to wait for the report before timing out
-        `Returns:`
-            Parsons.Table
+        Returns:
+            Table
                 The table with the report data.
+
         """
         report_str = f"{report_type} report" if report_type else "report"
-        logger.info(
-            f"Running {report_str} for {self.partner_id} " f"for dates: {since} to {before}..."
-        )
+        logger.info(f"Running {report_str} for {self.partner_id} for dates: {since} to {before}...")
         report_id = self.create_registration_report(
             before=before, since=since, report_type=report_type
         )
@@ -272,6 +280,7 @@ class RockTheVote:
     ):
         """
         Checks state eligibility and provides state specific fields information.
+
         Args:
             lang: str
                 Required. Language. Represented by an abbreviation. 'en', 'es', etc
@@ -284,8 +293,9 @@ class RockTheVote:
             callback: str
                 Optional.  If used, will change the return value from JSON format to jsonp
         Returns:
-            Parsons.Table
+            Table
                 A single row table with the response json
+
         """
         requirements_url = "state_requirements.json"
 
@@ -303,7 +313,9 @@ class RockTheVote:
         if callback:
             params["callback"] = callback
 
-        requirements_response = self.client.request(requirements_url, "get", params=params)
+        requirements_response = self.client.request(
+            url=requirements_url, req_type="GET", params=params
+        )
 
         if requirements_response.status_code == requests.codes.ok:
             response_json = requirements_response.json()

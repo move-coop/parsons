@@ -1,8 +1,9 @@
+import logging
 import os
 import unittest
 import unittest.mock as mock
+
 from parsons import Alchemer
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -32,9 +33,9 @@ class TestAlchemErGetResponses(unittest.TestCase):
 
         actual_responses = self.alchemer.get_survey_responses(self.test_survey_id)
 
-        self.assertEqual(2, actual_responses.num_rows)
+        assert actual_responses.num_rows == 2
         for i in range(0, 1):
-            self.assertEqual(api_return["data"][i]["session_id"], actual_responses[i]["session_id"])
+            assert api_return["data"][i]["session_id"] == actual_responses[i]["session_id"]
 
     def _get_responses_return_single_page(self):
         return {
@@ -57,7 +58,7 @@ class TestAlchemErGetResponses(unittest.TestCase):
                     "url_variables": [],
                     "ip_address": "50.232.185.226",
                     "referer": "https://app.surveygizmo.com/distribute/share/id/4599075",
-                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",  # noqa
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
                     "response_time": 10,
                     "data_quality": [],
                     "longitude": "-105.20369720459",
@@ -111,7 +112,7 @@ class TestAlchemErGetResponses(unittest.TestCase):
                     },
                     "ip_address": "50.232.185.226",
                     "referer": "",
-                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",  # noqa
+                    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
                     "response_time": 10,
                     "data_quality": [],
                     "longitude": "-105.20369720459",

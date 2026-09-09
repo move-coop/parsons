@@ -1,0 +1,49 @@
+#######
+Empower
+#######
+
+Overview
+========
+
+The Empower class allows you to interact with the Empower API. Documentation for the Empower API can be found
+in their `GitHub <https://github.com/getempower/api-documentation/blob/master/README.md>`__ repo.
+
+The Empower API only has a single endpoint to access all account data. As such, it has a very high overhead. This
+connector employs caching in order to allow the user to specify the tables to extract without additional API calls.
+You can disable caching as an argument when instantiating the class.
+
+.. admonition:: Authentication
+
+    You must request a secret token from Empower.
+
+Quickstart
+==========
+
+To instantiate the Empower class, you can either store your ``EMPOWER_API_KEY`` as an environment
+variables or pass it in as an argument:
+
+.. code-block:: python
+   :caption: Use API key environment variables
+
+   from parsons import Empower
+   empower = Empower()
+
+.. code-block:: python
+   :caption: Pass API keys as arguments
+
+   from parsons import Empower
+   empower = Empower(api_key='MY_API_KEY')
+
+You can then call class methods:
+
+.. code-block:: python
+   :caption: Request table of profiles
+
+   tbl = empower.get_profiles()
+
+API
+====
+
+.. autoclass:: parsons.empower.empower.Empower
+   :inherited-members:
+   :members:

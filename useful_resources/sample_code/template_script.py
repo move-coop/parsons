@@ -22,7 +22,7 @@ config_vars = {
 # ### CODE
 
 # //To Script Writer//: import any other packages your script uses
-import os  # noqa: E402
+import os  # noqa E402 module-import-not-at-top-of-file
 
 # //To Script Writer//: import any connectors your script uses
 # from parsons import utilities, logger

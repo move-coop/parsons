@@ -1,13 +1,16 @@
+import logging
+import pickle
 from contextlib import contextmanager
-from typing import Optional
+from pathlib import Path
+from typing import Literal
+
+import petl
 import psycopg2
 import psycopg2.extras
+
+from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 from parsons.etl.table import Table
 from parsons.utilities import files
-import pickle
-import petl
-import logging
-from parsons.databases.postgres.postgres_create_statement import PostgresCreateStatement
 
 # Max number of rows that we query at a time, so we can avoid loading huge
 # data sets into memory.
@@ -29,10 +32,10 @@ class PostgresCore(PostgresCreateStatement):
         any context manager):
         ``with pg.connection() as conn:``
 
-        `Returns:`
+        Yields:
             Psycopg2 `connection` object
-        """
 
+        """
         # Create a psycopg2 connection and cursor
         conn = psycopg2.connect(
             user=self.username,
@@ -62,7 +65,7 @@ class PostgresCore(PostgresCreateStatement):
         finally:
             cur.close()
 
-    def query(self, sql: str, parameters: Optional[list] = None) -> Optional[Table]:
+    def query(self, sql: str, parameters: list | None = None) -> Table | None:
         """
         Execute a query against the database. Will return ``None`` if the query returns zero rows.
 
@@ -88,18 +91,17 @@ class PostgresCore(PostgresCreateStatement):
             sql = f"SELECT * FROM my_table WHERE name IN ({placeholders})"
             rs.query(sql, parameters=names)
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             parameters: list
                 A list of python variables to be converted into SQL values in your query
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
-        """  # noqa: E501
-
+        """
         with self.connection() as connection:
             return self.query_with_connection(sql, connection, parameters=parameters)
 
@@ -108,7 +110,7 @@ class PostgresCore(PostgresCreateStatement):
         Execute a query against the database, with an existing connection. Useful for batching
         queries together. Will return ``None`` if the query returns zero rows.
 
-        `Args:`
+        Args:
             sql: str
                 A valid SQL statement
             connection: obj
@@ -120,13 +122,12 @@ class PostgresCore(PostgresCreateStatement):
                 be committed when the connection goes out of scope and is closed (or you can
                 commit manually with ``connection.commit()``).
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
         """
-
         with self.cursor(connection) as cursor:
-
             logger.debug(f"SQL Query: {sql}")
             cursor.execute(sql, parameters)
 
@@ -139,14 +140,13 @@ class PostgresCore(PostgresCreateStatement):
                 return None
 
             else:
-
                 # Fetch the data in batches, and "pickle" the rows to a temp file.
                 # (We pickle rather than writing to, say, a CSV, so that we maintain
                 # all the type information for each field.)
 
                 temp_file = files.create_temp_file()
 
-                with open(temp_file, "wb") as f:
+                with Path(temp_file).open(mode="wb") as f:
                     # Grab the header
                     header = [i[0] for i in cursor.description]
                     pickle.dump(header, f)
@@ -166,11 +166,13 @@ class PostgresCore(PostgresCreateStatement):
                 logger.debug(f"Query returned {final_tbl.num_rows} rows.")
                 return final_tbl
 
-    def _create_table_precheck(self, connection, table_name, if_exists):
+    def _create_table_precheck(
+        self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
+    ):
         """
         Helper to determine what to do when you need a table that may already exist.
 
-        `Args:`
+        Args:
             connection: obj
                 A connection object obtained from ``redshift.connection()``
             table_name: str
@@ -178,17 +180,17 @@ class PostgresCore(PostgresCreateStatement):
             if_exists: str
                 If the table already exists, either ``fail``, ``append``, ``drop``,
                 or ``truncate`` the table.
-        `Returns:`
+
+        Returns:
             bool
                 True if the table needs to be created, False otherwise.
-        """
 
+        """
         if if_exists not in ["fail", "truncate", "append", "drop"]:
             raise ValueError("Invalid value for `if_exists` argument")
 
         # If the table exists, evaluate the if_exists argument for next steps.
         if self.table_exists_with_connection(table_name, connection):
-
             if if_exists == "fail":
                 raise ValueError("Table already exists.")
 
@@ -212,30 +214,29 @@ class PostgresCore(PostgresCreateStatement):
         """
         Check if a table or view exists in the database.
 
-        `Args:`
+        Args:
             table_name: str
                 The table name and schema (e.g. ``myschema.mytable``).
             view: boolean
                 Check to see if a view exists by the same name. Defaults to ``True``.
 
-        `Returns:`
+        Returns:
             boolean
                 ``True`` if the table exists and ``False`` if it does not.
+
         """
         with self.connection() as connection:
             return self.table_exists_with_connection(table_name, connection, view)
 
     def table_exists_with_connection(self, table_name, connection, view=True):
-
         # Extract the table and schema from this. If no schema is detected then
         # will default to the public schema.
         try:
-            schema, table = table_name.lower().split(".", 1)
+            schema, table = table_name.split(".", 1)
         except ValueError:
-            schema, table = "public", table_name.lower()
+            schema, table = "public", table_name
 
         with self.cursor(connection) as cursor:
-
             # Check in pg tables for the table
             sql = f"""select count(*) from pg_tables where schemaname='{schema}' and
                      tablename='{table}';"""
@@ -251,7 +252,4 @@ class PostgresCore(PostgresCreateStatement):
                 result += cursor.fetchone()[0]
 
         # If in either, return boolean
-        if result >= 1:
-            return True
-        else:
-            return False
+        return result >= 1

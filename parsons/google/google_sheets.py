@@ -1,12 +1,14 @@
-import os
-import json
 import logging
-
-from parsons.etl.table import Table
-from parsons.google.utitities import setup_google_application_credentials, hexavigesimal
+import uuid
 
 import gspread
-from google.oauth2.service_account import Credentials
+
+from parsons.etl.table import Table
+from parsons.google.utilities import (
+    hexavigesimal,
+    load_google_application_credentials,
+    setup_google_application_credentials,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,7 @@ class GoogleSheets:
     """
     A connector for Google Sheets, handling data import and export.
 
-    `Args:`
+    Args:
         google_keyfile_dict: dict
             A dictionary of Google Drive API credentials, parsed from JSON provided
             by the Google Developer Console. Required if env variable
@@ -23,21 +25,24 @@ class GoogleSheets:
         subject: string
             In order to use account impersonation, pass in the email address of the account to be
             impersonated as a string.
+
     """
 
     def __init__(self, google_keyfile_dict=None, subject=None):
-
         scope = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
         ]
 
-        setup_google_application_credentials(google_keyfile_dict, "GOOGLE_DRIVE_CREDENTIALS")
-        google_credential_file = open(os.environ["GOOGLE_DRIVE_CREDENTIALS"])
-        credentials_dict = json.load(google_credential_file)
+        env_credentials_path = str(uuid.uuid4())
+        setup_google_application_credentials(
+            google_keyfile_dict,
+            "GOOGLE_DRIVE_CREDENTIALS",
+            target_env_var_name=env_credentials_path,
+        )
 
-        credentials = Credentials.from_service_account_info(
-            credentials_dict, scopes=scope, subject=subject
+        credentials = load_google_application_credentials(
+            env_credentials_path, scopes=scope, subject=subject
         )
 
         self.gspread_client = gspread.authorize(credentials)
@@ -53,8 +58,8 @@ class GoogleSheets:
             idx = self.list_worksheets(spreadsheet_id).index(worksheet)
             try:
                 return self.gspread_client.open_by_key(spreadsheet_id).get_worksheet(idx)
-            except:  # noqa: E722
-                raise ValueError(f"Couldn't find worksheet {worksheet}")
+            except Exception as e:
+                raise ValueError(f"Couldn't find worksheet {worksheet}") from e
 
         else:
             raise ValueError(f"Couldn't find worksheet index or title {worksheet}")
@@ -63,12 +68,14 @@ class GoogleSheets:
         """
         Return a list of worksheets in the spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-        `Returns:`
+
+        Returns:
             list
                 A List of worksheets order by their index
+
         """
         worksheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
         return [w.title for w in worksheets]
@@ -78,39 +85,40 @@ class GoogleSheets:
         Get the first sheet in a Google spreadsheet with the given title. The
         title is case sensitive and the index begins with 0.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             title: str
                 The sheet title
-        `Returns:`
+        Returns:
             str
                 The sheet index
-        """
 
+        """
         sheets = self.gspread_client.open_by_key(spreadsheet_id).worksheets()
         for index, sheet in enumerate(sheets):
             if sheet.title == title:
                 return index
         raise ValueError(f"Couldn't find sheet with title {title}")
 
-    def get_worksheet(self, spreadsheet_id, worksheet=0):
+    def get_worksheet(self, spreadsheet_id, worksheet=0, skip_header_rows: int = 0):
         """
         Create a ``parsons table`` from a sheet in a Google spreadsheet, given the sheet index.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
-        tbl = Table(worksheet.get_all_values())
+        tbl = Table(worksheet.get_all_values()[skip_header_rows:])
         logger.info(f"Retrieved worksheet with {tbl.num_rows} rows.")
         return tbl
 
@@ -127,7 +135,7 @@ class GoogleSheets:
         """
         Share a spreadsheet with a user, group of users, domain and/or the public.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             sharee: str
@@ -145,8 +153,8 @@ class GoogleSheets:
                 The email to be sent if notify kwarg set to True.
             with_link: boolean
                 Whether a link is required for this permission.
-        """
 
+        """
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.share(
             sharee,
@@ -162,14 +170,15 @@ class GoogleSheets:
         """
         List the permissioned users and groups for a spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         tbl = Table(spreadsheet.list_permissions())
         logger.info(f"Retrieved permissions for {spreadsheet_id} spreadsheet.")
@@ -180,7 +189,7 @@ class GoogleSheets:
         Creates a new Google spreadsheet. Optionally shares the new doc with
         the given email address. Optionally creates the sheet in a specified folder.
 
-        `Args:`
+        Args:
             title: str
                 The human-readable title of the new spreadsheet
             editor_email: str (optional)
@@ -191,11 +200,11 @@ class GoogleSheets:
                 Tip: Get this from the folder URL.
                 Anyone shared on the folder will have access to the spreadsheet.
 
-        `Returns:`
+        Returns:
             str
                 The spreadsheet ID
-        """
 
+        """
         spreadsheet = self.gspread_client.create(title, folder_id=folder_id)
 
         if editor_email:
@@ -213,9 +222,10 @@ class GoogleSheets:
         """
         Deletes a Google spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
+
         """
         self.gspread_client.del_spreadsheet(spreadsheet_id)
         logger.info(f"Deleted spreadsheet {spreadsheet_id}")
@@ -224,7 +234,7 @@ class GoogleSheets:
         """
         Adds a sheet to a Google spreadsheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             rows: int
@@ -232,9 +242,10 @@ class GoogleSheets:
             cols
                 Number of cols
 
-        `Returns:`
+        Returns:
             str
                 The sheet index
+
         """
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         spreadsheet.add_worksheet(title, rows, cols)
@@ -249,18 +260,22 @@ class GoogleSheets:
         Append data from a Parsons table to a Google sheet. Note that the table's columns are
         ignored, as we'll be keeping whatever header row already exists in the Google sheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
+
         """
+        if not table.num_rows:
+            logger.warning("No data provided to append, skipping.")
+            return
 
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
@@ -270,7 +285,7 @@ class GoogleSheets:
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
         # Grab the existing data, so we can figure out where to start adding new data as a batch.
-        # TODO Figure out a way to do a batch append without having to read the whole sheet first.
+        # TODO(jburchard): Figure out a way to do a batch append without having to read the whole sheet first.
         # Maybe use gspread's low-level batch_update().
         existing_table = self.get_worksheet(spreadsheet_id, worksheet)
 
@@ -280,7 +295,7 @@ class GoogleSheets:
 
         cells = []
         for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
+            for col_num, _cell in enumerate(row):
                 # Add 2 to allow for the header row, and for google sheets indexing starting at 1
                 sheet_row_num = existing_table.num_rows + row_num + 2
                 cells.append(gspread.Cell(sheet_row_num, col_num + 1, row[col_num]))
@@ -299,15 +314,15 @@ class GoogleSheets:
         """
         Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
         presently existing data. This function is useful for adding data to a subsection
-        if an existint sheet that will have other existing data - constrast to
+        if an existing sheet that will have other existing data - contrast to
         `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
-        (whuch sticks the data only after all other existing data).
+        (which sticks the data only after all other existing data).
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL).
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with 0.
             header: bool
@@ -316,6 +331,7 @@ class GoogleSheets:
                 Starting row position of pasted data. Counts from 0.
             startcol: int
                 Starting column position of pasted data. Counts from 0.
+
         """
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
@@ -357,19 +373,19 @@ class GoogleSheets:
         Replace the data in a Google sheet with a Parsons table, using the table's columns as the
         first row.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             table: obj
-                Parsons table
+                Table
             worksheet: str or int
                 The index or the title of the worksheet. The index begins with
                 0.
             user_entered_value: bool (optional)
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
-        """
 
+        """
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
@@ -378,6 +394,10 @@ class GoogleSheets:
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
 
+        if not len(table.columns):
+            logger.warning("No data provided, worksheet is empty.")
+            return
+
         value_input_option = "RAW"
         if user_entered_value:
             value_input_option = "USER_ENTERED"
@@ -385,21 +405,25 @@ class GoogleSheets:
         # Add header row
         sheet.append_row(table.columns, value_input_option=value_input_option)
 
-        cells = []
-        for row_num, row in enumerate(table.data):
-            for col_num, cell in enumerate(row):
-                # We start at row #2 to keep room for the header row we added above
-                cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
+        if table.num_rows:
+            cells = []
+            for row_num, row in enumerate(table.data):
+                for col_num, _ in enumerate(row):
+                    # We start at row #2 to keep room for the header row we added above
+                    cells.append(gspread.Cell(row_num + 2, col_num + 1, row[col_num]))
 
-        # Update the data in one batch
-        sheet.update_cells(cells, value_input_option=value_input_option)
+            # Update the data in one batch
+            sheet.update_cells(cells, value_input_option=value_input_option)
+        else:
+            logger.warning("No rows provided.")
+
         logger.info("Overwrote worksheet.")
 
     def format_cells(self, spreadsheet_id, range, cell_format, worksheet=0):
         """
         Format the cells of a worksheet.
 
-        `Args:`
+        Args:
             spreadsheet_id: str
                 The ID of the spreadsheet (Tip: Get this from the spreadsheet URL)
             range: str
@@ -420,26 +444,30 @@ class GoogleSheets:
 
             # Color the background of 'A2:B2' cell range yellow,
             # change horizontal alignment, text color and font size
-            gs.format_cells.format(sheet_id, "A2:B2", {
-                "backgroundColor": {
-                    "red": 0.0,
-                    "green": 0.0,
-                    "blue": 0.0
-                    },
-                "horizontalAlignment": "CENTER",
-                "textFormat": {
-                    "foregroundColor": {
-                        "red": 1.0,
-                        "green": 1.0,
+            gs.format_cells.format(
+                sheet_id,
+                "A2:B2",
+                {
+                    "backgroundColor": {
+                        "red": 0.0,
+                        "green": 0.0,
                         "blue": 0.0
+                    },
+                    "horizontalAlignment": "CENTER",
+                    "textFormat": {
+                        "foregroundColor": {
+                            "red": 1.0,
+                            "green": 1.0,
+                            "blue": 0.0
                         },
                         "fontSize": 12,
                         "bold": True
-                        }
-                    }, worksheet=0)
+                    }
+                },
+                worksheet=0
+            )
 
-        """  # noqa: E501,E261
-
+        """
         ws = self._get_worksheet(spreadsheet_id, worksheet)
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")

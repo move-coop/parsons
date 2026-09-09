@@ -1,6 +1,8 @@
-from parsons.etl import Table
-import requests
 import logging
+
+import requests
+
+from parsons import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
@@ -8,11 +10,11 @@ logger = logging.getLogger(__name__)
 TURBOVOTE_URI = "https://turbovote-admin-http-api.prod.democracy.works/"
 
 
-class TurboVote(object):
+class TurboVote:
     """
     Instantiate the TurboVote class
 
-    `Args:`
+    Args:
         username: str
             A valid TurboVote username. Not required if ``TURBOVOTE_USERNAME``
             env variable set.
@@ -22,12 +24,13 @@ class TurboVote(object):
         subdomain: str
             Your TurboVote subdomain (i.e. ``https://MYORG.turbovote.org``). Not
             required if ``TURBOVOTE_SUBDOMAIN`` env variable set.
-    `Returns:`
+
+    Returns:
         class
+
     """
 
     def __init__(self, username=None, password=None, subdomain=None):
-
         self.username = check_env.check("TURBOVOTE_USERNAME", username)
         self.password = check_env.check("TURBOVOTE_PASSWORD", password)
         self.subdomain = check_env.check("TURBOVOTE_SUBDOMAIN", subdomain)
@@ -48,11 +51,11 @@ class TurboVote(object):
         """
         Get users.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         url = self.uri + f"partners/{self.subdomain}.turbovote.org/users"
 
         headers = {"Authorization": f"Bearer {self._get_token()}"}

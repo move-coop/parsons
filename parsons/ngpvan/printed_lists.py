@@ -1,14 +1,14 @@
 """NGPVAN Saved List Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class PrintedLists(object):
+class PrintedLists:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_printed_lists(
@@ -22,15 +22,15 @@ class PrintedLists(object):
         """
         Get printed lists.
 
-        `Args:`
+        Args:
             folder_id: int
                 Filter by the id for a VAN folder. If included returns only
                 the saved lists in the folder
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         params = {
             "generatedAfter": generated_after,
             "generatedBefore": generated_before,
@@ -50,13 +50,13 @@ class PrintedLists(object):
         """
         Returns a printed list object.
 
-        `Args:`
+        Args:
             printed_list_number: int
                 The printed list number
-        `Returns:`
+        Returns:
             dict
-        """
 
+        """
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
         logger.info(f"Found printed list {printed_list_number}.")
         return r

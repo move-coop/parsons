@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    ignore:
+      - dependency-name: python
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
+    ignore:
+      - dependency-name: bandit
+      - dependency-name: ruff
+      - dependency-name: sphinx-lint

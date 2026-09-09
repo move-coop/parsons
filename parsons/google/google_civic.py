@@ -1,22 +1,24 @@
-from parsons.utilities import check_env
 import requests
-from parsons.etl import Table
+
+from parsons import Table
+from parsons.utilities import check_env
 
 URI = "https://www.googleapis.com/civicinfo/v2/"
 
 
-class GoogleCivic(object):
+class GoogleCivic:
     """
-    `Args:`
+    Args:
         api_key : str
             A valid Google api key. Not required if ``GOOGLE_CIVIC_API_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         class
+
     """
 
     def __init__(self, api_key=None):
-
         self.api_key = check_env.check("GOOGLE_CIVIC_API_KEY", api_key)
         self.uri = URI
 
@@ -36,11 +38,11 @@ class GoogleCivic(object):
         """
         Get a collection of information about elections and voter information.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         url = self.uri + "elections"
 
         return Table((self.request(url))["elections"])
@@ -59,17 +61,18 @@ class GoogleCivic(object):
         """
         Get polling location information for a given address.
 
-        `Args:`
+        Args:
             election_id: int
                 A valid election id. Election ids can be found by running the
                 :meth:`get_elections` method.
             address: str
                 A valid US address in a single string.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         r = self._get_voter_info(election_id, address)
 
         return r["pollingLocations"]
@@ -78,7 +81,7 @@ class GoogleCivic(object):
         """
         Get polling location information for a table of addresses.
 
-        `Args:`
+        Args:
             election_id: int
                 A valid election id. Election ids can be found by running the
                 :meth:`get_elections` method.
@@ -86,11 +89,12 @@ class GoogleCivic(object):
                 A valid US address in a single string.
             address_field: str
                 The name of the column where the address is stored.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         polling_locations = []
 
         # Iterate through the rows of the table
@@ -122,12 +126,13 @@ class GoogleCivic(object):
     ):
         """
         Get representative information for a given address.
+
         This method returns the raw JSON response from the Google Civic API.
         It is a complex response that is not easily parsed into a table.
         Here is the information on how to parse the response:
         https://developers.google.com/civic-information/docs/v2/representatives/representativeInfoByAddress
 
-        `Args:`
+        Args:
             address: str
                 A valid US address in a single string.
             include_offices: bool
@@ -137,38 +142,41 @@ class GoogleCivic(object):
                 A list of office levels to filter by.
                 Only offices that serve at least one of these levels will be returned.
                 Divisions that don't contain a matching office will not be returned.
-                    Acceptable values are:
-                    "administrativeArea1"
-                    "administrativeArea2"
-                    "country"
-                    "international"
-                    "locality"
-                    "regional"
-                    "special"
-                    "subLocality1"
-                    "subLocality2"
+                Acceptable values are:
+
+                - "administrativeArea1"
+                - "administrativeArea2"
+                - "country"
+                - "international"
+                - "locality"
+                - "regional"
+                - "special"
+                - "subLocality1"
+                - "subLocality2"
+
             roles: list of str
                 A list of office roles to filter by.
                 Only offices fulfilling one of these roles will be returned.
                 Divisions that don't contain a matching office will not be returned.
-                    Acceptable values are:
-                    "deputyHeadOfGovernment"
-                    "executiveCouncil"
-                    "governmentOfficer"
-                    "headOfGovernment"
-                    "headOfState"
-                    "highestCourtJudge"
-                    "judge"
-                    "legislatorLowerBody"
-                    "legislatorUpperBody"
-                    "schoolBoard"
-                    "specialPurposeOfficer"
+                Acceptable values are:
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+                - "deputyHeadOfGovernment"
+                - "executiveCouncil"
+                - "governmentOfficer"
+                - "headOfGovernment"
+                - "headOfState"
+                - "highestCourtJudge"
+                - "judge"
+                - "legislatorLowerBody"
+                - "legislatorUpperBody"
+                - "schoolBoard"
+                - "specialPurposeOfficer"
+
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
         """
-
         if levels is not None and not isinstance(levels, list):
             raise ValueError("levels must be a list of strings")
         if roles is not None and not isinstance(roles, list):

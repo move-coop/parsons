@@ -1,25 +1,25 @@
 """NGPVAN Supporter Groups Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class SupporterGroups(object):
+class SupporterGroups:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_supporter_groups(self):
         """
         Get supporter groups.
 
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
+        Returns:
+            Table
+                See :ref:`Table` for output options.
 
+        """
         tbl = Table(self.connection.get_request("supporterGroups"))
         logger.info(f"Found {tbl.num_rows} supporter groups.")
         return tbl
@@ -28,13 +28,14 @@ class SupporterGroups(object):
         """
         Get a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id.
-        `Returns:`
-            dict
-        """
 
+        Returns:
+            dict
+
+        """
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Found supporter group {supporter_group_id}.")
         return r
@@ -43,16 +44,17 @@ class SupporterGroups(object):
         """
         Create a new supporter group.
 
-        `Args:`
+        Args:
             name: str
                 The name of the supporter group. 100 character limit
             description: str
                 Optional; A description of the supporter group. 200 character limit.
-        `Returns`
+
+        Returns:
             Parsons Table with the newly createed supporter group id, name
             and description
-        """
 
+        """
         json = {"name": name, "description": description}
         r = self.connection.post_request("supporterGroups", json=json)
         return r
@@ -61,13 +63,11 @@ class SupporterGroups(object):
         """
         Delete a supporter group.
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
         logger.info(f"Deleted supporter group {supporter_group_id}.")
         return r
@@ -76,15 +76,13 @@ class SupporterGroups(object):
         """
         Add a person to a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to apply
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
         return r
@@ -93,15 +91,13 @@ class SupporterGroups(object):
         """
         Remove a person from a supporter group
 
-        `Args:`
+        Args:
             supporter_group_id: int
                 The supporter group id
             vanid: int
                 The vanid of the person to remove
-        `Returns:`
-            ``None``
-        """
 
+        """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
         logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
         return r

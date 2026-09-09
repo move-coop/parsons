@@ -1,18 +1,20 @@
 import csv
-from io import TextIOWrapper, BytesIO, StringIO
 import logging
 import sys
-import traceback
 import time
+import traceback
+from io import BytesIO, StringIO, TextIOWrapper
 
 from parsons.aws.aws_async import (
     get_func_task_path,
     import_and_get_task,
+)
+from parsons.aws.aws_async import (
     run as maybe_async_run,
 )
 from parsons.aws.s3 import S3
 from parsons.etl.table import Table
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -45,14 +47,12 @@ class S3Storage:
         return self.s3.client.put_object(Bucket=bucket, Key=key, Body=object_bytes, **kwargs)
 
     def get_range(self, bucket, key, rangestart, rangeend):
-        """
-        Gets an explicit byte-range of an S3 file
-        """
+        """Gets an explicit byte-range of an S3 file"""
         # bytes is INCLUSIVE for the rangeend parameter, unlike python
         # so e.g. while python returns 2 bytes for data[2:4]
         # Range: bytes=2-4 will return 3!! So we subtract 1
         response = self.s3.client.get_object(
-            Bucket=bucket, Key=key, Range="bytes={}-{}".format(rangestart, rangeend - 1)
+            Bucket=bucket, Key=key, Range=f"bytes={rangestart}-{rangeend - 1}"
         )
         return response["Body"].read()
 
@@ -157,7 +157,7 @@ def distribute_task(
     """
     Distribute processing rows in a table across multiple AWS Lambda invocations.
 
-    `Args:`
+    Args:
         table: Parsons Table
            Table of data you wish to distribute processing across Lambda invocations
            of `func_to_run` argument.
@@ -195,13 +195,15 @@ def distribute_task(
            set to "local".
         use_s3_env_token: str
            If storage is set to "s3", sets the use_env_token parameter on the S3 storage.
-    `Returns:`
+
+    Returns:
         Debug information -- do not rely on the output, as it will change
         depending on how this method is invoked.
+
     """
     if storage not in ("s3", "local"):
         raise DistributeTaskException("storage argument must be s3 or local")
-    bucket = check("S3_TEMP_BUCKET", bucket)
+    bucket = check_env.check("S3_TEMP_BUCKET", bucket)
     csvdata = StringIO()
     outcsv = csv.writer(csvdata)
     outcsv.writerows(table.table.data())

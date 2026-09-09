@@ -1,26 +1,30 @@
+from typing import Literal
+
 import civis
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 
-class CivisClient(object):
+class CivisClient:
     """
     Instantiate the Civis class.
 
-    `Args:`
+    Args:
         db: str or int
             The Civis Redshift database. Can be a database id or the name of the
             database.
         api_key: str
             The Civis api key.
-        **kwargs: args
+        `**kwargs`: args
             Option settings for the client that are `described in the documentation <https://civis-python.readthedocs.io/en/stable/client.html#civis.APIClient>`_.
-    `Returns:`
+
+    Returns:
         Civis class
-    """  # noqa: E501
+
+    """
 
     def __init__(self, db=None, api_key=None, **kwargs):
-
         self.db = check_env.check("CIVIS_DATABASE", db)
         self.api_key = check_env.check("CIVIS_API_KEY", api_key)
         self.client = civis.APIClient(api_key=api_key, **kwargs)
@@ -28,7 +32,7 @@ class CivisClient(object):
         The Civis API client. Utilize this attribute to access to lower level and more
         advanced methods which might not be surfaced in Parsons. A list of the methods
         can be found by reading the Civis API client `documentation <https://civis-python.readthedocs.io/en/stable/client.html>`_.
-        """  # noqa: E501
+        """
 
     def query(self, sql, preview_rows=10, polling_interval=None, hidden=True, wait=True):
         """
@@ -38,7 +42,7 @@ class CivisClient(object):
         preview is required. To execute a query that returns a large number
         of rows, see :func:`~civis.io.read_civis_sql`.
 
-        `Args`
+        Args:
             sql: str
                 The SQL statement to execute.
             preview_rows: int, optional
@@ -51,11 +55,11 @@ class CivisClient(object):
             wait: boolean
                 If ``True``, will wait for query to finish executing before exiting
                 the method. If ``False``, returns the future object.
-        `Returns`
-            Parsons Table or ``civis.CivisFuture``
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table or :class:`civis.futures.CivisFuture`
+                See :ref:`Table` for output options.
+        """
         fut = civis.io.query_civis(
             sql,
             self.db,
@@ -81,8 +85,8 @@ class CivisClient(object):
         table_obj,
         table,
         max_errors=None,
-        existing_table_rows="fail",
-        diststyle=None,
+        existing_table_rows: Literal["fail", "truncate", "append", "drop"] = "fail",
+        diststyle: Literal["even", "all", "key"] | None = None,
         distkey=None,
         sortkey1=None,
         sortkey2=None,
@@ -90,10 +94,11 @@ class CivisClient(object):
         **civisargs,
     ):
         """
-        Write the table to a Civis Redshift cluster. Additional key word
-        arguments can passed to `civis.io.dataframe_to_civis()  <https://civis-python.readthedocs.io/en/v1.9.0/generated/civis.io.dataframe_to_civis.html#civis.io.dataframe_to_civis>`_ # noqa: E501
+        Write the table to a Civis Redshift cluster.
 
-        `Args`
+        Additional keyword arguments can passed to :func:`civis.io.dataframe_to_civis`.
+
+        Args:
             table_obj: obj
                 A Parsons Table object
             table: str
@@ -118,10 +123,11 @@ class CivisClient(object):
             wait: boolean
                 Wait for write job to complete before exiting method. If ``False``, returns
                 the future object.
-        `Returns`
-            ``None`` or ``civis.CivisFuture``
-        """  # noqa: E501,E261
 
+        Returns:
+            ``None`` or :class:`civis.futures.CivisFuture`
+
+        """
         fut = civis.io.dataframe_to_civis(
             table_obj.to_dataframe(),
             database=self.db,

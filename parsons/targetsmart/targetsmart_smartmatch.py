@@ -11,6 +11,7 @@ import shutil
 import tempfile
 import time
 import uuid
+from pathlib import Path
 
 import petl
 import requests
@@ -54,7 +55,7 @@ class SmartMatchError(Exception):
 
 def _smartmatch_upload(url, fname):
     logger.info(f"Uploading {fname} to {url} to begin SmartMatch workflow execution.")
-    with open(fname, "rb") as reader:
+    with Path(fname).open(mode="rb") as reader:
         response_2 = requests.put(url, data=reader, headers={"Content-Type": ""})
 
     response_2.raise_for_status()
@@ -91,16 +92,13 @@ def _prepare_input(intable, tmpdir):
 
 
 class SmartMatch:
-    """
-    Works as a mixin to the TargetSmartAPI class.
-    """
+    """Works as a mixin to the TargetSmartAPI class."""
 
     def __init__(self):
         # Set by TargetSmartAPI constructor
         self.connection = None
 
     def _smartmatch_poll(self, poll_url, submit_filename):
-        download_url = None
         while True:
             poll_response = requests.get(
                 poll_url,
@@ -123,12 +121,14 @@ class SmartMatch:
     def smartmatch(
         self,
         input_table,
+        disable_automatic_matchback_id_creation=False,
         max_matches=1,
         include_email=False,
         include_landline=False,
         include_wireless=False,
         include_voip=False,
         tmp_location=None,
+        join_with_input_table=True,
         keep_smartmatch_input_file=False,
         keep_smartmatch_output_gz_file=False,
     ):
@@ -159,9 +159,11 @@ class SmartMatch:
         from this location. You may delete this data when it is no longer
         needed.
 
-        `Args:`
+        Args:
             input_table: Parsons or Petl table
                 A Parsons table with `header field names supported by SmartMatch <https://docs.targetsmart.com/developers/tsapis/v2/service/smartmatch.html#supported-field-identifiers>`_. Required.
+            disable_automatic_matchback_id_creation: bool
+                Set to True to disable auto creation of matchback_id. Default of False.
             max_matches: int
                 By default only a single best match is returned for an input record. Increase to return additional potentially accurate matches for each input record. Value between 1-10. Default of 1.
             include_email: bool
@@ -174,19 +176,21 @@ class SmartMatch:
                 Set to True to include appended VOIP phone number values for matched records. This is only applicable if your TargetSmart account is configued to return VOIP phone data. Additional charges may apply if True. Default of False.
             tmp_location: str
                 Optionally provide a local directory path where input/output CSV files will be stored. Useful to recover CSV output if downstream ETL processing fails. If not specified, a system tmp location is used. Default of None.
+            join_with_input_table: bool
+                Set to True to include input table in ouput parsons table. Default is True.
             keep_smartmatch_input_file: bool
                 Optionally keep the CSV input file that is uploaded in ``tmp_location`` for later use. Default of False.
             keep_smartmatch_output_gz_file: bool
                 Optionally keep the gzip compressed output file in ``tmp_location`` for later use. The uncompressed output file is always retained in ``tmp_location``. Default of False
-        `Returns:`
-            Parsons Table
+        Returns:
+            Table
                 A Parsons table wrapping the SmartMatch execution output file records. Each record will
                 include the input record fields followed by columns named ``tsmart_match_code``, a
                 match indicator, ``vb.voterbase_id``, and zero or more additional data
                 element fields based on your TargetSmart account configuration.
-                See :ref:`parsons-table` for output options.
-        """  # noqa
+                See :ref:`Table` for output options.
 
+        """
         # If `input_table` is a Parsons table, convert it to a Petl table.
         if hasattr(input_table, "table"):
             input_table = input_table.table
@@ -196,7 +200,7 @@ class SmartMatch:
 
         if not input_table:
             raise ValueError(
-                "Missing `input_table`. A Petl table must be provided with" " valid input rows."
+                "Missing `input_table`. A Petl table must be provided with valid input rows."
             )
 
         if not hasattr(input_table, "tocsv"):
@@ -209,7 +213,8 @@ class SmartMatch:
             tmp_location = tempfile.mkdtemp()
 
         logger.info("Preparing data for SmartMatch submission.")
-        input_table = _add_join_id(input_table)
+        if not disable_automatic_matchback_id_creation:
+            input_table = _add_join_id(input_table)
         dataprep_table = _prepare_input(input_table, tmp_location)
         # Unique execution label for each submission
         submit_filename = f"tmc_{str(uuid.uuid4())[0:10]}.csv"
@@ -234,27 +239,29 @@ class SmartMatch:
         response_1_info = response_1.json()
         if response_1_info["error"]:
             raise SmartMatchError(
-                "SmartMatch workflow registration failed. Error:" f" {response_1_info['error']}"
+                f"SmartMatch workflow registration failed. Error: {response_1_info['error']}"
             )
 
         logger.info(
-            "The SmartMatch workflow registration was successful for file name"
-            f" {submit_filename}."
+            f"The SmartMatch workflow registration was successful for file name {submit_filename}."
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
-        with tempfile.NamedTemporaryFile(
+        tmp = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             mode="w+",
             encoding="utf8",
             newline="\n",
             prefix="smartmatch_input",
             suffix=".csv",
             dir=tmp_location,
-            delete=not keep_smartmatch_input_file,
-        ) as tmp:
-            dataprep_table.tocsv(tmp.name, encoding="utf8")
-            tmp.flush()
-            _smartmatch_upload(response_1_info["url"], tmp.name)
+            delete=False,
+        )
+        dataprep_table.tocsv(tmp.name, encoding="utf8")
+        _smartmatch_upload(response_1_info["url"], tmp.name)
+
+        tmp.close()
+        if not keep_smartmatch_input_file:
+            Path(tmp.name).unlink()
 
         logger.info(
             "The SmartMatch workflow execution has been submitted using file"
@@ -267,46 +274,54 @@ class SmartMatch:
 
         # Download SmartMatch .csv.gz results, decompress, and Petl table wrap.
         # The final tmp file cannot be deleted due to Petl tables being lazy.
-        with tempfile.NamedTemporaryFile(
+        tmp_gz = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
             prefix="smartmatch_output",
             suffix=".csv.gz",
             dir=tmp_location,
-            delete=not keep_smartmatch_output_gz_file,
-        ) as tmp_gz:
-            with tempfile.NamedTemporaryFile(
-                prefix="smartmatch_output",
-                suffix=".csv",
-                dir=tmp_location,
-                delete=False,
-            ) as tmp_csv:
-                logger.info(
-                    f"Downloading the '{submit_filename}' SmartMatch results to" f" {tmp_gz.name}."
-                )
-                _smartmatch_download(download_url, tmp_gz)
-                tmp_gz.flush()
+            delete=False,
+        )
 
-                logger.info("Decompressing results")
-                with gzip.open(tmp_gz.name, "rb") as gz_reader:
-                    shutil.copyfileobj(gz_reader, tmp_csv)
-                tmp_csv.flush()
+        tmp_csv = tempfile.NamedTemporaryFile(  # noqa SIM115 open-file-with-context-handler
+            prefix="smartmatch_output",
+            suffix=".csv",
+            dir=tmp_location,
+            delete=False,
+        )
 
-                raw_outtable = petl.fromcsv(  # pylint: disable=no-member
-                    tmp_csv.name, encoding="utf8"
-                ).convert(INTERNAL_JOIN_ID, int)
-                logger.info(
-                    "SmartMatch remote execution successful. Joining results to" " input table."
-                )
-                outtable = (
-                    petl.leftjoin(  # pylint: disable=no-member
-                        input_table,
-                        raw_outtable,
-                        key=INTERNAL_JOIN_ID,
-                        tempdir=tmp_location,
-                    )
-                    .sort(key=INTERNAL_JOIN_ID)
-                    .cutout(INTERNAL_JOIN_ID)
-                )
-                if INTERNAL_JOIN_ID_CONFLICT in input_table.fieldnames():
-                    input_table = input_table.rename(INTERNAL_JOIN_ID_CONFLICT, INTERNAL_JOIN_ID)
+        logger.info(f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}.")
+        _smartmatch_download(download_url, tmp_gz)
+        tmp_gz.flush()
 
-                return Table(outtable)
+        logger.info("Decompressing results")
+        with gzip.open(tmp_gz.name, "rb") as gz_reader:
+            shutil.copyfileobj(gz_reader, tmp_csv)
+        tmp_csv.flush()
+
+        tmp_gz.close()
+        if not keep_smartmatch_output_gz_file:
+            Path(tmp_gz.name).unlink()
+        tmp_csv.close()
+
+        if disable_automatic_matchback_id_creation:
+            raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8")
+        else:
+            raw_outtable = petl.fromcsv(tmp_csv.name, encoding="utf8").convert(
+                INTERNAL_JOIN_ID, int
+            )
+        if not join_with_input_table:
+            return Table(raw_outtable)
+        logger.info("SmartMatch remote execution successful. Joining results to input table.")
+        outtable = (
+            petl.leftjoin(
+                input_table,
+                raw_outtable,
+                key=INTERNAL_JOIN_ID,
+                tempdir=tmp_location,
+            )
+            .sort(key=INTERNAL_JOIN_ID)
+            .cutout(INTERNAL_JOIN_ID)
+        )
+        if INTERNAL_JOIN_ID_CONFLICT in input_table.fieldnames():
+            input_table.rename(INTERNAL_JOIN_ID_CONFLICT, INTERNAL_JOIN_ID)
+
+        return Table(outtable)

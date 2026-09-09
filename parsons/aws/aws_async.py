@@ -5,7 +5,6 @@ import os
 
 import boto3
 
-
 """
 
 In lambda handler:
@@ -47,8 +46,8 @@ def event_command(event, context):
 
 def run(
     func,
-    args=[],
-    kwargs={},
+    args=None,
+    kwargs=None,
     service="lambda",
     capture_response=False,
     remote_aws_lambda_function_name=None,
@@ -57,6 +56,10 @@ def run(
     func_class_init_kwargs=None,
     **task_kwargs,
 ):
+    if kwargs is None:
+        kwargs = {}
+    if args is None:
+        args = []
     lambda_function_name = remote_aws_lambda_function_name or os.environ.get(
         "AWS_LAMBDA_FUNCTION_NAME"
     )
@@ -128,9 +131,7 @@ def import_and_get_task(task_path, instance_init_kwargs=None):
 
 
 def get_func_task_path(func, method_class=None):
-    """
-    Format the modular task path for a function via inspection.
-    """
+    """Format the modular task path for a function via inspection."""
     module_path = inspect.getmodule(method_class or func).__name__
     func_name = func.__name__
 

@@ -1,0 +1,142 @@
+name: Build, test, & publish
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+      - major-release
+  release:
+    types:
+      - published
+
+permissions: read-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      CACHE_GLOBS: |
+        **/pyproject.toml
+        **/setup.py
+        **/uv.lock
+
+    steps:
+      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+        with:
+          python-version: 3.14
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv sync
+          --upgrade
+          --all-extras
+
+      - run: >-
+          uv build
+          --sdist
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: parsons-dist
+          path: dist/
+
+  test:
+    needs: build
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - '3.13'
+          - '3.14'
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: parsons-dist
+          path: dist
+
+      - name: extract requirements for use in pip cache
+        shell: bash
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+
+          # Extract to a temp directory first
+          mkdir -p temp_extract
+          tar -xzf "$file" -C temp_extract
+
+          # Find and move pyproject file to root
+          find temp_extract -name 'pyproject.toml' -exec cp {} . \; 2>/dev/null || true
+
+          # Clean up
+          rm -rf temp_extract
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: install parsons from file
+        shell: bash
+        run: |
+          file=$(find ./dist -name 'parsons-*.tar.gz' | head -1)
+          pip install "$file"
+
+  publish:
+    if: github.repository_owner == 'move-coop' && github.event_name == 'release' && github.event.action == 'published'
+    needs: test
+
+    runs-on: ubuntu-latest
+    environment: release
+
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.job }}-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+        with:
+          disable-sudo: true
+          egress-policy: audit
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: parsons-dist
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33
+        with:
+          verify-metadata: true
+          skip-existing: true
+          packages-dir: dist
+          verbose: true

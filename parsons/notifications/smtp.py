@@ -1,13 +1,13 @@
 import smtplib
 
 from parsons.notifications.sendmail import SendMail
-from parsons.utilities.check_env import check
+from parsons.utilities import check_env
 
 
 class SMTP(SendMail):
     """Create a SMTP object, for sending emails.
 
-    `Args:`
+    Args:
         host: str
             The host of the SMTP server
         port: int
@@ -20,6 +20,7 @@ class SMTP(SendMail):
             Defaults to True -- pass "0" or "False" to SMTP_TLS to disable
         close_manually: bool
             When set to True, send_message will not close the connection
+
     """
 
     def __init__(
@@ -31,11 +32,16 @@ class SMTP(SendMail):
         tls=None,
         close_manually=False,
     ):
-        self.host = check("SMTP_HOST", host)
-        self.port = check("SMTP_PORT", port, optional=True) or 587
-        self.username = check("SMTP_USER", username)
-        self.password = check("SMTP_PASSWORD", password)
-        self.tls = not (check("SMTP_TLS", tls, optional=True) in ("false", "False", "0", False))
+        self.host = check_env.check("SMTP_HOST", host)
+        self.port = check_env.check("SMTP_PORT", port, optional=True) or 587
+        self.username = check_env.check("SMTP_USER", username)
+        self.password = check_env.check("SMTP_PASSWORD", password)
+        self.tls = check_env.check("SMTP_TLS", tls, optional=True) not in (
+            "false",
+            "False",
+            "0",
+            False,
+        )
         self.close_manually = close_manually
 
         self.conn = None
@@ -52,11 +58,12 @@ class SMTP(SendMail):
     def _send_message(self, message):
         """Send an email message.
 
-        `Args:`
+        Args:
             message: `MIME object <https://docs.python.org/2/library/email.mime.html>`
                 i.e. the objects created by the create_* instance methods
-        `Returns:`
+        Returns:
             dict of refused To addresses (otherwise None)
+
         """
         self.log.info("Sending a message...")
         try:

@@ -1,17 +1,19 @@
 import json
+import logging
+from typing import Any
+
 from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
-import logging
 
 logger = logging.getLogger(__name__)
 
 API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 
-class ActionBuilder(object):
+class ActionBuilder:
     """
-    `Args:`
+    Args:
         api_token: str
             The OSDI API token
         subdomain: str
@@ -20,6 +22,7 @@ class ActionBuilder(object):
             Optional. The 36-character "interact ID" of the campaign whose data is to be retrieved
             or edited. Can also be supplied in individual methods in case multiple campaigns need
             to be referenced.
+
     """
 
     def __init__(self, api_token=None, subdomain=None, campaign=None):
@@ -83,15 +86,15 @@ class ActionBuilder(object):
             # Assuming there's data, add it to the running response list
             return_list.extend(response_list)
             count = count + len(response_list)
-            if limit:
-                if count >= limit:
-                    # Limit reached or exceeded, so return just the requested limit amount
-                    return Table(return_list[0:limit])
+            if limit and count >= limit:
+                # Limit reached or exceeded, so return just the requested limit amount
+                return Table(return_list[0:limit])
 
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """
         Retrieve all tags (i.e. custom field values) within provided limit and filters
-        `Args:`
+
+        Args:
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
@@ -102,10 +105,11 @@ class ActionBuilder(object):
             filter
                 The OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
                 When None, no filter is applied.
-        `Returns:`
-            Parsons Table of full set of tags available in Action Builder.
-        """
 
+        Returns:
+            Parsons Table of full set of tags available in Action Builder.
+
+        """
         return self._get_all_records(
             campaign, "tags", limit=limit, per_page=per_page, filter=filter
         )
@@ -113,16 +117,18 @@ class ActionBuilder(object):
     def get_tag_by_name(self, tag_name, campaign=None):
         """
         Convenience method to retrieve data on a single tag by its name/value
-        `Args:`
+
+        Args:
             tag_name: str
                 The value of the tag to search for.
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Parsons Table of data found on tag in Action Builder from searching by name.
-        """
 
+        Returns:
+            Parsons Table of data found on tag in Action Builder from searching by name.
+
+        """
         filter = f"name eq '{tag_name}'"
 
         return self.get_campaign_tags(campaign=campaign, filter=filter)
@@ -131,7 +137,8 @@ class ActionBuilder(object):
         """
         Load a new tag value into Action Builder. Required before applying the value to any entity
         records.
-        `Args:`
+
+        Args:
             tag_name: str
                 The name of the new tag, i.e. the custom field value.
             tag_field: str
@@ -141,10 +148,11 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Dict containing Action Builder tag data.
-        """
 
+        Returns:
+            Dict containing Action Builder tag data.
+
+        """
         campaign = self._campaign_check(campaign)
         url = f"campaigns/{campaign}/tags"
 
@@ -166,7 +174,8 @@ class ActionBuilder(object):
     def insert_entity_record(self, entity_type, data=None, campaign=None):
         """
         Load a new entity record in Action Builder of the type provided.
-        `Args:`
+
+        Args:
             entity_type: str
                 The name of the record type being inserted. Required if identifiers are not
                 provided.
@@ -180,10 +189,11 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Dict containing Action Builder entity data.
-        """  # noqa: E501
 
+        Returns:
+            Dict containing Action Builder entity data.
+
+        """
         name_keys = ("name", "action_builder:name", "given_name")
         error = "Must provide data with name or given_name when inserting new record"
         if not isinstance(data, dict):
@@ -208,7 +218,8 @@ class ActionBuilder(object):
     def update_entity_record(self, identifier, data, campaign=None):
         """
         Update an entity record in Action Builder based on the identifier passed.
-        `Args:`
+
+        Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
@@ -222,10 +233,11 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Dict containing Action Builder entity data.
-        """  # noqa: E501
 
+        Returns:
+            Dict containing Action Builder entity data.
+
+        """
         campaign = self._campaign_check(campaign)
 
         if isinstance(identifier, str):
@@ -246,12 +258,35 @@ class ActionBuilder(object):
 
         return self._upsert_entity(data=data, campaign=campaign)
 
+    def remove_entity_record_from_campaign(self, identifier, campaign=None):
+        """
+        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
+        record that has been removed from a campaign will not appear in the UI.
+
+        Args:
+            identifier: str
+                The unique identifier for the record being removed. ID strings will need to begin
+                with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
+            campaign: str
+                Optional. The 36-character "interact ID" of the campaign whose data is to be
+                retrieved or edited. Not necessary if supplied when instantiating the class.
+
+        Returns:
+            Dict with HTTP response.
+
+        """
+        campaign = self._campaign_check(campaign)
+
+        url = f"campaigns/{campaign}/people/{identifier}"
+        return self.api.delete_request(url=url)
+
     def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
         Add one or more tags (i.e. custom field value) to an existing entity record in Action
         Builder. The tags, along with their field and section, must already exist (except for
         date fields).
-        `Args:`
+
+        Args:
             identifier: str
                 The unique identifier for a record being updated. ID strings will need to begin
                 with the origin system, followed by a colon, e.g. `action_builder:abc123-...`.
@@ -262,10 +297,11 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Dict containing Action Builder entity data of the entity being tagged.
-        """
 
+        Returns:
+            Dict containing Action Builder entity data of the entity being tagged.
+
+        """
         tag_data = [
             {
                 "action_builder:name": tag,
@@ -281,40 +317,55 @@ class ActionBuilder(object):
 
     def remove_tagging(
         self,
-        identifier=None,
-        tag_id=None,
-        tag_name=None,
-        tagging_id=None,
-        campaign=None,
-    ):
+        identifier: str | None = None,
+        tag_id: str | None = None,
+        tag_name: str | None = None,
+        tagging_id: str | None = None,
+        campaign: str | None = None,
+    ) -> dict[str, Any] | int | None:
         """
-        Remove one or more tags (i.e. custom field value) from an existing entity or connection
-        record in Action Builder. The basis for this end point is the combination of the tag's
-        interact ID and that of the specific tagging. The tag ID can usually be determined from
-        the tag's name, and the tagging ID can be derived if the identifier of the entity or
-        connection record is supplied instead.
-        `Args:`
-            identifier: str
-                Optional. The unique identifier for an entity or connection record being updated.
-                If omitted, `tagging_id` must be provided.
-            tag_id: str
-                Optional. The unique identifier for the tag being removed. If omitted, `tag_name`
-                must be provided.
-            tag_name: str
-                Optional. The exact name of the tag being removed. May result in an error if
-                multiple tags (in different fields/sections) have the same name. If omitted,
-                `tag_id` must be provided.
-            tagging_id: str
-                Optional. The unique identifier for the specific application of the tag to an
-                individual entity or connection record. If omitted, `identifier` must be provided.
-            campaign: str
-                Optional. The 36-character "interact ID" of the campaign whose data is to be
-                retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            API response JSON which contains `{'message': 'Tag has been removed from Taggable
-            Logbook'}` if successful.
-        """
+        Remove one or more tags (i.e. custom field value) from
+        an existing entity or connection record in Action Builder.
 
+        The basis for this end point is the combination of the
+        tag's interact ID and that of the specific tagging.
+        The tag ID can usually be determined from the tag's name,
+        and the tagging ID can be derived if the identifier of the
+        entity or connection record is supplied instead.
+
+        Args:
+            identifier:
+                The unique identifier for an entity
+                or connection record being updated.
+                If omitted, `tagging_id` must be provided.
+            tag_id:
+                The unique identifier for the tag being removed.
+                If omitted, `tag_name` must be provided.
+            tag_name:
+                The exact name of the tag being removed.
+                May result in an error if multiple tags
+                (in different fields/sections) have the same name.
+                If omitted, `tag_id` must be provided.
+            tagging_id:
+                The unique identifier for the specific application of
+                the tag to an individual entity or connection record.
+                If omitted, `identifier` must be provided.
+            campaign:
+                The 36-character ``interact ID`` of the campaign
+                whose data is to be retrieved or edited.
+                Not necessary if supplied when instantiating the class.
+
+        Returns:
+            API response JSON which contains
+            ``{'message': 'Tag has been removed from Taggable Logbook'}`` if successful.
+
+        Raises:
+            ValueError: If `tag_name` and `tag_id` are both ``None``.
+            ValueError: If `identifier` and `tagging_id` are both ``None``.
+            ValueError: If `tag_name` found more than one matching tag.
+            ValueError: If `tagging_id` was provided without `tag_id`.
+
+        """
         if {tag_name, tag_id} == {None}:
             raise ValueError("Please supply a tag_name or tag_id!")
 
@@ -356,7 +407,7 @@ class ActionBuilder(object):
 
         logger.info(f"Removing tag {tag_id} from {identifier or tagging_id}")
         return self.api.delete_request(
-            f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
+            url=f"campaigns/{campaign}/{endpoint.format(tag_id)}/{tagging_id}"
         )
 
     def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
@@ -364,7 +415,8 @@ class ActionBuilder(object):
         Load or update a connection record in Action Builder between two existing entity records.
         Only one connection record is allowed per pair of entities, so if the connection already
         exists, this method will update, but will otherwise create a new connection record.
-        `Args:`
+
+        Args:
             identifiers: list
                 A list of two unique identifier strings for records being connected. ID strings
                 will need to begin with the origin system, followed by a colon, e.g.
@@ -379,10 +431,11 @@ class ActionBuilder(object):
             reactivate: bool
                 Optional. Whether or not to set the `inactive` flag on a given Connection to False
                 if the Connection exists and has `inactive` set to True. True by default.
-        `Returns:`
-            Dict containing Action Builder connection data.
-        """  # noqa: E501
 
+        Returns:
+            Dict containing Action Builder connection data.
+
+        """
         # Check that there are exactly two identifiers and that campaign is provided first
         if not isinstance(identifiers, list):
             raise ValueError("Must provide identifiers as a list")
@@ -426,7 +479,8 @@ class ActionBuilder(object):
         Deactivate an existing connection record in Action Builder between two existing entity
         records. Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
-        `Args:`
+
+        Args:
             from_identifier: str
                 Unique identifier for one of the two entities with a connection.
             connection_identifier: str
@@ -438,10 +492,11 @@ class ActionBuilder(object):
             campaign: str
                 Optional. The 36-character "interact ID" of the campaign whose data is to be
                 retrieved or edited. Not necessary if supplied when instantiating the class.
-        `Returns:`
-            Dict containing Action Builder connection data.
-        """
 
+        Returns:
+            Dict containing Action Builder connection data.
+
+        """
         # Check that either connection or second entity identifier are provided
         if {connection_identifier, to_identifier} == {None}:
             raise ValueError("Must provide a connection ID or an ID for the second entity")

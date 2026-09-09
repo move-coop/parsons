@@ -1,8 +1,11 @@
-import unittest
-import requests_mock
 import json
-from parsons import Table, ActionNetwork
-from test.utils import assert_matching_tables
+import unittest
+
+import requests_mock
+
+from parsons import Table
+from parsons.action_network import ActionNetwork
+from test.conftest import assert_matching_tables
 
 
 class TestActionNetwork(unittest.TestCase):
@@ -346,6 +349,13 @@ class TestActionNetwork(unittest.TestCase):
                 "self": {"href": f"{self.api_url}/events/fake-id"},
             },
             "event_id": "fake-id",
+        }
+        self.fake_unique_id_list = {
+            "name": "fake_list_name",
+            "unique_ids": [
+                "ee48622d-a584-46a4-b817-2e6f2e4bf51b",
+                "1b0012d2-214a-4188-9c82-08f21ee54b27",
+            ],
         }
 
         # Advocacy Campaigns
@@ -2996,6 +3006,348 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
 
+        # Surveys
+        self.fake_surveys = {
+            "total_pages": 7,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 162,
+            "_links": {
+                "next": {"href": "https://actionnetwork.org/api/v2/surveys?page=2"},
+                "self": {"href": "https://actionnetwork.org/api/v2/surveys"},
+                "action_network:surveys": [
+                    {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                    {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                    # truncated for brevity
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "action_network:surveys": [
+                    {
+                        "identifiers": ["action_network:123"],
+                        "origin_system": "Action Network",
+                        "created_date": "2014-03-24T18:03:45Z",
+                        "modified_date": "2014-03-25T15:00:22Z",
+                        "title": "Tell us about yourself!",
+                        "description": "<p>Tell us a bit more about yourself.</p>",
+                        "call_to_action": "Let us know",
+                        "browser_url": "https://actionnetwork.org/surveys/my-survey",
+                        "featured_image_url": "https://actionnetwork.org/images/my-image.jpg",
+                        "total_responses": 2354,
+                        "action_network:hidden": False,
+                        "_embedded": {
+                            "osdi:creator": {
+                                "given_name": "John",
+                                "family_name": "Doe",
+                                "identifiers": ["action_network:123"],
+                                "created_date": "2014-03-24T18:03:45Z",
+                                "modified_date": "2014-03-25T15:00:22Z",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "jdoe@mail.com",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "phone_numbers": [
+                                    {
+                                        "primary": True,
+                                        "number": "12021234444",
+                                        "number_type": "Mobile",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "postal_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address_lines": ["1600 Pennsylvania Ave."],
+                                        "locality": "Washington",
+                                        "region": "DC",
+                                        "postal_code": "20009",
+                                        "country": "US",
+                                        "language": "en",
+                                        "location": {
+                                            "latitude": 35.919,
+                                            "longitude": -72.0379,
+                                            "accuracy": "Approximate",
+                                        },
+                                    }
+                                ],
+                                "languages_spoken": ["en"],
+                                "_links": {
+                                    "self": {"href": f"{self.api_url}/api/v2/people/123"},
+                                    "osdi:attendances": {
+                                        "href": f"{self.api_url}/api/v2/people/123/attendances"
+                                    },
+                                    "osdi:signatures": {
+                                        "href": f"{self.api_url}/api/v2/people/123/signatures"
+                                    },
+                                    "osdi:submissions": {
+                                        "href": f"{self.api_url}/api/v2/people/123/submissions"
+                                    },
+                                    "osdi:donations": {
+                                        "href": f"{self.api_url}/api/v2/people/123/donations"
+                                    },
+                                    "osdi:outreaches": {
+                                        "href": f"{self.api_url}/api/v2/people/123/outreaches"
+                                    },
+                                    "osdi:taggings": {
+                                        "href": f"{self.api_url}/api/v2/people/123/taggings"
+                                    },
+                                    "action_network:responses": {
+                                        "href": f"{self.api_url}/api/v2/people/123/responses"
+                                    },
+                                },
+                            }
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/api/v2/surveys/123"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "action_network:record_response_helper": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "osdi:creator": {"href": f"{self.api_url}/api/v2/people/123"},
+                            "action_network:embed": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/embed"
+                            },
+                        },
+                    },
+                    {
+                        "identifiers": ["action_network:123", "foreign_system:1"],
+                        "origin_system": "Another System",
+                        "created_date": "2014-03-14T15:21:05Z",
+                        "modified_date": "2014-03-17T19:56:11Z",
+                        "title": "Volunteer survey",
+                        "total_responses": 123,
+                        "action_network:hidden": False,
+                        "_embedded": {
+                            "osdi:creator": {
+                                "given_name": "John",
+                                "family_name": "Doe",
+                                "identifiers": ["action_network:123"],
+                                "created_date": "2014-03-24T18:03:45Z",
+                                "modified_date": "2014-03-25T15:00:22Z",
+                                "email_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address": "jdoe@mail.com",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "phone_numbers": [
+                                    {
+                                        "primary": True,
+                                        "number": "12021234444",
+                                        "number_type": "Mobile",
+                                        "status": "subscribed",
+                                    }
+                                ],
+                                "postal_addresses": [
+                                    {
+                                        "primary": True,
+                                        "address_lines": ["1600 Pennsylvania Ave."],
+                                        "locality": "Washington",
+                                        "region": "DC",
+                                        "postal_code": "20009",
+                                        "country": "US",
+                                        "language": "en",
+                                        "location": {
+                                            "latitude": 35.919,
+                                            "longitude": -72.0379,
+                                            "accuracy": "Approximate",
+                                        },
+                                    }
+                                ],
+                                "languages_spoken": ["en"],
+                                "_links": {
+                                    "self": {"href": f"{self.api_url}/api/v2/people/123"},
+                                    "osdi:attendances": {
+                                        "href": f"{self.api_url}/api/v2/people/123/attendances"
+                                    },
+                                    "osdi:signatures": {
+                                        "href": f"{self.api_url}/api/v2/people/123/signatures"
+                                    },
+                                    "osdi:submissions": {
+                                        "href": f"{self.api_url}/api/v2/people/123/submissions"
+                                    },
+                                    "osdi:donations": {
+                                        "href": f"{self.api_url}/api/v2/people/123/donations"
+                                    },
+                                    "osdi:outreaches": {
+                                        "href": f"{self.api_url}/api/v2/people/123/outreaches"
+                                    },
+                                    "osdi:taggings": {
+                                        "href": f"{self.api_url}/api/v2/people/123/taggings"
+                                    },
+                                    "action_network:responses": {
+                                        "href": f"{self.api_url}/api/v2/people/123/responses"
+                                    },
+                                },
+                            }
+                        },
+                        "action_network:sponsor": {
+                            "title": "Progressive Action Now",
+                            "url": f"{self.api_url}/groups/progressive-action-now",
+                        },
+                        "_links": {
+                            "self": {"href": f"{self.api_url}/api/v2/surveys/123"},
+                            "action_network:responses": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/responses"
+                            },
+                            "action_network:record_response_helper": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/respnoses"
+                            },
+                            "osdi:creator": {"href": f"{self.api_url}/api/v2/people/123"},
+                            "action_network:embed": {
+                                "href": f"{self.api_url}/api/v2/surveys/123/embed"
+                            },
+                        },
+                    },
+                    # truncated for brevity
+                ]
+            },
+        }
+
+        self.fake_survey = {
+            "identifiers": ["action_network:123"],
+            "origin_system": "Action Network",
+            "created_date": "2014-03-24T18:03:45Z",
+            "modified_date": "2014-03-25T15:00:22Z",
+            "title": "Tell us about yourself",
+            "description": "<p>Tell us a bit more about yourself.</p>",
+            "call_to_action": "Let us know",
+            "browser_url": "https://actionnetwork.org/surveys/tell-us-about-yourself",
+            "featured_image_url": "https://actionnetwork.org/images/tell-us-about-yourself.jpg",
+            "total_responses": 2354,
+            "action_network:hidden": False,
+            "_embedded": {
+                "osdi:creator": {
+                    "given_name": "John",
+                    "family_name": "Doe",
+                    "identifiers": ["action_network:123"],
+                    "origin_system": "Action Network",
+                    "created_date": "2014-03-24T18:03:45Z",
+                    "modified_date": "2014-03-25T15:00:22Z",
+                    "email_addresses": [
+                        {"primary": True, "address": "jdoe@mail.com", "status": "subscribed"}
+                    ],
+                    "phone_numbers": [
+                        {
+                            "primary": True,
+                            "number": "12021234444",
+                            "number_type": "Mobile",
+                            "status": "subscribed",
+                        }
+                    ],
+                    "postal_addresses": [
+                        {
+                            "primary": True,
+                            "address_lines": ["1600 Pennsylvania Ave."],
+                            "locality": "Washington",
+                            "region": "DC",
+                            "postal_code": "20009",
+                            "country": "US",
+                            "language": "en",
+                            "location": {
+                                "latitude": 35.919,
+                                "longitude": -72.0379,
+                                "accuracy": "Approximate",
+                            },
+                        }
+                    ],
+                    "languages_spoken": ["en"],
+                    "_links": {
+                        "self": {"href": "https://actionnetwork.org/api/v2/people/123"},
+                        "osdi:attendances": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/attendances"
+                        },
+                        "osdi:signatures": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/signatures"
+                        },
+                        "osdi:submissions": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/submissions"
+                        },
+                        "osdi:donations": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/donations"
+                        },
+                        "osdi:outreaches": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/outreaches"
+                        },
+                        "osdi:taggings": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/taggings"
+                        },
+                        "action_network:responses": {
+                            "href": "https://actionnetwork.org/api/v2/people/123/responses"
+                        },
+                        "curies": [
+                            {
+                                "name": "osdi",
+                                "href": "https://actionnetwork.org/docs/v2/{rel}",
+                                "templated": True,
+                            },
+                            {
+                                "name": "action_network",
+                                "href": "https://actionnetwork.org/docs/v2/{rel}",
+                                "templated": True,
+                            },
+                        ],
+                    },
+                }
+            },
+            "_links": {
+                "self": {"href": "https://actionnetwork.org/api/v2/surveys/123"},
+                "action_network:responses": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/responses"
+                },
+                "action_network:record_response_helper": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/responses"
+                },
+                "osdi:creator": {"href": "https://actionnetwork.org/api/v2/people/123"},
+                "action_network:embed": {
+                    "href": "https://actionnetwork.org/api/v2/surveys/123/embed"
+                },
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+        }
+
+        self.fake_survey_with_creator_payload = {
+            "title": "My Free Survey",
+            "origin_system": "FreeSurveys.com",
+            "_links": {
+                "osdi:creator": {"href": "https://actionnetwork.org/api/v2/people/1234567890"}
+            },
+        }
+
+        self.fake_survey_payload = {
+            "title": "My Free Survey",
+            "origin_system": "FreeSurveys.com",
+        }
+
         # Tags
         self.fake_tags = {
             "total_pages": 10,
@@ -3263,13 +3615,60 @@ class TestActionNetwork(unittest.TestCase):
             },
         }
 
+        self.fake_unique_id_lists = {
+            "total_pages": 3,
+            "per_page": 25,
+            "page": 1,
+            "total_records": 50,
+            "_links": {
+                "next": {"href": f"{self.api_url}/unique_id_lists?page=2"},
+                "self": {"href": f"{self.api_url}/unique_id_lists"},
+                "osdi:unique_id_lists": [
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                    {"href": f"{self.api_url}/unique_id_lists/fake_id"},
+                ],
+                "curies": [
+                    {
+                        "name": "osdi",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                    {
+                        "name": "action_network",
+                        "href": "https://actionnetwork.org/docs/v2/{rel}",
+                        "templated": True,
+                    },
+                ],
+            },
+            "_embedded": {
+                "osdi:unique_id_lists": [
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Example Unique ID List",
+                        "created_date": "2022-01-01T00:00:00Z",
+                        "modified_date": "2022-01-01T00:00:00Z",
+                        "description": "This is an example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/1/edit",
+                    },
+                    {
+                        "identifiers": ["action_network:fake_id"],
+                        "name": "Another Unique ID List",
+                        "created_date": "2022-01-02T00:00:00Z",
+                        "modified_date": "2022-01-02T00:00:00Z",
+                        "description": "This is another example unique ID list.",
+                        "administrative_url": "https://actionnetwork.org/unique_id_lists/2/edit",
+                    },
+                ],
+            },
+        }
+
     @requests_mock.Mocker()
     def test_get_page(self, m):
         m.get(
             f"{self.api_url}/people?page=2&per_page=2",
             text=json.dumps(self.fake_people_list_2),
         )
-        self.assertEqual(self.an._get_page("people", 2, 2), self.fake_people_list_2)
+        assert self.an._get_page("people", 2, 2) == self.fake_people_list_2
 
     @requests_mock.Mocker()
     def test_get_entry_list(self, m):
@@ -3543,10 +3942,7 @@ class TestActionNetwork(unittest.TestCase):
     def test_create_event_campaign(self, m):
         payload = {"title": "Canvassing Events", "origin_system": "AmyforTexas.com"}
         m.post(f"{self.api_url}/event_campaigns", text=json.dumps(self.fake_event_campaign))
-        self.assertEqual(
-            self.fake_event_campaign,
-            self.an.create_event_campaign(payload),
-        )
+        assert self.fake_event_campaign == self.an.create_event_campaign(payload)
 
     @requests_mock.Mocker()
     def test_create_event_in_event_campaign(self, m):
@@ -3558,9 +3954,9 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/event_campaigns/123/events",
             text=json.dumps(self.fake_event),
         )
-        self.assertEqual(
-            self.fake_event.items(),
-            self.an.create_event_in_event_campaign("123", payload).items(),
+        assert (
+            self.fake_event.items()
+            == self.an.create_event_in_event_campaign("123", payload).items()
         )
 
     @requests_mock.Mocker()
@@ -3570,10 +3966,7 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/event_campaigns/123",
             text=json.dumps(self.fake_event_campaign),
         )
-        self.assertEqual(
-            self.fake_event_campaign,
-            self.an.update_event_campaign("123", payload),
-        )
+        assert self.fake_event_campaign == self.an.update_event_campaign("123", payload)
 
     # Events
     @requests_mock.Mocker()
@@ -3606,11 +3999,11 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_create_event(self, m):
         m.post(f"{self.api_url}/events", text=json.dumps(self.fake_event))
-        self.assertEqual(
-            self.fake_event.items(),
-            self.an.create_event(
+        assert (
+            self.fake_event.items()
+            == self.an.create_event(
                 "fake_title", start_date=self.fake_date, location=self.fake_location
-            ).items(),
+            ).items()
         )
 
     # Forms
@@ -3637,20 +4030,14 @@ class TestActionNetwork(unittest.TestCase):
     def test_create_form(self, m):
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
         m.post(f"{self.api_url}/forms", text=json.dumps(self.fake_form))
-        self.assertEqual(
-            self.fake_form.items(),
-            self.an.create_form(payload).items(),
-        )
+        assert self.fake_form.items() == self.an.create_form(payload).items()
 
     # Update Form
     @requests_mock.Mocker()
     def test_update_form(self, m):
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
         m.put(f"{self.api_url}/forms/123", text=json.dumps(self.fake_form))
-        self.assertEqual(
-            self.fake_form.items(),
-            self.an.update_form("123", payload).items(),
-        )
+        assert self.fake_form.items() == self.an.update_form("123", payload).items()
 
     # Fundraising Pages
     @requests_mock.Mocker()
@@ -3687,9 +4074,8 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/fundraising_pages",
             text=json.dumps(self.fake_fundraising_page),
         )
-        self.assertEqual(
-            self.fake_fundraising_page.items(),
-            self.an.create_fundraising_page(payload).items(),
+        assert (
+            self.fake_fundraising_page.items() == self.an.create_fundraising_page(payload).items()
         )
 
     @requests_mock.Mocker()
@@ -3702,9 +4088,9 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/fundraising_pages/123",
             text=json.dumps(self.fake_fundraising_page),
         )
-        self.assertEqual(
-            self.fake_fundraising_page.items(),
-            self.an.update_fundraising_page("123", payload).items(),
+        assert (
+            self.fake_fundraising_page.items()
+            == self.an.update_fundraising_page("123", payload).items()
         )
 
     # Items
@@ -3794,6 +4180,31 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.update_message(message_id, payload),
             self.fake_message,
+        )
+
+    @requests_mock.Mocker()
+    def test_schedule_message(self, m):
+        message_id = "123"
+        scheduled_start_date = "2015-03-14T12:00:00Z"
+        m.post(
+            f"{self.api_url}/messages/123/schedule/",
+            text=json.dumps({"message": "Your message has been scheduled"}),
+        )
+        assert_matching_tables(
+            self.an.schedule_message(message_id, scheduled_start_date),
+            {"message": "Your message has been scheduled"},
+        )
+
+    @requests_mock.Mocker()
+    def test_send_message(self, m):
+        message_id = "123"
+        m.post(
+            f"{self.api_url}/messages/123/send/",
+            text=json.dumps({"message": "Your email has been sent."}),
+        )
+        assert_matching_tables(
+            self.an.send_message(message_id),
+            {"message": "Your email has been sent."},
         )
 
     # Metadata
@@ -3906,12 +4317,12 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_person_id_1}",
             text=json.dumps(self.fake_person),
         )
-        self.assertEqual(self.an.get_person(self.fake_person_id_1), self.fake_person)
+        assert self.an.get_person(self.fake_person_id_1) == self.fake_person
 
     @requests_mock.Mocker()
     def test_upsert_person(self, m):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upsert_person))
-        self.assertEqual(self.an.upsert_person(**self.fake_upsert_person), self.fake_upsert_person)
+        assert self.an.upsert_person(**self.fake_upsert_person) == self.fake_upsert_person
 
     @requests_mock.Mocker()
     def test_update_person(self, m):
@@ -3919,11 +4330,11 @@ class TestActionNetwork(unittest.TestCase):
             f"{self.api_url}/people/{self.fake_person_id_1}",
             text=json.dumps(self.updated_fake_person),
         )
-        self.assertEqual(
+        assert (
             self.an.update_person(
                 self.fake_person_id_1, given_name="Flake", family_name="McFlakerson"
-            ),
-            self.updated_fake_person,
+            )
+            == self.updated_fake_person
         )
 
     # Petitions
@@ -4164,6 +4575,46 @@ class TestActionNetwork(unittest.TestCase):
             self.fake_submission,
         )
 
+    # Surveys
+    @requests_mock.Mocker()
+    def test_get_surveys(self, m):
+        m.get(
+            f"{self.api_url}/surveys?page=1&per_page=25",
+            text=json.dumps(self.fake_surveys),
+        )
+        m.get(
+            f"{self.api_url}/surveys?page=2&per_page=25",
+            text=json.dumps({"_embedded": {"action_network:surveys": []}}),
+        )
+        assert_matching_tables(
+            self.an.get_surveys(),
+            Table(self.fake_surveys["_embedded"]["action_network:surveys"]),
+        )
+
+    @requests_mock.Mocker()
+    def test_get_survey(self, m):
+        m.get(f"{self.api_url}/surveys/123", text=json.dumps(self.fake_survey))
+        assert_matching_tables(
+            self.an.get_survey("123"),
+            self.fake_survey,
+        )
+
+    @requests_mock.Mocker()
+    def test_create_survey(self, m):
+        m.post(f"{self.api_url}/surveys", text=json.dumps(self.fake_survey_payload))
+        assert_matching_tables(
+            self.an.create_survey(self.fake_survey_payload),
+            self.fake_survey_payload,
+        )
+
+    @requests_mock.Mocker()
+    def test_update_survey(self, m):
+        m.post(f"{self.api_url}/surveys/123", text=json.dumps(self.fake_survey_payload))
+        assert_matching_tables(
+            self.an.update_survey("123", self.fake_survey_payload),
+            self.fake_survey_payload,
+        )
+
     # Tags
     @requests_mock.Mocker()
     def test_get_tags(self, m):
@@ -4182,7 +4633,7 @@ class TestActionNetwork(unittest.TestCase):
     @requests_mock.Mocker()
     def test_get_tag(self, m):
         m.get(f"{self.api_url}/tags/{self.fake_tag_id_1}", text=json.dumps(self.fake_tag))
-        self.assertEqual(self.an.get_tag(self.fake_tag_id_1), self.fake_tag)
+        assert self.an.get_tag(self.fake_tag_id_1) == self.fake_tag
 
     # Taggings
     @requests_mock.Mocker()
@@ -4244,4 +4695,49 @@ class TestActionNetwork(unittest.TestCase):
         assert_matching_tables(
             self.an.get_wrapper("123"),
             self.fake_wrapper,
+        )
+
+    # Unique ID Lists
+    @requests_mock.Mocker()
+    def test_get_unique_id_lists(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(self.fake_unique_id_lists),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_lists(1),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
+    @requests_mock.Mocker()
+    def test_get_unique_id_list(self, m):
+        m.get(
+            f"{self.api_url}/unique_id_lists/123",
+            text=json.dumps(
+                self.fake_unique_id_lists["_embedded"][
+                    list(self.fake_unique_id_lists["_embedded"])[0]
+                ]
+            ),
+        )
+        assert_matching_tables(
+            self.an.get_unique_id_list("123"),
+            self.fake_unique_id_lists["_embedded"][list(self.fake_unique_id_lists["_embedded"])[0]],
+        )
+
+    @requests_mock.Mocker()
+    def test_create_unique_id_list(self, m):
+        m.post(
+            f"{self.api_url}/unique_id_lists",
+            text=json.dumps(
+                {
+                    "name": self.fake_unique_id_list["name"],
+                    "count": len(self.fake_unique_id_list["unique_ids"]),
+                }
+            ),
+        )
+        assert (
+            len(self.fake_unique_id_list["unique_ids"])
+            == self.an.create_unique_id_list(
+                self.fake_unique_id_list["name"], self.fake_unique_id_list["unique_ids"]
+            )["count"]
         )

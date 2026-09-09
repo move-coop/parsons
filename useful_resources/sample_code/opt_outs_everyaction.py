@@ -1,10 +1,15 @@
-import os
-import requests
-import time
+import datetime
 import json
-from parsons import Redshift, Table, VAN
-from parsons import logger
-from datetime import datetime
+import logging
+import os
+import time
+from typing import Any
+
+import requests
+
+from parsons import VAN, EveryAction, Redshift, Table
+
+logger = logging.getLogger(__name__)
 
 # Committee Information and Credentials
 
@@ -50,15 +55,20 @@ rs = Redshift()
 
 
 def attempt_optout(
-    every_action, row, applied_at, committeeid, success_log, error_log, attempts_left=3
+    every_action: EveryAction,
+    row: dict[str, Any],
+    committeeid: str,
+    success_log: list[dict[str, Any]],
+    error_log: list[dict[str, Any]],
+    attempts_left: int = 3,
 ):
-
     vanid = row["vanid"]
     phone = row["phone"]
 
     # Documentation on this json construction is here
     # https://docs.ngpvan.com/reference/common-models
     match_json = {"phones": [{"phoneNumber": phone, "phoneOptInStatus": "O"}]}
+    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
 
     try:
         response = every_action.update_person_json(id=vanid, match_json=match_json)
@@ -70,7 +80,7 @@ def attempt_optout(
                     "vanid": response.get("vanId"),
                     "phone": phone,
                     "committeeid": committeeid,
-                    "applied_at": applied_at,
+                    "applied_at": timestamp,
                 }
             )
 
@@ -85,7 +95,7 @@ def attempt_optout(
                 "vanid": vanid,
                 "phone": phone,
                 "committeeid": committeeid,
-                "errored_at": applied_at,
+                "errored_at": timestamp,
                 "error": error_message,
             }
         )
@@ -101,7 +111,7 @@ def attempt_optout(
 
             # Wait 10 seconds, then try again
             time.sleep(10)
-            attempt_optout(every_action, row, attempts_left)
+            attempt_optout(every_action, row, committeeid, success_log, error_log, attempts_left)
 
         else:
             # If we are still getting a connection error after our maximum number of attempts
@@ -114,7 +124,7 @@ def attempt_optout(
                     "vanid": vanid,
                     "phone": phone,
                     "committeeid": committeeid,
-                    "errored_at": applied_at,
+                    "errored_at": timestamp,
                     "error": connection_error_message,
                 }
             )
@@ -154,39 +164,36 @@ def main():
 
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:
-
         api_key = committee["api_key"]
         committeeid = committee["committee_id"]
         committee_name = committee["committee"]
 
         every_action = VAN(db="EveryAction", api_key=api_key)
 
-        logger.info(f"Working on opt outs in {committee_name} committee...")
+        logger.info("Working on opt outs in %s committee...", committee_name)
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
-        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)
+        opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa B023 function-uses-loop-variable
 
-        logger.info(f"Found {opt_outs.num_rows} phones to opt out in {committee_name} committee...")
+        logger.info(
+            "Found %s phones to opt out in %s committee...", opt_outs.num_rows, committee_name
+        )
 
         # Now we actually update the records
 
         if opt_outs.num_rows > 0:
-
             for opt_out in opt_outs:
-
-                applied_at = str(datetime.now()).split(".")[0]
                 attempt_optout(
                     every_action,
                     opt_out,
-                    applied_at,
                     committeeid,
                     success_log,
                     error_log,
                 )
 
     # Now we log results
-    logger.info(f"There were {len(success_log)} successes and {len(error_log)} errors.")
+    logger.info("There were %s successes and %s errors.", len(success_log), len(error_log))
 
     if len(success_log) > 0:
         success_parsonstable = Table(success_log)

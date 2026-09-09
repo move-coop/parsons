@@ -1,28 +1,33 @@
+import logging
+from datetime import datetime
+
 from requests.auth import HTTPBasicAuth
-from parsons.etl import Table
+
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import date_to_timestamp
-import logging
 
 logger = logging.getLogger(__name__)
 
 CAPITOL_CANARY_URI = "https://api.phone2action.com/2.0/"
 
 
-class CapitolCanary(object):
+class CapitolCanary:
     """
     Instantiate CapitolCanary Class
 
-    `Args:`
+    Args:
         app_id: str
             The CapitolCanary provided application id. Not required if ``CAPITOLCANARY_APP_ID``
             env variable set.
         app_key: str
             The CapitolCanary provided application key. Not required if ``CAPITOLCANARY_APP_KEY``
             env variable set.
-    `Returns:`
+
+    Returns:
         CapitolCanary Class
+
     """
 
     def __init__(self, app_id=None, app_key=None):
@@ -30,8 +35,8 @@ class CapitolCanary(object):
         cc_app_id = check_env.check("CAPITOLCANARY_APP_ID", None, optional=True)
         cc_app_key = check_env.check("CAPITOLCANARY_APP_KEY", None, optional=True)
 
-        self.app_id = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
-        self.app_key = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
+        self.app_id: str = cc_app_id or check_env.check("PHONE2ACTION_APP_ID", app_id)
+        self.app_key: str = cc_app_key or check_env.check("PHONE2ACTION_APP_KEY", app_key)
         self.auth = HTTPBasicAuth(self.app_id, self.app_key)
         self.client = APIConnector(CAPITOL_CANARY_URI, auth=self.auth)
 
@@ -41,7 +46,7 @@ class CapitolCanary(object):
         if page is not None:
             args["page"] = page
 
-        r = self.client.get_request(url, params=args)
+        r = self.client.get_request(url=url, params=args)
 
         json = r["data"]
 
@@ -50,20 +55,25 @@ class CapitolCanary(object):
 
         # If count of items is less than the total allowed per page, paginate
         while r["pagination"]["count"] == r["pagination"]["per_page"]:
-
-            r = self.client.get_request(r["pagination"]["next_url"], args)
+            r = self.client.get_request(url=r["pagination"]["next_url"], params=args)
             json.extend(r["data"])
 
         return json
 
-    def get_advocates(self, state=None, campaign_id=None, updated_since=None, page=None):
+    def get_advocates(
+        self,
+        state=None,
+        campaign_id=None,
+        updated_since: str | int | datetime | None = None,
+        page=None,
+    ):
         """
         Return advocates (person records).
 
         If no page is specified, the method will automatically paginate through the available
         advocates.
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state
                 or territory e.g., "CA" "NY" or "DC"
@@ -75,8 +85,10 @@ class CapitolCanary(object):
             page: int
                 Page number of data to fetch; if this is specified, call will only return one
                 page.
-        `Returns:`
-            A dict of parsons tables:
+
+        Returns:
+            dict[Table]
+
                 * emails
                 * phones
                 * memberships
@@ -84,8 +96,8 @@ class CapitolCanary(object):
                 * ids
                 * fields
                 * advocates
-        """
 
+        """
         # Convert the passed in updated_since into a Unix timestamp (which is what the API wants)
         updated_since = date_to_timestamp(updated_since)
 
@@ -125,7 +137,7 @@ class CapitolCanary(object):
             tbl.unpack_dict(c)
 
         # Unpack all of the arrays
-        child_tables = [child for child in tbls.keys() if child != "advocates"]
+        child_tables = [child for child in tbls if child != "advocates"]
         for c in child_tables:
             tbls[c] = tbl.long_table(["id"], c, key_rename={"id": "advocate_id"})
 
@@ -142,7 +154,7 @@ class CapitolCanary(object):
         """
         Returns a list of campaigns
 
-        `Args:`
+        Args:
             state: str
                 Filter by US postal abbreviation for a state or territory e.g., "CA" "NY" or "DC"
             zip: int
@@ -154,11 +166,12 @@ class CapitolCanary(object):
             include_content: boolean
                 If true, include campaign content fields, which may vary. This may cause
                 sync errors.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         args = {
             "state": state,
             "zip": zip,
@@ -166,7 +179,7 @@ class CapitolCanary(object):
             "includePrivate": str(include_private),
         }
 
-        tbl = Table(self.client.get_request("campaigns", params=args))
+        tbl = Table(self.client.get_request(url="campaigns", params=args))
         if tbl:
             tbl.unpack_dict("updated_at")
             if include_content:
@@ -202,7 +215,7 @@ class CapitolCanary(object):
         For a complete list of fields that can be updated, see
         `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             campaigns: list
                 The ID(s) of campaigns to add the advocate to
             first_name: str
@@ -240,12 +253,14 @@ class CapitolCanary(object):
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
-        `Returns:`
-            The int ID of the created advocate.
-        """
 
+        Returns:
+            int
+                ID of the created advocate
+
+        """
         # Validate the passed in arguments
 
         if not campaigns:
@@ -258,14 +273,12 @@ class CapitolCanary(object):
 
         if (sms_optin or sms_optout) and not phone:
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not email:
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API
@@ -293,10 +306,10 @@ class CapitolCanary(object):
 
         # Turn into a list of items so we can append multiple campaigns
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        response = self.client.post_request("advocates", data=data)
+        response = self.client.post_request(url="advocates", data=data)
         return response["advocateid"]
 
     def update_advocate(
@@ -321,7 +334,7 @@ class CapitolCanary(object):
         For a complete list of fields that can be updated, see
         `the CapitolCanary API documentation <https://docs.phone2action.com/#calls-create>`_.
 
-        `Args:`
+        Args:
             advocate_id: integer
                 The ID of the advocate being updates
             campaigns: list
@@ -345,21 +358,19 @@ class CapitolCanary(object):
                 `Optional`; Whether to opt the advocate out of receiving emails. You must
                 provide values for the ``email`` and ``campaigns`` arguments. Once an advocate is
                 opted out, they cannot be opted back in.
-            **kwargs:
+            `**kwargs`:
                 Additional fields on the advocate to update
-        """
 
+        """
         # Validate the passed in arguments
         if (sms_optin or sms_optout) and not (phone and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of SMS messages, you must specify a valid "
-                "phone and one or more campaigns"
+                "When opting an advocate in or out of SMS messages, you must specify a valid phone and one or more campaigns"
             )
 
         if (email_optin or email_optout) and not (email and campaigns):
             raise ValueError(
-                "When opting an advocate in or out of email messages, you must specify a valid "
-                "email address and one or more campaigns"
+                "When opting an advocate in or out of email messages, you must specify a valid email address and one or more campaigns"
             )
 
         # Align our arguments with the expected parameters for the API
@@ -386,7 +397,7 @@ class CapitolCanary(object):
         # Turn into a list of items so we can append multiple campaigns
         campaigns = campaigns or []
         campaign_keys = [("campaigns[]", val) for val in campaigns]
-        data = [(key, value) for key, value in payload.items()] + campaign_keys
+        data = list(payload.items()) + campaign_keys
 
         # Call into the CapitolCanary API
-        self.client.post_request("advocates", data=data)
+        self.client.post_request(url="advocates", data=data)

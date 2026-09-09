@@ -1,11 +1,13 @@
+import logging
+
+import xmltodict
+from bs4 import BeautifulSoup
+from requests import HTTPError
+
+from parsons import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 from parsons.utilities.datetime import parse_date
-from parsons import Table
-from bs4 import BeautifulSoup
-from requests import HTTPError
-import xmltodict
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -14,10 +16,7 @@ DATE_FMT = "%Y-%m-%d"
 
 
 def _format_date(user_entered_date):
-    if user_entered_date:
-        formatted_date = parse_date(user_entered_date).strftime(DATE_FMT)
-    else:
-        formatted_date = None
+    formatted_date = parse_date(user_entered_date).strftime(DATE_FMT) if user_entered_date else None
     return formatted_date
 
 
@@ -25,24 +24,21 @@ class MobileCommons:
     """
     Instantiate the MobileCommons class.
 
-    `Args:`
-        username: str
-            A valid email address connected to a  MobileCommons account. Not required if
-            ``MOBILECOMMONS_USERNAME`` env variable is set.
-        password: str
-            Password associated with Zoom account. Not required if ``MOBILECOMMONS_PASSWORD``
-            env variable set.
+    Args:
+        api_key: str
+            A valid API Key created by a MobileCommons account. Not required if
+            ``MOBILECOMMONS_PASSWORD`` env variable is set.
         company_id: str
             The company id of the MobileCommons organization to connect to. Not required if
-            username and password are for an account associated with only one MobileCommons
+            API key is for an account associated with only one MobileCommons
             organization.
+
     """
 
-    def __init__(self, username=None, password=None, company_id=None):
-        self.username = check_env.check("MOBILECOMMONS_USERNAME", username)
-        self.password = check_env.check("MOBILECOMMONS_PASSWORD", password)
+    def __init__(self, api_key=None, company_id=None):
+        self.api_key = check_env.check("MOBILECOMMONS_PASSWORD", api_key)
         self.default_params = {"company": company_id} if company_id else {}
-        self.client = APIConnector(uri=MC_URI, auth=(self.username, self.password))
+        self.client = APIConnector(uri=MC_URI, headers={"Authorization": f"Bearer {self.api_key}"})
 
     def _mc_get_request(
         self,
@@ -56,7 +52,7 @@ class MobileCommons:
         """
         A function for GET requests that handles MobileCommons xml responses and pagination
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             first_data_key: str
@@ -72,10 +68,10 @@ class MobileCommons:
                 final table
             limit: int
                 The maximum number of rows to return
-        `Returns:`
+        Returns:
             Parsons table with requested data
-        """
 
+        """
         # Create a table to compile results from different pages in
         final_table = Table()
         # Max page_limit is 1000 for MC
@@ -139,8 +135,7 @@ class MobileCommons:
             page += 1
             page_params = {"page": str(page), **params}
             logger.info(
-                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} "
-                f"of {limit}"
+                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} of {limit}"
             )
             # Send get request
             response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)
@@ -169,8 +164,9 @@ class MobileCommons:
         A helper function that checks the status code of a response and raises an error if the
         response code is not 200
 
-        `Args:`
+        Args:
             response: requests package response object
+
         """
         if response.status_code != 200:
             error = f"Response Code {str(response.status_code)}"
@@ -184,15 +180,16 @@ class MobileCommons:
         A helper function that sends a get request to MobileCommons and then parses XML responses in
         order to return the response as a dictionary
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             params: dict
                 Parameters to be passed into GET request
-        `Returns:`
+        Returns:
             xml response parsed into list or dictionary
+
         """
-        response = self.client.request(endpoint, "GET", params=params)
+        response = self.client.request(url=endpoint, req_type="GET", params=params)
 
         # If there's an error with initial response, raise error
         self._check_response_status_code(response)
@@ -208,17 +205,16 @@ class MobileCommons:
         """
         A function for POST requests that handles MobileCommons xml responses
 
-        `Args:`
+        Args:
             endpoint: str
                 The endpoint, which will be appended to the base URL for each request
             params: dict
                 Parameters to be passed into GET request
-        `Returns:`
+        Returns:
             xml response parsed into list or dictionary
+
         """
-
-        response = self.client.request(endpoint, "POST", params=params)
-
+        response = self.client.request(url=endpoint, req_type="POST", params=params)
         response_dict = xmltodict.parse(
             response.text, attr_prefix="", cdata_key="", dict_constructor=dict
         )
@@ -233,7 +229,7 @@ class MobileCommons:
         """
         A function for get broadcasts
 
-        `Args:`
+        Args:
             first_date: str
                 The date of the earliest possible broadcast you'd like returned. All common date
                 format should work (e.g. mm/dd/yy or yyyy-mm-dd)
@@ -247,10 +243,10 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
-        """
 
+        """
         params = {
             "start_time": _format_date(first_date),
             "end_time": _format_date(last_date),
@@ -271,15 +267,15 @@ class MobileCommons:
     def get_campaign_subscribers(
         self,
         campaign_id: int,
-        first_date: str = None,
-        last_date: str = None,
-        opt_in_path_id: int = None,
-        limit: int = None,
+        first_date: str | None = None,
+        last_date: str | None = None,
+        opt_in_path_id: int | None = None,
+        limit: int | None = None,
     ):
         """
         A function for getting subscribers of a specified campaign
 
-        `Args:`
+        Args:
             campaign_id: int
                 The campaign for which you'd like to get subscribers. You can get this from the url
                 of the campaign's page after select a campaign at
@@ -296,10 +292,10 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
-        """
 
+        """
         params = {
             "campaign_id": campaign_id,
             "from": _format_date(first_date),
@@ -318,17 +314,17 @@ class MobileCommons:
 
     def get_profiles(
         self,
-        phones: list = None,
-        first_date: str = None,
-        last_date: str = None,
+        phones: list | None = None,
+        first_date: str | None = None,
+        last_date: str | None = None,
         include_custom_columns: bool = False,
         include_subscriptions: bool = False,
-        limit: int = None,
+        limit: int | None = None,
     ):
         """
         A function for getting profiles, which are MobileCommons people records
 
-        `Args:`
+        Args:
             phones: list
                 A list of phone numbers including country codes for which you want profiles returned
                 MobileCommons claims to recognize most formats.
@@ -347,10 +343,10 @@ class MobileCommons:
             limit: int
                 Max rows you want returned
 
-        `Returns:`
+        Returns:
             Parsons table with requested broadcasts
-        """
 
+        """
         custom_cols = "true" if include_custom_columns else "false"
         subscriptions = "true" if include_subscriptions else "false"
 
@@ -391,7 +387,7 @@ class MobileCommons:
         """
         A function for creating or updating a single MobileCommons profile
 
-        `Args:`
+        Args:
             phone: str
                 Phone number to assign profile
             first_name: str
@@ -415,10 +411,10 @@ class MobileCommons:
                 Dictionary with custom column names as keys and custom column values
                 as dictionary values
 
-        `Returns:`
+        Returns:
             ID of created/updated  profile
-        """
 
+        """
         params = {
             "phone_number": phone,
             "first_name": first_name,
@@ -433,7 +429,7 @@ class MobileCommons:
         }
 
         if custom_column_values:
-            params = params.merge(custom_column_values)
+            params.update(custom_column_values)
 
         response = self._mc_post_request("profile_update", params=params)
         return response["profile"]["id"]

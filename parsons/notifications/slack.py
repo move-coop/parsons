@@ -1,38 +1,28 @@
-import os
-import time
 import warnings
-
-from parsons.etl.table import Table
-from parsons.utilities.check_env import check
-
-from slackclient import SlackClient
-from slackclient.exceptions import SlackClientError
+from pathlib import Path
 
 import requests
+from slack_sdk import WebClient
+from slack_sdk.http_retry.builtin_handlers import RateLimitErrorRetryHandler
+
+from parsons.etl.table import Table
+from parsons.utilities import check_env
 
 
-class Slack(object):
+class Slack:
     def __init__(self, api_key=None):
-        if api_key is None:
-            try:
-                self.api_key = os.environ["SLACK_API_TOKEN"]
+        self.api_key = check_env.check("SLACK_API_TOKEN", api_key)
 
-            except KeyError:
-                raise KeyError(
-                    "Missing api_key. It must be passed as an "
-                    "argument or stored as environmental variable"
-                )
+        # Create client with built-in rate limit handler
+        rate_limit_handler = RateLimitErrorRetryHandler(max_retry_count=1)
+        self.client = WebClient(token=self.api_key)
+        self.client.retry_handlers.append(rate_limit_handler)
 
-        else:
-            self.api_key = api_key
-
-        self.client = SlackClient(self.api_key)
-
-    def channels(self, fields=["id", "name"], exclude_archived=False, types=["public_channel"]):
+    def channels(self, fields=None, exclude_archived=False, types=None):
         """
         Return a list of all channels in a Slack team.
 
-        `Args:`
+        Args:
             fields: list
                 A list of the fields to return. By default, only the channel
                 `id` and `name` are returned. See
@@ -45,14 +35,20 @@ class Slack(object):
                 Mix and match channel types by providing a list of any
                 combination of `public_channel`, `private_channel`,
                 `mpim` (aka group messages), or `im` (aka 1-1 messages).
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
+
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
         """
+        if types is None:
+            types = ["public_channel"]
+        if fields is None:
+            fields = ["id", "name"]
         tbl = self._paginate_request(
-            "conversations.list",
+            "conversations_list",
             "channels",
-            types=types,
+            types=",".join(types),
             exclude_archived=exclude_archived,
         )
 
@@ -66,29 +62,26 @@ class Slack(object):
 
     def users(
         self,
-        fields=[
-            "id",
-            "name",
-            "deleted",
-            "profile_real_name_normalized",
-            "profile_email",
-        ],
+        fields=None,
     ):
         """
         Return a list of all users in a Slack team.
 
-        `Args:`
+        Args:
             fields: list
                 A list of the fields to return. By default, only the user
                 `id` and `name` and `deleted` status are returned. See
                 https://api.slack.com/methods/users.list for a full list of
                 available fields. `Notes:` nested fields are unpacked.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
-        tbl = self._paginate_request("users.list", "members", include_locale=True)
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
+        if fields is None:
+            fields = ["id", "name", "deleted", "profile_real_name_normalized", "profile_email"]
+        tbl = self._paginate_request("users_list", "members", include_locale=True)
 
         tbl.unpack_dict("profile", include_original=False, prepend=True, prepend_value="profile")
 
@@ -102,7 +95,8 @@ class Slack(object):
         """
         Send a message to a Slack channel with a webhook instead of an api_key.
         You might not have the full-access API key but still want to notify a channel
-        `Args:`
+
+        Args:
             channel: str
                 The name or id of a `public_channel`, a `private_channel`, or
                 an `im` (aka 1-1 message).
@@ -113,8 +107,9 @@ class Slack(object):
                 Looks like: https://hooks.slack.com/services/Txxxxxxx/Bxxxxxx/Dxxxxxxx
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
+
         """
-        webhook = check("SLACK_API_WEBHOOK", webhook, optional=True)
+        webhook = check_env.check("SLACK_API_WEBHOOK", webhook, optional=True)
         payload = {"channel": channel, "text": text}
         if parent_message_id:
             payload["thread_ts"] = parent_message_id
@@ -122,9 +117,9 @@ class Slack(object):
 
     def message_channel(self, channel, text, parent_message_id=None, **kwargs):
         """
-        Send a message to a Slack channel
+        Send a message to a Slack channel.
 
-        `Args:`
+        Args:
             channel: str
                 The name or id of a `public_channel`, a `private_channel`, or
                 an `im` (aka 1-1 message).
@@ -132,21 +127,22 @@ class Slack(object):
                 Text of the message to send.
             parent_message_id: str
                 The `ts` value of the parent message. If used, this will thread the message.
-            **kwargs: kwargs
-                as_user: str
-                    This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-                    args to customize the attributes of the user posting the message.
-                    See https://api.slack.com/methods/chat.postMessage#legacy_authorship for
-                    more information about legacy authorship
-                Additional arguments for chat.postMessage API call. See documentation
-                <https://api.slack.com/methods/chat.postMessage>` for more info.
 
+        Keyword Args:
+            as_user: str
+                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
+                args to customize the attributes of the user posting the message.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+                for more information about legacy authorship
+            `**kwargs`: kwargs
+                Additional arguments for chat.postMessage API call.
+                See `<https://docs.slack.dev/reference/methods/chat.postMessage>`__ for more info.
 
-        `Returns:`
-            `dict`:
+        Returns:
+            dict
                 A response json
-        """
 
+        """
         if "as_user" in kwargs:
             warnings.warn(
                 "as_user is a deprecated argument on message_channel().",
@@ -161,27 +157,17 @@ class Slack(object):
             )
             kwargs.pop("thread_ts", None)
 
-        resp = self.client.api_call(
-            "chat.postMessage",
-            channel=channel,
+        # Resolve channel name to ID if needed
+        channel_id = self._resolve_channel_id(channel)
+
+        resp = self.client.chat_postMessage(
+            channel=channel_id,
             text=text,
             thread_ts=parent_message_id,
             **kwargs,
         )
 
-        if not resp["ok"]:
-            if resp["error"] == "ratelimited":
-                time.sleep(int(resp["headers"]["Retry-After"]))
-
-                resp = self.client.api_call(
-                    "chat.postMessage", channel=channel, text=text, **kwargs
-                )
-
-            resp.pop("headers", None)
-
-            raise SlackClientError(resp)
-
-        return resp
+        return resp.data
 
     def upload_file(
         self,
@@ -195,9 +181,10 @@ class Slack(object):
         """
         Upload a file to Slack channel(s).
 
-        `Args:`
-            channels: list
+        Args:
+            channels: list or str
                 The list of channel names or IDs where the file will be shared.
+                Can be a single channel name/ID (str) or a list of channel names/IDs.
             filename: str
                 The path to the file to be uploaded.
             filetype: str
@@ -213,64 +200,99 @@ class Slack(object):
             is_binary: bool
                 If True, open this file in binary mode. This is needed if
                 uploading binary files. Defaults to False.
-        `Returns:`
+
+        Returns:
             `dict`:
                 A response json
+
         """
         if filetype is None and "." in filename:
             filetype = filename.split(".")[-1]
 
+        if isinstance(channels, str):
+            channels = [channels]
+
         mode = "rb" if is_binary else "r"
-        with open(filename, mode) as file_content:
-            resp = self.client.api_call(
-                "files.upload",
-                channels=channels,
-                file=file_content,
-                filetype=filetype,
-                initial_comment=initial_comment,
-                title=title,
-            )
 
-            if not resp["ok"]:
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
+        with Path(filename).open(mode=mode) as file_content:
+            for channel in channels:
+                resp = self.client.files_upload_v2(
+                    channel=self._resolve_channel_id(channel),
+                    file=file_content,
+                    filetype=filetype,
+                    initial_comment=initial_comment,
+                    title=title,
+                )
+                # Reset file pointer for subsequent uploads
+                if hasattr(file_content, "seek"):
+                    file_content.seek(0)
 
-                    resp = self.client.api_call(
-                        "files.upload",
-                        channels=channels,
-                        file=file_content,
-                        filetype=filetype,
-                        initial_comment=initial_comment,
-                        title=title,
-                    )
-
-                raise SlackClientError(resp["error"])
-
-        return resp
+        return resp.data
 
     def _paginate_request(self, endpoint, collection, **kwargs):
         # The max object we're requesting at a time.
-        # This is an nternal limit to not overload slack api
+        # This is an internal limit to not overload slack api
         LIMIT = 200
 
         items = []
         next_page = True
         cursor = None
+
+        # Map endpoint names to client methods
+        method_map = {
+            "conversations_list": self.client.conversations_list,
+            "users_list": self.client.users_list,
+        }
+
+        method = method_map.get(endpoint)
+        if not method:
+            raise ValueError(f"Unsupported endpoint: {endpoint}")
+
         while next_page:
-            resp = self.client.api_call(endpoint, cursor=cursor, limit=LIMIT, **kwargs)
+            resp = method(cursor=cursor, limit=LIMIT, **kwargs)
 
-            if not resp["ok"]:
-                if resp["error"] == "ratelimited":
-                    time.sleep(int(resp["headers"]["Retry-After"]))
-                    continue
+            # Extract data from response
+            data = resp.data if hasattr(resp, "data") else resp
 
-                raise SlackClientError(resp["error"])
+            # Get items from the collection key
+            if collection in data:
+                items.extend(data[collection])
 
-            items.extend(resp[collection])
+            # Check for next cursor in response_metadata
+            response_metadata = data.get("response_metadata", {})
+            next_cursor = response_metadata.get("next_cursor", "")
 
-            if resp["response_metadata"]["next_cursor"]:
-                cursor = resp["response_metadata"]["next_cursor"]
+            if next_cursor:
+                cursor = next_cursor
             else:
                 next_page = False
 
         return Table(items)
+
+    def _resolve_channel_id(self, channel):
+        """
+        Resolve a channel name to its ID. If already an ID, returns it unchanged.
+
+        Args:
+            channel: str
+                Channel name (with or without #) or channel ID
+
+        Returns:
+            str: Channel ID
+
+        """
+        # If it's already a channel ID (starts with C, D, or G), return as-is
+        if channel and channel[0] in ("C", "D", "G"):
+            return channel
+
+        # Remove leading # if present
+        channel_name = channel.lstrip("#")
+
+        # Get all channels and find matching name
+        channels = self.channels(fields=["id", "name"], types=["public_channel", "private_channel"])
+        for row in channels:
+            if row["name"] == channel_name:
+                return row["id"]
+
+        # If not found, raise an error
+        raise ValueError(f"Channel '{channel}' not found")

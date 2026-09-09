@@ -1,15 +1,16 @@
+import time
 import unittest
+
 import gspread
-import os
+import pytest
 
 from parsons import GoogleSheets, Table
-from test.utils import assert_matching_tables
+from test.conftest import assert_matching_tables
 
 
-@unittest.skipIf(not os.environ.get("LIVE_TEST"), "Skipping because not running live test")
+@pytest.mark.live
 class TestGoogleSheets(unittest.TestCase):
     def setUp(self):
-
         self.google_sheets = GoogleSheets()
 
         self.spreadsheet_id = self.google_sheets.create_spreadsheet("parsons_test_01")
@@ -30,50 +31,45 @@ class TestGoogleSheets(unittest.TestCase):
             ]
         )
         self.google_sheets.overwrite_sheet(self.spreadsheet_id, self.second_test_table, 1)
-
-    def tearDown(self):
-        # self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
-        pass
+        time.sleep(10)
 
     def test_read_worksheet(self):
-        # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
-        table = self.google_sheets.get_worksheet("1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8")
-        self.assertEqual(541, table.num_rows)
+        table = self.google_sheets.get_worksheet(self.spreadsheet_id)
+        assert table.num_rows == 2
+        time.sleep(10)
 
-    def test_read_sheet(self):
-        # Deprecated in Parsons v0.14
-
-        # This is the spreadsheet called "Legislators 2017 (Test sheet for Parsons)"
-        table = self.google_sheets.read_sheet("1Y_pZxz-8JZ9QBdq1pXuIk2js_VXeymOUoZhUp1JVEg8")
-        self.assertEqual(541, table.num_rows)
+    def tearDown(self):
+        self.google_sheets.delete_spreadsheet(self.spreadsheet_id)
+        pass
 
     def test_read_nonexistent_worksheet(self):
-        self.assertRaises(gspread.exceptions.APIError, self.google_sheets.read_sheet, "abc123")
+        bogus_title = "abc123"
+        with pytest.raises(gspread.exceptions.APIError):
+            self.google_sheets.read_sheet(bogus_title)
 
     def test_create_spreadsheet(self):
         # Created as part of setUp
-        self.assertIsNotNone(self.spreadsheet_id)
+        assert self.spreadsheet_id is not None
 
     def test_add_sheet(self):
         # Sheet added as part of setUp
         # Also tests get_sheet_index_with_title
         idx = self.google_sheets.get_worksheet_index(self.spreadsheet_id, self.second_sheet_title)
-        self.assertEqual(1, idx)
+        assert idx == 1
 
     def test_get_sheet_index_with_bogus_title(self):
-        self.assertRaises(
-            ValueError,
-            self.google_sheets.get_worksheet_index,
-            self.spreadsheet_id,
-            "abc123",
-        )
+        bogus_title = "abc123"
+        with pytest.raises(ValueError, match=f"Couldn't find sheet with title {bogus_title}"):
+            self.google_sheets.get_worksheet_index(
+                self.spreadsheet_id,
+                bogus_title,
+            )
 
     def test_read_worksheet_with_title(self):
         table = self.google_sheets.get_worksheet(self.spreadsheet_id, self.second_sheet_title)
-        self.assertEqual(self.second_test_table.columns, table.columns)
+        assert self.second_test_table.columns == table.columns
 
     def test_append_to_spreadsheet(self):
-        # BROKEN TEST!
         append_table = Table(
             [
                 {"first": "Jim", "last": "Mitchell"},
@@ -83,18 +79,18 @@ class TestGoogleSheets(unittest.TestCase):
         self.google_sheets.append_to_sheet(self.spreadsheet_id, append_table)
         result_table = self.google_sheets.read_sheet(self.spreadsheet_id)
 
-        self.assertEqual(append_table.columns, result_table.columns)
+        assert append_table.columns == result_table.columns
         # We should now have rows from both tables
-        self.assertEqual(self.test_table.num_rows + append_table.num_rows, result_table.num_rows)
+        assert self.test_table.num_rows + append_table.num_rows == result_table.num_rows
 
         # First check that we didn't muck with the original data
         for i in range(self.test_table.num_rows):
-            self.assertEqual(self.test_table.data[i], result_table.data[i])
+            assert list(self.test_table.data[i]) == result_table.data[i]
         orig_row_count = self.test_table.num_rows
 
         # Then check that we appended the data properly
         for i in range(append_table.num_rows):
-            self.assertEqual(append_table.data[i], result_table.data[orig_row_count + i])
+            assert list(append_table.data[i]) == result_table.data[orig_row_count + i]
 
         # Test that we can append to an empty sheet
         self.google_sheets.add_sheet(self.spreadsheet_id, "Sheet3")
@@ -120,8 +116,9 @@ class TestGoogleSheets(unittest.TestCase):
         formula_vals = [row["col3"] for row in result_table]
 
         # Test that the value is what's expected from each formula
-        self.assertEqual(formula_vals[0], "27")
-        self.assertEqual(formula_vals[1], "Budapest")
+        assert formula_vals[0] == "27"
+        assert formula_vals[1] == "Budapest"
+        time.sleep(10)
 
     def test_paste_data_in_sheet(self):
         # Testing if we can paste data to a spreadsheet
@@ -197,7 +194,7 @@ class TestGoogleSheets(unittest.TestCase):
         )
 
         result_table = self.google_sheets.get_worksheet(self.spreadsheet_id, "PasteDataSheet")
-        self.assertEqual(result_table.to_dicts(), expected_table.to_dicts())
+        assert result_table.to_dicts() == expected_table.to_dicts()
 
     def test_overwrite_spreadsheet(self):
         new_table = Table(
@@ -211,6 +208,7 @@ class TestGoogleSheets(unittest.TestCase):
         result_table = self.google_sheets.read_sheet(self.spreadsheet_id)
 
         assert_matching_tables(new_table, result_table)
+        time.sleep(10)
 
     def test_share_spreadsheet(self):
         # Test that sharing of spreadsheet works as intended.
@@ -219,4 +217,4 @@ class TestGoogleSheets(unittest.TestCase):
             self.spreadsheet_id, "bob@bob.com", role="reader", notify=True
         )
         permissions = self.google_sheets.get_spreadsheet_permissions(self.spreadsheet_id)
-        self.assertIn("bob@bob.com", permissions["emailAddress"])
+        assert "bob@bob.com" in permissions["emailAddress"]

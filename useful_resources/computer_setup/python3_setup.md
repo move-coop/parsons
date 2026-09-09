@@ -51,7 +51,7 @@ instant outputs.
 
 [countdown]: https://pythonclock.org/
 [eol_article]: https://www.anaconda.com/end-of-life-eol-for-python-2-7-is-coming-are-you-ready/
-[parsons]: https://move-coop.github.io/parsons/html/index.html
+[parsons]: https://move-coop.github.io/parsons/
 [install_py3]: https://www.saintlad.com/install-python-3-on-mac/
 [download_py]: https://www.python.org/downloads/
 [jupyter]: https://jupyter.readthedocs.io/en/latest/install.html

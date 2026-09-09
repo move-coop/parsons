@@ -1,11 +1,13 @@
-from parsons.databases.postgres.postgres_core import PostgresCore
-from parsons.databases.table import BaseTable
+import logging
+from pathlib import Path
+from typing import Literal
+
 from parsons.databases.alchemy import Alchemy
 from parsons.databases.database_connector import DatabaseConnector
+from parsons.databases.postgres.postgres_core import PostgresCore
+from parsons.databases.table import BaseTable
 from parsons.etl.table import Table
-import logging
-import os
-
+from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
@@ -25,23 +27,29 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         db: str
             Required if env variable ``PGDATABASE`` not populated
         port: int
-            Required if env variable ``PGPORT`` not populated.
+            If omitted or ``None``, uses ``PGPORT`` when set, otherwise 5432. If passed
+            (including ``5432``), the argument takes precedence over ``PGPORT``.
         timeout: int
             Seconds to timeout if connection not established.
+
     """
 
-    def __init__(self, username=None, password=None, host=None, db=None, port=5432, timeout=10):
+    def __init__(self, username=None, password=None, host=None, db=None, port=None, timeout=10):
         super().__init__()
 
-        self.username = username or os.environ.get("PGUSER")
-        self.password = password or os.environ.get("PGPASSWORD")
-        self.host = host or os.environ.get("PGHOST")
-        self.db = db or os.environ.get("PGDATABASE")
-        self.port = port or os.environ.get("PGPORT")
+        self.username = check_env.check("PGUSER", username, optional=True)
+        self.password = check_env.check("PGPASSWORD", password, optional=True)
+        self.host = check_env.check("PGHOST", host, optional=True)
+        self.db = check_env.check("PGDATABASE", db, optional=True)
+        if port is not None:
+            self.port = port
+        else:
+            env_port = check_env.check("PGPORT", None, optional=True)
+            self.port = int(env_port) if env_port is not None else 5432
 
         # Check if there is a pgpass file. Psycopg2 will search for this file first when
         # creating a connection.
-        pgpass = os.path.isfile(os.path.expanduser("~/.pgpass"))
+        pgpass = Path("~/.pgpass").expanduser().is_file()
 
         if not any([self.username, self.password, self.host, self.db]) and not pgpass:
             raise ValueError(
@@ -56,14 +64,14 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
         self,
         tbl: Table,
         table_name: str,
-        if_exists: str = "fail",
+        if_exists: Literal["fail", "append", "drop", "truncate"] = "fail",
         strict_length: bool = False,
     ):
         """
-        Copy a :ref:`parsons-table` to Postgres.
+        Copy a :ref:`Table` to Postgres.
 
-        `Args:`
-            tbl: parsons.Table
+        Args:
+            tbl: Table
                 A Parsons table object
             table_name: str
                 The destination schema and table (e.g. ``my_schema.my_table``)
@@ -75,8 +83,8 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 the created table's column sizes will be sized to exactly fit the current data,
                 or if their size will be rounded up to account for future values being larger
                 then the current dataset. Defaults to ``False``.
-        """
 
+        """
         with self.connection() as connection:
             # Auto-generate table
             if self._create_table_precheck(connection, table_name, if_exists):
@@ -87,10 +95,10 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
                 self.query_with_connection(sql, connection, commit=False)
                 logger.info(f"{table_name} created.")
 
-            sql = f"COPY {table_name} FROM STDIN CSV HEADER;"
+            sql = f"""COPY "{table_name}" ("{'","'.join(tbl.columns)}") FROM STDIN CSV HEADER;"""
 
-            with self.cursor(connection) as cursor:
-                cursor.copy_expert(sql, open(tbl.to_csv(), "r"))
+            with self.cursor(connection) as cursor, Path(tbl.to_csv()).open() as f:
+                cursor.copy_expert(sql, f)
                 logger.info(f"{tbl.num_rows} rows copied to {table_name}.")
 
     def table(self, table_name):
@@ -102,4 +110,40 @@ class Postgres(PostgresCore, Alchemy, DatabaseConnector):
 class PostgresTable(BaseTable):
     # Postgres table object.
 
-    pass
+    def max_value(self, column: str):
+        """Get the max value of this column from the table."""
+        return self.db.query(
+            f"""
+            SELECT "{column}"
+            FROM {self.table}
+            ORDER BY "{column}" DESC
+            LIMIT 1
+            """
+        ).first
+
+    def get_updated_rows(
+        self,
+        updated_at_column: str,
+        cutoff_value,
+        offset: int = 0,
+        chunk_size: int | None = None,
+    ) -> Table:
+        """Get rows that have a greater updated_at_column value than the one provided."""
+        sql = f"""
+            SELECT *
+            FROM {self.table}
+        """
+        parameters = []
+
+        if cutoff_value is not None:
+            sql += f'WHERE "{updated_at_column}" > %s'
+            parameters.append(cutoff_value)
+
+        if chunk_size:
+            sql += f" LIMIT {chunk_size}"
+
+        sql += f" OFFSET {offset}"
+
+        result = self.db.query(sql, parameters=parameters)
+
+        return result

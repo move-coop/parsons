@@ -1,6 +1,7 @@
 import os
 import unittest
 import unittest.mock as mock
+
 from parsons import Salesforce, Table
 
 
@@ -49,13 +50,13 @@ class TestSalesforce(unittest.TestCase):
     def test_query(self):
         fake_soql = "FAKESOQL"
         response = self.sf.query(fake_soql)
-        assert self.sf.client.query_all.called_with(fake_soql)
-        self.assertEqual(response["records"][0]["Id"], "1234567890AaBbC")
+        self.sf.client.query_all.assert_called_with(fake_soql)
+        assert response["records"][0]["Id"] == "1234567890AaBbC"
 
     def test_insert(self):
         fake_data = Table([{"firstname": "Chrisjen", "lastname": "Avasarala"}])
         response = self.sf.insert_record("Contact", fake_data)
-        assert self.sf.client.bulk.Contact.insert.called_with(fake_data)
+        self.sf.client.bulk.Contact.insert.assert_called_with(fake_data.to_dicts())
         assert response[0]["created"]
 
     def test_update(self):
@@ -69,7 +70,7 @@ class TestSalesforce(unittest.TestCase):
             ]
         )
         response = self.sf.update_record("Contact", fake_data)
-        assert self.sf.client.bulk.Contact.update.called_with(fake_data)
+        self.sf.client.bulk.Contact.update.assert_called_with(fake_data.to_dicts())
         assert not response[0]["created"]
 
     def test_upsert(self):
@@ -84,7 +85,7 @@ class TestSalesforce(unittest.TestCase):
             ]
         )
         response = self.sf.upsert_record("Contact", fake_data, "id")
-        assert self.sf.client.bulk.Contact.update.called_with(fake_data)
+        self.sf.client.bulk.Contact.upsert.assert_called_with(fake_data.to_dicts(), "id")
         print(response)
         assert not response[0]["created"]
         assert response[1]["created"]
@@ -92,5 +93,5 @@ class TestSalesforce(unittest.TestCase):
     def test_delete(self):
         fake_data = Table([{"id": "1234567890AaBbC"}])
         response = self.sf.delete_record("Contact", fake_data)
-        assert self.sf.client.bulk.Contact.update.called_with(fake_data)
+        self.sf.client.bulk.Contact.delete.assert_called_with(fake_data.to_dicts())
         assert not response[0]["created"]

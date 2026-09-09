@@ -9,29 +9,31 @@ class Locations:
     def get_locations(self, limit=None):
         """Get a list of PDI Locations
 
-        `Args:`
+        Args:
             limit: int
                 The max number of locations to return
 
-        `Returns:`
-            parsons.Table
-                A Parsons table containing all requested location data.
-        """
+        Returns:
+            Table
+                All requested location data.
 
+        """
         return self._request(self.locations_url, limit=limit)
 
     def create_location(self, address: str, name: str):
         """Create a new PDI address
-        `Args:`
+
+        Args:
             address: str
                A full address including street number, city, state, and zip.
             name: str
                 The name of the location. E.g. "The Overlook Hotel"
-        `Returns:`
+
+        Returns:
             dict
                 Response from PDI in dictionary object
-        """
 
+        """
         payload = {"locationName": name, "locationAddress": address}
         return self._request(self.locations_url, req_type="POST", post_data=payload)
 

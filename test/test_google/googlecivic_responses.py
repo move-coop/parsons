@@ -1,4 +1,3 @@
-# flake8: noqa
 elections_resp = {
     "kind": "civicinfo#electionsQueryResponse",
     "elections": [

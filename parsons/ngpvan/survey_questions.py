@@ -1,23 +1,23 @@
 """NGPVAN Survey Questions Endpoints"""
 
-from parsons.etl.table import Table
 import logging
+
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
 
-class SurveyQuestions(object):
+class SurveyQuestions:
     def __init__(self, van_connection):
-
         self.connection = van_connection
 
     def get_survey_questions(
-        self, statuses=["Active"], name=None, sq_type=None, question=None, cycle=None
+        self, statuses=None, name=None, sq_type=None, question=None, cycle=None
     ):
         """
         Get survey questions.
 
-        `Args:`
+        Args:
             statuses: list
                 Filter to a list of statuses of survey questions. One or more of ``Active``,
                 ``Archived``, and ``Inactive``.
@@ -29,11 +29,14 @@ class SurveyQuestions(object):
                 Filter to survey questions with script questions that contain the given input.
             cycle: str
                 Filter to survey suestions with the given cycle. A year in the format "YYYY".
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
+        if statuses is None:
+            statuses = ["Active"]
         params = {
             "statuses": statuses,
             "$top": self.page_size,
@@ -51,14 +54,15 @@ class SurveyQuestions(object):
         """
         Get a survey question.
 
-        `Args:`
+        Args:
             survey_question_id: int
                 The survey question id.
-        `Returns:`
-            Parsons Table
-                See :ref:`parsons-table` for output options.
-        """
 
+        Returns:
+            Table
+                See :ref:`Table` for output options.
+
+        """
         r = self.connection.get_request(f"surveyQuestions/{survey_question_id}")
         logger.info(f"Found survey question {survey_question_id}.")
         return r
@@ -77,7 +81,7 @@ class SurveyQuestions(object):
         """
         Apply a single survey response to a person.
 
-        `Args:`
+        Args:
             id: str
                 A valid person id
             survey_question_id: int
@@ -91,15 +95,15 @@ class SurveyQuestions(object):
                 `Optional`; Specifies the result code of the response. If
                 not included,responses must be specified. Conversely, if
                 responses are specified, result_code_id must be null. Valid ids
-                can be found by using the :meth:`get_canvass_responses_result_codes`
+                can be found by using the :meth:`~parsons.ngpvan.canvass_responses.CanvassResponses.get_canvass_responses_result_codes`
             contact_type_id : int
                 `Optional`; A valid contact type id
             input_type_id : int
                 `Optional`; Defaults to 11 (API Input)
             date_canvassed : str
                 `Optional`; ISO 8601 formatted date. Defaults to todays date
-        """
 
+        """
         response = {
             "surveyQuestionId": survey_question_id,
             "surveyResponseId": survey_response_id,

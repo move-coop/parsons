@@ -1,19 +1,22 @@
-from dateutil.parser import parse
 import datetime
 
+from dateutil.parser import parse
 
-def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
+
+def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) -> int | None:
     """Convert any date value into a Unix timestamp.
 
-    `Args:`
-        value: int or str or datetime
+    Args:
+        value:
             Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
-    `Returns:`
-        Unix timestamp (int)
-    """
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to UTC.
 
+    Returns:
+        Unix timestamp (int)
+
+    """
     parsed_date = parse_date(value)
 
     if not parsed_date:
@@ -25,21 +28,34 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
     return int(parsed_date.timestamp())
 
 
-def parse_date(value, tzinfo=datetime.timezone.utc):
-    """Parse an arbitrary date value into a Python datetime.
+def convert_unix_to_readable(ts) -> str:
+    """Converts UNIX timestamps to readable timestamps."""
+    ts = datetime.datetime.fromtimestamp(int(ts) / 1000, tz=datetime.timezone.utc)
 
-    If no value is provided (i.e., the value is None or empty), then the return value will be
-    None.
+    return ts.strftime("%Y-%m-%d %H:%M:%S UTC")
 
-    `Args:`
-        value: int or str or datetime
-            Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
-    `Returns:`
-        datetime.datetime or None
+
+def parse_date(
+    value: int | str | datetime.datetime, tzinfo: datetime.timezone = datetime.timezone.utc
+) -> datetime.datetime | None:
     """
+    Parse an arbitrary date value into a Python datetime.
 
+    If no value is provided (i.e., the value is None or empty),
+    then the return value will be None.
+
+    Args:
+        value:
+            Value to parse
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to UTC.
+
+    Raises:
+        TypeError:
+            If the value is not a string, int, or datetime.
+
+    """
     if not value:
         return None
 

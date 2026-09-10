@@ -122,7 +122,12 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+            try:
+                chunk_result = Table(petl.fromdicts(self.cg.addressbatch(tbl)))
+            except Exception as e:
+                logger.warning(f"Failed to geocode chunk starting at record {records_processed+1}: {e}. Returning partial results.")
+                break
+            geocoded_tbl.concat(chunk_result)
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")
 

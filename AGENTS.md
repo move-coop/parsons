@@ -5,6 +5,13 @@
 These instructions apply to the entire repository unless a more specific
 `AGENTS.md` appears in a subdirectory.
 
+## Disclosure
+
+Code submissions generated entirely by or with the assistance of
+large language models or AI agents must be disclosed as such when submitted.
+When AI agents create commits, they must disclose their source model or agent
+in the commit message.
+
 ## Sources Of Truth
 
 Before making code, documentation, test, or workflow changes, read

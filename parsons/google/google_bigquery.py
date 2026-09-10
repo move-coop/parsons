@@ -16,9 +16,9 @@ from google.cloud import bigquery
 from google.cloud.bigquery import ExtractJob, dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 
-from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
+from parsons.etl.table import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.google.utilities import (
     load_google_application_credentials,

@@ -16,7 +16,7 @@ from pathlib import Path
 import petl
 import requests
 
-from parsons import Table
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

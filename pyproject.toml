@@ -251,6 +251,7 @@ exclude = [
     ".nox",
     ".pants.d",
     ".pyenv",
+    ".pyi",
     ".pytest_cache",
     ".pytype",
     ".ruff_cache",

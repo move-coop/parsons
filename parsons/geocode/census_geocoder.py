@@ -1,4 +1,5 @@
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 import censusgeocode
 import petl
@@ -25,11 +26,19 @@ class CensusGeocoder:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+        workers: int
+            Number of batch chunks to geocode in parallel. Defaults to 1, which sends chunks
+            one at a time as before. Raising it increases the load placed on the Census API,
+            so leave it at 1 unless you have confirmed a higher rate is acceptable.
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
+    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", workers=1):
+        if workers < 1:
+            msg = f"workers must be 1 or greater, got {workers}"
+            raise ValueError(msg)
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
+        self.workers = workers
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
         """
@@ -120,9 +129,16 @@ class CensusGeocoder:
         chunked_tables = table.chunk(BATCH_SIZE)
         records_processed = 0
 
+        if self.workers > 1:
+            with ThreadPoolExecutor(max_workers=self.workers) as executor:
+                # map preserves input order, so the output row order is unchanged
+                results = list(executor.map(self.cg.addressbatch, chunked_tables))
+        else:
+            results = (self.cg.addressbatch(tbl) for tbl in chunked_tables)
+
         geocoded_tbl = Table([[]])
-        for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+        for tbl, result in zip(chunked_tables, results, strict=True):
+            geocoded_tbl.concat(Table(petl.fromdicts(result)))
             records_processed += tbl.num_rows
             logger.info(f"{records_processed} of {table.num_rows} records processed.")
 

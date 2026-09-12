@@ -1,5 +1,8 @@
 import logging
 
+import pyrate_limiter
+import requests_ratelimiter
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -25,8 +28,8 @@ class Quickbase:
     """
 
     def __init__(self, hostname=None, user_token=None):
-        self.hostname = check_env.check("QUICKBASE_HOSTNAME", hostname)
-        self.user_token = check_env.check("QUICKBASE_USER_TOKEN", user_token)
+        self.hostname: str = check_env.check("QUICKBASE_HOSTNAME", hostname)
+        self.user_token: str = check_env.check("QUICKBASE_USER_TOKEN", user_token)
         self.api_hostname = "https://api.quickbase.com/v1"
         self.client = APIConnector(
             self.api_hostname,
@@ -34,6 +37,9 @@ class Quickbase:
                 "QB-Realm-Hostname": self.hostname,
                 "AUTHORIZATION": f"QB-USER-TOKEN {self.user_token}",
             },
+            ratelimit=requests_ratelimiter.Limiter(
+                pyrate_limiter.Rate(100, pyrate_limiter.Duration.SECOND * 10)
+            ),
         )
 
     def get_app_tables(self, app_id=None):

@@ -4,6 +4,7 @@ import petl
 import pytest
 
 from parsons import CensusGeocoder, Table
+from parsons.geocode.census_geocoder import REQUIRED_BATCH_COLUMNS
 from test.conftest import assert_matching_tables
 
 from .test_responses import batch_resp, coord_resp, geographies_resp, locations_resp
@@ -74,3 +75,50 @@ def test_coordinates(cg):
     cg.cg.address = mock.MagicMock(return_value=coord_resp)
     geo = cg.get_coordinates_data("38.8884212", "-77.0441907")
     assert geo == coord_resp
+
+
+def test_batch_accepts_extra_columns_and_drops_them(cg):
+    """Extra columns are ignored, so callers need not cut their source table."""
+    sent = []
+
+    def capture(tbl, **kwargs):
+        sent.append(tbl.columns)
+        return batch_resp
+
+    cg.cg.addressbatch = capture
+    source = Table(
+        [
+            ["id", "street", "city", "state", "zip", "voterid", "notes"],
+            ["1", "908 N Washtenaw", "Chicago", "IL", "60622", "V9", "keep me"],
+        ]
+    )
+
+    cg.geocode_address_batch(source)
+
+    assert sent == [REQUIRED_BATCH_COLUMNS]
+    # the caller's table is untouched, so the join back to source rows survives
+    assert source.columns == ["id", "street", "city", "state", "zip", "voterid", "notes"]
+
+
+def test_batch_accepts_columns_in_any_order(cg):
+    sent = []
+
+    def capture(tbl, **kwargs):
+        sent.append(tbl.columns)
+        return batch_resp
+
+    cg.cg.addressbatch = capture
+    cg.geocode_address_batch(
+        Table([["zip", "state", "city", "street", "id"], ["60622", "IL", "Chicago", "908 N", "1"]])
+    )
+
+    assert sent == [REQUIRED_BATCH_COLUMNS]
+
+
+def test_batch_still_rejects_missing_columns(cg):
+    cg.cg.addressbatch = mock.MagicMock(return_value=batch_resp)
+
+    with pytest.raises(ValueError, match="missing required columns"):
+        cg.geocode_address_batch(Table([["id", "street", "city"], ["1", "908 N", "Chicago"]]))
+
+    cg.cg.addressbatch.assert_not_called()

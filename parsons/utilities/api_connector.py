@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import urllib.parse
+from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, overload
 
 import requests
@@ -23,7 +24,8 @@ from ._api_connector_types import (
     _ParamsType,
 )
 
-# There are here for backwards compatibility
+# There are here for backwards compatibility, but deprecating
+# them with a warning would required overriding __getattr__
 _Auth = _AuthType
 _Headers = _HeadersType
 _Data = _DataType
@@ -31,6 +33,7 @@ _Params = _ParamsType
 
 
 if TYPE_CHECKING:
+    from collections.abc import Container
     from typing import Literal
 
 logger = logging.getLogger(__name__)
@@ -308,7 +311,7 @@ class APIConnector:
         params: _ParamsType | None = None,
         data: _DataType | None = None,
         json: _JsonType | None = None,
-        success_codes: list[int] | None = None,
+        success_codes: Container[HTTPStatus | int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
     ) -> _JsonType:
@@ -351,7 +354,12 @@ class APIConnector:
         # Some APIs return messages with the success code and some do not.
         # Be able to account for both of these types.
         if success_codes is None:
-            success_codes = [200, 201, 202, 204]
+            success_codes = [
+                HTTPStatus.OK,
+                HTTPStatus.CREATED,
+                HTTPStatus.ACCEPTED,
+                HTTPStatus.NO_CONTENT,
+            ]
 
         if r.status_code in success_codes:
             if self.json_check(r):

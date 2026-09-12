@@ -45,7 +45,7 @@ class TestBloomerang(unittest.TestCase):
         bloomerang = Bloomerang(client_id="my_id", client_secret="my_secret")
         assert bloomerang.authorization_code == "my_auth_code"
         assert bloomerang.access_token == "my_access_token"
-        assert bloomerang.conn.headers["Authorization"] == "Bearer my_access_token"
+        assert bloomerang.conn.auth.api_key == "my_access_token"
 
     def test_base_endpoint(self):
         url = self.bloomerang._base_endpoint("constituent")

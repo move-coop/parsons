@@ -4,6 +4,7 @@ from typing import Literal
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -26,9 +27,9 @@ class QuickBooksTime:
     """
 
     def __init__(self, token=None):
-        self.token = check_env.check("QB_AUTH_TOKEN", token)
-        self.headers = {"Authorization": "Bearer " + self.token}
-        self.client = APIConnector(QB_URI, headers=self.headers)
+        self.token = str(check_env.check("QB_AUTH_TOKEN", token))
+        auth = BearerAuth(self.token)
+        self.client = APIConnector(QB_URI, auth=auth)
 
     # Helper functions
 

@@ -7,6 +7,7 @@ from requests import request as _request
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
+from parsons.utilities.bearer_auth import BearerAuth
 from parsons.utilities.datetime import date_to_timestamp
 
 logger = logging.getLogger(__name__)
@@ -37,16 +38,16 @@ class MobilizeAmerica:
             )
 
     def _request(self, url, req_type="GET", post_data=None, args=None, auth=False):
+        bearer_auth = None
+
         if auth:
             if not self.api_key:
-                raise TypeError("This method requires an api key.")
-            else:
-                header = {"Authorization": "Bearer " + self.api_key}
+                err_msg = "This method requires an api key."
+                raise TypeError(err_msg)
 
-        else:
-            header = None
+            bearer_auth = BearerAuth(self.api_key)
 
-        r = _request(req_type, url, json=post_data, params=args, headers=header)
+        r = _request(req_type, url, json=post_data, params=args, auth=bearer_auth)
 
         r.raise_for_status()
 

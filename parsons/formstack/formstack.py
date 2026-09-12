@@ -3,6 +3,7 @@ import logging
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -14,19 +15,19 @@ class Formstack:
     Instantiate Formstack class.
 
     Args:
-            api_token:
-                API token to access the Formstack API. Not required if the
-                ``FORMSTACK_API_TOKEN`` env variable is set.
+        api_token:
+            API token to access the Formstack API. Not required if the
+            ``FORMSTACK_API_TOKEN`` env variable is set.
 
     """
 
     def __init__(self, api_token: str | None = None):
-        self.api_token = check_env.check("FORMSTACK_API_TOKEN", api_token)
+        self.api_token = str(check_env.check("FORMSTACK_API_TOKEN", api_token))
         headers = {
             "Accept": "application/json",
-            "Authorization": f"Bearer {self.api_token}",
         }
-        self.client = APIConnector(API_URI, headers=headers)
+        auth = BearerAuth(self.api_token)
+        self.client = APIConnector(API_URI, headers=headers, auth=auth)
 
     def _get_paginated_request(
         self, url: str, data_key: str, params: dict | None = None, large_request: bool = False

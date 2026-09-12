@@ -4,6 +4,7 @@ from typing import Literal
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -31,21 +32,16 @@ class Community:
     """
 
     def __init__(self, community_client_id=None, community_access_token=None, community_url=None):
-        self.community_client_id = check_env.check("community_client_id", community_client_id)
-        self.community_access_token = check_env.check(
-            "community_access_token", community_access_token
+        self.community_client_id = str(check_env.check("community_client_id", community_client_id))
+        self.community_access_token = str(
+            check_env.check("community_access_token", community_access_token)
         )
-        self.uri = (
+        self.uri = str(
             check_env.check("COMMUNITY_URL", community_url, optional=True)
             or f"{COMMUNITY_API_ENDPOINT}/{community_client_id}/"
         )
-        self.headers = {
-            "Authorization": f"Bearer {self.community_access_token}",
-        }
-        self.client = APIConnector(
-            self.uri,
-            headers=self.headers,
-        )
+        auth = BearerAuth(self.community_access_token)
+        self.client = APIConnector(self.uri, auth=auth)
 
     def get_request(
         self,

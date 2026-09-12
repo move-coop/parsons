@@ -7,6 +7,7 @@ from requests import HTTPError
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 from parsons.utilities.datetime import parse_date
 
 logger = logging.getLogger(__name__)
@@ -36,9 +37,9 @@ class MobileCommons:
     """
 
     def __init__(self, api_key=None, company_id=None):
-        self.api_key = check_env.check("MOBILECOMMONS_PASSWORD", api_key)
+        self.api_key = str(check_env.check("MOBILECOMMONS_PASSWORD", api_key))
         self.default_params = {"company": company_id} if company_id else {}
-        self.client = APIConnector(uri=MC_URI, headers={"Authorization": f"Bearer {self.api_key}"})
+        self.client = APIConnector(uri=MC_URI, auth=BearerAuth(self.api_key))
 
     def _mc_get_request(
         self,

@@ -347,6 +347,7 @@ filterwarnings = [
     "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree causes these as of 2026-04
     "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree causes these as of 2026-04
     "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these on older python versions as of 2026-04
+    "ignore:The behavior of 'pip install parsons' has changed so only core dependencies are installed:RuntimeWarning", # our import message to users
 ]
 markers = [
     "live: mark test as requiring authentication and/or network access"

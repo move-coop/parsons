@@ -1,0 +1,123 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/events/25835?include_hosts=False
+  response:
+    body:
+      string: '{"data":{"id":25835,"title":"GOTV canvass","scope_id":41,"scope_type":"Organization","event_type":"in_person","location_name":null,"location_data":null,"tags":[],"campaign_tags":[],"event_sessions":[{"id":74906,"mobilize_event_id":25835,"start_time":"2026-07-16T15:00:00.000-04:00","end_time":"2026-07-16T17:00:00.000-04:00","title":"GOTV
+        canvass","created_at":"2026-07-15T14:12:42.116-04:00","updated_at":"2026-07-15T14:12:42.139-04:00","location_name":"","location_data":{"components":"[{\"long_name\":\"1053\",\"short_name\":\"1053\",\"types\":[\"street_number\"]},{\"long_name\":\"South
+        New Hampshire Avenue\",\"short_name\":\"S New Hampshire Ave\",\"types\":[\"route\"]},{\"long_name\":\"Pico-Union\",\"short_name\":\"Pico-Union\",\"types\":[\"neighborhood\",\"political\"]},{\"long_name\":\"Los
+        Angeles\",\"short_name\":\"Los Angeles\",\"types\":[\"locality\",\"political\"]},{\"long_name\":\"Los
+        Angeles County\",\"short_name\":\"Los Angeles County\",\"types\":[\"administrative_area_level_2\",\"political\"]},{\"long_name\":\"California\",\"short_name\":\"CA\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"long_name\":\"United
+        States\",\"short_name\":\"US\",\"types\":[\"country\",\"political\"]},{\"long_name\":\"90006\",\"short_name\":\"90006\",\"types\":[\"postal_code\"]},{\"long_name\":\"2776\",\"short_name\":\"2776\",\"types\":[\"postal_code_suffix\"]}]","coordinates":"{\"lat\":34.0512358,\"lng\":-118.2929463}","address_city":"Los
+        Angeles","full_address":"KIWA (Korean Immigrant Workers Advocates of Southern
+        California), South New Hampshire Avenue, Los Angeles, CA, USA","address_state":"CA","address_line_1":"1053
+        South New Hampshire Avenue","address_country":"US","address_postal_code":"90006"},"lonlat":"POINT
+        (-118.2929463 34.0512358)","location_address":"KIWA (Korean Immigrant Workers
+        Advocates of Southern California), South New Hampshire Avenue, Los Angeles,
+        CA, USA","show_rsvp_bar":true,"show_title_in_form":false,"max_capacity":0,"note":null,"tags":[],"zoom_account_id":null,"zoom_meeting_id":null,"zoom_meeting_data":null,"zoom_join_before_host":false,"zoom_attendance_synced_at":null,"source_calendar_item_id":null,"event_type":"in_person","paired_meci_id":null,"recurring_schedule_id":null,"mobilize_event_task_id":null,"host_user_ids":[],"rsvp_count":1,"attendance_count":0,"host_tools_url":"https://www.solidarity.tech/h/RHhR7qbw6muucraq1c7Qp0eAyfkp4ptLX9py86-AJxU","primary_session_id":74906,"city_state_label":"Los
+        Angeles, CA"}],"event_page_url":null,"event_page_id":null,"image_url":null,"description":null,"hide_address_until_rsvp":false,"show_in_web_calendars":false,"accessibility_info":null,"waitlist_enabled":false,"automation_status":{"rsvp_confirmation_email":true,"rsvp_confirmation_text":false,"day_before_email_reminder":true,"day_before_text_reminder":false,"day_of_email_reminder":false,"day_of_text_reminder":true,"ten_min_before_text_reminder":false,"post_event_survey_email":false,"post_event_survey_text":false},"primary_event_id":25835,"is_co_hosted_mirror":false,"internal_co_host_chapters":[],"created_at":"2026-07-15T14:12:42.081-04:00"},"meta":{"total_count":1,"limit":1,"offset":0}}'
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 12 Sep 2026 19:40:15 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=f50767d5-4c2b-43e6-8cb2-69dc3dcda64d; path=/; expires=Tue, 12
+        Sep 2028 19:40:15 GMT; samesite=lax; secure
+      - ahoy_visit=ba34896a-acbe-4057-8ece-ca0137b8d7c8; path=/; expires=Sat, 12 Sep
+        2026 23:40:15 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 2fc0fa98455972225b6dee4aedb4769a.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - Sr-7_buAKJ-OyKk5Ba2fakpUwyamERwXJIHBljSWAujSMUXldsLOIg==
+      X-Amz-Cf-Pop:
+      - BOS50-P4
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 962d1524-90ca-439c-b3c7-2adaff9fd7c4
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

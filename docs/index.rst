@@ -187,6 +187,7 @@ Indices and tables
    sftp
    shopify
    sisense
+   solidarity_tech
    targetsmart
    turbovote
    twilio

@@ -92,6 +92,7 @@ intersphinx_mapping_extras = {
     "psycopg2-binary": ("https://www.psycopg.org/docs/", None),
     "pyairtable": ("https://pyairtable.readthedocs.io/en/stable/", None),
     "PyGitHub": ("https://pygithub.readthedocs.io/en/latest/", None),
+    "pyratelimiter": ("https://pyratelimiter.readthedocs.io/en/latest/", None),
     "requests-toolbelt": ("https://toolbelt.readthedocs.io/en/stable/", None),
     "rich": ("https://rich.readthedocs.io/en/stable/", None),
     "simple-salesforce": ("https://simple-salesforce.readthedocs.io/en/latest/", None),

@@ -34,7 +34,9 @@ dependencies = [
     "python-dateutil >= 2.0",
     "requests >= 2.0",
     "requests-oauthlib >= 1.0",
+    "requests-ratelimiter >= 0.10",
     "simplejson >= 3.18",
+    "typing-extensions >= 4.0",
 ]
 
 [project.optional-dependencies]

@@ -2,9 +2,8 @@ import importlib
 import logging
 import os
 import warnings
-from uuid import uuid4
 
-import posthog as ph
+from parsons.telemetry import check_telemetry_enabled, configure_telemetry, submit_telemetry
 
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more
@@ -29,25 +28,8 @@ warnings.warn(
     stacklevel=2,
 )
 
-# Define the telemetry logging config.
-is_pytest = "PYTEST_VERSION" in os.environ
-telemetry_enabled = os.environ.get("PARSONS_TELEMETRY", "true") == "true" and not is_pytest
-if telemetry_enabled:
-    warnings.warn(
-        (
-            "Parsons telemetry is enabled. For more information, see <parsons telemetry documentation link here>."
-            "To opt-out, set your PARSONS_TELEMETRY environment variable to 'false'."
-        ),  # TODO(bmos): document telemetry on website and add link
-        category=RuntimeWarning,
-        stacklevel=2,
-    )
-
-    posthog = ph.Posthog(
-        project_api_key="phc_AdyQBW8eUMQAmPFBtgngXHe8WawYAqUXoYdhnH6hM3Qq",
-        host="https://us.i.posthog.com",
-        before_send=lambda event: (event.pop("ip", None), event)[1],
-    )
-    telemetry_id = uuid4()
+if is_telemetry_enabled := check_telemetry_enabled():
+    posthog, telemetry_id, parsons_version = configure_telemetry()
 
 _CONNECTORS = {
     "ActBlue": "parsons.actblue.actblue",
@@ -123,8 +105,6 @@ _CONNECTORS = {
     "Zoom": "parsons.zoom.zoom",
 }
 
-__all__ = list(_CONNECTORS.keys())
-
 
 def __getattr__(name: str) -> type:
     """Dynamically import connector only when accessed."""
@@ -149,15 +129,12 @@ def __getattr__(name: str) -> type:
         )
         raise ImportError(err_msg) from e
 
-    if telemetry_enabled:
-        # Collect telemetry when users import a connector
-        # This allows the parsons team to understand which connectors are most popular
-        posthog.capture(
-            "imported_connector",
-            distinct_id=telemetry_id,
-            properties={
-                "$connector_name": name,
-            },
+    if is_telemetry_enabled:
+        submit_telemetry(
+            posthog,
+            telemetry_id,
+            parsons_version=parsons_version,
+            properties={"$connector_name": name},
         )
 
     return connector

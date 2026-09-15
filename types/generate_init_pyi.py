@@ -7,7 +7,11 @@ repository_directory = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(repository_directory))
 
 with warnings.catch_warnings():
-    warnings.filterwarnings("ignore", category=RuntimeWarning)
+    warnings.filterwarnings(
+        "ignore",
+        category=RuntimeWarning,
+        message="The behavior of 'pip install parsons' has changed so only core dependencies are installed.",
+    )
     from parsons import _CONNECTORS  # type: ignore
 
 logger = logging.getLogger(__name__)
@@ -27,4 +31,4 @@ stub_content = "\n".join(lines) + "\n"
 output_path = repository_directory / "parsons" / "__init__.pyi"
 output_path.write_text(stub_content)
 
-logger.info(f"Successfully generated {output_path}")
+logger.info("Successfully generated %s", output_path)

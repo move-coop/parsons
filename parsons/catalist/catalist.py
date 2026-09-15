@@ -231,7 +231,7 @@ class CatalistMatch:
         if export_filename_suffix:
             query_params["subClientName"] = export_filename_suffix
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         endpoint = endpoint + "?" + urllib.parse.urlencode(query_params)
 
@@ -288,7 +288,7 @@ class CatalistMatch:
 
         endpoint = "/".join(endpoint_params)
 
-        logger.debug(f"Executing request to endpoint {self.connection.uri + endpoint}")
+        logger.debug("Executing request to endpoint %s", self.connection.uri + endpoint)
 
         query_params = {"token": self.connection.token["access_token"]}
         if copy_to_sandbox:
@@ -328,10 +328,10 @@ class CatalistMatch:
             response = self.status(id)
             status = response["process"]["processState"]
             if status in ("Finished", "Error", "Stopped", "Exception"):
-                logger.info(f"Job {id} is complete with status {status}.")
+                logger.info("Job %s is complete with status %s.", id, status)
                 break
 
-            logger.info(f"Job {id} has status {status}, awaiting completion.")
+            logger.info("Job %s has status %s, awaiting completion.", id, status)
             time.sleep(wait)
 
         result = self.load_matches(id=id)
@@ -349,7 +349,7 @@ class CatalistMatch:
         status = response["process"]["processState"]
 
         if status == "Finished":
-            logger.info(f"Validated that job {id} completed successfully.")
+            logger.info("Validated that job %s completed successfully.", id)
         else:
             err_msg = "Failed to successfully run match job. "
             if status == "Error":
@@ -357,10 +357,7 @@ class CatalistMatch:
             elif status == "Stopped":
                 err_msg += "Probably stopped by Catalist staff. Will be rerun. "
             elif status == "Exception":
-                err_msg += (
-                    "Error with data. Catalist will have been notified and "
-                    "will contact you or rerun the file. "
-                )
+                err_msg += "Error with data. Catalist will have been notified and will contact you or rerun the file. "
             else:
                 "Unknown or unexpected final status."
             err_msg += f"[job={id}, final_status={status}]"
@@ -399,7 +396,7 @@ class CatalistMatch:
     def validate_table(self, table: Table, template_id: str = "48827") -> None:
         """Validate table structure and contents."""
         if template_id != "48827":
-            logger.warning(f"No validator implemented for template {template_id}.")
+            logger.warning("No validator implemented for template %s.", template_id)
             return
 
         expected_table_columns = [

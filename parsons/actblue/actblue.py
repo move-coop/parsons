@@ -107,7 +107,7 @@ class ActBlue:
             "date_range_start": date_range_start,
             "date_range_end": date_range_end,
         }
-        logger.info(f"Requesting {csv_type} from {date_range_start} up to {date_range_end}.")
+        logger.info("Requesting %s from %s up to %s.", csv_type, date_range_start, date_range_end)
         response = self.client.post_request(url="csvs", json=body)
         return response
 

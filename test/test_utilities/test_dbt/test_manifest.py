@@ -131,7 +131,7 @@ class TestManifestAttributeAccess:
         dbt_obj = run_execution_result_factory()
 
         if hasattr(dbt_obj, "metadata"):
-            delattr(dbt_obj, "metadata")
+            del dbt_obj.metadata
 
         dbt_obj.custom_field = "test_value"
         manifest = Manifest(command="test", run_execution_result=dbt_obj)

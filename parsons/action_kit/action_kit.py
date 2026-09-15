@@ -182,7 +182,7 @@ class ActionKit:
 
         """
         resp = self.conn.delete(self._base_endpoint("actionfield", actionfield_id))
-        logger.info(f"{resp.status_code}: {actionfield_id}")
+        logger.info("%s: %s", resp.status_code, actionfield_id)
 
     def update_user(self, user_id, **kwargs):
         """
@@ -201,7 +201,7 @@ class ActionKit:
 
         """
         resp = self.conn.patch(self._base_endpoint("user", user_id), data=json.dumps(kwargs))
-        logger.info(f"{resp.status_code}: {user_id}")
+        logger.info("%s: %s", resp.status_code, user_id)
 
         return resp
 
@@ -221,7 +221,7 @@ class ActionKit:
 
         """
         resp = self.conn.patch(self._base_endpoint("phone", phone_id), data=json.dumps(kwargs))
-        logger.info(f"{resp.status_code}: {phone_id}")
+        logger.info("%s: %s", resp.status_code, phone_id)
 
         return resp
 
@@ -279,7 +279,7 @@ class ActionKit:
 
         """
         resp = self.conn.patch(self._base_endpoint("event", event_id), data=json.dumps(kwargs))
-        logger.info(f"{resp.status_code}: {event_id}")
+        logger.info("%s: %s", resp.status_code, event_id)
 
     def create_event_field(self, event_id, name, value):
         """
@@ -328,7 +328,7 @@ class ActionKit:
                 }
             ),
         )
-        logger.info(f"{resp.status_code}: {eventfield_id}")
+        logger.info("%s: %s", resp.status_code, eventfield_id)
 
     def get_blackholed_email(self, email):
         """
@@ -400,7 +400,7 @@ class ActionKit:
 
         """
         resp = self.conn.delete(self._base_endpoint("user", user_id))
-        logger.info(f"{resp.status_code}: {user_id}")
+        logger.info("%s: %s", resp.status_code, user_id)
 
     def get_campaign(self, campaign_id):
         """
@@ -781,7 +781,7 @@ class ActionKit:
         resp = self.conn.patch(
             self._base_endpoint("eventsignup", event_signup_id), data=json.dumps(kwargs)
         )
-        logger.info(f"{resp.status_code}: {event_signup_id}")
+        logger.info("%s: %s", resp.status_code, event_signup_id)
 
     def get_mailer(self, entity_id):
         """
@@ -840,7 +840,7 @@ class ActionKit:
 
         """
         resp = self.conn.patch(self._base_endpoint("mailer", mailer_id), data=json.dumps(kwargs))
-        logger.info(f"{resp.status_code}: {mailer_id}")
+        logger.info("%s: %s", resp.status_code, mailer_id)
         return resp
 
     def rebuild_mailer(self, mailing_id):
@@ -1024,7 +1024,7 @@ class ActionKit:
 
         """
         resp = self.conn.patch(self._base_endpoint("order", order_id), data=json.dumps(kwargs))
-        logger.info(f"{resp.status_code}: {order_id}")
+        logger.info("%s: %s", resp.status_code, order_id)
 
     def update_order_user_detail(self, user_detail_id, **kwargs):
         """
@@ -1044,7 +1044,7 @@ class ActionKit:
         resp = self.conn.patch(
             self._base_endpoint("orderuserdetail", user_detail_id), data=json.dumps(kwargs)
         )
-        logger.info(f"{resp.status_code}: {user_detail_id}")
+        logger.info("%s: %s", resp.status_code, user_detail_id)
 
         return resp
 
@@ -1076,7 +1076,7 @@ class ActionKit:
 
         """
         resp = self.conn.post(self._base_endpoint("orderrecurring", str(recurring_id) + "/cancel"))
-        logger.info(f"{resp.status_code}: {recurring_id}")
+        logger.info("%s: %s", resp.status_code, recurring_id)
         return resp
 
     def update_orderrecurring(self, orderrecurring_id, **kwargs):
@@ -1096,7 +1096,7 @@ class ActionKit:
             self._base_endpoint("orderrecurring", orderrecurring_id),
             data=json.dumps(kwargs),
         )
-        logger.info(f"{resp.status_code}: {orderrecurring_id}")
+        logger.info("%s: %s", resp.status_code, orderrecurring_id)
 
     def get_orders(self, limit=None, **kwargs):
         """Get multiple orders.
@@ -1144,7 +1144,7 @@ class ActionKit:
             self._base_endpoint("paymenttoken", paymenttoken_id),
             data=json.dumps(kwargs),
         )
-        logger.info(f"{resp.status_code}: {paymenttoken_id}")
+        logger.info("%s: %s", resp.status_code, paymenttoken_id)
         return resp
 
     def get_page_followup(self, page_followup_id):
@@ -1240,7 +1240,7 @@ class ActionKit:
             self._base_endpoint("surveyquestion", survey_question_id),
             data=json.dumps(kwargs),
         )
-        logger.info(f"{resp.status_code}: {survey_question_id}")
+        logger.info("%s: %s", resp.status_code, survey_question_id)
 
     def create_transaction(self, **kwargs):
         """
@@ -1276,7 +1276,7 @@ class ActionKit:
         resp = self.conn.patch(
             self._base_endpoint("transaction", transaction_id), data=json.dumps(kwargs)
         )
-        logger.info(f"{resp.status_code}: {transaction_id}")
+        logger.info("%s: %s", resp.status_code, transaction_id)
 
     def get_transactions(self, limit=None, **kwargs):
         """Get multiple transactions.
@@ -1355,7 +1355,7 @@ class ActionKit:
         resp = self.conn.patch(
             self._base_endpoint("importaction", action_id), data=json.dumps(kwargs)
         )
-        logger.info(f"{resp.status_code}: {action_id}")
+        logger.info("%s: %s", resp.status_code, action_id)
 
         return resp
 
@@ -1510,12 +1510,13 @@ class ActionKit:
             subset_table = Table(subset)
             if blanks:
                 subset_table.table = subset_table.table.cutout(*blanks)
-            logger.debug(f"Column Upload Blanks: {blanks}")
-            logger.debug(f"Column Upload Columns: {subset_table.columns}")
+            logger.debug("Column Upload Blanks: %s", blanks)
+            logger.debug("Column Upload Columns: %s", subset_table.columns)
             if not {"user_id", "email"}.intersection(subset_table.columns):
                 logger.warning(
-                    f"Upload will fail without user_id or email. "
-                    f"Rows: {subset_table.num_rows}, Columns: {subset_table.columns}"
+                    "Upload will fail without user_id or email. Rows: %s, Columns: %s",
+                    subset_table.num_rows,
+                    subset_table.columns,
                 )
             results.append(subset_table)
         return results
@@ -1566,7 +1567,7 @@ class ActionKit:
                             "_offset": page * limit,
                         },
                     )
-                    logger.debug(f"error collect result: {error_data}")
+                    logger.debug("error collect result: %s", error_data)
                     errors.extend(error_data.get("objects", []))
 
         return errors

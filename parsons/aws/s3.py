@@ -157,7 +157,7 @@ class S3:
 
         """
         keys_dict = {}
-        logger.debug(f"Fetching keys in {bucket} bucket")
+        logger.debug("Fetching keys in %s bucket", bucket)
 
         continuation_token = None
 
@@ -176,14 +176,13 @@ class S3:
                 resp = self.client.list_objects_v2(**args)
 
             except ClientError as e:
-                error_message = """Unable to list bucket objects!
-                This may be due to a lack of permission on the requested
-                bucket. Double-check that you have sufficient READ permissions
-                on the bucket you've requested. If you only have permissions for
-                keys within a specific prefix, make sure you include a trailing '/' in
-                in prefix."""
-
-                logger.error(error_message)
+                logger.error(
+                    "Unable to list bucket objects! "
+                    "This may be due to a lack of permission on the requested bucket. "
+                    "Double-check that you have sufficient READ permissions on the bucket you've requested. "
+                    "If you only have permissions for keys within a specific prefix, "
+                    "make sure you include a trailing '/' in prefix."
+                )
 
                 raise e
 
@@ -216,7 +215,7 @@ class S3:
             else:
                 break
 
-        logger.debug(f"Retrieved {len(keys_dict)} keys")
+        logger.debug("Retrieved %s keys", len(keys_dict))
 
         return keys_dict
 
@@ -237,10 +236,10 @@ class S3:
         key_count = len(self.list_keys(bucket, prefix=key))
 
         if key_count > 0:
-            logger.debug(f"Found {key} in {bucket}.")
+            logger.debug("Found %s in %s.", key, bucket)
             return True
         else:
-            logger.debug(f"Did not find {key} in {bucket}.")
+            logger.debug("Did not find %s in %s.", key, bucket)
             return False
 
     def create_bucket(self, bucket):
@@ -432,14 +431,14 @@ class S3:
             if remove_original:
                 try:
                     self.remove_file(origin_bucket, origin_key)
-                except Exception as e:
-                    logger.error("Failed to delete original key: " + str(e))
+                except Exception:
+                    logger.error("Failed to delete original key")
 
             if public_read:
                 object_acl = self.s3.ObjectAcl(destination_bucket, destination_key)
                 object_acl.put(ACL="public-read")
 
-        logger.info(f"Finished syncing {len(key_list)} keys")
+        logger.info("Finished syncing %s keys", len(key_list))
 
     def get_buckets_with_subname(self, bucket_subname):
         """

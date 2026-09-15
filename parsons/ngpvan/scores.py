@@ -26,7 +26,7 @@ class Scores:
 
         """
         tbl = Table(self.connection.get_request("scores"))
-        logger.info(f"Found {tbl.num_rows} scores.")
+        logger.info("Found %s scores.", tbl.num_rows)
         return tbl
 
     def get_score(self, score_id):
@@ -41,7 +41,7 @@ class Scores:
 
         """
         r = self.connection.get_request(f"scores/{score_id}")
-        logger.info(f"Found score {score_id}.")
+        logger.info("Found score %s.", score_id)
         return r
 
     def get_score_updates(self, created_before=None, created_after=None, score_id=None):
@@ -71,7 +71,7 @@ class Scores:
         if tbl.num_rows:
             tbl.unpack_dict("updateStatistics", prepend=False)
             tbl.unpack_dict("score", prepend=False)
-        logger.info(f"Found {tbl.num_rows} score updates.")
+        logger.info("Found %s score updates.", tbl.num_rows)
         return tbl
 
     def get_score_update(self, score_update_id):
@@ -87,7 +87,7 @@ class Scores:
 
         """
         r = self.connection.get_request(f"scoreUpdates/{score_update_id}")
-        logger.info(f"Returning score update {score_update_id}.")
+        logger.info("Returning score update %s.", score_update_id)
         return r
 
     def update_score_status(
@@ -115,7 +115,7 @@ class Scores:
         json = {"loadStatus": status}
 
         r = self.connection.patch_request(f"scoreUpdates/{score_update_id}", json=json)
-        logger.info(f"Score {score_update_id} status updated to {status}.")
+        logger.info("Score %s status updated to %s.", score_update_id, status)
         return r
 
     def upload_scores(
@@ -183,7 +183,7 @@ class Scores:
         """  # Move to cloud storage
         file_name = str(uuid.uuid1())
         url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
-        logger.info(f"Table uploaded to {url_type}.")
+        logger.info("Table uploaded to %s.", url_type)
 
         # Generate shell request
         json = {
@@ -224,7 +224,7 @@ class Scores:
 
         # Upload scores
         r = self.connection.post_request("fileLoadingJobs", json=json)
-        logger.info(f"Scores job {r['jobId']} created.")
+        logger.info("Scores job %s created.", r["jobId"])
         return r["jobId"]
 
 
@@ -326,7 +326,7 @@ class FileLoadingJobs:
             }
 
         r = self.connection.post_request("fileLoadingJobs", json=json)["jobId"]
-        logger.info(f"Score loading job {r} created.")
+        logger.info("Score loading job %s created.", r)
         return r
 
     def create_file_load_multi(
@@ -425,5 +425,5 @@ class FileLoadingJobs:
         json["actions"] = actions
 
         r = self.connection.post_request("fileLoadingJobs", json=json)["jobId"]
-        logger.info(f"Score loading job {r} created.")
+        logger.info("Score loading job %s created.", r)
         return r

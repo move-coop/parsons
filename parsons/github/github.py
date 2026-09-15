@@ -177,7 +177,7 @@ class GitHub:
                 Table with page of user repos
 
         """
-        logger.info(f"Listing page {page} of repos for user {username}")
+        logger.info("Listing page %s of repos for user %s", page, username)
 
         return self._as_table(
             self.client.get_user(username).get_repos(), page=page, page_size=page_size
@@ -199,7 +199,7 @@ class GitHub:
                 Table with page of organization repos
 
         """
-        logger.info(f"Listing page {page} of repos for organization {organization_name}")
+        logger.info("Listing page %s of repos for organization %s", page, organization_name)
 
         return self._as_table(
             self.client.get_organization(organization_name).get_repos(),
@@ -271,7 +271,7 @@ class GitHub:
         """
         if labels is None:
             labels = []
-        logger.info(f"Listing page {page} of issues for repo {repo_name}")
+        logger.info("Listing page %s of issues for repo %s", page, repo_name)
 
         kwargs_dict = {"state": state, "sort": sort, "direction": direction}
         if assignee:
@@ -341,7 +341,7 @@ class GitHub:
                 Table with page of repo pull requests
 
         """
-        logger.info(f"Listing page {page} of pull requests for repo {repo_name}")
+        logger.info("Listing page %s of pull requests for repo %s", page, repo_name)
 
         kwargs_dict = {"state": state, "sort": sort, "direction": direction}
         if base:
@@ -369,7 +369,7 @@ class GitHub:
                 Table with page of repo contributors
 
         """
-        logger.info(f"Listing page {page} of contributors for repo {repo_name}")
+        logger.info("Listing page %s of contributors for repo %s", page, repo_name)
 
         return self._as_table(
             self.client.get_repo(repo_name).get_contributors(),
@@ -410,7 +410,7 @@ class GitHub:
         if branch is None:
             branch = repo.default_branch
 
-        logger.info(f"Downloading {path} from {repo_name}, branch {branch} to {local_path}")
+        logger.info("Downloading %s from %s, branch %s to %s", path, repo_name, branch, local_path)
 
         headers = None
         if self.access_token:
@@ -432,7 +432,7 @@ class GitHub:
 
         Path(local_path).write_bytes(res.content)
 
-        logger.info(f"Downloaded {path} to {local_path}")
+        logger.info("Downloaded %s to %s", path, local_path)
 
         return local_path
 

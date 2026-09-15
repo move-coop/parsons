@@ -152,7 +152,6 @@ class Email:
                             inner["subject"] = i["subject"]
                         except KeyError as e:
                             logger.info(str(e))
-                            pass
                 final_email_list.append({**outer, **inner})
         else:
             for email in email_list:

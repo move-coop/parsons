@@ -536,8 +536,8 @@ class GoogleBigQuery(DatabaseConnector):
         except exceptions.BadRequest as e:
             if "one of the files is larger than the maximum allowed size." in str(e):
                 logger.debug(
-                    "%s exceeds max size ... \\\n                    running decompression function...",
-                    gcs_blob_uri.split("/")[-1],
+                    "%s exceeds max size ... running decompression function ...",
+                    gcs_blob_uri.rsplit("/", maxsplit=1)[-1],
                 )
 
                 return self.copy_large_compressed_file_from_gcs(

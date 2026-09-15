@@ -52,8 +52,7 @@ class ActionBuilder:
         if per_page > 25:
             per_page = 25
             logger.info(
-                "Action Builder's API will not return more than 25 entries per page. \
-            Changing per_page parameter to 25."
+                "Action Builder's API will not return more than 25 entries per page. Changing per_page parameter to 25."
             )
 
         params = {"page": page, "per_page": per_page, "filter": filter}

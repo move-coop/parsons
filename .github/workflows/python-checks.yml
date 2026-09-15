@@ -22,6 +22,7 @@ env:
     github.com:443
     releases.astral.sh
     files.pythonhosted.org:443
+    *.crates.io:443
     *.github.com:443
     *.githubusercontent.com:443
 

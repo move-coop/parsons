@@ -121,6 +121,7 @@ class APIConnector:
             self.session.auth = auth
 
         if headers:
+            # requests expects this to be a CaseInsensitiveDict, but we allow any Mapping
             self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
@@ -386,7 +387,7 @@ class APIConnector:
             params: The request parameters
             success_codes:
                 The expected success codes to be returned.
-                If not provided, accepts 200, 201, 204.
+                If not provided, accepts 200, 201, and 204.
             raise_on_error:
                 If the request yields an error status code (anything above 400),
                 raise an error. In most cases, this should be ``True``,
@@ -407,7 +408,11 @@ class APIConnector:
         # Some APIs return messages with the success code and some do not.
         # Be able to account for both of these types.
         if success_codes is None:
-            success_codes = [200, 201, 202, 204]
+            success_codes = [
+                HTTPStatus.OK,
+                HTTPStatus.CREATED,
+                HTTPStatus.NO_CONTENT,
+            ]
 
         if r.status_code in success_codes:
             if self.json_check(r):
@@ -438,7 +443,7 @@ class APIConnector:
             params: The request parameters
             success_codes:
                 The expected success codes to be returned.
-                If not provided, accepts 200, 201, 204.
+                If not provided, accepts 200, 201, and 204.
             raise_on_error:
                 If the request yields an error status code (anything above 400),
                 raise an error. In most cases, this should be ``True``,
@@ -461,7 +466,11 @@ class APIConnector:
         # Some APIs return messages with the success code and some do not.
         # Be able to account for both of these types.
         if success_codes is None:
-            success_codes = [200, 201, 202, 204]
+            success_codes = [
+                HTTPStatus.OK,
+                HTTPStatus.CREATED,
+                HTTPStatus.NO_CONTENT,
+            ]
 
         if r.status_code in success_codes:
             if self.json_check(r):
@@ -521,7 +530,11 @@ class APIConnector:
         # Some APIs return messages with the success code and some do not.
         # Be able to account for both of these types.
         if success_codes is None:
-            success_codes = [200, 201, 202, 204]
+            success_codes = [
+                HTTPStatus.OK,
+                HTTPStatus.CREATED,
+                HTTPStatus.NO_CONTENT,
+            ]
 
         if r.status_code in success_codes:
             if self.json_check(r):

@@ -36,3 +36,9 @@ repos:
         entry: python ./types/generate_init_pyi.py
         language: system
         pass_filenames: false
+
+      - id: uv-lockfile-check
+        name: uv lockfile check
+        entry: uv lock --check
+        language: system
+        pass_filenames: false

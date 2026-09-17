@@ -5,7 +5,7 @@ from json.decoder import JSONDecodeError
 import requests
 from dateutil.parser import parse
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.pdi.acquisition_types import AcquisitionTypes
 from parsons.pdi.activities import Activities
 from parsons.pdi.contacts import Contacts

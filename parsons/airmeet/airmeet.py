@@ -46,8 +46,8 @@ class Airmeet:
         self.uri: str = (
             check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
         )
-        self.airmeet_client_key: str = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
-        self.airmeet_client_secret: str = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
+        self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
+        self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
         self.client = APIConnector(
             self.uri,
             {

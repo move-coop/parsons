@@ -29,7 +29,7 @@ class QuickBooksTime:
                 `QuickBooksTime API Documentation <https://tsheetsteam.github.io/api_docs/#introduction>`__
 
         """
-        self.token: str = check_env.check("QB_AUTH_TOKEN", token)
+        self.token = check_env.check("QB_AUTH_TOKEN", token)
         self.headers = {"Authorization": "Bearer " + self.token}
         self.client = APIConnector(
             QB_URI,

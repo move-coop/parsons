@@ -27,8 +27,8 @@ class Donorbox:
     """
 
     def __init__(self, email=None, api_key=None):
-        self.email: str = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
-        self.api_key: str = check_env.check("DONORBOX_API_KEY", api_key)
+        self.email = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
+        self.api_key = check_env.check("DONORBOX_API_KEY", api_key)
         self.uri = URI
         self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.email, self.api_key))
 

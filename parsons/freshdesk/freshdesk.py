@@ -37,9 +37,8 @@ class Freshdesk:
         self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
         self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
-        self.client = APIConnector(
-            self.uri, auth=HTTPBasicAuth(self.api_key, "x"), ratelimit=ratelimit
-        )
+        auth = HTTPBasicAuth(self.api_key, "x")
+        self.client = APIConnector(self.uri, auth=auth, ratelimit=ratelimit)
 
     def _get_request(self, endpoint, params=None):
         base_params = {"per_page": PAGE_SIZE}

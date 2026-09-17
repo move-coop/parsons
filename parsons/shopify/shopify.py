@@ -55,19 +55,14 @@ class Shopify:
             pyrate_limiter.Rate(40, pyrate_limiter.Duration.MINUTE)
         )
         if self.access_token is None and (self.password is None or self.api_key is None):
-            raise KeyError("Must set either access_token or both api_key and password.")
+            err_msg = "Must set either access_token or both api_key and password."
+            raise KeyError(err_msg)
         if self.access_token is not None:
-            self.client = APIConnector(
-                self.base_url,
-                headers={"X-Shopify-Access-Token": access_token},
-                ratelimit=ratelimiter,
-            )
+            headers = {"X-Shopify-Access-Token": self.access_token}
+            self.client = APIConnector(self.base_url, headers=headers, ratelimit=ratelimiter)
         else:
-            self.client = APIConnector(
-                self.base_url,
-                auth=HTTPBasicAuth(self.api_key, self.password),
-                ratelimit=ratelimiter,
-            )
+            auth = HTTPBasicAuth(self.api_key, self.password)
+            self.client = APIConnector(self.base_url, auth=auth, ratelimit=ratelimiter)
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """

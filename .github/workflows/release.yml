@@ -24,14 +24,14 @@ jobs:
         **/uv.lock
 
     steps:
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
         with:
           disable-sudo: true
           egress-policy: audit
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
-      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
           python-version: 3.14
           activate-environment: true
@@ -71,7 +71,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
         with:
           disable-sudo: true
           egress-policy: audit
@@ -122,7 +122,7 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
         with:
           disable-sudo: true
           egress-policy: audit

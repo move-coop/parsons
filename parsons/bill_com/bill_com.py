@@ -3,7 +3,7 @@ from typing import Literal
 
 import requests
 
-from parsons import Table
+from parsons.etl.table import Table
 
 
 class BillCom:

@@ -16,9 +16,9 @@ from google.cloud import bigquery
 from google.cloud.bigquery import ExtractJob, dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
 
-from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
+from parsons.etl.table import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.google.utilities import (
     load_google_application_credentials,
@@ -783,15 +783,16 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket
-            or check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
+            or str(check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket))
         )
         gcs_client = gcs_client or GoogleCloudStorage()
-        gcs_client.copy_s3_to_gcs(
-            aws_source_bucket=bucket,
+        gcs_client.copy_bucket_to_gcs(
+            source="s3",
+            source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             gcs_sink_bucket=tmp_gcs_bucket,
-            aws_s3_key=key,
+            source_path=key,
         )
         temp_blob_name = key
         temp_blob_uri = gcs_client.format_uri(bucket=tmp_gcs_bucket, name=temp_blob_name)

@@ -472,7 +472,7 @@ class TestAirmeet(unittest.TestCase):
 
         self.airmeet.client.get_request.assert_called_once_with(
             url="airmeet/test_airmeet_id/session-recordings",
-            sessionIds="test_session_id",
+            params={"sessionIds": "test_session_id"},
         )
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"

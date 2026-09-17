@@ -3,6 +3,8 @@ import logging
 import psycopg2
 import sshtunnel
 
+logger = logging.getLogger(__name__)
+
 
 def query_through_ssh(
     ssh_host,
@@ -54,7 +56,7 @@ def query_through_ssh(
             remote_bind_address=(db_host, int(db_port)),
         )
         server.start()
-        logging.info("SSH tunnel established successfully.")
+        logger.info("SSH tunnel established successfully.")
 
         con = psycopg2.connect(
             host="localhost",
@@ -63,21 +65,21 @@ def query_through_ssh(
             user=db_username,
             password=db_password,
         )
-        logging.info("Database connection established successfully.")
+        logger.info("Database connection established successfully.")
 
         cursor = con.cursor()
         cursor.execute(query)
         records = cursor.fetchall()
         output = records
-        logging.info(f"Query executed successfully: {records}")
+        logger.info("Query executed successfully: %s", records)
     except Exception as e:
-        logging.error(f"Error during query execution: {e}")
+        logger.error("Error during query execution")
         raise e
     finally:
         if con:
             con.close()
-            logging.info("Database connection closed.")
+            logger.info("Database connection closed.")
         if server:
             server.stop()
-            logging.info("SSH tunnel closed.")
+            logger.info("SSH tunnel closed.")
     return output

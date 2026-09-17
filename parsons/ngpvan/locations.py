@@ -25,7 +25,7 @@ class Locations:
 
         """
         tbl = Table(self.connection.get_request("locations", params={"name": name}))
-        logger.info(f"Found {tbl.num_rows} locations.")
+        logger.info("Found %s locations.", tbl.num_rows)
         return self._unpack_loc(tbl)
 
     def get_location(self, location_id):
@@ -41,7 +41,7 @@ class Locations:
 
         """
         r = self.connection.get_request(f"locations/{location_id}")
-        logger.info(f"Found location {location_id}.")
+        logger.info("Found location %s.", location_id)
         return r
 
     def create_location(
@@ -87,7 +87,7 @@ class Locations:
         }
 
         r = self.connection.post_request("locations/findOrCreate", json=location)
-        logger.info(f"Location {r} created.")
+        logger.info("Location %s created.", r)
         return r
 
     def delete_location(self, location_id):
@@ -100,7 +100,7 @@ class Locations:
 
         """
         r = self.connection.delete_request(f"locations/{location_id}")
-        logger.info(f"Location {location_id} deleted.")
+        logger.info("Location %s deleted.", location_id)
         return r
 
     def _unpack_loc(self, table):

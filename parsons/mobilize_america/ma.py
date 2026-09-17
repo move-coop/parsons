@@ -32,8 +32,7 @@ class MobilizeAmerica:
 
         if not self.api_key:
             logger.info(
-                "Mobilize America API Key missing. Calling methods that rely on private"
-                " endpoints will fail."
+                "Mobilize America API Key missing. Calling methods that rely on private endpoints will fail."
             )
 
     def _request(self, url, req_type="GET", post_data=None, args=None, auth=False):

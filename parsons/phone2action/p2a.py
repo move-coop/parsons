@@ -1,8 +1,8 @@
 import logging
 from datetime import datetime
 
-from parsons import Table
 from parsons.capitol_canary import CapitolCanary
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 

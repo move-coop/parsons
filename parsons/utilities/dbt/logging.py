@@ -12,8 +12,8 @@ from rich.console import Console
 from rich.logging import RichHandler
 from rich.markdown import Markdown
 
-from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
+from parsons.etl.table import Table
 from parsons.utilities.dbt.models import EnhancedNodeResult, Manifest
 
 logger = logging.getLogger(__name__)

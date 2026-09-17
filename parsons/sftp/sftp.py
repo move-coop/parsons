@@ -6,7 +6,7 @@ from stat import S_ISDIR, S_ISREG
 
 import paramiko
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.sftp.utilities import connect
 from parsons.utilities import files as file_utilities
 

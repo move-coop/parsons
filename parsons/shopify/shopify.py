@@ -45,13 +45,11 @@ class Shopify:
         api_version=None,
         access_token=None,
     ):
-        self.subdomain: str = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
-        self.access_token: str | None = check_env.check(
-            "SHOPIFY_ACCESS_TOKEN", access_token, optional=True
-        )
-        self.password: str = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
-        self.api_key: str = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
-        self.api_version: str = check_env.check("SHOPIFY_API_VERSION", api_version)
+        self.subdomain = check_env.check("SHOPIFY_SUBDOMAIN", subdomain)
+        self.access_token = check_env.check("SHOPIFY_ACCESS_TOKEN", access_token, optional=True)
+        self.password = check_env.check("SHOPIFY_PASSWORD", password, optional=True)
+        self.api_key = check_env.check("SHOPIFY_API_KEY", api_key, optional=True)
+        self.api_version = check_env.check("SHOPIFY_API_VERSION", api_version)
         self.base_url = f"https://{self.subdomain}.myshopify.com/admin/api/{self.api_version}/"
         ratelimiter = requests_ratelimiter.Limiter(
             pyrate_limiter.Rate(40, pyrate_limiter.Duration.MINUTE)

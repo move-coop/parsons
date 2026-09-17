@@ -6,7 +6,7 @@
 |---------------------------------------------------------- | -------: | -------: | -------: | -------: | ------: | --------: |
 | parsons/\_\_init\_\_.py                                   |       29 |        6 |        4 |        2 |     76% |16, 108, 115-117, 125 |
 | parsons/actblue/\_\_init\_\_.py                           |        2 |        0 |        0 |        0 |    100% |           |
-| parsons/actblue/actblue.py                                |       50 |        1 |        6 |        1 |     96% |       157 |
+| parsons/actblue/actblue.py                                |       50 |        1 |        6 |        1 |     96% |       155 |
 | parsons/action\_builder/\_\_init\_\_.py                   |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/action\_builder/action\_builder.py                |      142 |       24 |       50 |       11 |     81% |43, 156-165, 200, 203, 208, 212, 251, 379-388, 391, 394-402, 462, 467 |
 | parsons/action\_kit/\_\_init\_\_.py                       |        2 |        0 |        0 |        0 |    100% |           |
@@ -93,7 +93,7 @@
 | parsons/freshdesk/\_\_init\_\_.py                         |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/freshdesk/freshdesk.py                            |       67 |        6 |        8 |        3 |     88% |50-54, 80-\>86, 84 |
 | parsons/geocode/\_\_init\_\_.py                           |        2 |        0 |        0 |        0 |    100% |           |
-| parsons/geocode/census\_geocoder.py                       |       41 |        4 |        8 |        3 |     86% |114-118, 135, 150 |
+| parsons/geocode/census\_geocoder.py                       |       41 |        4 |        8 |        3 |     86% |116-120, 137, 152 |
 | parsons/github/\_\_init\_\_.py                            |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/github/github.py                                  |      119 |       28 |       36 |       11 |     74% |36-\>31, 116-118, 134, 148, 180-182, 202-204, 224, 272-\>274, 278, 280, 282, 284, 286, 308, 344-350, 372-374, 417, 427, 429, 459-461 |
 | parsons/google/\_\_init\_\_.py                            |        0 |        0 |        0 |        0 |    100% |           |
@@ -189,7 +189,7 @@
 | parsons/utilities/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/\_api\_connector\_types.py              |       23 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/api\_connector.py                       |      104 |        3 |       48 |       10 |     91% |146-\>149, 213, 267-\>exit, 310-\>313, 313-\>exit, 365-\>exit, 420-\>423, 423-\>exit, 425, 443 |
-| parsons/utilities/check\_env.py                           |       18 |        4 |       10 |        2 |     79% |78-85, 88-95 |
+| parsons/utilities/check\_env.py                           |       18 |        4 |       10 |        2 |     79% |89-96, 99-106 |
 | parsons/utilities/cloud\_storage.py                       |       11 |        7 |        6 |        0 |     24% |     39-52 |
 | parsons/utilities/credential\_tools.py                    |       68 |       16 |       22 |        2 |     71% |47, 199-214, 218 |
 | parsons/utilities/datetime.py                             |       25 |        2 |       14 |        2 |     90% |    26, 70 |

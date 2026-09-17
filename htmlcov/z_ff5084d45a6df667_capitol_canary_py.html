@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_c680341292d402ad___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.15.4">coverage.py v7.15.4</a>,
-            created at 2026-09-17 16:27 +0000
+            created at 2026-09-17 16:46 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -119,8 +119,8 @@
     <p class="run"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">        <span class="nam">cc_app_id</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;CAPITOLCANARY_APP_ID&quot;</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span> <span class="nam">optional</span><span class="op">=</span><span class="key">True</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="nam">cc_app_key</span> <span class="op">=</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;CAPITOLCANARY_APP_KEY&quot;</span><span class="op">,</span> <span class="key">None</span><span class="op">,</span> <span class="nam">optional</span><span class="op">=</span><span class="key">True</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">app_id</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="nam">cc_app_id</span> <span class="key">or</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;PHONE2ACTION_APP_ID&quot;</span><span class="op">,</span> <span class="nam">app_id</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">app_key</span><span class="op">:</span> <span class="nam">str</span> <span class="op">=</span> <span class="nam">cc_app_key</span> <span class="key">or</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;PHONE2ACTION_APP_KEY&quot;</span><span class="op">,</span> <span class="nam">app_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">app_id</span> <span class="op">=</span> <span class="nam">cc_app_id</span> <span class="key">or</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;PHONE2ACTION_APP_ID&quot;</span><span class="op">,</span> <span class="nam">app_id</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">app_key</span> <span class="op">=</span> <span class="nam">cc_app_key</span> <span class="key">or</span> <span class="nam">check_env</span><span class="op">.</span><span class="nam">check</span><span class="op">(</span><span class="str">&quot;PHONE2ACTION_APP_KEY&quot;</span><span class="op">,</span> <span class="nam">app_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">auth</span> <span class="op">=</span> <span class="nam">HTTPBasicAuth</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">app_id</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">app_key</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">client</span> <span class="op">=</span> <span class="nam">APIConnector</span><span class="op">(</span><span class="nam">CAPITOL_CANARY_URI</span><span class="op">,</span> <span class="nam">auth</span><span class="op">=</span><span class="nam">self</span><span class="op">.</span><span class="nam">auth</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -494,7 +494,7 @@
             <a class="nav" href="z_c680341292d402ad___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.15.4">coverage.py v7.15.4</a>,
-            created at 2026-09-17 16:27 +0000
+            created at 2026-09-17 16:46 +0000
         </p>
     </div>
 </footer>

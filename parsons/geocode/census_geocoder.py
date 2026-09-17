@@ -81,7 +81,9 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
+        geo = self.cg.address(
+            address_line, city=city, state=state, zipcode=zipcode, returntype=return_type
+        )
         self._log_result(geo)
         return geo
 

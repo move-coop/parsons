@@ -86,9 +86,11 @@ class TestNGPVAN(unittest.TestCase):
         m.post(self.van.connection.uri + "changedEntityExportJobs", json=json)
         m.get(self.van.connection.uri + "changedEntityExportJobs/2170181229", json=json2)
 
-        Table.from_csv = mock.MagicMock()
-        Table.from_csv.return_value = tbl
-
-        out_tbl = self.van.get_changed_entities("ContactHistory", "2021-10-10")
+        # Use patch.object (not a bare ``Table.from_csv = MagicMock()``) so the class
+        # attribute is restored when the block exits. A bare assignment leaks the mock
+        # into every later test in the same pytest-xdist worker, breaking any that call
+        # the real Table.from_csv (e.g. SFTP.get_table).
+        with mock.patch.object(Table, "from_csv", return_value=tbl):
+            out_tbl = self.van.get_changed_entities("ContactHistory", "2021-10-10")
 
         assert_matching_tables(out_tbl, tbl)

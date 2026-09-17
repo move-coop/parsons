@@ -34,8 +34,8 @@ class Freshdesk:
                 number of agents you have or IP addresses used to make the calls.
 
         """
-        self.api_key: str = check_env.check("FRESHDESK_API_KEY", api_key)
-        self.domain: str = check_env.check("FRESHDESK_DOMAIN", domain)
+        self.api_key = check_env.check("FRESHDESK_API_KEY", api_key)
+        self.domain = check_env.check("FRESHDESK_DOMAIN", domain)
         self.uri = f"https://{self.domain}.freshdesk.com/api/v2/"
         self.client = APIConnector(
             self.uri, auth=HTTPBasicAuth(self.api_key, "x"), ratelimit=ratelimit

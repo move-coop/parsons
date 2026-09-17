@@ -28,8 +28,8 @@ class Quickbase:
     """
 
     def __init__(self, hostname=None, user_token=None):
-        self.hostname: str = check_env.check("QUICKBASE_HOSTNAME", hostname)
-        self.user_token: str = check_env.check("QUICKBASE_USER_TOKEN", user_token)
+        self.hostname = check_env.check("QUICKBASE_HOSTNAME", hostname)
+        self.user_token = check_env.check("QUICKBASE_USER_TOKEN", user_token)
         self.api_hostname = "https://api.quickbase.com/v1"
         self.client = APIConnector(
             self.api_hostname,

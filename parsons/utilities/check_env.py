@@ -8,17 +8,6 @@ T = TypeVar("T")
 @overload
 def check(
     env: str,
-    value: T,
-    opt: bool | None = ...,
-    *,
-    optional: bool = ...,
-    field: T | None = ...,
-) -> T: ...
-
-
-@overload
-def check(
-    env: str,
     value: None = None,
     opt: bool | None = ...,
     *,
@@ -36,6 +25,28 @@ def check(
     optional: Literal[False] = False,
     field: None = None,
 ) -> str: ...
+
+
+@overload
+def check(
+    env: str,
+    value: T | None = ...,
+    opt: bool | None = ...,
+    *,
+    optional: Literal[False] = False,
+    field: T | None = ...,
+) -> T | str: ...
+
+
+@overload
+def check(
+    env: str,
+    value: T | None = ...,
+    opt: bool | None = ...,
+    *,
+    optional: Literal[True],
+    field: T | None = ...,
+) -> T | str | None: ...
 
 
 def check(

@@ -43,11 +43,25 @@ def test_geocode_address(cg):
     # Assert one line with geographies parameter returns expected
     cg.cg.address = mock.MagicMock(return_value=geographies_resp)
     geo = cg.geocode_address(**passed_address, return_type="geographies")
+    cg.cg.address.assert_called_with(
+        passed_address["address_line"],
+        city=passed_address["city"],
+        state=passed_address["state"],
+        zipcode=None,
+        returntype="geographies",
+    )
     assert geo == geographies_resp
 
     # Assert one line with locations parameter returns expected
     cg.cg.address = mock.MagicMock(return_value=locations_resp)
     geo = cg.geocode_address(**passed_address, return_type="locations")
+    cg.cg.address.assert_called_with(
+        passed_address["address_line"],
+        city=passed_address["city"],
+        state=passed_address["state"],
+        zipcode=None,
+        returntype="locations",
+    )
     assert geo == locations_resp
 
 

@@ -8,7 +8,7 @@ Overview
 The :class:`~parsons.databases.redshift.redshift.Redshift`
 class allows you to interact with an
 `Amazon Redshift <https://aws.amazon.com/redshift/>`__ relational database.
-The connector utilizes the `psycopg2 <https://pypi.org/project/psycopg2/>`__
+The connector utilizes the `psycopg3 <https://pypi.org/project/psycopg/>`__
 Python package under the hood. The core methods focus on input,
 output and querying of the database.
 

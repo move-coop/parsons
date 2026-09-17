@@ -20,7 +20,7 @@ class VANConnector:
         auth_name="default",
         db: Literal["MyVoters", "MyCampaign", "MyMembers", "EveryAction"] | None = None,
     ):
-        self.api_key: str = check_env.check("VAN_API_KEY", api_key)
+        self.api_key = check_env.check("VAN_API_KEY", api_key)
 
         if db == "MyVoters":
             self.db_code = 0

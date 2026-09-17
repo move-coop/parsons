@@ -39,9 +39,7 @@ class Community:
             check_env.check("COMMUNITY_URL", community_url, optional=True)
             or f"{COMMUNITY_API_ENDPOINT}/{community_client_id}/"
         )
-        self.headers = {
-            "Authorization": f"Bearer {self.community_access_token}",
-        }
+        self.headers = {"Authorization": f"Bearer {self.community_access_token}"}
         self.client = APIConnector(
             self.uri,
             headers=self.headers,

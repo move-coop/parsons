@@ -131,6 +131,12 @@ def test_auth_strips() -> None:
     ("auth1_kwargs", "auth2_kwargs", "should_be_equal"),
     [
         ({}, {}, True),
+        ({"header_name": "Auth1"}, {"header_name": "Auth1"}, True),
+        ({"header_name": "Auth1"}, {"header_name": "Auth2"}, False),
+        ({"token_name": "Login1"}, {"token_name": "Login1"}, True),
+        ({"token_name": "Login1"}, {"token_name": "Login2"}, False),
+        ({"token_divider": ":"}, {"token_divider": ":"}, True),
+        ({"token_divider": ":"}, {"token_divider": " "}, False),
         (
             {"expires": (now := datetime.now(tz=timezone.utc))},
             {"expires": now},
@@ -141,23 +147,17 @@ def test_auth_strips() -> None:
             {"expires": datetime.now(tz=timezone.utc) + timedelta(seconds=600)},
             False,
         ),
-        ({"header_name": "Auth1"}, {"header_name": "Auth1"}, True),
-        ({"header_name": "Auth1"}, {"header_name": "Auth2"}, False),
-        ({"token_divider": ":"}, {"token_divider": ":"}, True),
-        ({"token_divider": ":"}, {"token_divider": " "}, False),
-        ({"token_name": "Login1"}, {"token_name": "Login1"}, True),
-        ({"token_name": "Login1"}, {"token_name": "Login2"}, False),
     ],
     ids=[
         "matching api_key",
-        "matching expires",
-        "different expires",
         "matching header_name",
         "different header_name",
-        "matching token_divider",
-        "different token_divider",
         "matching token_name",
         "different token_name",
+        "matching token_divider",
+        "different token_divider",
+        "matching expires",
+        "different expires",
     ],
 )
 def test_auth_eq(auth1_kwargs: dict, auth2_kwargs: dict, should_be_equal: bool) -> None:
@@ -188,10 +188,11 @@ def test_auth_eq_different_keys() -> None:
     "fixture_name",
     [
         "bearer_auth",
-        "bearer_auth_expires",
         "bearer_auth_header_name",
         "bearer_auth_token_name",
         "bearer_auth_token_divider",
+        "bearer_auth_expires",
+        "bearer_auth_refresh_callback",
     ],
 )
 def test_auth_hash(fixture_name: str, request: pytest.FixtureRequest) -> None:
@@ -211,17 +212,19 @@ def test_auth_hash(fixture_name: str, request: pytest.FixtureRequest) -> None:
     ("fixture_name", "attribute_getter"),
     [
         ("bearer_auth", lambda a: a.api_key),
-        ("bearer_auth_expires", lambda a: str(a.expires)),
         ("bearer_auth_header_name", lambda a: str(a.header_name)),
         ("bearer_auth_token_name", lambda a: str(a.token_name)),
         ("bearer_auth_token_divider", lambda a: str(a.token_divider)),
+        ("bearer_auth_expires", lambda a: str(a.expires)),
+        ("bearer_auth_refresh_callback", lambda a: str(a.refresh_callback)),
     ],
     ids=[
         "api_key only",
-        "api_key with expires",
         "api_key with header_name",
         "api_key with token_name",
         "api_key with token_divider",
+        "api_key with expires",
+        "api_key with refresh_callback",
     ],
 )
 def test_auth_repr(
@@ -237,13 +240,13 @@ def test_auth_repr(
 @pytest.mark.parametrize(
     ("fixture_name", "expected_warning", "expected_expires"),
     [
+        ("bearer_auth", None, None),
+        ("bearer_auth_header_name", None, None),
+        ("bearer_auth_token_name", None, None),
+        ("bearer_auth_token_divider", None, None),
         ("bearer_auth_expired", TokenTimeoutWarning, None),
         ("bearer_auth_expires", None, None),
         ("bearer_auth_refresh_callback", None, TEST_REFRESH_DATETIME),
-        ("bearer_auth_header_name", None, None),
-        ("bearer_auth_token_divider", None, None),
-        ("bearer_auth_token_name", None, None),
-        ("bearer_auth", None, None),
     ],
 )
 def test_auth_call(

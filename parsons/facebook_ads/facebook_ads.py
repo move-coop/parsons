@@ -41,7 +41,7 @@ class FacebookAds:
     # unambiguous.
     # IMPORTANT - Keep these maps in sync with the comments in the ``add_users_to_custom_audience``
     # method!
-    # TODO add support for parsing full names from one column
+    # TODO(jburchard): add support for parsing full names from one column
     KeyMatchMap = {
         FBKeySchema.email: ["email", "email address", "voterbase_email"],
         FBKeySchema.fn: ["fn", "first", "first name", "vb_tsmart_first_name"],
@@ -113,7 +113,7 @@ class FacebookAds:
     @staticmethod
     def _preprocess_dob_column(table, column):
         # Parse the DOB column into 3 new columns, and remove the original column
-        # TODO Throw an error if the values are not 6 characters long?
+        # TODO(jburchard): Throw an error if the values are not 6 characters long?
 
         table.add_column(FBKeySchema.doby, lambda row: row[column][:4] if row[column] else None)
         table.add_column(FBKeySchema.dobm, lambda row: row[column][4:6] if row[column] else None)

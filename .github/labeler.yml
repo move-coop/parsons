@@ -21,3 +21,7 @@ github_actions:
 python:
   - changed-files:
       - any-glob-to-any-file: "**/*.py"
+
+sample script:
+  - changed-files:
+      - any-glob-to-any-file: "useful_resources/sample_code/**"

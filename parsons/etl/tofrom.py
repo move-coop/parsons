@@ -1046,7 +1046,7 @@ class ToFrom:
 
         tbls = []
         for key in s3_keys:
-            # TODO handle urls that end with '/', i.e. urls that point to "folders"
+            # TODO(dannyboy15): handle urls that end with '/', i.e. urls that point to "folders"
             _, _, bucket_, key_ = key.split("/", 3)
             file_ = s3.get_file(bucket_, key_)
             if files.compression_type_for_path(key_) == "zip":
@@ -1078,7 +1078,7 @@ class ToFrom:
                 See :ref:`Table` for output options.
 
         """
-        # TODO: Should users be able to pass in kwargs here? For parameters?
+        # TODO(willyraedy): Should users be able to pass in kwargs here? For parameters? See PR #875
 
         from parsons import GoogleBigQuery as BigQuery
 

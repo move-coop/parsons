@@ -12,7 +12,7 @@ import urllib
 from pathlib import Path
 from zipfile import ZipFile, is_zipfile
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.sftp import SFTP
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 

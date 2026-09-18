@@ -5,7 +5,7 @@ from typing import Literal
 
 from oauthlib.oauth2.rfc6749.errors import InvalidClientError
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
@@ -63,7 +63,7 @@ class ZoomV1:
         **kwargs,
     ) -> Table:
         """
-        TODO: Consider increasing default page size.
+        Handle zoom GET requests.
 
         Args:
             endpoint: str
@@ -78,6 +78,7 @@ class ZoomV1:
             Parsons Table of API responses
 
         """
+        # TODO(jburchard): Consider increasing default page size.
         logger.warning("This version of the Zoom connector uses a deprecated pagination method.")
         logger.info("Consider switching to V2!")
         logger.info(

@@ -146,17 +146,21 @@ class TestRedshift(unittest.TestCase):
             "a",
             "",
             "SELECT",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj"
-            "dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl"
-            "dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf",
+            (
+                "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaksdfjklasj"
+                "dfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjklasdfjklasjkl"
+                "dfakljsdfjalsdkfjklasjdfklasjdfklasdkljf"
+            ),
         ]
         fixed_cols = [
             "a",
             "a_1",
             "col_2",
             "col_3",
-            "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks"
-            "dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl",
+            (
+                "asdfjkasjdfklasjdfklajskdfljaskldfjaklsdfjlaks"
+                "dfjklasjdfklasjdkfljaskldfljkasjdkfasjlkdfjklasdfjklakjsfasjkdfljaslkdfjkl"
+            ),
         ]
         assert self.rs.column_name_validate(bad_cols) == fixed_cols
 
@@ -463,6 +467,11 @@ class TestRedshiftDB(unittest.TestCase):
         names = ["Sarah", "John"]
         r = self.rs.query(sql, parameters=names)
         assert r.num_rows == 2
+
+        sql = f"select * from {table_name} where name = %s"
+        name = "Sarah"
+        r = self.rs.query(sql, parameters={"name": name})
+        assert r[0]["name"] == name
 
     def test_schema_exists(self):
         assert self.rs.schema_exists(self.temp_schema)

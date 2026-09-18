@@ -148,7 +148,7 @@ class TestS3(unittest.TestCase):
 
     def test_transfer_bucket(self):
         # Create a destination bucket
-        # TODO maybe pull this from an env var as well
+        # TODO: maybe pull this from an env var as well
         destination_bucket = f"{self.test_bucket}-test"
         self.s3.create_bucket(destination_bucket)
 

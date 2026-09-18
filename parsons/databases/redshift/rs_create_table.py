@@ -208,8 +208,10 @@ class RedshiftCreateTable(DatabaseCreateStatement):
             (
                 distkey,
                 "DIST",
-                "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
-                "now-recommends-distribution-keys-for-improved-query-performance/",
+                (
+                    "https://aws.amazon.com/about-aws/whats-new/2019/08/amazon-redshift-"
+                    "now-recommends-distribution-keys-for-improved-query-performance/"
+                ),
             ),
             (
                 sortkey,

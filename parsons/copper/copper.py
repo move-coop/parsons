@@ -5,12 +5,12 @@ import time
 
 from requests import request
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 
 logger = logging.getLogger(__name__)
 
-COPPER_URI = "https://api.prosperworks.com/developer_api/v1"
+COPPER_URI = "https://api.copper.com/developer_api/v1"
 
 
 class Copper:

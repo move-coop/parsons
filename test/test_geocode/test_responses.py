@@ -287,9 +287,10 @@ locations_resp = [
 coord_resp = {
     "119th Congressional Districts": [
         {
-            "AREALAND": "158318961",
-            "AREAWATER": "18706999",
+            "AREALAND": "158318974",
+            "AREAWATER": "18707004",
             "BASENAME": "Delegate District (at Large)",
+            "CD119": "98",
             "CDSESSN": "119",
             "CENT": (
                 -77.016286,
@@ -308,7 +309,7 @@ coord_resp = {
             "LSADC": "C4",
             "MTFCC": "G5200",
             "NAME": "Delegate District (at Large)",
-            "OBJECTID": 314,
+            "OBJECTID": 409,
             "OID": "2119035963374576",
             "STATE": "11",
         },
@@ -330,16 +331,16 @@ coord_resp = {
             "FUNCSTAT": "S",
             "GEOID": "110019800001124",
             "INTPT": (
-                -77.0452079,
-                38.8886931,
+                -77.0449823,
+                38.8882139,
             ),
-            "INTPTLAT": "+38.8886931",
-            "INTPTLON": "-077.0452079",
+            "INTPTLAT": "+38.8882139",
+            "INTPTLON": "-077.0449823",
             "LSADC": "BK",
             "LWBLKTYP": "B",
             "MTFCC": "G5040",
             "NAME": "Block 1124",
-            "OBJECTID": 4675104,
+            "OBJECTID": 858997,
             "OID": "210701008444199",
             "STATE": "11",
             "SUFFIX": "",
@@ -349,8 +350,8 @@ coord_resp = {
     ],
     "2024 State Legislative Districts - Upper": [
         {
-            "AREALAND": "15330264",
-            "AREAWATER": "3029411",
+            "AREALAND": "15330267",
+            "AREAWATER": "3029412",
             "BASENAME": "2",
             "CENT": (
                 -77.0463477,
@@ -371,7 +372,7 @@ coord_resp = {
             "LSY": "2024",
             "MTFCC": "G5210",
             "NAME": "Ward 2",
-            "OBJECTID": 1343,
+            "OBJECTID": 1845,
             "OID": "2129035951821144",
             "SLDU": "002",
             "STATE": "11",
@@ -379,8 +380,8 @@ coord_resp = {
     ],
     "Census Tracts": [
         {
-            "AREALAND": "6514228",
-            "AREAWATER": "4996396",
+            "AREALAND": "6514231",
+            "AREAWATER": "4996397",
             "BASENAME": "9800",
             "CENT": (
                 -77.0352173,
@@ -400,7 +401,7 @@ coord_resp = {
             "LSADC": "CT",
             "MTFCC": "G5020",
             "NAME": "Census Tract 9800",
-            "OBJECTID": 35127,
+            "OBJECTID": 35043,
             "OID": "2079015504267431",
             "STATE": "11",
             "TRACT": "980000",
@@ -408,8 +409,8 @@ coord_resp = {
     ],
     "Combined Statistical Areas": [
         {
-            "AREALAND": "34187347070",
-            "AREAWATER": "5218521415",
+            "AREALAND": "34187354537",
+            "AREAWATER": "5218513808",
             "BASENAME": "Washington-Baltimore-Arlington, DC-MD-VA-WV-PA",
             "CENT": (
                 -77.2239743,
@@ -422,23 +423,23 @@ coord_resp = {
             "GEOID": "548",
             "HU100": "",
             "INTPT": (
-                -77.2228175,
-                38.9854484,
+                -77.2234092,
+                38.9901097,
             ),
-            "INTPTLAT": "+38.9854484",
-            "INTPTLON": "-077.2228175",
+            "INTPTLAT": "+38.9901097",
+            "INTPTLON": "-077.2234092",
             "LSADC": "M0",
             "MTFCC": "G3100",
             "NAME": "Washington-Baltimore-Arlington, DC-MD-VA-WV-PA CSA",
-            "OBJECTID": 156,
+            "OBJECTID": 141,
             "OID": "2619034687908147",
             "POP100": "",
         },
     ],
     "Counties": [
         {
-            "AREALAND": "158318961",
-            "AREAWATER": "18706999",
+            "AREALAND": "158318974",
+            "AREAWATER": "18707004",
             "BASENAME": "District of Columbia",
             "CENT": (
                 -77.016286,
@@ -460,15 +461,15 @@ coord_resp = {
             "LSADC": "00",
             "MTFCC": "G4020",
             "NAME": "District of Columbia",
-            "OBJECTID": 1530,
+            "OBJECTID": 1959,
             "OID": "27590331264532",
             "STATE": "11",
         },
     ],
     "County Subdivisions": [
         {
-            "AREALAND": "158318961",
-            "AREAWATER": "18706999",
+            "AREALAND": "158318974",
+            "AREAWATER": "18707004",
             "BASENAME": "Washington",
             "CENT": (
                 -77.016286,
@@ -491,15 +492,15 @@ coord_resp = {
             "LSADC": "25",
             "MTFCC": "G4040",
             "NAME": "Washington city",
-            "OBJECTID": 33046,
+            "OBJECTID": 33108,
             "OID": "27690331274806",
             "STATE": "11",
         },
     ],
     "Incorporated Places": [
         {
-            "AREALAND": "158318961",
-            "AREAWATER": "18706999",
+            "AREALAND": "158318974",
+            "AREAWATER": "18707004",
             "BASENAME": "Washington",
             "CBSAPCI": "Y",
             "CENT": (
@@ -521,20 +522,18 @@ coord_resp = {
             "MTFCC": "G4110",
             "NAME": "Washington city",
             "NECTAPCI": "N",
-            "OBJECTID": 32590,
+            "OBJECTID": 32234,
             "OID": "27890331283927",
             "PLACE": "50000",
             "PLACECC": "C5",
             "PLACENS": "02390665",
             "STATE": "11",
-            "STGEOMETRY_Area": 292742530.9541352,
-            "STGEOMETRY_Length": 86300.89857680116,
         },
     ],
     "States": [
         {
-            "AREALAND": "158318961",
-            "AREAWATER": "18706999",
+            "AREALAND": "158318974",
+            "AREAWATER": "18707004",
             "BASENAME": "District of Columbia",
             "CENT": (
                 -77.016286,
@@ -554,7 +553,7 @@ coord_resp = {
             "LSADC": "00",
             "MTFCC": "G4000",
             "NAME": "District of Columbia",
-            "OBJECTID": 51,
+            "OBJECTID": 42,
             "OID": "27490331294090",
             "REGION": "3",
             "STATE": "11",
@@ -564,15 +563,15 @@ coord_resp = {
     ],
     "Urban Areas": [
         {
-            "AREALAND": "3352475823",
-            "AREAWATER": "67696923",
+            "AREALAND": "3352467065",
+            "AREAWATER": "67696922",
             "BASENAME": "Washington--Arlington, DC--VA--MD",
             "CENT": (
-                -77.182224,
-                38.8953266,
+                -77.1822243,
+                38.8953259,
             ),
-            "CENTLAT": "+38.8953266",
-            "CENTLON": "-077.1822240",
+            "CENTLAT": "+38.8953259",
+            "CENTLON": "-077.1822243",
             "FUNCSTAT": "S",
             "GEOID": "92242",
             "INTPT": (
@@ -584,7 +583,7 @@ coord_resp = {
             "LSADC": "67",
             "MTFCC": "G3500",
             "NAME": "Washington--Arlington, DC--VA--MD Urban Area",
-            "OBJECTID": 1460,
+            "OBJECTID": 1574,
             "OID": "27021158105937",
             "UA": "92242",
         },

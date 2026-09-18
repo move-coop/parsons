@@ -30,6 +30,7 @@ class OAuth2APIConnector(APIConnector):
         data_key: str | None = None,
         grant_type: str = "client_credentials",
         authorization_kwargs: dict[str, Any] | None = None,
+        **kwargs,
     ) -> None:
         """
         Initialize the APIConnector.
@@ -56,6 +57,7 @@ class OAuth2APIConnector(APIConnector):
             headers=headers,
             pagination_key=pagination_key,
             data_key=data_key,
+            **kwargs,
         )
 
         if not authorization_kwargs:

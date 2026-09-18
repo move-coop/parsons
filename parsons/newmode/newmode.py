@@ -4,7 +4,7 @@ from typing import Any, Literal
 from Newmode import Client
 from oauthlib.oauth2 import TokenExpiredError
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
@@ -48,8 +48,8 @@ class NewmodeV1:
         logger.warning(
             "Newmode V1 API will be sunset in Feburary 28th, 2025. To use V2, set api_version=v2.1"
         )
-        self.api_user: str = check_env.check("NEWMODE_API_USER", api_user)
-        self.api_password: str = check_env.check("NEWMODE_API_PASSWORD", api_password)
+        self.api_user = check_env.check("NEWMODE_API_USER", api_user)
+        self.api_password = check_env.check("NEWMODE_API_PASSWORD", api_password)
         self.api_version: str | None = api_version
         self.client: Client = Client(api_user, api_password, api_version)
 
@@ -440,7 +440,7 @@ class NewmodeV1:
 
 
 class NewmodeV2:
-    # TODO: Add param definition and requirements once official Newmode docs are published
+    # TODO(sharinetmc): Add param definition and requirements once official Newmode docs are published
     def __init__(
         self,
         client_id: str | None = None,
@@ -463,8 +463,8 @@ class NewmodeV2:
         """
         self.api_version: str = api_version
         self.base_url: str = V2_API_URL
-        self.client_id: str = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
-        self.client_secret: str = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
+        self.client_id = check_env.check("NEWMODE_API_CLIENT_ID", client_id)
+        self.client_secret = check_env.check("NEWMODE_API_CLIENT_SECRET", client_secret)
         self.headers: dict[str, str] = {"content-type": "application/json"}
         self.default_client: OAuth2APIConnector = self.get_default_oauth_client()
         self.campaigns_client: OAuth2APIConnector = self.get_campaigns_oauth_client()

@@ -3,14 +3,15 @@ import datetime
 from dateutil.parser import parse
 
 
-def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
+def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) -> int | None:
     """Convert any date value into a Unix timestamp.
 
     Args:
-        value: int or str or datetime
+        value:
             Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to UTC.
 
     Returns:
         Unix timestamp (int)
@@ -27,28 +28,32 @@ def date_to_timestamp(value, tzinfo=datetime.timezone.utc):
     return int(parsed_date.timestamp())
 
 
-def convert_unix_to_readable(ts):
+def convert_unix_to_readable(ts) -> str:
     """Converts UNIX timestamps to readable timestamps."""
-    ts = datetime.utcfromtimestamp(int(ts) / 1000)
-    ts = ts.strftime("%Y-%m-%d %H:%M:%S UTC")
+    ts = datetime.datetime.fromtimestamp(int(ts) / 1000, tz=datetime.timezone.utc)
 
-    return ts
+    return ts.strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
-def parse_date(value: int | str | datetime.datetime, tzinfo=datetime.timezone.utc):
-    """Parse an arbitrary date value into a Python datetime.
+def parse_date(
+    value: int | str | datetime.datetime, tzinfo: datetime.timezone = datetime.timezone.utc
+) -> datetime.datetime | None:
+    """
+    Parse an arbitrary date value into a Python datetime.
 
-    If no value is provided (i.e., the value is None or empty), then the return value will be
-    None.
+    If no value is provided (i.e., the value is None or empty),
+    then the return value will be None.
 
     Args:
-        value: int or str or datetime
+        value:
             Value to parse
-        tzinfo: datetime.timezone
-            `Optional`: Timezone for the datetime; defaults to UTC.
+        tzinfo:
+            Timezone for the datetime.
+            Defaults to UTC.
 
-    Returns:
-        datetime.datetime or None
+    Raises:
+        TypeError:
+            If the value is not a string, int, or datetime.
 
     """
     if not value:

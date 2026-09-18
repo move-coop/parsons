@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "parsons"
-version = "6.0.0"
+version = "6.1.0"
 description = "A python library of connectors for the progressive community."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -27,6 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "petl >= 1.7.17",
@@ -50,28 +51,33 @@ catalist = ["paramiko >= 3.0"]
 civis = ["civis >= 2.0"]
 dbt-duckdb = [
     "dbt-duckdb >= 1.8",
-    "dbt-core>=1.8",
+    "dbt-core>=1.8;python_version<'3.14'",
+    "dbt-core>=1.12;python_version>='3.14'",
     "rich >= 14.0"
 ]
 dbt-redshift = [
     "dbt-redshift >= 1.8",
-    "dbt-core >= 1.8",
-    "lxml >= 6.0",
+    "dbt-core>=1.8;python_version<'3.14'",
+    "dbt-core>=1.12;python_version>='3.14'",
+    "lxml >= 6.0.1",
     "rich >= 14.0",
 ]
 dbt-bigquery = [
     "dbt-bigquery >= 1.8",
-    "dbt-core >= 1.8",
+    "dbt-core>=1.8;python_version<'3.14'",
+    "dbt-core>=1.12;python_version>='3.14'",
     "rich >= 14.0"
 ]
 dbt-postgres = [
     "dbt-postgres >= 1.8",
-    "dbt-core >= 1.8",
+    "dbt-core>=1.8;python_version<'3.14'",
+    "dbt-core>=1.12;python_version>='3.14'",
     "rich >= 14.0"
 ]
 dbt-snowflake = [
     "dbt-snowflake >= 1.8",
-    "dbt-core >= 1.8",
+    "dbt-core>=1.8;python_version<'3.14'",
+    "dbt-core>=1.12;python_version>='3.14'",
     "rich >= 14.0"
 ]
 facebook = [
@@ -121,17 +127,17 @@ scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]
 slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
+ssh = [
+    "sshtunnel >= 0.4",
+    "psycopg2-binary >= 2.9.11",
+    "sqlalchemy >= 1.4",
+]
 targetsmart = [
     "defusedxml >= 0.7",
     "paramiko >= 3.0",
     "xmltodict >= 1.0"
 ]
 twilio = ["twilio >= 9.0"]
-ssh = [
-    "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9.11",
-    "sqlalchemy >= 1.4",
-]
 all = [
     "parsons[airtable]",
     "parsons[alchemer]",
@@ -163,9 +169,9 @@ all = [
     "parsons[sftp]",
     "parsons[slack]",
     "parsons[smtp]",
+    "parsons[ssh]",
     "parsons[targetsmart]",
     "parsons[twilio]",
-    "parsons[ssh]",
 ]
 
 [project.urls]
@@ -208,7 +214,7 @@ security = [
     "bandit[sarif]==1.9.4",
 ]
 test-coverage = [
-    "coverage>=7.13.3,<7.15.0",
+    "coverage>=7.13.3,<7.17.0",
     "pytest-cov>=7.0,<7.2",
     {include-group = "test"},
 ]
@@ -216,11 +222,12 @@ test = [
     "pytest>=9.0.3,<9.2.0",
     "pytest-datadir~=1.8.0",
     "pytest-mock~=3.15.1",
+    "pytest-recording~=0.13.4",
     "pytest-xdist~=3.8.0",
     "requests-mock~=1.12.1",
     "testfixtures~=8.3.0;python_version<'3.11'",
     "testfixtures~=9.1.0;python_version>='3.11'",
-    "dbt-duckdb>=1.8,<1.11",
+    "dbt-duckdb>=1.8,<1.12",
 ]
 
 [tool]
@@ -244,6 +251,7 @@ exclude = [
     ".nox",
     ".pants.d",
     ".pyenv",
+    ".pyi",
     ".pytest_cache",
     ".pytype",
     ".ruff_cache",
@@ -275,6 +283,7 @@ select = [
     "UP", # pyupgrade (UP)
     "I", # isort (I)
     "TID", # flake8-tidy-imports (TID)
+    "TD", # flake8-todos (TD)
     "ICN", # flake8-import-conventions (ICN)
     "Q", # flake8-quotes (Q)
     "TC", # flake8-type-checking (TC)
@@ -287,7 +296,7 @@ select = [
 ]
 ignore = [
     "E501", # line-too-long
-    # pathlib
+    # flake8-use-pathlib
     "PTH116", # os-stat
     "PTH118", # os-path-join
     "PTH122", # os-path-splitext
@@ -303,6 +312,9 @@ ignore = [
     "D406", # missing-new-line-after-section-name
     "D407", # missing-dashed-underline-after-section
     "D408", # missing-section-underline-after-name
+    # flake8-todos
+    "TD002", # missing-todo-author
+    "TD003", # missing-todo-link
 ]
 fixable = ["ALL"]
 unfixable = []

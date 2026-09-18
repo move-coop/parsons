@@ -1,3 +1,4 @@
+import io
 import json
 import logging
 import math
@@ -6,6 +7,7 @@ from pathlib import Path
 from typing import Literal
 
 import requests
+from requests.auth import HTTPBasicAuth
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -36,14 +38,14 @@ class ActionKit:
     }
 
     def __init__(self, domain=None, username=None, password=None):
-        self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
-        self.username = check_env.check("ACTION_KIT_USERNAME", username)
-        self.password = check_env.check("ACTION_KIT_PASSWORD", password)
+        self.domain: str = check_env.check("ACTION_KIT_DOMAIN", domain)
+        self.username: str = check_env.check("ACTION_KIT_USERNAME", username)
+        self.password: str = check_env.check("ACTION_KIT_PASSWORD", password)
         self.conn = self._conn()
 
     def _conn(self, default_headers=_default_headers):
         client = requests.Session()
-        client.auth = (self.username, self.password)
+        client.auth = HTTPBasicAuth(self.username, self.password)
         client.headers.update(default_headers)
         return client
 
@@ -455,6 +457,9 @@ class ActionKit:
 
     def update_campaign(self) -> None:
         """Update a campaign (NOT IMPLEMENTED)"""
+        # TODO(jburchard): Add functionality.
+        # This method was referenced in the docstring for get_campaign_fields in the initial commit, but never existed.
+        # https://github.com/move-coop/parsons/blob/9784f8bc1deb751531acfba7c0ae496e69fb5b61/parsons/action_kit/action_kit.py#L161
         err_msg = "ActionKit.update_campaign() is not implemented"
         raise NotImplementedError(err_msg)
 
@@ -1356,11 +1361,11 @@ class ActionKit:
 
     def bulk_upload_csv(
         self,
-        csv_file,
-        import_page,
-        autocreate_user_fields=False,
-        user_fields_only=False,
-    ):
+        csv_file: Path | str | io.BytesIO,
+        import_page: str,
+        autocreate_user_fields: bool = False,
+        user_fields_only: bool = False,
+    ) -> dict[str, bool | str | requests.Response]:
         """
         Bulk upload a csv file of new users or user updates.
         If you are uploading a table object, use bulk_upload_table instead.
@@ -1371,36 +1376,36 @@ class ActionKit:
         which is more likely to return the proper 400 with a useful error message
 
         Args:
-            import_page: str
+            import_page:
                 The page to post the action. The page short name.
-            csv_file: str or buffer
+            csv_file:
                 The csv (optionally zip'd) file path or a file buffer object
                 A user_id or email column is required.
                 ActionKit rejects files that are larger than 128M
-            autocreate_user_fields: bool
+            autocreate_user_fields:
                 When True columns starting with ``user_`` will be uploaded as user fields.
                 See the `autocreate_user_fields documentation
                 <https://roboticdogs.actionkit.com/docs/manual/api/rest/uploads.html#create-a-multipart-post-request>`__.
-            user_fields_only: bool
+            user_fields_only:
                 When uploading only an email/user_id column and ``user_`` user fields,
                 ActionKit has a fast processing path.
                 This doesn't work, if you upload a zipped csv though.
 
         Returns:
-            dict[str, bool | str | requests.Response]
-                success: whether upload was successful
-                progress_url: an API URL to get progress on upload processing
-                res: requests http response object
+            success: whether upload was successful
+            progress_url: an API URL to get progress on upload processing
+            res: requests http response object
 
         """
         # self.conn defaults to JSON, but this has to be form/multi-part....
         upload_client = self._conn({"accepts": "application/json"})
-        # TODO: use context manager or close file when done
+
         if isinstance(csv_file, str):
-            csv_file = Path(csv_file).open(mode="rb")  # noqa SIM115 open-file-with-context-handler
+            csv_file = Path(csv_file)
+        csv_buffer = csv_file.open(mode="rb") if isinstance(csv_file, Path) else csv_file
 
         url = self._base_endpoint("upload")
-        files = {"upload": csv_file}
+        files = {"upload": csv_buffer}
         data = {
             "page": import_page,
             "autocreate_user_fields": int(autocreate_user_fields),
@@ -1414,6 +1419,9 @@ class ActionKit:
                 "id": progress_url.split("/")[-2] if progress_url else None,
                 "progress_url": progress_url,
             }
+
+        if isinstance(csv_file, Path):
+            csv_buffer.close()
 
         return rv
 

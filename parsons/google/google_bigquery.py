@@ -11,14 +11,14 @@ from typing import Literal
 import google
 import petl
 from google.api_core import exceptions
+from google.auth.credentials import Credentials
 from google.cloud import bigquery
 from google.cloud.bigquery import ExtractJob, dbapi, job
 from google.cloud.bigquery.job import ExtractJobConfig, LoadJobConfig, QueryJobConfig
-from google.oauth2.credentials import Credentials
 
-from parsons import Table
 from parsons.databases.database_connector import DatabaseConnector
 from parsons.databases.table import BaseTable
+from parsons.etl.table import Table
 from parsons.google.google_cloud_storage import GoogleCloudStorage
 from parsons.google.utilities import (
     load_google_application_credentials,
@@ -101,7 +101,7 @@ def map_column_headers_to_schema_field(schema_definition: list) -> list:
         List of instantiated `SchemaField` objects
 
     """
-    # TODO - Better way to test for this
+    # TODO(willyraedy): - Better way to test for this
     if isinstance(schema_definition[0], bigquery.SchemaField):
         logger.debug("User supplied list of SchemaField objects")
         return schema_definition
@@ -676,7 +676,7 @@ class GoogleBigQuery(DatabaseConnector):
             template_table=template_table,
         )
 
-        # TODO - See if this inheritance is happening in other places
+        # TODO(willyraedy): - See if this inheritance is happening in other places
         gcs = GoogleCloudStorage(app_creds=self.app_creds, project=self.project)
         old_bucket_name, old_blob_name = gcs.split_uri(gcs_uri=gcs_blob_uri)
 
@@ -783,15 +783,16 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket
-            or check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
+            or str(check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket))
         )
         gcs_client = gcs_client or GoogleCloudStorage()
-        gcs_client.copy_s3_to_gcs(
-            aws_source_bucket=bucket,
+        gcs_client.copy_bucket_to_gcs(
+            source="s3",
+            source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             gcs_sink_bucket=tmp_gcs_bucket,
-            aws_s3_key=key,
+            source_path=key,
         )
         temp_blob_name = key
         temp_blob_uri = gcs_client.format_uri(bucket=tmp_gcs_bucket, name=temp_blob_name)
@@ -1400,7 +1401,9 @@ class GoogleBigQuery(DatabaseConnector):
     def get_table_ref(self, table_name):
         # Helper function to build a TableReference for our table
         parsed = parse_table_name(table_name)
-        dataset_ref = self.client.dataset(parsed["dataset"])
+        dataset_ref = bigquery.DatasetReference(
+            parsed["project"] or self.client.project, parsed["dataset"]
+        )
         return dataset_ref.table(parsed["table"])
 
     def _get_job_config_schema(

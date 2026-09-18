@@ -52,7 +52,7 @@ class TestFacebookAdsIntegration(unittest.TestCase):
     def test_add_users_to_custom_audience(self):
         # Note we don't actually check the results of adding these users, eg. how many were
         # matched by FB. This test just ensures the method doesn't error.
-        # TODO See if we can do a more effective test.
+        # TODO: See if we can do a more effective test.
         self.fb_ads.add_users_to_custom_audience(self.audience_id, users_table)
 
     def test_add_users_to_custom_audience_no_valid_columns(self):

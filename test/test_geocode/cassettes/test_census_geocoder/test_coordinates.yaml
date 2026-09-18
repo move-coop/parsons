@@ -1,0 +1,70 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+    method: GET
+    uri: https://geocoding.geo.census.gov/geocoder/geographies/coordinates?x=-77.0441907&y=38.8884212&vintage=Current_Current&benchmark=Public_AR_Current&format=json
+  response:
+    body:
+      string: '{"result":{"geographies":{"States":[{"STATENS":"01702382","GEOID":"11","CENTLAT":"+38.9047586","AREAWATER":"18707004","STATE":"11","BASENAME":"District
+        of Columbia","STUSAB":"DC","OID":"27490331294090","LSADC":"00","FUNCSTAT":"A","INTPTLAT":"+38.9042429","DIVISION":"5","NAME":"District
+        of Columbia","REGION":"3","OBJECTID":42,"CENTLON":"-077.0162860","AREALAND":"158318974","INTPTLON":"-077.0165243","MTFCC":"G4000"}],"Combined
+        Statistical Areas":[{"POP100":"","GEOID":"548","CENTLAT":"+38.9848368","AREAWATER":"5218513808","BASENAME":"Washington-Baltimore-Arlington,
+        DC-MD-VA-WV-PA","OID":"2619034687908147","LSADC":"M0","FUNCSTAT":"S","INTPTLAT":"+38.9901097","NAME":"Washington-Baltimore-Arlington,
+        DC-MD-VA-WV-PA CSA","OBJECTID":141,"CSA":"548","CENTLON":"-077.2239743","INTPTLON":"-077.2234092","AREALAND":"34187354537","HU100":"","MTFCC":"G3100"}],"County
+        Subdivisions":[{"COUSUB":"50000","GEOID":"1100150000","CENTLAT":"+38.9047586","AREAWATER":"18707004","STATE":"11","BASENAME":"Washington","OID":"27690331274806","LSADC":"25","FUNCSTAT":"F","INTPTLAT":"+38.9042429","NAME":"Washington
+        city","OBJECTID":33108,"CENTLON":"-077.0162860","COUSUBCC":"C5","AREALAND":"158318974","INTPTLON":"-077.0165243","MTFCC":"G4040","COUSUBNS":"02390665","COUNTY":"001"}],"Urban
+        Areas":[{"GEOID":"92242","CENTLAT":"+38.8953259","AREAWATER":"67696922","BASENAME":"Washington--Arlington,
+        DC--VA--MD","OID":"27021158105937","UA":"92242","LSADC":"67","FUNCSTAT":"S","INTPTLAT":"+38.8959429","NAME":"Washington--Arlington,
+        DC--VA--MD Urban Area","OBJECTID":1574,"CENTLON":"-077.1822243","AREALAND":"3352467065","INTPTLON":"-077.1830768","MTFCC":"G3500"}],"Incorporated
+        Places":[{"DISP_CLR":3,"NECTAPCI":"N","GEOID":"1150000","CENTLAT":"+38.9047586","AREAWATER":"18707004","BASENAME":"Washington","STATE":"11","OID":"27890331283927","LSADC":"25","PLACE":"50000","FUNCSTAT":"N","INTPTLAT":"+38.9042429","NAME":"Washington
+        city","OBJECTID":32234,"PLACECC":"C5","CENTLON":"-077.0162860","CBSAPCI":"Y","AREALAND":"158318974","INTPTLON":"-077.0165243","PLACENS":"02390665","MTFCC":"G4110"}],"Counties":[{"GEOID":"11001","CENTLAT":"+38.9047586","AREAWATER":"18707004","STATE":"11","BASENAME":"District
+        of Columbia","OID":"27590331264532","LSADC":"00","FUNCSTAT":"F","INTPTLAT":"+38.9042429","NAME":"District
+        of Columbia","OBJECTID":1959,"CENTLON":"-077.0162860","COUNTYCC":"H6","COUNTYNS":"01702382","AREALAND":"158318974","INTPTLON":"-077.0165243","MTFCC":"G4020","COUNTY":"001"}],"2024
+        State Legislative Districts - Upper":[{"GEOID":"11002","CENTLAT":"+38.9000370","AREAWATER":"3029412","STATE":"11","BASENAME":"2","OID":"2129035951821144","SLDU":"002","LSADC":"L1","FUNCSTAT":"N","INTPTLAT":"+38.9001359","NAME":"Ward
+        2","OBJECTID":1845,"CENTLON":"-077.0463477","LSY":"2024","AREALAND":"15330267","INTPTLON":"-077.0457772","MTFCC":"G5210","LDTYP":"O"}],"2020
+        Census Blocks":[{"SUFFIX":"","GEOID":"110019800001124","CENTLAT":"+38.8884516","BLOCK":"1124","AREAWATER":"30352","STATE":"11","BASENAME":"1124","OID":"210701008444199","LSADC":"BK","FUNCSTAT":"S","INTPTLAT":"+38.8882139","NAME":"Block
+        1124","OBJECTID":858997,"TRACT":"980000","CENTLON":"-077.0453980","BLKGRP":"1","AREALAND":"171705","INTPTLON":"-077.0449823","MTFCC":"G5040","LWBLKTYP":"B","UR":"U","COUNTY":"001"}],"Census
+        Tracts":[{"GEOID":"11001980000","CENTLAT":"+38.8801546","AREAWATER":"4996397","STATE":"11","BASENAME":"9800","OID":"2079015504267431","LSADC":"CT","FUNCSTAT":"S","INTPTLAT":"+38.8809933","NAME":"Census
+        Tract 9800","OBJECTID":35043,"TRACT":"980000","CENTLON":"-077.0352173","AREALAND":"6514231","INTPTLON":"-077.0363219","MTFCC":"G5020","COUNTY":"001"}],"119th
+        Congressional Districts":[{"GEOID":"1198","CENTLAT":"+38.9047586","CDSESSN":"119","AREAWATER":"18707004","BASENAME":"Delegate
+        District (at Large)","STATE":"11","OID":"2119035963374576","LSADC":"C4","FUNCSTAT":"N","INTPTLAT":"+38.9042429","NAME":"Delegate
+        District (at Large)","OBJECTID":409,"CENTLON":"-077.0162860","CD119":"98","AREALAND":"158318974","INTPTLON":"-077.0165243","MTFCC":"G5200"}]},"input":{"vintage":{"isDefault":true,"id":"4","vintageName":"Current_Current","vintageDescription":"Current
+        Vintage - Current Benchmark"},"location":{"x":-77.0441907,"y":38.8884212},"benchmark":{"isDefault":true,"benchmarkDescription":"Public
+        Address Ranges - Current Benchmark","id":"4","benchmarkName":"Public_AR_Current"}}}}'
+    headers:
+      Cache-Control:
+      - private, no-store
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '4352'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 01 Jul 2026 01:27:30 GMT
+      Set-Cookie:
+      - TS0193e6a1=01283c52a4f156a93567dcd81893ae3ca2a947cc734345a604b278dceaec3bce96a002d43cb5dc05461aa606e99a8db42f2d8afd97;
+        Path=/; Domain=.geocoding.geo.census.gov; Secure; HttpOnly
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - DENY
+      X-XSS-Protection:
+      - 1;mode=block
+    status:
+      code: 200
+      message: ''
+version: 1

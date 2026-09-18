@@ -1,9 +1,14 @@
 import logging
 from typing import Literal
 
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -26,9 +31,13 @@ class QuickBooksTime:
     """
 
     def __init__(self, token=None):
-        self.token = check_env.check("QB_AUTH_TOKEN", token)
-        self.headers = {"Authorization": "Bearer " + self.token}
-        self.client = APIConnector(QB_URI, headers=self.headers)
+        auth = BearerAuth(check_env.check("QB_AUTH_TOKEN", token))
+        self.client = APIConnector(QB_URI, auth=auth)
+
+    @property
+    @deprecated("Use 'QuickBooksTime.client.auth.api_key' instead.")
+    def token(self):
+        return self.client.auth.api_key
 
     # Helper functions
 

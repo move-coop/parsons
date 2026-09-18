@@ -32,21 +32,22 @@ class ActionKit:
 
     """
 
-    _default_headers = {
-        "content-type": "application/json",
-        "accepts": "application/json",
-    }
+    _default_headers: dict[str, str]
 
     def __init__(self, domain=None, username=None, password=None):
         self.domain: str = check_env.check("ACTION_KIT_DOMAIN", domain)
         self.username: str = check_env.check("ACTION_KIT_USERNAME", username)
         self.password: str = check_env.check("ACTION_KIT_PASSWORD", password)
+        self._default_headers = {
+            "content-type": "application/json",
+            "accepts": "application/json",
+        }
         self.conn = self._conn()
 
-    def _conn(self, default_headers=_default_headers):
+    def _conn(self, default_headers=None):
         client = requests.Session()
         client.auth = HTTPBasicAuth(self.username, self.password)
-        client.headers.update(default_headers)
+        client.headers.update(default_headers or self._default_headers)
         return client
 
     def _base_endpoint(self, endpoint, entity_id=None):

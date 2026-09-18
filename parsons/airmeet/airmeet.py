@@ -1,5 +1,9 @@
 from typing import Literal
 
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -49,6 +53,11 @@ class Airmeet:
         self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
 
         self.client.auth = self._get_api_token(airmeet_access_key, airmeet_secret_key)
+
+    @property
+    @deprecated("Use 'Airmeet.client.auth.api_key' instead.")
+    def token(self):
+        return self.client.auth.api_key
 
     def _get_api_token(
         self, airmeet_access_key: str | None = None, airmeet_secret_key: str | None = None

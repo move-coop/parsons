@@ -32,7 +32,11 @@ class TestAirmeet(unittest.TestCase):
         assert airmeet.uri == "https://env_api_endpoint"
         assert airmeet.airmeet_client_key == "env_access_key"
         assert airmeet.airmeet_client_secret == "env_secret_key"
-        assert airmeet.token == "test_token"
+        with pytest.deprecated_call(match="Use 'Airmeet.client.auth.api_key' instead."):
+            assert airmeet.token == "test_token"
+        assert airmeet.client.auth.api_key == "test_token"
+        assert airmeet.client.auth.header_name == "X-Airmeet-Access-Token"
+        assert airmeet.client.auth.token_name is None
 
     def test_get_all_pages_single_page(self):
         # Simulate API response for a single page without further cursors.

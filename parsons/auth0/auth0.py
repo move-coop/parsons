@@ -7,13 +7,14 @@ import requests
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
 
 class Auth0:
     """
-    Instantiate the Auth0 class
+    Instantiate the Auth0 class.
 
     Args:
         client_id: str
@@ -30,23 +31,22 @@ class Auth0:
 
     def __init__(self, client_id=None, client_secret=None, domain=None):
         self.base_url = f"https://{check_env.check('AUTH0_DOMAIN', domain)}"
-        access_token = (
-            requests.post(
-                f"{self.base_url}/oauth/token",
-                data={
-                    "grant_type": "client_credentials",  # OAuth 2.0 flow to use
-                    "client_id": check_env.check("AUTH0_CLIENT_ID", client_id),
-                    "client_secret": check_env.check("AUTH0_CLIENT_SECRET", client_secret),
-                    "audience": f"{self.base_url}/api/v2/",
-                },
-            )
-            .json()
-            .get("access_token")
-        )
-        self.headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
+        self.client_id = check_env.check("AUTH0_CLIENT_ID", client_id)
+        self.client_secret = check_env.check("AUTH0_CLIENT_SECRET", client_secret)
+        access_token = self._get_access_token()
+        self.auth = BearerAuth(access_token)
+        self.headers = {"Content-Type": "application/json"}
+
+    def _get_access_token(self) -> str:
+        url = f"{self.base_url}/oauth/token"
+        payload = {
+            "grant_type": "client_credentials",  # OAuth 2.0 flow to use
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "audience": f"{self.base_url}/api/v2/",
         }
+        res = requests.post(url, data=payload)
+        return res.json().get("access_token")
 
     def delete_user(self, id):
         """
@@ -60,9 +60,8 @@ class Auth0:
             int
 
         """
-        return requests.delete(
-            f"{self.base_url}/api/v2/users/{id}", headers=self.headers
-        ).status_code
+        url = f"{self.base_url}/api/v2/users/{id}"
+        return requests.delete(url, headers=self.headers, auth=self.auth).status_code
 
     def get_users_by_email(self, email):
         """
@@ -77,7 +76,7 @@ class Auth0:
 
         """
         url = f"{self.base_url}/api/v2/users-by-email"
-        val = requests.get(url, headers=self.headers, params={"email": email})
+        val = requests.get(url, headers=self.headers, auth=self.auth, params={"email": email})
         if val.status_code == 429:
             raise requests.exceptions.ConnectionError(val.json()["message"])
         return Table(val.json())
@@ -133,13 +132,11 @@ class Auth0:
         existing = self.get_users_by_email(email.lower())
         if existing.num_rows > 0:
             a0id = existing[0]["user_id"]
-            ret = requests.patch(
-                f"{self.base_url}/api/v2/users/{a0id}",
-                headers=self.headers,
-                data=payload,
-            )
+            url = f"{self.base_url}/api/v2/users/{a0id}"
+            ret = requests.patch(url, headers=self.headers, auth=self.auth, data=payload)
         else:
-            ret = requests.post(f"{self.base_url}/api/v2/users", headers=self.headers, data=payload)
+            url = f"{self.base_url}/api/v2/users"
+            ret = requests.post(url, headers=self.headers, auth=self.auth, data=payload)
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret
@@ -158,12 +155,9 @@ class Auth0:
             Requests Response object
 
         """
+        url = f"{self.base_url}/api/v2/users/{user_id}"
         payload = json.dumps({"connection": connection, "blocked": True})
-        ret = requests.patch(
-            f"{self.base_url}/api/v2/users/{user_id}",
-            headers=self.headers,
-            data=payload,
-        )
+        ret = requests.patch(url, headers=self.headers, auth=self.auth, data=payload)
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret
@@ -182,26 +176,19 @@ class Auth0:
         """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
-
-        headers = self.headers
-
         fields = [
             {"name": n} for n in ["user_id", "username", "email", "user_metadata", "app_metadata"]
         ]
+        payload = {"connection_id": connection_id, "format": "json", "fields": fields}
         # Start the users-export job
-        response = requests.post(
-            url,
-            headers=headers,
-            json={"connection_id": connection_id, "format": "json", "fields": fields},
-        )
+        response = requests.post(url, headers=self.headers, auth=self.auth, json=payload)
         job_id = response.json().get("id")
 
         if job_id:
             # Check job status until complete
             while True:
-                status_response = requests.get(
-                    f"{self.base_url}/api/v2/jobs/{job_id}", headers=headers
-                )
+                url = f"{self.base_url}/api/v2/jobs/{job_id}"
+                status_response = requests.get(url, headers=self.headers, auth=self.auth)
                 status_data = status_response.json()
                 if status_response.status_code == 429:
                     time.sleep(10)
@@ -241,8 +228,7 @@ class Auth0:
 
         """
         url = f"{self.base_url}/api/v2/connections"
-
-        response = requests.get(url, headers=self.headers)
+        response = requests.get(url, headers=self.headers, auth=self.auth)
         connections = response.json()
 
         for connection in connections:

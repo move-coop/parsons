@@ -6,6 +6,7 @@ from requests.auth import HTTPBasicAuth
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 
 class Shopify:
@@ -52,13 +53,12 @@ class Shopify:
         if self.access_token is None and (self.password is None or self.api_key is None):
             raise KeyError("Must set either access_token or both api_key and password.")
         if self.access_token is not None:
-            self.client = APIConnector(
-                self.base_url, headers={"X-Shopify-Access-Token": access_token}
+            auth = BearerAuth(
+                self.access_token, token_name=None, header_name="X-Shopify-Access-Token"
             )
         else:
-            self.client = APIConnector(
-                self.base_url, auth=HTTPBasicAuth(self.api_key, self.password)
-            )
+            auth = HTTPBasicAuth(self.api_key, self.password)
+        self.client = APIConnector(self.base_url, auth=auth)
 
     def get_count(self, query_date=None, since_id=None, table_name=None):
         """

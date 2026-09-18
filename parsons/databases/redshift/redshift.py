@@ -1272,8 +1272,8 @@ class Redshift(
 
         Must double or single quote (within the string) any schema names containing non-identifier characters. If the schema name starts with a ``$`` (e.g. ``$user``), it will be automatically single quoted.
         Args:
-            schema (list[str]): List of schema to set.
-            permanent (bool, optional): True if the change should persist beyond the given session. Defaults to True.
+            schema: List of schema to set.
+            permanent: True if the change should persist beyond the given session. Defaults to True.
         """
         # schema $user included in search path must be single-quoted when set
         schema = [f"'{s}'" if s.startswith("$") else s for s in schema]

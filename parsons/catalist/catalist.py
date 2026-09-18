@@ -4,6 +4,7 @@ Install dependencies with `pip install parsons[catalist]`
 """
 
 import base64
+import csv
 import logging
 import tempfile
 import time
@@ -393,7 +394,9 @@ class CatalistMatch:
 
         filepath = next(Path(temp_dir).iterdir())
 
-        result = Table.from_csv(str(filepath), delimiter="\t")
+        # Avoid stray quote chars in source data causing csv.reader to treat
+        # them as an unclosed quoted field spanning the rest of the file.
+        result = Table.from_csv(str(filepath), delimiter="\t", quoting=csv.QUOTE_NONE)
         return result
 
     def validate_table(self, table: Table, template_id: str = "48827") -> None:

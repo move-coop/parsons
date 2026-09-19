@@ -142,8 +142,8 @@ SQL Helpers
 SSH Utilities
 =============
 
-Required Extra
---------------
+Required Extra -- SSH
+---------------------
 
 To use the ssh utilities, you will need to install parsons with the ssh extra.
 To do this, you will need to install it with ``pip install parsons[ssh]`` or ``pip install parsons[all]``.
@@ -162,8 +162,8 @@ ZIP Archive
 dbt Utilities
 =============
 
-Required Extra
---------------
+Required Extra -- DBT
+---------------------
 
 To use the dbt utilities, you will need to install parsons with the applicable dbt extra.
 To do this, you will need to install it with ``pip install parsons[dbt-duckdb]``,

@@ -1,0 +1,155 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/pages?_limit=20&_offset=0&_since=0&include_action_counts=False
+  response:
+    body:
+      string: "{\"data\":[{\"id\":774,\"type\":\"ActionPage::Donate\",\"url_slug\":\"anudda-test\",\"name\":\"Donation
+        Test Page\",\"website_id\":73,\"is_published\":true,\"full_url\":\"https://demo.solidarity.tech/anudda-test\",\"scope_id\":296,\"scope_type\":\"Chapter\",\"supported_languages\":[\"en\"],\"follow_up\":{\"type\":\"default\"},\"confirmations\":{},\"admin_notifications\":{},\"requires_user\":false,\"always_hide_primary_nav\":false,\"always_hide_footer\":false,\"allow_multiple_responses\":true,\"form\":[{\"name\":\"multipage-subform\",\"show\":\"always_required\",\"type\":\"multipage_subform\",\"class\":\"\",\"style\":\"\",\"components\":[{\"type\":\"page\",\"class\":\"\",\"label\":{\"en\":\"Amount
+        {% if donation_amount == 'other' %} (${{ donation_amount_other}}) {% elsif
+        donation_amount == null or donation_amount == '' %} {% else %}(${{ donation_amount}})
+        {% endif %}\"},\"style\":\"\",\"components\":[{\"name\":\"donation_amount\",\"type\":\"donation_amount\",\"class\":\"\",\"label\":{\"en\":\"Choose
+        an amount\"},\"style\":\"\",\"amounts\":[\"5\",\"10\",\"20\",\"27\",\"50\",\"100\",\"200\"],\"default\":null,\"options\":[],\"currency\":\"USD\",\"disabled\":null,\"label_style\":\"font-size:
+        20px; margin-bottom: 15px; color: black;\",\"custom_amount\":\"on\",\"realtime_liquid_rendering\":false},{\"name\":\"donation_recurring\",\"type\":\"donation_recurring\",\"class\":\"\",\"label\":{\"en\":\"Make
+        it monthly!\"},\"style\":\"\",\"default\":\"recurring_off\",\"options\":[],\"disabled\":null,\"label_style\":\"font-size:
+        20px; margin-bottom: 15px; color: black;\",\"realtime_liquid_rendering\":false}],\"label_style\":\"\",\"realtime_liquid_rendering\":true},{\"type\":\"page\",\"class\":\"\",\"label\":{\"en\":\"Details\"},\"style\":\"\",\"components\":[{\"hint\":{\"en\":\"\"},\"name\":\"email\",\"show\":\"always_required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Email\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"your.address@gmail.com\"},\"input_template\":\"email\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"},{\"hint\":{\"en\":\"\"},\"name\":\"full_name\",\"show\":\"always_required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Full
+        Name\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"\"},\"input_template\":\"full_name\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"split_first_and_last_name\":false,\"desktop_label_column_width\":\"12\"},{\"hint\":{\"en\":\"\"},\"name\":\"phone_number\",\"show\":\"required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Phone
+        Number\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"\"},\"input_template\":\"phone_number\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"}],\"label_style\":\"\",\"realtime_liquid_rendering\":false},{\"type\":\"page\",\"class\":\"\",\"label\":{\"en\":\"Payment\"},\"style\":\"\",\"components\":[{\"hint\":{\"en\":\"\"},\"name\":\"zip_code\",\"show\":\"always_required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Zip
+        Code\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"Ex.
+        90210\"},\"input_template\":\"zip_code\",\"limit_by_state\":\"\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"},{\"name\":\"payment_card\",\"type\":\"payment_card\",\"class\":\"\",\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"realtime_liquid_rendering\":false}],\"label_style\":\"\",\"realtime_liquid_rendering\":false}],\"label_style\":\"\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"house_form_submit_button\":\"on\",\"realtime_liquid_rendering\":false}],\"description\":\"\\u003cp\\u003eWhaa!\\u003c/p\\u003e\",\"campaign_tags\":[],\"created_at\":\"2023-08-20T22:58:05.658Z\",\"action_count\":5,\"action_goal\":10},{\"id\":5279,\"type\":\"ActionPage::Event\",\"url_slug\":\"br-test-event\",\"name\":\"BR
+        Test Event\",\"website_id\":153,\"is_published\":true,\"full_url\":\"https://your-name-for-congress.solidarity.tech/br-test-event\",\"scope_id\":80,\"scope_type\":\"Organization\",\"supported_languages\":[\"en\"],\"follow_up\":{\"type\":\"default\"},\"confirmations\":{\"text\":{\"content\":{\"en\":\"you're
+        RSVP!\"},\"enabled\":true,\"attachments\":null,\"delay_number\":0,\"delay_interval\":\"minutes\",\"who_receives_message\":\"all\",\"send_within_texting_hours\":false}},\"admin_notifications\":{},\"requires_user\":false,\"always_hide_primary_nav\":false,\"always_hide_footer\":false,\"allow_multiple_responses\":true,\"form\":[{\"name\":\"phone_number\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Phone
+        Number\",\"es\":\"N\xFAmero de tel\xE9fono\"},\"input_template\":\"phone_number\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via text?\",\"es\":\"\xBFPodemos
+        contactarle sobre esta campa\xF1a y nuestros otros esfuerzos v\xEDa texto?\"},\"requires_opt_in\":false,\"phone_number_origin\":\"home_country\",\"validates_if_textable\":true,\"desktop_label_column_width\":12},{\"name\":\"email\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Email\",\"es\":\"Correo
+        electr\xF3nico\"},\"placeholder\":{\"en\":\"your.address@gmail.com\"},\"input_template\":\"email\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via email?\",\"es\":\"\xBFPodemos
+        contactarle sobre esta campa\xF1a y nuestros otros esfuerzos v\xEDa correo
+        electr\xF3nico?\"},\"requires_opt_in\":false,\"desktop_label_column_width\":12},{\"name\":\"zip_code\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Zip
+        Code\"},\"placeholder\":{\"en\":\"Ex. 90210\"},\"inputTemplate\":\"zip_code\",\"desktop_label_column_width\":12}],\"description\":\"\\u003cp\\u003eCome
+        to our event!\\u003c/p\\u003e\",\"campaign_tags\":[],\"created_at\":\"2025-12-09T18:57:52.961Z\",\"action_count\":0,\"action_goal\":10},{\"id\":5290,\"type\":\"ActionPage::Event\",\"url_slug\":\"pod-meeting-test\",\"name\":\"Pod
+        Meeting Test\",\"website_id\":153,\"is_published\":true,\"full_url\":\"https://your-name-for-congress.solidarity.tech/pod-meeting-test\",\"scope_id\":346,\"scope_type\":\"Organization\",\"supported_languages\":[\"en\"],\"follow_up\":{\"type\":\"default\"},\"confirmations\":{},\"admin_notifications\":{},\"requires_user\":false,\"always_hide_primary_nav\":false,\"always_hide_footer\":false,\"allow_multiple_responses\":true,\"form\":[{\"name\":\"phone_number\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Phone
+        Number\",\"es\":\"N\xFAmero de tel\xE9fono\"},\"input_template\":\"phone_number\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via text?\",\"es\":\"\xBFPodemos
+        contactarle sobre esta campa\xF1a y nuestros otros esfuerzos v\xEDa texto?\"},\"requires_opt_in\":false,\"phone_number_origin\":\"home_country\",\"validates_if_textable\":true,\"desktop_label_column_width\":12},{\"name\":\"email\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Email\",\"es\":\"Correo
+        electr\xF3nico\"},\"placeholder\":{\"en\":\"your.address@gmail.com\"},\"input_template\":\"email\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via email?\",\"es\":\"\xBFPodemos
+        contactarle sobre esta campa\xF1a y nuestros otros esfuerzos v\xEDa correo
+        electr\xF3nico?\"},\"requires_opt_in\":false,\"desktop_label_column_width\":12},{\"name\":\"zip_code\",\"show\":\"required\",\"type\":\"input\",\"label\":{\"en\":\"Zip
+        Code\"},\"placeholder\":{\"en\":\"Ex. 90210\"},\"inputTemplate\":\"zip_code\",\"desktop_label_column_width\":12}],\"description\":\"\\u003cp\\u003eCome
+        to my event!\\u003c/p\\u003e\",\"campaign_tags\":[],\"created_at\":\"2025-12-09T21:09:22.520Z\",\"action_count\":0,\"action_goal\":10},{\"id\":5315,\"type\":\"ActionPage::GenericForm\",\"url_slug\":\"sign-up-for-form\",\"name\":\"sign
+        up for form\",\"website_id\":73,\"is_published\":true,\"full_url\":\"https://demo.solidarity.tech/sign-up-for-form\",\"scope_id\":346,\"scope_type\":\"Organization\",\"supported_languages\":[\"en\"],\"follow_up\":{\"type\":\"default\"},\"confirmations\":{},\"admin_notifications\":{},\"requires_user\":false,\"always_hide_primary_nav\":false,\"always_hide_footer\":false,\"allow_multiple_responses\":true,\"form\":[{\"hint\":{\"en\":\"\"},\"name\":\"full_name\",\"show\":\"required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Full
+        Name\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"\"},\"input_template\":\"full_name\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"split_first_and_last_name\":false,\"desktop_label_column_width\":\"12\"},{\"hint\":{\"en\":\"\"},\"name\":\"email\",\"show\":\"required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Email\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"your.address@gmail.com\"},\"input_template\":\"email\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via email?\"},\"requires_opt_in\":false,\"validation_error\":\"\",\"validation_pattern\":\"\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"},{\"hint\":{\"en\":\"\"},\"name\":\"phone_number\",\"show\":\"required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Phone
+        Number\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"input_template\":\"phone_number\",\"opt_in_language\":{\"en\":\"May
+        we follow up with you regarding this campaign and our other efforts via text?\"},\"requires_opt_in\":true,\"phone_number_origin\":\"home_country\",\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"validates_if_textable\":true,\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\",\"defaults_to_visitors_ip_country\":false},{\"hint\":{\"en\":\"\"},\"name\":\"zip_code\",\"show\":\"required\",\"type\":\"input\",\"class\":\"\",\"label\":{\"en\":\"Zip
+        Code\"},\"style\":\"\",\"default\":null,\"options\":[],\"disabled\":null,\"label_style\":\"\",\"placeholder\":{\"en\":\"Ex.
+        90210\"},\"input_template\":\"zip_code\",\"limit_by_state\":\"\",\"validates_if_legit\":false,\"show_when_comparator\":\"\",\"show_when_field_name\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"},{\"hint\":{\"en\":\"\"},\"name\":\"example-rsvp\",\"show\":\"visible_if_blank\",\"type\":\"checkboxes\",\"class\":\"\",\"label\":{\"en\":\"Sign
+        up for an event (or two)!\"},\"style\":\"\",\"default\":false,\"options\":[{\"label\":{\"en\":\"Event
+        #1\"},\"value\":\"option-1\",\"default\":false,\"disabled\":false},{\"label\":{\"en\":\"Event
+        #2\"},\"value\":\"dq3ljmsmh\",\"default\":false,\"disabled\":false},{\"label\":{\"en\":\"Event
+        #3\"},\"value\":\"dyap7258a\",\"default\":false,\"disabled\":false}],\"disabled\":null,\"searchable\":false,\"label_style\":\"\",\"min_checked\":\"0\",\"truncate_after\":\"\",\"show_when_field_value\":\"\",\"realtime_liquid_rendering\":false,\"desktop_label_column_width\":\"12\"}],\"description\":null,\"campaign_tags\":[],\"created_at\":\"2025-12-09T23:10:42.989Z\",\"action_count\":3,\"action_goal\":10}],\"meta\":{\"total_count\":4,\"limit\":20,\"offset\":0}}"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 13 Sep 2026 18:33:53 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=f11c8c50-c841-4b0f-8f03-42879c318316; path=/; expires=Wed, 13
+        Sep 2028 18:33:53 GMT; samesite=lax; secure
+      - ahoy_visit=408bec87-9ace-4c4f-b6aa-552386946504; path=/; expires=Sun, 13 Sep
+        2026 22:33:53 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 3b7f688f0090092ffabe953f98fbce60.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - 17M5B9TE2cZQ53nhTU5-qPLVx_zU-n4bplbB7u4VTYuAGB8LZQpNPA==
+      X-Amz-Cf-Pop:
+      - BOS50-P6
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 302a8b15-b7e8-4f83-989a-a1441f57935c
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

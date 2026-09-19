@@ -3,6 +3,7 @@ import logging
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 from parsons.utilities.datetime import convert_unix_to_readable
 
 logger = logging.getLogger(__name__)
@@ -34,16 +35,18 @@ class Empower:
         self.empower_uri = (
             check_env.check("EMPOWER_URI", empower_uri, optional=True) or EMPOWER_API_ENDPOINT
         )
-        self.headers = {"accept": "application/json", "secret-token": self.api_key}
+        headers = {"accept": "application/json"}
+        auth = BearerAuth(self.api_key, header_name="secret-token", token_name=None)
         self.client = APIConnector(
             self.empower_uri,
-            headers=self.headers,
+            headers=headers,
+            auth=auth,
         )
         self.data = None
         self.data = self._get_data(cache)
 
     def _get_data(self, cache):
-        """Gets fresh data from Empower API based on cache setting."""
+        """Get fresh data from Empower API based on cache setting."""
         if not cache or self.data is None:
             r = self.client.get_request(url=self.empower_uri)
             logger.info("Empower data downloaded.")

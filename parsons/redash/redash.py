@@ -6,6 +6,7 @@ import requests
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +54,7 @@ class Redash:
         self.verify = verify  # for https requests
         self.session = requests.Session()
         if user_api_key:
-            self.session.headers.update({"Authorization": f"Key {user_api_key}"})
+            self.session.auth = BearerAuth(user_api_key, token_name="Key")
 
     def _catch_runtime_error(self, res):
         if res.status_code != 200:

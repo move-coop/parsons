@@ -12,6 +12,7 @@ from github.GithubException import UnknownObjectException
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env, files
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -84,11 +85,11 @@ class GitHub:
         self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)
 
         if self.username and self.password:
-            self.client = PyGithub(
-                auth=PyGithubAuth.Login(login=self.username, password=self.password)
-            )
+            auth = PyGithubAuth.Login(login=self.username, password=self.password)
+            self.client = PyGithub(auth=auth)
         elif self.access_token:
-            self.client = PyGithub(auth=PyGithubAuth.Token(token=self.access_token))
+            auth = PyGithubAuth.Token(token=self.access_token)
+            self.client = PyGithub(auth=auth)
         else:
             self.client = PyGithub()
 
@@ -412,15 +413,10 @@ class GitHub:
 
         logger.info(f"Downloading {path} from {repo_name}, branch {branch} to {local_path}")
 
-        headers = None
-        if self.access_token:
-            headers = {
-                "Authorization": f"token {self.access_token}",
-            }
+        auth = BearerAuth(self.access_token, token_name="token") if self.access_token else None
 
         res = requests.get(
-            f"https://raw.githubusercontent.com/{repo_name}/{branch}/{path}",
-            headers=headers,
+            f"https://raw.githubusercontent.com/{repo_name}/{branch}/{path}", auth=auth
         )
 
         if res.status_code == 404:

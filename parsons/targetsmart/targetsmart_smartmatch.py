@@ -103,7 +103,7 @@ class SmartMatch:
             poll_response = requests.get(
                 poll_url,
                 {"filename": submit_filename},
-                headers=self.connection.headers,
+                auth=self.connection.auth,
             )
 
             if poll_response.ok:
@@ -233,7 +233,7 @@ class SmartMatch:
                 "max_matches": max_matches,
                 "format": "gzip",
             },
-            headers=self.connection.headers,
+            auth=self.connection.auth,
         )
         response_1.raise_for_status()
         response_1_info = response_1.json()

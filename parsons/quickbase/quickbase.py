@@ -3,6 +3,7 @@ import logging
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -30,10 +31,8 @@ class Quickbase:
         self.api_hostname = "https://api.quickbase.com/v1"
         self.client = APIConnector(
             self.api_hostname,
-            headers={
-                "QB-Realm-Hostname": self.hostname,
-                "AUTHORIZATION": f"QB-USER-TOKEN {self.user_token}",
-            },
+            headers={"QB-Realm-Hostname": self.hostname},
+            auth=BearerAuth(self.user_token, token_name="QB-USER-TOKEN"),
         )
 
     def get_app_tables(self, app_id=None):

@@ -16,9 +16,9 @@ from parsons.utilities.api_connector import (
 
 class OAuth2APIConnector(APIConnector):
     """
-    Low level class for authenticated API requests using OAuth2 that other connectors can utilize.
+    Low level class for authenticated API requests using OAuth2.
 
-    It extends APIConnector by wrapping the request methods in a server-side OAuth2 client.
+    APIConnector's request method is wrapped in a server-side OAuth2 client.
     Otherwise, it provides the same interface as APIConnector.
 
     """
@@ -33,7 +33,10 @@ class OAuth2APIConnector(APIConnector):
         headers: _HeadersType | None = None,
         pagination_key: str | None = None,
         data_key: str | None = None,
-        grant_type: str = "client_credentials",
+        grant_type: Literal[
+            "client_credentials", "authorization_code ", "refresh_token", "device_code", "password"
+        ]
+        | str = "client_credentials",
         authorization_kwargs: dict[str, Any] | None = None,
         **kwargs,
     ) -> None:
@@ -55,6 +58,13 @@ class OAuth2APIConnector(APIConnector):
             data_key:
                 The name of the key in the response json where the data is contained.
                 Required if the data is nested in the response json
+            grant_type:
+                The grant type to use for acquiring tokens.
+            authorization_kwargs:
+                Additional keyword arguments to pass to :meth:`OAuth2Session.fetch_token`.
+            `**kwargs`:
+                Additional keyword arguments to pass to :class:`APIConnector` during initialization,
+                such as `ratelimit` or `session`.
 
         """
         super().__init__(
@@ -97,7 +107,7 @@ class OAuth2APIConnector(APIConnector):
         **kwargs,
     ) -> Response:
         """
-        Base request using requests libary.
+        Make a request using the requests library.
 
         Args:
             url: str
@@ -120,7 +130,7 @@ class OAuth2APIConnector(APIConnector):
                 however in some cases, if you are looping through data,
                 you might want to ignore individual failures.
             `**kwargs`:
-                Additional keyword arguments to pass to :func:`requests.request`.
+                Additional keyword arguments to pass to :meth:`OAuth2Session.request`.
 
         """
         full_url = urllib.parse.urljoin(self.uri, url)

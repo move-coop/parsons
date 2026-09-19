@@ -19,6 +19,12 @@ The class provides methods to:
    The :class:`~parsons.sftp.sftp.SFTP` class supports both
    methods via ``password`` and ``rsa_private_key_file`` arguments.
 
+Required Extra
+==============
+
+To use the SFTP connector, you will need to install parsons with the sftp extra.
+To do this, you will need to install it with ``pip install parsons[sftp]`` or ``pip install parsons[all]``.
+
 Quickstart
 ==========
 

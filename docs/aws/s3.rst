@@ -17,6 +17,12 @@ It provides methods to upload and download files from S3 as well as manipulate b
    Users can be granted granular access to AWS resources, including S3.
    IAM users are provisioned keys, which are required to access the S3 class.
 
+Required Extra
+==============
+
+To use the S3 connector, you will need to install parsons with the s3 extra.
+To do this, you will need to install it with ``pip install parsons[s3]`` or ``pip install parsons[all]``.
+
 Quickstart
 ==========
 

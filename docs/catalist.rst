@@ -16,6 +16,12 @@ files to the M Tool and receive back a matched version of that table.
    You will also need to have Catalist whitelist
    the IP address you are using to access the M Tool.
 
+Required Extra
+==============
+
+To use the Catalist connector, you will need to install parsons with the catalist extra.
+To do this, you will need to install it with ``pip install parsons[catalist]`` or ``pip install parsons[all]``.
+
 Quickstart
 ==========
 

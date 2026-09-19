@@ -14,6 +14,12 @@ this is likely the best way to send emails with Parsons.
    Credentials are required to use the class.
    You'll need to provide a valid username and password for the SMTP server you are using.
 
+Required Extra
+==============
+
+To use the SMTP connector, you will need to install parsons with the smtp extra.
+To do this, you will need to install it with ``pip install parsons[smtp]`` or ``pip install parsons[all]``.
+
 Quickstart
 ==========
 

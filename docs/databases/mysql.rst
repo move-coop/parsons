@@ -5,6 +5,12 @@ MySQL
 MySQL is the world's most popular open source database.
 The Parsons class leverages on the `MySQLdb1 <https://github.com/farcepest/MySQLdb1>`__ python package.
 
+Required Extra
+==============
+
+To use the MySQL connector, you will need to install parsons with the mysql extra.
+To do this, you will need to install it with ``pip install parsons[mysql]`` or ``pip install parsons[all]``.
+
 Quickstart
 ==========
 

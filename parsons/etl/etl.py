@@ -1032,9 +1032,9 @@ class ETL:
             +--------------+--------------+----------------------------------------------------+
             | 'db_scratch' | 'state_fips' | '('                                                |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\tstate VARCHAR(1024)   ENCODE RAW'               |
+            | 'db_scratch' | 'state_fips' | '\\tstate VARCHAR(1024)   ENCODE RAW'              |
             +--------------+--------------+----------------------------------------------------+
-            | 'db_scratch' | 'state_fips' | '\t,stusab VARCHAR(1024)   ENCODE RAW'             |
+            | 'db_scratch' | 'state_fips' | '\\t,stusab VARCHAR(1024)   ENCODE RAW'            |
             +--------------+--------------+----------------------------------------------------+
 
         .. code-block:: python
@@ -1043,6 +1043,7 @@ class ETL:
                 f"{cols[0]}.{cols[1]}",
                 r"\n".join([row[2] for row in rows])
             ]
+
             ddl.reduce_rows(
                 ['schemaname', 'tablename'],
                 reducer_fn,
@@ -1052,16 +1053,16 @@ class ETL:
 
         .. table:: ddl.table
 
-            +-------------------------+--------------------------------------------------------------------+
-            | tablename               | ddl                                                                |
-            +=========================+====================================================================+
-            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\nCREATE TABLE IF NOT EXISTS   |
-            |                         | db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW\n\t   |
-            |                         | ,db_scratch.state_fips\n(\n\tstate VARCHAR(1024)   ENCODE RAW      |
-            |                         | \n\t,stusab VARCHAR(1024)   ENCODE RAW\n\t,state_name              |
-            |                         | VARCHAR(1024)   ENCODE RAW\n\t,statens VARCHAR(1024)   ENCODE      |
-            |                         | RAW\n)\nDISTSTYLE EVEN\n;'                                         |
-            +-------------------------+--------------------------------------------------------------------+
+            +-------------------------+-------------------------------------------------------------------------+
+            | tablename               | ddl                                                                     |
+            +=========================+=========================================================================+
+            | 'db_scratch.state_fips' | '--DROP TABLE db_scratch.state_fips;\\nCREATE TABLE IF NOT EXISTS       |
+            |                         | db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW\\n\\t   |
+            |                         | ,db_scratch.state_fips\\n(\\n\\tstate VARCHAR(1024)   ENCODE RAW        |
+            |                         | \\n\\t,stusab VARCHAR(1024)   ENCODE RAW\\n\\t,state_name               |
+            |                         | VARCHAR(1024)   ENCODE RAW\\n\\t,statens VARCHAR(1024)   ENCODE         |
+            |                         | RAW\\n)\\nDISTSTYLE EVEN\\n;'                                           |
+            +-------------------------+-------------------------------------------------------------------------+
 
         Args:
             columns: The column(s) by which to group the rows.
@@ -1076,10 +1077,6 @@ class ETL:
                 list returned by the reduce function.
             presorted: If false, the row will be sorted.
             `**kwargs`: Extra options to pass to :func:`petl.rowreduce`
-
-        Returns:
-            Table
-                Also updates self
 
         """
         self.table = petl.rowreduce(

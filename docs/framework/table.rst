@@ -112,10 +112,7 @@ Create Parsons :ref:`Table` object using the following methods.
       - File like object, local path, url, ftp.
       - Load a CSV string into a Table
 
-.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``.
-.. [2] Requires optional installation of FastAvro package by running ``pip install parsons[avro]``.
-
-You can also use the :ref:`Table` constructor to create a :ref:`Table` from a python list or petl :class:`~petl.util.base.Table`.
+You can also use the :ref:`Table` constructor to create a :ref:`Table` from a :class:`list` or :class:`petl.util.base.Table`.
 
 .. code-block:: python
    :caption: From a list of dicts
@@ -131,6 +128,9 @@ You can also use the :ref:`Table` constructor to create a :ref:`Table` from a py
    :caption: From a petl table
 
    tbl = Table(petl_tbl)
+
+.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``.
+.. [2] Requires optional installation of FastAvro package by running ``pip install parsons[avro]``.
 
 Parsons Table Attributes
 ------------------------

@@ -25,11 +25,10 @@ To skip this feature, set force_update to true on any of the fetch methods.
 
    All endpoints for Scytl are public, and do not need authentication.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the Scytl connector, you will need to install parsons with the scytl extra.
-To do this, you will need to install it with ``pip install parsons[scytl]`` or ``pip install parsons[all]``.
+   To use the Scytl connector, you will need to install parsons with the scytl extra.
+   To do this, you will need to install it with ``pip install parsons[scytl]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

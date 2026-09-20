@@ -14,11 +14,10 @@ If you are the administrator of your Google Cloud account, you can do both of th
 `Google Cloud Console APIs and Services - Dashboard <https://console.cloud.google.com/apis/dashboard>`__.
 The connectors below have more specific information about how to authenticate.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the Google connectors, you will need to install parsons with the google extra.
-To do this, you will need to install it with ``pip install parsons[google]`` or ``pip install parsons[all]``.
+   To use the Google connectors, you will need to install parsons with the google extra.
+   To do this, you will need to install it with ``pip install parsons[google]`` or ``pip install parsons[all]``.
 
 .. toctree::
    :name: notifications

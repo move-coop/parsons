@@ -30,11 +30,10 @@ Facebook's advertising and Pages systems are massive. Check out the overviews fo
      You can generate an access token from your app, either via the Facebook API itself,
      or via console at `<https://developers.facebook.com>`__.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the FacebookAds connector, you will need to install parsons with the facebook extra.
-To do this, you will need to install it with ``pip install parsons[facebook]`` or ``pip install parsons[all]``.
+   To use the FacebookAds connector, you will need to install parsons with the facebook extra.
+   To do this, you will need to install it with ``pip install parsons[facebook]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

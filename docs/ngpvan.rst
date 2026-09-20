@@ -27,11 +27,10 @@ additional details and information.
    VAN/EveryAction is not responsible for support of Parsons. Their support team cannot answer questions
    about Parsons. Please direct any questions to the Parsons team via the issue tracker or Slack.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the VAN connector, you will need to install parsons with the ngpvan extra.
-To do this, you will need to install it with ``pip install parsons[ngpvan]`` or ``pip install parsons[all]``.
+   To use the VAN connector, you will need to install parsons with the ngpvan extra.
+   To do this, you will need to install it with ``pip install parsons[ngpvan]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

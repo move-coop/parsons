@@ -9,11 +9,10 @@ Overview
 mobilize supporters and fundraise by building opt-ed in audiences. You can read more about the product
 `here <https://uplandsoftware.com/mobile-messaging/>`__.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the MobileCommons connector, you will need to install parsons with the mobilecommons extra.
-To do this, you will need to install it with ``pip install parsons[mobilecommons]`` or ``pip install parsons[all]``.
+   To use the MobileCommons connector, you will need to install parsons with the mobilecommons extra.
+   To do this, you will need to install it with ``pip install parsons[mobilecommons]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

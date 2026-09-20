@@ -55,11 +55,10 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
    the TargetSmart Client Services team. Please contact `TargetSmart Client
    Services <mailto:support@targetsmart.com>`__ to learn more or request adjustments.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the TargetSmartAPI connector, you will need to install parsons with the targetsmart extra.
-To do this, you will need to install it with ``pip install parsons[targetsmart]`` or ``pip install parsons[all]``.
+   To use the TargetSmartAPI connector, you will need to install parsons with the targetsmart extra.
+   To do this, you will need to install it with ``pip install parsons[targetsmart]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

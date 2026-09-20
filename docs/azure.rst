@@ -17,12 +17,10 @@ arbitrary files referred to as 'blobs'. This Parsons integration currently only 
    `multiple types of credentials <https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/storage/azure-storage-blob#types-of-credentials>`__
    are included in the documentation.
 
+.. admonition:: Required Extra
 
-Required Extra
-==============
-
-To use the Azure connector, you will need to install parsons with the azure extra.
-To do this, you will need to install it with ``pip install parsons[azure]`` or ``pip install parsons[all]``.
+   To use the Azure connector, you will need to install parsons with the azure extra.
+   To do this, you will need to install it with ``pip install parsons[azure]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

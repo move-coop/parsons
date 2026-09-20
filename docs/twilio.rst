@@ -16,11 +16,10 @@ account usage data.
    `Admin Console <https://www.twilio.com/login?g=%2Fconsole%3F&t=2b1c98334b25c1a785ef15b6556396290e3c704a9b57fc40687cbccd79c46a8c>`__.
    For more information about authentication, see the `Twilio API documentation <https://www.twilio.com/docs/iam/credentials/api>`__.
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the Twilio connector, you will need to install parsons with the twilio extra.
-To do this, you will need to install it with ``pip install parsons[twilio]`` or ``pip install parsons[all]``.
+   To use the Twilio connector, you will need to install parsons with the twilio extra.
+   To do this, you will need to install it with ``pip install parsons[twilio]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

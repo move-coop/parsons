@@ -17,11 +17,10 @@ in your `Airtable token settings <https://www.airtable.com/create/tokens>`__.
    * The url of the resulting page will contain the ``base_key``.
    * Example: ``https://www.airtable.com/[BASE_KEY]/api/docs``
 
-Required Extra
-==============
+.. admonition:: Required Extra
 
-To use the Airtable connector, you will need to install parsons with the airtable extra.
-To do this, you will need to install it with ``pip install parsons[airtable]`` or ``pip install parsons[all]``.
+   To use the Airtable connector, you will need to install parsons with the airtable extra.
+   To do this, you will need to install it with ``pip install parsons[airtable]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

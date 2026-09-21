@@ -2,6 +2,11 @@
 GitHub
 ######
 
+.. admonition:: Required Extra
+
+   To use the GitHub connector, you will need to install parsons with the github extra.
+   To do this, you will need to install it with ``pip install parsons[github]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -20,11 +25,6 @@ to make requests to the `GitHub REST API <https://docs.github.com/en/rest>`__. T
 
    - If you have a GitHub account you can use your normal username and password to authenticate with the API.
    - You can also use `a personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`__.
-
-.. admonition:: Required Extra
-
-   To use the GitHub connector, you will need to install parsons with the github extra.
-   To do this, you will need to install it with ``pip install parsons[github]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

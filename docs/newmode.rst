@@ -2,6 +2,11 @@
 New/Mode
 ########
 
+.. admonition:: Required Extra
+
+   To use the Newmode connector, you will need to install parsons with the newmode extra.
+   To do this, you will need to install it with ``pip install parsons[newmode]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -14,11 +19,6 @@ organizations, services, and outreaches. There are also methods for looking up t
 
    To use the class, you need to provide a New/Mode username and password. For more information,
    see `The New/Mode API is Here <https://www.newmode.net/blog/new-modes-api-is-here-4c4b70c6fce6>`__.
-
-.. admonition:: Required Extra
-
-   To use the Newmode connector, you will need to install parsons with the newmode extra.
-   To do this, you will need to install it with ``pip install parsons[newmode]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

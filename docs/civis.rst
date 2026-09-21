@@ -2,6 +2,11 @@
 Civis
 #####
 
+.. admonition:: Required Extra
+
+   To use the Civis connector, you will need to install parsons with the civis extra.
+   To do this, you will need to install it with ``pip install parsons[civis]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -15,11 +20,6 @@ Redshift cluster.
    The :class:`~parsons.civis.civisclient.CivisClient` class requires your Redshift database ID or name,
    and an API Key. To obtain an API Key, log in to Civis and follow the instructions for
    `Creating an API Key <https://support.civisanalytics.com/hc/en-us/articles/216341583-Generating-an-API-Key>`__.
-
-.. admonition:: Required Extra
-
-   To use the Civis connector, you will need to install parsons with the civis extra.
-   To do this, you will need to install it with ``pip install parsons[civis]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

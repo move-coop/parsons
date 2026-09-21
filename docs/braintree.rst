@@ -2,6 +2,11 @@
 Braintree
 #########
 
+.. admonition:: Required Extra
+
+   To use the Braintree connector, you will need to install parsons with the braintree extra.
+   To do this, you will need to install it with ``pip install parsons[braintree]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -27,11 +32,6 @@ methods for fetching disputes and transactions.
 
    For more information, see the
    `Important Gateway Credentials documentation <https://developer.paypal.com/braintree/articles/control-panel/important-gateway-credentials>`__.
-
-.. admonition:: Required Extra
-
-   To use the Braintree connector, you will need to install parsons with the braintree extra.
-   To do this, you will need to install it with ``pip install parsons[braintree]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

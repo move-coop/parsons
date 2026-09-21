@@ -2,6 +2,11 @@
 Redshift
 ########
 
+.. admonition:: Required Extra
+
+   To use the Redshift connector, you will need to install parsons with the redshift extra.
+   To do this, you will need to install it with ``pip install parsons[redshift]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -31,11 +36,6 @@ See :ref:`aws/redshift:Table and View API` and
 .. admonition:: Whitelisting
 
    Remember to ensure that the IP address from which you are connecting has been whitelisted.
-
-.. admonition:: Required Extra
-
-   To use the Redshift connector, you will need to install parsons with the redshift extra.
-   To do this, you will need to install it with ``pip install parsons[redshift]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

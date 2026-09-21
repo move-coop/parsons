@@ -2,6 +2,11 @@
 Salesforce
 ##########
 
+.. admonition:: Required Extra
+
+   To use the Salesforce connector, you will need to install parsons with the salesforce extra.
+   To do this, you will need to install it with ``pip install parsons[salesforce]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -22,11 +27,6 @@ client for making API calls under the hood.
    as well as a security token which can be acquired or reset by
    logging in to your Salesforce account and navigating to
    *Settings > My Personal Information > Reset My Security Token*.
-
-.. admonition:: Required Extra
-
-   To use the Salesforce connector, you will need to install parsons with the salesforce extra.
-   To do this, you will need to install it with ``pip install parsons[salesforce]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

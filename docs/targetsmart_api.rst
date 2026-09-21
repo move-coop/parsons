@@ -2,10 +2,15 @@
 TargetSmart Developer API
 #########################
 
-`TargetSmart <https://targetsmart.com/>`__ provides access to voter and consumer data for the progressive community.
+.. admonition:: Required Extra
+
+   To use the TargetSmartAPI connector, you will need to install parsons with the targetsmart extra.
+   To do this, you will need to install it with ``pip install parsons[targetsmart]`` or ``pip install parsons[all]``.
 
 Overview
 ========
+
+`TargetSmart <https://targetsmart.com/>`__ provides access to voter and consumer data for the progressive community.
 
 The :class:`~parsons.targetsmart.targetsmart_api.TargetSmartAPI`
 class provides methods to consume the data services provided by the
@@ -54,11 +59,6 @@ For more information, see the `API documentation <https://docs.targetsmart.com/d
    a matching or search request. The presence of these fields are provisioned by
    the TargetSmart Client Services team. Please contact `TargetSmart Client
    Services <mailto:support@targetsmart.com>`__ to learn more or request adjustments.
-
-.. admonition:: Required Extra
-
-   To use the TargetSmartAPI connector, you will need to install parsons with the targetsmart extra.
-   To do this, you will need to install it with ``pip install parsons[targetsmart]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

@@ -2,17 +2,17 @@
 MobileCommons
 #############
 
+.. admonition:: Required Extra
+
+   To use the MobileCommons connector, you will need to install parsons with the mobilecommons extra.
+   To do this, you will need to install it with ``pip install parsons[mobilecommons]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
 `MobileCommons <https://secure.mcommons.com/>`__ is a broadcast text messaging tool that helps orgranizations
 mobilize supporters and fundraise by building opt-ed in audiences. You can read more about the product
 `here <https://uplandsoftware.com/mobile-messaging/>`__.
-
-.. admonition:: Required Extra
-
-   To use the MobileCommons connector, you will need to install parsons with the mobilecommons extra.
-   To do this, you will need to install it with ``pip install parsons[mobilecommons]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

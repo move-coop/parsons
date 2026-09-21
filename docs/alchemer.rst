@@ -2,6 +2,11 @@
 Alchemer
 ########
 
+.. admonition:: Required Extra
+
+   To use the Alchemer connector, you will need to install parsons with the alchemer extra.
+   To do this, you will need to install it with ``pip install parsons[alchemer]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -16,11 +21,6 @@ This Parsons class allows users to retrieve surveys and survey results.
 
    To use the class, you need to provide an Alchemer API token and API token secret. For more information,
    see Alchemer API `authentication documentation <https://apihelp.alchemer.com/help/authentication>`__.
-
-.. admonition:: Required Extra
-
-   To use the Alchemer connector, you will need to install parsons with the alchemer extra.
-   To do this, you will need to install it with ``pip install parsons[alchemer]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

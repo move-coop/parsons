@@ -2,6 +2,11 @@
 Box
 ####
 
+.. admonition:: Required Extra
+
+   To use the Box connector, you will need to install parsons with the box extra.
+   To do this, you will need to install it with ``pip install parsons[box]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -20,11 +25,6 @@ and uploading/downloading Parsons tables as either CSV or JSON files.
    If you fail to do so, the token will not have the correct scope.
    Developer access tokens are not recommended for production environments.
    However, Box supports a variety of `authentication methods <https://github.com/box/box-python-sdk/blob/main/docs/authentication.md>`__.
-
-.. admonition:: Required Extra
-
-   To use the Box connector, you will need to install parsons with the box extra.
-   To do this, you will need to install it with ``pip install parsons[box]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

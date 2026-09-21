@@ -2,6 +2,11 @@
 Slack
 #####
 
+.. admonition:: Required Extra
+
+   To use the Slack connector, you will need to install parsons with the slack extra.
+   To do this, you will need to install it with ``pip install parsons[slack]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -24,11 +29,6 @@ information.
      the app each time (your API Token will stay the same).
 
    - Slack has rate limits on all its endpoints.
-
-.. admonition:: Required Extra
-
-   To use the Slack connector, you will need to install parsons with the slack extra.
-   To do this, you will need to install it with ``pip install parsons[slack]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

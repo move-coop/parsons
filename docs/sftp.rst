@@ -2,6 +2,14 @@
 SFTP
 ####
 
+.. admonition:: Required Extra
+
+   To use the SFTP connector, you will need to install parsons with the sftp extra.
+   To do this, you will need to install it with ``pip install parsons[sftp]`` or ``pip install parsons[all]``.
+
+Overview
+========
+
 The :class:`~parsons.sftp.sftp.SFTP` class allows you to interact with
 `SFTP services <https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol>`__, using the
 `Paramiko SFTP library <https://docs.paramiko.org/en/stable/api/sftp.html>`__ under the hood.
@@ -18,11 +26,6 @@ The class provides methods to:
    SFTP may require either password or public key authentication.
    The :class:`~parsons.sftp.sftp.SFTP` class supports both
    methods via ``password`` and ``rsa_private_key_file`` arguments.
-
-.. admonition:: Required Extra
-
-   To use the SFTP connector, you will need to install parsons with the sftp extra.
-   To do this, you will need to install it with ``pip install parsons[sftp]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

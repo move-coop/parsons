@@ -2,6 +2,11 @@
 Scytl
 #####
 
+.. admonition:: Required Extra
+
+   To use the Scytl connector, you will need to install parsons with the scytl extra.
+   To do this, you will need to install it with ``pip install parsons[scytl]`` or ``pip install parsons[all]``.
+
 Overview
 ========
 
@@ -24,11 +29,6 @@ To skip this feature, set force_update to true on any of the fetch methods.
 .. admonition:: Authentication
 
    All endpoints for Scytl are public, and do not need authentication.
-
-.. admonition:: Required Extra
-
-   To use the Scytl connector, you will need to install parsons with the scytl extra.
-   To do this, you will need to install it with ``pip install parsons[scytl]`` or ``pip install parsons[all]``.
 
 Quickstart
 ==========

@@ -1,3 +1,4 @@
+import csv
 import gzip
 import re
 from zipfile import ZipFile
@@ -70,6 +71,30 @@ def test_load_matches_unzip(client, tmp_path):
 
     assert table[0]["DWID"] == "123"
     assert table.columns == ["COL1-first_name", "DWID"]
+
+
+def test_from_csv_unbalanced_quote_with_quote_none(tmp_path):
+    """Verify quoting=csv.QUOTE_NONE prevents an unbalanced quote from
+    swallowing the rest of the file.
+
+    A field like `"BN2` (an unescaped, unclosed quote) makes csv.reader's
+    default Excel dialect treat it as the start of a quoted field spanning
+    the rest of the file, eventually raising `_csv.Error: field larger than
+    field limit`. Matchback files are plain TSVs where quoting has no
+    meaning, so load_matches parses them with quoting=csv.QUOTE_NONE
+    (parsons/catalist/catalist.py).
+    """
+    results_csv = tmp_path / "results.csv"
+    results_csv.write_text('COL1-first_name\tCOL2-zip\tDWID\nJane\t"BN2\t123\nJohn\t90210\t456')
+
+    table = Table.from_csv(str(results_csv), delimiter="\t", quoting=csv.QUOTE_NONE)
+
+    assert table.num_rows == 2
+    assert table[0]["COL2-zip"] == '"BN2'
+    assert table[0]["DWID"] == "123"
+    assert table[1]["COL1-first_name"] == "John"
+    assert table[1]["COL2-zip"] == "90210"
+    assert table[1]["DWID"] == "456"
 
 
 def test_validate_table_logic(client):

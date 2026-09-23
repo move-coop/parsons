@@ -6,6 +6,7 @@ import requests
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ URI_AUTH = "https://crm.bloomerang.co/authorize/"
 
 class Bloomerang:
     """
-    Instantiate Bloomerang class
+    Instantiate Bloomerang class.
 
     Args:
         api_key: str
@@ -45,20 +46,22 @@ class Bloomerang:
         self.uri_auth = URI_AUTH
         self.conn = self._conn()
 
-    def _conn(self):
-        # Instantiate APIConnector with authentication credentials
+    def _conn(self) -> APIConnector:
+        """Instantiate APIConnector with authentication credentials."""
         headers = {"accept": "application/json", "Content-Type": "application/json"}
+        auth = None
         if self.api_key is not None:
             logger.info("Using API key authentication.")
-            headers["X-API-KEY"] = f"{self.api_key}"
+            auth = BearerAuth(self.api_key, header_name="X-API-KEY", token_name=None)
         elif (self.client_id is not None) & (self.client_secret is not None):
             logger.info("Using OAuth2 authentication.")
             self._generate_authorization_code()
             self._generate_access_token()
-            headers["Authorization"] = f"Bearer {self.access_token}"
+            auth = BearerAuth(self.access_token)
         else:
-            raise Exception("Missing authorization credentials.")
-        return APIConnector(uri=self.uri, headers=headers)
+            raise Exception("Missing auth credentials")
+
+        return APIConnector(uri=self.uri, headers=headers, auth=auth)
 
     def _generate_authorization_code(self):
         data = {"client_id": self.client_id, "response_type": "code"}

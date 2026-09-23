@@ -1,8 +1,13 @@
 from typing import Literal
 
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"
 
@@ -30,8 +35,7 @@ class Airmeet:
 
     def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
         """
-        Authenticate with the Airmeet API and update the connection headers
-        with the access token.
+        Initialize the Airmeet connector.
 
         Args:
             airmeet_uri: string
@@ -43,21 +47,32 @@ class Airmeet:
 
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
-        self.client = APIConnector(self.uri)
+        headers = {"Content-Type": "application/json"}
+        self.client = APIConnector(self.uri, headers=headers)
         self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
         self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
-        self.client.headers = {
-            "X-Airmeet-Access-Key": self.airmeet_client_key,
-            "X-Airmeet-Secret-Key": self.airmeet_client_secret,
-        }
-        response = self.client.post_request(url="auth", success_codes=[200])
-        self.token = response["token"]
 
-        # API calls expect the token in the header.
-        self.client.headers = {
-            "Content-Type": "application/json",
-            "X-Airmeet-Access-Token": self.token,
+        self.client.auth = self._get_api_token(airmeet_access_key, airmeet_secret_key)
+
+    @property
+    @deprecated("Use 'Airmeet.client.auth.api_key' instead.")
+    def token(self):
+        return self.client.auth.api_key
+
+    def _get_api_token(
+        self, airmeet_access_key: str | None = None, airmeet_secret_key: str | None = None
+    ) -> BearerAuth:
+        """Authenticate with the Airmeet API and return the access token."""
+        airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
+        airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
+        headers = {
+            "X-Airmeet-Access-Key": airmeet_client_key,
+            "X-Airmeet-Secret-Key": airmeet_client_secret,
         }
+        response = self.client.post_request(
+            url="auth", additional_headers=headers, success_codes=[200]
+        )
+        return BearerAuth(response["token"], header_name="X-Airmeet-Access-Token", token_name=None)
 
     def _get_all_pages(self, url, page_size=50, **kwargs) -> Table:
         """

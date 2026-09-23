@@ -1,4 +1,3 @@
-import csv
 import gzip
 import re
 from zipfile import ZipFile
@@ -6,6 +5,7 @@ from zipfile import ZipFile
 import pytest
 
 from parsons import CatalistMatch, Table
+from parsons.catalist.catalist import _strip_lone_quotes
 
 
 @pytest.fixture
@@ -73,27 +73,73 @@ def test_load_matches_unzip(client, tmp_path):
     assert table.columns == ["COL1-first_name", "DWID"]
 
 
-def test_from_csv_unbalanced_quote_with_quote_none(tmp_path):
-    """Verify quoting=csv.QUOTE_NONE prevents an unbalanced quote from
-    swallowing the rest of the file.
-
-    A field like `"BN2` (an unescaped, unclosed quote) makes csv.reader's
-    default Excel dialect treat it as the start of a quoted field spanning
-    the rest of the file, eventually raising `_csv.Error: field larger than
-    field limit`. Matchback files are plain TSVs where quoting has no
-    meaning, so load_matches parses them with quoting=csv.QUOTE_NONE
-    (parsons/catalist/catalist.py).
+def test_strip_lone_quotes():
+    """Verify _strip_lone_quotes only removes a quote char from a line
+    that has exactly one, leaving balanced or ambiguous (>1 stray) lines
+    untouched.
     """
-    results_csv = tmp_path / "results.csv"
-    results_csv.write_text('COL1-first_name\tCOL2-zip\tDWID\nJane\t"BN2\t123\nJohn\t90210\t456')
+    text = (
+        "no_quotes\tplain\n"
+        'one_quote\t"BN2\n'
+        'balanced\t"quoted value"\n'
+        'three_quotes\t"a"b"\n'
+        'last_line_no_newline\t"stray'
+    )
 
-    table = Table.from_csv(str(results_csv), delimiter="\t", quoting=csv.QUOTE_NONE)
+    cleaned = _strip_lone_quotes(text)
+    lines = cleaned.splitlines()
+
+    assert lines[0] == "no_quotes\tplain"
+    assert lines[1] == "one_quote\tBN2"
+    assert lines[2] == 'balanced\t"quoted value"'
+    assert lines[3] == 'three_quotes\t"a"b"'
+    assert lines[4] == "last_line_no_newline\tstray"
+
+
+def test_from_csv_handles_unbalanced_quote_after_stripping(tmp_path):
+    """Verify that, after running raw text through _strip_lone_quotes, an
+    unbalanced quote no longer makes csv.reader swallow the rest of the
+    file.
+
+    A field like `"BN2` (an unescaped, unclosed quote) would otherwise make
+    csv.reader's default Excel dialect treat it as the start of a quoted
+    field spanning the rest of the file, eventually raising
+    `_csv.Error: field larger than field limit`. load_matches strips such
+    lone quotes before parsing (parsons/catalist/catalist.py).
+    """
+    raw_text = 'COL1-first_name\tCOL2-zip\tDWID\nJane\t"BN2\t123\nJohn\t90210\t456'
+    results_csv = tmp_path / "results.csv"
+    results_csv.write_text(_strip_lone_quotes(raw_text))
+
+    table = Table.from_csv(str(results_csv), delimiter="\t")
 
     assert table.num_rows == 2
-    assert table[0]["COL2-zip"] == '"BN2'
+    assert table[0]["COL2-zip"] == "BN2"
     assert table[0]["DWID"] == "123"
     assert table[1]["COL1-first_name"] == "John"
     assert table[1]["COL2-zip"] == "90210"
+    assert table[1]["DWID"] == "456"
+
+
+def test_from_csv_preserves_embedded_tab_in_quoted_field(tmp_path):
+    r"""Verify that, unlike quoting=csv.QUOTE_NONE, stripping only lone
+    quotes preserves a well-formed (balanced) quoted field that contains
+    an embedded delimiter.
+
+    A value like `"John\tJr"` has two quote chars, so _strip_lone_quotes
+    leaves it untouched, and default csv quoting parses it as a single
+    field with a literal tab inside.
+    """
+    raw_text = 'COL1-name\tDWID\n"John\tJr"\t999\nJane\t456'
+    results_csv = tmp_path / "results.csv"
+    results_csv.write_text(_strip_lone_quotes(raw_text))
+
+    table = Table.from_csv(str(results_csv), delimiter="\t")
+
+    assert table.num_rows == 2
+    assert table[0]["COL1-name"] == "John\tJr"
+    assert table[0]["DWID"] == "999"
+    assert table[1]["COL1-name"] == "Jane"
     assert table[1]["DWID"] == "456"
 
 

@@ -8,7 +8,7 @@ sys.path.insert(0, str(repository_directory))
 
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=RuntimeWarning)
-    from parsons import _CONNECTORS  # type: ignore
+    from parsons import _CONNECTORS  # type: ignore[ty:unresolved-import]
 
 logger = logging.getLogger(__name__)
 

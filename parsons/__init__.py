@@ -135,7 +135,10 @@ def __getattr__(name: str) -> type:
             event_name="imported_connector",
             telemetry_uuid=telemetry_id,
             parsons_version=parsons_version,
-            properties={"$connector_name": name},
+            properties={
+                "Connector name": name,
+                "Virual environment": bool("VIRTUAL_ENV" in os.environ),
+            },
         )
 
     return connector

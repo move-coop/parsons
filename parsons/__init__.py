@@ -132,7 +132,8 @@ def __getattr__(name: str) -> type:
     if is_telemetry_enabled:
         submit_telemetry(
             posthog,
-            telemetry_id,
+            event_name="imported_connector",
+            telemetry_uuid=telemetry_id,
             parsons_version=parsons_version,
             properties={"$connector_name": name},
         )

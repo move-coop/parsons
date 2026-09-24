@@ -75,6 +75,7 @@ def configure_telemetry(
 
 def submit_telemetry(
     posthog: Posthog,
+    event_name: str,
     telemetry_uuid: UUID,
     *,
     parsons_version: str | None = None,
@@ -102,7 +103,7 @@ def submit_telemetry(
     if properties:
         telemetry_properties.update(properties)
     posthog.capture(
-        "imported_connector",
+        event_name,
         distinct_id=telemetry_uuid,
         properties=telemetry_properties,
     )

@@ -532,7 +532,7 @@ We start by pulling our Mobilize data out of the Redshift table where it's been 
    sql_query = 'select * from mobilize_schema.mobilize_users_to_sync limit 5;'
    new_mobilize_users = my_rs_warehouse.query(sql_query)
 
-   logger.info("There are %s new mobilize users that need to be synced to Action Network.",new_mobilize_users.num_rows)
+   logger.info("There are %s new mobilize users that need to be synced to Action Network.", new_mobilize_users.num_rows)
 
    if new_mobilize_users.num_rows > 0:
       logger.info('Starting the sync now.')

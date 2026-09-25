@@ -6,6 +6,7 @@ TargetSmart Developer API
 
    To use the TargetSmartAPI connector, you will need to install parsons with the targetsmart extra.
    To do this, you will need to install it with ``pip install parsons[targetsmart]`` or ``pip install parsons[all]``.
+   For more information, see our :ref:`index:Installation` notes.
 
 Overview
 ========

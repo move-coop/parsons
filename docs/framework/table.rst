@@ -129,8 +129,8 @@ You can also use the :ref:`Table` constructor to create a :ref:`Table` from a :c
 
    tbl = Table(petl_tbl)
 
-.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``.
-.. [2] Requires optional installation of FastAvro package by running ``pip install parsons[avro]``.
+.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``. For more information, see our :ref:`index:Installation` notes.
+.. [2] Requires optional installation of FastAvro package by running ``pip install parsons[avro]``. For more information, see our :ref:`index:Installation` notes.
 
 Parsons Table Attributes
 ------------------------

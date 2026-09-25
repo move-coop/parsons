@@ -333,6 +333,6 @@ class GoogleDrive:
                 permissionId=current_owner_permission["id"],
                 body=new_owner_permission,
             ).execute()
-            logger.info(f"Ownership transferred successfully to {new_owner_email}.")
+            logger.info("Ownership transferred successfully to %s.", new_owner_email)
         else:
             logger.info("File does not have a current owner.")

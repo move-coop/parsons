@@ -74,7 +74,7 @@ class AzureBlobStorage:
 
         """
         container_names = [container.name for container in self.client.list_containers()]
-        logger.info(f"Found {len(container_names)} containers.")
+        logger.info("Found %s containers.", len(container_names))
         return container_names
 
     def container_exists(self, container_name):
@@ -91,10 +91,10 @@ class AzureBlobStorage:
         container_client = self.get_container(container_name)
         try:
             container_client.get_container_properties()
-            logger.info(f"{container_name} exists.")
+            logger.info("%s exists.", container_name)
             return True
         except ResourceNotFoundError:
-            logger.info(f"{container_name} does not exist.")
+            logger.info("%s does not exist.", container_name)
             return False
 
     def get_container(self, container_name):
@@ -108,7 +108,7 @@ class AzureBlobStorage:
             `ContainerClient`
 
         """
-        logger.info(f"Returning {container_name} container client")
+        logger.info("Returning %s container client", container_name)
         return self.client.get_container_client(container_name)
 
     def create_container(
@@ -141,7 +141,7 @@ class AzureBlobStorage:
         container_client = self.client.create_container(
             container_name, metadata=metadata, public_access=public_access, **kwargs
         )
-        logger.info(f"Created {container_name} container.")
+        logger.info("Created %s container.", container_name)
         return container_client
 
     def delete_container(self, container_name):
@@ -154,7 +154,7 @@ class AzureBlobStorage:
 
         """
         self.client.delete_container(container_name)
-        logger.info(f"{container_name} container deleted.")
+        logger.info("%s container deleted.", container_name)
 
     def list_blobs(self, container_name, name_starts_with=None):
         """
@@ -173,7 +173,7 @@ class AzureBlobStorage:
         """
         container_client = self.get_container(container_name)
         blobs = list(container_client.list_blobs(name_starts_with=name_starts_with))
-        logger.info(f"Found {len(blobs)} blobs in {container_name} container.")
+        logger.info("Found %s blobs in %s container.", len(blobs), container_name)
         return blobs
 
     def blob_exists(self, container_name, blob_name):
@@ -192,10 +192,10 @@ class AzureBlobStorage:
         blob_client = self.get_blob(container_name, blob_name)
         try:
             blob_client.get_blob_properties()
-            logger.info(f"{blob_name} exists in {container_name} container.")
+            logger.info("%s exists in %s container.", blob_name, container_name)
             return True
         except ResourceNotFoundError:
-            logger.info(f"{blob_name} does not exist in {container_name} container.")
+            logger.info("%s does not exist in %s container.", blob_name, container_name)
             return False
 
     def get_blob(self, container_name, blob_name):
@@ -212,7 +212,7 @@ class AzureBlobStorage:
 
         """
         blob_client = self.client.get_blob_client(container_name, blob_name)
-        logger.info(f"Got {blob_name} blob from {container_name} container.")
+        logger.info("Got %s blob from %s container.", blob_name, container_name)
         return blob_client
 
     def get_blob_url(
@@ -333,7 +333,7 @@ class AzureBlobStorage:
             content_settings=content_settings,
             **kwargs_dict,
         )
-        logger.info(f"{blob_name} blob put in {container_name} container")
+        logger.info("%s blob put in %s container", blob_name, container_name)
 
         # Return refreshed BlobClient object
         return self.get_blob(container_name, blob_name)
@@ -362,10 +362,10 @@ class AzureBlobStorage:
 
         blob_client = self.get_blob(container_name, blob_name)
 
-        logger.info(f"Downloading {blob_name} blob from {container_name} container.")
+        logger.info("Downloading %s blob from %s container.", blob_name, container_name)
         with Path(local_path).open(mode="wb") as f:
             blob_client.download_blob().readinto(f)
-        logger.info(f"{blob_name} blob saved to {local_path}.")
+        logger.info("%s blob saved to %s.", blob_name, local_path)
 
         return local_path
 
@@ -382,7 +382,7 @@ class AzureBlobStorage:
         """
         blob_client = self.get_blob(container_name, blob_name)
         blob_client.delete_blob()
-        logger.info(f"{blob_name} blob in {container_name} container deleted.")
+        logger.info("%s blob in %s container deleted.", blob_name, container_name)
 
     def upload_table(
         self, table, container_name, blob_name, data_type: Literal["csv", "json"] = "csv", **kwargs

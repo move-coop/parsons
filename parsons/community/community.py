@@ -80,7 +80,7 @@ class Community:
             Response of GET request; a successful response returns the CSV formatted data
 
         """
-        logger.info(f"Requesting {filename}")
+        logger.info("Requesting %s", filename)
         url = (
             f"{filename}.csv.gz"
             if filename != "outbound_message_type_usage"

@@ -277,7 +277,9 @@ class FacebookAds:
 
         # Note that the FB SDK handles basic normalization and hashing of the data
         CustomAudience(audience_id).add_users(schema, batch, is_raw=True)
-        logger.info(f"Added {added_so_far + len(batch)} / {total_rows} users to custom audience...")
+        logger.info(
+            "Added %s / %s users to custom audience...", added_so_far + len(batch), total_rows
+        )
 
     def add_users_to_custom_audience(self, audience_id, users_table):
         """
@@ -354,19 +356,18 @@ class FacebookAds:
 
         """
         logger.info(
-            f"Adding custom audience users from provided table with {users_table.num_rows} rows"
+            "Adding custom audience users from provided table with %s rows", users_table.num_rows
         )
 
         match_table = FacebookAds.get_match_table_for_users_table(users_table)
         if not match_table.columns:
             raise KeyError(
-                "No valid columns found for audience matching. "
-                "See FacebookAds.KeyMatchMap for supported columns"
+                "No valid columns found for audience matching. See FacebookAds.KeyMatchMap for supported columns"
             )
 
         num_rows = match_table.num_rows
-        logger.info(f"Found {num_rows} rows with valid FB matching keys")
-        logger.info(f"Using FB matching keys: {match_table.columns}")
+        logger.info("Found %s rows with valid FB matching keys", num_rows)
+        logger.info("Using FB matching keys: %s", match_table.columns)
 
         (schema, data) = FacebookAds._get_match_schema_and_data(match_table)
 

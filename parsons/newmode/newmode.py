@@ -78,7 +78,7 @@ class NewmodeV1:
         if tools:
             return self.convert_to_table(tools)
         else:
-            logging.warning("Empty tools returned")
+            logger.warning("Empty tools returned")
             return self.convert_to_table([])
 
     def get_tool(
@@ -103,7 +103,7 @@ class NewmodeV1:
         if tool:
             return tool
         else:
-            logging.warning("Empty tool returned")
+            logger.warning("Empty tool returned")
             return None
 
     def lookup_targets(
@@ -142,7 +142,7 @@ class NewmodeV1:
                     data.append(targets[key])
             return self.convert_to_table(data)
         else:
-            logging.warning("Empty targets returned")
+            logger.warning("Empty targets returned")
             return self.convert_to_table([])
 
     def get_action(
@@ -167,7 +167,7 @@ class NewmodeV1:
         if action:
             return action
         else:
-            logging.warning("Empty action returned")
+            logger.warning("Empty action returned")
             return None
 
     def run_action(
@@ -201,7 +201,7 @@ class NewmodeV1:
             else:
                 return action["sid"]
         else:
-            logging.warning("Error in response")
+            logger.warning("Error in response")
             return None
 
     def get_target(
@@ -226,7 +226,7 @@ class NewmodeV1:
         if target:
             return target
         else:
-            logging.warning("Empty target returned")
+            logger.warning("Empty target returned")
             return None
 
     def get_targets(self, params: dict[str, Any] | None = None) -> Table | None:
@@ -249,7 +249,7 @@ class NewmodeV1:
             return self.convert_to_table(targets)
 
         else:
-            logging.warning("No targets returned")
+            logger.warning("No targets returned")
             return None
 
     def get_campaigns(self, params: dict[str, Any] | None = None) -> Table:
@@ -270,7 +270,7 @@ class NewmodeV1:
         if campaigns:
             return self.convert_to_table(campaigns)
         else:
-            logging.warning("Empty campaigns returned")
+            logger.warning("Empty campaigns returned")
             return self.convert_to_table([])
 
     def get_campaign(
@@ -295,7 +295,7 @@ class NewmodeV1:
         if campaign:
             return campaign
         else:
-            logging.warning("Empty campaign returned")
+            logger.warning("Empty campaign returned")
             return None
 
     def get_organizations(self, params: dict[str, Any] | None = None) -> Table:
@@ -316,7 +316,7 @@ class NewmodeV1:
         if organizations:
             return self.convert_to_table(organizations)
         else:
-            logging.warning("Empty organizations returned")
+            logger.warning("Empty organizations returned")
             return self.convert_to_table([])
 
     def get_organization(
@@ -341,7 +341,7 @@ class NewmodeV1:
         if organization:
             return organization
         else:
-            logging.warning("Empty organization returned")
+            logger.warning("Empty organization returned")
             return None
 
     def get_services(self, params: dict[str, Any] | None = None) -> Table:
@@ -362,7 +362,7 @@ class NewmodeV1:
         if services:
             return self.convert_to_table(services)
         else:
-            logging.warning("Empty services returned")
+            logger.warning("Empty services returned")
             return self.convert_to_table([])
 
     def get_service(
@@ -387,7 +387,7 @@ class NewmodeV1:
         if service:
             return service
         else:
-            logging.warning("Empty service returned")
+            logger.warning("Empty service returned")
             return None
 
     def get_outreaches(self, tool_id: int | str, params: dict[str, Any] | None = None) -> Table:
@@ -410,7 +410,7 @@ class NewmodeV1:
         if outreaches:
             return self.convert_to_table(outreaches)
         else:
-            logging.warning("Empty outreaches returned")
+            logger.warning("Empty outreaches returned")
             return self.convert_to_table([])
 
     def get_outreach(
@@ -435,7 +435,7 @@ class NewmodeV1:
         if outreach:
             return outreach
         else:
-            logging.warning("Empty outreach returned")
+            logger.warning("Empty outreach returned")
             return None
 
 

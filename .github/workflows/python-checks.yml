@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
     pypi.org:443
@@ -66,21 +65,21 @@ jobs:
           egress-policy: audit
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
         run: |
-          HASH=${{ hashFiles('pyproject.toml') }}
-          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          VAL="${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ matrix.resolution }}
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
@@ -124,7 +123,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -179,15 +178,14 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
         run: |
-          HASH=${{ hashFiles('pyproject.toml') }}
-          VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
+          VAL="${{ hashFiles('pyproject.toml') }}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}-${{ matrix.extra }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -222,7 +220,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -261,7 +259,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -313,7 +311,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -347,7 +345,8 @@ jobs:
           bandit
           --confidence-level 'medium'
           --severity-level 'medium'
-          --recursive 'parsons'
+          --recursive .
+          --exclude test
 
   coverage:
     runs-on: ubuntu-latest
@@ -366,7 +365,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: img.shields.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
@@ -395,7 +394,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -432,7 +431,7 @@ jobs:
           egress-policy: audit
           allowed-endpoints: proxy.golang.org:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
         with:
@@ -444,7 +443,7 @@ jobs:
           uv sync
           --upgrade
           --no-default-groups
-          --group pre-commit
+          --group dev
 
       - id: cache-pre-commit
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9

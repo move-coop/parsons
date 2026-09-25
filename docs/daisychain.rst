@@ -48,7 +48,6 @@ You can then call various endpoints:
 
    people = dc.find_person(email_address='person@example.com', phone_number='+15555551234')
 
-
 .. code-block:: python
    :caption: Post an action to trigger an automation
 

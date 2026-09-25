@@ -142,6 +142,12 @@ SQL Helpers
 SSH Utilities
 =============
 
+.. admonition:: Required Extra
+
+   To use the ssh utilities, you will need to install parsons with the ssh extra.
+   To do this, you will need to install it with ``pip install parsons[ssh]`` or ``pip install parsons[all]``.
+   For more information, see our :ref:`index:Installation` notes.
+
 .. automodule:: parsons.utilities.ssh_utilities
    :inherited-members:
    :members:
@@ -155,6 +161,15 @@ ZIP Archive
 
 dbt Utilities
 =============
+
+.. admonition:: Required Extra
+
+   To use the dbt utilities, you will need to install parsons with the applicable dbt extra.
+   To do this, you will need to install it with ``pip install parsons[dbt-duckdb]``,
+   ``pip install parsons[dbt-redshift]``, ``pip install parsons[dbt-bigquery]``,
+   ``pip install parsons[dbt-postgres]``, ``pip install parsons[dbt-snowflake]``,
+   or ``pip install parsons[all]``.
+   For more information, see our :ref:`index:Installation` notes.
 
 .. automodule:: parsons.utilities.dbt.dbt
    :inherited-members:

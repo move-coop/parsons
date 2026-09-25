@@ -363,9 +363,6 @@ Quickstart
 API
 ====
 
-Materialize API
----------------
-
 .. autoclass:: parsons.etl.table.Table
    :inherited-members:
    :members:
@@ -374,26 +371,5 @@ Materialize API
    :inherited-members:
    :members:
 
-To & From API
--------------
-
-The following methods allow you to create Parsons Tables from other data types or
-convert Parsons Tables to other data types.
-These methods are included via inheritance in the :class:`~parsons.etl.table.Table` class.
-
-.. autoclass:: parsons.etl.tofrom.ToFrom
-   :inherited-members:
-   :members:
-
-Transformation API
-------------------
-
-The following methods allow you to manipulate the Parsons table data.
-These methods are included via inheritance in the :class:`~parsons.etl.table.Table` class.
-
-.. autoclass:: parsons.etl.etl.ETL
-   :inherited-members:
-   :members:
-
 .. _fastavro documentation: https://fastavro.readthedocs.io/en/latest
-.. _Avro schema reference: https://avro.apache.org/docs/1.8.2/spec.html#schemas
+.. _Avro schema reference: https://avro.apache.org/docs/++version++/specification/#schema-declaration

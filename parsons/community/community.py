@@ -14,19 +14,19 @@ class Community:
     """
     Instantiate class.
 
-    Args:
-            community_client_id: str
-                The Community provided Client ID. Not required if ``COMMUNITY_CLIENT_ID`` env
-                variable set.
-            community_access_token: str
-                The Community provided access token. Not required if ``COMMUNITY_ACCESS_TOKEN`` env
-                variable set.
-            community_uri: str
-                The URI to access the  API. Not required, default is
-                `<https://dl.community.com/download/v1/files/>`_. You can set an ``COMMUNITY_URL`` env
-                variable or use this URI parameter if a different endpoint is necessary.
-
     `API Documentation <https://developer.community.com/reference/data-export-api-downloading-data>`_
+
+    Args:
+        community_client_id: str
+            The Community provided Client ID. Not required if ``COMMUNITY_CLIENT_ID`` env
+            variable set.
+        community_access_token: str
+            The Community provided access token. Not required if ``COMMUNITY_ACCESS_TOKEN`` env
+            variable set.
+        community_uri: str
+            The URI to access the  API. Not required, default is
+            `<https://dl.community.com/download/v1/files/>`_. You can set an ``COMMUNITY_URL`` env
+            variable or use this URI parameter if a different endpoint is necessary.
 
     """
 

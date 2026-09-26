@@ -11,8 +11,7 @@ from test_quickbookstime_data import (
     mock_users_data,
 )
 
-from parsons.etl.table import Table
-from parsons.quickbooks.quickbookstime import QuickBooksTime
+from parsons import QuickBooksTime, Table
 
 
 class TestQuickBooksTime(unittest.TestCase):

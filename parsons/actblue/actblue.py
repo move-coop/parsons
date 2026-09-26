@@ -5,7 +5,7 @@ from typing import Literal
 from requests import Response
 from requests.auth import HTTPBasicAuth
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
 
@@ -48,10 +48,8 @@ class ActBlue:
         actblue_uri=None,
         max_retries=None,
     ):
-        self.actblue_client_uuid: str = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
-        self.actblue_client_secret: str = check_env.check(
-            "ACTBLUE_CLIENT_SECRET", actblue_client_secret
-        )
+        self.actblue_client_uuid = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
+        self.actblue_client_secret = check_env.check("ACTBLUE_CLIENT_SECRET", actblue_client_secret)
         self.uri = (
             check_env.check("ACTBLUE_URI", actblue_uri, optional=True) or ACTBLUE_API_ENDPOINT
         )

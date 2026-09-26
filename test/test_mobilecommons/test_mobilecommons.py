@@ -7,8 +7,7 @@ from mobilecommons_responses import (
     post_profile_response,
 )
 
-from parsons import Table
-from parsons.mobilecommons import MobileCommons
+from parsons import MobileCommons, Table
 
 MOBILECOMMONS_PASSWORD = "MOBILECOMMONS_PASSWORD"
 DEFAULT_GET_PARAMS = {"page": 1, "limit": 1000}

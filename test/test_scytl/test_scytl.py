@@ -6,7 +6,8 @@ from pathlib import Path
 
 import requests_mock
 
-from parsons.scytl import Scytl, scytl
+from parsons import Scytl
+from parsons.scytl import scytl
 
 TEST_STATE = "GA"
 TEST_ELECTION_ID = "114729"

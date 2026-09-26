@@ -43,7 +43,19 @@ class CensusGeocoder:
         self.retries = retries
 
     def _request(self, func, *args, **kwargs):
-        # Retries transient network failures only; see the class docstring for the limits.
+        """
+        Facilitate retrying requests when network failures occur.
+
+        Failed requests resulting in retries will be logged.
+        See class docstring for more information.
+
+        Args:
+            func (Callable): function to wrap with retry logic
+
+        Returns:
+            Value returned by provided callable
+
+        """
         for attempt in range(self.retries + 1):
             try:
                 return func(*args, **kwargs)

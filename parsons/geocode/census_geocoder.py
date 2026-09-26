@@ -87,7 +87,12 @@ class CensusGeocoder:
 
         """
         geo = self.cg.address(
-            address_line, city=city, state=state, zipcode=zipcode, timeout=self.timeout, returntype=return_type
+            address_line,
+            city=city,
+            state=state,
+            zipcode=zipcode,
+            timeout=self.timeout,
+            returntype=return_type,
         )
         self._log_result(geo)
         return geo

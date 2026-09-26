@@ -49,6 +49,7 @@ def test_geocode_address(cg):
         state=passed_address["state"],
         zipcode=None,
         returntype="geographies",
+        timeout=None,
     )
     assert geo == geographies_resp
 
@@ -61,6 +62,7 @@ def test_geocode_address(cg):
         state=passed_address["state"],
         zipcode=None,
         returntype="locations",
+        timeout=None,
     )
     assert geo == locations_resp
 

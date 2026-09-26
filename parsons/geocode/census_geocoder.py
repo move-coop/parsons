@@ -4,7 +4,7 @@ import censusgeocode
 import petl
 from censusgeocode.censusgeocode import GeographyResult
 
-from parsons import Table
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +81,9 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.address(address_line, city=city, state=state, zipcode=zipcode)
+        geo = self.cg.address(
+            address_line, city=city, state=state, zipcode=zipcode, returntype=return_type
+        )
         self._log_result(geo)
         return geo
 

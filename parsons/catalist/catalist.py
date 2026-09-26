@@ -11,7 +11,7 @@ import urllib
 from pathlib import Path
 from zipfile import ZipFile, is_zipfile
 
-from parsons import Table
+from parsons.etl.table import Table
 from parsons.sftp import SFTP
 from parsons.utilities.oauth_api_connector import OAuth2APIConnector
 
@@ -19,6 +19,24 @@ logger = logging.getLogger(__name__)
 
 # Default byte size to export under the hood via Paramiko
 DEFAULT_EXPORT_CHUNK_SIZE = 1024 * 1024 * 50
+
+
+def _strip_lone_quotes(text: str, quotechar: str = '"') -> str:
+    """Remove a lone, unescaped quote character from any line that has
+    exactly one.
+
+    A field with a stray, unclosed quote (e.g. a corrupted ZIP value like
+    "BN2) makes csv.reader's default dialect treat it as an open quoted
+    field and consume the rest of the file as a single field. Lines with
+    zero, two, or any other even number of quote characters are left
+    untouched, since those are presumably balanced pairs. Lines with more
+    than one stray quote are also left untouched, since it's ambiguous
+    which one is the culprit.
+    """
+    lines = text.splitlines(keepends=True)
+    return "".join(
+        line.replace(quotechar, "", 1) if line.count(quotechar) == 1 else line for line in lines
+    )
 
 
 class CatalistMatch:
@@ -392,6 +410,9 @@ class CatalistMatch:
             zf.extractall(path=temp_dir)
 
         filepath = next(Path(temp_dir).iterdir())
+
+        cleaned_text = _strip_lone_quotes(filepath.read_text())
+        filepath.write_text(cleaned_text)
 
         result = Table.from_csv(str(filepath), delimiter="\t")
         return result

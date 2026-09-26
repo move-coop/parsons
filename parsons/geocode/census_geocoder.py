@@ -6,7 +6,7 @@ import petl
 from censusgeocode.censusgeocode import GeographyResult
 from requests.exceptions import RequestException
 
-from parsons import Table
+from parsons.etl.table import Table
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,14 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self._request(self.cg.address, address_line, city=city, state=state, zipcode=zipcode)
+        geo = self._request(
+            self.cg.address,
+            address_line,
+            city=city,
+            state=state,
+            zipcode=zipcode,
+            returntype=return_type,
+        )
         self._log_result(geo)
         return geo
 

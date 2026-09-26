@@ -10,8 +10,7 @@ import pytest
 from google.cloud import bigquery, exceptions
 from testfixtures import log_capture
 
-from parsons import GoogleBigQuery, Table
-from parsons.google.google_cloud_storage import GoogleCloudStorage
+from parsons import GoogleBigQuery, GoogleCloudStorage, Table
 from test.test_google.test_utilities import FakeCredentialTest
 
 
@@ -325,6 +324,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
     def test_copy_s3(self):
         # setup dependencies / inputs
+        source = "s3"
         table_name = "table_name"
         bucket = "aws_bucket"
         key = "file.gzip"
@@ -349,12 +349,13 @@ class TestGoogleBigQuery(FakeCredentialTest):
         )
 
         # check that the method did the right things
-        gcs_client.copy_s3_to_gcs.assert_called_once_with(
-            aws_source_bucket=bucket,
+        gcs_client.copy_bucket_to_gcs.assert_called_once_with(
+            source=source,
+            source_bucket=bucket,
             aws_access_key_id=aws_access_key_id,
             aws_secret_access_key=aws_secret_access_key,
             gcs_sink_bucket=tmp_gcs_bucket,
-            aws_s3_key=key,
+            source_path=key,
         )
         bq.copy_from_gcs.assert_called_once()
         gcs_client.delete_blob.assert_called_once()
@@ -611,6 +612,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
         self, table_exists=True, app_creds: str | dict | None = None
     ):
         bq_client = mock.MagicMock()
+        bq_client.project = "project"
         if not table_exists:
             bq_client.get_table.side_effect = exceptions.NotFound("not found")
         bq = BigQuery(app_creds=app_creds)
@@ -619,6 +621,7 @@ class TestGoogleBigQuery(FakeCredentialTest):
 
     def _build_mock_base_client(self, app_creds: str | dict | None = None):
         bq_client = mock.MagicMock()
+        bq_client.project = "project"
         bq = BigQuery(app_creds=app_creds)
         bq._client = bq_client
         return bq

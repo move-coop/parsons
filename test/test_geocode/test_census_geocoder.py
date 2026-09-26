@@ -124,3 +124,9 @@ def test_batch_size_controls_chunking():
 def test_non_positive_batch_size_rejected(size):
     with pytest.raises(ValueError, match="batch_size must be 1 or greater"):
         CensusGeocoder(batch_size=size)
+
+
+@pytest.mark.parametrize("size", [2.5, "100"])
+def test_non_integer_batch_size_rejected(size):
+    with pytest.raises(TypeError, match="batch_size must be an integer"):
+        CensusGeocoder(batch_size=size)

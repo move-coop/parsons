@@ -17,3 +17,8 @@ API
 .. autoclass:: parsons.geocode.census_geocoder.CensusGeocoder
    :inherited-members:
    :members:
+
+.. py:data:: parsons.geocode.census_geocoder.BATCH_SIZE
+   :type: int
+
+   Default number of records sent per batch geocode request.

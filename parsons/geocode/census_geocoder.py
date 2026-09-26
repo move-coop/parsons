@@ -27,15 +27,18 @@ class CensusGeocoder:
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
         batch_size: int
-            Number of records sent per request by :meth:`geocode_address_batch`. The Census
-            documents an upper limit of 10,000 records per batch file. Defaults to
-            ``BATCH_SIZE``.
+            Number of records sent per request by :meth:`geocode_address_batch`.
+            The Census documents an upper limit of 10,000 records per batch file.
+            Defaults to value of :const:`BATCH_SIZE`.
 
     """
 
     def __init__(
         self, benchmark="Public_AR_Current", vintage="Current_Current", batch_size=BATCH_SIZE
     ):
+        if not isinstance(batch_size, int):
+            msg = f"batch_size must be an integer, got {type(batch_size).__name__}"
+            raise TypeError(msg)
         if batch_size < 1:
             msg = f"batch_size must be 1 or greater, got {batch_size}"
             raise ValueError(msg)

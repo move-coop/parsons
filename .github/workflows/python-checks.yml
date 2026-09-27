@@ -86,7 +86,6 @@ jobs:
           UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group test-coverage
           --all-extras
@@ -134,7 +133,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group ci
           --all-extras
@@ -199,7 +197,6 @@ jobs:
           UV_RESOLUTION: ${{ matrix.resolution }}
         run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group test
           --extra ${{ matrix.extra }}
@@ -232,7 +229,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group lint
 
@@ -271,7 +267,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group lint
 
@@ -323,7 +318,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group security
 
@@ -405,7 +399,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group docs
 
@@ -418,8 +411,9 @@ jobs:
 
     needs:
       - bandit
-      - ruff-format
+      - lockfile
       - ruff-check
+      - ruff-format
       - sphinx-lint
 
     permissions:
@@ -442,7 +436,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --no-default-groups
           --group pre-commit
 

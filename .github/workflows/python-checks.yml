@@ -26,6 +26,28 @@ env:
     *.githubusercontent.com:443
 
 jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
+
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          python-version: 3.13
+          activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+
+      - run: >-
+          uv lock
+          --check
+
   pytest:
     runs-on: ${{ matrix.os }}
 

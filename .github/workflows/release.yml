@@ -33,7 +33,6 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
           --all-extras
 
       - run: >-

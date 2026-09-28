@@ -105,7 +105,10 @@ class SolidarityTechScheduledTasks(SolidarityTechBase):
         }
         self._handle_status_codes(res=res, codes=expected_responses)
 
-        return res.json()
+        data: ScheduledTaskData = res.json()["data"]
+        meta: Metadata = res.json()["meta"]
+
+        return data, meta
 
     def create_scheduled_task(
         self,

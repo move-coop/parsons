@@ -45,8 +45,33 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - run: docker run --rm parsons:test python3 -c "import sys; print('Python version:', sys.version)"
+      - name: Test that python commands work
+        run: |
+          docker run --rm parsons:test python3 -c "
+          import sys
+          print('Python version:', sys.version)
+          "
 
-      - run: docker run --rm parsons:test python3 -c "from parsons import Table; print('Table imported successfully!')"
+      - name: Test that Table can be imported
+        run: |
+          docker run --rm parsons:test python3 -c "
+          from parsons import Table
+          print('Table imported successfully!')
+          "
 
-      - run: docker run --rm parsons:test python3 -c "from parsons import CivisClient; print('CivisClient loaded successfully!')"
+      - name: Test that CivisClient can be imported
+        run: |
+          docker run --rm parsons:test python3 -c "
+          from parsons import CivisClient
+          print('CivisClient loaded successfully!')
+          "
+
+      - name: Test that Table can be used
+        run: |
+          docker run --rm parsons:test python3 -c "
+          from parsons import Table
+          test_data = {'a': 1, 'b': 2, 'c': 3}
+          tbl = Table([test_data])
+          assert tbl[0] == test_data
+          print('Basic Table function confirmed!')
+          "

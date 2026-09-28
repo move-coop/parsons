@@ -20,7 +20,6 @@ jobs:
     env:
       CACHE_GLOBS: |
         **/pyproject.toml
-        **/setup.py
         **/uv.lock
 
     steps:

@@ -10,6 +10,18 @@ on:
 
 permissions: read-all
 
+env:
+  CACHE_GLOBS: |
+    **/pyproject.toml
+    **/uv.lock
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    releases.astral.sh:443
+    files.pythonhosted.org:443
+    *.github.com:443
+    *.githubusercontent.com:443
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -23,6 +35,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: audit
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
@@ -30,6 +43,8 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
+          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

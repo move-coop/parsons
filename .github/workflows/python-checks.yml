@@ -15,7 +15,6 @@ permissions: read-all
 env:
   CACHE_GLOBS: |
     **/pyproject.toml
-    **/setup.py
     **/uv.lock
   ENDPOINT_WHITELIST: >-
     pypi.org:443
@@ -81,6 +80,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
@@ -131,6 +131,7 @@ jobs:
           python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -194,6 +195,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
@@ -229,6 +231,7 @@ jobs:
           python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -268,6 +271,7 @@ jobs:
           python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -320,6 +324,7 @@ jobs:
           python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -402,6 +407,7 @@ jobs:
           python-version: 3.14
           activate-environment: true
           cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

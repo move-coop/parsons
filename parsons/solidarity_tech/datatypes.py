@@ -671,3 +671,9 @@ class ScheduledCallData(TypedDict):
     agent_user_id: NotRequired[int]
     call_time: str
     created_at: str
+
+
+class ScheduledTaskData(TypedDict):
+    """Data returned for a scheduled task record."""
+
+    # TODO(bmos): Fill this in.

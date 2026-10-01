@@ -192,25 +192,25 @@ dev = [
     {include-group = "test-coverage"},
 ]
 ci = [
-    "build>=1.4",
+    "build >= 1.4",
 ]
 docs = [
     "furo >= 2025.12",
     "myst-parser >= 4.0",
     "packaging >= 26.0",
     "sphinxcontrib-googleanalytics >= 0.5",
-    "sphinx-lint >= 1.0, < 1.1",
+    "sphinx-lint >= 1.0, < 2.0",
     "sphinx-multiversion >= 0.2",
-    "Sphinx >= 7.4, < 9.0", # sphinx-multiversion does not support Sphinx 9.0
+    "Sphinx >= 7.4, < 9.0",  # sphinx-multiversion does not support Sphinx 9.0
 ]
 lint = [
-    "ruff >= 0.16, < 0.17",
+    "ruff >= 0.16, < 0.17",  # extra careful with ruff because they add rules in minor versions
 ]
 pre-commit = [
     "pre-commit >= 4.6",
 ]
 security = [
-    "bandit[sarif] >= 1.9, < 1.10",
+    "bandit[sarif] >= 1.9, < 2.0",
 ]
 test-coverage = [
     "coverage >= 7.16",
@@ -218,15 +218,14 @@ test-coverage = [
     {include-group = "test"},
 ]
 test = [
-    "pytest >= 9.0, < 10.0",
+    "pytest >= 9.1, < 10.0",
     "pytest-datadir >= 1.8",
-    "pytest-mock >= 3.15",
-    "pytest-recording >= 0.13",
+    "pytest-mock >= 3.16",
+    "pytest-recording >= 0.14",
     "pytest-xdist >= 3.8",
     "requests-mock >= 1.12",
-    "testfixtures >= 8.3; python_version < '3.11'",
-    "testfixtures >= 9.1; python_version >= '3.11'",
-    "dbt-duckdb >= 1.8, < 1.12",
+    "testfixtures >= 8.3",
+    "dbt-duckdb >= 1.8",
 ]
 
 [tool]

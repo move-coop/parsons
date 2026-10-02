@@ -491,9 +491,10 @@ class ToFrom:
         from parsons.sftp import SFTP
 
         rsa_private_key_file = str(rsa_private_key_file) if rsa_private_key_file else None
-        compression = files.compression_type_for_path(remote_path)
 
         sftp_conn = SFTP(host, username, password, port, rsa_private_key_file)
+
+        compression = files.compression_type_for_path(remote_path)
 
         local_path = self.to_csv(
             temp_file_compression=compression,

@@ -24,9 +24,9 @@ changelog:
       labels:
         - documentation
 
-    # - title: New Contributors
-    #   labels:
-    #     -🎉-first-PR
+    - title: New Contributors
+      labels:
+        - 🎉-first-PR
 
     - title: Other Changes
       labels:

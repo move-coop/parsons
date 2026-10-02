@@ -11,11 +11,10 @@ class Airmeet:
     """
     Instantiate class.
 
-    .. admonition:: Generating access key and secret key
+    .. admonition:: Generating Access Key and Secret Key
 
-        For instructions on how to generate an access key and secret key set,
-        see `Airmeet's Event Details API documentation
-        <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`_.
+        See `Airmeet's Event Details API documentation
+        <https://help.airmeet.com/support/solutions/articles/82000909768-1-event-details-airmeet-public-api>`__.
 
     Args:
         airmeet_uri: string

@@ -1,3 +1,5 @@
+"""Sphinx configuration for Parsons documentation."""
+
 import subprocess
 
 # -- Project Setup -----------------------------------------------------------
@@ -34,10 +36,6 @@ nitpick_ignore_regex = {
         r"py:class",
         r"simple_salesforce.api.Salesforce",
     ),  # this class is not in the petl documentation simple_salesforce
-    (
-        "py:.*",
-        r"google.cloud.bigquery.[a-zA-Z]+..+",
-    ),  # bigquery references (no linkable sphinx documentation)
     (r"py:.*", r"braintree\..+"),  # braintree references (no linkable sphinx documentation)
     (r"py:.*", r"mysql\..+"),  # mysql references (no linkable sphinx documentation)
     (r"py:.*", r"censusgeocode\..+"),  # censusgeocode references (no linkable sphinx documentation)
@@ -70,17 +68,11 @@ intersphinx_mapping_extras = {
     "fastavro": ("https://fastavro.readthedocs.io/en/latest/", None),
     "google-auth": ("https://googleapis.dev/python/google-auth/latest/", None),
     "google-api-core": ("https://googleapis.dev/python/google-api-core/latest/", None),
-    "google-cloud-bigquery": (
-        "https://docs.cloud.google.com/python/docs/reference/bigquery/latest/",
-        "https://googleapis.dev/python/bigquery/latest/objects.inv",
-    ),
-    "google-cloud-storage": (
-        "https://docs.cloud.google.com/python/docs/reference/storage/latest/",
-        "_intersphinx/google.cloud.storage-3.10.0.objects.inv",
-    ),
+    "google-cloud-bigquery": ("https://googleapis.dev/python/bigquery/latest/", None),
+    "google-cloud-storage": ("https://googleapis.dev/python/storage/latest/", None),
     "google-cloud-storage-transfer": (
-        "https://docs.cloud.google.com/python/docs/reference/storagetransfer/latest/",
-        "https://googleapis.dev/python/storagetransfer/latest/objects.inv",
+        "https://googleapis.dev/python/storagetransfer/latest/",
+        None,
     ),
     "gspread": ("https://docs.gspread.org/en/latest/", None),
     "httplib2": ("https://httplib2.readthedocs.io/en/latest/", None),
@@ -165,6 +157,7 @@ html_sidebars = {
 
 # -- Sphinx Multiversion Tag Creation ----------------------------------------
 def get_git_tags() -> list[str]:
+    """Get a list of git tags that start with 'v' (version tags)."""
     try:
         tags = subprocess.check_output(
             ["git", "tag", "-l", "--sort=-v:refname"], encoding="utf-8", stderr=subprocess.DEVNULL

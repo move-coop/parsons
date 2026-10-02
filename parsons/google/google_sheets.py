@@ -119,7 +119,7 @@ class GoogleSheets:
         """
         worksheet = self._get_worksheet(spreadsheet_id, worksheet)
         tbl = Table(worksheet.get_all_values()[skip_header_rows:])
-        logger.info(f"Retrieved worksheet with {tbl.num_rows} rows.")
+        logger.info("Retrieved worksheet with %s rows.", tbl.num_rows)
         return tbl
 
     def share_spreadsheet(
@@ -164,7 +164,7 @@ class GoogleSheets:
             email_message=notify_message,
             with_link=with_link,
         )
-        logger.info(f"Shared spreadsheet {spreadsheet_id}.")
+        logger.info("Shared spreadsheet %s.", spreadsheet_id)
 
     def get_spreadsheet_permissions(self, spreadsheet_id):
         """
@@ -181,7 +181,7 @@ class GoogleSheets:
         """
         spreadsheet = self.gspread_client.open_by_key(spreadsheet_id)
         tbl = Table(spreadsheet.list_permissions())
-        logger.info(f"Retrieved permissions for {spreadsheet_id} spreadsheet.")
+        logger.info("Retrieved permissions for %s spreadsheet.", spreadsheet_id)
         return tbl
 
     def create_spreadsheet(self, title, editor_email=None, folder_id=None):
@@ -215,7 +215,7 @@ class GoogleSheets:
                 role="writer",
             )
 
-        logger.info(f"Created spreadsheet {spreadsheet.id}")
+        logger.info("Created spreadsheet %s", spreadsheet.id)
         return spreadsheet.id
 
     def delete_spreadsheet(self, spreadsheet_id):
@@ -228,7 +228,7 @@ class GoogleSheets:
 
         """
         self.gspread_client.del_spreadsheet(spreadsheet_id)
-        logger.info(f"Deleted spreadsheet {spreadsheet_id}")
+        logger.info("Deleted spreadsheet %s", spreadsheet_id)
 
     def add_sheet(self, spreadsheet_id, title=None, rows=100, cols=25):
         """
@@ -306,7 +306,7 @@ class GoogleSheets:
 
         # Update the data in one batch
         sheet.update_cells(cells, value_input_option=value_input_option)
-        logger.info(f"Appended {table.num_rows} rows to worksheet.")
+        logger.info("Appended %s rows to worksheet.", table.num_rows)
 
     def paste_data_in_sheet(
         self, spreadsheet_id, table, worksheet=0, header=True, startrow=0, startcol=0
@@ -340,8 +340,9 @@ class GoogleSheets:
 
         if not number_of_rows or not number_of_columns:  # No data to paste
             logger.warning(
-                f"No data available to paste, table size "
-                f"({number_of_rows}, {number_of_columns}). Skipping."
+                "No data available to paste, table size (%s, %s). Skipping.",
+                number_of_rows,
+                number_of_columns,
             )
             return
 
@@ -364,7 +365,7 @@ class GoogleSheets:
         else:
             sheet.update(data_range, data)
 
-        logger.info(f"Pasted data to {data_range} in worksheet.")
+        logger.info("Pasted data to %s in worksheet.", data_range)
 
     def overwrite_sheet(
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs

@@ -915,6 +915,7 @@ class ToFrom:
         Args:
             csv_string: The string object to convert to a table
             `**csvargs`: Additional arguments to pass to :func:`csv.reader`
+            str: Deprecated, use `csv_string` instead
 
         """
         from parsons import Table

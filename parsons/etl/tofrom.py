@@ -490,7 +490,8 @@ class ToFrom:
         """
         from parsons.sftp import SFTP
 
-        rsa_private_key_file = str(rsa_private_key_file) if rsa_private_key_file else None
+        if isinstance(rsa_private_key_file, Path):
+            rsa_private_key_file = str(rsa_private_key_file)
 
         sftp_conn = SFTP(host, username, password, port, rsa_private_key_file)
 

@@ -1,7 +1,7 @@
 name: PR label checking
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - edited
@@ -31,7 +31,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
         with:
           disable-sudo: true
           egress-policy: block
@@ -54,7 +54,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
         with:
           disable-sudo: true
           egress-policy: block
@@ -110,8 +110,12 @@ jobs:
 
     needs: label-from-checkboxes
 
+    permissions:
+      contents: read
+      pull-requests: read
+
     steps:
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
         with:
           disable-sudo: true
           egress-policy: block

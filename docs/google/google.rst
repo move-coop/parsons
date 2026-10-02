@@ -2,6 +2,15 @@
 Google
 ######
 
+.. admonition:: Required Extra
+
+   To use the Google connectors, you will need to install parsons with the google extra.
+   To do this, you will need to install it with ``pip install parsons[google]`` or ``pip install parsons[all]``.
+   For more information, see our :ref:`index:Installation` notes.
+
+Overview
+========
+
 Google Cloud services allow you to upload and manipulate Tables as spreadsheets (via GoogleSheets)
 or query them as SQL database tables (via GoogleBigQuery).
 You can also upload/store/download them as binary objects (via GoogleCloudStorage).

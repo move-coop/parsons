@@ -121,7 +121,7 @@ class CensusGeocoder:
             A Parsons table
 
         """
-        logger.info(f"Geocoding {table.num_rows} records.")
+        logger.info("Geocoding %s records.", table.num_rows)
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
                 "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
@@ -138,7 +138,7 @@ class CensusGeocoder:
                 Table(petl.fromdicts(self.cg.addressbatch(tbl, timeout=self.timeout)))
             )
             records_processed += tbl.num_rows
-            logger.info(f"{records_processed} of {table.num_rows} records processed.")
+            logger.info("%s of %s records processed.", records_processed, table.num_rows)
 
         return geocoded_tbl
 

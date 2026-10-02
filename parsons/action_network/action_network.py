@@ -7,6 +7,7 @@ from typing import Literal
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -22,13 +23,11 @@ class ActionNetwork:
     """
 
     def __init__(self, api_token=None):
-        self.api_token = check_env.check("AN_API_TOKEN", api_token)
-        self.headers = {
-            "Content-Type": "application/json",
-            "OSDI-API-Token": self.api_token,
-        }
         self.api_url = API_URL
-        self.api = APIConnector(self.api_url, headers=self.headers)
+        headers = {"Content-Type": "application/json"}
+        api_token = check_env.check("AN_API_TOKEN", api_token)
+        auth = BearerAuth(api_token, header_name="OSDI-API-Token", token_name=None)
+        self.api = APIConnector(self.api_url, headers=headers, auth=auth)
 
     def _get_page(self, object_name, page, per_page=25, filter=None):
         # returns data from one page of results

@@ -2,6 +2,12 @@
 GitHub
 ######
 
+.. admonition:: Required Extra
+
+   To use the GitHub connector, you will need to install parsons with the github extra.
+   To do this, you will need to install it with ``pip install parsons[github]`` or ``pip install parsons[all]``.
+   For more information, see our :ref:`index:Installation` notes.
+
 Overview
 ========
 

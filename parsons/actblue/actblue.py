@@ -19,25 +19,26 @@ class ActBlue:
     """
     Instantiate class.
 
-    For instructions on how to generate a Client UUID and Client Secret set,
-    visit https://secure.actblue.com/docs/csv_api#authentication.
+    .. admonition:: Generating a Client UUID and Client Secret
+
+        See https://secure.actblue.com/docs/csv_api#authentication.
 
     Args:
-            actblue_client_uuid: str
-                The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
-                variable set.
-            actblue_client_secret: str
-                The ActBlue provided Client Secret. Not required if ``ACTBLUE_CLIENT_SECRET`` env
-                variable set.
-            actblue_uri: str
-                The URI to access the CSV API. Not required, default is
-                `https://secure.actblue.com/api/v1`. You can set an ``ACTBLUE_URI`` env variable or
-                use this URI parameter if a different endpoint is necessary - for example, when
-                running this code in a test environment where you don't want to hit the actual API.
-            max_retries: int
-                The maximum number of times to poll the API for a download URL. Not required, default
-                is None, which means it will poll indefinitely until a download URL is returned.
-                ``ACTBLUE_MAX_RETRIES`` env variable can be set, which will override this parameter.
+        actblue_client_uuid: str
+            The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
+            variable set.
+        actblue_client_secret: str
+            The ActBlue provided Client Secret. Not required if ``ACTBLUE_CLIENT_SECRET`` env
+            variable set.
+        actblue_uri: str
+            The URI to access the CSV API. Not required, default is
+            `https://secure.actblue.com/api/v1`. You can set an ``ACTBLUE_URI`` env variable or
+            use this URI parameter if a different endpoint is necessary - for example, when
+            running this code in a test environment where you don't want to hit the actual API.
+        max_retries: int
+            The maximum number of times to poll the API for a download URL. Not required, default
+            is None, which means it will poll indefinitely until a download URL is returned.
+            ``ACTBLUE_MAX_RETRIES`` env variable can be set, which will override this parameter.
 
     """
 

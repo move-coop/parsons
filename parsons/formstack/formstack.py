@@ -14,9 +14,9 @@ class Formstack:
     Instantiate Formstack class.
 
     Args:
-            api_token:
-                API token to access the Formstack API. Not required if the
-                ``FORMSTACK_API_TOKEN`` env variable is set.
+        api_token:
+            API token to access the Formstack API. Not required if the
+            ``FORMSTACK_API_TOKEN`` env variable is set.
 
     """
 

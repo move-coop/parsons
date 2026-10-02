@@ -102,7 +102,7 @@ def distribute_task_csv(
     filename = hash(time.time())
     storagekey = f"{S3_TEMP_KEY_PREFIX}/{filename}.csv"
     groupcount = len(group_ranges)
-    logger.debug(f"distribute_task_csv storagekey {storagekey} w/ {groupcount} groups")
+    logger.debug("distribute_task_csv storagekey %s w/ %s groups", storagekey, groupcount)
 
     response = None
     if storage == "s3":
@@ -238,8 +238,11 @@ def process_task_portion(
     global FAKE_STORAGE
 
     logger.debug(
-        f"process_task_portion func_name {func_name}, "
-        f"storagekey {storagekey}, byterange {rangestart}-{rangeend}"
+        "process_task_portion func_name %s, storagekey %s, byterange %s-%s",
+        func_name,
+        storagekey,
+        rangestart,
+        rangeend,
     )
     func = import_and_get_task(func_name, func_class_kwargs)
     if storage == "s3":

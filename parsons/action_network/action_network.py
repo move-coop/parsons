@@ -35,8 +35,7 @@ class ActionNetwork:
         if per_page > 25:
             per_page = 25
             logger.info(
-                "Action Network's API will not return more than 25 entries per page. \
-            Changing per_page parameter to 25."
+                "Action Network's API will not return more than 25 entries per page. Changing per_page parameter to 25."
             )
         params = {"page": page, "per_page": per_page, "filter": filter}
         return self.api.get_request(url=object_name, params=params)
@@ -1371,11 +1370,13 @@ class ActionNetwork:
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number: str
-        | int
-        | list[str | int]
-        | list[dict[Literal["address", "primary", "status"], str | bool]]
-        | None = None,
+        mobile_number: (
+            str
+            | int
+            | list[str | int]
+            | list[dict[Literal["address", "primary", "status"], str | bool]]
+            | None
+        ) = None,
         mobile_status: Literal["subscribed", "unsubscribed"] | None = None,
         background_processing=False,
         **kwargs,
@@ -1534,13 +1535,15 @@ class ActionNetwork:
             entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ]
         if not person_id:
-            logger.error(f"Response gave no valid person_id: {identifiers}")
+            logger.error("Response gave no valid person_id: %s", identifiers)
         else:
             person_id = person_id[0]
-        if response["created_date"] == response["modified_date"]:
-            logger.info(f"Entry {person_id} successfully added.")
-        else:
-            logger.info(f"Entry {person_id} successfully updated.")
+        was_added = response["created_date"] == response["modified_date"]
+        logger.info(
+            "Entry %s successfully %s.",
+            person_id,
+            "added" if was_added else "updated",
+        )
         return response
 
     def add_person(
@@ -1554,11 +1557,13 @@ class ActionNetwork:
         tags=None,
         languages_spoken=None,
         postal_addresses=None,
-        mobile_number: str
-        | int
-        | list[str | int]
-        | list[dict[Literal["address", "primary", "status"], str | bool]]
-        | None = None,
+        mobile_number: (
+            str
+            | int
+            | list[str | int]
+            | list[dict[Literal["address", "primary", "status"], str | bool]]
+            | None
+        ) = None,
         mobile_status: Literal["subscribed", "unsubscribed"] | None = "subscribed",
         **kwargs,
     ):
@@ -1638,7 +1643,7 @@ class ActionNetwork:
             data=json.dumps(data),
             success_codes=[204, 201, 200],
         )
-        logger.info(f"Person {entry_id} successfully updated")
+        logger.info("Person %s successfully updated", entry_id)
         return response
 
     # Petitions
@@ -1717,7 +1722,7 @@ class ActionNetwork:
             url=url,
             data=json.dumps(data),
         )
-        logger.info(f"Petition {title} successfully created")
+        logger.info("Petition %s successfully created", title)
         return response
 
     def update_petition(
@@ -1764,7 +1769,7 @@ class ActionNetwork:
             url=url,
             data=json.dumps(data),
         )
-        logger.info(f"Petition {title} successfully updated")
+        logger.info("Petition %s successfully updated", title)
         return response
 
     # Queries
@@ -2237,7 +2242,7 @@ class ActionNetwork:
         person_id = [
             entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
         ][0]
-        logger.info(f"Tag {person_id} successfully added to tags.")
+        logger.info("Tag %s successfully added to tags.", person_id)
         return response
 
     # Taggings

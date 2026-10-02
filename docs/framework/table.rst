@@ -27,7 +27,7 @@ From Parsons Table
       - CSV File
       - Write a table to a local csv file
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_avro`
-      - Avro File
+      - Avro File [2]_
       - Write a table to a local avro file
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_s3_csv`
       - AWS s3 Bucket
@@ -63,7 +63,7 @@ From Parsons Table
       - CSV file
       - Appends table to an existing CSV
     * - :meth:`~parsons.etl.tofrom.ToFrom.append_avro`
-      - Avro file
+      - Avro file [2]_
       - Appends table to an existing Avro file
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_zip_csv`
       - ZIP file
@@ -71,8 +71,6 @@ From Parsons Table
     * - :meth:`~parsons.etl.tofrom.ToFrom.to_dicts`
       - Dicts
       - Write a table as a list of dicts
-
-.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``.
 
 To Parsons Table
 ----------------
@@ -90,7 +88,7 @@ Create Parsons :ref:`Table` object using the following methods.
       - File like object, local path, url, ftp.
       - Loads a csv object into a Table
     * - :meth:`~parsons.etl.tofrom.ToFrom.from_avro`
-      - Avro File
+      - Avro File [2]_
       - Load a table from a local avro file
     * - :meth:`~parsons.etl.tofrom.ToFrom.from_json`
       - File like object, local path, url, ftp.
@@ -105,7 +103,7 @@ Create Parsons :ref:`Table` object using the following methods.
       - Postgres table
       - Loads a Postgres query into a Table
     * - :meth:`~parsons.etl.tofrom.ToFrom.from_dataframe`
-      - Pandas Dataframe [2]_
+      - Pandas Dataframe [1]_
       - Load a Parsons table from a Pandas Dataframe
     * - :meth:`~parsons.etl.tofrom.ToFrom.from_s3_csv`
       - S3 CSV
@@ -114,9 +112,7 @@ Create Parsons :ref:`Table` object using the following methods.
       - File like object, local path, url, ftp.
       - Load a CSV string into a Table
 
-.. [2] Requires optional installation of Pandas package by running ``pip install pandas``.
-
-You can also use the :ref:`Table` constructor to create a :ref:`Table` from a python list or petl :class:`~petl.util.base.Table`.
+You can also use the :ref:`Table` constructor to create a :ref:`Table` from a :class:`list` or :class:`petl.util.base.Table`.
 
 .. code-block:: python
    :caption: From a list of dicts
@@ -132,6 +128,9 @@ You can also use the :ref:`Table` constructor to create a :ref:`Table` from a py
    :caption: From a petl table
 
    tbl = Table(petl_tbl)
+
+.. [1] Requires optional installation of Pandas package by running ``pip install parsons[pandas]``. For more information, see our :ref:`index:Installation` notes.
+.. [2] Requires optional installation of FastAvro package by running ``pip install parsons[avro]``. For more information, see our :ref:`index:Installation` notes.
 
 Parsons Table Attributes
 ------------------------

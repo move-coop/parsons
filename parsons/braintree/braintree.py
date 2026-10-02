@@ -325,7 +325,7 @@ class Braintree:
         )
         query_count = len(collection.ids)
         logger.info(
-            f"Braintree subscriptions search resulted in subscriptions count of {query_count}"
+            "Braintree subscriptions search resulted in subscriptions count of %s", query_count
         )
         if just_ids:
             return Table(list(itertools.chain([["id"]], ([i] for i in collection.ids))))
@@ -406,7 +406,7 @@ class Braintree:
             ),
         )
         query_count = len(collection.ids)
-        logger.info(f"Braintree transactions resulted in transaction count of {query_count}")
+        logger.info("Braintree transactions resulted in transaction count of %s", query_count)
         if just_ids:
             return Table(list(itertools.chain([["id"]], ([i] for i in collection.ids))))
 
@@ -506,8 +506,7 @@ class Braintree:
             collection_query = self._get_query_objects(query_type, **default_query)
         if not collection_query:
             raise ParsonsBraintreeError(
-                "You must pass some query parameters: "
-                "query_dict, start_date with end_date, or query_list"
+                "You must pass some query parameters: query_dict, start_date with end_date, or query_list"
             )
 
         if table_of_ids:

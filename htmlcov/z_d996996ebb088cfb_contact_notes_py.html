@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_d996996ebb088cfb_custom_fields_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -109,7 +109,7 @@
     <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">people/</span><span class="op">{</span><span class="nam">van_id</span><span class="op">}</span><span class="fst">/notes</span><span class="fst">&quot;</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> custom fields.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found %s custom fields.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">        <span class="key">return</span> <span class="nam">tbl</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">    <span class="key">def</span> <span class="nam">create_contact_note</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
@@ -171,7 +171,7 @@
     <p class="mis show_mis"><span class="n"><a id="t87" href="#t87">87</a></span><span class="t">            <span class="nam">note</span><span class="op">[</span><span class="str">&quot;contactHistory&quot;</span><span class="op">]</span> <span class="op">=</span> <span class="nam">contact_history</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t88" href="#t88">88</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t89" href="#t89">89</a></span><span class="t">        <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">post_request</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">people/</span><span class="op">{</span><span class="nam">van_id</span><span class="op">}</span><span class="fst">/notes</span><span class="fst">&quot;</span><span class="op">,</span> <span class="nam">json</span><span class="op">=</span><span class="nam">note</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t90" href="#t90">90</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Contact note </span><span class="op">{</span><span class="nam">r</span><span class="op">}</span><span class="fst"> created.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t90" href="#t90">90</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Contact note %s created.&quot;</span><span class="op">,</span> <span class="nam">r</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t91" href="#t91">91</a></span><span class="t">        <span class="key">return</span> <span class="nam">r</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
@@ -182,7 +182,7 @@
             <a class="nav" href="z_d996996ebb088cfb_custom_fields_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

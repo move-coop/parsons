@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_771f4f6b19cae5e5___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -167,7 +167,7 @@
     <p class="run"><span class="n"><a id="t83" href="#t83">83</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">data</span><span class="op">)</span><span class="op">.</span><span class="nam">remove_column</span><span class="op">(</span><span class="str">&quot;links&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t84" href="#t84">84</a></span><span class="t">        <span class="nam">tbl</span><span class="op">.</span><span class="nam">unpack_dict</span><span class="op">(</span><span class="str">&quot;statistics&quot;</span><span class="op">,</span> <span class="nam">prepend</span><span class="op">=</span><span class="key">False</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t85" href="#t85">85</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t86" href="#t86">86</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> surveys.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t86" href="#t86">86</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found %s surveys.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t87" href="#t87">87</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t88" href="#t88">88</a></span><span class="t">        <span class="key">return</span> <span class="nam">tbl</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t89" href="#t89">89</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -188,7 +188,7 @@
     <p class="pln"><span class="n"><a id="t104" href="#t104">104</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t105" href="#t105">105</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t106" href="#t106">106</a></span><span class="t">        <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_client</span><span class="op">.</span><span class="nam">api</span><span class="op">.</span><span class="nam">surveyresponse</span><span class="op">.</span><span class="nam">list</span><span class="op">(</span><span class="nam">survey_id</span><span class="op">,</span> <span class="nam">page</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t107" href="#t107">107</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="op">{</span><span class="nam">survey_id</span><span class="op">}</span><span class="fst">: </span><span class="op">{</span><span class="nam">r</span><span class="op">[</span><span class="str">&#x27;total_count&#x27;</span><span class="op">]</span><span class="op">}</span><span class="fst"> responses.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t107" href="#t107">107</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;%s: %s responses.&quot;</span><span class="op">,</span> <span class="nam">survey_id</span><span class="op">,</span> <span class="nam">r</span><span class="op">[</span><span class="str">&quot;total_count&quot;</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t108" href="#t108">108</a></span><span class="t">        <span class="nam">data</span> <span class="op">=</span> <span class="nam">r</span><span class="op">[</span><span class="str">&quot;data&quot;</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t109" href="#t109">109</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t110" href="#t110">110</a></span><span class="t">        <span class="key">if</span> <span class="key">not</span> <span class="nam">page</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">110&#x202F;&#x219B;&#x202F;115</span><span class="annotate long">line 110 didn't jump to line 115 because the condition on line 110 was always true</span></span></p>
@@ -198,7 +198,7 @@
     <p class="pln"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">data</span><span class="op">)</span><span class="op">.</span><span class="nam">add_column</span><span class="op">(</span><span class="str">&quot;survey_id&quot;</span><span class="op">,</span> <span class="nam">survey_id</span><span class="op">,</span> <span class="nam">index</span><span class="op">=</span><span class="num">1</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t116" href="#t116">116</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t117" href="#t117">117</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found #</span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> responses.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t117" href="#t117">117</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found #%s responses.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t118" href="#t118">118</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t119" href="#t119">119</a></span><span class="t">        <span class="key">return</span> <span class="nam">tbl</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t120" href="#t120">120</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -214,7 +214,7 @@
             <a class="nav" href="z_771f4f6b19cae5e5___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

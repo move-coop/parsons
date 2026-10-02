@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_d996996ebb088cfb_email_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -111,7 +111,7 @@
     <p class="run"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">        <span class="nam">params</span> <span class="op">=</span> <span class="op">{</span><span class="str">&quot;customFieldsGroupType&quot;</span><span class="op">:</span> <span class="nam">field_type</span><span class="op">.</span><span class="nam">capitalize</span><span class="op">(</span><span class="op">)</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="str">&quot;customFields&quot;</span><span class="op">,</span> <span class="nam">params</span><span class="op">=</span><span class="nam">params</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> custom fields.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found %s custom fields.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">        <span class="key">return</span> <span class="nam">tbl</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_custom_fields_values</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
@@ -148,7 +148,7 @@
     <p class="mis mis2 show_mis"><span class="n"><a id="t64" href="#t64">64</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t66" href="#t66">66</a></span><span class="t">        <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">            <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> custom field values.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">            <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found %s custom field values.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t68" href="#t68">68</a></span><span class="t">            <span class="key">return</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">long_table</span><span class="op">(</span><span class="str">&quot;customFieldId&quot;</span><span class="op">,</span> <span class="str">&quot;availableValues&quot;</span><span class="op">,</span> <span class="nam">prepend</span><span class="op">=</span><span class="key">False</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t69" href="#t69">69</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t70" href="#t70">70</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_custom_field</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">custom_field_id</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -164,7 +164,7 @@
     <p class="pln"><span class="n"><a id="t80" href="#t80">80</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t81" href="#t81">81</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t82" href="#t82">82</a></span><span class="t">        <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">customFields/</span><span class="op">{</span><span class="nam">custom_field_id</span><span class="op">}</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t83" href="#t83">83</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found custom field </span><span class="op">{</span><span class="nam">custom_field_id</span><span class="op">}</span><span class="fst">.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t83" href="#t83">83</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found custom field %s.&quot;</span><span class="op">,</span> <span class="nam">custom_field_id</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t84" href="#t84">84</a></span><span class="t">        <span class="key">return</span> <span class="nam">r</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
@@ -175,7 +175,7 @@
             <a class="nav" href="z_d996996ebb088cfb_email_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

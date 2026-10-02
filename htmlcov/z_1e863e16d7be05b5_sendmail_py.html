@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_1e863e16d7be05b5_slack_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -243,7 +243,7 @@
     <p class="run"><span class="n"><a id="t159" href="#t159">159</a></span><span class="t">                <span class="nam">file_bytes</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">f</span><span class="op">)</span><span class="op">.</span><span class="nam">read_bytes</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t160" href="#t160">160</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t161" href="#t161">161</a></span><span class="t">            <span class="nam">content_type</span><span class="op">,</span> <span class="nam">encoding</span> <span class="op">=</span> <span class="nam">mimetypes</span><span class="op">.</span><span class="nam">guess_type</span><span class="op">(</span><span class="nam">filename</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t162" href="#t162">162</a></span><span class="t">            <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">(File: </span><span class="op">{</span><span class="nam">f</span><span class="op">}</span><span class="fst">, Content-type: </span><span class="op">{</span><span class="nam">content_type</span><span class="op">}</span><span class="fst">, Encoding: </span><span class="op">{</span><span class="nam">encoding</span><span class="op">}</span><span class="fst">)</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t162" href="#t162">162</a></span><span class="t">            <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">&quot;(File: %s, Content-type: %s, Encoding: %s)&quot;</span><span class="op">,</span> <span class="nam">f</span><span class="op">,</span> <span class="nam">content_type</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t163" href="#t163">163</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t164" href="#t164">164</a></span><span class="t">            <span class="key">if</span> <span class="nam">content_type</span> <span class="key">is</span> <span class="key">None</span> <span class="key">or</span> <span class="nam">encoding</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t165" href="#t165">165</a></span><span class="t">                <span class="nam">content_type</span> <span class="op">=</span> <span class="str">&quot;application/octet-stream&quot;</span>&nbsp;</span><span class="r"></span></p>
@@ -318,7 +318,7 @@
     <p class="pln"><span class="n"><a id="t234" href="#t234">234</a></span><span class="t"><span class="str">                if email is not valid. EmailSyntaxError inherits from ValueError.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t235" href="#t235">235</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t236" href="#t236">236</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t237" href="#t237">237</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Validating email </span><span class="op">{</span><span class="nam">str</span><span class="op">}</span><span class="fst">...</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t237" href="#t237">237</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">&quot;Validating email %s...&quot;</span><span class="op">,</span> <span class="nam">str</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t238" href="#t238">238</a></span><span class="t">        <span class="nam">_</span><span class="op">,</span> <span class="nam">email_addr</span> <span class="op">=</span> <span class="nam">parseaddr</span><span class="op">(</span><span class="nam">email_address</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t239" href="#t239">239</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t240" href="#t240">240</a></span><span class="t">        <span class="key">if</span> <span class="key">not</span> <span class="nam">email_addr</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -410,7 +410,7 @@
     <p class="run run2"><span class="n"><a id="t326" href="#t326">326</a></span><span class="t">                <span class="nam">sender</span><span class="op">,</span> <span class="nam">to</span><span class="op">,</span> <span class="nam">subject</span><span class="op">,</span> <span class="nam">message_text</span><span class="op">,</span> <span class="nam">files</span><span class="op">,</span> <span class="nam">message_html</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t327" href="#t327">327</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t328" href="#t328">328</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t329" href="#t329">329</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Sending a(n) </span><span class="op">{</span><span class="nam">msg_type</span><span class="op">}</span><span class="fst"> email...</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t329" href="#t329">329</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Sending a(n) %s email...&quot;</span><span class="op">,</span> <span class="nam">msg_type</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t330" href="#t330">330</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t331" href="#t331">331</a></span><span class="t">        <span class="nam">self</span><span class="op">.</span><span class="nam">_send_message</span><span class="op">(</span><span class="nam">msg</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t332" href="#t332">332</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -430,7 +430,7 @@
             <a class="nav" href="z_1e863e16d7be05b5_slack_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_ed90e41474c03e35___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -98,9 +98,9 @@
     <p class="pln"><span class="n"><a id="t14" href="#t14">14</a></span><span class="t"><span class="str">    Instantiate Formstack class.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t15" href="#t15">15</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t16" href="#t16">16</a></span><span class="t"><span class="str">    Args:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t"><span class="str">            api_token:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t"><span class="str">                API token to access the Formstack API. Not required if the</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t"><span class="str">                ``FORMSTACK_API_TOKEN`` env variable is set.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t17" href="#t17">17</a></span><span class="t"><span class="str">        api_token:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t18" href="#t18">18</a></span><span class="t"><span class="str">            API token to access the Formstack API. Not required if the</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t"><span class="str">            ``FORMSTACK_API_TOKEN`` env variable is set.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t"><span class="str">    &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -192,7 +192,7 @@
     <p class="run"><span class="n"><a id="t108" href="#t108">108</a></span><span class="t">                <span class="nam">subfolders</span> <span class="op">+=</span> <span class="nam">f_subfolders</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t109" href="#t109">109</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t110" href="#t110">110</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">response_data</span><span class="op">[</span><span class="str">&quot;folders&quot;</span><span class="op">]</span> <span class="op">+</span> <span class="nam">subfolders</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t111" href="#t111">111</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> folders.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t111" href="#t111">111</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">&quot;Found %s folders.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t112" href="#t112">112</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="par run show_par"><span class="n"><a id="t113" href="#t113">113</a></span><span class="t">        <span class="key">if</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span>&nbsp;</span><span class="r"><span class="annotate short">113&#x202F;&#x219B;&#x202F;114</span><span class="annotate long">line 113 didn't jump to line 114 because the condition on line 113 was never true</span></span></p>
     <p class="mis show_mis"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t">            <span class="key">return</span> <span class="nam">Table</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -296,7 +296,7 @@
             <a class="nav" href="z_ed90e41474c03e35___init___py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

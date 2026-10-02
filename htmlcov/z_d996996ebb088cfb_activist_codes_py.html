@@ -67,7 +67,7 @@
             <a id="nextFileLink" class="nav" href="z_d996996ebb088cfb_bulk_import_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -107,7 +107,7 @@
     <p class="pln"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">        <span class="nam">tbl</span> <span class="op">=</span> <span class="nam">Table</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="str">&quot;activistCodes&quot;</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found </span><span class="op">{</span><span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">}</span><span class="fst"> activist codes.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found %s activist codes.&quot;</span><span class="op">,</span> <span class="nam">tbl</span><span class="op">.</span><span class="nam">num_rows</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">        <span class="key">return</span> <span class="nam">tbl</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_activist_code</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">activist_code_id</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -124,7 +124,7 @@
     <p class="pln"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t"><span class="str">        &quot;&quot;&quot;</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">        <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">connection</span><span class="op">.</span><span class="nam">get_request</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">activistCodes/</span><span class="op">{</span><span class="nam">activist_code_id</span><span class="op">}</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f&quot;</span><span class="fst">Found activist code </span><span class="op">{</span><span class="nam">activist_code_id</span><span class="op">}</span><span class="fst">.</span><span class="fst">&quot;</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">&quot;Found activist code %s.&quot;</span><span class="op">,</span> <span class="nam">activist_code_id</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t44" href="#t44">44</a></span><span class="t">        <span class="key">return</span> <span class="nam">r</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t45" href="#t45">45</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t46" href="#t46">46</a></span><span class="t">    <span class="key">def</span> <span class="nam">toggle_activist_code</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
@@ -148,7 +148,7 @@
     <p class="run"><span class="n"><a id="t64" href="#t64">64</a></span><span class="t">        <span class="nam">r</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">apply_response</span><span class="op">(</span><span class="nam">id</span><span class="op">,</span> <span class="nam">response</span><span class="op">,</span> <span class="nam">id_type</span><span class="op">,</span> <span class="nam">omit_contact</span><span class="op">=</span><span class="nam">omit_contact</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t66" href="#t66">66</a></span><span class="t">        <span class="nam">logger</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">            <span class="fst">f&quot;</span><span class="op">{</span><span class="nam">id_type</span><span class="op">.</span><span class="nam">upper</span><span class="op">(</span><span class="op">)</span><span class="op">}</span><span class="fst"> </span><span class="op">{</span><span class="nam">id</span><span class="op">}</span><span class="fst"> </span><span class="op">{</span><span class="nam">action</span><span class="op">.</span><span class="nam">capitalize</span><span class="op">(</span><span class="op">)</span><span class="op">}</span><span class="fst"> </span><span class="fst">&quot;</span> <span class="op">+</span> <span class="fst">f&quot;</span><span class="fst">activist code </span><span class="op">{</span><span class="nam">activist_code_id</span><span class="op">}</span><span class="fst">&quot;</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">            <span class="str">&quot;%s %s %s activist code %s&quot;</span><span class="op">,</span> <span class="nam">id_type</span><span class="op">.</span><span class="nam">upper</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">id</span><span class="op">,</span> <span class="nam">action</span><span class="op">.</span><span class="nam">capitalize</span><span class="op">(</span><span class="op">)</span><span class="op">,</span> <span class="nam">activist_code_id</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t68" href="#t68">68</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t69" href="#t69">69</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t70" href="#t70">70</a></span><span class="t">        <span class="key">return</span> <span class="nam">r</span>&nbsp;</span><span class="r"></span></p>
@@ -200,7 +200,7 @@
             <a class="nav" href="z_d996996ebb088cfb_bulk_import_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.16.1">coverage.py v7.16.1</a>,
-            created at 2026-09-28 00:56 +0000
+            created at 2026-10-02 18:17 +0000
         </p>
     </div>
 </footer>

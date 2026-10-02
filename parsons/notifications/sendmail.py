@@ -159,7 +159,7 @@ class SendMail(ABC):
                 file_bytes = Path(f).read_bytes()
 
             content_type, encoding = mimetypes.guess_type(filename)
-            self.log.debug(f"(File: {f}, Content-type: {content_type}, Encoding: {encoding})")
+            self.log.debug("(File: %s, Content-type: %s, Encoding: %s)", f, content_type, encoding)
 
             if content_type is None or encoding is not None:
                 content_type = "application/octet-stream"
@@ -234,7 +234,7 @@ class SendMail(ABC):
                 if email is not valid. EmailSyntaxError inherits from ValueError.
 
         """
-        self.log.debug(f"Validating email {str}...")
+        self.log.debug("Validating email %s...", str)
         _, email_addr = parseaddr(email_address)
 
         if not email_addr:
@@ -326,7 +326,7 @@ class SendMail(ABC):
                 sender, to, subject, message_text, files, message_html
             )
 
-        self.log.info(f"Sending a(n) {msg_type} email...")
+        self.log.info("Sending a(n) %s email...", msg_type)
 
         self._send_message(msg)
 

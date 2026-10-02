@@ -40,7 +40,7 @@ class Signups:
             params = {"eventTypeId": event_type_id}
 
         tbl = Table(self.connection.get_request("signups/statuses", params=params))
-        logger.info(f"Found {tbl.num_rows} signups.")
+        logger.info("Found %s signups.", tbl.num_rows)
         return tbl
 
     def get_person_signups(self, vanid):
@@ -57,7 +57,7 @@ class Signups:
 
         """
         tbl = Table(self.connection.get_request("signups", params={"vanID": vanid}))
-        logger.info(f"Found {tbl.num_rows} signups for {vanid}.")
+        logger.info("Found %s signups for %s.", tbl.num_rows, vanid)
         return self._unpack_signups(tbl)
 
     def get_event_signups(self, event_id):
@@ -73,7 +73,7 @@ class Signups:
 
         """
         tbl = Table(self.connection.get_request("signups", params={"eventId": event_id}))
-        logger.info(f"Found {tbl.num_rows} signups for event {event_id}.")
+        logger.info("Found %s signups for event %s.", tbl.num_rows, event_id)
         return self._unpack_signups(tbl)
 
     def get_signup(self, event_signup_id):
@@ -90,7 +90,7 @@ class Signups:
 
         """
         r = self.connection.get_request(f"signups/{event_signup_id}")
-        logger.info(f"Found sign up {event_signup_id}.")
+        logger.info("Found sign up %s.", event_signup_id)
         return r
 
     def create_signup(self, vanid, event_id, shift_id, role_id, status_id, location_id):
@@ -125,7 +125,7 @@ class Signups:
         }
 
         r = self.connection.post_request("signups", json=signup)
-        logger.info(f"Signup {r} created.")
+        logger.info("Signup %s created.", r)
         return r
 
     def update_signup(
@@ -178,7 +178,7 @@ class Signups:
 
         """
         r = self.connection.delete_request(f"signups/{event_signup_id}")
-        logger.info(f"Signup {event_signup_id} deleted.")
+        logger.info("Signup %s deleted.", event_signup_id)
         return r
 
     def _unpack_signups(self, table):

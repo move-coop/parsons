@@ -118,7 +118,7 @@ class Salesforce:
         """
         q = self.client.query_all(soql)
         q = json.loads(json.dumps(q))
-        logger.info(f"Found {q['totalSize']} results")
+        logger.info("Found %s results", q["totalSize"])
         return q
 
     def insert_record(self, object, data_table):
@@ -146,7 +146,7 @@ class Salesforce:
         r = getattr(self.client.bulk, object).insert(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
-            f"Successfully inserted {len(s)} out of {data_table.num_rows} records to {object}"
+            "Successfully inserted %s out of %s records to %s", len(s), data_table.num_rows, object
         )
         return r
 
@@ -175,7 +175,7 @@ class Salesforce:
         r = getattr(self.client.bulk, object).update(data_table.to_dicts())
         s = [x for x in r if x.get("success") is True]
         logger.info(
-            f"Successfully updated {len(s)} out of {data_table.num_rows} records in {object}"
+            "Successfully updated %s out of %s records in %s", len(s), data_table.num_rows, object
         )
         return r
 
@@ -207,7 +207,7 @@ class Salesforce:
         r = getattr(self.client.bulk, object).upsert(data_table.to_dicts(), id_col)
         s = [x for x in r if x.get("success") is True]
         logger.info(
-            f"Successfully upserted {len(s)} out of {data_table.num_rows} records to {object}"
+            "Successfully upserted %s out of %s records to %s", len(s), data_table.num_rows, object
         )
         return r
 
@@ -241,7 +241,7 @@ class Salesforce:
 
         s = [x for x in r if x.get("success") is True]
         logger.info(
-            f"Successfully deleted {len(s)} out of {id_table.num_rows} records from {object}"
+            "Successfully deleted %s out of %s records from %s", len(s), id_table.num_rows, object
         )
         return r
 

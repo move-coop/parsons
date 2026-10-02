@@ -6,7 +6,7 @@ SET "PYTHON_SCRIPT=%DOCS_DIR%make.py"
 
 python --version >nul 2>&1
 IF %ERRORLEVEL% NEQ 0 (
-    echo Error: Python is not installed or not in PATH.
+    echo Error: Python is not installed or not found in PATH.
     exit /b 1
 )
 

@@ -275,24 +275,26 @@ indent-width = 4
 [tool.ruff.lint]
 select = [
     "B", # flake8-bugbear (B)
-    "E", # pycodestyle errors (E)
-    "W", # pycodestyle warnings (W)
-    "D", # pydocstyle
     "C4", # flake8-comprehensions (C4)
+    "D", # pydocstyle
+    "E", # pycodestyle errors (E)
     "F", # Pyflakes (F)
-    "UP", # pyupgrade (UP)
+    "G", # flake8-logging-format
     "I", # isort (I)
-    "TID", # flake8-tidy-imports (TID)
-    "TD", # flake8-todos (TD)
     "ICN", # flake8-import-conventions (ICN)
-    "Q", # flake8-quotes (Q)
-    "TC", # flake8-type-checking (TC)
-    "YTT", # flake8-2020 (YTT)
-    "SIM", # flake8-simplify (SIM)
-    "PTH", # flake8-use-pathlib (PTH)
     "ISC", # flake8-implicit-str-concat (ISC)
+    "LOG", # flake8-logging
     "PT", # flake8-pytest-style (PT)
+    "PTH", # flake8-use-pathlib (PTH)
+    "Q", # flake8-quotes (Q)
     "RUF100", # unused-noqa
+    "SIM", # flake8-simplify (SIM)
+    "TC", # flake8-type-checking (TC)
+    "TD", # flake8-todos (TD)
+    "TID", # flake8-tidy-imports (TID)
+    "UP", # pyupgrade (UP)
+    "W", # pycodestyle warnings (W)
+    "YTT", # flake8-2020 (YTT)
 ]
 ignore = [
     "E501", # line-too-long

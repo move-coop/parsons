@@ -21,7 +21,7 @@ class SupporterGroups:
 
         """
         tbl = Table(self.connection.get_request("supporterGroups"))
-        logger.info(f"Found {tbl.num_rows} supporter groups.")
+        logger.info("Found %s supporter groups.", tbl.num_rows)
         return tbl
 
     def get_supporter_group(self, supporter_group_id):
@@ -37,7 +37,7 @@ class SupporterGroups:
 
         """
         r = self.connection.get_request(f"supporterGroups/{supporter_group_id}")
-        logger.info(f"Found supporter group {supporter_group_id}.")
+        logger.info("Found supporter group %s.", supporter_group_id)
         return r
 
     def create_supporter_group(self, name, description):
@@ -69,7 +69,7 @@ class SupporterGroups:
 
         """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}")
-        logger.info(f"Deleted supporter group {supporter_group_id}.")
+        logger.info("Deleted supporter group %s.", supporter_group_id)
         return r
 
     def add_person_supporter_group(self, supporter_group_id, vanid):
@@ -84,7 +84,7 @@ class SupporterGroups:
 
         """
         r = self.connection.put_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
-        logger.info(f"Added person {vanid} to {supporter_group_id} supporter group.")
+        logger.info("Added person %s to %s supporter group.", vanid, supporter_group_id)
         return r
 
     def delete_person_supporter_group(self, supporter_group_id, vanid):
@@ -99,5 +99,5 @@ class SupporterGroups:
 
         """
         r = self.connection.delete_request(f"supporterGroups/{supporter_group_id}/people/{vanid}")
-        logger.info(f"Deleted person {vanid} from {supporter_group_id} supporter group.")
+        logger.info("Deleted person %s from %s supporter group.", vanid, supporter_group_id)
         return r

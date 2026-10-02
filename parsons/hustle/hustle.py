@@ -1,12 +1,16 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import NoReturn
 
 from requests import Response, request
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
 
 from parsons.etl.table import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 from parsons.utilities import check_env, json_format
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -35,39 +39,43 @@ class Hustle:
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
-        self.auth_token, self.token_expiration = self._get_auth_token(
-            self.client_id, self.client_secret
-        )
+        self.auth: BearerAuth | None = None
+        self._get_auth_token()
 
-    def _get_auth_token(self, client_id: str, client_secret: str):
+    @property
+    @deprecated("Use 'Hustle.auth.api_key' instead.")
+    def auth_token(self):
+        return self.auth.api_key
+
+    @property
+    @deprecated("Use 'Hustle.auth.expires' instead.")
+    def token_expiration(self):
+        return self.auth.expires
+
+    def _get_auth_token(self, client_id: str | None = None, client_secret: str | None = None):
         """Generate an authorization token."""
         data = {
-            "client_id": client_id,
-            "client_secret": client_secret,
+            "client_id": client_id or self.client_id,
+            "client_secret": client_secret or self.client_secret,
             "grant_type": "client_credentials",
         }
 
         resp = request("POST", self.uri + "oauth/token", data=data)
         resp_json = resp.json()
         logger.debug(resp_json)
+        logger.info(
+            "Authentication token generated; expires in %s seconds", resp_json["expires_in"]
+        )
 
-        auth_token = resp_json["access_token"]
-        token_expiration = datetime.now() + timedelta(seconds=resp_json["expires_in"])
-        logger.info("Authentication token generated")
-        return auth_token, token_expiration
+        expiration = datetime.now(timezone.utc) + timedelta(seconds=resp_json["expires_in"])
+        token = resp_json["access_token"]
+        if not self.auth:
+            self.auth = BearerAuth(token, expires=expiration, refresh_callback=self._get_auth_token)
+        else:
+            self.auth.api_key = token
+            self.auth.expires = expiration
 
-    def _refresh_token(self):
-        """Generate new token if current token is exprired.
-
-        Tokens are valid for `expires_in` (7200 by default) seconds.
-        """
-        logger.debug("Checking token expiration.")
-
-        if datetime.now() >= self.token_expiration:
-            logger.info("Refreshing authentication token.")
-            self.auth_token, self.token_expiration = self._get_auth_token(
-                self.client_id, self.client_secret
-            )
+        return self.auth.api_key, self.auth.expires
 
     def _request(
         self,
@@ -78,9 +86,6 @@ class Hustle:
         raise_on_error: bool = True,
     ) -> dict | list:
         url = self.uri + endpoint
-        self._refresh_token()
-
-        headers = {"Authorization": f"Bearer {self.auth_token}"}
 
         parameters = {}
         if req_type == "GET":
@@ -89,7 +94,7 @@ class Hustle:
         if args:
             parameters.update(args)
 
-        resp = request(req_type, url, params=parameters, json=payload, headers=headers)
+        resp = request(req_type, url, params=parameters, json=payload, auth=self.auth)
 
         self._error_check(resp, raise_on_error)
         resp_json = resp.json()
@@ -103,7 +108,7 @@ class Hustle:
         # Pagination
         while resp_json["pagination"]["hasNextPage"] == "true":
             parameters["cursor"] = resp_json["pagination"]["cursor"]
-            resp = request(req_type, url, params=parameters, headers=headers)
+            resp = request(req_type, url, params=parameters, auth=self.auth)
             self._error_check(resp, raise_on_error)
             resp_json = resp.json()
             result += resp_json["items"]

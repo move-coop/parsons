@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import requests_mock
 
 from parsons import Hustle, Table
@@ -18,8 +19,13 @@ class TestHustle(unittest.TestCase):
         self.hustle = Hustle(CLIENT_ID, CLIENT_SECRET)
 
     @requests_mock.Mocker()
+    def test_auth_token_deprecated(self, m):
+        with pytest.deprecated_call(match="Use 'Hustle.auth.api_key' instead."):
+            assert self.hustle.auth_token == expected_json.auth_token["access_token"]
+
+    @requests_mock.Mocker()
     def test_auth_token(self, m):
-        assert self.hustle.auth_token == expected_json.auth_token["access_token"]
+        assert self.hustle.auth.api_key == expected_json.auth_token["access_token"]
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m):

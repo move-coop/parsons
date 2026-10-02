@@ -17,11 +17,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      CACHE_GLOBS: |
-        **/pyproject.toml
-        **/uv.lock
-
     steps:
       - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
         with:
@@ -34,7 +29,6 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
 
       - run: >-
           uv sync

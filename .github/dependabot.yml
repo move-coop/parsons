@@ -7,7 +7,7 @@ updates:
     groups:
       github-actions-monthly-updates:
         patterns:
-          - "*"
+          - '*'
 
   - package-ecosystem: docker
     directory: /

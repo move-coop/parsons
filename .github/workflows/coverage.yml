@@ -2,7 +2,8 @@ name: Post coverage comment
 
 on:
   workflow_run:
-    workflows: ["Python checks"]
+    workflows:
+      - Python checks
     types:
       - completed
 

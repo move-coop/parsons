@@ -77,9 +77,9 @@ contribution_data = actblue.get_contributions(csv_type, date_range_start, date_r
 
 # Step 4: Create a spreadsheet on Google Sheets
 sheet_id = google_sheets.create_spreadsheet(spreadsheet_name, editor_email=editor_email)
-logger.info(f"Created a spreadsheet named {spreadsheet_name}.")
+logger.info("Created a spreadsheet named %s.", spreadsheet_name)
 
 # Step 5: Send data from the Parsons Table to the Google Sheets spreadsheet
 google_sheets.append_to_sheet(sheet_id, contribution_data)
 logger.info("Completed transfer of data to Google Sheets.")
-logger.info(f"Google will email {editor_email} with a link to the new Google Sheet.")
+logger.info("Google will email %s with a link to the new Google Sheet.", editor_email)

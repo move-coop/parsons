@@ -127,7 +127,7 @@ class Events:
             post_data=payload,
         )
         event_id = response["id"]
-        logger.info(f"Created event {event_name} (id: {event_id})")
+        logger.info("Created event %s (id: %s)", event_name, event_id)
 
         return response
 
@@ -208,7 +208,7 @@ class Events:
             website,
         )
         event_id = event_data["id"]
-        logger.info(f"Created event {event_name} (id: {event_id})")
+        logger.info("Created event %s (id: %s)", event_name, event_id)
 
         event_activity_payload = {
             "CalendarId": calendar_id,
@@ -227,7 +227,9 @@ class Events:
         response = self._request(
             self.eventactivities_url, req_type="POST", post_data=event_activity_payload
         )
-        logger.info(f"Created activity {activity_name} for event {event_name} (id: {event_id})")
+        logger.info(
+            "Created activity %s for event %s (id: %s)", activity_name, event_name, event_id
+        )
 
         return response
 
@@ -296,7 +298,7 @@ class Events:
         response = self._request(
             self.eventactivities_url, req_type="POST", post_data=event_activity_payload
         )
-        logger.info(f"Created activity {activity_name} for event {event_id})")
+        logger.info("Created activity %s for event %s)", activity_name, event_id)
 
         return response
 

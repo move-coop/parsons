@@ -170,7 +170,7 @@ class Airtable:
             table = table.to_dicts()
 
         resp = self.client.batch_create(table, typecast=typecast)
-        logger.info(f"{len(table)} records inserted.")
+        logger.info("%s records inserted.", len(table))
         return resp
 
     def update_record(self, record_id, fields, typecast=False, replace=False):
@@ -197,7 +197,7 @@ class Airtable:
 
         """
         resp = self.client.update(record_id, fields, typecast=typecast, replace=replace)
-        logger.info(f"{record_id} updated")
+        logger.info("%s updated", record_id)
         return resp
 
     def update_records(self, table, typecast=False, replace=False):
@@ -229,7 +229,7 @@ class Airtable:
         table = list(map(map_update_fields, table))
 
         resp = self.client.batch_update(table, typecast=typecast, replace=replace)
-        logger.info(f"{len(resp)} records updated.")
+        logger.info("%s records updated.", len(resp))
         return resp
 
     def upsert_records(self, table, key_fields=None, typecast=False, replace=False):
@@ -272,7 +272,7 @@ class Airtable:
         created_records = resp["createdRecords"]
 
         logger.info(
-            f"{len(updated_records)} records updated, {len(created_records)} records created."
+            "%s records updated, %s records created.", len(updated_records), len(created_records)
         )
 
         return {
@@ -294,7 +294,7 @@ class Airtable:
 
         """
         resp = self.client.delete(record_id)
-        logger.info(f"{record_id} updated")
+        logger.info("%s updated", record_id)
         return resp
 
     def delete_records(self, table):
@@ -321,7 +321,7 @@ class Airtable:
             table = [row["id"] for row in table]
 
         resp = self.client.batch_delete(table)
-        logger.info(f"{len(table)} records deleted.")
+        logger.info("%s records deleted.", len(table))
         return resp
 
 

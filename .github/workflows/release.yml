@@ -29,6 +29,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

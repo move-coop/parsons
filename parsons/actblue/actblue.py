@@ -1,13 +1,12 @@
 import logging
 import time
-from typing import Literal
+from typing import Literal, cast
 
-from requests import Response
 from requests.auth import HTTPBasicAuth
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.api_connector import APIConnector, _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -16,54 +15,56 @@ ACTBLUE_API_ENDPOINT = "https://secure.actblue.com/api/v1"
 
 
 class ActBlue:
-    """
-    Instantiate class.
-
-    .. admonition:: Generating a Client UUID and Client Secret
-
-        See https://secure.actblue.com/docs/csv_api#authentication.
-
-    Args:
-        actblue_client_uuid: str
-            The ActBlue provided Client UUID. Not required if ``ACTBLUE_CLIENT_UUID`` env
-            variable set.
-        actblue_client_secret: str
-            The ActBlue provided Client Secret. Not required if ``ACTBLUE_CLIENT_SECRET`` env
-            variable set.
-        actblue_uri: str
-            The URI to access the CSV API. Not required, default is
-            `https://secure.actblue.com/api/v1`. You can set an ``ACTBLUE_URI`` env variable or
-            use this URI parameter if a different endpoint is necessary - for example, when
-            running this code in a test environment where you don't want to hit the actual API.
-        max_retries: int
-            The maximum number of times to poll the API for a download URL. Not required, default
-            is None, which means it will poll indefinitely until a download URL is returned.
-            ``ACTBLUE_MAX_RETRIES`` env variable can be set, which will override this parameter.
-
-    """
+    """Parsons connector for interacting with ActBlue endpoints."""
 
     def __init__(
         self,
-        actblue_client_uuid=None,
-        actblue_client_secret=None,
-        actblue_uri=None,
-        max_retries=None,
-    ):
+        actblue_client_uuid: str | None = None,
+        actblue_client_secret: str | None = None,
+        actblue_uri: str | None = None,
+        max_retries: int | None = None,
+    ) -> None:
+        """
+        Instantiate the ActBlue class.
+
+        .. admonition:: Generating a Client UUID and Client Secret
+
+            See https://secure.actblue.com/docs/csv_api#authentication.
+
+        Args:
+            actblue_client_uuid:
+                The ActBlue provided Client UUID.
+                Not required if ``ACTBLUE_CLIENT_UUID`` env variable set.
+            actblue_client_secret:
+                The ActBlue provided Client Secret.
+                Not required if ``ACTBLUE_CLIENT_SECRET`` env variable set.
+            actblue_uri:
+                The URI to access the CSV API if a different endpoint is necessary.
+                Not required. Default is `https://secure.actblue.com/api/v1`.
+                If not provided via this parameter, can be set by ``ACTBLUE_URI`` env variable.
+                Useful when running this code in a test environment where you don't want to hit the actual API.
+            max_retries:
+                The maximum number of times to poll the API for a download URL.
+                Not required. Default is None, which means it will poll indefinitely until a download URL is returned.
+                If not provided via this parameter, can be set by ``ACTBLUE_MAX_RETRIES`` env variable.
+
+        """
         self.actblue_client_uuid = check_env.check("ACTBLUE_CLIENT_UUID", actblue_client_uuid)
         self.actblue_client_secret = check_env.check("ACTBLUE_CLIENT_SECRET", actblue_client_secret)
         self.uri = (
             check_env.check("ACTBLUE_URI", actblue_uri, optional=True) or ACTBLUE_API_ENDPOINT
         )
-        self.headers = {
-            "accept": "application/json",
-        }
+        self.headers = {"accept": "application/json"}
         self.client = APIConnector(
             self.uri,
             auth=HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret),
             headers=self.headers,
         )
-        self.max_retries = check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True)
-        self.max_retries = int(self.max_retries) if self.max_retries else None
+        self.max_retries = (
+            int(val)
+            if (val := check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True))
+            else None
+        )
 
     def post_request(
         self,
@@ -73,12 +74,12 @@ class ActBlue:
         | None = None,
         date_range_start: str | None = None,
         date_range_end: str | None = None,
-    ) -> Response:
+    ) -> _JsonType:
         """
         POST request to ActBlue API to begin generating the CSV.
 
         Args:
-            csv_type: str
+            csv_type:
                 Type of CSV you are requesting.
                 Options:
 
@@ -91,14 +92,15 @@ class ActBlue:
                    managed by your entity, during the specified date range - including
                    contributions to other entities via that form if it is a tandem form.
 
-            date_range_start: str
+            date_range_start:
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
-            date_range_end: str
+            date_range_end:
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
 
         Returns:
-            Response of POST request; a successful response includes 'id', a unique identifier for
-            the CSV being generated.
+            Json data returned from POST request.
+            A successful response includes 'id',
+            a unique identifier for the CSV being generated.
 
         """
         body = {
@@ -107,41 +109,42 @@ class ActBlue:
             "date_range_end": date_range_end,
         }
         logger.info("Requesting %s from %s up to %s.", csv_type, date_range_start, date_range_end)
-        response = self.client.post_request(url="csvs", json=body)
-        return response
+        return self.client.post_request(url="csvs", json=body)
 
-    def get_download_url(self, csv_id=None):
+    def get_download_url(self, csv_id: str | None = None) -> str | None:
         """
         GET request to retrieve download_url for generated CSV.
 
         Args:
-            csv_id: str
-                Unique identifier of the CSV you requested.
+            csv_id: Unique identifier of the CSV you requested.
 
         Returns:
             While CSV is being generated, 'None' is returned. When CSV is ready, the method returns
             the download_url.
 
         """
-        response = self.client.get_request(url=f"csvs/{csv_id}")
-        if response.get("download_url") is None and response.get("status") != "in_progress":
-            raise ValueError("CSV generation failed: %s", response)
+        response = cast("dict[str, str]", self.client.get_request(url=f"csvs/{csv_id}"))
+        in_progress = response.get("status") == "in_progress"
+        if (url := response.get("download_url")) is None and not in_progress:
+            err_msg = "CSV generation failed: %s"
+            raise ValueError(err_msg, response)
 
-        return response["download_url"]
+        return url
 
-    def poll_for_download_url(self, csv_id):
+    def poll_for_download_url(self, csv_id: str) -> str:
         """
-        Poll the GET request method to check whether CSV generation has finished, signified by the
-        presence of a download_url.
+        Poll the GET request method to check whether CSV generation has finished.
+
+        Success is signified by the presence of a ``download_url``.
 
         Args:
-            csv_id: str
-                Unique identifier of the CSV you requested.
+            csv_id: Unique identifier of the CSV you requested.
 
         Returns:
-            Download URL from which you can download the generated CSV, valid for 10 minutes after
-            retrieval. Null until CSV has finished generating. Keep this URL secure because until
-            it expires, it could be used by anyone to download the CSV.
+            Download URL from which you can download the generated CSV.
+            URL is valid for 10 minutes after retrieval.
+            None is returned until CSV has finished generating.
+            Keep this URL secure, because (until it expires) it could be used by anyone to download the CSV.
 
         """
         logger.info("Request received. Please wait while ActBlue generates this data.")
@@ -153,7 +156,8 @@ class ActBlue:
             tries += 1
 
         if download_url is None:
-            raise TimeoutError("CSV generation timed out. Increase max_retries and try again.")
+            err_msg = "CSV generation timed out. Increase max_retries and try again."
+            raise TimeoutError(err_msg)
 
         logger.info("Completed data generation.")
         logger.info("Beginning conversion to Parsons Table.")
@@ -172,7 +176,7 @@ class ActBlue:
         Get specified contribution data from CSV API as Parsons table.
 
         Args:
-            csv_type: str
+            csv_type:
                 Type of CSV you are requesting.
                 Options:
 
@@ -185,9 +189,9 @@ class ActBlue:
                    managed by your entity, during the specified date range - including
                    contributions to other entities via that form if it is a tandem form.
 
-            date_range_start: str
+            date_range_start:
                 Start of date range to withdraw contribution data (inclusive). Ex: '2020-01-01'
-            date_range_end: str
+            date_range_end:
                 End of date range to withdraw contribution data (exclusive). Ex: '2020-02-01'
             `**csvargs`:
                 Any additional arguments will be passed to Table.from_csv as keyword arguments.

@@ -2,6 +2,7 @@ import gzip
 import json
 import unittest
 import unittest.mock
+from http import HTTPStatus
 
 import requests_mock
 
@@ -31,8 +32,8 @@ class TestAuth0(unittest.TestCase):
     @requests_mock.Mocker()
     def test_delete_user(self, m):
         user_id = 1
-        m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=204)
-        assert self.auth0.delete_user(user_id) == 204
+        m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=HTTPStatus.NO_CONTENT)
+        assert self.auth0.delete_user(user_id) == HTTPStatus.NO_CONTENT
 
     @requests_mock.Mocker()
     def test_get_users_by_email(self, m):
@@ -82,7 +83,7 @@ class TestAuth0(unittest.TestCase):
             json=[user],
         )
         mock_resp = unittest.mock.MagicMock()
-        mock_resp.status_code = 200
+        mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
         m.post(f"{self.auth0.base_url}/api/v2/users", mock_resp)
         ret = self.auth0.upsert_user(
@@ -93,14 +94,14 @@ class TestAuth0(unittest.TestCase):
             {},
             {},
         )
-        assert ret.status_code == 200
+        assert ret.status_code == HTTPStatus.OK
 
     @requests_mock.Mocker()
     def test_block_user(self, m):
         user = self.fake_upsert_person
         user["blocked"] = True
         mock_resp = unittest.mock.MagicMock()
-        mock_resp.status_code = 200
+        mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
         ret = self.auth0.block_user(user["user_id"])
-        assert ret.status_code == 200
+        assert ret.status_code == HTTPStatus.OK

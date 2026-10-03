@@ -1,0 +1,130 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      accept:
+      - application/json
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/activities?_limit=20&_since=0
+  response:
+    body:
+      string: "{\"data\":[{\"id\":111256062,\"user_id\":1186152,\"name\":\"UserPropertyEdit\",\"actionable_id\":76758307,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":76758307,\"user_id\":1186152,\"agent_user_id\":1140156,\"field_type\":\"assessment\",\"old_value\":\"developing_leader\",\"new_value\":\"\",\"data_import_id\":null,\"created_at\":\"2026-07-26T07:48:13.774-10:00\"},\"created_at\":\"2026-07-26T07:48:14.775-10:00\"},{\"id\":111256059,\"user_id\":1186152,\"name\":\"UserPropertyEdit\",\"actionable_id\":76758306,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":76758306,\"user_id\":1186152,\"agent_user_id\":1140156,\"field_type\":\"assessment\",\"old_value\":\"supporter\",\"new_value\":\"developing_leader\",\"data_import_id\":null,\"created_at\":\"2026-07-26T07:48:06.268-10:00\"},\"created_at\":\"2026-07-26T07:48:07.273-10:00\"},{\"id\":45417529,\"user_id\":7328098,\"name\":\"Visit\",\"actionable_id\":13301324,\"actionable_type\":\"Visit\",\"action\":{\"id\":13301324,\"ip\":\"70.67.48.195\",\"user_agent\":\"Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)
+        Version/18.6 Safari/605.1.15\",\"referrer\":null,\"landing_page\":null,\"action_page_id\":null,\"user_id\":7328098,\"referring_domain\":null,\"search_keyword\":null,\"browser\":\"Safari\",\"os\":\"Mac\",\"device_type\":\"Desktop\",\"country\":\"Canada\",\"region\":\"British
+        Columbia\",\"city\":\"Victoria\",\"postal_code\":\"V9A\",\"latitude\":\"48.4496\",\"longitude\":\"-123.4193\",\"utm_source\":null,\"utm_medium\":null,\"utm_term\":null,\"utm_content\":null,\"utm_campaign\":null,\"created_at\":\"2026-04-28T14:37:44.181-10:00\"},\"created_at\":\"2026-04-28T14:37:44.343-10:00\"},{\"id\":44586488,\"user_id\":7328098,\"name\":\"Visit\",\"actionable_id\":13002715,\"actionable_type\":\"Visit\",\"action\":{\"id\":13002715,\"ip\":\"70.67.48.195\",\"user_agent\":\"Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)
+        Version/18.6 Safari/605.1.15\",\"referrer\":null,\"landing_page\":null,\"action_page_id\":null,\"user_id\":7328098,\"referring_domain\":null,\"search_keyword\":null,\"browser\":\"Safari\",\"os\":\"Mac\",\"device_type\":\"Desktop\",\"country\":\"Canada\",\"region\":\"British
+        Columbia\",\"city\":\"Victoria\",\"postal_code\":\"V9A\",\"latitude\":\"48.4496\",\"longitude\":\"-123.4193\",\"utm_source\":null,\"utm_medium\":null,\"utm_term\":null,\"utm_content\":null,\"utm_campaign\":null,\"created_at\":\"2026-04-23T09:30:10.368-10:00\"},\"created_at\":\"2026-04-23T09:30:10.509-10:00\"},{\"id\":44583015,\"user_id\":7328098,\"name\":\"UserPropertyEdit\",\"actionable_id\":22504955,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":22504955,\"user_id\":7328098,\"agent_user_id\":7328098,\"field_type\":\"tags\",\"old_value\":\"[]\",\"new_value\":\"[\\\"English\\\"]\",\"data_import_id\":null,\"created_at\":\"2026-04-23T08:53:48.842-10:00\"},\"created_at\":\"2026-04-23T08:53:49.845-10:00\"},{\"id\":44582433,\"user_id\":7328098,\"name\":\"AgentUserCall\",\"actionable_id\":1032061,\"actionable_type\":\"AgentUserCall\",\"action\":{\"id\":1032061,\"user_id\":7328098,\"chapter_id\":293,\"direction\":\"out\",\"from_number\":\"12892105005\",\"to_number\":\"16048360839\",\"phonebank_id\":null,\"agent_user_id\":7328098,\"notes\":\"Just
+        a test of how the call tool works.\",\"picked_up\":true,\"duration\":33,\"left_voicemail\":false,\"twilio_call_sid\":\"CA630a35575ec4505588e2978cc6f7fe9a\",\"created_at\":\"2026-04-23T08:47:18.430-10:00\",\"ended_at\":\"2026-04-23T08:47:51.195-10:00\",\"transcription\":null},\"created_at\":\"2026-04-23T08:47:18.430-10:00\"},{\"id\":44582249,\"user_id\":7328098,\"name\":\"UserPropertyEdit\",\"actionable_id\":22504903,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":22504903,\"user_id\":7328098,\"agent_user_id\":7328098,\"field_type\":\"added_from_dashboard\",\"old_value\":null,\"new_value\":null,\"data_import_id\":null,\"created_at\":\"2026-04-23T08:46:02.358-10:00\"},\"created_at\":\"2026-04-23T08:46:03.359-10:00\"},{\"id\":44582248,\"user_id\":7328098,\"name\":\"UserPropertyEdit\",\"actionable_id\":22504902,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":22504902,\"user_id\":7328098,\"agent_user_id\":7328098,\"field_type\":\"assessment\",\"old_value\":null,\"new_value\":\"potential_core\",\"data_import_id\":null,\"created_at\":\"2026-04-23T08:46:02.329-10:00\"},\"created_at\":\"2026-04-23T08:46:03.332-10:00\"},{\"id\":43999513,\"user_id\":7328097,\"name\":\"Visit\",\"actionable_id\":12651218,\"actionable_type\":\"Visit\",\"action\":{\"id\":12651218,\"ip\":\"38.174.26.54\",\"user_agent\":\"Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)
+        Chrome/146.0.0.0 Safari/537.36\",\"referrer\":null,\"landing_page\":null,\"action_page_id\":null,\"user_id\":7328097,\"referring_domain\":null,\"search_keyword\":null,\"browser\":\"Chrome\",\"os\":\"Mac\",\"device_type\":\"Desktop\",\"country\":\"United
+        States\",\"region\":null,\"city\":null,\"postal_code\":null,\"latitude\":\"37.751\",\"longitude\":\"-97.822\",\"utm_source\":null,\"utm_medium\":null,\"utm_term\":null,\"utm_content\":null,\"utm_campaign\":null,\"created_at\":\"2026-04-16T13:02:11.378-10:00\"},\"created_at\":\"2026-04-16T13:02:11.483-10:00\"},{\"id\":43837511,\"user_id\":7328098,\"name\":\"open_email\",\"actionable_id\":25520458,\"actionable_type\":\"Ahoy::Message\",\"action\":{\"id\":25520458,\"to\":\"developer@myclimateplan.com\",\"user_id\":7328098,\"subject\":\"\U0001F31F
+        You're In! Welcome to the People United Team at Solidarity Tech\",\"sent_at\":\"2026-04-15T12:34:54.231-10:00\",\"opened_at\":\"2026-04-15T12:35:59.407-10:00\",\"clicked_at\":null,\"did_bounce\":null,\"email_message_id\":null,\"user_marked_as_spam\":null,\"event_rsvp_id\":null,\"action_page_id\":null,\"user_action_id\":null},\"created_at\":\"2026-04-15T12:35:59.413-10:00\"},{\"id\":43817325,\"user_id\":7328098,\"name\":\"open_email\",\"actionable_id\":25501286,\"actionable_type\":\"Ahoy::Message\",\"action\":{\"id\":25501286,\"to\":\"developer@myclimateplan.com\",\"user_id\":7328098,\"subject\":\"Action
+        Required: You're invited to Solidarity Tech\",\"sent_at\":\"2026-04-15T11:02:58.184-10:00\",\"opened_at\":\"2026-04-15T11:05:16.830-10:00\",\"clicked_at\":null,\"did_bounce\":null,\"email_message_id\":null,\"user_marked_as_spam\":null,\"event_rsvp_id\":null,\"action_page_id\":null,\"user_action_id\":null},\"created_at\":\"2026-04-15T11:05:16.837-10:00\"},{\"id\":43816997,\"user_id\":7328098,\"name\":\"UserPropertyEdit\",\"actionable_id\":22289553,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":22289553,\"user_id\":7328098,\"agent_user_id\":1140156,\"field_type\":\"added_from_dashboard\",\"old_value\":null,\"new_value\":null,\"data_import_id\":null,\"created_at\":\"2026-04-15T11:02:42.250-10:00\"},\"created_at\":\"2026-04-15T11:02:43.251-10:00\"},{\"id\":43816968,\"user_id\":7328097,\"name\":\"UserPropertyEdit\",\"actionable_id\":22289551,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":22289551,\"user_id\":7328097,\"agent_user_id\":1140156,\"field_type\":\"added_from_dashboard\",\"old_value\":null,\"new_value\":null,\"data_import_id\":null,\"created_at\":\"2026-04-15T11:02:33.182-10:00\"},\"created_at\":\"2026-04-15T11:02:34.185-10:00\"},{\"id\":23759782,\"user_id\":4879998,\"name\":\"UserAction\",\"actionable_id\":683747,\"actionable_type\":\"UserAction\",\"action\":{\"id\":683747,\"data\":{\"date\":\"02/05/2026\",\"email\":\"clong@oti.nyc.gov\",\"zip_code\":\"11201\",\"full_name\":\"Chris
+        test\",\"languages\":[\"en-US\",\"en\"],\"ref_source\":\"web_form\",\"example-rsvp\":[\"dq3ljmsmh\"],\"phone_number\":\"19178730802\",\"action_page_id\":5315,\"sms_permission\":\"false\",\"email_permission\":\"true\",\"pretty_phone_number\":\"(917)
+        873-0802\",\"preferred_language_assumed\":\"en\"},\"action_page_id\":5315,\"user_id\":4879998,\"created_at\":\"2026-02-05T13:22:55.316-10:00\",\"updated_at\":\"2026-02-05T13:22:55.316-10:00\",\"source\":\"website\",\"referred_by_user_id\":null,\"ip\":\"174.204.131.7\",\"visit_id\":9286378,\"user_message_link_click_id\":null},\"created_at\":\"2026-02-05T13:22:55.316-10:00\"},{\"id\":23759781,\"user_id\":4879998,\"name\":\"create_account\",\"actionable_id\":null,\"actionable_type\":null,\"action\":null,\"created_at\":\"2026-02-05T13:22:55.271-10:00\"},{\"id\":20645989,\"user_id\":4454716,\"name\":\"UserPropertyEdit\",\"actionable_id\":8271230,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":8271230,\"user_id\":4454716,\"agent_user_id\":2635252,\"field_type\":\"full_address\",\"old_value\":\"1212
+        Broadway Plaza  Walnut Creek, CA 94596 United States\",\"new_value\":\"1212
+        Broadway  Oakland, CA 94612 United States\",\"data_import_id\":null,\"created_at\":\"2026-01-26T08:45:22.418-10:00\"},\"created_at\":\"2026-01-26T08:45:23.419-10:00\"},{\"id\":20645970,\"user_id\":4454716,\"name\":\"UserPropertyEdit\",\"actionable_id\":8271223,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":8271223,\"user_id\":4454716,\"agent_user_id\":2635252,\"field_type\":\"full_address\",\"old_value\":\"1212
+        Broadway  Oakland, CA 94612 United States\",\"new_value\":\"1212 Broadway
+        Plaza  Walnut Creek, CA 94596 United States\",\"data_import_id\":null,\"created_at\":\"2026-01-26T08:45:07.116-10:00\"},\"created_at\":\"2026-01-26T08:45:08.117-10:00\"},{\"id\":20644342,\"user_id\":4454716,\"name\":\"UserPropertyEdit\",\"actionable_id\":8270231,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":8270231,\"user_id\":4454716,\"agent_user_id\":2635252,\"field_type\":\"full_address\",\"old_value\":\"\",\"new_value\":\"1212
+        Broadway  Oakland, CA 94612 United States\",\"data_import_id\":null,\"created_at\":\"2026-01-26T08:28:51.715-10:00\"},\"created_at\":\"2026-01-26T08:28:52.716-10:00\"},{\"id\":20644189,\"user_id\":4454716,\"name\":\"UserPropertyEdit\",\"actionable_id\":8270164,\"actionable_type\":\"UserPropertyEdit\",\"action\":{\"id\":8270164,\"user_id\":4454716,\"agent_user_id\":2635252,\"field_type\":\"added_from_dashboard\",\"old_value\":null,\"new_value\":null,\"data_import_id\":null,\"created_at\":\"2026-01-26T08:27:00.964-10:00\"},\"created_at\":\"2026-01-26T08:27:01.966-10:00\"},{\"id\":16640151,\"user_id\":1934287,\"name\":\"UserNote\",\"actionable_id\":252418,\"actionable_type\":\"UserNote\",\"action\":{\"id\":252418,\"user_id\":1934287,\"agent_user_id\":2635250,\"content\":\"Test\",\"last_edited_by_agent_user_id\":2635250,\"restricted\":false,\"interaction_method\":null,\"created_at\":\"2026-01-12T13:41:02.958-10:00\",\"updated_at\":\"2026-01-12T13:41:02.958-10:00\"},\"created_at\":\"2026-01-12T13:41:02.958-10:00\"}],\"meta\":{\"total_count\":null,\"limit\":20,\"offset\":0,\"cursor\":null,\"next_cursor\":16640151}}"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 05 Sep 2026 02:44:28 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=3326e364-91be-4e82-b9db-513c046f6fea; path=/; expires=Tue, 05
+        Sep 2028 02:44:28 GMT; samesite=lax; secure
+      - ahoy_visit=cd192b14-fcd9-4f7d-a8a0-3a67aa740cfa; path=/; expires=Sat, 05 Sep
+        2026 06:44:28 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 a2c162ce08367d0379d62c009d560b4a.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - ETwH2vpO_rMO7l10PN9RPppwdwcW4jmn7Sw2L2XXQScCZHnFrg8YCQ==
+      X-Amz-Cf-Pop:
+      - BOS50-P2
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 0a68c10f-d97f-441b-aa88-c1b7b03d9a92
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

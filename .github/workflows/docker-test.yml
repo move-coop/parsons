@@ -70,7 +70,8 @@ jobs:
         run: |
           docker run --rm parsons:test python3 -c "
           from parsons import Table
-          tbl = Table([{'a': 1, 'b': 2, 'c': 3}])
-          assert tbl[0] == {'a': 1, 'b': 2, 'c': 3}
+          test_data = {'a': 1, 'b': 2, 'c': 3}
+          tbl = Table([test_data])
+          assert tbl[0] == test_data
           print('Basic Table function confirmed!')
           "

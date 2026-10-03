@@ -6,7 +6,7 @@ from parsons.utilities.ssh_utilities import query_through_ssh
 
 class TestSSHTunnelUtility(unittest.TestCase):
     @patch("parsons.utilities.ssh_utilities.sshtunnel.SSHTunnelForwarder")
-    @patch("parsons.utilities.ssh_utilities.psycopg2.connect")
+    @patch("parsons.utilities.ssh_utilities.psycopg.connect")
     def test_query_through_ssh(self, mock_connect, mock_tunnel):
         # Setup mock for SSHTunnelForwarder
         mock_tunnel_instance = MagicMock()
@@ -15,7 +15,7 @@ class TestSSHTunnelUtility(unittest.TestCase):
         mock_tunnel_instance.stop.return_value = None
         mock_tunnel_instance.local_bind_port = 12345
 
-        # Setup mock for psycopg2.connect
+        # Setup mock for psycopg.connect
         mock_conn_instance = MagicMock()
         mock_connect.return_value = mock_conn_instance
         mock_cursor = MagicMock()

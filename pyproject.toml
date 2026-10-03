@@ -103,7 +103,7 @@ google = [
 ]
 mysql = [
     "mysql-connector-python >= 7.0, != 9.7.0",
-    "sqlalchemy >= 1.4",
+    "sqlalchemy >= 2.0.51",
 ]
 newmode = ["newmode >= 0.1.6"]
 ngpvan = ["suds >= 1"]
@@ -113,13 +113,13 @@ mobilecommons = [
 ]
 pandas = ["pandas >= 2.3"]
 postgres = [
-    "psycopg2-binary >= 2.9.11",
-    "sqlalchemy >= 1.4",
+    "psycopg[binary] >= 3.3.4",
+    "sqlalchemy >= 2.0.51",
 ]
 redshift = [
     "boto3 >= 1.0",
-    "psycopg2-binary >= 2.9.11",
-    "sqlalchemy >= 1.4",
+    "psycopg[binary] >= 3.3.4",
+    "sqlalchemy >= 2.0.51",
 ]
 s3 = ["boto3 >= 1.0"]
 salesforce = ["simple-salesforce >= 1.0"]
@@ -129,7 +129,7 @@ slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
 ssh = [
     "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9.11",
+    "psycopg[binary] >= 3.3.4",
     "sqlalchemy >= 1.4",
 ]
 targetsmart = [

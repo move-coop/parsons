@@ -30,6 +30,37 @@ class TestHustle(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
+    def test_auth_header_refresh(self, m: requests_mock.Mocker):
+        """Ensure that the Authorization header refreshes once the token expires."""
+        # Queue a fake token that expires immediately and initialize Hustle to request it
+        auth_token = {
+            "access_token": "MYFAKETOKEN",
+            "scope": "read:account write:account",
+            "expires_in": -10,
+            "token_type": "Bearer",
+        }
+        m.post(f"{HUSTLE_URI}oauth/token", json=auth_token)
+        tmp_hustle = Hustle(CLIENT_ID, CLIENT_SECRET)
+
+        # Queue a second fake token response without entering it into Hustle
+        auth_token2 = {
+            "access_token": "MYFAKETOKEN2",
+            "scope": "read:account write:account",
+            "expires_in": 7200,
+            "token_type": "Bearer",
+        }
+        m.post(f"{HUSTLE_URI}oauth/token", json=auth_token2)
+
+        # Queue a fake organizations response
+        m.get(f"{HUSTLE_URI}organizations", json=expected_json.organizations)
+
+        # Request organizations and verify the Authorization header used is the second one
+        tmp_hustle._request("organizations", req_type="GET")
+
+        assert m.last_request is not None
+        assert m.last_request.headers["Authorization"] == f"Bearer {auth_token2['access_token']}"
+
+    @requests_mock.Mocker()
     def test_get_organizations(self, m: requests_mock.Mocker):
         m.get(HUSTLE_URI + "organizations", json=expected_json.organizations)
         orgs = self.hustle.get_organizations()

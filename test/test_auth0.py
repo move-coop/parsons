@@ -2,6 +2,7 @@ import gzip
 import json
 import unittest
 import unittest.mock
+from http import HTTPStatus
 
 import requests_mock
 
@@ -11,12 +12,13 @@ from test.conftest import assert_matching_tables
 CLIENT_ID = "abc"
 CLIENT_SECRET = "def"
 DOMAIN = "fakedomain.auth0.com"
+ACCESS_TOKEN = "fake_token"
 
 
 class TestAuth0(unittest.TestCase):
     def setUp(self):
         with requests_mock.Mocker() as m:
-            m.post(f"https://{DOMAIN}/oauth/token", json={"access_token": "fake_token"})
+            m.post(f"https://{DOMAIN}/oauth/token", json={"access_token": ACCESS_TOKEN})
 
             self.auth0 = Auth0(CLIENT_ID, CLIENT_SECRET, DOMAIN)
 
@@ -29,25 +31,42 @@ class TestAuth0(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_delete_user(self, m):
+    def test_delete_user(self, m: requests_mock.Mocker):
         user_id = 1
-        m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=204)
-        assert self.auth0.delete_user(user_id) == 204
+        m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=HTTPStatus.NO_CONTENT)
+
+        # Validate status code is returned
+        assert self.auth0.delete_user(user_id) == HTTPStatus.NO_CONTENT
+
+        assert m.last_request is not None
+
+        # Validate authentication header is included
+        assert "Authorization" in m.last_request.headers
+        assert m.last_request.headers["Authorization"] == f"Bearer {ACCESS_TOKEN}"
 
     @requests_mock.Mocker()
-    def test_get_users_by_email(self, m):
+    def test_get_users_by_email(self, m: requests_mock.Mocker):
         email = "fakeemail@fakedomain.com"
         mock_users = [{"email": "fake3mail@fakedomain.com", "id": 2}]
         m.get(
             f"{self.auth0.base_url}/api/v2/users-by-email?email={email}",
             json=mock_users,
         )
-        assert_matching_tables(self.auth0.get_users_by_email(email), Table(mock_users), True)
+
+        assert_matching_tables(
+            self.auth0.get_users_by_email(email), Table(mock_users), ignore_headers=True
+        )
+
+        assert m.last_request is not None
+
+        # Validate authentication header is included
+        assert "Authorization" in m.last_request.headers
+        assert m.last_request.headers["Authorization"] == f"Bearer {ACCESS_TOKEN}"
 
     @requests_mock.Mocker()
-    def test_retrieve_all_users(self, m):
-        mock_users = [{"email": "fake3mail@fakedomain.com", "id": 2}]
-
+    def test_retrieve_all_users(self, m: requests_mock.Mocker):
+        connections = [{"id": 1234, "name": "Username-Password-Authentication"}]
+        m.get(f"{self.auth0.base_url}/api/v2/connections", json=connections)
         fake_job_id = 1234567
         m.post(
             f"{self.auth0.base_url}/api/v2/jobs/users-exports",
@@ -61,20 +80,45 @@ class TestAuth0(unittest.TestCase):
                 "location": test_url,
             },
         )
+        mock_users = [{"email": "fake3mail@fakedomain.com", "id": 2}]
         m.get(
             test_url,
             content=gzip.compress(bytes(json.dumps(mock_users), encoding="utf-8")),
         )
 
-        connections = [{"id": 1234, "name": "Username-Password-Authentication"}]
-        m.get(f"{self.auth0.base_url}/api/v2/connections", json=connections)
-        data = self.auth0.retrieve_all_users()
-        print(data)
+        assert_matching_tables(
+            self.auth0.retrieve_all_users(), Table(mock_users), ignore_headers=True
+        )
 
-        assert_matching_tables(self.auth0.retrieve_all_users(), Table(mock_users), True)
+        history = m.request_history
+
+        # Validate call to retrieve auth0 connection id
+        assert history[0]
+        assert history[0].method == "GET"
+        assert history[0].url == f"{self.auth0.base_url}/api/v2/connections"
+
+        # Validate call to start user export
+        assert history[1]
+        assert history[1].method == "POST"
+        assert history[1].url == f"{self.auth0.base_url}/api/v2/jobs/users-exports"
+
+        # Validate first call to check export status
+        assert history[2]
+        assert history[2].method == "GET"
+        assert history[2].url == f"{self.auth0.base_url}/api/v2/jobs/{fake_job_id}"
+
+        # Validate that all but the last call contain authorization header
+        for request in history[:-1]:
+            assert "Authorization" in request.headers
+            assert request.headers["Authorization"] == f"Bearer {ACCESS_TOKEN}"
+
+        # Validate last call (download user export)
+        assert m.last_request
+        assert m.last_request.method == "GET"
+        assert m.last_request.url == test_url
 
     @requests_mock.Mocker()
-    def test_upsert_user(self, m):
+    def test_upsert_user(self, m: requests_mock.Mocker):
         user = self.fake_upsert_person
         email = user["email"]
         m.get(
@@ -82,9 +126,10 @@ class TestAuth0(unittest.TestCase):
             json=[user],
         )
         mock_resp = unittest.mock.MagicMock()
-        mock_resp.status_code = 200
+        mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
         m.post(f"{self.auth0.base_url}/api/v2/users", mock_resp)
+
         ret = self.auth0.upsert_user(
             email,
             user["username"],
@@ -93,14 +138,27 @@ class TestAuth0(unittest.TestCase):
             {},
             {},
         )
-        assert ret.status_code == 200
+        assert ret.status_code == HTTPStatus.OK
+
+        assert m.last_request is not None
+
+        # Validate authentication header is included
+        assert "Authorization" in m.last_request.headers
+        assert m.last_request.headers["Authorization"] == f"Bearer {ACCESS_TOKEN}"
 
     @requests_mock.Mocker()
-    def test_block_user(self, m):
+    def test_block_user(self, m: requests_mock.Mocker):
         user = self.fake_upsert_person
         user["blocked"] = True
         mock_resp = unittest.mock.MagicMock()
-        mock_resp.status_code = 200
+        mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
+
         ret = self.auth0.block_user(user["user_id"])
-        assert ret.status_code == 200
+        assert ret.status_code == HTTPStatus.OK
+
+        assert m.last_request is not None
+
+        # Validate authentication header is included
+        assert "Authorization" in m.last_request.headers
+        assert m.last_request.headers["Authorization"] == f"Bearer {ACCESS_TOKEN}"

@@ -30,13 +30,13 @@ class TestAuth0(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_delete_user(self, m):
+    def test_delete_user(self, m: requests_mock.Mocker):
         user_id = 1
         m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=HTTPStatus.NO_CONTENT)
         assert self.auth0.delete_user(user_id) == HTTPStatus.NO_CONTENT
 
     @requests_mock.Mocker()
-    def test_get_users_by_email(self, m):
+    def test_get_users_by_email(self, m: requests_mock.Mocker):
         email = "fakeemail@fakedomain.com"
         mock_users = [{"email": "fake3mail@fakedomain.com", "id": 2}]
         m.get(
@@ -46,7 +46,7 @@ class TestAuth0(unittest.TestCase):
         assert_matching_tables(self.auth0.get_users_by_email(email), Table(mock_users), True)
 
     @requests_mock.Mocker()
-    def test_retrieve_all_users(self, m):
+    def test_retrieve_all_users(self, m: requests_mock.Mocker):
         mock_users = [{"email": "fake3mail@fakedomain.com", "id": 2}]
 
         fake_job_id = 1234567
@@ -75,7 +75,7 @@ class TestAuth0(unittest.TestCase):
         assert_matching_tables(self.auth0.retrieve_all_users(), Table(mock_users), True)
 
     @requests_mock.Mocker()
-    def test_upsert_user(self, m):
+    def test_upsert_user(self, m: requests_mock.Mocker):
         user = self.fake_upsert_person
         email = user["email"]
         m.get(
@@ -97,7 +97,7 @@ class TestAuth0(unittest.TestCase):
         assert ret.status_code == HTTPStatus.OK
 
     @requests_mock.Mocker()
-    def test_block_user(self, m):
+    def test_block_user(self, m: requests_mock.Mocker):
         user = self.fake_upsert_person
         user["blocked"] = True
         mock_resp = unittest.mock.MagicMock()

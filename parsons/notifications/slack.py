@@ -129,11 +129,6 @@ class Slack:
                 The `ts` value of the parent message. If used, this will thread the message.
 
         Keyword Args:
-            as_user: str
-                This is a deprecated argument. Use optional username, icon_url, and icon_emoji
-                args to customize the attributes of the user posting the message.
-                See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
-                for more information about legacy authorship
             `**kwargs`: kwargs
                 Additional arguments for chat.postMessage API call.
                 See `<https://docs.slack.dev/reference/methods/chat.postMessage>`__ for more info.
@@ -142,17 +137,24 @@ class Slack:
             dict
                 A response json
 
+        .. version-deprecated:: v3.0.0
+
+           Deprecated `as_user` argument in favor of optional username, icon_url,
+           and icon_emoji args to customize the attributes of the user posting the message.
+           See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+           for more information about legacy authorship
+
         """
         if "as_user" in kwargs:
             warnings.warn(
-                "as_user is a deprecated argument on message_channel().",
+                "as_user is a deprecated argument to message_channel.",
                 DeprecationWarning,
                 stacklevel=2,
             )
         if "thread_ts" in kwargs:
             warnings.warn(
-                "thread_ts argument on message_channel() will be ignored. Use parent_message_id.",
-                Warning,
+                "thread_ts argument to message_channel will be ignored. Use parent_message_id.",
+                DeprecationWarning,
                 stacklevel=2,
             )
             kwargs.pop("thread_ts", None)

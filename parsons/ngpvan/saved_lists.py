@@ -2,9 +2,11 @@
 
 import logging
 import uuid
+import warnings
 from typing import Literal
 
 from suds.client import Client
+from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
@@ -184,6 +186,7 @@ class SavedLists:
         )
         return file_load_job_response
 
+    @deprecated("Deprecated method. Use upload_saved_list_rest instead.")
     def upload_saved_list(
         self,
         tbl,
@@ -195,11 +198,10 @@ class SavedLists:
         **url_kwargs,
     ):
         """
-            .. warning::
-               .. deprecated:: 0.X Use :meth:`parsons.ngpvan.saved_lists.SavedLists.upload_saved_list_rest` instead.
+        Upload a saved list.
 
-        Upload a saved list. Invalid or unmatched person id records will be ignored. Your api user
-        must be shared on the target folder.
+        Invalid or unmatched person id records will be ignored.
+        Your API user must be shared on the target folder.
 
         Args:
             tbl: Table
@@ -225,6 +227,10 @@ class SavedLists:
                 Upload results information included the number of matched and saved
                 records in your list.
 
+        .. version-deprecated:: v0.17.0
+
+           Deprecated in favor of :meth:`~parsons.ngpvan.scores.SavedLists.upload_saved_list_rest`.
+
         """
         # Move to cloud storage
         file_name = str(uuid.uuid1())
@@ -245,8 +251,10 @@ class SavedLists:
         # i think we dont need this if we have the warning in the funciton description,
         # perhapse a style/standanrds decision
         if id_type == "vanid":
-            logger.warning(
-                "The NVPVAN SOAP API is deprecated, consider using parsons.VAN.upload_saved_list_rest if you are uploading a list of vanids."
+            warnings.warn(
+                "The NVPVAN SOAP API is deprecated, consider using parsons.VAN.upload_saved_list_rest if you are uploading a list of vanids.",
+                DeprecationWarning,
+                stacklevel=2,
             )
         # Create XML
         xml = self.connection.soap_client.factory.create("CreateAndStoreSavedListMetaData")

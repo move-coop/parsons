@@ -22,7 +22,14 @@ from parsons import Table
 
 
 def mark_live_test(func) -> MarkDecorator:
-    """Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message."""
+    """
+    Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message.
+
+    .. version-deprecated:: v6.0.0
+
+        Deprecated `@mark_live_test` decorator in favor of `@pytest.mark.live`.
+
+    """
     warnings.warn(
         "Marking tests with @mark_live_test is deprecated, use @pytest.mark.live instead.",
         category=pytest.PytestDeprecationWarning,

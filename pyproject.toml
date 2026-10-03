@@ -31,6 +31,7 @@ classifiers = [
 ]
 dependencies = [
     "petl >= 1.7.17",
+    "posthog >= 7.51",
     "python-dateutil >= 2.0",
     "requests >= 2.0",
     "requests-oauthlib >= 1.0",

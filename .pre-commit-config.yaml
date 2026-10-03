@@ -33,6 +33,6 @@ repos:
     hooks:
       - id: generate-stubs
         name: generate stubs
-        entry: python ./types/generate_init_pyi.py
+        entry: uv run ./types/generate_init_pyi.py
         language: system
         pass_filenames: false

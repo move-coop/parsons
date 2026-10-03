@@ -18,8 +18,16 @@ class TestHustle(unittest.TestCase):
         self.hustle = Hustle(CLIENT_ID, CLIENT_SECRET)
 
     @requests_mock.Mocker()
-    def test_auth_token(self, m: requests_mock.Mocker):
-        assert self.hustle.auth_token == expected_json.auth_token["access_token"]
+    def test_auth_sets_header(self, m: requests_mock.Mocker):
+        """Ensure that the Authorization header is set correctly after class initialization."""
+        request_method = "GET"
+        m.request(request_method, f"{HUSTLE_URI}organizations", json=expected_json.organizations)
+        self.hustle._request("organizations", req_type=request_method)
+        assert m.last_request is not None
+        assert (
+            m.last_request.headers["Authorization"]
+            == f"Bearer {expected_json.auth_token['access_token']}"
+        )
 
     @requests_mock.Mocker()
     def test_get_organizations(self, m: requests_mock.Mocker):

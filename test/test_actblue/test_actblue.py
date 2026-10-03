@@ -30,8 +30,7 @@ TEST_GET_RESPONSE = {
 
 
 class TestActBlue(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
+    def setUp(self):
         self.ab = ActBlue(TEST_CLIENT_UUID, TEST_CLIENT_SECRET, TEST_URI)
         self.from_csv = Table.from_csv
         test_csv_data = Table.from_csv_string(
@@ -43,20 +42,20 @@ class TestActBlue(unittest.TestCase):
         Table.from_csv = self.from_csv
 
     @requests_mock.Mocker()
-    def test_successful_post_request(self, m):
+    def test_successful_post_request(self, m: requests_mock.Mocker):
         m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
 
         response = self.ab.post_request(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert response["id"] == TEST_POST_RESPONSE["id"]
 
     @requests_mock.Mocker()
-    def test_successful_get_download_url(self, m):
+    def test_successful_get_download_url(self, m: requests_mock.Mocker):
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
         assert self.ab.get_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
     @requests_mock.Mocker()
-    def test_successful_poll_for_download_url(self, m):
+    def test_successful_poll_for_download_url(self, m: requests_mock.Mocker):
         mocked_get_response_no_download_url = {
             "id": TEST_ID,
             "download_url": None,
@@ -74,7 +73,7 @@ class TestActBlue(unittest.TestCase):
         assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
     @requests_mock.Mocker()
-    def test_successful_get_contributions(self, m):
+    def test_successful_get_contributions(self, m: requests_mock.Mocker):
         m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
@@ -82,7 +81,7 @@ class TestActBlue(unittest.TestCase):
         assert test_columns_data.expected_table_columns == table.columns
 
     @requests_mock.Mocker()
-    def test_error_on_complete_without_download_url(self, m):
+    def test_error_on_complete_without_download_url(self, m: requests_mock.Mocker):
         mocked_get_response_no_url = {
             "id": TEST_ID,
             "download_url": None,
@@ -95,7 +94,7 @@ class TestActBlue(unittest.TestCase):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()
-    def test_error_on_unexpected_status(self, m):
+    def test_error_on_unexpected_status(self, m: requests_mock.Mocker):
         mocked_get_response_no_url = {
             "id": TEST_ID,
             "download_url": None,
@@ -108,7 +107,7 @@ class TestActBlue(unittest.TestCase):
             self.ab.get_download_url(csv_id=TEST_ID)
 
     @requests_mock.Mocker()
-    def test_no_error_on_expected_status(self, m):
+    def test_no_error_on_expected_status(self, m: requests_mock.Mocker):
         mocked_get_response_no_url = {
             "id": TEST_ID,
             "download_url": "www.actblue.com",

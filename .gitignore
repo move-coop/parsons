@@ -128,9 +128,6 @@ old!_*
 # bin files
 bin/
 
-# uv
-uv.lock
-
 # other
 .buildinfo
 bill_com_credentials.*

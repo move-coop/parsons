@@ -218,6 +218,13 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
+    def test_request_auth_header(self, m: requests_mock.Mocker):
+        request_type = "GET"
+        m.request(request_type, self.api_url)
+        res = self.bldr.api.request(self.api_url, request_type)
+        assert res.request.headers["OSDI-API-Token"] == self.api_key
+
+    @requests_mock.Mocker()
     def test_get_page_max_cap(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=2&per_page=25",

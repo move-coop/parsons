@@ -139,10 +139,10 @@ class Slack:
 
         .. version-deprecated:: v3.0.0
 
-           Deprecated `as_user` argument in favor of optional username, icon_url,
-           and icon_emoji args to customize the attributes of the user posting the message.
-           See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
-           for more information about legacy authorship
+            Deprecated `as_user` argument in favor of optional username, icon_url,
+            and icon_emoji args to customize the attributes of the user posting the message.
+            See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
+            for more information about legacy authorship.
 
         """
         if "as_user" in kwargs:

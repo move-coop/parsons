@@ -229,7 +229,7 @@ class SavedLists:
 
         .. version-deprecated:: v0.17.0
 
-           Deprecated in favor of :meth:`~parsons.ngpvan.scores.SavedLists.upload_saved_list_rest`.
+            Deprecated in favor of :meth:`~parsons.ngpvan.scores.SavedLists.upload_saved_list_rest`.
 
         """
         # Move to cloud storage

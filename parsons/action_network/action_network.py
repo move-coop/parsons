@@ -4,6 +4,8 @@ import re
 import warnings
 from typing import Literal
 
+from typing_extensions import deprecated
+
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
@@ -1546,6 +1548,7 @@ class ActionNetwork:
         )
         return response
 
+    @deprecated("Deprecated method. Use upsert_person instead.")
     def add_person(
         self,
         email_address: str
@@ -1568,11 +1571,13 @@ class ActionNetwork:
         **kwargs,
     ):
         """
-        Creates a person in the database. WARNING: this endpoint has been deprecated in favor of
-        upsert_person.
+        Create a person in the database.
+
+        .. version-deprecated:: v0.21.0
+
+           Deprecated in favor of :meth:`upsert_person`.
+
         """
-        logger.warning("Method 'add_person' has been deprecated. Please use 'upsert_person'.")
-        # Pass inputs to preferred method:
         self.upsert_person(
             email_address=email_address,
             given_name=given_name,
@@ -2125,6 +2130,8 @@ class ActionNetwork:
 
     def create_survey(self, data):
         """
+        Create a survey.
+
         Args:
             data:
 
@@ -2162,6 +2169,8 @@ class ActionNetwork:
 
     def update_survey(self, survey_id, data):
         """
+        Update a survey.
+
         Args:
             survey_id:
                 Unique ID of the survey
@@ -2187,11 +2196,11 @@ class ActionNetwork:
     # Tags
     def get_tags(self, limit=None, per_page=None):
         """
+        Get a list of tags.
+
         Args:
             limit:
                 Number of entries to return. When None, returns all entries.
-            per_page:
-                This is a deprecated argument.
 
         Returns:
             A list of JSONs of tags in Action Network.
@@ -2199,10 +2208,14 @@ class ActionNetwork:
         Documentation Reference:
             `<https://actionnetwork.org/docs/v2/tags>`__
 
+        .. version-changed:: v1.2.0
+
+           Deprecated `per_page` argument.
+
         """
         if per_page:
             warnings.warn(
-                "per_page is a deprecated argument on get_tags()",
+                "per_page is a deprecated argument to get_tags",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -2210,6 +2223,8 @@ class ActionNetwork:
 
     def get_tag(self, tag_id):
         """
+        Get a tag by ID.
+
         Args:
             tag_id:
                 ID of the tag.

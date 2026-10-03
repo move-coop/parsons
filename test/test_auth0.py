@@ -12,12 +12,13 @@ from test.conftest import assert_matching_tables
 CLIENT_ID = "abc"
 CLIENT_SECRET = "def"
 DOMAIN = "fakedomain.auth0.com"
+ACCESS_TOKEN = "fake_token"
 
 
 class TestAuth0(unittest.TestCase):
     def setUp(self):
         with requests_mock.Mocker() as m:
-            m.post(f"https://{DOMAIN}/oauth/token", json={"access_token": "fake_token"})
+            m.post(f"https://{DOMAIN}/oauth/token", json={"access_token": ACCESS_TOKEN})
 
             self.auth0 = Auth0(CLIENT_ID, CLIENT_SECRET, DOMAIN)
 
@@ -33,6 +34,8 @@ class TestAuth0(unittest.TestCase):
     def test_delete_user(self, m: requests_mock.Mocker):
         user_id = 1
         m.delete(f"{self.auth0.base_url}/api/v2/users/{user_id}", status_code=HTTPStatus.NO_CONTENT)
+
+        # Validate status code is returned
         assert self.auth0.delete_user(user_id) == HTTPStatus.NO_CONTENT
 
     @requests_mock.Mocker()
@@ -43,7 +46,10 @@ class TestAuth0(unittest.TestCase):
             f"{self.auth0.base_url}/api/v2/users-by-email?email={email}",
             json=mock_users,
         )
-        assert_matching_tables(self.auth0.get_users_by_email(email), Table(mock_users), True)
+
+        assert_matching_tables(
+            self.auth0.get_users_by_email(email), Table(mock_users), ignore_headers=True
+        )
 
     @requests_mock.Mocker()
     def test_retrieve_all_users(self, m: requests_mock.Mocker):
@@ -72,7 +78,9 @@ class TestAuth0(unittest.TestCase):
         data = self.auth0.retrieve_all_users()
         print(data)
 
-        assert_matching_tables(self.auth0.retrieve_all_users(), Table(mock_users), True)
+        assert_matching_tables(
+            self.auth0.retrieve_all_users(), Table(mock_users), ignore_headers=True
+        )
 
     @requests_mock.Mocker()
     def test_upsert_user(self, m: requests_mock.Mocker):
@@ -86,6 +94,7 @@ class TestAuth0(unittest.TestCase):
         mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
         m.post(f"{self.auth0.base_url}/api/v2/users", mock_resp)
+
         ret = self.auth0.upsert_user(
             email,
             user["username"],
@@ -103,5 +112,6 @@ class TestAuth0(unittest.TestCase):
         mock_resp = unittest.mock.MagicMock()
         mock_resp.status_code = HTTPStatus.OK
         m.patch(f"{self.auth0.base_url}/api/v2/users/{user['user_id']}", [mock_resp])
+
         ret = self.auth0.block_user(user["user_id"])
         assert ret.status_code == HTTPStatus.OK

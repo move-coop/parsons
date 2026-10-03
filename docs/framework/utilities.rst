@@ -10,7 +10,6 @@ API Connector
    :members:
 
 Bearer Auth
-===========
 
 .. automodule:: parsons.utilities.bearer_auth
    :inherited-members:

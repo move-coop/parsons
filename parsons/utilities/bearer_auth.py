@@ -36,7 +36,7 @@ class BearerAuth(AuthBase):
     header_name: str
     token_name: str | None
     expires: datetime | None
-    refresh_callback: Callable | None
+    refresh_callback: Callable[[], tuple[str, datetime]] | None
 
     def __init__(
         self,
@@ -46,7 +46,7 @@ class BearerAuth(AuthBase):
         token_name: str | None = "Bearer",
         token_divider: str | None = " ",
         expires: datetime | None = None,
-        refresh_callback: Callable | None = None,
+        refresh_callback: Callable[[], tuple[str, datetime]] | None = None,
     ) -> None:
         """
         Initialize handler with the API key.

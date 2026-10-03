@@ -38,9 +38,9 @@ class ActionKit:
     }
 
     def __init__(self, domain=None, username=None, password=None):
-        self.domain: str = check_env.check("ACTION_KIT_DOMAIN", domain)
-        self.username: str = check_env.check("ACTION_KIT_USERNAME", username)
-        self.password: str = check_env.check("ACTION_KIT_PASSWORD", password)
+        self.domain = check_env.check("ACTION_KIT_DOMAIN", domain)
+        self.username = check_env.check("ACTION_KIT_USERNAME", username)
+        self.password = check_env.check("ACTION_KIT_PASSWORD", password)
         self.conn = self._conn()
 
     def _conn(self, default_headers=_default_headers):

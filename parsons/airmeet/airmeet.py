@@ -27,13 +27,11 @@ class Airmeet:
         airmeet_secret_key: string
             The Airmeet API secret key.
 
-
     """
 
     def __init__(self, airmeet_uri=None, airmeet_access_key=None, airmeet_secret_key=None):
         """
-        Authenticate with the Airmeet API and update the connection headers
-        with the access token.
+        Authenticate with the Airmeet API.
 
         Args:
             airmeet_uri: string
@@ -44,19 +42,23 @@ class Airmeet:
                 The Airmeet API secret key.
 
         """
-        self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
-        self.client = APIConnector(self.uri)
+        self.uri: str = (
+            check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
+        )
         self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
         self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
-        self.client.headers = {
-            "X-Airmeet-Access-Key": self.airmeet_client_key,
-            "X-Airmeet-Secret-Key": self.airmeet_client_secret,
-        }
+        self.client = APIConnector(
+            self.uri,
+            {
+                "X-Airmeet-Access-Key": self.airmeet_client_key,
+                "X-Airmeet-Secret-Key": self.airmeet_client_secret,
+            },
+        )
         response = self.client.post_request(url="auth", success_codes=[200])
         self.token = response["token"]
 
         # API calls expect the token in the header.
-        self.client.headers = {
+        self.client.session.headers = {
             "Content-Type": "application/json",
             "X-Airmeet-Access-Token": self.token,
         }

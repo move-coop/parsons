@@ -5,6 +5,7 @@ from typing import Any
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -33,13 +34,11 @@ class ActionBuilder:
                 Can also be supplied in individual methods in case multiple campaigns need to be referenced.
 
         """
-        self.api_token = check_env.check("ACTION_BUILDER_API_TOKEN", api_token)
-        self.headers = {
-            "Content-Type": "application/json",
-            "OSDI-API-Token": self.api_token,
-        }
         self.api_url = API_URL.format(subdomain=subdomain)
-        self.api = APIConnector(self.api_url, headers=self.headers)
+        api_token = check_env.check("ACTION_BUILDER_API_TOKEN", api_token)
+        auth = BearerAuth(api_token, header_name="OSDI-API-Token", token_name=None)
+        headers = {"Content-Type": "application/json"}
+        self.api = APIConnector(self.api_url, headers=headers, auth=auth)
         self.campaign = campaign
 
     def _campaign_check(self, campaign):

@@ -15,23 +15,21 @@ PAGE_LIMIT = 1000
 
 
 class Hustle:
-    """
-    Instantiate Hustle Class
+    """Parsons connector for interacting with Hustle endpoints."""
 
-    Args:
-        client_id:
-            The client id provided by Hustle. Not required if ``HUSTLE_CLIENT_ID`` env variable
-            set.
-        client_secret:
-            The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
-            variable set.
+    def __init__(self, client_id: str | None = None, client_secret: str | None = None) -> None:
+        """
+        Instantiate the Hustle class.
 
-    Returns:
-        Hustle Class
+        Args:
+            client_id:
+                The client id provided by Hustle.
+                Not required if ``HUSTLE_CLIENT_ID`` env variable set.
+            client_secret:
+                The client secret provided by Hustle.
+                Not required if ``HUSTLE_CLIENT_SECRET`` env variable set.
 
-    """
-
-    def __init__(self, client_id: str | None = None, client_secret: str | None = None):
+        """
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
@@ -330,7 +328,9 @@ class Hustle:
 
     def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
-        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
+        Get leads metadata.
+
+        One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
 
         Args:
@@ -421,8 +421,10 @@ class Hustle:
 
     def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """
-        Create multiple leads. All unrecognized fields will be passed as custom fields. Column
-        names must map to the following names.
+        Create multiple leads.
+
+        All unrecognized fields will be passed as custom fields.
+        Column names must map to the following names.
 
         .. list-table::
             :widths: 20 80

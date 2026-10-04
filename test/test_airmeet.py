@@ -40,6 +40,25 @@ class TestAirmeet(unittest.TestCase):
         assert airmeet.airmeet_client_secret == "env_secret_key"
         assert airmeet.token == SAMPLE_TOKEN_RESPONSE["token"]
 
+    @requests_mock.Mocker()
+    def test_has_auth_token_header(self, m: requests_mock.Mocker) -> None:
+        """Test that requests include auth token in header."""
+        # Initialize Airmeet with test_token provided by mock adapter
+        m.post("https://api-gateway.airmeet.com/prod/auth", json=SAMPLE_TOKEN_RESPONSE)
+        airmeet = Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
+
+        # Perform a request to mock adapter
+        request_method = "GET"
+        request_url = "https://api-gateway.airmeet.com/prod/"
+        m.request(request_method, request_url)
+        airmeet.client.request(request_url, request_method)
+
+        # Read request from mock adapter to ensure that auth token was present in header
+        assert m.last_request
+        assert m.last_request.method == request_method
+        assert "X-Airmeet-Access-Token" in m.last_request.headers
+        assert m.last_request.headers["X-Airmeet-Access-Token"] == SAMPLE_TOKEN_RESPONSE["token"]
+
     def test_get_all_pages_single_page(self) -> None:
         """Simulate API response for a single page without further cursors."""
         self.airmeet.client.get_request = mock.MagicMock(

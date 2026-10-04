@@ -57,8 +57,6 @@ def test_clean_dict(
 @pytest.mark.parametrize("request_method", ["GET", "POST", "PUT", "DELETE"])
 def test_authentication_header(mock_pdi: PDI, requests_mock: Mocker, request_method: str) -> None:
     """Ensure that the authentication header is included in requests."""
-    requests_mock.reset_mock()
-
     request_url = "https://apiqa.bluevote.com"
     requests_mock.request(request_method, request_url)
     mock_pdi._request(request_url, req_type=request_method)

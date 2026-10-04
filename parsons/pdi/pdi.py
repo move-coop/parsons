@@ -79,7 +79,7 @@ class PDI(
         # status_code == 200
         data = res.json()
         self.session_token = data["AccessToken"]
-        self.session_exp = parse(data["ExpirationDate"])
+        self.session_exp = parse(data["ExpirationDate"]).replace(tzinfo=timezone.utc)
 
     def _clean_dict(self, dct):
         if isinstance(dct, list):

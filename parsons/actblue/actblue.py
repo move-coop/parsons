@@ -55,11 +55,8 @@ class ActBlue:
             check_env.check("ACTBLUE_URI", actblue_uri, optional=True) or ACTBLUE_API_ENDPOINT
         )
         self.headers = {"accept": "application/json"}
-        self.client = APIConnector(
-            self.uri,
-            auth=HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret),
-            headers=self.headers,
-        )
+        auth = HTTPBasicAuth(self.actblue_client_uuid, self.actblue_client_secret)
+        self.client = APIConnector(self.uri, auth=auth, headers=self.headers)
         self.max_retries = (
             int(val)
             if (val := check_env.check("ACTBLUE_MAX_RETRIES", max_retries, optional=True))

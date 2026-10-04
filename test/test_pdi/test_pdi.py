@@ -1,4 +1,7 @@
+from datetime import datetime, timezone
+
 import pytest
+from requests_mock import Mocker
 
 from parsons import PDI
 
@@ -49,3 +52,61 @@ def test_clean_dict(
     exp_obj: dict[str, str] | list[dict[str, str]] | str,
 ):
     assert mock_pdi._clean_dict(obj) == exp_obj
+
+
+@pytest.mark.parametrize("request_method", ["GET", "POST", "PUT", "DELETE"])
+def test_authentication_header(mock_pdi: PDI, requests_mock: Mocker, request_method: str) -> None:
+    """Ensure that the authentication header is included in requests."""
+    requests_mock.reset_mock()
+
+    request_url = "https://apiqa.bluevote.com"
+    requests_mock.request(request_method, request_url)
+    mock_pdi._request(request_url, req_type=request_method)
+
+    history = requests_mock.request_history
+    for request in history:
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"] == "Bearer AccessToken"
+
+
+@pytest.mark.parametrize("request_method", ["GET", "POST", "PUT", "DELETE"])
+def test_authentication_header_refresh(
+    mock_pdi: PDI, requests_mock: Mocker, request_method: str
+) -> None:
+    """Ensure that the authentication header is included in requests and is refreshed if expired."""
+    # Queue authentication response with expired token, and load it into PDI
+    requests_mock.post(
+        "https://apiqa.bluevote.com/sessions",
+        json={
+            "AccessToken": "AccessTokenExpired",
+            "ExpirationDate": "2026-01-01",
+        },
+    )
+    mock_pdi._get_session_token()
+    requests_mock.reset_mock()
+    current_datetime = datetime.now(tz=timezone.utc)
+    assert mock_pdi.session_exp < current_datetime
+
+    # Queue authentication response with new token, but do not load it into PDI
+    requests_mock.post(
+        "https://apiqa.bluevote.com/sessions",
+        json={
+            "AccessToken": "AccessTokenNew",
+            "ExpirationDate": "2100-01-01",
+        },
+    )
+
+    # Queue primary response
+    request_url = "https://apiqa.bluevote.com"
+    requests_mock.request(request_method, request_url)
+
+    # Make primary request, causing token to also be refreshed
+    mock_pdi._request(request_url, req_type=request_method)
+    assert mock_pdi.session_exp > current_datetime
+
+    # Ensure that all requests after the first one include the new token
+    history = requests_mock.request_history
+    assert len(history) > 1
+    for request in history[1:]:
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"] == "Bearer AccessTokenNew"

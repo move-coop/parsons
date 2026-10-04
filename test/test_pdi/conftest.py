@@ -31,4 +31,7 @@ def mock_pdi(requests_mock: Mocker) -> PDI:
     password = "PDI_PASSWORD"
     api_token = "PDI_API_TOKEN"
 
-    return PDI(username, password, api_token, qa_url=True)
+    pdi = PDI(username, password, api_token, qa_url=True)
+    requests_mock.reset_mock()
+
+    return pdi

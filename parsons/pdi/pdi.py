@@ -1,11 +1,9 @@
 import logging
+from datetime import datetime, timezone
 from json.decoder import JSONDecodeError
 
 import requests
 from dateutil.parser import parse
-from typing_extensions import (
-    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
-)
 
 from parsons.etl.table import Table
 from parsons.pdi.acquisition_types import AcquisitionTypes
@@ -18,7 +16,6 @@ from parsons.pdi.locations import Locations
 from parsons.pdi.questions import Questions
 from parsons.pdi.universes import Universes
 from parsons.utilities import check_env
-from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -67,18 +64,10 @@ class PDI(
 
         self._get_session_token()
 
-    @property
-    @deprecated("Use 'PDI.session_auth.api_key' instead.")
-    def session_token(self):
-        return self.session_auth.api_key
-
-    @property
-    @deprecated("Use 'PDI.session_auth.expires' instead.")
-    def session_exp(self):
-        return self.session_auth.expires
-
     def _get_session_token(self):
-        headers = {"Content-Type": "application/json"}
+        headers = {
+            "Content-Type": "application/json",
+        }
         login = {
             "Username": self.username,
             "Password": self.password,
@@ -89,12 +78,8 @@ class PDI(
         res.raise_for_status()
         # status_code == 200
         data = res.json()
-        self.session_auth = BearerAuth(
-            data["AccessToken"],
-            expires=parse(data["ExpirationDate"]),
-            refresh_callback=self._get_session_token,
-        )
-        return self.session_auth.api_key, self.session_auth.expires
+        self.session_token = data["AccessToken"]
+        self.session_exp = parse(data["ExpirationDate"])
 
     def _clean_dict(self, dct):
         if isinstance(dct, list):
@@ -106,11 +91,19 @@ class PDI(
         return dct
 
     def _request(self, url, req_type="GET", post_data=None, args=None, limit=None):
+        # Make sure to have a current token before we make another request
+        now = datetime.now(timezone.utc)
+        if now > self.session_exp:
+            self._get_session_token()
+
         # Based on PDI docs
         # https://api.bluevote.com/docs/index
         LIMIT_MAX = 2000
 
-        headers = {"Content-Type": "application/json"}
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.session_token}",
+        }
 
         request_fn = {
             "GET": requests.get,
@@ -125,9 +118,7 @@ class PDI(
 
         args = self._clean_dict(args) if args else args
         post_data = self._clean_dict(post_data) if post_data else post_data
-        res = request_fn[req_type](
-            url, headers=headers, auth=self.session_auth, json=post_data, params=args
-        )
+        res = request_fn[req_type](url, headers=headers, json=post_data, params=args)
         logger.debug("%s - %s", res.url, res.status_code)
         logger.debug(res.request.body)
 

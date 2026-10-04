@@ -86,6 +86,9 @@ def test_authentication_header_refresh(
     requests_mock.reset_mock()
     current_datetime = datetime.now(tz=timezone.utc)
     assert mock_pdi.session_exp < current_datetime
+    assert mock_pdi.session_auth.expires
+    assert mock_pdi.session_auth.expires < current_datetime
+    assert mock_pdi.session_auth.api_key == "AccessTokenExpired"
 
     # Queue authentication response with new token, but do not load it into PDI
     requests_mock.post(
@@ -103,6 +106,9 @@ def test_authentication_header_refresh(
     # Make primary request, causing token to also be refreshed
     mock_pdi._request(request_url, req_type=request_method)
     assert mock_pdi.session_exp > current_datetime
+    assert mock_pdi.session_auth.expires
+    assert mock_pdi.session_auth.expires > current_datetime
+    assert mock_pdi.session_auth.api_key == "AccessTokenNew"
 
     # Ensure that all requests after the first one include the new token
     history = requests_mock.request_history

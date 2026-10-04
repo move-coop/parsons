@@ -7,12 +7,18 @@ import requests_mock
 
 from parsons import Airmeet, Table
 
+SAMPLE_TOKEN_RESPONSE = {"label": "dave's token", "token": "test_token"}
 SAMPLE_USER_DATA = {"name": "Test User 1", "user_id": "abc123"}
 SAMPLE_SESSION_LIST = [
     {"sessionid": "test_session_id_1", "name": "Test Session 1"},
     {"sessionid": "test_session_id_2", "name": "Test Session 2"},
 ]
-SAMPLE_TOKEN_RESPONSE = {"label": "dave's token", "token": "test_token"}
+SAMPLE_EVENT_REPLAY_ATTENDANCE = {
+    "data": [
+        {"id": 1, "name": "Test User 1", "session_id": "test_session_id"},
+        {"id": 5, "name": "Test User 5", "session_id": "non_test_session_id"},
+    ],
+}
 
 
 class TestAirmeet(unittest.TestCase):
@@ -484,18 +490,25 @@ class TestAirmeet(unittest.TestCase):
     def test_fetch_event_replay_attendance(self) -> None:
         """Test getting the replay attendees for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
-            return_value={
-                "data": [
-                    {
-                        "id": 1,
-                        "name": "Test User 1",
-                        "session_id": "test_session_id",
-                    }
-                ],
-            }
+            return_value=SAMPLE_EVENT_REPLAY_ATTENDANCE
         )
 
         result = self.airmeet.fetch_event_replay_attendance("test_airmeet_id")
+
+        self.airmeet.client.get_request.assert_called_once_with(
+            url="airmeet/test_airmeet_id/event-replay-attendees",
+            params={"size": 50},
+        )
+        assert isinstance(result, Table), "The result should be a Table"
+        assert len(result) == 2, "The result should contain exactly two records"
+
+    def test_fetch_event_replay_attendance_specific_session(self) -> None:
+        """Test getting the replay attendees for an Airmeet."""
+        self.airmeet.client.get_request = mock.MagicMock(
+            return_value=SAMPLE_EVENT_REPLAY_ATTENDANCE
+        )
+
+        result = self.airmeet.fetch_event_replay_attendance("test_airmeet_id", "test_session_id")
 
         self.airmeet.client.get_request.assert_called_once_with(
             url="airmeet/test_airmeet_id/event-replay-attendees",

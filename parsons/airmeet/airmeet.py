@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
 from typing import Literal
 
@@ -48,15 +49,21 @@ class Airmeet:
         self.client = APIConnector(self.uri, headers=headers)
         self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
         self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
-        token = self._get_api_token()
-        self.client.auth = BearerAuth(token, header_name="X-Airmeet-Access-Token", token_name=None)
+        token, expires = self._get_api_token()
+        self.client.auth = BearerAuth(
+            token,
+            header_name="X-Airmeet-Access-Token",
+            token_name=None,
+            expires=expires,
+            refresh_callback=self._get_api_token,
+        )
 
     @property
     @deprecated("Use 'Airmeet.client.auth.api_key' instead.")
     def token(self):
         return self.client.auth.api_key
 
-    def _get_api_token(self) -> str:
+    def _get_api_token(self) -> tuple[str, datetime]:
         """Authenticate with the Airmeet API and return the access token."""
         headers = {
             "X-Airmeet-Access-Key": self.airmeet_client_key,
@@ -66,7 +73,8 @@ class Airmeet:
             url="auth", additional_headers=headers, success_codes=[200]
         )
         logger.debug("Authenticated with token: %s", response["label"])
-        return str(response["token"])
+        expires = datetime.now(tz=timezone.utc) + timedelta(days=30)
+        return str(response["token"]), expires
 
     def _get_all_pages(self, url: str, page_size: int = 50, **kwargs) -> Table:
         """

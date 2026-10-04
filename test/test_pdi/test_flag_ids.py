@@ -1,10 +1,11 @@
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
 
 # import json
 import pytest
 from requests.exceptions import HTTPError
 
-from parsons import Table
+from parsons import PDI, Table
 
 #
 # Fixtures and constants
@@ -25,8 +26,8 @@ xfail_http_error = pytest.mark.xfail(raises=HTTPError, strict=True)
 
 
 @pytest.fixture
-def cleanup_flag_id():
-    def delete_flag_id(pdi, flag_id):
+def cleanup_flag_id() -> Callable[[PDI, str], None]:
+    def delete_flag_id(pdi: PDI, flag_id: str) -> None:
         pdi.delete_flag_id(flag_id)
 
     return delete_flag_id
@@ -35,8 +36,8 @@ def cleanup_flag_id():
 @pytest.fixture
 def create_temp_flag_id():
     @contextmanager
-    def temp_flag_id(pdi, my_flag_id=None):
-        flag_id = my_flag_id or pdi.create_flag_id("amm", True)
+    def temp_flag_id(pdi: PDI, my_flag_id: str | None = None) -> Generator[str, None, None]:
+        flag_id = my_flag_id or pdi.create_flag_id("AMM", is_default=True)
         print(flag_id)
 
         yield flag_id
@@ -54,7 +55,7 @@ def create_temp_flag_id():
 
 @pytest.mark.live
 @pytest.mark.parametrize("limit", [None, 5, 15])
-def test_get_flag_ids(live_pdi, limit):
+def test_get_flag_ids(live_pdi: PDI, limit):
     flag_ids = live_pdi.get_flag_ids(limit=limit)
 
     expected_columns = ["id", "flagId", "flagIdDescription", "compile", "isDefault"]
@@ -67,14 +68,14 @@ def test_get_flag_ids(live_pdi, limit):
 
 @pytest.mark.live
 @pytest.mark.parametrize(
-    "id",
+    "flag_id",
     [
         pytest.param(QA_REAL_FLAG_ID),
         pytest.param(QA_INVALID_FLAG_ID, marks=[xfail_http_error]),
     ],
 )
-def test_get_flag_id(live_pdi, id):
-    flag_id = live_pdi.get_flag_id(id)
+def test_get_flag_id(live_pdi: PDI, flag_id: str):
+    flag_id = live_pdi.get_flag_id(flag_id)
 
     expected_keys = ["id", "flagId", "flagIdDescription", "compile", "isDefault"]
 
@@ -87,11 +88,16 @@ def test_get_flag_id(live_pdi, id):
     ("flag_id", "is_default"),
     [
         pytest.param(None, True, marks=[xfail_http_error]),
-        pytest.param("amm", None, marks=[xfail_http_error]),
-        pytest.param("amm", True),
+        pytest.param("AMM", None, marks=[xfail_http_error]),
+        pytest.param("AMM", True),
     ],
 )
-def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
+def test_create_flag_id(
+    live_pdi: PDI,
+    cleanup_flag_id: Callable[[PDI, str], None],
+    flag_id: str | None,
+    is_default: bool | None,
+):
     flag_id = live_pdi.create_flag_id(flag_id, is_default)
 
     cleanup_flag_id(live_pdi, flag_id)
@@ -106,11 +112,9 @@ def test_create_flag_id(live_pdi, cleanup_flag_id, flag_id, is_default):
         pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
     ],
 )
-def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
-    with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
-        did_delete = live_pdi.delete_flag_id(flag_id)
-
-    assert did_delete
+def test_delete_flag_id(live_pdi: PDI, create_temp_flag_id, my_flag_id: str | None):
+    with create_temp_flag_id(live_pdi, my_flag_id) as temp_flag_id:
+        assert live_pdi.delete_flag_id(temp_flag_id)
 
 
 @pytest.mark.live
@@ -122,21 +126,18 @@ def test_delete_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
         pytest.param(QA_MALFORMED_FLAG_ID, marks=[xfail_http_error]),
     ],
 )
-def test_update_flag_id(live_pdi, create_temp_flag_id, my_flag_id):
-    with create_temp_flag_id(live_pdi, my_flag_id) as flag_id:
+def test_update_flag_id(live_pdi: PDI, create_temp_flag_id, my_flag_id: str | None):
+    with create_temp_flag_id(live_pdi, my_flag_id) as temp_flag_id:
         # flag initial state:
         # {"id":flag_id, "flagId":"amm", "flagIdDescription":null, "compile":"", "isDefault":false}
-        id = live_pdi.update_flag_id(flag_id, "bnh", True)
-        assert id == flag_id
+        assert live_pdi.update_flag_id(temp_flag_id, "BNH", is_default=True) == temp_flag_id
 
         expected_dict = {
-            "id": flag_id,
+            "id": temp_flag_id,
             "flagId": "bnh",
             "flagIdDescription": None,
             "compile": "",
             "isDefault": True,
         }
 
-        flag_id_dict = live_pdi.get_flag_id(flag_id)
-
-        assert expected_dict == flag_id_dict
+        assert live_pdi.get_flag_id(temp_flag_id) == expected_dict

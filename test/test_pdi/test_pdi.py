@@ -1,29 +1,12 @@
-import contextlib
-import os
-
 import pytest
 
 from parsons import PDI
 
 
-#
-# Fixtures and constants
-#
-def remove_from_env(*env_vars):
-    for var in env_vars:
-        with contextlib.suppress(KeyError):
-            del os.environ[var]
-
-
-#
-# Tests
-#
-
-
 # Need to provide environment variables
 # PDI_USERNAME, PDI_PASSWORD, PDI_API_TOKEN
 @pytest.mark.live
-def test_connection():
+def test_connection() -> None:
     PDI(qa_url=True)
 
 
@@ -36,9 +19,16 @@ def test_connection():
         ("user", "pass", None),
     ],
 )
-def test_init_error(username, password, api_token):
-    remove_from_env("PDI_USERNAME", "PDI_PASSWORD", "PDI_API_TOKEN")
-    with pytest.raises(KeyError):
+def test_init_error(
+    username: str | None,
+    password: str | None,
+    api_token: str | None,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    for env_var in ("PDI_USERNAME", "PDI_PASSWORD", "PDI_API_TOKEN"):
+        monkeypatch.delenv(env_var, raising=False)
+
+    with pytest.raises(KeyError, match="Store as environment variable or pass as an argument"):
         PDI(username, password, api_token)
 
 
@@ -53,5 +43,9 @@ def test_init_error(username, password, api_token):
         ("string", "string"),
     ],
 )
-def test_clean_dict(mock_pdi, obj, exp_obj):
+def test_clean_dict(
+    mock_pdi: PDI,
+    obj: dict[str, str | None] | list[dict[str, str | None]] | str,
+    exp_obj: dict[str, str] | list[dict[str, str]] | str,
+):
     assert mock_pdi._clean_dict(obj) == exp_obj

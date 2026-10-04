@@ -45,6 +45,7 @@ class TestAirmeet(unittest.TestCase):
         assert airmeet.airmeet_client_key == "env_access_key"
         assert airmeet.airmeet_client_secret == "env_secret_key"
         assert airmeet.token == SAMPLE_TOKEN_RESPONSE["token"]
+        assert airmeet.client.auth.api_key == SAMPLE_TOKEN_RESPONSE["token"]
 
     @requests_mock.Mocker()
     def test_has_auth_token_header(self, m: requests_mock.Mocker) -> None:

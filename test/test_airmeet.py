@@ -7,30 +7,38 @@ import requests_mock
 
 from parsons import Airmeet, Table
 
-ENV_PARAMETERS = {
-    "AIRMEET_URI": "https://env_api_endpoint",
-    "AIRMEET_ACCESS_KEY": "env_access_key",
-    "AIRMEET_SECRET_KEY": "env_secret_key",
-}
+SAMPLE_USER_DATA = {"name": "Test User 1", "user_id": "abc123"}
+SAMPLE_SESSION_LIST = [
+    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
+    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
+]
+SAMPLE_TOKEN_RESPONSE = {"label": "dave's token", "token": "test_token"}
 
 
 class TestAirmeet(unittest.TestCase):
     def setUp(self) -> None:
         with requests_mock.Mocker() as m:
-            m.post("https://api-gateway.airmeet.com/prod/auth", json={"token": "test_token"})
+            m.post("https://api-gateway.airmeet.com/prod/auth", json=SAMPLE_TOKEN_RESPONSE)
             self.airmeet = Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
         self.airmeet.client = mock.MagicMock()
 
     @requests_mock.Mocker()
-    @mock.patch.dict(os.environ, ENV_PARAMETERS)
+    @mock.patch.dict(
+        os.environ,
+        {
+            "AIRMEET_URI": "https://env_api_endpoint",
+            "AIRMEET_ACCESS_KEY": "env_access_key",
+            "AIRMEET_SECRET_KEY": "env_secret_key",
+        },
+    )
     def test_from_environ(self, m: requests_mock.Mocker) -> None:
         """Test initialization from environment variables."""
-        m.post("https://env_api_endpoint/auth", json={"token": "test_token"})
+        m.post("https://env_api_endpoint/auth", json=SAMPLE_TOKEN_RESPONSE)
         airmeet = Airmeet()
         assert airmeet.uri == "https://env_api_endpoint"
         assert airmeet.airmeet_client_key == "env_access_key"
         assert airmeet.airmeet_client_secret == "env_secret_key"
-        assert airmeet.token == "test_token"
+        assert airmeet.token == SAMPLE_TOKEN_RESPONSE["token"]
 
     def test_get_all_pages_single_page(self) -> None:
         """Simulate API response for a single page without further cursors."""
@@ -97,7 +105,7 @@ class TestAirmeet(unittest.TestCase):
         """
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "participants": [{"user_id": "abc123", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 1,
             }
@@ -129,12 +137,12 @@ class TestAirmeet(unittest.TestCase):
         """
         responses = [
             {
-                "participants": [{"user_id": "abc123", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 2000,
             },
             {
-                "participants": [{"user_id": "def456", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 2000,
             },  # Last page
@@ -174,10 +182,7 @@ class TestAirmeet(unittest.TestCase):
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "name": "Test Event",
-                "sessions": [
-                    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
-                    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
-                ],
+                "sessions": SAMPLE_SESSION_LIST,
             }
         )
 
@@ -192,10 +197,7 @@ class TestAirmeet(unittest.TestCase):
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "name": "Test Event",
-                "sessions": [
-                    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
-                    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
-                ],
+                "sessions": SAMPLE_SESSION_LIST,
                 "session_hosts": [{"id": "abc123", "name": "Test Host 1"}],
             }
         )
@@ -234,12 +236,7 @@ class TestAirmeet(unittest.TestCase):
         """Test getting the attendees for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -256,12 +253,7 @@ class TestAirmeet(unittest.TestCase):
         """Test getting the attendees for a session."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -328,12 +320,7 @@ class TestAirmeet(unittest.TestCase):
         """Test getting the attendees for a booth."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -406,10 +393,7 @@ class TestAirmeet(unittest.TestCase):
                     {
                         "uid": "test_track_uid_1",
                         "name": "Test Track 1",
-                        "sessions": [
-                            "session_id_1",
-                            "session_id_2",
-                        ],
+                        "sessions": ["session_id_1", "session_id_2"],
                     }
                 ],
             }

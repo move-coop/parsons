@@ -1,11 +1,19 @@
+import logging
 from http import HTTPStatus
 from typing import Literal
+
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector, _JsonType
+from parsons.utilities.bearer_auth import BearerAuth
 
 AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"
+
+logger = logging.getLogger(__name__)
 
 
 class Airmeet:
@@ -36,21 +44,29 @@ class Airmeet:
 
         """
         self.uri = check_env.check("AIRMEET_URI", airmeet_uri, optional=True) or AIRMEET_DEFAULT_URI
-        self.client = APIConnector(self.uri)
+        headers = {"Content-Type": "application/json"}
+        self.client = APIConnector(self.uri, headers=headers)
         self.airmeet_client_key = check_env.check("AIRMEET_ACCESS_KEY", airmeet_access_key)
         self.airmeet_client_secret = check_env.check("AIRMEET_SECRET_KEY", airmeet_secret_key)
-        self.client.headers = {
+        token = self._get_api_token()
+        self.client.auth = BearerAuth(token, header_name="X-Airmeet-Access-Token", token_name=None)
+
+    @property
+    @deprecated("Use 'Airmeet.client.auth.api_key' instead.")
+    def token(self):
+        return self.client.auth.api_key
+
+    def _get_api_token(self) -> str:
+        """Authenticate with the Airmeet API and return the access token."""
+        headers = {
             "X-Airmeet-Access-Key": self.airmeet_client_key,
             "X-Airmeet-Secret-Key": self.airmeet_client_secret,
         }
-        response = self.client.post_request(url="auth", success_codes=[200])
-        self.token = response["token"]
-
-        # API calls expect the token in the header.
-        self.client.headers = {
-            "Content-Type": "application/json",
-            "X-Airmeet-Access-Token": self.token,
-        }
+        response = self.client.post_request(
+            url="auth", additional_headers=headers, success_codes=[200]
+        )
+        logger.debug("Authenticated with token: %s", response["label"])
+        return str(response["token"])
 
     def _get_all_pages(self, url: str, page_size: int = 50, **kwargs) -> Table:
         """
@@ -71,7 +87,7 @@ class Airmeet:
         kwargs["size"] = page_size
 
         # Initial API call to get the first page of data
-        response: dict[str, _JsonType] = self.client.get_request(url=url, params=kwargs)
+        response = self.client.get_request(url=url, params=kwargs)
 
         # Some APIs are asynchronous and will return a 202 if the request
         # should be tried again after five minutes, because the results
@@ -79,16 +95,16 @@ class Airmeet:
         if "statusCode" in response and response["statusCode"] != HTTPStatus.OK:
             raise Exception(response)
 
-        results: list[_JsonType] = response["data"]
+        results = response["data"]
         if "cursors" in response and response["cursors"]["pageCount"] > 1:
             cursor_after = response["cursors"]["after"]  # For getting the next set of results
 
             # Fetch subsequent pages if needed
             for _ in range(2, response["cursors"]["pageCount"] + 1):
                 kwargs["after"] = cursor_after
-                response = self.client.get_request(url=url, params=kwargs)
-                results.extend(response["data"])
-                cursor_after = response["cursors"]["after"]
+                next_response = self.client.get_request(url=url, params=kwargs)
+                results.extend(next_response["data"])
+                cursor_after = next_response["cursors"]["after"]
 
         return Table(results)
 
@@ -185,7 +201,7 @@ class Airmeet:
 
         """
         request_url = f"airmeet/{airmeet_id}/info"
-        response: dict[str, _JsonType | Table] = self.client.get_request(url=request_url)
+        response = self.client.get_request(url=request_url)
         if lists_to_tables:
             for k in response:
                 if isinstance(response[k], list):

@@ -17,7 +17,10 @@ ACCESS_TOKEN = "fake_token"
 
 @pytest.fixture
 def auth0_client(requests_mock: Mocker) -> Auth0:
-    requests_mock.post(f"https://{DOMAIN}/oauth/token", json={"access_token": ACCESS_TOKEN})
+    requests_mock.post(
+        f"https://{DOMAIN}/oauth/token",
+        json={"access_token": ACCESS_TOKEN, "token_type": "Bearer", "expires_in": 86400},
+    )  # https://auth0.com/docs/secure/tokens/access-tokens/get-access-tokens#response
     auth0 = Auth0(CLIENT_ID, CLIENT_SECRET, DOMAIN)
     requests_mock.reset_mock()
     return auth0

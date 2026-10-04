@@ -2,6 +2,7 @@ import gzip
 import json
 import logging
 import time
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -39,11 +40,10 @@ class Auth0:
         self.base_url = f"https://{check_env.check('AUTH0_DOMAIN', domain)}"
         self.client_id = check_env.check("AUTH0_CLIENT_ID", client_id)
         self.client_secret = check_env.check("AUTH0_CLIENT_SECRET", client_secret)
-        access_token = self._get_access_token()
-        self.auth = BearerAuth(access_token)
         self.headers = {"Content-Type": "application/json"}
+        self._refresh_access_token()
 
-    def _get_access_token(self) -> str:
+    def _refresh_access_token(self) -> tuple[str, datetime]:
         url = f"{self.base_url}/oauth/token"
         payload = {
             "grant_type": "client_credentials",  # OAuth 2.0 flow to use
@@ -51,10 +51,21 @@ class Auth0:
             "client_secret": self.client_secret,
             "audience": f"{self.base_url}/api/v2/",
         }
-        res = requests.post(url, data=payload)
-        return res.json().get("access_token")
+        token_res = requests.post(url, data=payload).json()
+        access_token = token_res.get("access_token")
+        token_type = token_res.get("token_type")
+        expires_in = token_res.get("expires_in")
 
-    def delete_user(self, id: str):
+        expiration = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+        self.auth = BearerAuth(
+            access_token,
+            token_name=token_type,
+            expires=expiration,
+            refresh_callback=self._refresh_access_token,
+        )
+        return access_token, expiration
+
+    def delete_user(self, id: str) -> int:
         """
         Delete Auth0 user.
 

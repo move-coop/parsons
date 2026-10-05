@@ -16,6 +16,7 @@ from github.GithubException import UnknownObjectException
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env, files
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +26,11 @@ T = TypeVar("T", bound=type)  # class
 
 
 @overload
-def wrap_github_404(target: Callable[P, R]) -> Callable[P, R]: ...
+def wrap_github_404(target: T) -> T: ...
 
 
 @overload
-def wrap_github_404(target: T) -> T: ...
+def wrap_github_404(target: Callable[P, R]) -> Callable[P, R]: ...
 
 
 def wrap_github_404(target: Callable[P, R] | T) -> Callable[P, R] | T:
@@ -68,6 +69,8 @@ class ParsonsGitHubError(Exception):
 class GitHub:
     """Parsons connector for interacting with GitHub endpoints."""
 
+    access_token: str | None = None
+
     def __init__(
         self,
         username: str | None = None,
@@ -92,18 +95,14 @@ class GitHub:
                 Can be set with ``GITHUB_ACCESS_TOKEN`` environment variable.
 
         """
-        self.username = check_env.check("GITHUB_USERNAME", username, optional=True)
-        self.password = check_env.check("GITHUB_PASSWORD", password, optional=True)
-        self.access_token = check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True)
-
-        if self.username and self.password:
-            self.client = PyGithub(
-                auth=PyGithubAuth.Login(login=self.username, password=self.password)
-            )
-        elif self.access_token:
-            self.client = PyGithub(auth=PyGithubAuth.Token(token=self.access_token))
-        else:
-            self.client = PyGithub()
+        auth = None
+        if (username := check_env.check("GITHUB_USERNAME", username, optional=True)) and (
+            password := check_env.check("GITHUB_PASSWORD", password, optional=True)
+        ):
+            auth = PyGithubAuth.Login(login=username, password=password)
+        elif access_token := check_env.check("GITHUB_ACCESS_TOKEN", access_token, optional=True):
+            auth = PyGithubAuth.Token(token=access_token)
+        self.client = PyGithub(auth=auth)
 
     def _as_table(
         self,
@@ -393,7 +392,7 @@ class GitHub:
         repo_name: str,
         path: str,
         branch: str | None = None,
-        local_path: str | None = None,
+        local_path: Path | str | None = None,
     ) -> str:
         """
         Download a file from a repo by path and branch.
@@ -417,14 +416,18 @@ class GitHub:
             File path of downloaded file
 
         """
-        local_path = local_path or files.create_temp_file_for_path(path)
+        local_path = Path(local_path or files.create_temp_file_for_path(path))
 
         branch = branch or self.client.get_repo(repo_name).default_branch
         logger.info("Downloading %s from %s, branch %s to %s", path, repo_name, branch, local_path)
 
-        headers = {"Authorization": f"token {self.access_token}"} if self.access_token else None
+        auth = (
+            BearerAuth(req_auth.token, token_name=req_auth.token_type)
+            if (req_auth := self.client.requester.auth) and (req_auth.token and req_auth.token_type)
+            else None
+        )
         download_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/{path}"
-        res = requests.get(download_url, headers=headers)
+        res = requests.get(download_url, auth=auth)
 
         if res.status_code == HTTPStatus.NOT_FOUND:
             raise UnknownObjectException(status=HTTPStatus.NOT_FOUND, data=res.content)
@@ -433,10 +436,10 @@ class GitHub:
             err_msg = f"Error downloading {path} from repo {repo_name}: {res.content}"
             raise ParsonsGitHubError(err_msg)
 
-        Path(local_path).write_bytes(res.content)
+        local_path.write_bytes(res.content)
         logger.info("Downloaded %s to %s", path, local_path)
 
-        return local_path
+        return str(local_path)
 
     def download_table(
         self,

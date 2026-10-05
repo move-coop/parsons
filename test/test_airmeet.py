@@ -1,9 +1,11 @@
 import os
 import unittest
+from http import HTTPStatus
 from unittest import mock
 
 import pytest
 import requests_mock
+from requests import HTTPError
 
 from parsons import Airmeet, Table
 
@@ -46,6 +48,20 @@ class TestAirmeet(unittest.TestCase):
         assert airmeet.airmeet_client_secret == "env_secret_key"
         assert airmeet.token == SAMPLE_TOKEN_RESPONSE["token"]
         assert airmeet.client.auth.api_key == SAMPLE_TOKEN_RESPONSE["token"]
+
+    @requests_mock.Mocker()
+    def test_failed_auth(self, m: requests_mock.Mocker) -> None:
+        """Test that auth errors during initialization are raised with HTTPError."""
+        test_error_codes = [
+            HTTPStatus.ACCEPTED,  # unexpected
+            HTTPStatus.BAD_REQUEST,  # invalid/missing data
+            HTTPStatus.FORBIDDEN,  # keys have been revoked
+            HTTPStatus.INTERNAL_SERVER_ERROR,  # generic error
+        ]
+        for err_code in test_error_codes:
+            m.post("https://api-gateway.airmeet.com/prod/auth", status_code=err_code)
+            with pytest.raises(HTTPError):
+                Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
 
     @requests_mock.Mocker()
     def test_has_auth_token_header(self, m: requests_mock.Mocker) -> None:

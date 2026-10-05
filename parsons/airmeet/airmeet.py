@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
 from typing import Literal
 
+from requests import HTTPError
 from typing_extensions import (
     deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
 )
@@ -13,6 +14,11 @@ from parsons.utilities.api_connector import APIConnector, _JsonType
 from parsons.utilities.bearer_auth import BearerAuth
 
 AIRMEET_DEFAULT_URI = "https://api-gateway.airmeet.com/prod/"
+AUTHENTICATION_ERRORS = {
+    HTTPStatus.BAD_REQUEST: "Authentication missing data or the supplied values are incorrect.",
+    HTTPStatus.FORBIDDEN: "Authentication keys have been revoked (abuse prevention).",
+    HTTPStatus.INTERNAL_SERVER_ERROR: "Generic server error.",
+}
 
 logger = logging.getLogger(__name__)
 
@@ -69,12 +75,17 @@ class Airmeet:
             "X-Airmeet-Access-Key": self.airmeet_client_key,
             "X-Airmeet-Secret-Key": self.airmeet_client_secret,
         }
-        response = self.client.post_request(
-            url="auth", additional_headers=headers, success_codes=[200]
-        )
-        logger.debug("Authenticated with token: %s", response["label"])
+        res = self.client.request(url="auth", req_type="POST", additional_headers=headers)
+
+        if res.status_code != HTTPStatus.OK:
+            err_if_unknown = f"Unexpected status code: {res.status_code}"
+            err_msg = AUTHENTICATION_ERRORS.get(res.status_code, err_if_unknown)
+            raise HTTPError(err_msg, response=res)
+
+        response_data = res.json()
+        logger.debug("Authenticated with token: %s", response_data["label"])
         expires = datetime.now(tz=timezone.utc) + timedelta(days=30)
-        return str(response["token"]), expires
+        return str(response_data["token"]), expires
 
     def _get_all_pages(self, url: str, page_size: int = 50, **kwargs) -> Table:
         """

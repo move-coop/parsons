@@ -1,3 +1,4 @@
+default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -12,34 +13,37 @@ repos:
     hooks:
       - id: bandit
         name: bandit
-        entry: uv run bandit --confidence-level 'medium' --severity-level 'medium' --exclude test
+        entry: uv run bandit
+        args: [--confidence-level medium, --severity-level medium, --exclude test]
         language: system
         pass_filenames: true
-        types: ['python']
+        types: [python, toml]
 
       - id: sphinx-lint
         name: sphinx lint
         entry: uv run sphinx-lint
         language: system
         pass_filenames: true
-        types: ['rst']
+        types: [rst, toml]
 
       - id: ruff-check
         name: ruff check
-        entry: uv run ruff check --fix
+        entry: uv run ruff check
+        args: [--fix]
         language: system
         pass_filenames: true
-        types: ['python']
+        types: [python, toml]
 
       - id: ruff-format
         name: ruff format
         entry: uv run ruff format
         language: system
         pass_filenames: true
-        types: ['python']
+        types: [python, toml]
 
       - id: generate-stubs
         name: generate stubs
-        entry: python ./types/generate_init_pyi.py
+        entry: uv run ./types/generate_init_pyi.py
         language: system
         pass_filenames: false
+        types: [python]

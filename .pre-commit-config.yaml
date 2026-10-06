@@ -56,3 +56,12 @@ repos:
         pass_filenames: false
         stages: [pre-push]
         types: [rst, python, toml]
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest
+        language: system
+        always_run: true
+        pass_filenames: false
+        stages: [pre-push]
+        types: [python, toml]

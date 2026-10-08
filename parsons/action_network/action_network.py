@@ -14,21 +14,21 @@ API_URL = "https://actionnetwork.org/api/v2"
 
 
 class ActionNetwork:
-    """
-    Args:
-        api_token: str
-            OSDI API token
+    """Parsons connector for interacting with Action Network endpoints."""
 
-    """
+    def __init__(self, api_token: str | None = None) -> None:
+        """
+        Instantiate the ActionNetwork class.
 
-    def __init__(self, api_token=None):
-        self.api_token = check_env.check("AN_API_TOKEN", api_token)
-        self.headers = {
-            "Content-Type": "application/json",
-            "OSDI-API-Token": self.api_token,
-        }
-        self.api_url = API_URL
-        self.api = APIConnector(self.api_url, headers=self.headers)
+        Args:
+            api_token:
+                OSDI API token.
+                Can be set with ``AN_API_TOKEN`` environment variable.
+
+        """
+        api_token = check_env.check("AN_API_TOKEN", api_token)
+        headers = {"Content-Type": "application/json", "OSDI-API-Token": api_token}
+        self.api = APIConnector(API_URL, headers=headers)
 
     def _get_page(self, object_name, page, per_page=25, filter=None):
         # returns data from one page of results
@@ -687,7 +687,7 @@ class ActionNetwork:
         if isinstance(location, dict):
             data["location"] = location
 
-        event_dict = self.api.post_request(url=f"{self.api_url}/events", data=json.dumps(data))
+        event_dict = self.api.post_request(url=f"{API_URL}/events", data=json.dumps(data))
 
         an_event_id = event_dict["_links"]["self"]["href"].split("/")[-1]
         event_dict["event_id"] = an_event_id
@@ -1524,7 +1524,7 @@ class ActionNetwork:
             data["add_tags"] = tags
 
         data["person"]["custom_fields"] = {**kwargs}
-        url = f"{self.api_url}/people"
+        url = f"{API_URL}/people"
         if background_processing:
             url = f"{url}?background_processing=true"
 
@@ -1636,7 +1636,7 @@ class ActionNetwork:
 
         """
         data = {**kwargs}
-        url = f"{self.api_url}/people/{entry_id}"
+        url = f"{API_URL}/people/{entry_id}"
         if background_processing:
             url = f"{url}?background_processing=true"
         response = self.api.put_request(
@@ -1716,7 +1716,7 @@ class ActionNetwork:
             "petition_text": petition_text,
             "target": target,
         }
-        url = f"{self.api_url}/petitions"
+        url = f"{API_URL}/petitions"
         if background_processing:
             url = f"{url}?background_processing={background_processing}"
         response = self.api.post_request(
@@ -1763,7 +1763,7 @@ class ActionNetwork:
             "petition_text": petition_text,
             "target": target,
         }
-        url = f"{self.api_url}/petitions/{petition_id}"
+        url = f"{API_URL}/petitions/{petition_id}"
         if background_processing:
             url = f"{url}?background_processing={background_processing}"
         response = self.api.put_request(
@@ -2238,7 +2238,7 @@ class ActionNetwork:
 
         """
         data = {"name": name}
-        response = self.api.post_request(url=f"{self.api_url}/tags", data=json.dumps(data))
+        response = self.api.post_request(url=f"{API_URL}/tags", data=json.dumps(data))
         identifiers = response["identifiers"]
         person_id = [
             entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id

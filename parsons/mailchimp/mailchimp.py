@@ -108,7 +108,7 @@ class Mailchimp:
 
         response = self.client.get_request(url="lists", params=params)
         tbl = Table(response["lists"])
-        logger.info(f"Found {tbl.num_rows} lists.")
+        logger.info("Found %s lists.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -208,7 +208,7 @@ class Mailchimp:
 
         response = self.client.get_request(url="campaigns", params=params)
         tbl = Table(response["campaigns"])
-        logger.info(f"Found {tbl.num_rows} campaigns.")
+        logger.info("Found %s campaigns.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -347,7 +347,7 @@ class Mailchimp:
 
         response = self.client.get_request(url=f"lists/{list_id}/members", params=params)
         tbl = Table(response["members"])
-        logger.info(f"Found {tbl.num_rows} members.")
+        logger.info("Found %s members.", tbl.num_rows)
         if tbl.num_rows > 0:
             return tbl
         else:
@@ -447,7 +447,7 @@ class Mailchimp:
 
         response = self.client.get_request(url=f"reports/{campaign_id}/unsubscribed", params=params)
         tbl = Table(response["unsubscribes"])
-        logger.info(f"Found {tbl.num_rows} unsubscribes for {campaign_id}.")
+        logger.info("Found %s unsubscribes for %s.", tbl.num_rows, campaign_id)
         if tbl.num_rows > 0:
             return tbl
         else:

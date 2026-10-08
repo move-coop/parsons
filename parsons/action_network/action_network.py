@@ -1,4 +1,3 @@
-import json
 import logging
 import re
 import warnings
@@ -259,7 +258,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
-        return self.api.post_request(url=f"events/{event_id}/attendances", params=payload)
+        return self.api.post_request(url=f"events/{event_id}/attendances", json=payload)
 
     def update_attendance(self, event_id, attendance_id, payload):
         """
@@ -287,7 +286,7 @@ class ActionNetwork:
 
         """
         return self.api.put_request(
-            url=f"events/{event_id}/attendances/{attendance_id}", data=payload
+            url=f"events/{event_id}/attendances/{attendance_id}", json=payload
         )
 
     # Campaigns
@@ -504,7 +503,7 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            url=f"fundraising_pages/{fundraising_page_id}/donations", params=donation_payload
+            url=f"fundraising_pages/{fundraising_page_id}/donations", json=donation_payload
         )
 
     # Embeds
@@ -589,7 +588,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.post_request(url="event_campaigns", params=payload)
+        return self.api.post_request(url="event_campaigns", json=payload)
 
     def create_event_in_event_campaign(self, event_campaign_id, payload):
         """
@@ -614,7 +613,7 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            url=f"event_campaigns/{event_campaign_id}/events", params=payload
+            url=f"event_campaigns/{event_campaign_id}/events", json=payload
         )
 
     def update_event_campaign(self, event_campaign_id, payload):
@@ -638,7 +637,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
-        return self.api.put_request(url=f"event_campaigns/{event_campaign_id}", data=payload)
+        return self.api.put_request(url=f"event_campaigns/{event_campaign_id}", json=payload)
 
     # Events
     def get_events(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
@@ -766,7 +765,7 @@ class ActionNetwork:
         if isinstance(location, dict):
             data["location"] = location
 
-        event_dict = self.api.post_request(url=f"{API_URL}/events", data=json.dumps(data))
+        event_dict = self.api.post_request(url=f"{API_URL}/events", json=data)
 
         an_event_id = event_dict["_links"]["self"]["href"].split("/")[-1]
         event_dict["event_id"] = an_event_id
@@ -797,7 +796,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/events>`__
 
         """
-        return self.api.put_request(url=f"events/{event_id}", data=payload)
+        return self.api.put_request(url=f"events/{event_id}", json=payload)
 
     # Forms
     def get_forms(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
@@ -863,7 +862,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
-        return self.api.post_request(url="forms", params=payload)
+        return self.api.post_request(url="forms", json=payload)
 
     def update_form(self, form_id, payload):
         """
@@ -889,7 +888,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
-        return self.api.put_request(url=f"forms/{form_id}", data=payload)
+        return self.api.put_request(url=f"forms/{form_id}", json=payload)
 
     # Fundraising Pages
     def get_fundraising_page(self, fundraising_page_id):
@@ -960,7 +959,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
 
         """
-        return self.api.post_request(url="fundraising_pages", params=payload)
+        return self.api.post_request(url="fundraising_pages", json=payload)
 
     def update_fundraising_page(self, fundraising_page_id, payload):
         """
@@ -986,7 +985,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
 
         """
-        return self.api.put_request(url=f"fundraising_pages/{fundraising_page_id}", data=payload)
+        return self.api.put_request(url=f"fundraising_pages/{fundraising_page_id}", json=payload)
 
     # Items
     def get_items(
@@ -1215,10 +1214,8 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/schedule_helper>`__
 
         """
-        return self.api.post_request(
-            url=f"messages/{message_id}/schedule/",
-            params={"scheduled_start_date": scheduled_start_date},
-        )
+        payload = {"scheduled_start_date": scheduled_start_date}
+        return self.api.post_request(url=f"messages/{message_id}/schedule/", json=payload)
 
     def send_message(self, message_id):
         """
@@ -1235,7 +1232,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/send_helper>`__
 
         """
-        return self.api.post_request(url=f"messages/{message_id}/send/", params={})
+        return self.api.post_request(url=f"messages/{message_id}/send/")
 
     # Metadata
     def get_metadata(self):
@@ -1392,7 +1389,7 @@ class ActionNetwork:
 
         """
         return self.api.post_request(
-            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", params=payload
+            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", json=payload
         )
 
     def update_outreach(self, advocacy_campaign_id, outreach_id, payload):
@@ -1421,8 +1418,7 @@ class ActionNetwork:
 
         """
         return self.api.put_request(
-            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}",
-            data=payload,
+            url=f"advocacy_campaigns/{advocacy_campaign_id}/outreaches/{outreach_id}", json=payload
         )
 
     # People
@@ -1638,7 +1634,7 @@ class ActionNetwork:
         if background_processing:
             url = f"{url}?background_processing=true"
 
-        response = self.api.post_request(url=url, data=json.dumps(data))
+        response = self.api.post_request(url=url, json=data)
 
         person_id = self._extract_identifiers(response).get("action_network")
         was_added = response["created_date"] == response["modified_date"]
@@ -1739,11 +1735,7 @@ class ActionNetwork:
         url = f"{API_URL}/people/{entry_id}"
         if background_processing:
             url = f"{url}?background_processing=true"
-        response = self.api.put_request(
-            url=url,
-            data=json.dumps(data),
-            success_codes=[204, 201, 200],
-        )
+        response = self.api.put_request(url=url, json=data, success_codes=[204, 201, 200])
         logger.info("Person %s successfully updated", entry_id)
         return response
 
@@ -1823,10 +1815,7 @@ class ActionNetwork:
         url = f"{API_URL}/petitions"
         if background_processing:
             url = f"{url}?background_processing={background_processing}"
-        response = self.api.post_request(
-            url=url,
-            data=json.dumps(data),
-        )
+        response = self.api.post_request(url=url, json=data)
         logger.info("Petition %s successfully created", title)
         return response
 
@@ -1870,10 +1859,7 @@ class ActionNetwork:
         url = f"{API_URL}/petitions/{petition_id}"
         if background_processing:
             url = f"{url}?background_processing={background_processing}"
-        response = self.api.put_request(
-            url=url,
-            data=json.dumps(data),
-        )
+        response = self.api.put_request(url=url, json=data)
         logger.info("Petition %s successfully updated", title)
         return response
 
@@ -2038,7 +2024,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
-        return self.api.post_request(url=f"petitions/{petition_id}/signatures", params=data)
+        return self.api.post_request(url=f"petitions/{petition_id}/signatures", json=data)
 
     def update_signature(self, petition_id, signature_id, data):
         """
@@ -2064,7 +2050,7 @@ class ActionNetwork:
 
         """
         return self.api.put_request(
-            url=f"petitions/{petition_id}/signatures/{signature_id}", data=data
+            url=f"petitions/{petition_id}/signatures/{signature_id}", json=data
         )
 
     # Submissions
@@ -2182,7 +2168,7 @@ class ActionNetwork:
                 "osdi:person": {"href": f"https://actionnetwork.org/api/v2/people/{person_id}"}
             }
         }
-        return self.api.post_request(url=f"forms/{form_id}/submissions", data=json.dumps(payload))
+        return self.api.post_request(url=f"forms/{form_id}/submissions", json=payload)
 
     def update_submission(self, form_id, submission_id, data):
         """
@@ -2209,9 +2195,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/submissions>`__
 
         """
-        return self.api.put_request(
-            url=f"forms/{form_id}/submissions/{submission_id}", data=json.dumps(data)
-        )
+        return self.api.put_request(url=f"forms/{form_id}/submissions/{submission_id}", json=data)
 
     # Surveys
     def get_surveys(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
@@ -2282,7 +2266,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/surveys>`__
 
         """
-        return self.api.post_request(url="surveys", data=json.dumps(data))
+        return self.api.post_request(url="surveys", json=data)
 
     def update_survey(self, survey_id, data):
         """
@@ -2306,7 +2290,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/surveys>`__
 
         """
-        return self.api.post_request(url=f"surveys/{survey_id}", data=json.dumps(data))
+        return self.api.post_request(url=f"surveys/{survey_id}", json=data)
 
     # Tags
     def get_tags(self, limit=None, per_page=None):
@@ -2361,7 +2345,7 @@ class ActionNetwork:
 
         """
         data = {"name": name}
-        response = self.api.post_request(url=f"{API_URL}/tags", data=json.dumps(data))
+        response = self.api.post_request(url=f"{API_URL}/tags", json=data)
         person_id = self._extract_identifiers(response).get("action_network")
         logger.info("Tag %s successfully added to tags.", person_id)
         return response
@@ -2446,7 +2430,7 @@ class ActionNetwork:
         url = f"tags/{tag_id}/taggings"
         if background_processing:
             url = f"{url}?background_processing=true"
-        return self.api.post_request(url=url, data=json.dumps(payload))
+        return self.api.post_request(url=url, json=payload)
 
     def delete_tagging(self, tag_id, tagging_id, background_processing=False):
         """
@@ -2577,7 +2561,5 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
 
         """
-        return self.api.post_request(
-            url="unique_id_lists",
-            data=json.dumps({"name": list_name, "unique_ids": unique_ids}),
-        )
+        payload = {"name": list_name, "unique_ids": unique_ids}
+        return self.api.post_request(url="unique_id_lists", json=payload)

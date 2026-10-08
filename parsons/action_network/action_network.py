@@ -40,6 +40,7 @@ class ActionNetwork:
             logger.info(
                 "Action Network's API will not return more than 25 entries per page. Changing per_page parameter to 25."
             )
+
         params = {"page": page, "per_page": per_page, "filter": query}
         return self.api.get_request(url=object_name, params=params)
 
@@ -91,6 +92,25 @@ class ActionNetwork:
         if value:
             warnings.warn(
                 f"The keyword argument `{old_name}` is deprecated, use `{new_name}` instead.",
+                DeprecationWarning,
+                stacklevel=3,
+            )
+        return value
+
+    @overload
+    def _deprecate_pos_arg(self, value: T, arg_name: str) -> T: ...
+
+    @overload
+    def _deprecate_pos_arg(self, value: None, arg_name: str) -> None: ...
+
+    def _deprecate_pos_arg(self, value: T | None, arg_name: str) -> T | None:
+        """Handle DeprecationWarning when a positional argument is used that is a keyword-only argument."""
+        if value:
+            warnings.warn(
+                (
+                    f"Passing the argument `{arg_name}` as a positional argument is deprecated. "
+                    "You should pass it as a keyword argument instead."
+                ),
                 DeprecationWarning,
                 stacklevel=3,
             )
@@ -1483,6 +1503,8 @@ class ActionNetwork:
             | None
         ) = None,
         mobile_status: Literal["subscribed", "unsubscribed"] | None = None,
+        bp=False,
+        *,
         background_processing=False,
         **kwargs,
     ):
@@ -1548,7 +1570,9 @@ class ActionNetwork:
                 status of the phone in ActionNetwork. If not included, won't update the status.
                 None by default, causes no updates to mobile number status. New numbers are set
                 to "unsubscribed" by default.
-            background_processing: bool
+
+        Keyword Args:
+            background_processing:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -1631,7 +1655,8 @@ class ActionNetwork:
         data["person"]["custom_fields"] = {**kwargs}
         url = f"{API_URL}/people"
 
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing=true"
 
         response = self.api.post_request(url=url, json=data)
@@ -1681,7 +1706,7 @@ class ActionNetwork:
             **kwargs,
         )
 
-    def update_person(self, entry_id, background_processing=False, **kwargs):
+    def update_person(self, entry_id, bp=False, *, background_processing=False, **kwargs):
         """
         Updates a person's data in Action Network, given their Action Network ID. Note that you
         can't alter a person's tags with this method. Instead, use upsert_person.
@@ -1689,7 +1714,9 @@ class ActionNetwork:
         Args:
             entry_id:
                 Person's Action Network id
-            background_processing: bool
+
+        Keyword Args:
+            background_processing:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -1733,7 +1760,8 @@ class ActionNetwork:
         """
         data = {**kwargs}
         url = f"{API_URL}/people/{entry_id}"
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing=true"
         response = self.api.put_request(url=url, json=data, success_codes=[204, 201, 200])
         logger.info("Person %s successfully updated", entry_id)
@@ -1784,7 +1812,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"petitions/{petition_id}")
 
     def create_petition(
-        self, title, description, petition_text, target, background_processing=False
+        self, title, description, petition_text, target, bp=False, *, background_processing=False
     ):
         """
         Args:
@@ -1796,6 +1824,8 @@ class ActionNetwork:
                 Text of the petition
             target:
                 Target of the petition
+
+        Keyword Args:
             background_processing:
                 Whether to process the request in the background
 
@@ -1813,7 +1843,8 @@ class ActionNetwork:
             "target": target,
         }
         url = f"{API_URL}/petitions"
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing={background_processing}"
         response = self.api.post_request(url=url, json=data)
         logger.info("Petition %s successfully created", title)
@@ -1826,6 +1857,8 @@ class ActionNetwork:
         description,
         petition_text,
         target,
+        bp=False,
+        *,
         background_processing=False,
     ):
         """
@@ -1840,6 +1873,8 @@ class ActionNetwork:
                 Updated text of the petition
             target:
                 Updated target of the petition
+
+        Keyword Args:
             background_processing:
                 Whether to process the request in the background
 
@@ -1857,7 +1892,8 @@ class ActionNetwork:
             "target": target,
         }
         url = f"{API_URL}/petitions/{petition_id}"
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing={background_processing}"
         response = self.api.put_request(url=url, json=data)
         logger.info("Petition %s successfully updated", title)
@@ -2398,7 +2434,7 @@ class ActionNetwork:
         """
         return self.api.get_request(url=f"tags/{tag_id}/taggings/{tagging_id}")
 
-    def create_tagging(self, tag_id, payload, background_processing=False):
+    def create_tagging(self, tag_id, payload, bp=False, *, background_processing=False):
         """
         Args:
             tag_id:
@@ -2414,7 +2450,8 @@ class ActionNetwork:
                         }
                     }
 
-            background_processing: bool
+        Keyword Args:
+            background_processing:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -2428,18 +2465,21 @@ class ActionNetwork:
 
         """
         url = f"tags/{tag_id}/taggings"
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing=true"
         return self.api.post_request(url=url, json=payload)
 
-    def delete_tagging(self, tag_id, tagging_id, background_processing=False):
+    def delete_tagging(self, tag_id, tagging_id, bp=False, *, background_processing=False):
         """
         Args:
             tag_id:
                 Unique ID of the tag
             tagging_id:
                 Unique ID of the tagging to be deleted
-            background_processing: bool
+
+        Keyword Args:
+            background_processing:
                 If set `true`, utilize ActionNetwork's "background processing". This will return
                 an immediate success, with an empty JSON body, and send your request to the
                 background queue for eventual processing.
@@ -2453,7 +2493,8 @@ class ActionNetwork:
 
         """
         url = f"tags/{tag_id}/taggings/{tagging_id}"
-        if background_processing:
+        bg_proc = background_processing or self._deprecate_pos_arg(bp, "background_processing")
+        if bg_proc:
             url = f"{url}?background_processing=true"
         return self.api.delete_request(url=url)
 

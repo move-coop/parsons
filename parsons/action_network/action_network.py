@@ -11,6 +11,7 @@ from parsons.utilities.api_connector import APIConnector
 logger = logging.getLogger(__name__)
 
 API_URL = "https://actionnetwork.org/api/v2"
+MAX_PER_PAGE = 25
 
 
 class ActionNetwork:
@@ -30,17 +31,17 @@ class ActionNetwork:
         headers = {"Content-Type": "application/json", "OSDI-API-Token": api_token}
         self.api = APIConnector(API_URL, headers=headers)
 
-    def _get_page(self, object_name, page, per_page=25, filter=None):
+    def _get_page(self, object_name, page, per_page=MAX_PER_PAGE, filter=None):
         # returns data from one page of results
-        if per_page > 25:
-            per_page = 25
+        if per_page > MAX_PER_PAGE:
+            per_page = MAX_PER_PAGE
             logger.info(
                 "Action Network's API will not return more than 25 entries per page. Changing per_page parameter to 25."
             )
         params = {"page": page, "per_page": per_page, "filter": filter}
         return self.api.get_request(url=object_name, params=params)
 
-    def _get_entry_list(self, object_name, limit=None, per_page=25, filter=None):
+    def _get_entry_list(self, object_name, limit=None, per_page=MAX_PER_PAGE, filter=None):
         # returns a list of entries for a given object, such as people, tags, or actions
         # Filter can only be applied to people, petitions, events, forms, fundraising_pages,
         # event_campaigns, campaigns, advocacy_campaigns, signatures, attendances, submissions,
@@ -61,7 +62,7 @@ class ActionNetwork:
                 return Table(return_list[0:limit])
 
     # Advocacy Campaigns
-    def get_advocacy_campaigns(self, limit=None, per_page=25, page=None, filter=None):
+    def get_advocacy_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -101,7 +102,9 @@ class ActionNetwork:
         return self.api.get_request(url=f"advocacy_campaigns/{advocacy_campaign_id}")
 
     # Attendances
-    def get_person_attendances(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_person_attendances(
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             person_id:
@@ -127,7 +130,9 @@ class ActionNetwork:
             return self._get_page(f"people/{person_id}/attendances", page, per_page, filter)
         return self._get_entry_list(f"people/{person_id}/attendances", limit, per_page, filter)
 
-    def get_event_attendances(self, event_id, limit=None, per_page=25, page=None, filter=None):
+    def get_event_attendances(
+        self, event_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             event_id:
@@ -242,7 +247,7 @@ class ActionNetwork:
         )
 
     # Campaigns
-    def get_campaigns(self, limit=None, per_page=25, page=None, filter=None):
+    def get_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -311,7 +316,7 @@ class ActionNetwork:
         """
         return self.api.get_request(url=f"donations/{donation_id}")
 
-    def get_donations(self, limit=None, per_page=25, page=None, filter=None):
+    def get_donations(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -336,7 +341,7 @@ class ActionNetwork:
         return self._get_entry_list("donations", limit, per_page, filter)
 
     def get_fundraising_page_donations(
-        self, fundraising_page_id, limit=None, per_page=25, page=None, filter=None
+        self, fundraising_page_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
     ):
         """
         Args:
@@ -373,7 +378,9 @@ class ActionNetwork:
             filter,
         )
 
-    def get_person_donations(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_person_donations(
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             person_id:
@@ -462,7 +469,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"{action_type}/{action_id}/embed")
 
     # Event Campaigns
-    def get_event_campaigns(self, limit=None, per_page=25, page=None, filter=None):
+    def get_event_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -573,7 +580,7 @@ class ActionNetwork:
         return self.api.put_request(url=f"event_campaigns/{event_campaign_id}", data=payload)
 
     # Events
-    def get_events(self, limit=None, per_page=25, page=None, filter=None):
+    def get_events(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -613,7 +620,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"events/{event_id}")
 
     def get_event_campaign_events(
-        self, event_campaign_id, limit=None, per_page=25, page=None, filter=None
+        self, event_campaign_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
     ):
         """
         Args:
@@ -721,7 +728,7 @@ class ActionNetwork:
         return self.api.put_request(url=f"events/{event_id}", data=payload)
 
     # Forms
-    def get_forms(self, limit=None, per_page=25, page=None, filter=None):
+    def get_forms(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -826,7 +833,7 @@ class ActionNetwork:
         """
         return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
 
-    def get_fundraising_pages(self, limit=None, per_page=25, page=None, filter=None):
+    def get_fundraising_pages(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -904,7 +911,7 @@ class ActionNetwork:
         return self.api.put_request(url=f"fundraising_pages/{fundraising_page_id}", data=payload)
 
     # Items
-    def get_items(self, list_id, limit=None, per_page=25, page=None, filter=None):
+    def get_items(self, list_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             list_id:
@@ -948,7 +955,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"lists/{list_id}/items/{item_id}")
 
     # Lists
-    def get_lists(self, limit=None, per_page=25, page=None, filter=None):
+    def get_lists(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -989,7 +996,7 @@ class ActionNetwork:
 
     # Messages
     def get_messages(
-        self, limit=None, per_page=25, page=None, filter=None, unpack_statistics=False
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None, unpack_statistics=False
     ):
         """
         Args:
@@ -1154,7 +1161,7 @@ class ActionNetwork:
 
     # Outreaches
     def get_advocacy_campaign_outreaches(
-        self, advocacy_campaign_id, limit=None, per_page=25, page=None, filter=None
+        self, advocacy_campaign_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
     ):
         """
         Args:
@@ -1191,7 +1198,9 @@ class ActionNetwork:
             filter,
         )
 
-    def get_person_outreaches(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_person_outreaches(
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             person_id:
@@ -1319,7 +1328,7 @@ class ActionNetwork:
         )
 
     # People
-    def get_people(self, limit=None, per_page=25, page=None, filter=None):
+    def get_people(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -1648,7 +1657,7 @@ class ActionNetwork:
         return response
 
     # Petitions
-    def get_petitions(self, limit=None, per_page=25, page=None, filter=None):
+    def get_petitions(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -1774,7 +1783,7 @@ class ActionNetwork:
         return response
 
     # Queries
-    def get_queries(self, limit=None, per_page=25, page=None, filter=None):
+    def get_queries(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -1814,7 +1823,9 @@ class ActionNetwork:
         return self.api.get_request(url=f"queries/{query_id}")
 
     # Signatures
-    def get_petition_signatures(self, petition_id, limit=None, per_page=25, page=None, filter=None):
+    def get_petition_signatures(
+        self, petition_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             petition_id:
@@ -1840,7 +1851,9 @@ class ActionNetwork:
             return self._get_page(f"petitions/{petition_id}/signatures", page, per_page, filter)
         return self._get_entry_list(f"petitions/{petition_id}/signatures", limit, per_page, filter)
 
-    def get_person_signatures(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_person_signatures(
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             person_id:
@@ -1954,7 +1967,9 @@ class ActionNetwork:
         )
 
     # Submissions
-    def get_form_submissions(self, form_id, limit=None, per_page=25, page=None, filter=None):
+    def get_form_submissions(
+        self, form_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             form_id:
@@ -1980,7 +1995,9 @@ class ActionNetwork:
             return self._get_page(f"forms/{form_id}/submissions", page, per_page, filter)
         return self._get_entry_list(f"forms/{form_id}/submissions", limit, per_page, filter)
 
-    def get_person_submissions(self, person_id, limit=None, per_page=25, page=None, filter=None):
+    def get_person_submissions(
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+    ):
         """
         Args:
             person_id:
@@ -2092,7 +2109,7 @@ class ActionNetwork:
         )
 
     # Surveys
-    def get_surveys(self, limit=None, per_page=25, page=None, filter=None):
+    def get_surveys(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Survey resources are sometimes presented as collections of surveys.
         For example, calling the surveys endpoint will return a collection
@@ -2247,7 +2264,7 @@ class ActionNetwork:
         return response
 
     # Taggings
-    def get_taggings(self, tag_id, limit=None, per_page=25, page=None, filter=None):
+    def get_taggings(self, tag_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             tag_id:
@@ -2350,7 +2367,7 @@ class ActionNetwork:
         return self.api.delete_request(url=url)
 
     # Wrappers
-    def get_wrappers(self, limit=None, per_page=25, page=None, filter=None):
+    def get_wrappers(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:
@@ -2392,7 +2409,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"wrappers/{wrapper_id}")
 
     # Unique ID Lists
-    def get_unique_id_lists(self, limit=None, per_page=25, page=None, filter=None):
+    def get_unique_id_lists(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
         """
         Args:
             limit:

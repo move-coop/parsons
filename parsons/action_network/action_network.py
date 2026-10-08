@@ -6,7 +6,7 @@ from typing import Literal
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
-from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.api_connector import APIConnector, _JsonType
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +60,20 @@ class ActionNetwork:
             count = count + len(response_list)
             if limit and count >= limit:
                 return Table(return_list[0:limit])
+
+    def _extract_identifiers(self, json_response: _JsonType) -> dict[str, str]:
+        """Extract the identifiers from a JSON response."""
+        raw_identifiers = json_response["identifiers"]
+        identifiers = {
+            key: val for identifier in raw_identifiers for key, val in [identifier.split(":", 1)]
+        }
+        if "action_network" not in identifiers:
+            logger.error(
+                "Identifiers did not contain `action_network` identifier. Found: %s",
+                identifiers,
+            )
+
+        return identifiers
 
     # Advocacy Campaigns
     def get_advocacy_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
@@ -1534,25 +1548,16 @@ class ActionNetwork:
 
         data["person"]["custom_fields"] = {**kwargs}
         url = f"{API_URL}/people"
+
         if background_processing:
             url = f"{url}?background_processing=true"
 
         response = self.api.post_request(url=url, data=json.dumps(data))
 
-        identifiers = response["identifiers"]
-        person_id = [
-            entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
-        ]
-        if not person_id:
-            logger.error("Response gave no valid person_id: %s", identifiers)
-        else:
-            person_id = person_id[0]
+        person_id = self._extract_identifiers(response).get("action_network")
         was_added = response["created_date"] == response["modified_date"]
-        logger.info(
-            "Entry %s successfully %s.",
-            person_id,
-            "added" if was_added else "updated",
-        )
+        logger.info("Entry %s successfully %s.", person_id, "added" if was_added else "updated")
+
         return response
 
     def add_person(
@@ -2256,10 +2261,7 @@ class ActionNetwork:
         """
         data = {"name": name}
         response = self.api.post_request(url=f"{API_URL}/tags", data=json.dumps(data))
-        identifiers = response["identifiers"]
-        person_id = [
-            entry_id.split(":")[1] for entry_id in identifiers if "action_network:" in entry_id
-        ][0]
+        person_id = self._extract_identifiers(response).get("action_network")
         logger.info("Tag %s successfully added to tags.", person_id)
         return response
 

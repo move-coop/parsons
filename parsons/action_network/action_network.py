@@ -1577,6 +1577,7 @@ class ActionNetwork:
             email_address=email_address,
             given_name=given_name,
             family_name=family_name,
+            tags=tags,
             languages_spoken=languages_spoken,
             postal_addresses=postal_addresses,
             mobile_number=mobile_number,

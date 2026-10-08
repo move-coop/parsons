@@ -2,7 +2,7 @@ import json
 import logging
 import re
 import warnings
-from typing import Literal
+from typing import Literal, TypeVar, overload
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 API_URL = "https://actionnetwork.org/api/v2"
 MAX_PER_PAGE = 25
+
+T = TypeVar("T")
 
 
 class ActionNetwork:
@@ -31,17 +33,21 @@ class ActionNetwork:
         headers = {"Content-Type": "application/json", "OSDI-API-Token": api_token}
         self.api = APIConnector(API_URL, headers=headers)
 
-    def _get_page(self, object_name, page, per_page=MAX_PER_PAGE, filter=None):
+    def _get_page(self, object_name, page, per_page=MAX_PER_PAGE, query=None, *, filter=None):
         # returns data from one page of results
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if per_page > MAX_PER_PAGE:
             per_page = MAX_PER_PAGE
             logger.info(
                 "Action Network's API will not return more than 25 entries per page. Changing per_page parameter to 25."
             )
-        params = {"page": page, "per_page": per_page, "filter": filter}
+        params = {"page": page, "per_page": per_page, "filter": query}
         return self.api.get_request(url=object_name, params=params)
 
-    def _get_entry_list(self, object_name, limit=None, per_page=MAX_PER_PAGE, filter=None):
+    def _get_entry_list(
+        self, object_name, limit=None, per_page=MAX_PER_PAGE, query=None, *, filter=None
+    ):
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         # returns a list of entries for a given object, such as people, tags, or actions
         # Filter can only be applied to people, petitions, events, forms, fundraising_pages,
         # event_campaigns, campaigns, advocacy_campaigns, signatures, attendances, submissions,
@@ -51,7 +57,7 @@ class ActionNetwork:
         page = 1
         return_list = []
         while True:
-            response = self._get_page(object_name, page, per_page, filter=filter)
+            response = self._get_page(object_name, page, per_page, query)
             page = page + 1
             response_list = response["_embedded"][list(response["_embedded"])[0]]
             if not response_list:
@@ -75,8 +81,26 @@ class ActionNetwork:
 
         return identifiers
 
+    @overload
+    def _deprecate_kw_arg(self, value: T, old_name: str, new_name: str) -> T: ...
+
+    @overload
+    def _deprecate_kw_arg(self, value: None, old_name: str, new_name: str) -> None: ...
+
+    def _deprecate_kw_arg(self, value: T | None, old_name: str, new_name: str) -> T | None:
+        """Handle DeprecationWarning when a deprecated keyword argument is used."""
+        if value:
+            warnings.warn(
+                f"The keyword argument `{old_name}` is deprecated, use `{new_name}` instead.",
+                DeprecationWarning,
+                stacklevel=3,
+            )
+        return value
+
     # Advocacy Campaigns
-    def get_advocacy_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_advocacy_campaigns(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -85,9 +109,10 @@ class ActionNetwork:
                Number of entries per page to return. 25 maximum.
             page:
                Which page of results to return
-            filter:
-               OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-               When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all of the advocacy_campaigns (letters) entries
@@ -96,9 +121,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/advocacy_campaigns>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("advocacy_campaigns", page, per_page, filter)
-        return self._get_entry_list("advocacy_campaigns", limit, per_page, filter)
+            return self._get_page("advocacy_campaigns", page, per_page, query)
+        return self._get_entry_list("advocacy_campaigns", limit, per_page, query)
 
     def get_advocacy_campaign(self, advocacy_campaign_id):
         """
@@ -117,7 +143,7 @@ class ActionNetwork:
 
     # Attendances
     def get_person_attendances(
-        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -129,9 +155,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the attendances entries
@@ -140,12 +167,13 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"people/{person_id}/attendances", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/attendances", limit, per_page, filter)
+            return self._get_page(f"people/{person_id}/attendances", page, per_page, query)
+        return self._get_entry_list(f"people/{person_id}/attendances", limit, per_page, query)
 
     def get_event_attendances(
-        self, event_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, event_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -157,9 +185,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with the attendances entries related to the event
@@ -168,9 +197,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/attendances>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"events/{event_id}/attendances", page, per_page, filter)
-        return self._get_entry_list(f"events/{event_id}/attendances", limit, per_page, filter)
+            return self._get_page(f"events/{event_id}/attendances", page, per_page, query)
+        return self._get_entry_list(f"events/{event_id}/attendances", limit, per_page, query)
 
     def get_event_attendance(self, event_id, attendance_id):
         """
@@ -261,7 +291,9 @@ class ActionNetwork:
         )
 
     # Campaigns
-    def get_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_campaigns(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -270,9 +302,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all of the campaigns entries
@@ -281,9 +314,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/campaigns>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("campaigns", page, per_page, filter)
-        return self._get_entry_list("campaigns", limit, per_page, filter)
+            return self._get_page("campaigns", page, per_page, query)
+        return self._get_entry_list("campaigns", limit, per_page, query)
 
     def get_campaign(self, campaign_id):
         """
@@ -330,7 +364,9 @@ class ActionNetwork:
         """
         return self.api.get_request(url=f"donations/{donation_id}")
 
-    def get_donations(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_donations(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -339,9 +375,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the donations entries
@@ -350,12 +387,20 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/donations>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("donations", page, per_page, filter)
-        return self._get_entry_list("donations", limit, per_page, filter)
+            return self._get_page("donations", page, per_page, query)
+        return self._get_entry_list("donations", limit, per_page, query)
 
     def get_fundraising_page_donations(
-        self, fundraising_page_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self,
+        fundraising_page_id,
+        limit=None,
+        per_page=MAX_PER_PAGE,
+        page=None,
+        query=None,
+        *,
+        filter=None,
     ):
         """
         Args:
@@ -367,9 +412,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with fundraising_page entry
@@ -378,22 +424,17 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/donations>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
             return self._get_page(
-                f"fundraising_pages/{fundraising_page_id}/donations",
-                page,
-                per_page,
-                filter,
+                f"fundraising_pages/{fundraising_page_id}/donations", page, per_page, query
             )
         return self._get_entry_list(
-            f"fundraising_pages/{fundraising_page_id}/donations",
-            limit,
-            per_page,
-            filter,
+            f"fundraising_pages/{fundraising_page_id}/donations", limit, per_page, query
         )
 
     def get_person_donations(
-        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -405,9 +446,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all donations related to person
@@ -416,18 +458,19 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/donations>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
             return self._get_page(
                 f"people/{person_id}/donations",
                 page,
                 per_page,
-                filter,
+                query,
             )
         return self._get_entry_list(
             f"people/{person_id}/donations",
             limit,
             per_page,
-            filter,
+            query,
         )
 
     def create_donation(self, fundraising_page_id, donation_payload):
@@ -483,7 +526,9 @@ class ActionNetwork:
         return self.api.get_request(url=f"{action_type}/{action_id}/embed")
 
     # Event Campaigns
-    def get_event_campaigns(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_event_campaigns(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -492,9 +537,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the event_campaigns entries
@@ -503,9 +549,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/event_campaigns>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("event_campaigns", page, per_page, filter)
-        return self._get_entry_list("event_campaigns", limit, per_page, filter)
+            return self._get_page("event_campaigns", page, per_page, query)
+        return self._get_entry_list("event_campaigns", limit, per_page, query)
 
     def get_event_campaign(self, event_campaign_id):
         """
@@ -594,7 +641,7 @@ class ActionNetwork:
         return self.api.put_request(url=f"event_campaigns/{event_campaign_id}", data=payload)
 
     # Events
-    def get_events(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_events(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Args:
             limit:
@@ -603,9 +650,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
              A JSON with all the events entries
@@ -614,9 +662,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/events>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("events", page, per_page, filter)
-        return self._get_entry_list("events", limit, per_page, filter)
+            return self._get_page("events", page, per_page, query)
+        return self._get_entry_list("events", limit, per_page, query)
 
     def get_event(self, event_id):
         """
@@ -634,7 +683,14 @@ class ActionNetwork:
         return self.api.get_request(url=f"events/{event_id}")
 
     def get_event_campaign_events(
-        self, event_campaign_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self,
+        event_campaign_id,
+        limit=None,
+        per_page=MAX_PER_PAGE,
+        page=None,
+        query=None,
+        *,
+        filter=None,
     ):
         """
         Args:
@@ -646,9 +702,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the eventes related to the event_campaign entry
@@ -657,6 +714,7 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/events>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
             return self._get_page(
                 f"event_campaigns/{event_campaign_id}/events", page, per_page, filter
@@ -742,7 +800,7 @@ class ActionNetwork:
         return self.api.put_request(url=f"events/{event_id}", data=payload)
 
     # Forms
-    def get_forms(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_forms(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Args:
             limit:
@@ -751,9 +809,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the forms entries
@@ -762,9 +821,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/forms>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("forms", page, per_page, filter)
-        return self._get_entry_list("forms", limit, per_page, filter)
+            return self._get_page("forms", page, per_page, query)
+        return self._get_entry_list("forms", limit, per_page, query)
 
     def get_form(self, form_id):
         """
@@ -847,7 +907,9 @@ class ActionNetwork:
         """
         return self.api.get_request(url=f"fundraising_pages/{fundraising_page_id}")
 
-    def get_fundraising_pages(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_fundraising_pages(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -856,9 +918,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the fundraising_pages entries
@@ -867,8 +930,9 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/fundraising_pages>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("fundraising_pages", page, per_page, filter)
+            return self._get_page("fundraising_pages", page, per_page, query)
         return self._get_entry_list(
             "fundraising_pages",
             limit,
@@ -925,7 +989,9 @@ class ActionNetwork:
         return self.api.put_request(url=f"fundraising_pages/{fundraising_page_id}", data=payload)
 
     # Items
-    def get_items(self, list_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_items(
+        self, list_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             list_id:
@@ -936,9 +1002,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the list item entries
@@ -947,9 +1014,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/items>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"lists/{list_id}/items", page, per_page, filter)
-        return self._get_entry_list(f"lists/{list_id}/items", limit, per_page, filter)
+            return self._get_page(f"lists/{list_id}/items", page, per_page, query)
+        return self._get_entry_list(f"lists/{list_id}/items", limit, per_page, query)
 
     def get_item(self, list_id, item_id):
         """
@@ -969,7 +1037,7 @@ class ActionNetwork:
         return self.api.get_request(url=f"lists/{list_id}/items/{item_id}")
 
     # Lists
-    def get_lists(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_lists(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Args:
             limit:
@@ -978,9 +1046,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the list entries
@@ -989,9 +1058,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/lists>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("lists", page, per_page, filter)
-        return self._get_entry_list("lists", limit, per_page, filter)
+            return self._get_page("lists", page, per_page, query)
+        return self._get_entry_list("lists", limit, per_page, query)
 
     def get_list(self, list_id):
         """
@@ -1010,7 +1080,14 @@ class ActionNetwork:
 
     # Messages
     def get_messages(
-        self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None, unpack_statistics=False
+        self,
+        limit=None,
+        per_page=MAX_PER_PAGE,
+        page=None,
+        query=None,
+        *,
+        filter=None,
+        unpack_statistics=False,
     ):
         """
         Args:
@@ -1020,9 +1097,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
             unpack_statistics:
                 Whether to unpack the statistics dictionary into the table. Default to False.
 
@@ -1033,9 +1111,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/messages>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("messages", page, per_page, filter)
-        tbl = self._get_entry_list("messages", limit, per_page, filter)
+            return self._get_page("messages", page, per_page, query)
+        tbl = self._get_entry_list("messages", limit, per_page, query)
         # Unpack statistics
         if unpack_statistics:
             tbl.unpack_dict("statistics", prepend=False, include_original=True)
@@ -1175,7 +1254,14 @@ class ActionNetwork:
 
     # Outreaches
     def get_advocacy_campaign_outreaches(
-        self, advocacy_campaign_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self,
+        advocacy_campaign_id,
+        limit=None,
+        per_page=MAX_PER_PAGE,
+        page=None,
+        query=None,
+        *,
+        filter=None,
     ):
         """
         Args:
@@ -1187,9 +1273,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
            A JSON with all the outreaches entries related to the advocacy_campaign_id
@@ -1198,22 +1285,17 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/outreaches>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
             return self._get_page(
-                f"advocacy_campaigns/{advocacy_campaign_id}/outreaches",
-                page,
-                per_page,
-                filter,
+                f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", page, per_page, query
             )
         return self._get_entry_list(
-            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches",
-            limit,
-            per_page,
-            filter,
+            f"advocacy_campaigns/{advocacy_campaign_id}/outreaches", limit, per_page, query
         )
 
     def get_person_outreaches(
-        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -1225,9 +1307,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the outreaches entries related to our group
@@ -1236,9 +1319,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/outreaches>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"people/{person_id}/outreaches", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/outreaches", limit, per_page, filter)
+            return self._get_page(f"people/{person_id}/outreaches", page, per_page, query)
+        return self._get_entry_list(f"people/{person_id}/outreaches", limit, per_page, query)
 
     def get_advocacy_campaign_outreach(self, advocacy_campaign_id, outreach_id):
         """
@@ -1342,7 +1426,7 @@ class ActionNetwork:
         )
 
     # People
-    def get_people(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_people(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Args:
             limit:
@@ -1351,9 +1435,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A list of JSONs of people stored in Action Network.
@@ -1362,9 +1447,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/people>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("people", page, per_page, filter=filter)
-        return self._get_entry_list("people", limit, per_page, filter=filter)
+            return self._get_page("people", page, per_page, query)
+        return self._get_entry_list("people", limit, per_page, query)
 
     def get_person(self, person_id):
         """
@@ -1662,7 +1748,9 @@ class ActionNetwork:
         return response
 
     # Petitions
-    def get_petitions(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_petitions(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -1671,9 +1759,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all of the petitions entries
@@ -1682,9 +1771,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/petitions>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("petitions", page, per_page, filter)
-        return self._get_entry_list("petitions", limit, per_page, filter)
+            return self._get_page("petitions", page, per_page, query)
+        return self._get_entry_list("petitions", limit, per_page, query)
 
     def get_petition(self, petition_id):
         """
@@ -1788,7 +1878,7 @@ class ActionNetwork:
         return response
 
     # Queries
-    def get_queries(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_queries(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Args:
             limit:
@@ -1797,9 +1887,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the query entries
@@ -1808,9 +1899,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/queries>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("queries", page, per_page, filter)
-        return self._get_entry_list("queries", limit, per_page, filter)
+            return self._get_page("queries", page, per_page, query)
+        return self._get_entry_list("queries", limit, per_page, query)
 
     def get_query(self, query_id):
         """
@@ -1829,7 +1921,7 @@ class ActionNetwork:
 
     # Signatures
     def get_petition_signatures(
-        self, petition_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, petition_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -1841,9 +1933,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the signatures related to the petition entry
@@ -1852,12 +1945,13 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"petitions/{petition_id}/signatures", page, per_page, filter)
-        return self._get_entry_list(f"petitions/{petition_id}/signatures", limit, per_page, filter)
+            return self._get_page(f"petitions/{petition_id}/signatures", page, per_page, query)
+        return self._get_entry_list(f"petitions/{petition_id}/signatures", limit, per_page, query)
 
     def get_person_signatures(
-        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -1869,9 +1963,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the signatures related to the petition entry
@@ -1880,9 +1975,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/signatures>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"people/{person_id}/signatures", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/signatures", limit, per_page, filter)
+            return self._get_page(f"people/{person_id}/signatures", page, per_page, query)
+        return self._get_entry_list(f"people/{person_id}/signatures", limit, per_page, query)
 
     def get_petition_signature(self, petition_id, signature_id):
         """
@@ -1973,7 +2069,7 @@ class ActionNetwork:
 
     # Submissions
     def get_form_submissions(
-        self, form_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, form_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -1985,9 +2081,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the submissions entries related to the form
@@ -1996,12 +2093,13 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/submissions>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"forms/{form_id}/submissions", page, per_page, filter)
-        return self._get_entry_list(f"forms/{form_id}/submissions", limit, per_page, filter)
+            return self._get_page(f"forms/{form_id}/submissions", page, per_page, query)
+        return self._get_entry_list(f"forms/{form_id}/submissions", limit, per_page, query)
 
     def get_person_submissions(
-        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None
+        self, person_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
     ):
         """
         Args:
@@ -2013,9 +2111,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the submissions entries related with our group
@@ -2024,9 +2123,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/submissions>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"people/{person_id}/submissions", page, per_page, filter)
-        return self._get_entry_list(f"people/{person_id}/submissions", limit, per_page, filter)
+            return self._get_page(f"people/{person_id}/submissions", page, per_page, query)
+        return self._get_entry_list(f"people/{person_id}/submissions", limit, per_page, query)
 
     def get_form_submission(self, form_id, submission_id):
         """
@@ -2114,7 +2214,7 @@ class ActionNetwork:
         )
 
     # Surveys
-    def get_surveys(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_surveys(self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None):
         """
         Survey resources are sometimes presented as collections of surveys.
         For example, calling the surveys endpoint will return a collection
@@ -2127,9 +2227,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("surveys", page, per_page, filter)
-        return self._get_entry_list("surveys", limit, per_page, filter)
+            return self._get_page("surveys", page, per_page, query)
+        return self._get_entry_list("surveys", limit, per_page, query)
 
     def get_survey(self, survey_id):
         """
@@ -2266,7 +2367,9 @@ class ActionNetwork:
         return response
 
     # Taggings
-    def get_taggings(self, tag_id, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_taggings(
+        self, tag_id, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             tag_id:
@@ -2277,9 +2380,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the tagging entries associated with the tag_id
@@ -2288,9 +2392,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/taggings>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page(f"tags/{tag_id}/taggings", page, per_page, filter)
-        return self._get_entry_list(f"tags/{tag_id}/taggings", limit, per_page, filter)
+            return self._get_page(f"tags/{tag_id}/taggings", page, per_page, query)
+        return self._get_entry_list(f"tags/{tag_id}/taggings", limit, per_page, query)
 
     def get_tagging(self, tag_id, tagging_id):
         """
@@ -2369,7 +2474,9 @@ class ActionNetwork:
         return self.api.delete_request(url=url)
 
     # Wrappers
-    def get_wrappers(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_wrappers(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -2378,9 +2485,10 @@ class ActionNetwork:
                 Number of entries per page to return. 25 maximum.
             page:
                 Which page of results to return
-            filter:
-                OData query for filtering results. E.g. "modified_date gt '2014-03-25'".
-                When None, no filter is applied.
+            query:
+                OData query for filtering results.
+                E.g. ``modified_date gt '2014-03-25'``.
+                If ``None``, no filter is applied.
 
         Returns:
             A JSON with all the wrapper entries
@@ -2389,9 +2497,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/wrappers>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("wrappers", page, per_page, filter)
-        return self._get_entry_list("wrappers", limit, per_page, filter)
+            return self._get_page("wrappers", page, per_page, query)
+        return self._get_entry_list("wrappers", limit, per_page, query)
 
     def get_wrapper(self, wrapper_id):
         """
@@ -2411,7 +2520,9 @@ class ActionNetwork:
         return self.api.get_request(url=f"wrappers/{wrapper_id}")
 
     # Unique ID Lists
-    def get_unique_id_lists(self, limit=None, per_page=MAX_PER_PAGE, page=None, filter=None):
+    def get_unique_id_lists(
+        self, limit=None, per_page=MAX_PER_PAGE, page=None, query=None, *, filter=None
+    ):
         """
         Args:
             limit:
@@ -2431,9 +2542,10 @@ class ActionNetwork:
             `<https://actionnetwork.org/docs/v2/unique_id_lists>`__
 
         """
+        query = query or self._deprecate_kw_arg(filter, "filter", "query")
         if page:
-            return self._get_page("unique_id_lists", page, per_page, filter)
-        return self._get_entry_list("unique_id_lists", limit, per_page, filter)
+            return self._get_page("unique_id_lists", page, per_page, query)
+        return self._get_entry_list("unique_id_lists", limit, per_page, query)
 
     def get_unique_id_list(self, unique_id_list_id):
         """

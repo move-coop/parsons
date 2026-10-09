@@ -66,25 +66,25 @@ dbt-redshift = [
 ]
 dbt-bigquery = [
     "dbt-bigquery >= 1.8",
-    "dbt-core>=1.8;python_version<'3.14'",
-    "dbt-core>=1.12;python_version>='3.14'",
-    "rich >= 14.0"
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
+    "rich >= 14.0",
 ]
 dbt-postgres = [
     "dbt-postgres >= 1.8",
-    "dbt-core>=1.8;python_version<'3.14'",
-    "dbt-core>=1.12;python_version>='3.14'",
-    "rich >= 14.0"
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
+    "rich >= 14.0",
 ]
 dbt-snowflake = [
     "dbt-snowflake >= 1.8",
-    "dbt-core>=1.8;python_version<'3.14'",
-    "dbt-core>=1.12;python_version>='3.14'",
-    "rich >= 14.0"
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
+    "rich >= 14.0",
 ]
 facebook = [
     "joblib >= 1.0",
-    "facebook-business >= 20.0"
+    "facebook-business >= 20.0",
 ]
 geocode = [
     "censusgeocode >= 0.5",
@@ -111,7 +111,7 @@ newmode = ["newmode >= 0.1.6"]
 ngpvan = ["suds >= 1"]
 mobilecommons = [
     "beautifulsoup4 >= 4.0",
-    "xmltodict >= 1.0"
+    "xmltodict >= 1.0",
 ]
 pandas = ["pandas >= 2.3"]
 postgres = [
@@ -194,41 +194,40 @@ dev = [
     {include-group = "test-coverage"},
 ]
 ci = [
-    "build>=1.4",
+    "build >= 1.4",
 ]
 docs = [
-    "furo~=2025.12.19",
-    "myst-parser>=4.0.1",
-    "packaging>=26.0",
-    "sphinxcontrib-googleanalytics>=0.5",
-    "sphinx-lint>=1.0.2",
-    "sphinx-multiversion-scylla>=0.3.8",
-    "Sphinx>=7.4.7",
+    "furo >= 2025.12",
+    "myst-parser >= 4.0",
+    "packaging >= 26.0",
+    "sphinxcontrib-googleanalytics >= 0.5",
+    "sphinx-lint >= 1.0, < 2.0",
+    "sphinx-multiversion-scylla >= 0.3",
+    "Sphinx >= 7.4",
 ]
 lint = [
-    "ruff==0.15.14",
+    "ruff >= 0.16, < 0.17",  # extra careful with ruff because they add rules in minor versions
 ]
 pre-commit = [
-    "pre-commit~=4.6.0",
+    "pre-commit >= 4.6",
 ]
 security = [
-    "bandit[sarif]==1.9.4",
+    "bandit[sarif] >= 1.9, < 2.0",
 ]
 test-coverage = [
-    "coverage>=7.13.3,<7.17.0",
-    "pytest-cov>=7.0,<7.2",
+    "coverage >= 7.16",
+    "pytest-cov >= 7.1",
     {include-group = "test"},
 ]
 test = [
-    "pytest>=9.0.3,<9.2.0",
-    "pytest-datadir~=1.8.0",
-    "pytest-mock>=3.15.1,<3.17.0",
-    "pytest-recording~=0.13.4",
-    "pytest-xdist~=3.8.0",
-    "requests-mock~=1.12.1",
-    "testfixtures~=8.3.0;python_version<'3.11'",
-    "testfixtures~=9.1.0;python_version>='3.11'",
-    "dbt-duckdb>=1.8,<1.12",
+    "pytest >= 9.1, < 10.0",
+    "pytest-datadir >= 1.8",
+    "pytest-mock >= 3.16",
+    "pytest-recording >= 0.14",
+    "pytest-xdist >= 3.8",
+    "requests-mock >= 1.12",
+    "testfixtures >= 8.3",
+    "dbt-duckdb >= 1.8",
 ]
 
 [tool]
@@ -268,7 +267,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "**/vendor/*",
 ]
 line-length = 100
 indent-width = 4
@@ -365,9 +363,6 @@ src_paths = [
 [tool.coverage.run]
 branch = true
 relative_files = true
-omit = [
-    "*/vendor/*",
-    ]
 
 [tool.coverage.paths]
 source = [

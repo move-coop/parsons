@@ -1,27 +1,30 @@
 documentation:
   - changed-files:
-      - any-glob-to-any-file: ["**/*.md", "**/*.rst", "docs/**"]
+      - any-glob-to-any-file:
+        - '**/*.md'
+        - '**/*.rst'
+        - 'docs/**'
 
 dependencies:
   - changed-files:
-      - any-glob-to-any-file: ["setup.py", "requirements.txt"]
+      - any-glob-to-any-file: pyproject.toml
 
 testing:
   - changed-files:
-      - any-glob-to-any-file: "test/**"
+      - any-glob-to-any-file: 'test/**'
 
 docker:
   - changed-files:
-      - any-glob-to-any-file: "**/Dockerfile"
+      - any-glob-to-any-file: '**/Dockerfile'
 
 github_actions:
   - changed-files:
-      - any-glob-to-any-file: ".github/workflows/*.yml"
+      - any-glob-to-any-file: '.github/**/*.yml'
 
 python:
   - changed-files:
-      - any-glob-to-any-file: "**/*.py"
+      - any-glob-to-any-file: '**/*.py'
 
 sample script:
   - changed-files:
-      - any-glob-to-any-file: "useful_resources/sample_code/**"
+      - any-glob-to-any-file: 'useful_resources/sample_code/**'

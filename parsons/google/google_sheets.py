@@ -1,7 +1,9 @@
 import logging
 import uuid
+import warnings
 
 import gspread
+from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.google.utilities import (
@@ -257,8 +259,10 @@ class GoogleSheets:
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
     ):
         """
-        Append data from a Parsons table to a Google sheet. Note that the table's columns are
-        ignored, as we'll be keeping whatever header row already exists in the Google sheet.
+        Append data from a Parsons table to a Google sheet.
+
+        Note that the table's columns are ignored,
+        as we'll be keeping whatever header row already exists in the Google sheet.
 
         Args:
             spreadsheet_id: str
@@ -272,6 +276,10 @@ class GoogleSheets:
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
 
+        .. version-changed:: v0.14.0
+
+            Deprecated `sheet_index` argument in favor of `worksheet`.
+
         """
         if not table.num_rows:
             logger.warning("No data provided to append, skipping.")
@@ -280,7 +288,11 @@ class GoogleSheets:
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
-            logger.warning("Argument deprecated. Use worksheet instead.")
+            warnings.warn(
+                "Argument deprecated. Use worksheet instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
@@ -371,8 +383,9 @@ class GoogleSheets:
         self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
     ):
         """
-        Replace the data in a Google sheet with a Parsons table, using the table's columns as the
-        first row.
+        Replace the data in a Google sheet with a Parsons table.
+
+        Table's columns are used as the first row.
 
         Args:
             spreadsheet_id: str
@@ -386,11 +399,19 @@ class GoogleSheets:
                 If True, will submit cell values as entered (required for entering formulas).
                 Otherwise, values will be entered as strings or numbers only.
 
+        .. version-changed:: v0.14.0
+
+            Deprecated `sheet_index` argument in favor of `worksheet`.
+
         """
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
         if "sheet_index" in kwargs:
             worksheet = kwargs["sheet_index"]
-            logger.warning("Argument deprecated. Use worksheet instead.")
+            warnings.warn(
+                "Argument deprecated. Use worksheet instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
@@ -473,20 +494,38 @@ class GoogleSheets:
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")
 
+    @deprecated("Deprecated method. Use get_worksheet instead.")
     def read_sheet(self, spreadsheet_id, sheet_index=0):
-        # Deprecated method v0.14 of Parsons.
+        """
+        Read the first worksheet with by index to a Table.
 
-        logger.warning("Deprecated method. Use get_worksheet() instead.")
+        .. version-deprecated:: v0.14.0
+
+            Deprecated in favor of :meth:`get_worksheet`.
+
+        """
         return self.get_worksheet(spreadsheet_id, sheet_index)
 
+    @deprecated("Deprecated method. Use get_worksheet instead.")
     def read_sheet_with_title(self, spreadsheet_id, title):
-        # Deprecated method v0.14 of Parsons.
+        """
+        Read the first worksheet with a matching title to a Table.
 
-        logger.warning("Deprecated method. Use get_worksheet() instead.")
+        .. version-deprecated:: v0.14.0
+
+            Deprecated in favor of :meth:`get_worksheet`.
+
+        """
         return self.get_worksheet(spreadsheet_id, title)
 
+    @deprecated("Deprecated method. Use get_worksheet_index instead.")
     def get_sheet_index_with_title(self, spreadsheet_id, title):
-        # Deprecated method v0.14 of Parsons.
+        """
+        Get the index of the first worksheet with a matching title.
 
-        logger.warning("Deprecated method. Use get_worksheet_index   instead.")
+        .. version-deprecated:: v0.14.0
+
+            Deprecated in favor of :meth:`get_worksheet_index`.
+
+        """
         return self.get_worksheet_index(spreadsheet_id, title)

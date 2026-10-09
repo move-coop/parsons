@@ -8,7 +8,8 @@ from test.test_action_network.conftest import API_URL
 
 
 def test_get_page(requests_mock: Mocker, an: ActionNetwork, fake_people_list_2: dict) -> None:
-    requests_mock.get(f"{API_URL}/people?page=2&per_page=2", text=json.dumps(fake_people_list_2))
+    req_url = f"{API_URL}/people?page=2&per_page=2"
+    requests_mock.get(req_url, text=json.dumps(fake_people_list_2))
 
     res_json = an._get_page("people", 2, 2)
 
@@ -71,7 +72,8 @@ class TestAdvocacyCampaigns:
     def test_get_advocacy_campaigns(
         self, requests_mock: Mocker, an: ActionNetwork, fake_advocacy_campaigns: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/advocacy_campaigns", text=json.dumps(fake_advocacy_campaigns))
+        req_url = f"{API_URL}/advocacy_campaigns"
+        requests_mock.get(req_url, text=json.dumps(fake_advocacy_campaigns))
 
         res_json = an._get_entry_list("advocacy_campaigns", 1)
 
@@ -82,9 +84,8 @@ class TestAdvocacyCampaigns:
     def test_get_advocacy_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_advocacy_campaign: dict
     ) -> None:
-        requests_mock.get(
-            f"{API_URL}/advocacy_campaigns/123", text=json.dumps(fake_advocacy_campaign)
-        )
+        req_url = f"{API_URL}/advocacy_campaigns/123"
+        requests_mock.get(req_url, text=json.dumps(fake_advocacy_campaign))
 
         res_json = an.get_advocacy_campaign("123")
 
@@ -96,7 +97,8 @@ class TestAttendances:
     def test_get_person_attendances(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendances: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/attendances", text=json.dumps(fake_attendances))
+        req_url = f"{API_URL}/people/123/attendances"
+        requests_mock.get(req_url, text=json.dumps(fake_attendances))
 
         res_json = an.get_person_attendances("123", 1)
 
@@ -107,7 +109,8 @@ class TestAttendances:
     def test_get_event_attendances(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendances: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/events/123/attendances", text=json.dumps(fake_attendances))
+        req_url = f"{API_URL}/events/123/attendances"
+        requests_mock.get(req_url, text=json.dumps(fake_attendances))
 
         res_json = an.get_event_attendances("123", 1)
 
@@ -118,7 +121,8 @@ class TestAttendances:
     def test_create_attendance(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendance: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/events/123/attendances", text=json.dumps(fake_attendance))
+        req_url = f"{API_URL}/events/123/attendances"
+        requests_mock.post(req_url, text=json.dumps(fake_attendance))
 
         res_json = an.create_attendance("123", fake_attendance)
 
@@ -128,7 +132,8 @@ class TestAttendances:
     def test_update_attendance(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendance: dict
     ) -> None:
-        requests_mock.put(f"{API_URL}/events/123/attendances/123", text=json.dumps(fake_attendance))
+        req_url = f"{API_URL}/events/123/attendances/123"
+        requests_mock.put(req_url, text=json.dumps(fake_attendance))
 
         res_json = an.update_attendance("123", "123", fake_attendance)
 
@@ -138,7 +143,8 @@ class TestAttendances:
     def test_get_person_attendance(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendance: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/attendances/123", text=json.dumps(fake_attendance))
+        req_url = f"{API_URL}/people/123/attendances/123"
+        requests_mock.get(req_url, text=json.dumps(fake_attendance))
 
         res_json = an.get_person_attendance("123", "123")
 
@@ -148,7 +154,8 @@ class TestAttendances:
     def test_get_event_attendance(
         self, requests_mock: Mocker, an: ActionNetwork, fake_attendance: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/events/123/attendances/123", text=json.dumps(fake_attendance))
+        req_url = f"{API_URL}/events/123/attendances/123"
+        requests_mock.get(req_url, text=json.dumps(fake_attendance))
 
         res_json = an.get_event_attendance("123", "123")
 
@@ -160,7 +167,8 @@ class TestCampaigns:
     def test_get_campaigns(
         self, requests_mock: Mocker, an: ActionNetwork, fake_campaigns: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/campaigns", text=json.dumps(fake_campaigns))
+        req_url = f"{API_URL}/campaigns"
+        requests_mock.get(req_url, text=json.dumps(fake_campaigns))
 
         res_json = an.get_campaigns(1)
 
@@ -171,7 +179,8 @@ class TestCampaigns:
     def test_get_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_campaign: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/campaigns/123", text=json.dumps(fake_campaign))
+        req_url = f"{API_URL}/campaigns/123"
+        requests_mock.get(req_url, text=json.dumps(fake_campaign))
 
         res_json = an.get_campaign("123")
 
@@ -183,7 +192,8 @@ class TestCustomFields:
     def test_get_custom_fields(
         self, requests_mock: Mocker, an: ActionNetwork, fake_custom_fields: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/metadata/custom_fields", text=json.dumps(fake_custom_fields))
+        req_url = f"{API_URL}/metadata/custom_fields"
+        requests_mock.get(req_url, text=json.dumps(fake_custom_fields))
 
         assert_matching_tables(an.get_custom_fields(), fake_custom_fields)
 
@@ -192,7 +202,8 @@ class TestDonations:
     def test_get_donations(
         self, requests_mock: Mocker, an: ActionNetwork, fake_donations: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/donations", text=json.dumps(fake_donations))
+        req_url = f"{API_URL}/donations"
+        requests_mock.get(req_url, text=json.dumps(fake_donations))
 
         res_json = an.get_donations(1)
 
@@ -203,9 +214,8 @@ class TestDonations:
     def test_get_fundraising_page_donations(
         self, requests_mock: Mocker, an: ActionNetwork, fake_donations: dict
     ) -> None:
-        requests_mock.get(
-            f"{API_URL}/fundraising_pages/123/donations", text=json.dumps(fake_donations)
-        )
+        req_url = f"{API_URL}/fundraising_pages/123/donations"
+        requests_mock.get(req_url, text=json.dumps(fake_donations))
 
         res_json = an.get_fundraising_page_donations("123", 1)
 
@@ -216,7 +226,8 @@ class TestDonations:
     def test_get_person_donations(
         self, requests_mock: Mocker, an: ActionNetwork, fake_donations: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/donations", text=json.dumps(fake_donations))
+        req_url = f"{API_URL}/people/123/donations"
+        requests_mock.get(req_url, text=json.dumps(fake_donations))
 
         res_json = an.get_person_donations("123", 1)
 
@@ -227,7 +238,8 @@ class TestDonations:
     def test_get_donation(
         self, requests_mock: Mocker, an: ActionNetwork, fake_donation: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/donations/123", text=json.dumps(fake_donation))
+        req_url = f"{API_URL}/donations/123"
+        requests_mock.get(req_url, text=json.dumps(fake_donation))
 
         res_json = an.get_donation("123")
 
@@ -237,7 +249,8 @@ class TestDonations:
 
 class TestEmbeds:
     def test_get_embeds(self, requests_mock: Mocker, an: ActionNetwork, fake_embed: dict) -> None:
-        requests_mock.get(f"{API_URL}/forms/123/embed", text=json.dumps(fake_embed))
+        req_url = f"{API_URL}/forms/123/embed"
+        requests_mock.get(req_url, text=json.dumps(fake_embed))
 
         res_json = an.get_embeds("forms", "123")
 
@@ -249,7 +262,8 @@ class TestEventCampaigns:
     def test_get_event_campaigns(
         self, requests_mock: Mocker, an: ActionNetwork, fake_event_campaigns: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/event_campaigns", text=json.dumps(fake_event_campaigns))
+        req_url = f"{API_URL}/event_campaigns"
+        requests_mock.get(req_url, text=json.dumps(fake_event_campaigns))
 
         res_json = an.get_event_campaigns(1)
 
@@ -260,7 +274,8 @@ class TestEventCampaigns:
     def test_get_event_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_event_campaign: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/event_campaigns/123", text=json.dumps(fake_event_campaign))
+        req_url = f"{API_URL}/event_campaigns/123"
+        requests_mock.get(req_url, text=json.dumps(fake_event_campaign))
 
         res_json = an.get_event_campaign("123")
 
@@ -270,8 +285,9 @@ class TestEventCampaigns:
     def test_create_event_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_event_campaign: dict
     ) -> None:
+        req_url = f"{API_URL}/event_campaigns"
         payload = {"title": "Canvassing Events", "origin_system": "AmyforTexas.com"}
-        requests_mock.post(f"{API_URL}/event_campaigns", text=json.dumps(fake_event_campaign))
+        requests_mock.post(req_url, text=json.dumps(fake_event_campaign))
 
         res_json = an.create_event_campaign(payload)
 
@@ -281,11 +297,9 @@ class TestEventCampaigns:
     def test_create_event_in_event_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_event: dict
     ) -> None:
-        payload = {
-            "title": "My Canvassing Event",
-            "origin_system": "CanvassingEvents.com",
-        }
-        requests_mock.post(f"{API_URL}/event_campaigns/123/events", text=json.dumps(fake_event))
+        req_url = f"{API_URL}/event_campaigns/123/events"
+        payload = {"title": "My Canvassing Event", "origin_system": "CanvassingEvents.com"}
+        requests_mock.post(req_url, text=json.dumps(fake_event))
 
         res_json = an.create_event_in_event_campaign("123", payload)
 
@@ -295,8 +309,9 @@ class TestEventCampaigns:
     def test_update_event_campaign(
         self, requests_mock: Mocker, an: ActionNetwork, fake_event_campaign: dict
     ) -> None:
+        req_url = f"{API_URL}/event_campaigns/123"
         payload = {"description": "This is my new event campaign description"}
-        requests_mock.put(f"{API_URL}/event_campaigns/123", text=json.dumps(fake_event_campaign))
+        requests_mock.put(req_url, text=json.dumps(fake_event_campaign))
 
         res_json = an.update_event_campaign("123", payload)
 
@@ -306,7 +321,8 @@ class TestEventCampaigns:
 
 class TestEvents:
     def test_get_events(self, requests_mock: Mocker, an: ActionNetwork, fake_events: dict) -> None:
-        requests_mock.get(f"{API_URL}/events", text=json.dumps(fake_events))
+        req_url = f"{API_URL}/events"
+        requests_mock.get(req_url, text=json.dumps(fake_events))
 
         res_json = an.get_events(1)
 
@@ -317,7 +333,8 @@ class TestEvents:
     def test_get_event_campaign_events(
         self, requests_mock: Mocker, an: ActionNetwork, fake_events: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/event_campaigns/123/events", text=json.dumps(fake_events))
+        req_url = f"{API_URL}/event_campaigns/123/events"
+        requests_mock.get(req_url, text=json.dumps(fake_events))
 
         res_json = an.get_event_campaign_events("123", 1)
 
@@ -326,7 +343,8 @@ class TestEvents:
         assert_matching_tables(res_json, embedded[next(iter(embedded))])
 
     def test_get_event(self, requests_mock: Mocker, an: ActionNetwork, fake_event2: dict) -> None:
-        requests_mock.get(f"{API_URL}/events/123", text=json.dumps(fake_event2))
+        req_url = f"{API_URL}/events/123"
+        requests_mock.get(req_url, text=json.dumps(fake_event2))
 
         res_json = an.get_event("123")
 
@@ -341,7 +359,8 @@ class TestEvents:
         fake_event: dict,
         fake_location: dict,
     ) -> None:
-        requests_mock.post(f"{API_URL}/events", text=json.dumps(fake_event))
+        req_url = f"{API_URL}/events"
+        requests_mock.post(req_url, text=json.dumps(fake_event))
 
         res_json = an.create_event("fake_title", start_date=fake_date, location=fake_location)
 
@@ -351,7 +370,8 @@ class TestEvents:
 
 class TestForms:
     def test_get_forms(self, requests_mock: Mocker, an: ActionNetwork, fake_forms: dict) -> None:
-        requests_mock.get(f"{API_URL}/forms", text=json.dumps(fake_forms))
+        req_url = f"{API_URL}/forms"
+        requests_mock.get(req_url, text=json.dumps(fake_forms))
 
         res_json = an.get_forms(1)
 
@@ -360,7 +380,8 @@ class TestForms:
         assert_matching_tables(res_json, embedded[next(iter(embedded))])
 
     def test_get_form(self, requests_mock: Mocker, an: ActionNetwork, fake_form: dict) -> None:
-        requests_mock.get(f"{API_URL}/forms/123", text=json.dumps(fake_form))
+        req_url = f"{API_URL}/forms/123"
+        requests_mock.get(req_url, text=json.dumps(fake_form))
 
         res_json = an.get_form("123")
 
@@ -369,7 +390,8 @@ class TestForms:
 
     def test_create_form(self, requests_mock: Mocker, an: ActionNetwork, fake_form: dict) -> None:
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
-        requests_mock.post(f"{API_URL}/forms", text=json.dumps(fake_form))
+        req_url = f"{API_URL}/forms"
+        requests_mock.post(req_url, text=json.dumps(fake_form))
 
         res_json = an.create_form(payload)
 
@@ -377,8 +399,9 @@ class TestForms:
         assert res_json.items() == fake_form.items()
 
     def test_update_form(self, requests_mock: Mocker, an: ActionNetwork, fake_form: dict) -> None:
+        req_url = f"{API_URL}/forms/123"
         payload = {"title": "My Free Form", "origin_system": "FreeForms.com"}
-        requests_mock.put(f"{API_URL}/forms/123", text=json.dumps(fake_form))
+        requests_mock.put(req_url, text=json.dumps(fake_form))
 
         res_json = an.update_form("123", payload)
 
@@ -390,7 +413,8 @@ class TestFundraisingPages:
     def test_get_fundraising_pages(
         self, requests_mock: Mocker, an: ActionNetwork, fake_fundraising_pages: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/fundraising_pages", text=json.dumps(fake_fundraising_pages))
+        req_url = f"{API_URL}/fundraising_pages"
+        requests_mock.get(req_url, text=json.dumps(fake_fundraising_pages))
 
         res_json = an.get_fundraising_pages(1)
 
@@ -401,9 +425,8 @@ class TestFundraisingPages:
     def test_get_fundraising_page(
         self, requests_mock: Mocker, an: ActionNetwork, fake_fundraising_page: dict
     ) -> None:
-        requests_mock.get(
-            f"{API_URL}/fundraising_pages/123", text=json.dumps(fake_fundraising_page)
-        )
+        req_url = f"{API_URL}/fundraising_pages/123"
+        requests_mock.get(req_url, text=json.dumps(fake_fundraising_page))
 
         res_json = an.get_fundraising_page("123")
 
@@ -413,8 +436,9 @@ class TestFundraisingPages:
     def test_create_fundraising_page(
         self, requests_mock: Mocker, an: ActionNetwork, fake_fundraising_page: dict
     ) -> None:
+        req_url = f"{API_URL}/fundraising_pages"
         payload = {"title": "My Free Fundraiser", "origin_system": "FreeFundraisers.com"}
-        requests_mock.post(f"{API_URL}/fundraising_pages", text=json.dumps(fake_fundraising_page))
+        requests_mock.post(req_url, text=json.dumps(fake_fundraising_page))
 
         res_json = an.create_fundraising_page(payload)
 
@@ -424,13 +448,12 @@ class TestFundraisingPages:
     def test_update_fundraising_page(
         self, requests_mock: Mocker, an: ActionNetwork, fake_fundraising_page: dict
     ) -> None:
+        req_url = f"{API_URL}/fundraising_pages/123"
         payload = {
             "title": "My Free Fundraiser With A New Name",
             "description": "This is my free fundraiser description",
         }
-        requests_mock.put(
-            f"{API_URL}/fundraising_pages/123", text=json.dumps(fake_fundraising_page)
-        )
+        requests_mock.put(req_url, text=json.dumps(fake_fundraising_page))
 
         res_json = an.update_fundraising_page("123", payload)
 
@@ -440,7 +463,8 @@ class TestFundraisingPages:
 
 class TestItems:
     def test_get_items(self, requests_mock: Mocker, an: ActionNetwork, fake_items: dict) -> None:
-        requests_mock.get(f"{API_URL}/lists/123/items", text=json.dumps(fake_items))
+        req_url = f"{API_URL}/lists/123/items"
+        requests_mock.get(req_url, text=json.dumps(fake_items))
 
         res_json = an.get_items("123", 1)
 
@@ -449,13 +473,15 @@ class TestItems:
         assert_matching_tables(an.get_items("123", 1), embedded[next(iter(embedded))])
 
     def test_get_item(self, requests_mock: Mocker, an: ActionNetwork, fake_item: dict) -> None:
-        requests_mock.get(f"{API_URL}/lists/123/items/123", text=json.dumps(fake_item))
+        req_url = f"{API_URL}/lists/123/items/123"
+        requests_mock.get(req_url, text=json.dumps(fake_item))
         assert_matching_tables(an.get_item("123", "123"), fake_item)
 
 
 class TestLists:
     def test_get_lists(self, requests_mock: Mocker, an: ActionNetwork, fake_lists: dict) -> None:
-        requests_mock.get(f"{API_URL}/lists", text=json.dumps(fake_lists))
+        req_url = f"{API_URL}/lists"
+        requests_mock.get(req_url, text=json.dumps(fake_lists))
 
         res_json = an.get_lists(1)
 
@@ -464,7 +490,8 @@ class TestLists:
         assert_matching_tables(res_json, embedded[next(iter(embedded))])
 
     def test_get_list(self, requests_mock: Mocker, an: ActionNetwork, fake_list: dict) -> None:
-        requests_mock.get(f"{API_URL}/lists/123", text=json.dumps(fake_list))
+        req_url = f"{API_URL}/lists/123"
+        requests_mock.get(req_url, text=json.dumps(fake_list))
 
         res_json = an.get_list("123")
 
@@ -476,7 +503,8 @@ class TestMessages:
     def test_get_messages(
         self, requests_mock: Mocker, an: ActionNetwork, fake_messages: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/messages", text=json.dumps(fake_messages))
+        req_url = f"{API_URL}/messages"
+        requests_mock.get(req_url, text=json.dumps(fake_messages))
 
         res_json = an.get_messages(1)
 
@@ -487,7 +515,8 @@ class TestMessages:
     def test_get_message(
         self, requests_mock: Mocker, an: ActionNetwork, fake_message: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/messages/123", text=json.dumps(fake_message))
+        req_url = f"{API_URL}/messages/123"
+        requests_mock.get(req_url, text=json.dumps(fake_message))
 
         res_json = an.get_message("123")
 
@@ -505,7 +534,8 @@ class TestMessages:
             "targets": [{"href": f"{API_URL}/queries/123"}],
             "_links": {"osdi:wrapper": {"href": f"{API_URL}/wrappers/123"}},
         }
-        requests_mock.post(f"{API_URL}/messages", text=json.dumps(fake_message))
+        req_url = f"{API_URL}/messages"
+        requests_mock.post(req_url, text=json.dumps(fake_message))
 
         res_json = an.create_message(payload)
 
@@ -520,14 +550,16 @@ class TestMessages:
             "name": "Stop doing the bad thing email send 1",
             "subject": "Please! Stop doing the bad thing",
         }
-        requests_mock.put(f"{API_URL}/messages/123", text=json.dumps(fake_message))
+        req_url = f"{API_URL}/messages/123"
+        requests_mock.put(req_url, text=json.dumps(fake_message))
         assert_matching_tables(an.update_message(message_id, payload), fake_message)
 
     def test_schedule_message(self, requests_mock: Mocker, an: ActionNetwork) -> None:
         message_id = "123"
         scheduled_start_date = "2015-03-14T12:00:00Z"
         expected_response = {"message": "Your email has been scheduled."}
-        requests_mock.post(f"{API_URL}/messages/123/schedule/", text=json.dumps(expected_response))
+        req_url = f"{API_URL}/messages/123/schedule/"
+        requests_mock.post(req_url, text=json.dumps(expected_response))
 
         res_json = an.schedule_message(message_id, scheduled_start_date)
 
@@ -537,7 +569,8 @@ class TestMessages:
     def test_send_message(self, requests_mock: Mocker, an: ActionNetwork) -> None:
         message_id = "123"
         expected_response = {"message": "Your email has been sent."}
-        requests_mock.post(f"{API_URL}/messages/123/send/", text=json.dumps(expected_response))
+        req_url = f"{API_URL}/messages/123/send/"
+        requests_mock.post(req_url, text=json.dumps(expected_response))
 
         res_json = an.send_message(message_id)
 
@@ -549,7 +582,8 @@ class TestMetadata:
     def test_get_metadata(
         self, requests_mock: Mocker, an: ActionNetwork, fake_metadata: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/metadata", text=json.dumps(fake_metadata))
+        req_url = f"{API_URL}/metadata"
+        requests_mock.get(req_url, text=json.dumps(fake_metadata))
 
         res_json = an.get_metadata()
 
@@ -574,7 +608,8 @@ class TestOutreaches:
     def test_get_person_outreaches(
         self, requests_mock: Mocker, an: ActionNetwork, fake_outreaches: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/outreaches", text=json.dumps(fake_outreaches))
+        req_url = f"{API_URL}/people/123/outreaches"
+        requests_mock.get(req_url, text=json.dumps(fake_outreaches))
 
         res_json = an.get_person_outreaches("123", 1)
 
@@ -597,7 +632,8 @@ class TestOutreaches:
     def test_get_person_outreach(
         self, requests_mock: Mocker, an: ActionNetwork, fake_outreach: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/outreaches/123", text=json.dumps(fake_outreach))
+        req_url = f"{API_URL}/people/123/outreaches/123"
+        requests_mock.get(req_url, text=json.dumps(fake_outreach))
 
         res_json = an.get_person_outreach("123", "123")
 
@@ -690,7 +726,8 @@ class TestPeople:
         fake_person_id_1: str,
         fake_person: list[dict],
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/{fake_person_id_1}", text=json.dumps(fake_person))
+        req_url = f"{API_URL}/people/{fake_person_id_1}"
+        requests_mock.get(req_url, text=json.dumps(fake_person))
 
         res_json = an.get_person(fake_person_id_1)
 
@@ -700,7 +737,8 @@ class TestPeople:
     def test_upsert_person(
         self, requests_mock: Mocker, an: ActionNetwork, fake_upsert_person: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/people", text=json.dumps(fake_upsert_person))
+        req_url = f"{API_URL}/people"
+        requests_mock.post(req_url, text=json.dumps(fake_upsert_person))
 
         res_json = an.upsert_person(**fake_upsert_person)
 
@@ -728,7 +766,8 @@ class TestPetitions:
     def test_get_petitions(
         self, requests_mock: Mocker, an: ActionNetwork, fake_petitions: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/petitions", text=json.dumps(fake_petitions))
+        req_url = f"{API_URL}/petitions"
+        requests_mock.get(req_url, text=json.dumps(fake_petitions))
 
         res_json = an.get_petitions(1)
 
@@ -739,7 +778,8 @@ class TestPetitions:
     def test_get_petition(
         self, requests_mock: Mocker, an: ActionNetwork, fake_petition: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/petitions/123", text=json.dumps(fake_petition))
+        req_url = f"{API_URL}/petitions/123"
+        requests_mock.get(req_url, text=json.dumps(fake_petition))
 
         res_json = an.get_petition("123")
 
@@ -755,7 +795,8 @@ class TestPetitions:
             "petition_text": fake_petition["petition_text"],
             "target": fake_petition["target"],
         }
-        requests_mock.post(f"{API_URL}/petitions", text=json.dumps(fake_petition_data))
+        req_url = f"{API_URL}/petitions"
+        requests_mock.post(req_url, text=json.dumps(fake_petition_data))
 
         res_json = an.create_petition(
             fake_petition["title"],
@@ -777,7 +818,8 @@ class TestPetitions:
             "target": fake_petition["target"],
         }
         petition_id = next(iter(fake_petition["identifiers"])).split(":")[1]
-        requests_mock.put(f"{API_URL}/petitions/{petition_id}", text=json.dumps(fake_petition_data))
+        req_url = f"{API_URL}/petitions/{petition_id}"
+        requests_mock.put(req_url, text=json.dumps(fake_petition_data))
 
         res_json = an.update_petition(
             petition_id,
@@ -795,7 +837,8 @@ class TestQueries:
     def test_get_queries(
         self, requests_mock: Mocker, an: ActionNetwork, fake_queries: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/queries", text=json.dumps(fake_queries))
+        req_url = f"{API_URL}/queries"
+        requests_mock.get(req_url, text=json.dumps(fake_queries))
 
         res_json = an.get_queries(1)
 
@@ -804,7 +847,8 @@ class TestQueries:
         assert_matching_tables(res_json, embedded[next(iter(embedded))])
 
     def test_get_query(self, requests_mock: Mocker, an: ActionNetwork, fake_query: dict) -> None:
-        requests_mock.get(f"{API_URL}/queries/123", text=json.dumps(fake_query))
+        req_url = f"{API_URL}/queries/123"
+        requests_mock.get(req_url, text=json.dumps(fake_query))
 
         res_json = an.get_query("123")
 
@@ -816,7 +860,8 @@ class TestSignatures:
     def test_get_petition_signatures(
         self, requests_mock: Mocker, an: ActionNetwork, fake_signatures: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/petitions/123/signatures", text=json.dumps(fake_signatures))
+        req_url = f"{API_URL}/petitions/123/signatures"
+        requests_mock.get(req_url, text=json.dumps(fake_signatures))
 
         res_json = an.get_petition_signatures("123", 1)
 
@@ -827,7 +872,8 @@ class TestSignatures:
     def test_get_person_signatures(
         self, requests_mock: Mocker, an: ActionNetwork, fake_signatures: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/signatures", text=json.dumps(fake_signatures))
+        req_url = f"{API_URL}/people/123/signatures"
+        requests_mock.get(req_url, text=json.dumps(fake_signatures))
 
         res_json = an.get_person_signatures("123", 1)
 
@@ -850,7 +896,8 @@ class TestSignatures:
     def test_get_person_signature(
         self, requests_mock: Mocker, an: ActionNetwork, fake_signature: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/signatures/123", text=json.dumps(fake_signature))
+        req_url = f"{API_URL}/people/123/signatures/123"
+        requests_mock.get(req_url, text=json.dumps(fake_signature))
 
         res_json = an.get_person_signature("123", "123")
 
@@ -864,7 +911,8 @@ class TestSignatures:
             "comments": fake_signature["comments"],
             "_links": {"osdi:person": {"href": fake_signature["_links"]["osdi:person"]["href"]}},
         }
-        requests_mock.post(f"{API_URL}/petitions/456/signatures", text=json.dumps(fake_signature))
+        req_url = f"{API_URL}/petitions/456/signatures"
+        requests_mock.post(req_url, text=json.dumps(fake_signature))
 
         res_json = an.create_signature("456", fake_signature_data)
 
@@ -876,8 +924,7 @@ class TestSignatures:
     ) -> None:
         updated_signature_data = {"comments": "Updated comments"}
         requests_mock.put(
-            f"{API_URL}/petitions/456/signatures/123",
-            text=json.dumps(fake_signature),
+            f"{API_URL}/petitions/456/signatures/123", text=json.dumps(fake_signature)
         )
 
         res_json = an.update_signature("456", "123", updated_signature_data)
@@ -890,7 +937,8 @@ class TestSubmissions:
     def test_get_form_submissions(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submissions: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/forms/123/submissions", text=json.dumps(fake_submissions))
+        req_url = f"{API_URL}/forms/123/submissions"
+        requests_mock.get(req_url, text=json.dumps(fake_submissions))
 
         res_json = an.get_form_submissions("123", 1)
 
@@ -901,7 +949,8 @@ class TestSubmissions:
     def test_get_person_submissions(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submissions: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/submissions", text=json.dumps(fake_submissions))
+        req_url = f"{API_URL}/people/123/submissions"
+        requests_mock.get(req_url, text=json.dumps(fake_submissions))
 
         res_json = an.get_person_submissions("123", 1)
 
@@ -912,7 +961,8 @@ class TestSubmissions:
     def test_get_form_submission(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submission: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/forms/123/submissions/123", text=json.dumps(fake_submission))
+        req_url = f"{API_URL}/forms/123/submissions/123"
+        requests_mock.get(req_url, text=json.dumps(fake_submission))
 
         res_json = an.get_form_submission("123", "123")
 
@@ -922,7 +972,8 @@ class TestSubmissions:
     def test_get_person_submission(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submission: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/people/123/submissions/123", text=json.dumps(fake_submission))
+        req_url = f"{API_URL}/people/123/submissions/123"
+        requests_mock.get(req_url, text=json.dumps(fake_submission))
 
         res_json = an.get_person_submission("123", "123")
 
@@ -932,65 +983,63 @@ class TestSubmissions:
     def test_create_submission(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submission: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/forms/123/submissions", text=json.dumps(fake_submission))
+        req_url = f"{API_URL}/forms/123/submissions"
+        requests_mock.post(req_url, text=json.dumps(fake_submission))
 
         assert_matching_tables(an.create_submission("123", "123"), fake_submission)
 
     def test_update_submission(
         self, requests_mock: Mocker, an: ActionNetwork, fake_submission: dict
     ) -> None:
-        requests_mock.put(
-            f"{API_URL}/forms/123/submissions/123",
-            json={"identifiers": ["other-system:230125s"]},
-        )
+        req_url = f"{API_URL}/forms/123/submissions/123"
+        data = {"identifiers": ["other-system:230125s"]}
+        requests_mock.put(req_url, json=data)
 
-        assert_matching_tables(
-            an.update_submission("123", "123", {"identifiers": ["other-system:230125s"]}),
-            fake_submission,
-        )
+        assert_matching_tables(an.update_submission("123", "123", data), fake_submission)
 
 
 class TestSurveys:
     def test_get_surveys(
         self, requests_mock: Mocker, an: ActionNetwork, fake_surveys: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/surveys?page=1&per_page=25", text=json.dumps(fake_surveys))
-        requests_mock.get(
-            f"{API_URL}/surveys?page=2&per_page=25",
-            text=json.dumps({"_embedded": {"action_network:surveys": []}}),
-        )
+        req_url = f"{API_URL}/surveys?page=1&per_page=25"
+        requests_mock.get(req_url, text=json.dumps(fake_surveys))
+
+        data = {"_embedded": {"action_network:surveys": []}}
+        req_url = f"{API_URL}/surveys?page=2&per_page=25"
+        requests_mock.get(req_url, text=json.dumps(data))
 
         assert_matching_tables(
-            an.get_surveys(),
-            Table(fake_surveys["_embedded"]["action_network:surveys"]),
+            an.get_surveys(), Table(fake_surveys["_embedded"]["action_network:surveys"])
         )
 
     def test_get_survey(self, requests_mock: Mocker, an: ActionNetwork, fake_survey: dict) -> None:
-        requests_mock.get(f"{API_URL}/surveys/123", text=json.dumps(fake_survey))
+        req_url = f"{API_URL}/surveys/123"
+        requests_mock.get(req_url, text=json.dumps(fake_survey))
 
         assert_matching_tables(an.get_survey("123"), fake_survey)
 
     def test_create_survey(
         self, requests_mock: Mocker, an: ActionNetwork, fake_survey_payload: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/surveys", text=json.dumps(fake_survey_payload))
+        req_url = f"{API_URL}/surveys"
+        requests_mock.post(req_url, text=json.dumps(fake_survey_payload))
 
         assert_matching_tables(an.create_survey(fake_survey_payload), fake_survey_payload)
 
     def test_update_survey(
         self, requests_mock: Mocker, an: ActionNetwork, fake_survey_payload: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/surveys/123", text=json.dumps(fake_survey_payload))
+        req_url = f"{API_URL}/surveys/123"
+        requests_mock.post(req_url, text=json.dumps(fake_survey_payload))
 
-        assert_matching_tables(
-            an.update_survey("123", fake_survey_payload),
-            fake_survey_payload,
-        )
+        assert_matching_tables(an.update_survey("123", fake_survey_payload), fake_survey_payload)
 
 
 class TestTags:
     def test_get_tags(self, requests_mock: Mocker, an: ActionNetwork, fake_tag_list: dict) -> None:
-        requests_mock.get(f"{API_URL}/tags?page=1&per_page=25", text=json.dumps(fake_tag_list))
+        req_url = f"{API_URL}/tags?page=1&per_page=25"
+        requests_mock.get(req_url, text=json.dumps(fake_tag_list))
         requests_mock.get(
             f"{API_URL}/tags?page=2&per_page=25", text=json.dumps({"_embedded": {"osdi:tags": []}})
         )
@@ -1001,7 +1050,8 @@ class TestTags:
     def test_get_tag(
         self, requests_mock: Mocker, an: ActionNetwork, fake_tag_id_1: str, fake_tag: str
     ) -> None:
-        requests_mock.get(f"{API_URL}/tags/{fake_tag_id_1}", text=json.dumps(fake_tag))
+        req_url = f"{API_URL}/tags/{fake_tag_id_1}"
+        requests_mock.get(req_url, text=json.dumps(fake_tag))
 
         assert an.get_tag(fake_tag_id_1) == fake_tag
 
@@ -1010,7 +1060,8 @@ class TestTaggings:
     def test_get_taggings(
         self, requests_mock: Mocker, an: ActionNetwork, fake_taggings: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/tags/123/taggings", text=json.dumps(fake_taggings))
+        req_url = f"{API_URL}/tags/123/taggings"
+        requests_mock.get(req_url, text=json.dumps(fake_taggings))
 
         res_json = an.get_taggings("123", 1)
 
@@ -1021,7 +1072,8 @@ class TestTaggings:
     def test_get_tagging(
         self, requests_mock: Mocker, an: ActionNetwork, fake_tagging: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/tags/123/taggings/123", text=json.dumps(fake_tagging))
+        req_url = f"{API_URL}/tags/123/taggings/123"
+        requests_mock.get(req_url, text=json.dumps(fake_tagging))
 
         res_json = an.get_tagging("123", "123")
 
@@ -1031,7 +1083,8 @@ class TestTaggings:
     def test_create_tagging(
         self, requests_mock: Mocker, an: ActionNetwork, fake_tagging: dict
     ) -> None:
-        requests_mock.post(f"{API_URL}/tags/123/taggings", json=fake_tagging)
+        req_url = f"{API_URL}/tags/123/taggings"
+        requests_mock.post(req_url, json=fake_tagging)
 
         res_json = an.create_tagging("123", fake_tagging)
 
@@ -1040,7 +1093,8 @@ class TestTaggings:
 
     def test_delete_tagging(self, requests_mock: Mocker, an: ActionNetwork) -> None:
         expected_response = {"notice": "This tagging was successfully deleted."}
-        requests_mock.delete(f"{API_URL}/tags/123/taggings/123", text=json.dumps(expected_response))
+        req_url = f"{API_URL}/tags/123/taggings/123"
+        requests_mock.delete(req_url, text=json.dumps(expected_response))
 
         res_json = an.delete_tagging("123", "123")
 
@@ -1052,7 +1106,8 @@ class TestWrappers:
     def test_get_wrappers(
         self, requests_mock: Mocker, an: ActionNetwork, fake_wrappers: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/wrappers", text=json.dumps(fake_wrappers))
+        req_url = f"{API_URL}/wrappers"
+        requests_mock.get(req_url, text=json.dumps(fake_wrappers))
 
         res_json = an.get_wrappers(1)
 
@@ -1063,7 +1118,8 @@ class TestWrappers:
     def test_get_wrapper(
         self, requests_mock: Mocker, an: ActionNetwork, fake_wrapper: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/wrappers/123", text=json.dumps(fake_wrapper))
+        req_url = f"{API_URL}/wrappers/123"
+        requests_mock.get(req_url, text=json.dumps(fake_wrapper))
 
         res_json = an.get_wrapper("123")
 
@@ -1075,7 +1131,8 @@ class TestUniqueIDLists:
     def test_get_unique_id_lists(
         self, requests_mock: Mocker, an: ActionNetwork, fake_unique_id_lists: dict
     ) -> None:
-        requests_mock.get(f"{API_URL}/unique_id_lists", text=json.dumps(fake_unique_id_lists))
+        req_url = f"{API_URL}/unique_id_lists"
+        requests_mock.get(req_url, text=json.dumps(fake_unique_id_lists))
 
         res_json = an.get_unique_id_lists(1)
 
@@ -1087,10 +1144,9 @@ class TestUniqueIDLists:
         self, requests_mock: Mocker, an: ActionNetwork, fake_unique_id_lists: dict
     ) -> None:
         embedded = fake_unique_id_lists["_embedded"]
-        requests_mock.get(
-            f"{API_URL}/unique_id_lists/123",
-            text=json.dumps(embedded[next(iter(embedded))]),
-        )
+        req_url = f"{API_URL}/unique_id_lists/123"
+        data = embedded[next(iter(embedded))]
+        requests_mock.get(req_url, text=json.dumps(data))
 
         res_json = an.get_unique_id_list("123")
 
@@ -1100,19 +1156,14 @@ class TestUniqueIDLists:
     def test_create_unique_id_list(
         self, requests_mock: Mocker, an: ActionNetwork, fake_unique_id_list: dict
     ) -> None:
-        requests_mock.post(
-            f"{API_URL}/unique_id_lists",
-            text=json.dumps(
-                {
-                    "name": fake_unique_id_list["name"],
-                    "count": len(fake_unique_id_list["unique_ids"]),
-                }
-            ),
-        )
+        req_url = f"{API_URL}/unique_id_lists"
+        data = {
+            "name": fake_unique_id_list["name"],
+            "count": len(fake_unique_id_list["unique_ids"]),
+        }
+        requests_mock.post(req_url, text=json.dumps(data))
 
-        res_json = an.create_unique_id_list(
-            fake_unique_id_list["name"], fake_unique_id_list["unique_ids"]
-        )
+        res_json = an.create_unique_id_list(data["name"], fake_unique_id_list["unique_ids"])
 
         assert isinstance(res_json, dict)
         assert res_json["count"] == len(fake_unique_id_list["unique_ids"])

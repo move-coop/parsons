@@ -1,0 +1,111 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/event_rsvps/378949?full_user_payload=False
+  response:
+    body:
+      string: '{"data":{"id":378949,"event_id":7004,"event_session_id":17721,"user_id":2635200,"user_details":{"id":2635200,"hash_id":"qwpg796mOPoL87Y0YcLwjNOZQrVJ1h0Y1hTiakgAR4E","phone_number":"19142826188","email":"jason.lei@resilientstrategiesllc.com","first_name":"Jason","last_name":"Lei","alternate_name":null,"date_of_birth":null,"age":null,"preferred_language":"en","second_language":null,"secondary_languages":[],"chapter_id":220,"chapter_ids":[220],"branch_id":null,"created_at":"2025-11-14T11:59:38.688-06:00","updated_at":"2026-08-16T23:21:37.869-05:00","custom_user_properties":{"account-type":null,"employer":"Fhhddfg","campaign":null,"ethnicity":null,"ethnicity2":null,"faith-affiliation":null,"flood-relief-support-needs":null,"household-party-registration":null,"interests":null,"issue-area":null,"last-name":null,"legislative-body":null,"multiple-options-checkbox-test":[{"label":"Option
+        1","value":"LvZcKkth"},{"label":"Option 2","value":"byP6HNTQ"}],"resources":null,"stv-sign-up-interests":null,"test":null,"values":null,"voter-id":null,"voter-idhh":null,"work-status":null,"youth-chapter":null,"tradition":null,"committee":null,"facility":null},"tags":[],"referral_code":"MzabrHEA","timezone":null,"address":{"address1":null,"address2":null,"city":null,"state":null,"zip_code":"","country":null,"latitude":null,"longitude":null},"assessment":{"key":"activist","label":"Activist","color":"rgba(126,
+        101, 237, 1)"},"sms_permission":true,"call_permission":true,"email_permission":true,"other_emails":[],"other_phone_numbers":[]},"is_attending":"yes","is_confirmed":null,"confirmed_at":null,"confirmed_by_agent_id":null,"unconfirmed_at":null,"unconfirmed_by_agent_id":null,"confirmation_source":null,"mobilize_event_task_id":null,"agent_user_id":2635200,"source":"chat","source_system":"dashboard","cancel_rsvp_url":"https://www.solidarity.tech/event/cancel/17721?rsvp_token=D%2Bv4PsnaeLTsgu4zKCbYjA%3D%3D%0A\u0026rsvp_id=378949","confirm_rsvp_url":"https://www.solidarity.tech/event/confirm/17721?rsvp_token=D%2Bv4PsnaeLTsgu4zKCbYjA%3D%3D%0A\u0026rsvp_id=378949","created_at":"2025-12-12T22:15:47.747-06:00","updated_at":"2025-12-12T22:15:47.747-06:00"},"meta":{"total_count":1,"limit":1,"offset":0}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 10 Sep 2026 22:36:08 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=691f3d68-404d-4151-81d0-300c7557c94d; path=/; expires=Sun, 10
+        Sep 2028 22:36:08 GMT; samesite=lax; secure
+      - ahoy_visit=4a2517fd-9c3d-42b7-adcc-075d0061469f; path=/; expires=Fri, 11 Sep
+        2026 02:36:08 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 56a6c4a6e99bb15489f5d7d3492fcbce.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - Vcui9pjk5GD-kaSLrpm6I32Vr5nlAiOq2EPM1qe5yAgnpdD-ituR7Q==
+      X-Amz-Cf-Pop:
+      - BOS50-P4
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - b74d90de-5b6f-4d86-a2bc-d4f6c6e545fd
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

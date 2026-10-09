@@ -1,25 +1,42 @@
-FROM --platform=linux/amd64 python:3.11
-
-###################
-## Parsons setup ##
-###################
-
-RUN mkdir /src
-COPY . /src/
-WORKDIR /src
-
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-# Install parsons
-RUN uv sync --upgrade --all-extras --python python3.11
-ENV PATH="/src/.venv/bin:$PATH"
-
-# The /app directory can house the scripts that will actually execute on this Docker image.
-# Eg. If using this image in a Civis container script, Civis will install your script repo
-# (from Github) to /app.
-RUN mkdir /app
+###########################################
+## Setup Environment
+###########################################
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:4bf4ce1c06fbeecaf116c05f85916a3264807d47694f3ffc09ca0ddf952348ea AS builder
 WORKDIR /app
 
-# Useful for importing modules that are associated with your python scripts:
-ENV PYTHONPATH=.:/app
+ENV PYTHONUNBUFFERED=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+ENV UV_NO_DEV=1
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    # --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --no-install-project --all-extras # --locked
+
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --all-extras --no-editable # --locked
+
+###########################################
+## Simplify Runtime Image
+###########################################
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:4bf4ce1c06fbeecaf116c05f85916a3264807d47694f3ffc09ca0ddf952348ea
+
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
+
+###########################################
+## Startup ##
+###########################################
+
+ENTRYPOINT []
+USER nonroot
+CMD ["python3"]

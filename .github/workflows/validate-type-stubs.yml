@@ -10,6 +10,15 @@ on:
 
 permissions: read-all
 
+env:
+  ENDPOINT_WHITELIST: >-
+    pypi.org:443
+    github.com:443
+    releases.astral.sh:443
+    files.pythonhosted.org:443
+    *.github.com:443
+    *.githubusercontent.com:443
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -23,6 +32,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: audit
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
@@ -30,6 +40,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

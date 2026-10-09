@@ -23,7 +23,10 @@ class TestSisense(unittest.TestCase):
         assert sisense.site_name == "my_site_name"
         assert sisense.api_key == "my_api_key"
         assert sisense.api.uri == "https://app.periscopedata.com/api/v1/"
-        assert sisense.api.headers["HTTP-X-PARTNER-AUTH"] == "my_site_name:my_api_key"
+        assert sisense.api.auth.header_name == "HTTP-X-PARTNER-AUTH"
+        assert sisense.api.auth.token_name is sisense.site_name
+        assert sisense.api.auth.token_divider == ":"
+        assert sisense.api.auth.api_key == "my_api_key"
 
     @requests_mock.Mocker()
     def test_publish_shared_dashboard(self, m):

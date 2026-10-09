@@ -14,6 +14,7 @@ import requests
 from parsons.etl.table import Table
 from parsons.targetsmart.targetsmart_smartmatch import SmartMatch
 from parsons.utilities import check_env
+from parsons.utilities.bearer_auth import BearerAuth
 
 URI = "https://api.targetsmart.com/"
 
@@ -23,11 +24,11 @@ logger = logging.getLogger(__name__)
 class TargetSmartConnector:
     def __init__(self, api_key):
         self.uri = URI
-        self.api_key = check_env.check("TS_API_KEY", api_key)
-        self.headers = {"x-api-key": self.api_key}
+        api_key = check_env.check("TS_API_KEY", api_key)
+        self.auth = BearerAuth(api_key, header_name="x-api-key", token_name=None)
 
     def request(self, url, args=None, raw=False):
-        r = requests.get(url, headers=self.headers, params=args)
+        r = requests.get(url, auth=self.auth, params=args)
 
         # This allows me to deal with data that needs to be munged.
         if raw:

@@ -34,6 +34,19 @@ def test_get_page(requests_mock: Mocker, an: ActionNetwork, fake_people_list_2: 
     assert res_json == fake_people_list_2
 
 
+def test_get_page_per_page_limit(
+    requests_mock: Mocker, an: ActionNetwork, fake_people_list_2: dict
+) -> None:
+    """Ensure that per_page values over 25 are reduced to 25."""
+    req_url = f"{API_URL}/people?page=2&per_page=25"
+    req = requests_mock.get(req_url, text=json.dumps(fake_people_list_2))
+
+    _ = an._get_page("people", 2, 30)
+
+    assert req.last_request
+    assert req.last_request.url == f"{API_URL}/people?page=2&per_page=25"
+
+
 def test_get_entry_list(
     requests_mock: Mocker,
     an: ActionNetwork,

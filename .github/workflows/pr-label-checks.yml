@@ -13,6 +13,11 @@ on:
 
 permissions: read-all
 
+env:
+  ENDPOINT_WHITELIST: >-
+    api.github.com:443
+    github.com:443
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -30,9 +35,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - name: Update labels based on modified files
         uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13
@@ -55,9 +58,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - name: Update labels based on checkboxes
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
@@ -116,9 +117,7 @@ jobs:
         with:
           disable-sudo: true
           egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            github.com:443
+          allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
       - name: Check for required labels
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3

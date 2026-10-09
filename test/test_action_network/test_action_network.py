@@ -1,10 +1,27 @@
 import json
+from typing import Literal
 
+import pytest
 from requests_mock import Mocker
 
 from parsons import ActionNetwork, Table
 from test.conftest import assert_matching_tables
 from test.test_action_network.conftest import API_URL
+
+
+@pytest.mark.parametrize("request_type", ["GET", "POST", "PUT", "DELETE"])
+def test_request_auth_header(
+    requests_mock: Mocker,
+    an: ActionNetwork,
+    request_type: Literal["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+) -> None:
+    requests_mock.request(request_type, API_URL)
+
+    res = an.api.request(API_URL, request_type)
+
+    assert an.api_token
+    assert "OSDI-API-Token" in res.request.headers
+    assert res.request.headers["OSDI-API-Token"] == an.api_token
 
 
 def test_get_page(requests_mock: Mocker, an: ActionNetwork, fake_people_list_2: dict) -> None:

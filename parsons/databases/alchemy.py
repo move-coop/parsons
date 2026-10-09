@@ -14,10 +14,10 @@ class Alchemy:
     def generate_alchemy_url(self):
         """
         Generate a SQL Alchemy engine
-        https://docs.sqlalchemy.org/en/14/core/engines.html#
+        https://docs.sqlalchemy.org/en/20/core/engines.html
         """
         if self.dialect == "redshift" or self.dialect == "postgres":
-            connection_schema = "postgresql+psycopg2"
+            connection_schema = "postgresql+psycopg"
         elif self.dialect == "mysql":
             connection_schema = "mysql+mysqlconnector"
 

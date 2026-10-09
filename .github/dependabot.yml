@@ -4,6 +4,10 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      github-actions-monthly-updates:
+        patterns:
+          - '*'
 
   - package-ecosystem: docker
     directory: /
@@ -16,7 +20,5 @@ updates:
     directory: /
     schedule:
       interval: monthly
-    ignore:
-      - dependency-name: bandit
-      - dependency-name: ruff
-      - dependency-name: sphinx-lint
+    allow:
+      - dependency-type: development

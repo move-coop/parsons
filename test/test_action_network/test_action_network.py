@@ -105,7 +105,7 @@ class TestAdvocacyCampaigns:
         req_url = f"{API_URL}/advocacy_campaigns"
         requests_mock.get(req_url, text=json.dumps(fake_advocacy_campaigns))
 
-        res_json = an._get_entry_list("advocacy_campaigns", 1)
+        res_json = an.get_advocacy_campaigns(limit=1)
 
         assert isinstance(res_json, Table)
         embedded = fake_advocacy_campaigns["_embedded"]

@@ -6,6 +6,7 @@ from typing import Literal, TypeVar, overload
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector, _JsonType
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -28,9 +29,10 @@ class ActionNetwork:
                 Can be set with ``AN_API_TOKEN`` environment variable.
 
         """
+        headers = {"Content-Type": "application/json"}
         api_token = check_env.check("AN_API_TOKEN", api_token)
-        headers = {"Content-Type": "application/json", "OSDI-API-Token": api_token}
-        self.api = APIConnector(API_URL, headers=headers)
+        auth = BearerAuth(api_token, header_name="OSDI-API-Token", token_name=None)
+        self.api = APIConnector(API_URL, headers=headers, auth=auth)
 
     def _get_page(self, object_name, page, per_page=MAX_PER_PAGE, query=None, *, filter=None):
         # returns data from one page of results

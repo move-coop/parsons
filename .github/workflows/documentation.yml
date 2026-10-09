@@ -8,14 +8,10 @@ on:
       - main
       - major-release
     tags:
-      - "v*"
+      - 'v*'
 permissions: read-all
 
 env:
-  CACHE_GLOBS: |
-    **/pyproject.toml
-    **/setup.py
-    **/uv.lock
   ENDPOINT_WHITELIST: >-
     pypi.org:443
     github.com:443
@@ -47,7 +43,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -76,7 +72,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -109,7 +105,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

@@ -1,41 +1,89 @@
 import os
 import unittest
+from http import HTTPStatus
 from unittest import mock
 
 import pytest
 import requests_mock
+from requests import HTTPError
 
 from parsons import Airmeet, Table
 
-ENV_PARAMETERS = {
-    "AIRMEET_URI": "https://env_api_endpoint",
-    "AIRMEET_ACCESS_KEY": "env_access_key",
-    "AIRMEET_SECRET_KEY": "env_secret_key",
+SAMPLE_TOKEN_RESPONSE = {"label": "dave's token", "token": "test_token"}
+SAMPLE_USER_DATA = {"name": "Test User 1", "user_id": "abc123"}
+SAMPLE_SESSION_LIST = [
+    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
+    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
+]
+SAMPLE_EVENT_REPLAY_ATTENDANCE = {
+    "data": [
+        {"id": 1, "name": "Test User 1", "session_id": "test_session_id"},
+        {"id": 5, "name": "Test User 5", "session_id": "non_test_session_id"},
+    ],
 }
 
 
 class TestAirmeet(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
-        m.post("https://api-gateway.airmeet.com/prod/auth", json={"token": "test_token"})
-        self.airmeet = Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
+    def setUp(self) -> None:
+        with requests_mock.Mocker() as m:
+            m.post("https://api-gateway.airmeet.com/prod/auth", json=SAMPLE_TOKEN_RESPONSE)
+            self.airmeet = Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
         self.airmeet.client = mock.MagicMock()
 
-    def tearDown(self):
-        pass
-
     @requests_mock.Mocker()
-    @mock.patch.dict(os.environ, ENV_PARAMETERS)
-    def test_from_environ(self, m):
-        m.post("https://env_api_endpoint/auth", json={"token": "test_token"})
+    @mock.patch.dict(
+        os.environ,
+        {
+            "AIRMEET_URI": "https://env_api_endpoint",
+            "AIRMEET_ACCESS_KEY": "env_access_key",
+            "AIRMEET_SECRET_KEY": "env_secret_key",
+        },
+    )
+    def test_from_environ(self, m: requests_mock.Mocker) -> None:
+        """Test initialization from environment variables."""
+        m.post("https://env_api_endpoint/auth", json=SAMPLE_TOKEN_RESPONSE)
         airmeet = Airmeet()
         assert airmeet.uri == "https://env_api_endpoint"
         assert airmeet.airmeet_client_key == "env_access_key"
         assert airmeet.airmeet_client_secret == "env_secret_key"
-        assert airmeet.token == "test_token"
+        assert airmeet.token == SAMPLE_TOKEN_RESPONSE["token"]
+        assert airmeet.client.auth.api_key == SAMPLE_TOKEN_RESPONSE["token"]
 
-    def test_get_all_pages_single_page(self):
-        # Simulate API response for a single page without further cursors.
+    @requests_mock.Mocker()
+    def test_failed_auth(self, m: requests_mock.Mocker) -> None:
+        """Test that auth errors during initialization are raised with HTTPError."""
+        test_error_codes = [
+            HTTPStatus.ACCEPTED,  # unexpected
+            HTTPStatus.BAD_REQUEST,  # invalid/missing data
+            HTTPStatus.FORBIDDEN,  # keys have been revoked
+            HTTPStatus.INTERNAL_SERVER_ERROR,  # generic error
+        ]
+        for err_code in test_error_codes:
+            m.post("https://api-gateway.airmeet.com/prod/auth", status_code=err_code)
+            with pytest.raises(HTTPError):
+                Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
+
+    @requests_mock.Mocker()
+    def test_has_auth_token_header(self, m: requests_mock.Mocker) -> None:
+        """Test that requests include auth token in header."""
+        # Initialize Airmeet with test_token provided by mock adapter
+        m.post("https://api-gateway.airmeet.com/prod/auth", json=SAMPLE_TOKEN_RESPONSE)
+        airmeet = Airmeet(airmeet_access_key="fake_key", airmeet_secret_key="fake_secret")
+
+        # Perform a request to mock adapter
+        request_method = "GET"
+        request_url = "https://api-gateway.airmeet.com/prod/"
+        m.request(request_method, request_url)
+        airmeet.client.request(request_url, request_method)
+
+        # Read request from mock adapter to ensure that auth token was present in header
+        assert m.last_request
+        assert m.last_request.method == request_method
+        assert "X-Airmeet-Access-Token" in m.last_request.headers
+        assert m.last_request.headers["X-Airmeet-Access-Token"] == SAMPLE_TOKEN_RESPONSE["token"]
+
+    def test_get_all_pages_single_page(self) -> None:
+        """Simulate API response for a single page without further cursors."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": [{"id": "1", "name": "Item 1"}],
@@ -50,8 +98,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "Table should contain exactly one record"
 
-    def test_get_all_pages_multiple_pages(self):
-        # Simulate API responses for multiple pages.
+    def test_get_all_pages_multiple_pages(self) -> None:
+        """Simulate API responses for multiple pages."""
         responses = [
             {
                 "data": [{"id": "1", "name": "Item 1"}],
@@ -77,8 +125,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 2, "Table should contain records from both pages"
 
-    def test_list_airmeets(self):
-        # Test get the list of Airmeets.
+    def test_list_airmeets(self) -> None:
+        """Test getting the list of Airmeets."""
         self.airmeet.client = mock.MagicMock()
 
         result = self.airmeet.list_airmeets()
@@ -89,13 +137,17 @@ class TestAirmeet(unittest.TestCase):
         )
         assert isinstance(result, Table), "The result should be a Table"
 
-    def test_fetch_airmeet_participants_single_page(self):
-        # Simulate API response for a single page of participants. This
-        # particular API doesn't use cursors like the other ones that can have
-        # multiple pages, which is why this is a separate test.
+    def test_fetch_airmeet_participants_single_page(self) -> None:
+        """
+        Simulate API response for a single page of participants.
+
+        This particular API doesn't use cursors like the other ones that can have
+        multiple pages, which is why this is a separate test.
+
+        """
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "participants": [{"user_id": "abc123", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 1,
             }
@@ -115,21 +167,24 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "Table should contain exactly one record"
 
-    def test_fetch_airmeet_participants_multiple_pages(self):
-        # Simulate API responses for multiple pages of participants. This
-        # particular API doesn't use cursors like the other ones that can have
-        # multiple pages, which is why this is a separate test.
+        """
+        Simulate API responses for multiple pages of participants.
 
-        # The connector requests 1000 at a time, so we return a totalUserCount
-        # of 2000 here to make it request a second page.
+        This particular API doesn't use cursors like the other ones that can have
+        multiple pages, which is why this is a separate test.
+
+        The connector requests 1000 at a time, so we return a totalUserCount
+        of 2000 here to make it request a second page.
+
+        """
         responses = [
             {
-                "participants": [{"user_id": "abc123", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 2000,
             },
             {
-                "participants": [{"user_id": "def456", "name": "Test User 1"}],
+                "participants": [SAMPLE_USER_DATA],
                 "userCount": 1,
                 "totalUserCount": 2000,
             },  # Last page
@@ -164,15 +219,12 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 2, "Table should contain records from both pages"
 
-    def test_fetch_airmeet_sessions(self):
-        # Test get the list of sessions for an Airmeet.
+    def test_fetch_airmeet_sessions(self) -> None:
+        """Test getting the list of sessions for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "name": "Test Event",
-                "sessions": [
-                    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
-                    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
-                ],
+                "sessions": SAMPLE_SESSION_LIST,
             }
         )
 
@@ -182,15 +234,12 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 2, "Table should contain both records"
 
-    def test_fetch_airmeet_info(self):
-        # Test get the Airmeet info.
+    def test_fetch_airmeet_info(self) -> None:
+        """Test getting the Airmeet info."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "name": "Test Event",
-                "sessions": [
-                    {"sessionid": "test_session_id_1", "name": "Test Session 1"},
-                    {"sessionid": "test_session_id_2", "name": "Test Session 2"},
-                ],
+                "sessions": SAMPLE_SESSION_LIST,
                 "session_hosts": [{"id": "abc123", "name": "Test Host 1"}],
             }
         )
@@ -206,8 +255,8 @@ class TestAirmeet(unittest.TestCase):
             "Session hosts Table should contain exactly one record"
         )
 
-    def test_fetch_airmeet_custom_registration_fields(self):
-        # Test get the custom registration fields for an Airmeet.
+    def test_fetch_airmeet_custom_registration_fields(self) -> None:
+        """Test getting the custom registration fields for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "customFields": [
@@ -225,16 +274,11 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 2, "Table should contain exactly two records"
 
-    def test_fetch_event_attendance(self):
-        # Test get the attendees for an Airmeet.
+    def test_fetch_event_attendance(self) -> None:
+        """Test getting the attendees for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -247,16 +291,11 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_session_attendance(self):
-        # Test get the attendees for a session.
+    def test_fetch_session_attendance(self) -> None:
+        """Test getting the attendees for a session."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -269,9 +308,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_session_attendance_exception_202(self):
-        # Test that an asynchronous API raises an exception if it returns
-        # a statusCode == 202.
+    def test_fetch_session_attendance_exception_202(self) -> None:
+        """Test that an asynchronous API raises an exception if it returns a statusCode 202."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "statusCode": 202,
@@ -279,15 +317,12 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(
-            Exception,
-            match="{'statusCode': 202, 'statusMessage': 'Preparing your results. Try after 5 minutes to get the updated results'}",
-        ):
+        exception_msg = "{'statusCode': 202, 'statusMessage': 'Preparing your results. Try after 5 minutes to get the updated results'}"
+        with pytest.raises(Exception, match=exception_msg):
             self.airmeet.fetch_session_attendance("test_session_id")
 
-    def test_fetch_session_attendance_exception_400(self):
-        # Test that the sessions attendees API raises an exception if it
-        # returns a statusCode == 400.
+    def test_fetch_session_attendance_exception_400(self) -> None:
+        """Test that the sessions attendees API raises an exception if it returns a statusCode 400."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": {},
@@ -296,14 +331,14 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(
-            Exception,
-            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Session status is not valid'}",
-        ):
+        exception_msg = (
+            "{'data': {}, 'statusCode': 400, 'statusMessage': 'Session status is not valid'}"
+        )
+        with pytest.raises(Exception, match=exception_msg):
             self.airmeet.fetch_session_attendance("test_session_id")
 
-    def test_fetch_airmeet_booths(self):
-        # Test get the booths for an Airmeet.
+    def test_fetch_airmeet_booths(self) -> None:
+        """Test getting the booths for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "booths": [
@@ -323,16 +358,11 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_booth_attendance(self):
-        # Test get the attendees for a booth.
+    def test_fetch_booth_attendance(self) -> None:
+        """Test getting the attendees for a booth."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
-                "data": [
-                    {
-                        "name": "Test User 1",
-                        "user_id": "abc123",
-                    }
-                ],
+                "data": [SAMPLE_USER_DATA],
             }
         )
 
@@ -348,8 +378,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_poll_responses(self):
-        # Test get the poll responses for an Airmeet.
+    def test_fetch_poll_responses(self) -> None:
+        """Test getting the poll responses for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": [
@@ -373,8 +403,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result[0]["polls"]) == 2, "The record should contain exactly two poll responses"
 
-    def test_fetch_questions_asked(self):
-        # Test get the questions asked for an Airmeet.
+    def test_fetch_questions_asked(self) -> None:
+        """Test getting the questions asked for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": [
@@ -397,18 +427,15 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result[0]["questions"]) == 2, "The record should contain exactly two questions"
 
-    def test_fetch_event_tracks(self):
-        # Test get the tracks for an Airmeet.
+    def test_fetch_event_tracks(self) -> None:
+        """Test getting the tracks for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "tracks": [
                     {
                         "uid": "test_track_uid_1",
                         "name": "Test Track 1",
-                        "sessions": [
-                            "session_id_1",
-                            "session_id_2",
-                        ],
+                        "sessions": ["session_id_1", "session_id_2"],
                     }
                 ],
             }
@@ -422,8 +449,8 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result[0]["sessions"]) == 2, "The record should contain exactly two session ids"
 
-    def test_fetch_registration_utms(self):
-        # Test get the registration UTMs for an Airmeet.
+    def test_fetch_registration_utms(self) -> None:
+        """Test getting the registration UTMs for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": [
@@ -451,8 +478,8 @@ class TestAirmeet(unittest.TestCase):
         assert len(result) == 1, "The result should contain exactly one record"
         assert len(result[0]["utms"]) == 3, "The record should contain exactly three UTMs"
 
-    def test_download_session_recordings(self):
-        # Test get the session recordings for an Airmeet.
+    def test_download_session_recordings(self) -> None:
+        """Test getting the session recordings for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "recordings": [
@@ -477,18 +504,10 @@ class TestAirmeet(unittest.TestCase):
         assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_event_replay_attendance(self):
-        # Test get the replay attendees for an Airmeet.
+    def test_fetch_event_replay_attendance(self) -> None:
+        """Test getting the replay attendees for an Airmeet."""
         self.airmeet.client.get_request = mock.MagicMock(
-            return_value={
-                "data": [
-                    {
-                        "id": 1,
-                        "name": "Test User 1",
-                        "session_id": "test_session_id",
-                    }
-                ],
-            }
+            return_value=SAMPLE_EVENT_REPLAY_ATTENDANCE
         )
 
         result = self.airmeet.fetch_event_replay_attendance("test_airmeet_id")
@@ -498,11 +517,25 @@ class TestAirmeet(unittest.TestCase):
             params={"size": 50},
         )
         assert isinstance(result, Table), "The result should be a Table"
+        assert len(result) == 2, "The result should contain exactly two records"
+
+    def test_fetch_event_replay_attendance_specific_session(self) -> None:
+        """Test getting the replay attendees for an Airmeet."""
+        self.airmeet.client.get_request = mock.MagicMock(
+            return_value=SAMPLE_EVENT_REPLAY_ATTENDANCE
+        )
+
+        result = self.airmeet.fetch_event_replay_attendance("test_airmeet_id", "test_session_id")
+
+        self.airmeet.client.get_request.assert_called_once_with(
+            url="airmeet/test_airmeet_id/event-replay-attendees",
+            params={"size": 50},
+        )
+        assert isinstance(result, Table), "The result should be a Table"
         assert len(result) == 1, "The result should contain exactly one record"
 
-    def test_fetch_event_replay_attendance_exception_400(self):
-        # Test that the replay attendees API raises an exception if it returns
-        # a statusCode == 400.
+    def test_fetch_event_replay_attendance_exception_400(self) -> None:
+        """Test that the replay attendees API raises an exception if it returns a statusCode 400."""
         self.airmeet.client.get_request = mock.MagicMock(
             return_value={
                 "data": {},
@@ -511,8 +544,8 @@ class TestAirmeet(unittest.TestCase):
             }
         )
 
-        with pytest.raises(
-            Exception,
-            match="{'data': {}, 'statusCode': 400, 'statusMessage': 'Airmeet status is not valid'}",
-        ):
+        exception_msg = (
+            "{'data': {}, 'statusCode': 400, 'statusMessage': 'Airmeet status is not valid'}"
+        )
+        with pytest.raises(Exception, match=exception_msg):
             self.airmeet.fetch_event_replay_attendance("test_airmeet_id")

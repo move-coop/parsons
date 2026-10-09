@@ -2,114 +2,115 @@ import gzip
 import json
 import logging
 import time
+from datetime import datetime, timedelta, timezone
 
 import requests
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
 
 class Auth0:
-    """
-    Instantiate the Auth0 class
+    """Parsons connector for interacting with Auth0 endpoints."""
 
-    Args:
-        client_id: str
-            The Auth0 client ID. Not required if ``AUTH0_CLIENT_ID`` env variable set.
-        client_secret: str
-            The Auth0 client secret. Not required if ``AUTH0_CLIENT_SECRET`` env variable set.
-        domain: str
-            The Auth0 domain. Not required if ``AUTH0_DOMAIN`` env variable set.
+    def __init__(
+        self,
+        client_id: str | None = None,
+        client_secret: str | None = None,
+        domain: str | None = None,
+    ) -> None:
+        """
+        Instantiate the Auth0 class.
 
-    Returns:
-        Auth0 Class
+        Args:
+            client_id:
+                The Auth0 client ID.
+                Not required if ``AUTH0_CLIENT_ID`` env variable set.
+            client_secret:
+                The Auth0 client secret.
+                Not required if ``AUTH0_CLIENT_SECRET`` env variable set.
+            domain:
+                The Auth0 domain.
+                Not required if ``AUTH0_DOMAIN`` env variable set.
 
-    """
-
-    def __init__(self, client_id=None, client_secret=None, domain=None):
+        """
         self.base_url = f"https://{check_env.check('AUTH0_DOMAIN', domain)}"
-        access_token = (
-            requests.post(
-                f"{self.base_url}/oauth/token",
-                data={
-                    "grant_type": "client_credentials",  # OAuth 2.0 flow to use
-                    "client_id": check_env.check("AUTH0_CLIENT_ID", client_id),
-                    "client_secret": check_env.check("AUTH0_CLIENT_SECRET", client_secret),
-                    "audience": f"{self.base_url}/api/v2/",
-                },
-            )
-            .json()
-            .get("access_token")
-        )
-        self.headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
-        }
+        self.client_id = check_env.check("AUTH0_CLIENT_ID", client_id)
+        self.client_secret = check_env.check("AUTH0_CLIENT_SECRET", client_secret)
+        self.headers = {"Content-Type": "application/json"}
+        self._refresh_access_token()
 
-    def delete_user(self, id):
+    def _refresh_access_token(self) -> tuple[str, datetime]:
+        url = f"{self.base_url}/oauth/token"
+        payload = {
+            "grant_type": "client_credentials",  # OAuth 2.0 flow to use
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "audience": f"{self.base_url}/api/v2/",
+        }
+        token_res = requests.post(url, data=payload).json()
+        access_token = token_res.get("access_token")
+        token_type = token_res.get("token_type")
+        expires_in = token_res.get("expires_in")
+
+        expiration = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+        self.auth = BearerAuth(
+            access_token,
+            token_name=token_type,
+            expires=expiration,
+            refresh_callback=self._refresh_access_token,
+        )
+        return access_token, expiration
+
+    def delete_user(self, id: str) -> int:
         """
         Delete Auth0 user.
 
         Args:
-            id: str
-                The user ID of the record to delete.
-
-        Returns:
-            int
+            id: The user ID of the record to delete.
 
         """
-        return requests.delete(
-            f"{self.base_url}/api/v2/users/{id}", headers=self.headers
-        ).status_code
+        url = f"{self.base_url}/api/v2/users/{id}"
+        return requests.delete(url, headers=self.headers, auth=self.auth).status_code
 
-    def get_users_by_email(self, email):
+    def get_users_by_email(self, email: str) -> Table:
         """
         Get Auth0 users by email.
 
         Args:
-            email: str
-                The user email of the record to get.
-
-        Returns:
-            Table Class
+            email: The user email of the record to get.
 
         """
         url = f"{self.base_url}/api/v2/users-by-email"
-        val = requests.get(url, headers=self.headers, params={"email": email})
+        val = requests.get(url, headers=self.headers, auth=self.auth, params={"email": email})
         if val.status_code == 429:
             raise requests.exceptions.ConnectionError(val.json()["message"])
         return Table(val.json())
 
     def upsert_user(
         self,
-        email,
-        username=None,
-        given_name=None,
-        family_name=None,
-        app_metadata=None,
-        user_metadata=None,
-        connection="Username-Password-Authentication",
-    ):
+        email: str,
+        username: str | None = None,
+        given_name: str | None = None,
+        family_name: str | None = None,
+        app_metadata: dict | None = None,
+        user_metadata: dict | None = None,
+        connection: str = "Username-Password-Authentication",
+    ) -> requests.Response:
         """
         Upsert Auth0 users by email.
 
         Args:
-            email: str
-                The user email of the record to get.
-            username: str, optional
-                Username to set for user
-            given_name: str, optional
-                Given to set for user
-            family_name: str, optional
-                Family name to set for user
-            app_metadata: dict, optional
-                App metadata to set for user
-            user_metadata: dict, optional
-                User metadata to set for user
-        Returns:
-            Requests Response object
+            email: The user email of the record to get.
+            username: Username to set for user
+            given_name: Given to set for user
+            family_name: Family name to set for user
+            app_metadata: App metadata to set for user
+            user_metadata: User metadata to set for user
+            connection: Name of auth0 connection. Defaults to ``Username-Password-Authentication``.
 
         """
         if user_metadata is None:
@@ -133,75 +134,58 @@ class Auth0:
         existing = self.get_users_by_email(email.lower())
         if existing.num_rows > 0:
             a0id = existing[0]["user_id"]
-            ret = requests.patch(
-                f"{self.base_url}/api/v2/users/{a0id}",
-                headers=self.headers,
-                data=payload,
-            )
+            url = f"{self.base_url}/api/v2/users/{a0id}"
+            ret = requests.patch(url, headers=self.headers, auth=self.auth, data=payload)
         else:
-            ret = requests.post(f"{self.base_url}/api/v2/users", headers=self.headers, data=payload)
+            url = f"{self.base_url}/api/v2/users"
+            ret = requests.post(url, headers=self.headers, auth=self.auth, data=payload)
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret
 
-    def block_user(self, user_id, connection="Username-Password-Authentication"):
+    def block_user(
+        self, user_id: str, connection: str = "Username-Password-Authentication"
+    ) -> requests.Response:
         """
-        Blocks Auth0 users by email - setting the "blocked" attribute on Auth0's API.
+        Block Auth0 users by email - setting the "blocked" attribute on Auth0's API.
 
         Args:
-            user_id: str
-                Auth0 user id
-            connection: str, optional
-                Name of auth0 connection (default to Username-Password-Authentication)
-
-        Returns:
-            Requests Response object
+            user_id: Auth0 user id
+            connection: Name of auth0 connection. Defaults to ``Username-Password-Authentication``.
 
         """
+        url = f"{self.base_url}/api/v2/users/{user_id}"
         payload = json.dumps({"connection": connection, "blocked": True})
-        ret = requests.patch(
-            f"{self.base_url}/api/v2/users/{user_id}",
-            headers=self.headers,
-            data=payload,
-        )
+        ret = requests.patch(url, headers=self.headers, auth=self.auth, data=payload)
         if ret.status_code != 200:
             raise ValueError(f"Invalid response {ret.json()}")
         return ret
 
-    def retrieve_all_users(self, connection="Username-Password-Authentication"):
+    def retrieve_all_users(
+        self, connection: str = "Username-Password-Authentication"
+    ) -> Table | None:
         """
-        Retrieves all Auth0 users using the batch jobs endpoint.
+        Retrieve all Auth0 users using the batch jobs endpoint.
 
         Args:
-            connection: str, optional
-                Name of auth0 connection (default to Username-Password-Authentication)
-
-        Returns:
-            Requests Response object
+            connection: Name of auth0 connection. Defaults to ``Username-Password-Authentication``.
 
         """
         connection_id = self.get_connection_id(connection)
         url = f"{self.base_url}/api/v2/jobs/users-exports"
-
-        headers = self.headers
-
         fields = [
             {"name": n} for n in ["user_id", "username", "email", "user_metadata", "app_metadata"]
         ]
+        payload = {"connection_id": connection_id, "format": "json", "fields": fields}
         # Start the users-export job
-        response = requests.post(
-            url,
-            headers=headers,
-            json={"connection_id": connection_id, "format": "json", "fields": fields},
-        )
+        response = requests.post(url, headers=self.headers, auth=self.auth, json=payload)
         job_id = response.json().get("id")
 
         if job_id:
             # Check job status until complete
             while True:
-                status_response = requests.get(
-                    f"{self.base_url}/api/v2/jobs/{job_id}", headers=headers
-                )
+                url = f"{self.base_url}/api/v2/jobs/{job_id}"
+                status_response = requests.get(url, headers=self.headers, auth=self.auth)
                 status_data = status_response.json()
                 if status_response.status_code == 429:
                     time.sleep(10)
@@ -229,20 +213,19 @@ class Auth0:
         logger.error("Retrieve members job creation failed")
         return None
 
-    def get_connection_id(self, connection_name):
+    def get_connection_id(self, connection_name: str) -> str | None:
         """
-        Retrieves an Auth0 connection_id corresponding to a specific connection name
+        Retrieve an Auth0 connection_id corresponding to a specific connection name.
 
         Args:
-            connection_name: str
-                Name of auth0 connection
+            connection_name: Name of auth0 connection
+
         Returns:
-            Connection ID string
+            Connection ID
 
         """
         url = f"{self.base_url}/api/v2/connections"
-
-        response = requests.get(url, headers=self.headers)
+        response = requests.get(url, headers=self.headers, auth=self.auth)
         connections = response.json()
 
         for connection in connections:

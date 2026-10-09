@@ -13,10 +13,6 @@ on:
 permissions: read-all
 
 env:
-  CACHE_GLOBS: |
-    **/pyproject.toml
-    **/setup.py
-    **/uv.lock
   ENDPOINT_WHITELIST: >-
     pypi.org:443
     github.com:443
@@ -82,7 +78,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
@@ -132,7 +128,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -170,9 +166,12 @@ jobs:
       fail-fast: false
       matrix:
         extra: ${{ fromJson(needs.pytest-extras-config.outputs.extras) }}
-        python-version: ['3.14']
-        os: ['ubuntu-latest']
-        resolution: ['highest']
+        python-version:
+          - '3.14'
+        os:
+          - 'ubuntu-latest'
+        resolution:
+          - 'highest'
 
     steps:
       - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
@@ -195,7 +194,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - env:
           UV_RESOLUTION: ${{ matrix.resolution }}
@@ -230,7 +229,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -269,7 +268,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -321,7 +320,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -403,7 +402,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync
@@ -440,7 +439,7 @@ jobs:
         with:
           python-version: 3.14
           activate-environment: true
-          cache-dependency-glob: ${{ env.CACHE_GLOBS }}
+          cache-suffix: ${{ github.workflow }}
 
       - run: >-
           uv sync

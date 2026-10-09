@@ -1,44 +1,74 @@
+default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: check-toml
       - id: check-yaml
+      - id: check-case-conflict
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.14
-    hooks:
-      - id: ruff-check
-        args: ['--fix']
-        exclude_types: ["pyi"]
-      - id: ruff-format
-        exclude_types: ["pyi"]
-
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.9.4
-    hooks:
-      - id: bandit
-        args: ['--confidence-level', 'medium', '--severity-level', 'medium', '--exclude', '**/vendor/*']
-        files: '^parsons'
-
-  - repo: https://github.com/sphinx-contrib/sphinx-lint
-    rev: v1.0.2
-    hooks:
-      - id: sphinx-lint
-        name: sphinx lint
-
   - repo: local
     hooks:
+      - id: bandit
+        name: bandit
+        entry: uv run bandit
+        args: [--confidence-level medium, --severity-level medium, --exclude test]
+        language: system
+        pass_filenames: true
+        types: [python, toml]
+
+      - id: sphinx-lint
+        name: sphinx lint
+        entry: uv run sphinx-lint
+        language: system
+        pass_filenames: true
+        types: [rst, toml]
+
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check
+        args: [--fix]
+        language: system
+        pass_filenames: true
+        types: [python, toml]
+
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        pass_filenames: true
+        types: [python, toml]
+
       - id: generate-stubs
         name: generate stubs
-        entry: python ./types/generate_init_pyi.py
+        entry: uv run ./types/generate_init_pyi.py
         language: system
         pass_filenames: false
+        types: [python]
 
       - id: uv-lockfile-check
         name: uv lockfile check
         entry: uv lock --check
         language: system
         pass_filenames: false
+        types: [python]
+
+      - id: sphinx-test
+        name: test documentation build
+        entry: uv run ./docs/make.py test
+        language: system
+        always_run: true
+        pass_filenames: false
+        stages: [pre-push]
+        types: [rst, python, toml]
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest
+        language: system
+        always_run: true
+        pass_filenames: false
+        stages: [pre-push]
+        types: [python, toml]

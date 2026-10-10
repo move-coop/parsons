@@ -30,7 +30,8 @@ class Donorbox:
         self.email = check_env.check("DONORBOX_ACCOUNT_EMAIL", email)
         self.api_key = check_env.check("DONORBOX_API_KEY", api_key)
         self.uri = URI
-        self.client = APIConnector(self.uri, auth=HTTPBasicAuth(self.email, self.api_key))
+        auth = HTTPBasicAuth(self.email, self.api_key)
+        self.client = APIConnector(self.uri, auth=auth)
 
     def get_campaigns(self, **kwargs):
         """

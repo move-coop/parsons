@@ -414,9 +414,7 @@ class GitHub:
 
         headers = None
         if self.access_token:
-            headers = {
-                "Authorization": f"token {self.access_token}",
-            }
+            headers = {"Authorization": f"token {self.access_token}"}
 
         res = requests.get(
             f"https://raw.githubusercontent.com/{repo_name}/{branch}/{path}",

@@ -1,7 +1,7 @@
 import logging
 import re
 import warnings
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from datetime import datetime
 from typing import Literal, TypedDict, TypeVar, overload
 
@@ -133,7 +133,7 @@ class ActionNetwork:
             response = self._get_page(object_name, page, per_page, query=query)
             page = page + 1
             embedded = response["_embedded"]
-            response_list = embedded[next(iter(embedded))]
+            response_list: Sequence[_JsonType] = embedded[next(iter(embedded))]
             if not response_list:
                 return Table(return_list)
 
@@ -1104,7 +1104,7 @@ class ActionNetwork:
         if isinstance(location, dict):
             payload["location"] = location
 
-        event_dict = self.api.post_request(endpoint, json=payload)
+        event_dict: dict[str, _JsonType] = self.api.post_request(endpoint, json=payload)
         # Get Event ID from URL
         event_dict["event_id"] = event_dict["_links"]["self"]["href"].split("/")[-1]  # type:ignore[ty:unresolved-attribute, ty:invalid-argument-type, ty:not-subscriptable]
 

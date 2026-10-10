@@ -1106,7 +1106,8 @@ class ActionNetwork:
 
         event_dict: dict[str, _JsonType] = self.api.post_request(endpoint, json=payload)
         # Get Event ID from URL
-        event_dict["event_id"] = event_dict["_links"]["self"]["href"].split("/")[-1]  # type:ignore[ty:unresolved-attribute, ty:invalid-argument-type, ty:not-subscriptable]
+        event_link: str = event_dict["_links"]["self"]["href"]  # type:ignore[ty:invalid-assignment, ty:invalid-argument-type, ty:not-subscriptable]
+        event_dict["event_id"] = event_link.rsplit("/", maxsplit=1)[-1]
 
         return event_dict
 

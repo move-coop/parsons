@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import logging
 import urllib.parse
+from collections.abc import Mapping
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Any, overload
+from typing import TYPE_CHECKING, overload
 
 import requests
 import requests_ratelimiter
@@ -62,7 +63,7 @@ class APIConnector:
         session: requests.Session | None = None,
     ) -> None:
         """
-        Initialize the APIConnector.
+        Initialize the APIConnector class.
 
         Args:
             uri:
@@ -122,7 +123,7 @@ class APIConnector:
 
         if headers:
             # requests expects this to be a CaseInsensitiveDict, but we allow any Mapping
-            self.session.headers = headers  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+            self.session.headers = headers  # type: ignore [ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @property
     @deprecated("Use session.auth instead.", stacklevel=1)
@@ -149,7 +150,7 @@ class APIConnector:
     @headers.setter
     @deprecated("Use session.headers instead.", stacklevel=1)
     def headers(self, inp: _HeadersType) -> None:
-        self.session.headers = inp  # type: ignore[ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
+        self.session.headers = inp  # type: ignore [ty:invalid-assignment]  # pyright: ignore [reportAttributeAccessIssue]
 
     @headers.deleter
     @deprecated("Use session.headers instead.", stacklevel=1)
@@ -315,7 +316,7 @@ class APIConnector:
         success_codes: Container[HTTPStatus | int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> _JsonType:
+    ) -> _JsonType | int | None:
         """
         Make a POST request.
 
@@ -336,8 +337,8 @@ class APIConnector:
                 Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
-            If successful, json date from :meth:`requests.Response.json`
-            or :attr:`requests.Response.status_code` as available.
+            If successful, json data from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code`, as available.
             ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
@@ -378,7 +379,7 @@ class APIConnector:
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> _JsonType:
+    ) -> _JsonType | int | None:
         """
         Make a DELETE request.
 
@@ -397,8 +398,8 @@ class APIConnector:
                 Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
-            If successful, json date from :meth:`requests.Response.json`
-            or :attr:`requests.Response.status_code` as available.
+            If successful, json data from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code`, as available.
             ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
@@ -432,7 +433,7 @@ class APIConnector:
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> _JsonType:
+    ) -> _JsonType | int | None:
         """
         Make a PUT request.
 
@@ -453,8 +454,8 @@ class APIConnector:
                 Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
-            If successful, json date from :meth:`requests.Response.json`
-            or :attr:`requests.Response.status_code` as available.
+            If successful, json data from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code`, as available.
             ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
@@ -490,7 +491,7 @@ class APIConnector:
         success_codes: list[int] | None = None,
         raise_on_error: bool = True,
         **kwargs,
-    ) -> _JsonType:
+    ) -> _JsonType | int | None:
         """
         Make a PATCH request.
 
@@ -511,8 +512,8 @@ class APIConnector:
                 Additional keyword arguments to pass to :class:`~requests.Request`.
 
         Returns:
-            If successful, json date from :meth:`requests.Response.json`
-            or :attr:`requests.Response.status_code` as available.
+            If successful, json data from :meth:`requests.Response.json`
+            or :attr:`requests.Response.status_code`, as available.
             ``None`` if the request fails and `raise_on_error` is ``False``.
 
         """
@@ -558,24 +559,24 @@ class APIConnector:
             message = f"Code: {resp.status_code}; URL: {resp.url}"
 
             if resp.reason:
-                message = f"{message}; Reason: {resp.reason}"
+                message += f"; Reason: {resp.reason}"
 
             elif resp.text:
-                message = f"{message}; Text: {resp.text}"
+                message += f"; Text: {resp.text}"
 
             # Some errors return JSONs with useful info about the error.
             if self.json_check(resp):
-                message = f"{message}; JSON: {resp.json()}"
+                message += f"; JSON: {resp.json()}"
 
             raise HTTPError(message) from e
 
     @overload
-    def data_parse(self, resp: dict[str, Any]) -> dict[str, Any]: ...
+    def data_parse(self, resp: _JsonType) -> _JsonType: ...
 
     @overload
     def data_parse(self, resp: list) -> list: ...
 
-    def data_parse(self, resp: dict[str, Any] | list) -> dict[str, Any] | list:
+    def data_parse(self, resp: _JsonType | list) -> _JsonType | list:
         """
         Determine if the response json has nested data.
 
@@ -591,7 +592,7 @@ class APIConnector:
         if isinstance(resp, list):
             return resp
 
-        if self.data_key and self.data_key in resp:
+        if self.data_key and isinstance(resp, Mapping) and self.data_key in resp:
             return resp[self.data_key]
 
         return resp
@@ -600,7 +601,7 @@ class APIConnector:
     # of data following the initial request. The goal is build out a series of utilities
     # that mean most of the most common use cases.
 
-    def next_page_check_url(self, resp: dict[str, Any]) -> bool:
+    def next_page_check_url(self, resp: dict[str, _JsonType]) -> bool:
         """
         Determine if there is a next page.
 
@@ -622,6 +623,6 @@ class APIConnector:
         except JSONDecodeError:
             return False
 
-    def convert_to_table(self, data: list | Any) -> Table:
+    def convert_to_table(self, data: list | _JsonType) -> Table:
         """Create a Parsons table from a data element."""
         return Table(data) if isinstance(data, list) else Table([data])

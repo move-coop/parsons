@@ -91,7 +91,9 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.onelineaddress(address, returntype=return_type, timeout=self.timeout)
+        geo = self._request(
+            self.cg.onelineaddress, address, returntype=return_type, timeout=self.timeout
+        )
         self._log_result(geo)
         return geo
 
@@ -124,7 +126,8 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.address(
+        geo = self._request(
+            self.cg.address,
             address_line,
             city=city,
             state=state,
@@ -173,7 +176,9 @@ class CensusGeocoder:
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
             geocoded_tbl.concat(
-                Table(petl.fromdicts(self.cg.addressbatch(tbl, timeout=self.timeout)))
+                Table(
+                    petl.fromdicts(self._request(self.cg.addressbatch, tbl, timeout=self.timeout))
+                )
             )
             records_processed += tbl.num_rows
             logger.info("%s of %s records processed.", records_processed, table.num_rows)
@@ -197,7 +202,9 @@ class CensusGeocoder:
             longitude: A valid longitude in the United States
 
         """
-        geo = self.cg.coordinates(x=longitude, y=latitude, timeout=self.timeout)
+        geo = self._request(
+            self.cg.coordinates, x=longitude, y=latitude, timeout=self.timeout
+        )
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")
         else:

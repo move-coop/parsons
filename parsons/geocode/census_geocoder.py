@@ -69,8 +69,11 @@ class CensusGeocoder:
                     raise
                 wait = 2**attempt
                 logger.warning(
-                    f"Census request failed with {type(error).__name__}; retrying in "
-                    f"{wait}s ({attempt + 1} of {self.retries})."
+                    "Census request failed with %s; retrying in %ss (%s of %s).",
+                    type(error).__name__,
+                    wait,
+                    attempt + 1,
+                    self.retries,
                 )
                 time.sleep(wait)
 

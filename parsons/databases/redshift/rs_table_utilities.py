@@ -52,10 +52,10 @@ class RedshiftTableUtilities:
 
         # If in either, return boolean
         if result >= 1:
-            logger.debug(f"{table_name[0]}.{table_name[1]} exists.")
+            logger.debug("%s.%s exists.", table_name[0], table_name[1])
             return True
         else:
-            logger.debug(f"{table_name[0]}.{table_name[1]} does NOT exist.")
+            logger.debug("%s.%s does NOT exist.", table_name[0], table_name[1])
             return False
 
     def get_row_count(self, table_name):
@@ -97,7 +97,7 @@ class RedshiftTableUtilities:
         """
         sql = f"alter table {table_name} rename to {new_table_name}"
         self.query(sql)
-        logger.info(f"{table_name} renamed to {new_table_name}")
+        logger.info("%s renamed to %s", table_name, new_table_name)
 
     def move_table(self, source_table, new_table, drop_source_table=False):
         """
@@ -123,7 +123,7 @@ class RedshiftTableUtilities:
         create_sql = f"create table {new_table} (like {source_table});"
         alter_sql = f"alter table {new_table} append from {source_table}"
 
-        logger.info(f"Creating empty {new_table} from {source_table}.")
+        logger.info("Creating empty %s from %s.", new_table, source_table)
         self.query(create_sql)
 
         with self.connection() as conn:
@@ -132,14 +132,14 @@ class RedshiftTableUtilities:
             #  the connection must be set to autocommit.
 
             conn.set_session(autocommit=True)
-            logger.info(f"Moving data from {source_table} to {new_table}.")
+            logger.info("Moving data from %s to %s.", source_table, new_table)
             self.query_with_connection(alter_sql, conn)
 
         if drop_source_table:
             self.query(f"drop table {source_table};")
-            logger.info(f"{source_table} dropped.")
+            logger.info("%s dropped.", source_table)
 
-        logger.info(f"{source_table} data moved from {new_table}  .")
+        logger.info("%s data moved from %s  .", source_table, new_table)
 
     def _create_table_precheck(
         self, connection, table_name, if_exists: Literal["fail", "append", "drop", "truncate"]
@@ -175,7 +175,7 @@ class RedshiftTableUtilities:
 
         else:
             if exists and if_exists == "drop":
-                logger.debug(f"Table {table_name} exist, will drop...")
+                logger.debug("Table %s exist, will drop...", table_name)
                 drop_sql = f"drop table {table_name};\n"
                 self.query_with_connection(drop_sql, connection, commit=False)
 
@@ -213,7 +213,7 @@ class RedshiftTableUtilities:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
-                logger.info(f"Creating table {destination_table} from query...")
+                logger.info("Creating table %s from query...", destination_table)
                 sql = f"create table {destination_table}"
                 if distkey:
                     sql += f" distkey({distkey})"
@@ -221,12 +221,12 @@ class RedshiftTableUtilities:
                     sql += f" sortkey({sortkey})"
                 sql += f" as {query}"
             else:
-                logger.info(f"Inserting data into {destination_table} from query...")
+                logger.info("Inserting data into %s from query...", destination_table)
                 sql = f"insert into {destination_table} ({query})"
 
             self.query_with_connection(sql, conn, commit=False)
 
-        logger.info(f"{destination_table} created from query")
+        logger.info("%s created from query", destination_table)
 
     def duplicate_table(
         self,
@@ -258,21 +258,21 @@ class RedshiftTableUtilities:
             should_create = self._create_table_precheck(conn, destination_table, if_exists)
 
             if should_create:
-                logger.info(f"Creating {destination_table} from {source_table}...")
+                logger.info("Creating %s from %s...", destination_table, source_table)
                 create_sql = f"create table {destination_table} (like {source_table})"
                 self.query_with_connection(create_sql, conn, commit=False)
 
-            logger.info(f"Transferring data to {destination_table} from {source_table}")
+            logger.info("Transferring data to %s from %s", destination_table, source_table)
             select_sql = f"select * from {source_table} {where_clause}"
             insert_sql = f"insert into {destination_table} ({select_sql})"
             self.query_with_connection(insert_sql, conn, commit=False)
 
             if drop_source_table:
-                logger.info(f"Dropping table {source_table}...")
+                logger.info("Dropping table %s...", source_table)
                 drop_sql = f"drop table {source_table}"
                 self.query_with_connection(drop_sql, conn, commit=False)
 
-        logger.info(f"{destination_table} created from {source_table}.")
+        logger.info("%s created from %s.", destination_table, source_table)
 
     def union_tables(self, new_table_name, tables, union_all=True, view=False):
         """
@@ -301,7 +301,7 @@ class RedshiftTableUtilities:
 
         self.query(sql)
 
-        logger.info(f"Created {new_table_name} from {', '.join(tables)}")
+        logger.info("Created %s from %s", new_table_name, ", ".join(tables))
 
     def get_tables(self, schema=None, table_name=None):
         """
@@ -573,7 +573,7 @@ class RedshiftTableUtilities:
         tbl = self.query(sql_obj_type)
 
         if tbl.num_rows == 0:
-            logger.info(f"{object_name} doesn't exist.")
+            logger.info("%s doesn't exist.", object_name)
             return None
 
         return tbl[0]["object_name"]
@@ -591,7 +591,7 @@ class RedshiftTableUtilities:
 
         """
         is_view = self.get_object_type(object_name) == "view"
-        logger.info(f"{object_name} is {'' if is_view else 'not'} a view.")
+        logger.info("%s is %s a view.", object_name, "" if is_view else "not")
         return is_view
 
     def is_table(self, object_name):
@@ -607,7 +607,7 @@ class RedshiftTableUtilities:
 
         """
         is_table = self.get_object_type(object_name) == "table"
-        logger.info(f"{object_name} is {'' if is_table else 'not'} a table.")
+        logger.info("%s is %s a table.", object_name, "" if is_table else "not")
         return is_table
 
     def get_table_definition(self, table):
@@ -669,7 +669,7 @@ class RedshiftTableUtilities:
         ddl_table = self.query(sql_get_ddl)
 
         if ddl_table.num_rows == 0:
-            logger.info(f"No tables matching {schema} and {table}.")
+            logger.info("No tables matching %s and %s.", schema, table)
             return None
 
         def join_sql_parts(columns, rows):
@@ -745,7 +745,7 @@ class RedshiftTableUtilities:
         ddl_view = self.query(sql_get_ddl)
 
         if ddl_view.num_rows == 0:
-            logger.info(f"No views matching {schema} and {view}.")
+            logger.info("No views matching %s and %s.", schema, view)
             return None
 
         return ddl_view.to_dicts()

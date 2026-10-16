@@ -21,7 +21,7 @@ class CanvassResponses:
 
         """
         tbl = Table(self.connection.get_request("canvassResponses/contactTypes"))
-        logger.info(f"Found {tbl.num_rows} canvass response contact types.")
+        logger.info("Found %s canvass response contact types.", tbl.num_rows)
         return tbl
 
     def get_canvass_responses_input_types(self):
@@ -34,7 +34,7 @@ class CanvassResponses:
 
         """
         tbl = Table(self.connection.get_request("canvassResponses/inputTypes"))
-        logger.info(f"Found {tbl.num_rows} canvass response input types.")
+        logger.info("Found %s canvass response input types.", tbl.num_rows)
         return tbl
 
     def get_canvass_responses_result_codes(self) -> Table:
@@ -46,6 +46,6 @@ class CanvassResponses:
 
         """
         tbl = Table(self.connection.get_request("canvassResponses/resultCodes"))
-        logger.info(f"Found {tbl.num_rows} canvass response result codes.")
+        logger.info("Found %s canvass response result codes.", tbl.num_rows)
 
         return tbl

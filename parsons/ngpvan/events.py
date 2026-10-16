@@ -74,7 +74,7 @@ class Events:
         }
 
         tbl = Table(self.connection.get_request("events", params=params))
-        logger.info(f"Found {tbl.num_rows} events.")
+        logger.info("Found %s events.", tbl.num_rows)
         return tbl
 
     def get_event(
@@ -114,7 +114,7 @@ class Events:
             expand_fields = ",".join(expand_fields)
 
         r = self.connection.get_request(f"events/{event_id}", params={"$expand": expand_fields})
-        logger.info(f"Found event {event_id}.")
+        logger.info("Found event %s.", event_id)
         return r
 
     def create_event(
@@ -226,7 +226,7 @@ class Events:
             event["codes"] = [{"codeID": c} for c in code_ids]
 
         r = self.connection.post_request("events", json=event)
-        logger.info(f"Event {r} created.")
+        logger.info("Event %s created.", r)
         return r
 
     def delete_event(self, event_id):
@@ -239,7 +239,7 @@ class Events:
 
         """
         r = self.connection.delete_request(f"events/{event_id}")
-        logger.info(f"Event {event_id} deleted.")
+        logger.info("Event %s deleted.", event_id)
         return r
 
     def add_event_shift(self, event_id, shift_name, start_time, end_time):
@@ -264,7 +264,7 @@ class Events:
         shift = {"name": shift_name, "startTime": start_time, "endTime": end_time}
 
         r = self.connection.post_request(f"events/{event_id}/shifts", json=shift)
-        logger.info(f"Shift {r} added.")
+        logger.info("Shift %s added.", r)
         return r
 
     def get_event_types(self):
@@ -277,5 +277,5 @@ class Events:
 
         """
         tbl = Table(self.connection.get_request("events/types"))
-        logger.info(f"Found {tbl.num_rows} events.")
+        logger.info("Found %s events.", tbl.num_rows)
         return tbl

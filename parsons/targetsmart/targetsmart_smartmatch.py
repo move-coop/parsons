@@ -54,7 +54,7 @@ class SmartMatchError(Exception):
 
 
 def _smartmatch_upload(url, fname):
-    logger.info(f"Uploading {fname} to {url} to begin SmartMatch workflow execution.")
+    logger.info("Uploading %s to %s to begin SmartMatch workflow execution.", fname, url)
     with Path(fname).open(mode="rb") as reader:
         response_2 = requests.put(url, data=reader, headers={"Content-Type": ""})
 
@@ -243,7 +243,7 @@ class SmartMatch:
             )
 
         logger.info(
-            f"The SmartMatch workflow registration was successful for file name {submit_filename}."
+            "The SmartMatch workflow registration was successful for file name %s.", submit_filename
         )
 
         # Write Petl table to CSV and upload for SmartMatch to process
@@ -264,9 +264,8 @@ class SmartMatch:
             Path(tmp.name).unlink()
 
         logger.info(
-            "The SmartMatch workflow execution has been submitted using file"
-            f" name '{submit_filename}'. Now polling for results which can take"
-            " minutes/hours depending on data size and queuing."
+            "The SmartMatch workflow execution has been submitted using file name '%s'. Now polling for results which can take minutes/hours depending on data size and queuing.",
+            submit_filename,
         )
 
         # Poll SmartMatch endpoint waiting for workflow completion
@@ -288,7 +287,7 @@ class SmartMatch:
             delete=False,
         )
 
-        logger.info(f"Downloading the '{submit_filename}' SmartMatch results to {tmp_gz.name}.")
+        logger.info("Downloading the '%s' SmartMatch results to %s.", submit_filename, tmp_gz.name)
         _smartmatch_download(download_url, tmp_gz)
         tmp_gz.flush()
 

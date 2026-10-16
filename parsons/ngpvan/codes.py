@@ -39,7 +39,7 @@ class Codes:
         }
 
         tbl = Table(self.connection.get_request("codes", params=params))
-        logger.info(f"Found {tbl.num_rows} codes.")
+        logger.info("Found %s codes.", tbl.num_rows)
         return tbl
 
     def get_code(self, code_id):
@@ -57,7 +57,7 @@ class Codes:
         """
         c = self.connection.get_request(f"codes/{code_id}")
         logger.debug(c)
-        logger.info(f"Found code {code_id}.")
+        logger.info("Found code %s.", code_id)
         return c
 
     def get_code_types(self):
@@ -70,7 +70,7 @@ class Codes:
 
         """
         lst = self.connection.get_request("codeTypes")
-        logger.info(f"Found {len(lst)} code types.")
+        logger.info("Found %s code types.", len(lst))
         return lst
 
     def create_code(
@@ -133,7 +133,7 @@ class Codes:
             json["supportedEntities"] = se
 
         r = self.connection.post_request("codes", json=json)
-        logger.info(f"Code {r} created.")
+        logger.info("Code %s created.", r)
         return r
 
     def update_code(
@@ -202,7 +202,7 @@ class Codes:
             post_data["supportedEntities"] = se
 
         r = self.connection.put_request(f"codes/{code_id}", json=post_data)
-        logger.info(f"Code {code_id} updated.")
+        logger.info("Code %s updated.", code_id)
         return r
 
     def delete_code(self, code_id):
@@ -215,7 +215,7 @@ class Codes:
 
         """
         r = self.connection.delete_request(f"codes/{code_id}")
-        logger.info(f"Code {code_id} deleted.")
+        logger.info("Code %s deleted.", code_id)
         return r
 
     def get_code_supported_entities(self):
@@ -228,5 +228,5 @@ class Codes:
 
         """
         lst = self.connection.get_request("codes/supportedEntities")
-        logger.info(f"Found {len(lst)} code supported entities.")
+        logger.info("Found %s code supported entities.", len(lst))
         return lst

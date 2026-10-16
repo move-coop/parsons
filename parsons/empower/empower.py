@@ -15,17 +15,17 @@ class Empower:
     Instantiate class.
 
     Args:
-            api_key: str
-                The Empower provided API key.The Empower provided Client UUID. Not
-                required if ``EMPOWER_API_KEY`` env variable set.
-            empower_uri: str
-                The URI to access the Empower API. The default is currently set to
-                https://api.getempower.com/v1/export. You can set an ``EMPOWER_URI`` env
-                variable or use this URI parameter if a different endpoint is necessary.
-            cache: boolean
-                The Empower API returns all account data after each call. Setting cache
-                to ``True`` stores the blob and then extracts Parsons tables for each method.
-                Setting cache to ``False`` will download all account data for each method call.
+        api_key: str
+            The Empower provided API key.The Empower provided Client UUID. Not
+            required if ``EMPOWER_API_KEY`` env variable set.
+        empower_uri: str
+            The URI to access the Empower API. The default is currently set to
+            https://api.getempower.com/v1/export. You can set an ``EMPOWER_URI`` env
+            variable or use this URI parameter if a different endpoint is necessary.
+        cache: boolean
+            The Empower API returns all account data after each call. Setting cache
+            to ``True`` stores the blob and then extracts Parsons tables for each method.
+            Setting cache to ``False`` will download all account data for each method call.
 
     """
 

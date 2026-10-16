@@ -128,7 +128,7 @@ class CapitolCanary:
         if not tbl:
             return tbls
 
-        logger.info(f"Retrieved {tbl.num_rows} advocates...")
+        logger.info("Retrieved %s advocates...", tbl.num_rows)
 
         # Unpack all of the single objects
         # The CapitolCanary API docs says that created_at and updated_at are dictionaries, but

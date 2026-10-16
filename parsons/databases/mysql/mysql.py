@@ -169,7 +169,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             # break up each statement and execute them separately.
             for s in sql.strip().split(";"):
                 if len(s) != 0:
-                    logger.debug(f"SQL Query: {sql}")
+                    logger.debug("SQL Query: %s", sql)
                     cursor.execute(s, parameters)
 
             if commit:
@@ -195,14 +195,14 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
                         if len(batch) == 0:
                             break
 
-                        logger.debug(f"Fetched {len(batch)} rows.")
+                        logger.debug("Fetched %s rows.", len(batch))
                         for row in batch:
                             pickle.dump(row, f)
 
                 # Load a Table from the file
                 final_tbl = Table(petl.frompickle(temp_file))
 
-                logger.debug(f"Query returned {final_tbl.num_rows} rows.")
+                logger.debug("Query returned %s rows.", final_tbl.num_rows)
                 return final_tbl
 
     def copy(
@@ -248,7 +248,7 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if self._create_table_precheck(connection, table_name, if_exists):
                 sql = self.create_statement(tbl, table_name, strict_length=strict_length)
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f"Table {table_name} created.")
+                logger.info("Table %s created.", table_name)
 
             # Chunk tables in batches of 1K rows, though this can be tuned and
             # optimized further.
@@ -304,13 +304,13 @@ class MySQL(DatabaseConnector, MySQLCreateTable, Alchemy):
             if if_exists == "truncate":
                 sql = f"TRUNCATE TABLE {table_name}"
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f"{table_name} truncated.")
+                logger.info("%s truncated.", table_name)
                 return False
 
             if if_exists == "drop":
                 sql = f"DROP TABLE {table_name}"
                 self.query_with_connection(sql, connection, commit=False)
-                logger.info(f"{table_name} dropped.")
+                logger.info("%s dropped.", table_name)
                 return True
 
         else:

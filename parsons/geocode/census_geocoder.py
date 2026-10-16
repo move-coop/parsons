@@ -32,15 +32,20 @@ class CensusGeocoder:
             network error, waiting ``2 ** attempt`` seconds in between. Only connection-level
             failures are retried; the Census API's own error responses do not raise. By
             default no retry is attempted.
+        timeout: float
+            Seconds to wait for a response from the Census API before raising
+            ``requests.exceptions.Timeout``. Applies to every request this class makes.
+            By default no timeout is set, and a request can block indefinitely.
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", retries=0):
+    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", timeout=None, retries=0):
         if retries < 0:
             msg = f"retries must be 0 or greater, got {retries}"
             raise ValueError(msg)
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
         self.retries = retries
+        self.timeout = timeout
 
     def _request(self, func, *args, **kwargs):
         """
@@ -86,7 +91,7 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self._request(self.cg.onelineaddress, address, returntype=return_type)
+        geo = self.cg.onelineaddress(address, returntype=return_type, timeout=self.timeout)
         self._log_result(geo)
         return geo
 
@@ -119,12 +124,12 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self._request(
-            self.cg.address,
+        geo = self.cg.address(
             address_line,
             city=city,
             state=state,
             zipcode=zipcode,
+            timeout=self.timeout,
             returntype=return_type,
         )
         self._log_result(geo)
@@ -154,7 +159,7 @@ class CensusGeocoder:
             A Parsons table
 
         """
-        logger.info(f"Geocoding {table.num_rows} records.")
+        logger.info("Geocoding %s records.", table.num_rows)
         if set(table.columns) != {"id", "street", "city", "state", "zip"}:
             msg = (
                 "Table must ONLY include `['id', 'street', 'city', 'state', 'zip']` as"
@@ -167,9 +172,11 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self._request(self.cg.addressbatch, tbl))))
+            geocoded_tbl.concat(
+                Table(petl.fromdicts(self.cg.addressbatch(tbl, timeout=self.timeout)))
+            )
             records_processed += tbl.num_rows
-            logger.info(f"{records_processed} of {table.num_rows} records processed.")
+            logger.info("%s of %s records processed.", records_processed, table.num_rows)
 
         return geocoded_tbl
 
@@ -190,7 +197,7 @@ class CensusGeocoder:
             longitude: A valid longitude in the United States
 
         """
-        geo = self._request(self.cg.coordinates, x=longitude, y=latitude)
+        geo = self.cg.coordinates(x=longitude, y=latitude, timeout=self.timeout)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")
         else:

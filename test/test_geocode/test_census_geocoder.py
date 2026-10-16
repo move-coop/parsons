@@ -138,6 +138,8 @@ def test_batch_still_rejects_missing_columns(cg):
         cg.geocode_address_batch(Table([["id", "street", "city"], ["1", "908 N", "Chicago"]]))
 
     cg.cg.addressbatch.assert_not_called()
+
+
 def test_timeout_forwarded_to_every_request():
     cg = CensusGeocoder(timeout=30)
     cg.cg = mock.MagicMock()

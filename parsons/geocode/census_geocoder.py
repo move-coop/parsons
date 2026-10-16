@@ -38,7 +38,11 @@ class CensusGeocoder:
     """
 
     def __init__(
-        self, benchmark="Public_AR_Current", vintage="Current_Current", batch_size=BATCH_SIZE, timeout=None
+        self,
+        benchmark="Public_AR_Current",
+        vintage="Current_Current",
+        batch_size=BATCH_SIZE,
+        timeout=None,
     ):
         if not isinstance(batch_size, int):
             msg = f"batch_size must be an integer, got {type(batch_size).__name__}"

@@ -39,7 +39,9 @@ class CensusGeocoder:
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", timeout=None, retries=0):
+    def __init__(
+        self, benchmark="Public_AR_Current", vintage="Current_Current", timeout=None, retries=0
+    ):
         if retries < 0:
             msg = f"retries must be 0 or greater, got {retries}"
             raise ValueError(msg)
@@ -205,9 +207,7 @@ class CensusGeocoder:
             longitude: A valid longitude in the United States
 
         """
-        geo = self._request(
-            self.cg.coordinates, x=longitude, y=latitude, timeout=self.timeout
-        )
+        geo = self._request(self.cg.coordinates, x=longitude, y=latitude, timeout=self.timeout)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")
         else:

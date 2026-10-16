@@ -27,7 +27,7 @@ class CustomFields:
         params = {"customFieldsGroupType": field_type.capitalize()}
 
         tbl = Table(self.connection.get_request("customFields", params=params))
-        logger.info(f"Found {tbl.num_rows} custom fields.")
+        logger.info("Found %s custom fields.", tbl.num_rows)
         return tbl
 
     def get_custom_fields_values(
@@ -64,7 +64,7 @@ class CustomFields:
             )
 
         else:
-            logger.info(f"Found {tbl.num_rows} custom field values.")
+            logger.info("Found %s custom field values.", tbl.num_rows)
             return tbl.long_table("customFieldId", "availableValues", prepend=False)
 
     def get_custom_field(self, custom_field_id):
@@ -80,5 +80,5 @@ class CustomFields:
 
         """
         r = self.connection.get_request(f"customFields/{custom_field_id}")
-        logger.info(f"Found custom field {custom_field_id}.")
+        logger.info("Found custom field %s.", custom_field_id)
         return r

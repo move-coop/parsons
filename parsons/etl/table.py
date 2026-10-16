@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import logging
 import pickle
-from collections.abc import Generator, Iterator
+from collections.abc import Generator, Iterator, Sequence
 from enum import Enum
 from pathlib import Path
+from typing import Any
 
 import petl
 
@@ -16,12 +19,14 @@ DIRECT_INDEX_WARNING_COUNT = 10
 
 
 class _EmptyDefault(Enum):
-    """Default argument for Table()
+    """
+    Default, non-mutable argument for Table().
 
     This is used because Table(None) should not be allowed, but we
-    need a default argument that isn't the mutable []
+    need a default argument that isn't the mutable [].
 
     See https://stackoverflow.com/a/76606310 for discussion.
+
     """
 
     token = 0
@@ -32,36 +37,54 @@ _EMPTYDEFAULT = _EmptyDefault.token
 
 class Table(ETL, ToFrom):
     """
-    Create a Parsons Table. Accepts one of the following:
+    Create a Parsons Table.
+
+    Accepts one of the following:
     - A list of lists, with list[0] holding field names, and the other lists holding data
     - A list of dicts
     - A petl table
 
     Args:
-        lst: list
-            See above for accepted list formats
-        source: str
-            The original data source from which the data was pulled (optional)
-        name: str
-            The name of the table (optional)
+        lst: See above for accepted list formats
+        source: The original data source from which the data was pulled (optional)
+        name: The name of the table (optional)
 
     """
+
+    table: petl.util.base.Table
 
     def __init__(
         self,
         lst: list | tuple | Iterator | petl.util.base.Table | _EmptyDefault = _EMPTYDEFAULT,
         source: str | None = None,
         name: str | None = None,
-    ):
-        self.table = None
+    ) -> None:
+        """
+        Initialize a Table.
+
+        .. admonition:: Creating an Empty Table
+
+            Table cannot be initialized with ``Table(None)``; to create an empty table, use ``Table()``.
+
+        .. admonition:: Creating a Table from a Generator or Iterator
+
+            Generators are used with a temporary file cache to allow multiple passes.
+            Iterators like map are converted to lists during initialization.
+
+        Args:
+            lst: Data to populate the table with
+            source: The original data source from which the data was pulled (optional)
+            name: The name of the table (optional)
+
+        Raises:
+            ValueError: If the Table could not be initialized due to an unrecognized data type.
+            ValueError: If the resulting Table does not contain a valid petl Table.
+
+        """
         self.source = source
         self.name = name
 
-        # Normally we would use None as the default argument here
-        # Instead of using None, we use a sentinal
-        # This allows us to maintain the existing behavior
-        # This is allowed: Table()
-        # This should fail: Table(None)
+        # Sentinal used here to maintain the existing behavior.
         if lst is _EMPTYDEFAULT:
             self.table = petl.fromdicts([])
 
@@ -71,10 +94,8 @@ class Table(ETL, ToFrom):
                 self.table = petl.fromdicts([])
             else:
                 first_row = lst[0]
-                # Check for list of dicts
                 if isinstance(first_row, dict):
                     self.table = petl.fromdicts(lst)
-                # Check for list of lists
                 elif isinstance(first_row, (list, tuple)):
                     self.table = petl.wrap(lst)
                 else:
@@ -82,13 +103,9 @@ class Table(ETL, ToFrom):
                     raise ValueError(err_msg)
 
         elif isinstance(lst, petl.util.base.Table):
-            # Create from a petl table
             self.table = lst
 
         elif isinstance(lst, Iterator):
-            # petl.fromdicts handles generators by using a temporary file cache
-            # to allow multiple passes over the data.
-            # unfortunately iterators like map don't work with this so we convert them to lists
             self.table = petl.fromdicts(lst if isinstance(lst, Generator) else list(lst))
 
         else:
@@ -99,40 +116,50 @@ class Table(ETL, ToFrom):
             err_msg = "Could not initialize Table."
             raise ValueError(err_msg)
 
-        # Count how many times someone is indexing directly into this table, so we can warn
-        # against inefficient usage.
+        # Count how many times someone is indexing directly into this table, so we can warn against inefficient usage.
         self._index_count = 0
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """Return a string representation of the table as a list of dicts."""
         return repr(petl.dicts(self.table))
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[dict[str, Any]]:
+        """Return an iterator of the table as a list of dicts."""
         return iter(petl.dicts(self.table))
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int | str | slice) -> list | dict[str, Any]:
+        """
+        Return the row or column data at the given index.
+
+        If the index is an int, return the requested row (as dict).
+        If the index is a str, return the requested column (as list).
+        If the index is a slice, return the requested data rows (as list)
+
+        Raises:
+            TypeError: If the index is not an int, str, or slice.
+
+        """
         if isinstance(index, int):
             return self.row_data(index)
 
-        elif isinstance(index, str):
+        if isinstance(index, str):
             return self.column_data(index)
 
-        elif isinstance(index, slice):
+        if isinstance(index, slice):
             tblslice = petl.rowslice(self.table, index.start, index.stop, index.step)
             return list(tblslice)
 
-        else:
-            raise TypeError("You must pass a string or an index as a value.")
+        err_msg = "You must pass a string or an index as a value."
+        raise TypeError(err_msg)
 
-    def __bool__(self):
-        # Try to get a single row from our table
+    def __bool__(self) -> bool:
+        """Return True if the first 5 data rows of table are not empty, False otherwise."""
         head_one = petl.head(self.table)
-
-        # See if our single row is empty
         return petl.nrows(head_one) > 0
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> str:
         """Leverage Petl functionality to display well formatted tables in Jupyter Notebook."""
-        return self.table._repr_html_()
+        return self.table._repr_html_()  # type: ignore[ty:unresolved-attribute]
 
     @property
     def num_rows(self) -> int:
@@ -145,14 +172,17 @@ class Table(ETL, ToFrom):
         """
         return petl.nrows(self.table)
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Table length is equal to row count."""
         return self.num_rows
 
     @property
-    def data(self):
+    def data(self) -> Sequence[tuple]:
         """
-        Returns an iterable object for iterating over the raw data rows as tuples
-        (without field names)
+        Return an iterable object.
+
+        This allows iterating over the raw data rows as tuples (without field names).
+
         """
         return petl.data(self.table)
 
@@ -168,28 +198,32 @@ class Table(ETL, ToFrom):
         return list(petl.header(self.table))
 
     @property
-    def first(self):
+    def first(self) -> Any:
         """
-        Returns the first value in the table. Useful for database queries that only
-        return a single value.
+        Return the first value in the table.
+
+        Useful for database queries that only return a single value.
+
+        If the first value is empty (IndexError), returns ``None``.
+
         """
         try:
             return self.data[0][0]
 
-        # If first value is empty, return None
         except IndexError:
             return None
 
-    def row_data(self, row_index):
+    def row_data(self, row_index: int) -> dict[str, Any]:
         """
-        Returns a row in table
+        Return a row in table.
+
+        Calling this method excessively will log a warning advising of a more efficient alternative.
 
         Args:
-            row_index: int
+            row_index: The index of the row to return.
+
         Returns:
-            dict
-                A dictionary of the row with the column as the key and the cell
-                as the value.
+            A dictionary of the row with the column as the key and the cell as the value.
 
         """
         self._index_count += 1
@@ -206,75 +240,78 @@ class Table(ETL, ToFrom):
 
         return petl.dicts(self.table)[row_index]
 
-    def column_data(self, column_name):
+    def column_data(self, column_name: str) -> list:
         """
-        Returns the data in the column as a list.
+        Return the data in the column as a list.
 
         Args:
-            column_name: str
-                The name of the column
+            column_name: The name of the column
+
         Returns:
-            list
-                A list of data in the column.
+            All data in the column
+
+        Raises:
+            ValueError: If the column name is not found.
 
         """
         if column_name in self.columns:
             return list(self.table[column_name])
 
-        else:
-            raise ValueError("Column name not found.")
+        err_msg = "Column name not found."
+        raise ValueError(err_msg)
 
-    def materialize(self):
+    def materialize(self) -> None:
         """
-        "Materializes" a Table, meaning all data is loaded into memory and all pending
-        transformations are applied.
+        "Materialize" a Table.
 
-        Use this if petl's lazy-loading behavior is causing you problems, eg. if you want to read
-        data from a file immediately.
+        All data is loaded into memory and all pending transformations are applied.
+
+        Use this if petl's lazy-loading behavior is causing you problems,
+        eg. if you want to read data from a file immediately.
+
+        This method updates the current table in place.
+
         """
         self.table = petl.wrap(petl.tupleoftuples(self.table))
 
-    def materialize_to_file(self, file_path=None):
+    def materialize_to_file(self, file_path: Path | str | None = None) -> str:
         """
-        "Materializes" a Table, meaning all pending transformations are applied.
+        "Materialize" a Table directly to a file.
 
-        Unlike the original materialize function, this method does not bring the data into memory,
-        but instead loads the data into a local temp file.
+        Unlike the :meth:`Table.materialize` method,
+        this loads the data into a local temp file without bringing it into memory.
 
         This method updates the current table in place.
 
         Args:
-            file_path: str
-                The path to the file to materialize the table to; if not specified, a temp file
-                will be created.
+            file_path:
+                The path to the file to materialize the table to.
+                If not specified, a temporary file will be created.
 
         Returns:
-            str
-                Path to the temp file that now contains the table
+            Path to the temporary file that now contains the table.
 
         """
         # Load the data in batches, and "pickle" the rows to a temp file.
-        # (We pickle rather than writing to, say, a CSV, so that we maintain
-        # all the type information for each field.)
+        # We pickle the data rather than writing to, say, a CSV,
+        # so that we maintain all the type information for each field.
 
-        file_path = file_path or files.create_temp_file()
+        file_path = Path(file_path or files.create_temp_file())
 
-        with Path(file_path).open(mode="wb") as handle:
+        with file_path.open(mode="wb") as handle:
             for row in self.table:
                 pickle.dump(list(row), handle)
 
-        # Load a Table from the file
+        # Load a Table from the pickled file
         self.table = petl.frompickle(file_path)
 
-        return file_path
+        return str(file_path)
 
-    def is_valid_table(self):
+    def is_valid_table(self) -> bool:
         """
-        Performs some simple checks on a Table. Specifically, verifies that we have a valid petl
-        table within the Parsons Table.
+        Perform simple checks on a Table.
 
-        Returns:
-            bool
+        Specifically, verifies that we have a valid petl table within the Parsons Table.
 
         """
         if not isinstance(self.table, petl.util.base.Table):
@@ -282,21 +319,21 @@ class Table(ETL, ToFrom):
 
         try:
             self.columns  # noqa B018 useless-expression
+
         except StopIteration:
             return False
 
         return True
 
-    def empty_column(self, column):
+    def empty_column(self, column: str) -> bool:
         """
-        Checks if a given column is empty. Returns ``True`` if empty and ``False``
-        if not empty.
+        Check if a given column is empty.
 
         Args:
-            column: str
-                The column name
+            column: The column name
+
         Returns:
-            bool
+            ``True`` if empty and ``False`` if not empty.
 
         """
         return petl.nrows(petl.selectnotnone(self.table, column)) == 0

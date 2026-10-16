@@ -23,7 +23,7 @@ class ActivistCodes:
 
         """
         tbl = Table(self.connection.get_request("activistCodes"))
-        logger.info(f"Found {tbl.num_rows} activist codes.")
+        logger.info("Found %s activist codes.", tbl.num_rows)
         return tbl
 
     def get_activist_code(self, activist_code_id):
@@ -40,7 +40,7 @@ class ActivistCodes:
 
         """
         r = self.connection.get_request(f"activistCodes/{activist_code_id}")
-        logger.info(f"Found activist code {activist_code_id}.")
+        logger.info("Found activist code %s.", activist_code_id)
         return r
 
     def toggle_activist_code(
@@ -64,7 +64,7 @@ class ActivistCodes:
         r = self.apply_response(id, response, id_type, omit_contact=omit_contact)
 
         logger.info(
-            f"{id_type.upper()} {id} {action.capitalize()} " + f"activist code {activist_code_id}"
+            "%s %s %s activist code %s", id_type.upper(), id, action.capitalize(), activist_code_id
         )
 
         return r

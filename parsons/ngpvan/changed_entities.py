@@ -23,7 +23,7 @@ class ChangedEntities:
 
         """
         r = self.connection.get_request("changedEntityExportJobs/resources")
-        logger.info(f"Found {len(r)} changed entity resources.")
+        logger.info("Found %s changed entity resources.", len(r))
         return r
 
     def get_changed_entity_resource_fields(self, resource_type):
@@ -38,7 +38,7 @@ class ChangedEntities:
 
         """
         tbl = Table(self.connection.get_request(f"changedEntityExportJobs/fields/{resource_type}"))
-        logger.info(f"Found {tbl.num_rows} fields for {resource_type}.")
+        logger.info("Found %s fields for %s.", tbl.num_rows, resource_type)
         return tbl
 
     def get_changed_entities(

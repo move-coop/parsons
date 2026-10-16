@@ -93,7 +93,7 @@ class NationBuilder:
 
         while True:
             try:
-                logging.debug(f"sending request {url}")
+                logger.debug("sending request %s", url)
                 response = self.client.get_request(url=url)
 
                 res = response.get("results", None)
@@ -101,7 +101,7 @@ class NationBuilder:
                 if res is None:
                     break
 
-                logging.debug(f"response got {len(res)} records")
+                logger.debug("response got %s records", len(res))
 
                 data.extend(res)
 
@@ -110,11 +110,11 @@ class NationBuilder:
                     url = NationBuilder.make_next_url(original_url, nonce, token)
                 else:
                     break
-            except Exception as error:
-                logging.error(f"error requesting data from Nation Builder: {error}")
+            except Exception:
+                logger.error("Error requesting data from Nation Builder")
 
                 wait_time = 30
-                logging.info("waiting %s seconds before retrying", wait_time)
+                logger.info("waiting %s seconds before retrying", wait_time)
                 time.sleep(wait_time)
 
         return Table(data)

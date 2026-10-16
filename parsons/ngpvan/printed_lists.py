@@ -43,7 +43,7 @@ class PrintedLists:
 
         tbl = Table(self.connection.get_request("printedLists", params=params))
 
-        logger.info(f"Found {tbl.num_rows} printed lists.")
+        logger.info("Found %s printed lists.", tbl.num_rows)
         return tbl
 
     def get_printed_list(self, printed_list_number):
@@ -58,5 +58,5 @@ class PrintedLists:
 
         """
         r = self.connection.get_request(f"printedLists/{printed_list_number}")
-        logger.info(f"Found printed list {printed_list_number}.")
+        logger.info("Found printed list %s.", printed_list_number)
         return r

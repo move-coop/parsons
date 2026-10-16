@@ -78,7 +78,7 @@ class SMTP(SendMail):
             raise
 
         if result:
-            self.log.warning("Message failed to send to some recipients: " + str(result))
+            self.log.warning("Message failed to send to some recipients: %s", str(result))
         if not self.close_manually:
             conn.quit()
             self.conn = None

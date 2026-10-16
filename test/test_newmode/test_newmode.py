@@ -1,7 +1,8 @@
+import logging
 import os
 import unittest
 import unittest.mock as mock
-from unittest.mock import call, patch
+from unittest.mock import patch
 
 import pytest
 import requests_mock
@@ -217,6 +218,11 @@ class TestNewmodeV2(unittest.TestCase):
         self.campaign_id = "fakeCampaignID"
         self.base_url = f"{V2_API_URL}{api_version}"
 
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        """Automatically injects the caplog fixture into the unittest instance."""
+        self._caplog = caplog
+
     @requests_mock.Mocker()
     def test_get_campaign(self, m):
         json_response = test_newmode_data.get_campaign_json_response
@@ -273,32 +279,31 @@ class TestNewmodeV2(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    @patch("parsons.newmode.newmode.logger")
-    def test_base_request_retries(self, m, mock_logger):
+    def test_base_request_retries(self, m):
         get_url = f"{V2_API_URL}v2.1/test-endpoint"
         m.post(V2_API_AUTH_URL, json={"access_token": "fakeAccessToken"})
-        m.get(
-            get_url,
-            status_code=500,
-        )
+        m.get(get_url, status_code=500)
 
-        with pytest.raises(HTTPError, match=f"Code: 500; URL: {get_url}"):
+        with (
+            self._caplog.at_level(logging.WARNING, logger="parsons.newmode.newmode"),
+            pytest.raises(HTTPError, match=f"Code: 500; URL: {get_url}"),
+        ):
             self.nm.base_request(
                 method="GET",
                 url=get_url,
                 retries=2,
             )
 
-        # Verify that the logger warned about retries
-        assert mock_logger.warning.call_count == 2
-        mock_logger.warning.assert_has_calls(
-            [
-                call("Request failed (attempt 1/2). Retrying..."),
-                call("Request failed (attempt 2/2). Retrying..."),
-            ]
-        )
-        # Verify that the logger logged an error after retries failed
-        mock_logger.error.assert_called_once_with("Request failed after 2 retries.")
+        # Assert warning counts and messages
+        warning_records = [r for r in self._caplog.records if r.levelname == "WARNING"]
+        assert len(warning_records) == 2
+        assert "Request failed (attempt 1/2). Retrying..." in warning_records[0].message
+        assert "Request failed (attempt 2/2). Retrying..." in warning_records[1].message
+
+        # Assert error counts and messages
+        error_records = [r for r in self._caplog.records if r.levelname == "ERROR"]
+        assert len(error_records) == 1
+        assert "Request failed after 2 retries." in error_records[0].message
 
     @requests_mock.Mocker()
     def test_get_campaign_empty_response(self, m):

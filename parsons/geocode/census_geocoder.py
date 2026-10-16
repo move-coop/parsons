@@ -29,11 +29,16 @@ class CensusGeocoder:
         vintage: str
             The US Census vintage file to utilize. By default the current vintage is used, but
             other options can be found `here <https://geocoding.geo.census.gov/geocoder/vintages?form>`__.
+        timeout: float
+            Seconds to wait for a response from the Census API before raising
+            ``requests.exceptions.Timeout``. Applies to every request this class makes.
+            By default no timeout is set, and a request can block indefinitely.
 
     """
 
-    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current"):
+    def __init__(self, benchmark="Public_AR_Current", vintage="Current_Current", timeout=None):
         self.cg = censusgeocode.CensusGeocode(benchmark=benchmark, vintage=vintage)
+        self.timeout = timeout
 
     def geocode_onelineaddress(self, address, return_type="geographies"):
         """
@@ -52,7 +57,7 @@ class CensusGeocoder:
             dict
 
         """
-        geo = self.cg.onelineaddress(address, returntype=return_type)
+        geo = self.cg.onelineaddress(address, returntype=return_type, timeout=self.timeout)
         self._log_result(geo)
         return geo
 
@@ -86,7 +91,12 @@ class CensusGeocoder:
 
         """
         geo = self.cg.address(
-            address_line, city=city, state=state, zipcode=zipcode, returntype=return_type
+            address_line,
+            city=city,
+            state=state,
+            zipcode=zipcode,
+            timeout=self.timeout,
+            returntype=return_type,
         )
         self._log_result(geo)
         return geo
@@ -116,7 +126,7 @@ class CensusGeocoder:
             A Parsons table
 
         """
-        logger.info(f"Geocoding {table.num_rows} records.")
+        logger.info("Geocoding %s records.", table.num_rows)
         missing = [column for column in REQUIRED_BATCH_COLUMNS if column not in table.columns]
         if missing:
             msg = (
@@ -131,9 +141,11 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(Table(petl.fromdicts(self.cg.addressbatch(tbl))))
+            geocoded_tbl.concat(
+                Table(petl.fromdicts(self.cg.addressbatch(tbl, timeout=self.timeout)))
+            )
             records_processed += tbl.num_rows
-            logger.info(f"{records_processed} of {table.num_rows} records processed.")
+            logger.info("%s of %s records processed.", records_processed, table.num_rows)
 
         return geocoded_tbl
 
@@ -154,7 +166,7 @@ class CensusGeocoder:
             longitude: A valid longitude in the United States
 
         """
-        geo = self.cg.coordinates(x=longitude, y=latitude)
+        geo = self.cg.coordinates(x=longitude, y=latitude, timeout=self.timeout)
         if len(geo["States"]) == 0:
             logger.info("Coordinate not found.")
         else:

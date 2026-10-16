@@ -62,8 +62,9 @@ saved_list_sample = saved_list_download.cut("VanID").select_rows(
 )
 
 logger.info(
-    f"Uploading saved list '{os.environ['VAN_SAMPLE_LIST_NAME']}' with "
-    f"{os.environ['VAN_SAMPLE_LIST_SIZE']} people"
+    "Uploading saved list '%s' with %s people",
+    os.environ["VAN_SAMPLE_LIST_NAME"],
+    os.environ["VAN_SAMPLE_LIST_SIZE"],
 )
 
 # Upload to VAN through an intermediate S3 bucket where we save the data

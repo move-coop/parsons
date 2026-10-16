@@ -80,7 +80,7 @@ class MobileCommons:
         # Set get request params
         params = {"limit": page_limit, **self.default_params, **params}
 
-        logger.info(f"Working on fetching first {page_limit} rows. This can take a long time.")
+        logger.info("Working on fetching first %s rows. This can take a long time.", page_limit)
 
         # Make get call and parse XML into list of dicts
         page = 1
@@ -135,7 +135,10 @@ class MobileCommons:
             page += 1
             page_params = {"page": str(page), **params}
             logger.info(
-                f"Fetching rows {(page - 1) * page_limit + 1} - {(page) * page_limit} of {limit}"
+                "Fetching rows %s - %s of %s",
+                (page - 1) * page_limit + 1,
+                (page) * page_limit,
+                limit,
             )
             # Send get request
             response_dict = self._parse_get_request(endpoint=endpoint, params=page_params)

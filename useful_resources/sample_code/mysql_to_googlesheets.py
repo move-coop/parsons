@@ -56,31 +56,31 @@ def try_overwrite(table, request_count, sheet_id, tab_index):
 
 
 def main():
-    logger.info(f"Creating Google Sheets workbook called '{TITLE}'")
+    logger.info("Creating Google Sheets workbook called '%s'", TITLE)
 
     try:
         new_sheet = gsheets.create_spreadsheet(title=TITLE, editor_email=None, folder_id=FOLDER_ID)
         # If successful new_sheet will be the sprkeadsheet's ID in a string
         if isinstance(new_sheet, str):
-            logger.info(f"Successfully created sheet {TITLE}!")
+            logger.info("Successfully created sheet %s!", TITLE)
         # If we do not get a string back from the create_spreadsheet call
         # then something went wrong. Print the response.
         else:
-            logger.info(f"create_spreadsheet did not return a sheet ID. Issue: {str(new_sheet)}")
+            logger.info("create_spreadsheet did not return a sheet ID. Issue: %s", str(new_sheet))
 
     # If we get an error when trying to create the spreadsheet we print the error.
     except Exception as e:
-        logger.info(f"There was a problem creating the Google Sheets workbook! Error: {str(e)}")
+        logger.info("There was a problem creating the Google Sheets workbook! Error: %s", str(e))
 
     logger.info("Querying MYSQL database...")
     query_results = mysql.query(QUERY)
 
-    logger.info(f"Querying complete. Preparing to load data into Google Sheets tab {TAB_LABEL}")
+    logger.info("Querying complete. Preparing to load data into Google Sheets tab %s", TAB_LABEL)
     query_results.convert_columns_to_str()
     request_count = 0
     tab_index = gsheets.add_sheet(new_sheet, title=TAB_LABEL)
     try_overwrite(query_results, request_count, sheet_id=new_sheet, tab_index=tab_index)
-    logger.info(f"Load into Google Sheets for tab {TAB_LABEL} complete!")
+    logger.info("Load into Google Sheets for tab %s complete!", TAB_LABEL)
 
 
 if __name__ == "__main__":

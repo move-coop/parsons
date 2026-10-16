@@ -138,7 +138,7 @@ class Hustle:
 
         """
         tbl = Table(self._request(f"groups/{group_id}/agents"))
-        logger.info(f"Got {tbl.num_rows} agents from {group_id} group.")
+        logger.info("Got %s agents from %s group.", tbl.num_rows, group_id)
         return tbl
 
     def get_agent(self, agent_id: str) -> dict:
@@ -154,7 +154,7 @@ class Hustle:
 
         """
         resp = self._request(f"agents/{agent_id}")
-        logger.info(f"Got {agent_id} agent.")
+        logger.info("Got %s agent.", agent_id)
         return resp  # type: ignore
 
     def create_agent(
@@ -198,7 +198,7 @@ class Hustle:
         # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
-        logger.info(f"Generating {full_name} agent.")
+        logger.info("Generating %s agent.", full_name)
         resp = self._request(f"groups/{group_id}/agents", req_type="POST", payload=agent)
         return resp  # type: ignore
 
@@ -233,7 +233,7 @@ class Hustle:
         # Remove empty args in dictionary
         agent = json_format.remove_empty_keys(agent)
 
-        logger.info(f"Updating agent {agent_id}.")
+        logger.info("Updating agent %s.", agent_id)
         resp = self._request(f"agents/{agent_id}", req_type="PUT", payload=agent)
         return resp  # type: ignore
 
@@ -247,7 +247,7 @@ class Hustle:
 
         """
         tbl = Table(self._request("organizations"))
-        logger.info(f"Got {tbl.num_rows} organizations.")
+        logger.info("Got %s organizations.", tbl.num_rows)
         return tbl
 
     def get_organization(self, organization_id: str) -> dict:
@@ -263,7 +263,7 @@ class Hustle:
 
         """
         resp = self._request(f"organizations/{organization_id}")
-        logger.info(f"Got {organization_id} organization.")
+        logger.info("Got %s organization.", organization_id)
         return resp  # type: ignore
 
     def get_groups(self, organization_id: str) -> Table:
@@ -278,7 +278,7 @@ class Hustle:
 
         """
         tbl = Table(self._request(f"organizations/{organization_id}/groups"))
-        logger.info(f"Got {tbl.num_rows} groups.")
+        logger.info("Got %s groups.", tbl.num_rows)
         return tbl
 
     def get_group(self, group_id: str) -> dict:
@@ -291,7 +291,7 @@ class Hustle:
 
         """
         resp = self._request(f"groups/{group_id}")
-        logger.info(f"Got {group_id} group.")
+        logger.info("Got %s group.", group_id)
         return resp  # type: ignore
 
     def create_group_membership(self, group_id: str, lead_id: str) -> dict:
@@ -325,7 +325,7 @@ class Hustle:
 
         """
         resp = self._request(f"leads/{lead_id}")
-        logger.info(f"Got {lead_id} lead.")
+        logger.info("Got %s lead.", lead_id)
         return resp  # type: ignore
 
     def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
@@ -352,13 +352,13 @@ class Hustle:
 
         if organization_id:
             endpoint = f"organizations/{organization_id}/leads"
-            logger.info(f"Retrieving {organization_id} organization leads.")
+            logger.info("Retrieving %s organization leads.", organization_id)
         if group_id:
             endpoint = f"groups/{group_id}/leads"
-            logger.info(f"Retrieving {group_id} group leads.")
+            logger.info("Retrieving %s group leads.", group_id)
 
         tbl = Table(self._request(endpoint))  # type: ignore
-        logger.info(f"Got {tbl.num_rows} leads.")
+        logger.info("Got %s leads.", tbl.num_rows)
         return tbl
 
     def create_lead(
@@ -415,7 +415,7 @@ class Hustle:
 
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
-        logger.info(f"Generating lead for {first_name} {last_name}.")
+        logger.info("Generating lead for %s %s.", first_name, last_name)
         resp = self._request(f"groups/{group_id}/leads", req_type="POST", payload=lead)
         return resp  # type: ignore
 
@@ -488,7 +488,7 @@ class Hustle:
 
             created_leads.append(self.create_lead(**lead))  # type: ignore
 
-        logger.info(f"Created {table.num_rows} leads.")
+        logger.info("Created %s leads.", table.num_rows)
         return Table(created_leads)
 
     def update_lead(
@@ -540,7 +540,7 @@ class Hustle:
         # Remove empty args in dictionary
         lead = json_format.remove_empty_keys(lead)
 
-        logger.info(f"Updating lead for {first_name} {last_name}.")
+        logger.info("Updating lead for %s %s.", first_name, last_name)
         resp = self._request(f"leads/{lead_id}", req_type="PUT", payload=lead)
         return resp  # type: ignore
 
@@ -558,7 +558,7 @@ class Hustle:
 
         """
         tbl = Table(self._request(f"organizations/{organization_id}/tags"))
-        logger.info(f"Got {tbl.num_rows} tags for {organization_id} organization.")
+        logger.info("Got %s tags for %s organization.", tbl.num_rows, organization_id)
         return tbl
 
     def get_tag(self, tag_id: str) -> dict:
@@ -574,7 +574,7 @@ class Hustle:
 
         """
         resp = self._request(f"tags/{tag_id}")
-        logger.info(f"Got {tag_id} tag.")
+        logger.info("Got %s tag.", tag_id)
         return resp  # type: ignore
 
     def get_custom_fields(self, organization_id: str) -> Table:
@@ -590,7 +590,7 @@ class Hustle:
 
         """
         tbl = Table(self._request(f"organizations/{organization_id}/custom-fields"))
-        logger.info(f"Got {tbl.num_rows} custom fields for {organization_id} organization.")
+        logger.info("Got %s custom fields for %s organization.", tbl.num_rows, organization_id)
         return tbl
 
     def create_custom_field(
@@ -615,7 +615,7 @@ class Hustle:
         if agent_visible is not None:
             custom_field["agentVisible"] = agent_visible
 
-        logger.info(f"Generating custom field {name} for organization {organization_id}.")
+        logger.info("Generating custom field %s for organization %s.", name, organization_id)
         resp = self._request(
             f"organizations/{organization_id}/custom-fields", req_type="POST", payload=custom_field
         )

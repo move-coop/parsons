@@ -5,6 +5,7 @@ from typing import Any
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -12,27 +13,32 @@ API_URL = "https://{subdomain}.actionbuilder.org/api/rest/v1"
 
 
 class ActionBuilder:
-    """
-    Args:
-        api_token: str
-            The OSDI API token
-        subdomain: str
-            The part of the web app URL preceding '.actionbuilder.org'
-        campaign: str
-            Optional. The 36-character "interact ID" of the campaign whose data is to be retrieved
-            or edited. Can also be supplied in individual methods in case multiple campaigns need
-            to be referenced.
+    """Parsons connector for interacting with ActBlue endpoints."""
 
-    """
+    def __init__(
+        self,
+        api_token: str | None = None,
+        subdomain: str | None = None,
+        campaign: str | None = None,
+    ):
+        """
+        Instantiate the ActionBuilder class.
 
-    def __init__(self, api_token=None, subdomain=None, campaign=None):
-        self.api_token = check_env.check("ACTION_BUILDER_API_TOKEN", api_token)
-        self.headers = {
-            "Content-Type": "application/json",
-            "OSDI-API-Token": self.api_token,
-        }
+        Args:
+            api_token:
+                The OSDI API token
+            subdomain:
+                The part of the web app URL preceding ``.actionbuilder.org``
+            campaign:
+                The 36-character ``interact ID`` of the campaign whose data is to be retrieved or edited.
+                Can also be supplied in individual methods in case multiple campaigns need to be referenced.
+
+        """
         self.api_url = API_URL.format(subdomain=subdomain)
-        self.api = APIConnector(self.api_url, headers=self.headers)
+        api_token = check_env.check("ACTION_BUILDER_API_TOKEN", api_token)
+        auth = BearerAuth(api_token, header_name="OSDI-API-Token", token_name=None)
+        headers = {"Content-Type": "application/json"}
+        self.api = APIConnector(self.api_url, headers=headers, auth=auth)
         self.campaign = campaign
 
     def _campaign_check(self, campaign):
@@ -91,7 +97,7 @@ class ActionBuilder:
 
     def get_campaign_tags(self, campaign=None, limit=None, per_page=25, filter=None):
         """
-        Retrieve all tags (i.e. custom field values) within provided limit and filters
+        Retrieve all tags (i.e. custom field values) within provided limit and filters.
 
         Args:
             campaign: str
@@ -115,7 +121,7 @@ class ActionBuilder:
 
     def get_tag_by_name(self, tag_name, campaign=None):
         """
-        Convenience method to retrieve data on a single tag by its name/value
+        Retrieve data on a single tag by its name/value.
 
         Args:
             tag_name: str
@@ -134,8 +140,9 @@ class ActionBuilder:
 
     def insert_new_tag(self, tag_name, tag_field, tag_section, campaign=None):
         """
-        Load a new tag value into Action Builder. Required before applying the value to any entity
-        records.
+        Load a new tag value into Action Builder.
+
+        Required before applying the value to any entity records.
 
         Args:
             tag_name: str
@@ -259,7 +266,9 @@ class ActionBuilder:
 
     def remove_entity_record_from_campaign(self, identifier, campaign=None):
         """
-        Remove an entity record from a campaign. Records cannot be permanently deleted, but a
+        Remove an entity record from a campaign.
+
+        Records cannot be permanently deleted, but a
         record that has been removed from a campaign will not appear in the UI.
 
         Args:
@@ -281,9 +290,10 @@ class ActionBuilder:
 
     def add_section_field_values_to_record(self, identifier, section, field_values, campaign=None):
         """
-        Add one or more tags (i.e. custom field value) to an existing entity record in Action
-        Builder. The tags, along with their field and section, must already exist (except for
-        date fields).
+        Add one or more tags (i.e. custom field value) to an existing entity record.
+
+        The tags, along with their field and section,
+        must already exist (except for date fields).
 
         Args:
             identifier: str
@@ -323,8 +333,7 @@ class ActionBuilder:
         campaign: str | None = None,
     ) -> dict[str, Any] | int | None:
         """
-        Remove one or more tags (i.e. custom field value) from
-        an existing entity or connection record in Action Builder.
+        Remove one or more tags (i.e. custom field value) from an existing entity or connection record.
 
         The basis for this end point is the combination of the
         tag's interact ID and that of the specific tagging.
@@ -412,6 +421,7 @@ class ActionBuilder:
     def upsert_connection(self, identifiers, tag_data=None, campaign=None, reactivate=True):
         """
         Load or update a connection record in Action Builder between two existing entity records.
+
         Only one connection record is allowed per pair of entities, so if the connection already
         exists, this method will update, but will otherwise create a new connection record.
 
@@ -475,8 +485,9 @@ class ActionBuilder:
         campaign=None,
     ):
         """
-        Deactivate an existing connection record in Action Builder between two existing entity
-        records. Only one connection record is allowed per pair of entities, so this can be done
+        Deactivate an existing connection record in Action Builder between two existing entity records.
+
+        Only one connection record is allowed per pair of entities, so this can be done
         by supplying the ID for the connection record, or for the two connected entity records.
 
         Args:

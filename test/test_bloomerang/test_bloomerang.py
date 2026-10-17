@@ -37,7 +37,9 @@ class TestBloomerang(unittest.TestCase):
     def test_authentication(self, m):
         # API key
         bloomerang = Bloomerang(api_key="my_key")
-        assert bloomerang.conn.headers["X-API-KEY"] == "my_key"
+        assert bloomerang.conn.auth.api_key == "my_key"
+        assert bloomerang.conn.auth.header_name == "X-API-KEY"
+        assert bloomerang.conn.auth.token_name is None
 
         # OAuth2
         m.post(url=bloomerang.uri_auth, json={"code": "my_auth_code"})
@@ -45,7 +47,7 @@ class TestBloomerang(unittest.TestCase):
         bloomerang = Bloomerang(client_id="my_id", client_secret="my_secret")
         assert bloomerang.authorization_code == "my_auth_code"
         assert bloomerang.access_token == "my_access_token"
-        assert bloomerang.conn.headers["Authorization"] == "Bearer my_access_token"
+        assert bloomerang.conn.auth.api_key == "my_access_token"
 
     def test_base_endpoint(self):
         url = self.bloomerang._base_endpoint("constituent")

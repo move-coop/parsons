@@ -3,6 +3,7 @@ import logging
 
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +34,13 @@ class Sisense:
         self.api = self._api()
 
     def _api(self):
-        headers = {"HTTP-X-PARTNER-AUTH": self.site_name + ":" + self.api_key}
-        return APIConnector(uri=self.uri, headers=headers)
+        auth = BearerAuth(
+            self.api_key,
+            header_name="HTTP-X-PARTNER-AUTH",
+            token_name=self.site_name,
+            token_divider=":",
+        )
+        return APIConnector(uri=self.uri, auth=auth)
 
     def publish_shared_dashboard(
         self, dashboard_id: str | int, chart_id: str | int = None, **kwargs

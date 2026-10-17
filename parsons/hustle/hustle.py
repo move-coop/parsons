@@ -1,12 +1,15 @@
 import logging
-from datetime import datetime, timedelta
-from typing import NoReturn
+from datetime import datetime, timedelta, timezone
 
 from requests import Response, request
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
 
 from parsons.etl.table import Table
 from parsons.hustle.column_map import LEAD_COLUMN_MAP
 from parsons.utilities import check_env, json_format
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
@@ -15,59 +18,61 @@ PAGE_LIMIT = 1000
 
 
 class Hustle:
-    """
-    Instantiate Hustle Class
+    """Parsons connector for interacting with Hustle endpoints."""
 
-    Args:
-        client_id:
-            The client id provided by Hustle. Not required if ``HUSTLE_CLIENT_ID`` env variable
-            set.
-        client_secret:
-            The client secret provided by Hustle. Not required if ``HUSTLE_CLIENT_SECRET`` env
-            variable set.
+    auth: BearerAuth = None
 
-    Returns:
-        Hustle Class
+    def __init__(self, client_id: str | None = None, client_secret: str | None = None) -> None:
+        """
+        Instantiate the Hustle class.
 
-    """
+        Args:
+            client_id:
+                The client id provided by Hustle.
+                Not required if ``HUSTLE_CLIENT_ID`` env variable set.
+            client_secret:
+                The client secret provided by Hustle.
+                Not required if ``HUSTLE_CLIENT_SECRET`` env variable set.
 
-    def __init__(self, client_id: str | None = None, client_secret: str | None = None):
+        """
         self.uri = HUSTLE_URI
         self.client_id = check_env.check("HUSTLE_CLIENT_ID", client_id)
         self.client_secret = check_env.check("HUSTLE_CLIENT_SECRET", client_secret)
-        self.auth_token, self.token_expiration = self._get_auth_token(
-            self.client_id, self.client_secret
-        )
+        self._get_auth_token()
 
-    def _get_auth_token(self, client_id: str, client_secret: str):
+    @property
+    @deprecated("Use 'Hustle.auth.api_key' instead.")
+    def auth_token(self):
+        return self.auth.api_key
+
+    @property
+    @deprecated("Use 'Hustle.auth.expires' instead.")
+    def token_expiration(self):
+        return self.auth.expires
+
+    def _get_auth_token(
+        self, client_id: str | None = None, client_secret: str | None = None
+    ) -> tuple[str, datetime]:
         """Generate an authorization token."""
         data = {
-            "client_id": client_id,
-            "client_secret": client_secret,
+            "client_id": client_id or self.client_id,
+            "client_secret": client_secret or self.client_secret,
             "grant_type": "client_credentials",
         }
 
         resp = request("POST", self.uri + "oauth/token", data=data)
         resp_json = resp.json()
         logger.debug(resp_json)
+        expires_in = resp_json["expires_in"]
+        token = resp_json["access_token"]
+        logger.info("Authentication token generated; expires in %s seconds", expires_in)
+        expiration = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+        if self.auth is None:
+            self.auth = BearerAuth(token, refresh_callback=self._get_auth_token)
+        self.auth.api_key = token
+        self.auth.expires = expiration
 
-        auth_token = resp_json["access_token"]
-        token_expiration = datetime.now() + timedelta(seconds=resp_json["expires_in"])
-        logger.info("Authentication token generated")
-        return auth_token, token_expiration
-
-    def _refresh_token(self):
-        """Generate new token if current token is exprired.
-
-        Tokens are valid for `expires_in` (7200 by default) seconds.
-        """
-        logger.debug("Checking token expiration.")
-
-        if datetime.now() >= self.token_expiration:
-            logger.info("Refreshing authentication token.")
-            self.auth_token, self.token_expiration = self._get_auth_token(
-                self.client_id, self.client_secret
-            )
+        return self.auth.api_key, self.auth.expires
 
     def _request(
         self,
@@ -78,9 +83,6 @@ class Hustle:
         raise_on_error: bool = True,
     ) -> dict | list:
         url = self.uri + endpoint
-        self._refresh_token()
-
-        headers = {"Authorization": f"Bearer {self.auth_token}"}
 
         parameters = {}
         if req_type == "GET":
@@ -89,7 +91,7 @@ class Hustle:
         if args:
             parameters.update(args)
 
-        resp = request(req_type, url, params=parameters, json=payload, headers=headers)
+        resp = request(req_type, url, params=parameters, json=payload, auth=self.auth)
 
         self._error_check(resp, raise_on_error)
         resp_json = resp.json()
@@ -103,14 +105,14 @@ class Hustle:
         # Pagination
         while resp_json["pagination"]["hasNextPage"] == "true":
             parameters["cursor"] = resp_json["pagination"]["cursor"]
-            resp = request(req_type, url, params=parameters, headers=headers)
+            resp = request(req_type, url, params=parameters, auth=self.auth)
             self._error_check(resp, raise_on_error)
             resp_json = resp.json()
             result += resp_json["items"]
 
         return result
 
-    def _error_check(self, resp: Response, raise_on_error: bool) -> NoReturn | None:
+    def _error_check(self, resp: Response, raise_on_error: bool) -> None:
         """Check response for errors."""
         if resp.status_code in (200, 201):
             logger.debug(resp.json())
@@ -330,7 +332,9 @@ class Hustle:
 
     def get_leads(self, organization_id: str | None = None, group_id: str | None = None) -> Table:
         """
-        Get leads metadata. One of ``organization_id`` and ``group_id`` must be passed
+        Get leads metadata.
+
+        One of ``organization_id`` and ``group_id`` must be passed
         as an argument. If both are passed, an error will be raised.
 
         Args:
@@ -421,8 +425,10 @@ class Hustle:
 
     def create_leads(self, table: Table, group_id: str | None = None) -> Table:
         """
-        Create multiple leads. All unrecognized fields will be passed as custom fields. Column
-        names must map to the following names.
+        Create multiple leads.
+
+        All unrecognized fields will be passed as custom fields.
+        Column names must map to the following names.
 
         .. list-table::
             :widths: 20 80

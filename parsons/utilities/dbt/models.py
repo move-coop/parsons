@@ -65,7 +65,14 @@ class Manifest:
 
     @property
     def dbt_manifest(self) -> RunExecutionResult:
-        """Legacy proxy to new attribute."""
+        """
+        Legacy proxy to new attribute.
+
+        .. version-deprecated:: v6.0.0
+
+            Deprecated `dbt_manifest` attribute in favor of `run_execution_result`, as the former was a misnomer.
+
+        """
         warnings.warn(
             "dbt_manifest attribute is deprecated, use run_execution_result instead.",
             category=DeprecationWarning,

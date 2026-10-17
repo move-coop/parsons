@@ -1,4 +1,5 @@
 import logging
+from collections import Counter
 
 import censusgeocode
 import petl
@@ -134,9 +135,11 @@ class CensusGeocoder:
 
         geocoded_tbl = Table([[]])
         for tbl in chunked_tables:
-            geocoded_tbl.concat(
-                Table(petl.fromdicts(self.cg.addressbatch(tbl, timeout=self.timeout)))
-            )
+            results = self.cg.addressbatch(tbl, timeout=self.timeout)
+            expected_ids = Counter("" if id_ is None else str(id_) for id_ in tbl["id"])
+            if Counter(row["id"] for row in results) != expected_ids:
+                raise ValueError("Census batch response IDs do not match submitted IDs.")
+            geocoded_tbl.concat(Table(petl.fromdicts(results)))
             records_processed += tbl.num_rows
             logger.info("%s of %s records processed.", records_processed, table.num_rows)
 

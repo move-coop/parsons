@@ -1,0 +1,111 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/agent_assignments/478171
+  response:
+    body:
+      string: '{"data":{"id":478171,"agent_user_id":2189275,"user_id":2192958,"created_at":"2025-08-11T12:18:47.747-04:00","is_active":true},"meta":{"total_count":1,"limit":1,"offset":0}}'
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 05 Sep 2026 13:30:17 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=2cab9436-f74c-4ba1-96a3-6e51fd00909c; path=/; expires=Tue, 05
+        Sep 2028 13:30:17 GMT; samesite=lax; secure
+      - ahoy_visit=8de5318e-358c-4b18-b656-57d10eb6ba9c; path=/; expires=Sat, 05 Sep
+        2026 17:30:17 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 747aa0aabf4e8bc9807d0bc2f5a6d7c0.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - 88pSfo5rFan4w5KxnZEIz30myHxR94JTYv4G-1P-wLKrrU05XvdYgA==
+      X-Amz-Cf-Pop:
+      - BOS50-P2
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 14a98846-5b3d-4e60-9296-a38d57ee0cf7
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

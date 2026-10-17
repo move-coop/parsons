@@ -13,7 +13,7 @@ class TestDaisychain(unittest.TestCase):
 
     def test_initialization(self):
         """Test that Daisychain initializes with correct API token header."""
-        assert self.connector.connection.headers["X-API-Token"] == self.api_token
+        assert self.connector.connection.session.headers["X-API-Token"] == self.api_token
         assert self.connector.connection.uri == "https://go.daisychain.app/api/v1/"
 
     @requests_mock.Mocker()

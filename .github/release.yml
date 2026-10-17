@@ -3,23 +3,31 @@ changelog:
     - title: Breaking Changes
       labels:
         - breaking-change
+
     - title: New Features
       labels:
         - connector-update
         - new-connector
         - parsons-core
+        - enhancement
+
     - title: Automated Testing
       labels:
         - testing
+
     - title: Bug Fixes
       labels:
         - bug-fix
+        - bug
+
     - title: Documentation
       labels:
         - documentation
-    # - title: New Contributors
-    #   labels:
-    #     -🎉-first-PR
+
+    - title: New Contributors
+      labels:
+        - 🎉-first-PR
+
     - title: Other Changes
       labels:
-        - "*"
+        - '*'

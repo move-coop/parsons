@@ -1,0 +1,112 @@
+interactions:
+- request:
+    body: '{"event_id": 30053, "title": "test event", "start_time": 1791809951, "end_time":
+      1791817151}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '92'
+      User-Agent:
+      - python-requests/2.34.2
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+      content-type:
+      - application/json
+    method: POST
+    uri: https://api.solidarity.tech/v1/event_sessions
+  response:
+    body:
+      string: '{"data":{"id":103352,"mobilize_event_id":30053,"start_time":"2026-10-12T05:59:11.000-07:00","end_time":"2026-10-12T07:59:11.000-07:00","title":"test
+        event","created_at":"2026-09-11T18:05:15.108-07:00","updated_at":"2026-09-11T18:05:15.121-07:00","location_name":null,"location_data":null,"lonlat":null,"location_address":null,"show_rsvp_bar":true,"show_title_in_form":false,"max_capacity":0,"note":null,"tags":[],"zoom_account_id":null,"zoom_meeting_id":null,"zoom_meeting_data":null,"zoom_join_before_host":false,"zoom_attendance_synced_at":null,"source_calendar_item_id":null,"event_type":"in_person","paired_meci_id":null,"recurring_schedule_id":null,"mobilize_event_task_id":null,"host_user_ids":[],"rsvp_count":0,"attendance_count":0,"host_tools_url":"https://www.solidarity.tech/h/Ud3_GGrQBXrK-ROLzo4rLO0LkzkTiwNrvMZaQgEreHM","primary_session_id":103352,"city_state_label":null}}'
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 12 Sep 2026 01:05:15 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 cc68534c650c96afc37524c99c69a692.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - bAvQ-5ol2C86rztGkHHPXO2tNFvAwo01yUcYjtLNaicp5P9GyIrg8Q==
+      X-Amz-Cf-Pop:
+      - BOS50-P6
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - a4c07951-5575-4270-8af0-3468f26a1a08
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 201
+      message: Created
+version: 1

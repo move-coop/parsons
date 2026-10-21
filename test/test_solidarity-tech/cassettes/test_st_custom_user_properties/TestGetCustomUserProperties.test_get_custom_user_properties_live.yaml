@@ -1,0 +1,145 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      accept:
+      - application/json
+      authorization:
+      - Bearer 9y8eg37zy2viz3rxkjn9qbi829iz88n29cv0q8nfyequbk9j0n9vpo3iyv0hr7v3wxtmmdx58jj00l6b01nnuc1rzvancxaonsiuqm1ohqjh8xx15c6cjr3gxdokzsb5
+    method: GET
+    uri: https://api.solidarity.tech/v1/custom_user_properties?_limit=20&_offset=0&_since=0
+  response:
+    body:
+      string: '{"data":[{"id":191,"name":"Account Type","key":"account-type","field_type":"radios","options":[{"label":{"en":"Worker"},"value":"M3gMugXt"},{"label":{"en":"Community
+        Supporter"},"value":"846llQSM"}],"required":false,"label":"Account Type","description":"","scope_id":41,"scope_type":"Organization","created_at":"2023-07-27T16:53:15.737-04:00"},{"id":207,"name":"Employer","key":"employer","field_type":"input","options":[{"label":{"en":""},"value":"option-1"}],"required":false,"label":"Employer","description":"","scope_id":41,"scope_type":"Organization","created_at":"2023-11-28T02:13:18.493-05:00"},{"id":3239,"name":"Building
+        Campaign [TOTU Test]","key":"campaign","field_type":"checkboxes","options":[{"label":{"en":"Rowena
+        Campaign"},"value":"DUT9kpiQ"}],"required":false,"label":"Building Campaign
+        [TOTU Test]","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-02-15T21:01:07.033-05:00"},{"id":5328,"name":"Faith
+        Affiliation","key":"faith-affiliation","field_type":"checkboxes","options":[{"label":{"en":"Church
+        1"},"value":"NclcCD75"}],"required":false,"label":"Faith Affiliation","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-05-18T16:45:48.726-04:00"},{"id":4446,"name":"Flood
+        Relief Support Needs","key":"flood-relief-support-needs","field_type":"checkboxes","options":[{"label":{"en":"Muck
+        Up"},"value":"ZxqCYOy2"},{"label":{"en":"Debris Removal"},"value":"zOWq6mim"}],"required":false,"label":"Flood
+        Relief Support Needs","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-04-09T00:00:16.914-04:00"},{"id":3179,"name":"Interests","key":"interests","field_type":"textarea","options":[],"required":false,"label":"Interests","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-02-12T11:16:44.312-05:00"},{"id":2613,"name":"Issue
+        Area","key":"issue-area","field_type":"checkboxes","options":[{"label":{"en":"Demilitarization"},"value":"qZoaPpjg"},{"label":{"en":"GRF"},"value":"PwlXze7N"},{"label":{"en":"EJ"},"value":"5I6iSyOH"}],"required":false,"label":"Issue
+        Area","description":"Interested in","scope_id":41,"scope_type":"Organization","created_at":"2026-01-15T15:28:26.313-05:00"},{"id":218,"name":"job
+        title","key":"job-title2","field_type":"input","options":[{"label":{"en":""},"value":"option-1"}],"required":false,"label":"job
+        title","description":"","scope_id":296,"scope_type":"Chapter","created_at":"2023-12-20T13:42:53.136-05:00"},{"id":216,"name":"job
+        title","key":"job-title","field_type":"input","options":[{"label":{"en":""},"value":"option-1"}],"required":false,"label":"job
+        title","description":"","scope_id":293,"scope_type":"Chapter","created_at":"2023-12-20T13:40:40.425-05:00"},{"id":5239,"name":"Legislative
+        Body","key":"legislative-body","field_type":"select","options":[{"label":{"en":"Representative"},"value":"8PNwFZgr"},{"label":{"en":"Senator"},"value":"Qphhk7w3"}],"required":false,"label":"Legislative
+        Body","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-05-13T09:11:08.715-04:00"},{"id":1305,"name":"Multiple
+        options checkbox test","key":"multiple-options-checkbox-test","field_type":"checkboxes","options":[{"label":{"en":"Option
+        1"},"value":"LvZcKkth"},{"label":{"en":"Option 2"},"value":"byP6HNTQ"}],"required":false,"label":"Multiple
+        options checkbox test","description":"","scope_id":41,"scope_type":"Organization","created_at":"2025-09-03T16:34:08.102-04:00"},{"id":3180,"name":"Resources","key":"resources","field_type":"textarea","options":[],"required":false,"label":"Resources","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-02-12T11:16:57.089-05:00"},{"id":3846,"name":"Training","key":"training","field_type":"checkboxes","options":[{"label":{"en":"Onboarded"},"value":"3O2XoXCQ"},{"label":{"en":"Onboarding
+        Training"},"value":"qojuPeMl"},{"label":{"en":"Organizing 101"},"value":"pwauBP62"},{"label":{"en":"Training
+        of Trainers"},"value":"kSnw76wJ"}],"required":false,"label":"Training","description":"","scope_id":187,"scope_type":"Organization","created_at":"2026-03-10T11:45:27.005-04:00"},{"id":3178,"name":"Values","key":"values","field_type":"input","options":[],"required":false,"label":"Values","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-02-12T11:16:30.580-05:00"},{"id":209,"name":"Work
+        Status","key":"work-status","field_type":"select","options":[{"label":{"en":"Current
+        employee"},"value":"M4VAUVaA"}],"required":false,"label":"Work Status","description":"","scope_id":41,"scope_type":"Organization","created_at":"2023-11-28T02:24:19.486-05:00"},{"id":7135,"name":"Youth
+        Chapter","key":"youth-chapter","field_type":"select","options":[{"label":{"en":"ELA"},"value":"PJNphpk2"},{"label":{"en":"SGV"},"value":"Q51Vzs2Q"}],"required":false,"label":"Youth
+        Chapter","description":"","scope_id":41,"scope_type":"Organization","created_at":"2026-07-29T11:33:17.693-04:00"},{"id":7292,"name":"Tradition","key":"tradition","field_type":"select","options":[{"label":{"en":""},"value":"0z5RKb2a"},{"label":{"en":"Methodist"},"value":"IYbhthTN"},{"label":{"en":"Baptists"},"value":"BOx3bCbn"},{"label":{"en":"Anglican"},"value":"UB4ddceO"},{"label":{"en":"Episcopalian"},"value":"kwhcZ4QL"},{"label":{"en":"Catholic"},"value":"eW8SBzqc"},{"label":{"en":"Unitarian
+        Universalist"},"value":"1lqhSoDq"},{"label":{"en":"UCC"},"value":"qFkahi9Q"},{"label":{"en":"DoC"},"value":"eSEKtE7f"},{"label":{"en":"Non-Denominational"},"value":"cRwL6Fpn"},{"label":{"en":"Conservative"},"value":"zftUJ4j0"},{"label":{"en":"Reformed"},"value":"auRX8w8u"},{"label":{"en":"Orthodox"},"value":"a24Pc2zC"},{"label":{"en":"Russian
+        Orthodox"},"value":"URXcE8UH"},{"label":{"en":"Eastern Orthodox"},"value":"KNYoqD28"},{"label":{"en":"Greek
+        Orthodox"},"value":"cxL78BD4"},{"label":{"en":"Ethiopian Orthodox"},"value":"q9U2GXgk"}],"required":false,"label":"Tradition","description":"What
+        tradition do you identify with","scope_id":41,"scope_type":"Organization","created_at":"2026-08-05T11:55:48.526-04:00"},{"id":7956,"name":"Committee","key":"committee","field_type":"select","options":[{"label":"Organizing
+        Committee","value":"Organizing Committee"},{"label":"Steward","value":"Steward"}],"required":false,"label":"Committee","description":null,"scope_id":41,"scope_type":"Organization","created_at":"2026-08-25T02:25:46.704-04:00"},{"id":7955,"name":"Facility","key":"facility","field_type":"select","options":[{"label":"Women
+        \u0026 Infants","value":"Women \u0026 Infants"},{"label":"Kent Hospital","value":"Kent
+        Hospital"},{"label":"Butler Hospital","value":"Butler Hospital"},{"label":"Fatima
+        Hospital","value":"Fatima Hospital"}],"required":false,"label":"Facility","description":null,"scope_id":41,"scope_type":"Organization","created_at":"2026-08-25T02:25:46.511-04:00"}],"meta":{"total_count":19,"limit":20,"offset":0}}'
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=86400
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy-Report-Only:
+      - 'default-src ''self''; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+        https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com
+        https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io https://*.intercomcdn.com
+        https://js.stripe.com https://maxcdn.bootstrapcdn.com https://unpkg.com https://oss.maxcdn.com
+        https://www.gstatic.com https://www.google.com https://cdn.tiny.cloud https://s3.amazonaws.com/solidarity.tech/
+        https://js-agent.newrelic.com https://editor.unlayer.com https://code.jquery.com
+        https://api.mapbox.com https://platform.twitter.com https://cdn.jsdelivr.net
+        https://plausible.io https://googleads.g.doubleclick.net https://www.googleadservices.com
+        https://*.sentry-cdn.com https://connect.facebook.net https://sc.lfeeder.com
+        https://cdn.solidarity.tech; style-src ''self'' ''unsafe-inline'' https://fonts.googleapis.com
+        https://s3.amazonaws.com/solidarity.tech/ https://irdu.s3.amazonaws.com https://cdn.tiny.cloud
+        https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://unpkg.com
+        https://*.intercomcdn.com https://api.mapbox.com https://cdn.jsdelivr.net
+        https://cdn.solidarity.tech; img-src ''self'' data: blob: https:; font-src
+        ''self'' data: https://fonts.gstatic.com https://s3.amazonaws.com/solidarity.tech/
+        https://irdu.s3.amazonaws.com https://cdnjs.cloudflare.com https://*.intercomcdn.com
+        https://maxcdn.bootstrapcdn.com https://cdn.solidarity.tech; connect-src ''self''
+        https://api.stripe.com https://maps.googleapis.com https://*.posthog.com https://*.i.posthog.com
+        https://b.solidarity.tech https://*.intercom.io wss://*.intercom.io wss://*.intercom-messenger.com
+        https://*.intercom-messenger.com https://*.intercomcdn.com https://*.intercomusercontent.com
+        https://*.google-analytics.com https://www.googletagmanager.com wss://*.twilio.com
+        https://api.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://sdk.twilio.com https://eventgw.us1.twilio.com https://*.airbrake.io
+        https://api.mapbox.com https://events.mapbox.com https://api.maptiler.com
+        https://*.ingest.us.sentry.io https://*.nr-data.net https://tiles.openfreemap.org
+        https://*.basemaps.cartocdn.com https://basemaps.cartocdn.com https://tile.openstreetmap.org
+        https://server.arcgisonline.com https://demotiles.maplibre.org https://plausible.io
+        https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com
+        https://google.com https://pagead2.googlesyndication.com https://s3.amazonaws.com/solidarity.tech/
+        https://fonts.googleapis.com https://irdu.s3.amazonaws.com https://fonts.gstatic.com
+        https://*.sentry-cdn.com https://cdn.jsdelivr.net https://unpkg.com https://sc.lfeeder.com
+        https://cdn.solidarity.tech; frame-src ''self'' https://js.stripe.com https://hooks.stripe.com
+        https://intercom-sheets.com https://www.recaptcha.net https://www.google.com
+        https://www.gstatic.com https://editor.unlayer.com https://platform.twitter.com
+        https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com
+        https://player.vimeo.com https://*.solidarity.tech; media-src ''self'' data:
+        https://api.twilio.com https://sdk.twilio.com https://mms.twiliocdn.com https://s3-external-1.amazonaws.com/media.twiliocdn.com/
+        https://s3.amazonaws.com/solidarity.tech/ https://*.intercomcdn.com; worker-src
+        ''self'' blob:; frame-ancestors ''self''; object-src ''none''; base-uri ''self'';
+        report-uri /csp-violation-reports'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 07 Sep 2026 16:38:36 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Set-Cookie:
+      - ahoy_visitor=1b8515c4-00cb-41e7-b2bb-3dd3404dbc25; path=/; expires=Thu, 07
+        Sep 2028 16:38:36 GMT; samesite=lax; secure
+      - ahoy_visit=c9e05faf-de53-43a7-8683-0158573db33e; path=/; expires=Mon, 07 Sep
+        2026 20:38:36 GMT; samesite=lax; secure
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 72c5507eb12b90ee64dffce94e2ab6e4.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - __2YO5RtXsAhDdzz8jLQKEyGs7e1RLi2iEcP7z7hTc1ikMGPfEaI6A==
+      X-Amz-Cf-Pop:
+      - BOS50-P6
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - 66bbf056-280a-4453-923d-2ed04adfeef4
+      X-Xss-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

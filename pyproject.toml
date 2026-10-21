@@ -30,6 +30,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+    # Floor for eMudhra/emSign intermediate CA key compromise (GHSA-6q48-6c7w-9gw2).
+    # requests pulls certifi transitively; pin explicitly so installs cannot resolve an affected bundle.
+    "certifi >= 2026.10.19",
     "petl >= 1.7.17",
     "python-dateutil >= 2.0",
     "requests >= 2.0",

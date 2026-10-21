@@ -1,8 +1,8 @@
 [build-system]
 requires = [
-    "build>=1.4",
-    "setuptools>=80.0",
-    "twine>=6.0",
+    "build >= 1.4",
+    "setuptools >= 80.0",
+    "twine >= 6.0",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -198,6 +198,7 @@ docs = [
     "furo >= 2025.12",
     "myst-parser >= 4.0",
     "packaging >= 26.0",
+    "setuptools >= 80, < 82",
     "sphinxcontrib-googleanalytics >= 0.5",
     "sphinx-lint >= 1.0, < 2.0",
     "sphinx-multiversion-scylla >= 0.3",

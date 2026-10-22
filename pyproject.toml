@@ -30,6 +30,9 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+    # Floor for eMudhra/emSign intermediate CA key compromise (GHSA-6q48-6c7w-9gw2).
+    # requests pulls certifi transitively; pin explicitly so installs cannot resolve an affected bundle.
+    "certifi >= 2026.10.19",
     "petl >= 1.7.17",
     "posthog >= 7.51",
     "python-dateutil >= 2.0",
@@ -52,14 +55,14 @@ catalist = ["paramiko >= 3.0"]
 civis = ["civis >= 2.0"]
 dbt-duckdb = [
     "dbt-duckdb >= 1.8",
-    "dbt-core>=1.8;python_version<'3.14'",
-    "dbt-core>=1.12;python_version>='3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12; python_version >= '3.14'",
     "rich >= 14.0"
 ]
 dbt-redshift = [
     "dbt-redshift >= 1.8",
-    "dbt-core>=1.8;python_version<'3.14'",
-    "dbt-core>=1.12;python_version>='3.14'",
+    "dbt-core >= 1.8; python_version < '3.14'",
+    "dbt-core >= 1.12;python_version >= '3.14'",
     "lxml >= 6.0.1",
     "rich >= 14.0",
 ]
@@ -76,7 +79,8 @@ dbt-postgres = [
     "rich >= 14.0",
 ]
 dbt-snowflake = [
-    "dbt-snowflake >= 1.8",
+    "dbt-snowflake >= 1.8; python_version < '3.14'",
+    "dbt-snowflake >= 1.12; python_version >= '3.14'",
     "dbt-core >= 1.8; python_version < '3.14'",
     "dbt-core >= 1.12; python_version >= '3.14'",
     "rich >= 14.0",
@@ -118,11 +122,15 @@ postgres = [
     "sqlalchemy >= 1.4",
 ]
 redshift = [
-    "boto3 >= 1.0",
+    "boto3 >= 1.0; python_version < '3.14'",
+    "boto3 >= 1.40; python_version >= '3.14'",
     "psycopg2-binary >= 2.9.11",
     "sqlalchemy >= 1.4",
 ]
-s3 = ["boto3 >= 1.0"]
+s3 = [
+    "boto3 >= 1.0; python_version < '3.14'",
+    "boto3 >= 1.40; python_version >= '3.14'",
+]
 salesforce = ["simple-salesforce >= 1.0"]
 scytl = ["defusedxml >= 0.7"]
 sftp = ["paramiko >= 3.0"]

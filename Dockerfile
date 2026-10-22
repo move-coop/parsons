@@ -33,6 +33,10 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
 
+# pyproject.toml floors certifi at 2026.10.19 (eMudhra/emSign CA incident)
+# assert version complies, so a bad resolve fails the image build instead of shipping.
+RUN python -c 'import certifi; assert [int(p) for p in certifi.__version__.split(".")] >= [2026, 10, 19], certifi.__version__'
+
 ###########################################
 ## Startup ##
 ###########################################

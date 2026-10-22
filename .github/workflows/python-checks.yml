@@ -20,6 +20,7 @@ env:
     files.pythonhosted.org:443
     *.github.com:443
     *.githubusercontent.com:443
+  UV_MANAGED_PYTHON: true
 
 jobs:
   pytest:
@@ -56,7 +57,7 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -114,7 +115,7 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -172,7 +173,7 @@ jobs:
           - 'highest'
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -215,7 +216,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -254,7 +255,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -306,7 +307,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -359,7 +360,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -388,7 +389,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit
@@ -425,7 +426,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
           disable-sudo: true
           egress-policy: audit

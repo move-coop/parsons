@@ -1,7 +1,7 @@
 ###########################################
 ## Setup Environment
 ###########################################
-FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:4bf4ce1c06fbeecaf116c05f85916a3264807d47694f3ffc09ca0ddf952348ea AS builder
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5 AS builder
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 ###########################################
 ## Simplify Runtime Image
 ###########################################
-FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:4bf4ce1c06fbeecaf116c05f85916a3264807d47694f3ffc09ca0ddf952348ea
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5
 
 RUN groupadd --system --gid 999 nonroot \
     && useradd --system --gid 999 --uid 999 --create-home nonroot

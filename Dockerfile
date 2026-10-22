@@ -1,7 +1,9 @@
 ###########################################
 ## Setup Environment
 ###########################################
+
 FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5 AS builder
+
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
@@ -15,12 +17,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --no-install-project --all-extras # --frozen
 
 COPY . /app
+
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --all-extras --no-editable # --frozen
 
 ###########################################
 ## Simplify Runtime Image
 ###########################################
+
 FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5
 
 RUN groupadd --system --gid 999 nonroot \
@@ -42,5 +46,7 @@ RUN python -c 'import certifi; assert [int(p) for p in certifi.__version__.split
 ###########################################
 
 ENTRYPOINT []
+
 USER nonroot
+
 CMD ["python3"]

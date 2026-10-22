@@ -783,7 +783,7 @@ class GoogleBigQuery(DatabaseConnector):
         tmp_gcs_bucket = (
             tmp_gcs_bucket
             or self.tmp_gcs_bucket
-            or str(check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket))
+            or check_env.check("GCS_TEMP_BUCKET", tmp_gcs_bucket)
         )
         gcs_client = gcs_client or GoogleCloudStorage()
         gcs_client.copy_bucket_to_gcs(

@@ -1,19 +1,24 @@
 import json
 import logging
 import time
-from typing import Any, cast
+from typing import Any, Literal, cast
 from urllib.parse import parse_qs, urlparse
+
+from typing_extensions import (
+    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
+)
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
 from parsons.utilities.api_connector import APIConnector
+from parsons.utilities.bearer_auth import BearerAuth
 
 logger = logging.getLogger(__name__)
 
 
 class NationBuilder:
     """
-    Instantiate the NationBuilder class
+    Instantiate the NationBuilder class.
 
     Args:
         slug: str
@@ -29,11 +34,10 @@ class NationBuilder:
     def __init__(self, slug: str | None = None, access_token: str | None = None) -> None:
         slug = check_env.check("NB_SLUG", slug)
         token = check_env.check("NB_ACCESS_TOKEN", access_token)
-
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
-        headers.update(NationBuilder.get_auth_headers(token))
+        auth = BearerAuth(NationBuilder.validate_auth(token))
 
-        self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers)
+        self.client = APIConnector(NationBuilder.get_uri(slug), headers=headers, auth=auth)
 
     @classmethod
     def get_uri(cls, slug: str | None) -> str:
@@ -49,7 +53,19 @@ class NationBuilder:
         return f"https://{slug}.nationbuilder.com/api/v1"
 
     @classmethod
-    def get_auth_headers(cls, access_token: str | None) -> dict[str, str]:
+    @deprecated("Auth headers are now handled automatically by requests.")
+    def get_auth_headers(cls, access_token: str | None) -> dict[Literal["authorization"], str]:
+        """
+        Return authorization headers for a given access token.
+
+        Deprecated: Use `validate_auth` instead.
+
+        """
+        return {"authorization": f"Bearer {cls.validate_auth(access_token)}"}
+
+    @classmethod
+    def validate_auth(cls, access_token: str | None) -> str:
+        """Check that `access_token` is a valid string."""
         if access_token is None:
             raise ValueError("access_token can't be None")
 
@@ -59,7 +75,7 @@ class NationBuilder:
         if len(access_token.strip()) == 0:
             raise ValueError("access_token can't be an empty str")
 
-        return {"authorization": f"Bearer {access_token}"}
+        return access_token
 
     @classmethod
     def parse_next_params(cls, next_value: str) -> tuple[str, str]:

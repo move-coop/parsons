@@ -15,8 +15,8 @@ RUN mkdir /src
 COPY . /src/
 WORKDIR /src
 
-# Install uv (use a release that ships a patched CA bundle for package installs)
-COPY --from=ghcr.io/astral-sh/uv:0.13.4 /uv /uvx /bin/
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Install parsons. pyproject.toml floors certifi at 2026.10.19 (eMudhra/emSign CA
 # incident); assert so a bad resolve fails the image build instead of shipping.

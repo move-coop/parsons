@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import importlib
 import logging
 import os
-import warnings
 
 # Define the default logging config for Parsons and its submodules. For now the
 # logger gets a StreamHandler by default. At some point a NullHandler may be more
@@ -12,19 +13,8 @@ _formatter = logging.Formatter("%(module)s %(levelname)s %(message)s")
 _handler.setFormatter(_formatter)
 logger.addHandler(_handler)
 
-if os.environ.get("DEBUG") or os.environ.get("RUNNER_DEBUG"):
-    logger.setLevel("DEBUG")
-else:
-    logger.setLevel("INFO")
-
-warnings.warn(
-    (
-        "The behavior of 'pip install parsons' has changed so only core dependencies are installed. "
-        "Learn more: https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
-    ),
-    category=RuntimeWarning,
-    stacklevel=2,
-)
+debug_mode = os.environ.get("DEBUG") or os.environ.get("RUNNER_DEBUG")
+logger.setLevel("DEBUG" if debug_mode else "INFO")
 
 _CONNECTORS = {
     "ActBlue": "parsons.actblue.actblue",
@@ -105,20 +95,24 @@ __all__ = list(_CONNECTORS.keys())  # type: ignore
 
 def __getattr__(name):
     if name not in _CONNECTORS:
-        raise AttributeError(f"module {__name__} has no attribute {name}")
+        err_msg = f"module {__name__} has no attribute {name}"
+        raise AttributeError(err_msg)
+
     module_path = _CONNECTORS[name]
     try:
         module = importlib.import_module(module_path)
         connector = getattr(module, name)
         globals()[name] = connector
         return connector
+
     except ImportError as e:
         logger.error("Failed to import %s from %s.", name, module_path)
-        raise ImportError(
+        err_msg = (
             "The behavior of 'pip install parsons' has changed. "
             "Only core dependencies are installed by default. Learn more: "
             "https://www.parsonsproject.org/pub/improving-the-parsons-installation-experience"
-        ) from e
+        )
+        raise ImportError(err_msg) from e
 
 
 def __dir__() -> list[str]:

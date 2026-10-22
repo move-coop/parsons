@@ -21,7 +21,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Install parsons. pyproject.toml floors certifi at 2026.10.19 (eMudhra/emSign CA
 # incident); assert so a bad resolve fails the image build instead of shipping.
 # uv.lock is gitignored, so this resolves from pyproject.toml at build time.
-RUN uv sync --upgrade --all-extras --python python3.11 \
+RUN uv sync --python python3.11 --no-editable --all-extras --no-dev \
     && .venv/bin/python -c 'import certifi; assert [int(p) for p in certifi.__version__.split(".")] >= [2026, 10, 19], certifi.__version__'
 ENV PATH="/src/.venv/bin:$PATH"
 

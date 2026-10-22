@@ -34,6 +34,7 @@ dependencies = [
     # requests pulls certifi transitively; pin explicitly so installs cannot resolve an affected bundle.
     "certifi >= 2026.10.19",
     "petl >= 1.7.17",
+    "posthog >= 7.51",
     "python-dateutil >= 2.0",
     "requests >= 2.0",
     "requests-oauthlib >= 1.0",

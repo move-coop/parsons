@@ -65,9 +65,7 @@ class PDI(
         self._get_session_token()
 
     def _get_session_token(self):
-        headers = {
-            "Content-Type": "application/json",
-        }
+        headers = {"Content-Type": "application/json"}
         login = {
             "Username": self.username,
             "Password": self.password,

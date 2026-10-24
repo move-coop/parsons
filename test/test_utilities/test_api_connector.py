@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import pytest
+import requests
 from requests.auth import HTTPBasicAuth
 from requests.structures import CaseInsensitiveDict
 from requests_mock import Mocker
@@ -80,3 +81,17 @@ def test_init_loads_auth() -> None:
     auth = HTTPBasicAuth("user_name", "user_pass")
     conn = APIConnector(uri=EXAMPLE_URL, auth=auth)
     assert conn.session.auth == auth
+
+
+def test_init_creates_regular_session() -> None:
+    """Test that the default session is a regular (non-limited) requests session."""
+    conn = APIConnector(uri=EXAMPLE_URL)
+    assert isinstance(conn.session, requests.Session)
+
+
+def test_init_accepts_session() -> None:
+    """Test that providing a session overrides the default session."""
+    session = requests.Session()
+    conn = APIConnector(uri=EXAMPLE_URL, session=session)
+    assert isinstance(conn.session, requests.Session)
+    assert conn.session == session

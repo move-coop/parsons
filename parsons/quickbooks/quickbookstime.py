@@ -31,13 +31,10 @@ class QuickBooksTime:
         """
         self.token = check_env.check("QB_AUTH_TOKEN", token)
         self.headers = {"Authorization": "Bearer " + self.token}
-        self.client = APIConnector(
-            QB_URI,
-            headers=self.headers,
-            ratelimit=requests_ratelimiter.Limiter(
-                pyrate_limiter.Rate(300, pyrate_limiter.Duration.MINUTE * 5)
-            ),
+        ratelimit = requests_ratelimiter.Limiter(
+            pyrate_limiter.Rate(300, pyrate_limiter.Duration.MINUTE * 5)
         )
+        self.client = APIConnector(QB_URI, headers=self.headers, ratelimit=ratelimit)
 
     # Helper functions
 

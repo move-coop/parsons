@@ -31,13 +31,10 @@ class ActionNetwork:
             "OSDI-API-Token": self.api_token,
         }
         self.api_url = API_URL
-        self.api = APIConnector(
-            self.api_url,
-            headers=self.headers,
-            ratelimit=requests_ratelimiter.Limiter(
-                pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
-            ),
+        ratelimit = requests_ratelimiter.Limiter(
+            pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
         )
+        self.api = APIConnector(self.api_url, headers=self.headers, ratelimit=ratelimit)
 
     def _get_page(self, object_name, page, per_page=25, filter=None):
         # returns data from one page of results

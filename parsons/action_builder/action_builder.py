@@ -35,13 +35,10 @@ class ActionBuilder:
             "OSDI-API-Token": self.api_token,
         }
         self.api_url = API_URL.format(subdomain=subdomain)
-        self.api = APIConnector(
-            self.api_url,
-            headers=self.headers,
-            ratelimit=requests_ratelimiter.Limiter(
-                pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
-            ),
+        ratelimit = requests_ratelimiter.Limiter(
+            pyrate_limiter.Rate(4, pyrate_limiter.Duration.SECOND)
         )
+        self.api = APIConnector(self.api_url, headers=self.headers, ratelimit=ratelimit)
         self.campaign = campaign
 
     def _campaign_check(self, campaign):

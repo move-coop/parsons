@@ -36,12 +36,11 @@ class NationBuilder:
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
         headers.update(NationBuilder.get_auth_headers(token))
 
+        ratelimit = requests_ratelimiter.Limiter(
+            pyrate_limiter.Rate(250, pyrate_limiter.Duration.SECOND * 10)
+        )
         self.client = APIConnector(
-            NationBuilder.get_uri(slug),
-            headers=headers,
-            ratelimit=requests_ratelimiter.Limiter(
-                pyrate_limiter.Rate(250, pyrate_limiter.Duration.SECOND * 10)
-            ),
+            NationBuilder.get_uri(slug), headers=headers, ratelimit=ratelimit
         )
 
     @classmethod

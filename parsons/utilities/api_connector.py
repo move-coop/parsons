@@ -7,6 +7,8 @@ from http import HTTPStatus
 from typing import TYPE_CHECKING, overload
 
 import requests
+import requests_ratelimiter
+from pyrate_limiter import Duration, Limiter, Rate
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
 from typing_extensions import (
@@ -57,6 +59,7 @@ class APIConnector:
         pagination_key: str | None = None,
         data_key: str | None = None,
         *,
+        ratelimit: Limiter | Rate | int | None = None,
         session: requests.Session | None = None,
     ) -> None:
         """
@@ -77,8 +80,19 @@ class APIConnector:
                 The name of the key in the response json
                 where the data is contained.
                 Required if the data is nested in the response json.
+            ratelimit:
+                The rate limit to use in the connectors.
+                Can be a :class:`~pyrate_limiter.limiter.Limiter` instance,
+                a :class:`~pyrate_limiter.limiter.Rate` instance, or
+                an integer representing the number of requests per second,
+                or None to disable rate limiting.
             session:
                 A preconfigured :class`~requests.Session` for advanced users.
+                If using `session`, `ratelimit` must be None.
+
+        Raises:
+            ValueError:
+                If both `session` and `ratelimit` are provided.
 
         """
         # Add a trailing slash if it's missing
@@ -89,7 +103,20 @@ class APIConnector:
         self.pagination_key = pagination_key
         self.data_key = data_key
 
-        self.session = session if session else requests.Session()
+        if session and ratelimit:
+            err_msg = "session and ratelimit cannot both be provided"
+            raise ValueError(err_msg)
+
+        if session:
+            self.session = session
+        elif ratelimit:
+            if isinstance(ratelimit, Rate):
+                ratelimit = Limiter(ratelimit)
+            elif isinstance(ratelimit, int):
+                ratelimit = Limiter(requests_ratelimiter.Rate(ratelimit, Duration.SECOND))
+            self.session = requests_ratelimiter.LimiterSession(limiter=ratelimit)
+        else:
+            self.session = requests.Session()
 
         if auth:
             self.session.auth = auth

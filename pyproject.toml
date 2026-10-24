@@ -11,7 +11,7 @@ name = "parsons"
 version = "6.1.0"
 description = "A python library of connectors for the progressive community."
 readme = { file = "README.md", content-type = "text/markdown" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license-files = [ "LICENSE.md" ]
 authors = [
     { name = "The Movement Cooperative", email = "info@movementcooperative.org" },
@@ -23,7 +23,6 @@ keywords = [ "PROGRESSIVE", "API", "ETL" ]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -347,11 +346,9 @@ testpaths = [
 ]
 filterwarnings = [
     # Warnings triggered by libraries we use (not our own code)
-    "ignore:invalid escape sequence:SyntaxWarning", # typically due to using "/" in docstrings that aren't raw strings
-    "ignore:invalid escape sequence:DeprecationWarning", # typically due to using "/" in docstrings that aren't raw strings
-    "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree causes these as of 2026-04
-    "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree causes these as of 2026-04
-    "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these on older python versions as of 2026-04
+    "ignore:Use ProtectionLevel enum instead:DeprecationWarning", # braintree causes these as of 2026-10
+    "ignore:Use protection_level parameter instead:DeprecationWarning", # braintree causes these as of 2026-10
+    "ignore:Please upgrade to the latest Python version:FutureWarning", # google-api-core causes these as of 2026-10 on older python versions
 ]
 markers = [
     "live: mark test as requiring authentication and/or network access"

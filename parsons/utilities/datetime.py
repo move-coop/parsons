@@ -1,9 +1,9 @@
-import datetime
+from datetime import UTC, datetime, timezone
 
 from dateutil.parser import parse
 
 
-def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) -> int | None:
+def date_to_timestamp(value: int | str | datetime, tzinfo: timezone = UTC) -> int | None:
     """Convert any date value into a Unix timestamp.
 
     Args:
@@ -28,16 +28,14 @@ def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) 
     return int(parsed_date.timestamp())
 
 
-def convert_unix_to_readable(ts) -> str:
-    """Converts UNIX timestamps to readable timestamps."""
-    ts = datetime.datetime.fromtimestamp(int(ts) / 1000, tz=datetime.timezone.utc)
+def convert_unix_to_readable(ts: str | int) -> str:
+    """Convert UNIX timestamps to readable timestamps."""
+    timestamp = datetime.fromtimestamp(int(ts) / 1000, tz=UTC)
 
-    return ts.strftime("%Y-%m-%d %H:%M:%S UTC")
+    return timestamp.strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
-def parse_date(
-    value: int | str | datetime.datetime, tzinfo: datetime.timezone = datetime.timezone.utc
-) -> datetime.datetime | None:
+def parse_date(value: int | str | datetime, tzinfo: timezone = UTC) -> datetime | None:
     """
     Parse an arbitrary date value into a Python datetime.
 
@@ -61,16 +59,14 @@ def parse_date(
 
     # If it's a number, we (probably) have a unix timestamp
     if isinstance(value, int):
-        parsed = datetime.datetime.fromtimestamp(value, tzinfo)
-    elif isinstance(value, datetime.datetime):
+        parsed = datetime.fromtimestamp(value, tzinfo)
+    elif isinstance(value, datetime):
         parsed = value
     elif isinstance(value, str):
         parsed = parse(value)
     else:
-        raise TypeError(
-            "Unable to parse value; must be one of string or int or datetime, but got type "
-            f"{type(value)}"
-        )
+        err_msg = f"Unable to parse value; must be one of string or int or datetime, but got type {type(value)}"
+        raise TypeError(err_msg)
 
     if not parsed.tzinfo:
         parsed = parsed.replace(tzinfo=tzinfo)

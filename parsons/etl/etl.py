@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import hashlib
 import logging
-from typing import TYPE_CHECKING, Any, Literal, TypedDict, overload
+from typing import TYPE_CHECKING, Any, Literal, Self, TypedDict, overload
 
 import petl
-from typing_extensions import Self
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator, Sequence

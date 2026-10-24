@@ -102,7 +102,8 @@ google = [
     "google-cloud-storage >= 3.1",
     "google-cloud-storage-transfer >= 1.12",
     "gspread >= 4.0",
-    "httplib2 >= 0.15",
+    "httplib2 >= 0.15; python_version < '3.15'",
+    "httplib2 >= 0.21; python_version >= '3.15'",
     "oauth2client >= 4.0",
     "protobuf >= 6.0",
 ]

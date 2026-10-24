@@ -1,7 +1,9 @@
 from http import HTTPStatus
 
+import pyrate_limiter
 import pytest
 import requests
+import requests_ratelimiter
 from requests.auth import HTTPBasicAuth
 from requests.structures import CaseInsensitiveDict
 from requests_mock import Mocker
@@ -87,6 +89,7 @@ def test_init_creates_regular_session() -> None:
     """Test that the default session is a regular (non-limited) requests session."""
     conn = APIConnector(uri=EXAMPLE_URL)
     assert isinstance(conn.session, requests.Session)
+    assert not isinstance(conn.session, requests_ratelimiter.LimiterSession)
 
 
 def test_init_accepts_session() -> None:
@@ -95,3 +98,66 @@ def test_init_accepts_session() -> None:
     conn = APIConnector(uri=EXAMPLE_URL, session=session)
     assert isinstance(conn.session, requests.Session)
     assert conn.session == session
+
+
+def test_init_accepts_ratelimit_as_limiter() -> None:
+    """Test that providing a ratelimit as a :class:`requests_ratelimiter.Limiter` creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+    rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+    limiter = pyrate_limiter.Limiter(rate)
+    conn = APIConnector(uri=EXAMPLE_URL, ratelimit=limiter)
+    assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+    assert conn.session.limiter == limiter
+
+
+def test_init_accepts_ratelimit_as_rate() -> None:
+    """Test that providing a ratelimit as a :class:`requests_ratelimiter.Rate` creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+    rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+    conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate)
+    assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+    assert conn.session.limiter.buckets()[0]._rates[0] == rate
+
+
+def test_init_accepts_ratelimit_as_int() -> None:
+    """Test that providing an ratelimit as an :class:`int` creates a properly-configured :class:`requests_ratelimiter.LimiterSession`."""
+    rate_limit = 60
+    conn = APIConnector(uri=EXAMPLE_URL, ratelimit=rate_limit)
+    assert isinstance(conn.session, requests_ratelimiter.LimiterSession)
+    assert isinstance(conn.session.limiter, pyrate_limiter.Limiter)
+    assert str(conn.session.limiter.buckets()[0]._rates[0]) == str(
+        pyrate_limiter.Rate(rate_limit, pyrate_limiter.Duration.SECOND)
+    )
+
+
+def test_init_does_not_accept_ratelimiter_and_session() -> None:
+    """Test that providing both a ratelimit and a session raises a ValueError."""
+    rate = pyrate_limiter.Rate(1, pyrate_limiter.Duration.MINUTE)
+    limiter = pyrate_limiter.Limiter(rate)
+    session = requests.Session()
+    with pytest.raises(ValueError, match="session and ratelimit cannot both be provided"):
+        APIConnector(uri=EXAMPLE_URL, ratelimit=limiter, session=session)
+
+
+@pytest.mark.filterwarnings("ignore:Use \\.session\\.(auth|headers) instead:DeprecationWarning")
+def test_can_access_deprecated_properties() -> None:
+    """Test that the deprecated auth and headers properties still work."""
+    headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})
+    auth = HTTPBasicAuth("user", "passwd")
+    conn = APIConnector(uri=EXAMPLE_URL, headers=headers, auth=auth)
+
+    # Ensure deprecated properties pass through session data
+    assert conn.headers == conn.session.headers
+    assert conn.auth == conn.session.auth
+
+    # Ensure setting value of deprecated properties updates session data
+    conn.headers = CaseInsensitiveDict({"authorization": "Bearer i3f937792g37739b937"})
+    conn.auth = HTTPBasicAuth("lizzy", "solidarity")
+
+    assert conn.headers == conn.session.headers
+    assert conn.auth == conn.session.auth
+
+    # Ensure deleting deprecated properties deletes session data
+    del conn.headers
+    del conn.auth
+
+    assert getattr(conn, "headers", None) == getattr(conn.session, "headers", None)
+    assert getattr(conn, "auth", None) == getattr(conn.session, "auth", None)

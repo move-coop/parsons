@@ -115,7 +115,7 @@ Your imports should look like this
 .. code-block:: python
 
    import json
-   from datetime import datetime
+   import datetime as dt
    from parsons import Table, MobilizeAmerica, GoogleSheets
 
 :mod:`json` is a Python module that helps us convert between data in a JSON format
@@ -213,8 +213,10 @@ Let's convert these unix timestamps to something more readable. To do this, we d
 
 .. code-block:: python
 
+   import datetime as dt
+
    def convert_to_legible_date(unix_date):
-       return datetime.datetime.fromtimestamp((int(unix_date).strftime('%Y-%m-%d %H:%M:%S'), tz=datetime.timezone.utc)
+       return dt.datetime.fromtimestamp((int(unix_date).strftime('%Y-%m-%d %H:%M:%S'), tz=dt.timezone.utc)
 
 Here, we're using the ``datetime`` library mentioned above. The ``strftime`` method is what determines the new format.
 For example, ``%Y`` means "Year with century as a decimal number" (like, say, 1970),
@@ -507,7 +509,7 @@ When we're saving data to log tables, it looks like this
       'actionnetworkid': actionnetworkid,
       'synced': True,
       'errors': None,
-      'date': str(datetime.now())
+      'date': str(dt.datetime.now())
    }
 
    # Add the record of our success to the history books
@@ -595,7 +597,7 @@ Let's take a look inside the try statement. What are we trying to do?
          'actionnetworkid': actionnetworkid,
          'synced': True,
          'errors': None,
-         'date': str(datetime.now())
+         'date': str(dt.datetime.now())
       }
 
       # Add the record of our success to the history books
@@ -623,7 +625,7 @@ Now let's look inside the except statement. What happens if things go wrong?
       'actionnetworkid': None,
       'synced': False,
       'errors': str(e)[:999],
-      'date': str(datetime.now())
+      'date': str(dt.datetime.now())
    }
 
    # Add the record of our greatest failures to the history books

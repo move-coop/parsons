@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import logging
 import uuid
 from typing import Literal
@@ -203,8 +203,8 @@ class ZoomV1:
         meeting_type: Literal[
             "scheduled", "live", "upcoming", "upcoming_meetings", "previous_meetings"
         ] = "scheduled",
-        from_date: datetime.date | None = None,
-        to_date: datetime.date | None = None,
+        from_date: dt.date | None = None,
+        to_date: dt.date | None = None,
     ) -> Table:
         """
         Get meetings scheduled by a user.
@@ -229,9 +229,9 @@ class ZoomV1:
                       - All the ongoing meetings.
                     * - ``upcoming``
                       - All upcoming meetings including live meetings.
-            from_date: datetime.date or None
+            from_date:
                 Optional start date for the range of meetings to retrieve.
-            to_date: datetime.date or None
+            to_date:
                 Optional end date for the range of meetings to retrieve.
 
         Returns:

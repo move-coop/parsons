@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import gzip
 import logging
 import time
@@ -396,7 +396,7 @@ class GoogleCloudStorage:
         blob = bucket.blob(blob_name)
         url = blob.generate_signed_url(
             version="v4",
-            expiration=datetime.timedelta(minutes=expires_in),
+            expiration=dt.timedelta(minutes=expires_in),
             method="GET",
         )
         return url
@@ -443,7 +443,7 @@ class GoogleCloudStorage:
 
         client = storage_transfer.StorageTransferServiceClient()
 
-        now = datetime.datetime.utcnow()
+        now = dt.datetime.now(tz=dt.timezone.utc)
         # Setting the start date and the end date as
         # the same time creates a one-time transfer
         one_time_schedule = {"day": now.day, "month": now.month, "year": now.year}

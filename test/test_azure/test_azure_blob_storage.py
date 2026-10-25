@@ -1,6 +1,6 @@
+import datetime as dt
 import os
 import unittest
-from datetime import datetime
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -54,7 +54,7 @@ class TestAzureBlobStorage(unittest.TestCase):
         assert self.azure_blob.container_exists(TEST_CONTAINER_NAME)
 
         # Add current datetime microseconds for randomness to avoid intermittent failures
-        dt_microseconds = datetime.now().isoformat()[-6:]
+        dt_microseconds = dt.datetime.now().isoformat()[-6:]
         create_container_name = f"{TEST_CONTAINER_NAME}create{dt_microseconds}"
 
         # Create a new container with metadata, assert that it is included
@@ -69,7 +69,7 @@ class TestAzureBlobStorage(unittest.TestCase):
 
     def test_delete_container(self):
         # Add current datetime microseconds for randomness to avoid intermittent failures
-        dt_microseconds = datetime.now().isoformat()[-6:]
+        dt_microseconds = dt.datetime.now().isoformat()[-6:]
         delete_container_name = f"{TEST_CONTAINER_NAME}delete{dt_microseconds}"
 
         # Create an additional container, assert that it exists

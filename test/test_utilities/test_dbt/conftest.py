@@ -1,7 +1,7 @@
 """Shared fixtures for dbt integration tests."""
 
+import datetime as dt
 from collections.abc import Callable
-from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
 import pytest
@@ -51,7 +51,7 @@ def run_execution_result_factory() -> Callable[[list[NodeResult] | None], RunExe
         )
 
         result.metadata = ManifestMetadata(
-            generated_at=datetime.now(timezone.utc),
+            generated_at=dt.datetime.now(tz=dt.timezone.utc),
             project_id="parsons_project",
         )
 

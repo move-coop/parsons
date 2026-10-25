@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import secrets
 import warnings
-from datetime import datetime, timedelta, timezone
 from typing import TYPE_CHECKING
 
 import pytest
@@ -16,7 +16,9 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-TEST_REFRESH_DATETIME = datetime(year=2026, month=5, day=1, hour=18, minute=54, tzinfo=timezone.utc)
+TEST_REFRESH_DATETIME = dt.datetime(
+    year=2026, month=5, day=1, hour=18, minute=54, tzinfo=dt.timezone.utc
+)
 
 
 @pytest.fixture
@@ -61,8 +63,8 @@ def bearer_auth_token_name() -> BearerAuth:
 def bearer_auth_expires() -> BearerAuth:
     """Fixture for creating a BearerAuth object with a non-expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
-    later = now + timedelta(seconds=600)
+    now = dt.datetime.now(tz=dt.timezone.utc)
+    later = now + dt.timedelta(seconds=600)
     return BearerAuth(api_token, expires=later)
 
 
@@ -70,8 +72,8 @@ def bearer_auth_expires() -> BearerAuth:
 def bearer_auth_expired() -> BearerAuth:
     """Fixture for creating a BearerAuth object with an expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
-    before = now - timedelta(seconds=600)
+    now = dt.datetime.now(tz=dt.timezone.utc)
+    before = now - dt.timedelta(seconds=600)
     return BearerAuth(api_token, expires=before)
 
 
@@ -79,10 +81,10 @@ def bearer_auth_expired() -> BearerAuth:
 def bearer_auth_refresh_callback() -> BearerAuth:
     """Fixture for creating a BearerAuth object with a refresh callback and an expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
-    now_plus = now - timedelta(seconds=600)
+    now = dt.datetime.now(tz=dt.timezone.utc)
+    now_plus = now - dt.timedelta(seconds=600)
 
-    def refresh_callback() -> tuple[str, datetime]:
+    def refresh_callback() -> tuple[str, dt.datetime]:
         return api_token, TEST_REFRESH_DATETIME
 
     return BearerAuth(api_token, expires=now_plus, refresh_callback=refresh_callback)
@@ -92,7 +94,7 @@ def bearer_auth_refresh_callback() -> BearerAuth:
     ("auth_kwargs", "expected_attr", "expected_value_key"),
     [
         ({}, "api_key", "api_token"),
-        ({"expires": datetime.now(tz=timezone.utc)}, "expires", "expires"),
+        ({"expires": dt.datetime.now(tz=dt.timezone.utc)}, "expires", "expires"),
         ({"token_name": "LoginToken"}, "token_name", "token_name"),
         ({"token_divider": ":"}, "token_divider", "token_divider"),
         ({"header_name": "AuthHeader"}, "header_name", "header_name"),
@@ -138,13 +140,13 @@ def test_auth_strips() -> None:
         ({"token_divider": ":"}, {"token_divider": ":"}, True),
         ({"token_divider": ":"}, {"token_divider": " "}, False),
         (
-            {"expires": (now := datetime.now(tz=timezone.utc))},
+            {"expires": (now := dt.datetime.now(tz=dt.timezone.utc))},
             {"expires": now},
             True,
         ),
         (
-            {"expires": datetime.now(tz=timezone.utc)},
-            {"expires": datetime.now(tz=timezone.utc) + timedelta(seconds=600)},
+            {"expires": dt.datetime.now(tz=dt.timezone.utc)},
+            {"expires": dt.datetime.now(tz=dt.timezone.utc) + dt.timedelta(seconds=600)},
             False,
         ),
     ],
@@ -252,7 +254,7 @@ def test_auth_repr(
 def test_auth_call(
     fixture_name: str,
     expected_warning: type[Warning] | None,
-    expected_expires: datetime | None,
+    expected_expires: dt.datetime | None,
     request: pytest.FixtureRequest,
     prepared_req: requests.PreparedRequest,
 ) -> None:

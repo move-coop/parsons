@@ -1,7 +1,6 @@
 import csv
-import datetime
+import datetime as dt
 import unittest
-import zoneinfo
 from pathlib import Path
 
 import requests_mock
@@ -185,9 +184,7 @@ class TestScytl(unittest.TestCase):
         assert result != []
 
     def test__parse_date_to_utc(self):
-        date_string = datetime.datetime(
-            2022, 6, 14, 20, 19, 31, tzinfo=zoneinfo.ZoneInfo(key="UTC")
-        )
+        date_string = dt.datetime(2022, 6, 14, 20, 19, 31, tzinfo=dt.timezone.utc)
         assert self.scy._parse_date_to_utc(str(date_string)) == date_string
 
     def test__parse_date_to_utc_missing_date(self):

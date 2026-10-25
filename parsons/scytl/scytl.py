@@ -1,9 +1,8 @@
 import csv
+import datetime as dt
 import zipfile
 from dataclasses import dataclass
-from datetime import datetime
 from io import BytesIO, StringIO
-from zoneinfo import ZoneInfo
 
 import defusedxml.ElementTree as ET
 import requests
@@ -61,7 +60,7 @@ class CountyDetails:
     county_name: str
     county_election_id: str
     county_version_num: str
-    county_update_date: datetime = None
+    county_update_date: dt.datetime = None
 
 
 class Scytl:
@@ -94,7 +93,7 @@ class Scytl:
         self.previous_county_details_list = None
         self.previously_fetched_counties = set()
 
-    def _parse_date_to_utc(self, input_dt: str) -> datetime | None:
+    def _parse_date_to_utc(self, input_dt: str) -> dt.datetime | None:
         """
         Parse datetime string as datetime in UTC
 
@@ -110,7 +109,7 @@ class Scytl:
             return None
 
         temp = parsedate(input_dt, tzinfos=TZ_INFO)
-        temp = temp.astimezone(ZoneInfo("UTC"))
+        temp = temp.astimezone(dt.timezone.utc)
 
         return temp
 

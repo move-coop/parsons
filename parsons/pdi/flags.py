@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime as dt
 
 from dateutil.parser import parse
 
@@ -66,7 +66,7 @@ class Flags:
         for flag in flag_list:
             try:
                 flag["flagEntryDate"] = str(
-                    datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat()
+                    dt.datetime.strptime(flag["flagEntryDate"], "%Y-%m-%d").isoformat()
                 )
             except ValueError as e:
                 raise ValueError("Invalid date format.") from e

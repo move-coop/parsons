@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import logging
 
 from requests.auth import HTTPBasicAuth
@@ -223,7 +223,7 @@ class Donorbox:
         valid_formats = ["%Y-%m-%d", "%d-%m-%Y", "%Y/%m/%d", "%Y%m%d"]
         for str_format in valid_formats:
             try:
-                datetime.datetime.strptime(date_string, str_format)
+                dt.datetime.strptime(date_string, str_format)
                 return
             except ValueError:
                 continue

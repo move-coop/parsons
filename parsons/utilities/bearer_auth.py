@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import logging
 import warnings
-from datetime import datetime, timezone
 from typing import TYPE_CHECKING
 
 from requests.auth import AuthBase
@@ -35,8 +35,8 @@ class BearerAuth(AuthBase):
     token_divider: str | None
     header_name: str
     token_name: str | None
-    expires: datetime | None
-    refresh_callback: Callable[[], tuple[str, datetime]] | None
+    expires: dt.datetime | None
+    refresh_callback: Callable[[], tuple[str, dt.datetime]] | None
 
     def __init__(
         self,
@@ -45,8 +45,8 @@ class BearerAuth(AuthBase):
         header_name: str = "Authorization",
         token_name: str | None = "Bearer",
         token_divider: str | None = " ",
-        expires: datetime | None = None,
-        refresh_callback: Callable[[], tuple[str, datetime]] | None = None,
+        expires: dt.datetime | None = None,
+        refresh_callback: Callable[[], tuple[str, dt.datetime]] | None = None,
     ) -> None:
         """
         Initialize handler with the API key.
@@ -124,7 +124,7 @@ class BearerAuth(AuthBase):
         if self.expires is None:
             return
 
-        if datetime.now(timezone.utc) <= self.expires:
+        if dt.datetime.now(tz=dt.timezone.utc) <= self.expires:
             return
 
         if self.refresh_callback is not None:

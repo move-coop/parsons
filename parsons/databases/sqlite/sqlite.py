@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import logging
 import pickle
 import shutil
@@ -166,9 +166,9 @@ class Sqlite(DatabaseConnector):
             result = "integer"
         elif isinstance(not_null_value, float):
             result = "float"
-        elif isinstance(not_null_value, datetime.date):
+        elif isinstance(not_null_value, dt.date):
             result = "date"
-        elif isinstance(not_null_value, datetime.datetime):
+        elif isinstance(not_null_value, dt.datetime):
             result = "datetime"
         else:
             result = "text"

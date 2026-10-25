@@ -1,5 +1,5 @@
+import datetime as dt
 from collections.abc import Callable
-from datetime import datetime
 
 import pytest
 from dbt.artifacts.resources.types import NodeType
@@ -109,7 +109,7 @@ class TestManifestAttributeAccess:
             results=[dbt_node_factory()],
             args={"quiet": True},
             elapsed_time=1.23,
-            generated_at=datetime.now(),
+            generated_at=dt.datetime.now(),
         )
         dbt_obj.metadata = ManifestMetadata(project_name="my_proj", dbt_version="1.7.0")
 

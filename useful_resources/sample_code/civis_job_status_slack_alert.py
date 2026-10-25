@@ -1,7 +1,7 @@
 # This script checks the status of all jobs and workflows in a given Civis Project
 # and posts them to a Slack channel.
 
-import datetime
+import datetime as dt
 import logging
 import os
 
@@ -35,8 +35,8 @@ logger.setLevel("INFO")
 # Cleans up datetime format for posting to Slack.
 def format_datetime(text):
     formatted_text = text.replace("Z", "")
-    dt = datetime.datetime.fromisoformat(formatted_text)
-    return dt.strftime("%Y-%m-%d")
+    time_obj = dt.datetime.fromisoformat(formatted_text)
+    return time_obj.strftime("%Y-%m-%d")
 
 
 # Assigns an emoji for each potential run status a Civis job or workflow might have.

@@ -3,7 +3,7 @@ import datetime
 from dateutil.parser import parse
 
 
-def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) -> int | None:
+def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.UTC) -> int | None:
     """Convert any date value into a Unix timestamp.
 
     Args:
@@ -30,13 +30,13 @@ def date_to_timestamp(value, tzinfo: datetime.timezone = datetime.timezone.utc) 
 
 def convert_unix_to_readable(ts) -> str:
     """Converts UNIX timestamps to readable timestamps."""
-    ts = datetime.datetime.fromtimestamp(int(ts) / 1000, tz=datetime.timezone.utc)
+    ts = datetime.datetime.fromtimestamp(int(ts) / 1000, tz=datetime.UTC)
 
     return ts.strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
 def parse_date(
-    value: int | str | datetime.datetime, tzinfo: datetime.timezone = datetime.timezone.utc
+    value: int | str | datetime.datetime, tzinfo: datetime.timezone = datetime.UTC
 ) -> datetime.datetime | None:
     """
     Parse an arbitrary date value into a Python datetime.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import warnings
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from requests.auth import AuthBase
@@ -124,7 +124,7 @@ class BearerAuth(AuthBase):
         if self.expires is None:
             return
 
-        if datetime.now(timezone.utc) <= self.expires:
+        if datetime.now(UTC) <= self.expires:
             return
 
         if self.refresh_callback is not None:

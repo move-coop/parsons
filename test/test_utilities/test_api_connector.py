@@ -137,7 +137,7 @@ def test_init_does_not_accept_ratelimiter_and_session() -> None:
         APIConnector(uri=EXAMPLE_URL, ratelimit=limiter, session=session)
 
 
-@pytest.mark.filterwarnings("ignore:Use \\.session\\.(auth|headers) instead:DeprecationWarning")
+@pytest.mark.filterwarnings("ignore:Use '\\.session\\.(auth|headers)' instead:DeprecationWarning")
 def test_can_access_deprecated_properties() -> None:
     """Test that the deprecated auth and headers properties still work."""
     headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})

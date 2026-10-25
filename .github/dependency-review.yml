@@ -1,0 +1,31 @@
+fail-on-severity: high
+fail-on-scopes: runtime
+comment-summary-in-pr: always
+show-patched-versions: true
+warn-on-openssf-scorecard-level: 2
+allow-licenses:
+  # No copyleft restrictions and can be freely included, modified, and redistributed
+  - MIT
+  - MIT-0
+  - 0BSD
+  - BSD-2-Clause
+  - BSD-2-Clause-Views
+  - BSD-3-Clause
+  - ISC
+  - Apache-2.0
+  - Zlib
+  - Unlicense
+  - CC0-1.0
+  - CNRI-Python
+  - PSF-2.0
+  - Python-2.0
+  - Artistic-1.0-Perl
+  - LicenseRef-scancode-public-domain
+  - LicenseRef-scancode-facebook-software-license # facebook-business
+  - LicenseRef-scancode-protobuf # protobuf
+  # Allowed if not modifying or statically combining source code with these licenses into parsons
+  - LGPL-2.0-or-later
+  - LGPL-2.0-only
+  - LGPL-2.1
+  - LGPL-2.1-only
+  - MPL-2.0

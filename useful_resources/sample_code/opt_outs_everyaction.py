@@ -7,7 +7,7 @@ from typing import Any
 
 import requests
 
-from parsons import VAN, EveryAction, Redshift, Table
+from parsons import VAN, Redshift, Table
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ rs = Redshift()
 
 
 def attempt_optout(
-    every_action: EveryAction,
+    every_action: VAN,
     row: dict[str, Any],
     committeeid: str,
     success_log: list[dict[str, Any]],

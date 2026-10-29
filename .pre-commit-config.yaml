@@ -48,6 +48,12 @@ repos:
         pass_filenames: false
         types: [python]
 
+      - id: uv-lockfile-check
+        name: uv lockfile check
+        entry: uv lock --check
+        language: system
+        pass_filenames: false
+
       - id: sphinx-test
         name: test documentation build
         entry: uv run ./docs/make.py test

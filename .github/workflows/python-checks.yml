@@ -18,6 +18,7 @@ env:
     github.com:443
     releases.astral.sh:443
     files.pythonhosted.org:443
+    *.crates.io:443
     *.github.com:443
     *.githubusercontent.com:443
   UV_MANAGED_PYTHON: true
@@ -35,6 +36,7 @@ jobs:
           - '3.12'
           - '3.13'
           - '3.14'
+          - '3.15'
         os:
           - ubuntu-latest
           - windows-latest
@@ -63,6 +65,8 @@ jobs:
           egress-policy: audit
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
@@ -70,8 +74,6 @@ jobs:
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
         with:
@@ -179,6 +181,8 @@ jobs:
           egress-policy: audit
           allowed-endpoints: ${{ env.ENDPOINT_WHITELIST}}
 
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
       - name: determine key for pytest cache
         id: pytest-run-key
         shell: bash
@@ -186,8 +190,6 @@ jobs:
           HASH=${{ hashFiles('pyproject.toml') }}
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
         with:

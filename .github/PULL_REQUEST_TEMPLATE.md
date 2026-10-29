@@ -45,7 +45,5 @@ Have you familiarized yourself with this documentation?
 Parsons allows submission of code generated with AI tools, but requires that such use is disclosed.
 For more information, please see [AGENTS.md](https://github.com/move-coop/parsons/blob/main/AGENTS.md).
 
-- [ ] label: Agent — This PR includes code written by an AI agent.
-- [ ] label: Chatbot — This PR includes code written by a large language model,
-      such as code proposed via IDE auto-completion or copied from an online chatbot.
-- [ ] label: Not Used — This PR introduces one or more breaking changes.
+- [ ] label: AI-Used — This PR includes code written in collaboration with an AI agent, chatbot, or IDE auto-complete.
+- [ ] label: AI-Not Used — This PR includes only code that you wrote yourself.

@@ -23,14 +23,16 @@ config_vars = {
     "VAN_DB_NAME": "",
 }
 
-
 # ### CODE
 
-from parsons import Redshift, VAN  # noqa E402 module-import-not-at-top-of-file
-from parsons import logger  # noqa E402 module-import-not-at-top-of-file
+import logging  # noqa E402 module-import-not-at-top-of-file
 import os  # noqa E402 module-import-not-at-top-of-file
 
+from parsons import Redshift, VAN  # noqa E402 module-import-not-at-top-of-file
+
 # Setup
+
+logger = logging.getLogger(__name__)
 
 for name, value in config_vars.items():  # sets variables if provided in this script
     if value.strip() != "":

@@ -1,4 +1,5 @@
 import logging
+import warnings
 from datetime import datetime
 
 from parsons.capitol_canary import CapitolCanary
@@ -9,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Phone2Action:
     """
-    Instantiate Phone2Action Class
+    Instantiate Phone2Action Class.
 
     Args:
         app_id: str
@@ -19,14 +20,19 @@ class Phone2Action:
             The Phone2Action provided application key. Not required if ``PHONE2ACTION_APP_KEY``
             env variable set.
 
-    Returns:
-        Phone2Action Class
+    .. version-deprecated:: v0.20.0
+
+        Deprecated in favor of :class:`parsons.CapitolCanary`.
 
     """
 
     def __init__(self, app_id=None, app_key=None):
         self.capitol_canary = CapitolCanary(app_id, app_key)
-        logger.warning("The Phone2Action class is being deprecated and replaced by CapitalCanary")
+        warnings.warn(
+            "The Phone2Action class is being deprecated and replaced by CapitalCanary.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def __getattr__(self, name):
         try:

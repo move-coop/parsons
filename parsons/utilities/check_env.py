@@ -77,11 +77,11 @@ def check(
     Raises:
         KeyError: If no value is found/provided and `optional` is ``False``.
 
-    .. version-changed:: v6.1.0
+    .. version-deprecated:: v6.1.0
 
         Deprecated `opt` positional argument in favor of `optional` keyword argument.
 
-    .. version-changed:: v6.1.0
+    .. version-deprecated:: v6.1.0
 
         Deprecated `field` positional argument in favor of `value` positional argument.
 

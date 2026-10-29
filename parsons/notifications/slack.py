@@ -144,6 +144,10 @@ class Slack:
             See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
             for more information about legacy authorship.
 
+        .. version-changed:: v3.0.0
+
+            Removed `thread_ts` argument in favor of `parent_message_id`.
+
         """
         if "as_user" in kwargs:
             warnings.warn(

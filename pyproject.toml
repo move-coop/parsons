@@ -28,6 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
 ]
 dependencies = [
     # Floor for eMudhra/emSign intermediate CA key compromise (GHSA-6q48-6c7w-9gw2).
@@ -61,8 +62,9 @@ dbt-duckdb = [
 dbt-redshift = [
     "dbt-redshift >= 1.8",
     "dbt-core >= 1.8; python_version < '3.14'",
-    "dbt-core >= 1.12;python_version >= '3.14'",
-    "lxml >= 6.0.1",
+    "dbt-core >= 1.12; python_version >= '3.14'",
+    "lxml >= 6.0.1; python_version < '3.15'",
+    "lxml >= 6.1.2; python_version >= '3.15'",
     "rich >= 14.0",
 ]
 dbt-bigquery = [
@@ -101,7 +103,8 @@ google = [
     "google-cloud-storage >= 3.1",
     "google-cloud-storage-transfer >= 1.12",
     "gspread >= 4.0",
-    "httplib2 >= 0.15",
+    "httplib2 >= 0.15; python_version < '3.15'",
+    "httplib2 >= 0.21; python_version >= '3.15'",
     "oauth2client >= 4.0",
     "protobuf >= 6.0",
 ]
@@ -117,13 +120,15 @@ mobilecommons = [
 ]
 pandas = ["pandas >= 2.3"]
 postgres = [
-    "psycopg2-binary >= 2.9.11",
+    "psycopg2-binary >= 2.9.11; python_version < '3.15'",
+    "psycopg2-binary >= 2.9.13; python_version >= '3.15'",
     "sqlalchemy >= 1.4",
 ]
 redshift = [
     "boto3 >= 1.0; python_version < '3.14'",
     "boto3 >= 1.40; python_version >= '3.14'",
-    "psycopg2-binary >= 2.9.11",
+    "psycopg2-binary >= 2.9.11; python_version < '3.15'",
+    "psycopg2-binary >= 2.9.13; python_version >= '3.15'",
     "sqlalchemy >= 1.4",
 ]
 s3 = [
@@ -137,7 +142,8 @@ slack = ["slack-sdk >= 3.26"]
 smtp = ["email-validator >= 2.2"]
 ssh = [
     "sshtunnel >= 0.4",
-    "psycopg2-binary >= 2.9.11",
+    "psycopg2-binary >= 2.9.11; python_version < '3.15'",
+    "psycopg2-binary >= 2.9.13; python_version >= '3.15'",
     "sqlalchemy >= 1.4",
 ]
 targetsmart = [

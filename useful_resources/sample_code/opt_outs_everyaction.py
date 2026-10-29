@@ -61,7 +61,7 @@ def attempt_optout(
     success_log: list[dict[str, Any]],
     error_log: list[dict[str, Any]],
     attempts_left: int = 3,
-):
+) -> dict | str | None:
     vanid = row["vanid"]
     phone = row["phone"]
 
@@ -154,13 +154,16 @@ def attempt_optout(
             raise Exception(f"Connection Error {connection_error}")
 
 
-def main():
+def main() -> None:
     # Creating empty lists where we'll log successes and errors
     success_log = []
     error_log = []
 
     # Get the opt out data
     all_opt_outs = rs.query(f"select * from {OPT_OUT_TABLE}")
+
+    if not all_opt_outs:
+        return
 
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:

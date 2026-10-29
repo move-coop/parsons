@@ -54,6 +54,16 @@ ERROR_TABLE = os.environ["ERROR_TABLE"]
 rs = Redshift()
 
 
+def save_logs(log: list, table: str, log_name: str) -> None:
+    if len(log) == 0:
+        return
+
+    parsonstable = Table(log)
+    logger.info("Copying %s data into log table...", log_name.lower())
+    rs.copy(parsonstable, table, if_exists="append", alter_table=True)
+    logger.info("%s log complete.", log_name)
+
+
 def attempt_optout(
     every_action: VAN,
     row: dict[str, Any],
@@ -75,32 +85,29 @@ def attempt_optout(
 
         # If the response is a dictionary the update was successful
         if isinstance(response, dict):
-            success_log.append(
-                {
-                    "vanid": response.get("vanId"),
-                    "phone": phone,
-                    "committeeid": committeeid,
-                    "applied_at": timestamp,
-                }
-            )
+            log_entry = {
+                "vanid": response.get("vanId"),
+                "phone": phone,
+                "committeeid": committeeid,
+                "applied_at": timestamp,
+            }
+            success_log.append(log_entry)
 
             return response
 
     # If we get an HTTP Error add it to the error log
     # Usually these errors mean a vanid has been deleted from EveryAction
     except requests.exceptions.HTTPError as error:
-        error_message = str(error)[:999]
-        error_log.append(
-            {
-                "vanid": vanid,
-                "phone": phone,
-                "committeeid": committeeid,
-                "errored_at": timestamp,
-                "error": error_message,
-            }
-        )
+        log_entry = {
+            "vanid": vanid,
+            "phone": phone,
+            "committeeid": committeeid,
+            "errored_at": timestamp,
+            "error": str(error)[:999],
+        }
+        error_log.append(log_entry)
 
-        return error_message
+        return log_entry["error"]
 
     # If we get a connection error we wait a bit and try again.
     except requests.exceptions.ConnectionError as connection_error:
@@ -113,45 +120,31 @@ def attempt_optout(
             time.sleep(10)
             attempt_optout(every_action, row, committeeid, success_log, error_log, attempts_left)
 
-        else:
-            # If we are still getting a connection error after our maximum number of attempts
-            # we add the error to the log, save our full success and error logs in Redshift,
-            # and raise the error.
-            connection_error_message = str(connection_error)[:999]
+        # If we are still getting a connection error after our maximum number of attempts
+        # we add the error to the log, save our full success and error logs in Redshift,
+        # and raise the error.
+        connection_error_message = str(connection_error)[:999]
 
-            error_log.append(
-                {
-                    "vanid": vanid,
-                    "phone": phone,
-                    "committeeid": committeeid,
-                    "errored_at": timestamp,
-                    "error": connection_error_message,
-                }
-            )
+        error_log.append(
+            {
+                "vanid": vanid,
+                "phone": phone,
+                "committeeid": committeeid,
+                "errored_at": timestamp,
+                "error": connection_error_message,
+            }
+        )
 
-            if len(success_log) > 0:
-                success_parsonstable = Table(success_log)
-                logger.info("Copying success data into log table...")
-                rs.copy(
-                    success_parsonstable,
-                    SUCCESS_TABLE,
-                    if_exists="append",
-                    alter_table=True,
-                )
-                logger.info("Success log complete.")
+        for log, table, log_name in (
+            (success_log, SUCCESS_TABLE, "Success"),
+            (error_log, ERROR_TABLE, "Error"),
+        ):
+            save_logs(log, table, log_name)
 
-            if len(error_log) > 0:
-                error_parsonstable = Table(error_log)
-                logger.info("Copying error data into log table...")
-                rs.copy(
-                    error_parsonstable,
-                    ERROR_TABLE,
-                    if_exists="append",
-                    alter_table=True,
-                )
-                logger.info("Error log complete.")
+        err_msg = f"Connection Error {connection_error}"
+        raise Exception(err_msg) from connection_error
 
-            raise Exception(f"Connection Error {connection_error}")
+    return None
 
 
 def main() -> None:
@@ -168,47 +161,32 @@ def main() -> None:
     # Loop through each committee to opt-out phones
     for committee in COMMITTEES:
         api_key = committee["api_key"]
+        every_action = VAN(db="EveryAction", api_key=api_key)
+
         committeeid = committee["committee_id"]
         committee_name = committee["committee"]
-
-        every_action = VAN(db="EveryAction", api_key=api_key)
 
         logger.info("Working on opt outs in %s committee...", committee_name)
 
         # Here we narrow the all_opt_outs table to only the rows that correspond
         # to this committee.
         opt_outs = all_opt_outs.select_rows(lambda row: str(row.committeeid) == committeeid)  # noqa B023 function-uses-loop-variable
-
         logger.info(
             "Found %s phones to opt out in %s committee...", opt_outs.num_rows, committee_name
         )
 
         # Now we actually update the records
-
         if opt_outs.num_rows > 0:
             for opt_out in opt_outs:
-                attempt_optout(
-                    every_action,
-                    opt_out,
-                    committeeid,
-                    success_log,
-                    error_log,
-                )
+                attempt_optout(every_action, opt_out, committeeid, success_log, error_log)
 
     # Now we log results
     logger.info("There were %s successes and %s errors.", len(success_log), len(error_log))
-
-    if len(success_log) > 0:
-        success_parsonstable = Table(success_log)
-        logger.info("Copying success data into log table...")
-        rs.copy(success_parsonstable, SUCCESS_TABLE, if_exists="append", alter_table=True)
-        logger.info("Success log complete.")
-
-    if len(error_log) > 0:
-        error_parsonstable = Table(error_log)
-        logger.info("Copying error data into log table...")
-        rs.copy(error_parsonstable, ERROR_TABLE, if_exists="append", alter_table=True)
-        logger.info("Error log complete.")
+    for log, table, log_name in (
+        (success_log, SUCCESS_TABLE, "Success"),
+        (error_log, ERROR_TABLE, "Error"),
+    ):
+        save_logs(log, table, log_name)
 
 
 if __name__ == "__main__":

@@ -188,7 +188,7 @@
 | parsons/twilio/twilio.py                                  |       53 |        3 |       18 |        3 |     92% |39, 135, 140 |
 | parsons/utilities/\_\_init\_\_.py                         |        0 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/\_api\_connector\_types.py              |       23 |        0 |        0 |        0 |    100% |           |
-| parsons/utilities/api\_connector.py                       |      104 |        3 |       48 |       10 |     91% |146-\>149, 213, 267-\>exit, 310-\>313, 313-\>exit, 365-\>exit, 420-\>423, 423-\>exit, 425, 443 |
+| parsons/utilities/api\_connector.py                       |      164 |        4 |       68 |        7 |     95% |213-\>215, 301, 313, 417-\>424, 539-\>546, 548, 568 |
 | parsons/utilities/bearer\_auth.py                         |       60 |        0 |       14 |        2 |     97% |111-\>113, 113-\>115 |
 | parsons/utilities/check\_env.py                           |       18 |        4 |       10 |        2 |     79% |91-98, 101-108 |
 | parsons/utilities/cloud\_storage.py                       |       11 |        7 |        6 |        0 |     24% |     39-52 |
@@ -201,13 +201,13 @@
 | parsons/utilities/files.py                                |      121 |       22 |       32 |        8 |     80% |113, 140, 155-157, 169, 184, 192, 208-215, 252, 255, 305, 311-323 |
 | parsons/utilities/format\_phone\_number.py                |        9 |        0 |        4 |        0 |    100% |           |
 | parsons/utilities/json\_format.py                         |       24 |        0 |       14 |        1 |     97% | 43-\>exit |
-| parsons/utilities/oauth\_api\_connector.py                |       25 |        1 |        4 |        0 |     97% |       141 |
+| parsons/utilities/oauth\_api\_connector.py                |       24 |        1 |        4 |        0 |     96% |       156 |
 | parsons/utilities/sql\_helpers.py                         |        6 |        0 |        0 |        0 |    100% |           |
 | parsons/utilities/ssh\_utilities.py                       |       29 |        3 |        4 |        2 |     85% |75-77, 79-\>82, 82-\>85 |
 | parsons/utilities/zip\_archive.py                         |       17 |        1 |        2 |        1 |     89% |        30 |
 | parsons/zoom/\_\_init\_\_.py                              |        2 |        0 |        0 |        0 |    100% |           |
 | parsons/zoom/zoom.py                                      |      301 |      100 |       58 |       19 |     65% |99-\>exit, 105-107, 126-129, 148, 192, 242-250, 264-266, 329-\>331, 387-388, 398, 418-419, 443-444, 475-476, 502-503, 527-528, 544-545, 561-562, 630-\>632, 632-\>635, 642, 646-648, 651, 671-673, 709, 725-727, 741-743, 774-777, 803-810, 828-831, 834, 853-856, 859, 876-879, 882, 902-905, 908, 927-930, 933, 950-953, 956, 973-976, 979, 996-999, 1002 |
-| **TOTAL**                                                 | **11024** | **3026** | **3054** |  **577** | **69%** |           |
+| **TOTAL**                                                 | **11083** | **3027** | **3074** |  **574** | **69%** |           |
 
 
 ## Setup coverage badge

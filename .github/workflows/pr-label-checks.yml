@@ -68,7 +68,7 @@ jobs:
 
             const mapping = [
               { text: 'label: Breaking change', label: 'breaking-change' },
-              { text: 'label: Non-breaking change', label: 'non-breaking-change' }
+              { text: 'label: Non-breaking change', label: 'non-breaking-change' },
               { text: 'label: AI-Used', label: 'ai-assisted' }
             ];
 

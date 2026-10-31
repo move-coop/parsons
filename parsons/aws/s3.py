@@ -1,3 +1,4 @@
+import datetime as dt
 import logging
 import re
 
@@ -125,8 +126,8 @@ class S3:
         prefix=None,
         suffix=None,
         regex=None,
-        date_modified_before=None,
-        date_modified_after=None,
+        date_modified_before: dt.datetime | None = None,
+        date_modified_after: dt.datetime | None = None,
         **kwargs,
     ):
         """
@@ -141,9 +142,9 @@ class S3:
                 Limits the response to keys that end with specified suffix
             regex: str
                 Limits the reponse to keys that match a regex pattern
-            date_modified_before: datetime.datetime
+            date_modified_before:
                 Limits the response to keys with date modified before
-            date_modified_after: datetime.datetime
+            date_modified_after:
                 Limits the response to keys with date modified after
             kwargs:
                 Additional arguments for the S3 API call. See `AWS ListObjectsV2 documentation
@@ -362,8 +363,8 @@ class S3:
         destination_key=None,
         suffix=None,
         regex=None,
-        date_modified_before=None,
-        date_modified_after=None,
+        date_modified_before: dt.datetime | None = None,
+        date_modified_after: dt.datetime | None = None,
         public_read=False,
         remove_original=False,
         **kwargs,
@@ -385,9 +386,9 @@ class S3:
                 Limits the response to keys that end with specified suffix
             regex: str
                 Limits the reponse to keys that match a regex pattern
-            date_modified_before: datetime.datetime
+            date_modified_before:
                 Limits the response to keys with date modified before
-            date_modified_after: datetime.datetime
+            date_modified_after:
                 Limits the response to keys with date modified after
             public_read: bool
                 If the keys should be set to `public-read`

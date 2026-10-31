@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import json
 import logging
 import pickle
@@ -1194,7 +1194,7 @@ class GoogleBigQuery(DatabaseConnector):
                 raise ValueError("Primary key column contains duplicate values.")
 
         noise = f"{random.randrange(0, 10000):04}"[:4]
-        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        date_stamp = dt.datetime.now(tz=dt.timezone.utc).strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
         staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 
@@ -1471,7 +1471,7 @@ class GoogleBigQuery(DatabaseConnector):
             # BigQuery datetimes have no timezone, timestamps do
             if best_type == "datetime":
                 for value in petl.util.base.values(tbl.table, stat["name"]):
-                    if isinstance(value, datetime.datetime) and value.tzinfo:
+                    if isinstance(value, dt.datetime) and value.tzinfo:
                         best_type = "timestamp"
 
             try:

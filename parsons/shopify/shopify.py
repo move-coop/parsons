@@ -1,5 +1,5 @@
+import datetime as dt
 import re
-from datetime import datetime, timedelta
 
 from requests.auth import HTTPBasicAuth
 
@@ -173,8 +173,8 @@ class Shopify:
 
         if query_date:
             # Specific date if provided
-            query_date = datetime.strptime(query_date, "%Y-%m-%d")
-            max_date = query_date + timedelta(days=1)
+            query_date = dt.datetime.strptime(query_date, "%Y-%m-%d")
+            max_date = query_date + dt.timedelta(days=1)
             filters += (
                 f"&created_at_min={query_date.isoformat()}&created_at_max={max_date.isoformat()}"
             )

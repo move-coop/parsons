@@ -1,5 +1,5 @@
+import datetime as dt
 import logging
-from datetime import datetime, timedelta
 from typing import NoReturn
 
 from requests import Response, request
@@ -52,7 +52,9 @@ class Hustle:
         logger.debug(resp_json)
 
         auth_token = resp_json["access_token"]
-        token_expiration = datetime.now() + timedelta(seconds=resp_json["expires_in"])
+        token_expiration = dt.datetime.now(tz=dt.timezone.utc) + dt.timedelta(
+            seconds=resp_json["expires_in"]
+        )
         logger.info("Authentication token generated")
         return auth_token, token_expiration
 
@@ -63,7 +65,7 @@ class Hustle:
         """
         logger.debug("Checking token expiration.")
 
-        if datetime.now() >= self.token_expiration:
+        if dt.datetime.now(tz=dt.timezone.utc) >= self.token_expiration:
             logger.info("Refreshing authentication token.")
             self.auth_token, self.token_expiration = self._get_auth_token(
                 self.client_id, self.client_secret

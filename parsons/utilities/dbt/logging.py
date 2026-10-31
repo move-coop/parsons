@@ -1,6 +1,6 @@
 """Logging classes for use with Parsons dbt utility."""
 
-import datetime
+import datetime as dt
 import logging
 import time
 import uuid
@@ -130,7 +130,7 @@ class dbtLoggerMarkdown(dbtLogger):
         report, determining an overall 'worst-case' status for the header.
         """
         assets = self._get_status_assets(self.commands)
-        now = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
+        now = dt.datetime.now(tz=dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
 
         total_duration = sum(command.elapsed_time for command in self.commands)
         duration_str = human_readable_duration(total_duration)

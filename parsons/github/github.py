@@ -1,3 +1,4 @@
+import datetime as dt
 import itertools
 import logging
 from functools import partial, wraps
@@ -233,7 +234,7 @@ class GitHub:
         labels=None,
         sort: Literal["created", "updated", "comments"] = "created",
         direction: Literal["asc", "desc"] = "desc",
-        since=None,
+        since: dt.datetime | dt.date | None = None,
         page=None,
         page_size=100,
     ):
@@ -257,7 +258,7 @@ class GitHub:
                 "created".
             direction: str
                 Direction to sort. One of "asc", "desc". Defaults to "desc".
-            since: Optional[Union[datetime.datetime, datetime.date]]
+            since:
                 Timestamp to pull issues since. Defaults to None.
             page: Optional[int]
                 Page number. All results are returned if not set.

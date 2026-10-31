@@ -1,6 +1,6 @@
+import datetime as dt
 import logging
 import warnings
-from datetime import datetime
 
 from parsons.capitol_canary import CapitolCanary
 from parsons.etl.table import Table
@@ -44,7 +44,7 @@ class Phone2Action:
         self,
         state=None,
         campaign_id=None,
-        updated_since: str | int | datetime | None = None,
+        updated_since: str | int | dt.datetime | None = None,
         page=None,
     ):
         """

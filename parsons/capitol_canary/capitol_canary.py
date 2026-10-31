@@ -1,5 +1,5 @@
+import datetime as dt
 import logging
-from datetime import datetime
 
 from requests.auth import HTTPBasicAuth
 
@@ -64,7 +64,7 @@ class CapitolCanary:
         self,
         state=None,
         campaign_id=None,
-        updated_since: str | int | datetime | None = None,
+        updated_since: str | int | dt.datetime | None = None,
         page=None,
     ):
         """

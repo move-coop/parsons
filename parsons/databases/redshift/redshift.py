@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import json
 import logging
 import pickle
@@ -1045,7 +1045,7 @@ class Redshift(
             )
 
         noise = f"{random.randrange(0, 10000):04}"[:4]
-        date_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        date_stamp = dt.datetime.now(tz=dt.timezone.utc).strftime("%Y%m%d_%H%M")
         # Generate a temp table like "table_tmp_20200210_1230_14212"
         staging_tbl = f"{target_table}_stg_{date_stamp}_{noise}"
 

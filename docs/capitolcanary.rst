@@ -29,9 +29,9 @@ you can either pass in the app ID and app key as arguments or set the
 .. code-block:: python
    :caption: Get all advocates updated in the last day and opt them into SMS
 
-   import datetime
-   today = datetime.datetime.now(tz=datetime.timezone.utc)
-   yesterday = today - datetime.timedelta(days=1)
+   import datetime as dt
+   today = dt.datetime.now(tz=dt.timezone.utc)
+   yesterday = today - dt.timedelta(days=1)
 
    # get_advocates returns a dictionary that maps the advocate data (e.g. phones) to a parsons
    # Table with the data for each advocate

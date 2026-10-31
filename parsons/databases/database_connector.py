@@ -99,7 +99,7 @@ class DatabaseConnector(ABC):
           your new method behaves the same way and has the same parameters with the same types in the
           same order. See the note below for more detail.
 
-        - The Python type system (as of 3.10.6) will not stop you from breaking the type contract
+        - The Python type system will not stop you from breaking the type contract
           of method signatures when implementing a subclass. It is up to the author of a database
           connector to ensure that it satisfies this interface. Be careful to, for example, not
           change the types of the parameters or leave out optional parameters that are specified

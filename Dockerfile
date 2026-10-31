@@ -1,35 +1,52 @@
-FROM --platform=linux/amd64 python:3.11
+###########################################
+## Setup Environment
+###########################################
 
-###################
-## Parsons setup ##
-###################
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5 AS builder
 
-# Refresh the OS trust store so system OpenSSL/curl do not trust the
-# compromised eMudhra/emSign intermediates (see emudhra.we-have-a-problem.com).
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates \
-    && update-ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /src
-COPY . /src/
-WORKDIR /src
-
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-# Install parsons. pyproject.toml floors certifi at 2026.10.19 (eMudhra/emSign CA
-# incident); assert so a bad resolve fails the image build instead of shipping.
-# uv.lock is gitignored, so this resolves from pyproject.toml at build time.
-RUN uv sync --upgrade --all-extras --python python3.11 \
-    && .venv/bin/python -c 'import certifi; assert [int(p) for p in certifi.__version__.split(".")] >= [2026, 10, 19], certifi.__version__'
-ENV PATH="/src/.venv/bin:$PATH"
-
-# The /app directory can house the scripts that will actually execute on this Docker image.
-# Eg. If using this image in a Civis container script, Civis will install your script repo
-# (from Github) to /app.
-RUN mkdir /app
 WORKDIR /app
 
-# Useful for importing modules that are associated with your python scripts:
-ENV PYTHONPATH=.:/app
+ENV PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_NO_DEV=1
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    # --mount=type=bind,source=uv.lock,target=uv.lock \
+    uv sync --no-install-project --all-extras # --frozen
+
+COPY . /app
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --all-extras --no-editable # --frozen
+
+###########################################
+## Simplify Runtime Image
+###########################################
+
+FROM ghcr.io/astral-sh/uv:python3.11-trixie-slim@sha256:e1726dc72f5a45d6fde5814c9bdb87cfdf46ea4fd8a5fd806fdda378fffb4ae5
+
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1 \
+    PATH="/app/.venv/bin:$PATH"
+
+COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
+
+# pyproject.toml floors certifi at 2026.10.19 (eMudhra/emSign CA incident)
+# assert version complies, so a bad resolve fails the image build instead of shipping.
+RUN python -c 'import certifi; assert [int(p) for p in certifi.__version__.split(".")] >= [2026, 10, 19], certifi.__version__'
+
+###########################################
+## Startup ##
+###########################################
+
+ENTRYPOINT []
+
+USER nonroot
+
+CMD ["python3"]

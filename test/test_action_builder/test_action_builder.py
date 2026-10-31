@@ -9,8 +9,7 @@ from test.conftest import assert_matching_tables
 
 
 class TestActionBuilder(unittest.TestCase):
-    @requests_mock.Mocker()
-    def setUp(self, m):
+    def setUp(self):
         self.subdomain = "fake_subdomain"
         self.campaign = "fake-campaign"
         self.api_url = (
@@ -219,7 +218,14 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_get_page_max_cap(self, m):
+    def test_request_auth_header(self, m: requests_mock.Mocker):
+        request_type = "GET"
+        m.request(request_type, self.api_url)
+        res = self.bldr.api.request(self.api_url, request_type)
+        assert res.request.headers["OSDI-API-Token"] == self.api_key
+
+    @requests_mock.Mocker()
+    def test_get_page_max_cap(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=2&per_page=25",
             text=json.dumps(self.fake_tags_list_2),
@@ -229,7 +235,7 @@ class TestActionBuilder(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_get_page(self, m):
+    def test_get_page(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=2&per_page=2",
             text=json.dumps(self.fake_tags_list_2),
@@ -237,7 +243,7 @@ class TestActionBuilder(unittest.TestCase):
         assert self.bldr._get_page(self.campaign, "tags", 2, 2) == self.fake_tags_list_2
 
     @requests_mock.Mocker()
-    def test_get_all_records(self, m):
+    def test_get_all_records(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=1&per_page=25",
             text=json.dumps(self.fake_tags_list_1),
@@ -256,7 +262,7 @@ class TestActionBuilder(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_get_all_records_limit(self, m):
+    def test_get_all_records_limit(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=1&per_page=25",
             text=json.dumps(self.fake_tags_list_1),
@@ -276,7 +282,7 @@ class TestActionBuilder(unittest.TestCase):
         )
 
     @requests_mock.Mocker()
-    def test_get_campaign_tags(self, m):
+    def test_get_campaign_tags(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?page=1&per_page=25",
             text=json.dumps(self.fake_tags_list_1),
@@ -292,7 +298,7 @@ class TestActionBuilder(unittest.TestCase):
         assert_matching_tables(self.bldr.get_campaign_tags(), Table(self.fake_tags_list))
 
     @requests_mock.Mocker()
-    def test_get_tag_by_name(self, m):
+    def test_get_tag_by_name(self, m: requests_mock.Mocker):
         m.get(
             f"{self.api_url}/tags?filter=name eq '{self.fake_tag_1}'",
             text=json.dumps(self.fake_tag_name_search_result),
@@ -321,7 +327,7 @@ class TestActionBuilder(unittest.TestCase):
         return dict1_comp, dict2_comp
 
     @requests_mock.Mocker()
-    def test_upsert_entity(self, m):
+    def test_upsert_entity(self, m: requests_mock.Mocker):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
@@ -343,7 +349,7 @@ class TestActionBuilder(unittest.TestCase):
         assert email_comp == response_email_comp
 
     @requests_mock.Mocker()
-    def test_insert_entity_record(self, m):
+    def test_insert_entity_record(self, m: requests_mock.Mocker):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
@@ -360,7 +366,7 @@ class TestActionBuilder(unittest.TestCase):
         assert person_comp == insert_response_comp
 
     @requests_mock.Mocker()
-    def test_update_entity_record(self, m):
+    def test_update_entity_record(self, m: requests_mock.Mocker):
         m.post(f"{self.api_url}/people", text=json.dumps(self.fake_upserted_response))
 
         # Flatten and remove items added for spreadable arguments
@@ -377,7 +383,7 @@ class TestActionBuilder(unittest.TestCase):
         assert person_comp == update_response_comp
 
     @requests_mock.Mocker()
-    def test_remove_entity_record_from_campaign(self, m):
+    def test_remove_entity_record_from_campaign(self, m: requests_mock.Mocker):
         m.delete(
             f"{self.api_url}/people/{self.fake_entity_id}",
             json="{'message': 'Entity has been removed from the campaign'}",
@@ -397,7 +403,7 @@ class TestActionBuilder(unittest.TestCase):
         return sorted(tagging_data, key=lambda k: k["action_builder:name"])
 
     @requests_mock.Mocker()
-    def test_add_section_field_values_to_record(self, m):
+    def test_add_section_field_values_to_record(self, m: requests_mock.Mocker):
         m.post(f"{self.api_url}/people", json=self.tagging_callback)
         add_tags_response = self.bldr.add_section_field_values_to_record(
             self.fake_entity_id, self.fake_section, self.fake_field_values
@@ -405,7 +411,7 @@ class TestActionBuilder(unittest.TestCase):
         assert add_tags_response == self.fake_tagging
 
     @requests_mock.Mocker()
-    def test_remove_tagging(self, m):
+    def test_remove_tagging(self, m: requests_mock.Mocker):
         m.delete(
             f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
             json=self.fake_remove_tag_resp,
@@ -416,7 +422,7 @@ class TestActionBuilder(unittest.TestCase):
         assert remove_tag_resp == self.fake_remove_tag_resp
 
     @requests_mock.Mocker()
-    def test_remove_tagging_missing_tag(self, m):
+    def test_remove_tagging_missing_tag(self, m: requests_mock.Mocker):
         m.delete(
             f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
             json=self.fake_remove_tag_resp,
@@ -425,7 +431,7 @@ class TestActionBuilder(unittest.TestCase):
             self.bldr.remove_tagging(tag_id=None, tag_name=None, tagging_id=self.fake_tagging_id)
 
     @requests_mock.Mocker()
-    def test_remove_tagging_missing_identifiers(self, m):
+    def test_remove_tagging_missing_identifiers(self, m: requests_mock.Mocker):
         m.delete(
             f"{self.api_url}/tags/{self.fake_tag_id}/taggings/{self.fake_tagging_id}",
             json=self.fake_remove_tag_resp,
@@ -452,7 +458,7 @@ class TestActionBuilder(unittest.TestCase):
         return connection_data
 
     @requests_mock.Mocker()
-    def test_upsert_connection(self, m):
+    def test_upsert_connection(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
@@ -464,7 +470,7 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_upsert_connection_missing_identifiers(self, m):
+    def test_upsert_connection_missing_identifiers(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
@@ -479,7 +485,7 @@ class TestActionBuilder(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
-    def test_upsert_connection_tag_data(self, m):
+    def test_upsert_connection_tag_data(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
@@ -490,7 +496,7 @@ class TestActionBuilder(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
-    def test_upsert_connection_reactivate(self, m):
+    def test_upsert_connection_reactivate(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
@@ -505,7 +511,7 @@ class TestActionBuilder(unittest.TestCase):
         assert "inactive" not in connect_response
 
     @requests_mock.Mocker()
-    def test_deactivate_connection_post(self, m):
+    def test_deactivate_connection_post(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,
@@ -519,7 +525,7 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_deactivate_connection_put(self, m):
+    def test_deactivate_connection_put(self, m: requests_mock.Mocker):
         conn_endpoint = f"{self.api_url}/people/{self.fake_entity_id}/connections"
         conn_endpoint += "/fake-connection-id"
         m.put(
@@ -535,7 +541,7 @@ class TestActionBuilder(unittest.TestCase):
         }
 
     @requests_mock.Mocker()
-    def test_deactivate_connection_missing_identifiers(self, m):
+    def test_deactivate_connection_missing_identifiers(self, m: requests_mock.Mocker):
         m.post(
             f"{self.api_url}/people/{self.fake_entity_id}/connections",
             json=self.connect_callback,

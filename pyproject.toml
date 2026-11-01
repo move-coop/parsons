@@ -219,7 +219,7 @@ docs = [
     "Sphinx >= 7.4",
 ]
 lint = [
-    "ruff >= 0.16, < 0.17",  # extra careful with ruff because they add rules in minor versions
+    "ruff >= 0.16, < 0.18",  # extra careful with ruff because they add rules in minor versions
 ]
 pre-commit = [
     "pre-commit >= 4.6",

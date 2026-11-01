@@ -33,7 +33,7 @@ jobs:
     if: github.event_name != 'pull_request'
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -41,7 +41,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -103,7 +103,7 @@ jobs:
           # If it's a pull request, don't get full history.
           fetch-depth: ${{ github.event_name == 'pull_request' && 1 || 0 }}
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -149,7 +149,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit

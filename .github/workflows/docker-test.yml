@@ -27,13 +27,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
           allowed-endpoints: auth.docker.io:443 ${{ env.ENDPOINT_WHITELIST}}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
 

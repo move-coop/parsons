@@ -59,7 +59,7 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -75,7 +75,7 @@ jobs:
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
@@ -104,7 +104,7 @@ jobs:
           --cov=parsons
           --no-cov-on-fail
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: coverage-${{ env.RUN_KEY }}
           path: .coverage.${{ env.RUN_KEY }}
@@ -117,7 +117,7 @@ jobs:
       extras: ${{ steps.get-extras.outputs.extras }}
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -125,7 +125,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -175,7 +175,7 @@ jobs:
           - 'highest'
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -191,7 +191,7 @@ jobs:
           VAL="${HASH}-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.resolution }}"
           echo "RUN_KEY=$VAL" >> $GITHUB_ENV
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: true
@@ -218,7 +218,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -226,7 +226,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -257,7 +257,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -265,7 +265,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -290,7 +290,7 @@ jobs:
           -o results.sarif
           .
 
-      - uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2
+      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-ruff-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -309,7 +309,7 @@ jobs:
       security-events: write
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -317,7 +317,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -338,7 +338,7 @@ jobs:
           --format 'sarif'
           --output 'results.sarif'
 
-      - uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2
+      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370
         if: ( success() || failure() ) && contains('["success", "failure"]', steps.run-bandit-sarif.outcome)
         with:
           sarif_file: results.sarif
@@ -362,7 +362,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -370,7 +370,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           pattern: coverage-*
           merge-multiple: true
@@ -381,7 +381,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_COVERAGE_FILES: true
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
         with:
           name: python-coverage-comment-action
@@ -391,7 +391,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -399,7 +399,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true
@@ -428,7 +428,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43
         with:
           disable-sudo: true
           egress-policy: audit
@@ -436,7 +436,7 @@ jobs:
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           python-version: 3.14
           activate-environment: true

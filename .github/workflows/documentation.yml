@@ -49,7 +49,7 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
+          --frozen
           --no-default-groups
           --group docs
           --all-extras
@@ -78,7 +78,7 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
+          --frozen
           --no-default-groups
           --group docs
           --all-extras
@@ -111,7 +111,7 @@ jobs:
 
       - run: >-
           uv sync
-          --upgrade
+          --frozen
           --no-default-groups
           --group docs
           --all-extras

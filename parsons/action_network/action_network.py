@@ -1462,12 +1462,14 @@ class ActionNetwork:
         if isinstance(email_address, str):
             email_addresses_field = [{"address": email_address}]
         elif isinstance(email_address, list):
-            if isinstance(email_address[0], str):
+            if not email_address:
+                pass
+            elif isinstance(email_address[0], str):
                 email_addresses_field = [{"address": email} for email in email_address]
                 email_addresses_field[0]["primary"] = True
             elif isinstance(email_address[0], dict):
                 email_addresses_field = email_address
-        else:
+        elif email_address is not None:
             raise ValueError(
                 f"Unexpected type for email_address. Got {type(email_address)}, "
                 "expected str or list."
@@ -1480,14 +1482,16 @@ class ActionNetwork:
             mobile_numbers_field = [{"number": str(mobile_number)}]
         elif isinstance(mobile_number, list):
             if len(mobile_number) > 1:
-                raise Exception("Action Network allows only 1 phone number per activist")
-            if isinstance(mobile_number[0], list):
+                raise ValueError("Action Network allows only 1 phone number per activist")
+            if not mobile_number:
+                pass
+            elif isinstance(mobile_number[0], str):
                 mobile_numbers_field = [
                     {"number": re.sub("[^0-9]", "", cell)} for cell in mobile_number
                 ]
                 mobile_numbers_field[0]["primary"] = True
-            if isinstance(mobile_number[0], int):
-                mobile_numbers_field = [{"number": cell} for cell in mobile_number]
+            elif isinstance(mobile_number[0], int):
+                mobile_numbers_field = [{"number": str(cell)} for cell in mobile_number]
                 mobile_numbers_field[0]["primary"] = True
 
         # Including status in this field changes the opt-in status in
@@ -1502,7 +1506,7 @@ class ActionNetwork:
             mobile_numbers_field = mobile_number
 
         if not email_addresses_field and not mobile_numbers_field:
-            raise Exception(
+            raise ValueError(
                 "Either email_address or mobile_number is required and can be formatted "
                 "as a string, list of strings, a dictionary, a list of dictionaries, or "
                 "(for mobile_number only) an integer or list of integers"

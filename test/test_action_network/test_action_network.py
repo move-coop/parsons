@@ -775,6 +775,62 @@ class TestPeople:
         assert isinstance(res_json, dict)
         assert res_json == fake_upsert_person
 
+    def test_upsert_person_mobile_only(
+        self, requests_mock: Mocker, an: ActionNetwork, fake_upsert_person: dict
+    ) -> None:
+        req_url = f"{API_URL}/people"
+        requests_mock.post(req_url, text=json.dumps(fake_upsert_person))
+
+        an.upsert_person(email_address=None, mobile_number="555-555-5555")
+
+        sent = requests_mock.last_request.json()["person"]
+        assert "email_addresses" not in sent
+        assert sent["phone_numbers"] == [{"number": "5555555555"}]
+
+    @pytest.mark.parametrize("mobile_number", [["555-555-5555"], [5555555555]])
+    def test_upsert_person_mobile_list(
+        self,
+        requests_mock: Mocker,
+        an: ActionNetwork,
+        fake_upsert_person: dict,
+        mobile_number: list,
+    ) -> None:
+        requests_mock.post(f"{API_URL}/people", text=json.dumps(fake_upsert_person))
+
+        an.upsert_person(mobile_number=mobile_number)
+
+        sent = requests_mock.last_request.json()["person"]
+        assert sent["phone_numbers"] == [{"number": "5555555555", "primary": True}]
+
+    def test_upsert_person_requires_email_or_mobile(
+        self, requests_mock: Mocker, an: ActionNetwork
+    ) -> None:
+        requests_mock.post(f"{API_URL}/people", text="{}")
+
+        with pytest.raises(Exception, match="Either email_address or mobile_number is required"):
+            an.upsert_person(email_address=None, mobile_number=None, given_name="Test")
+
+        assert not requests_mock.called
+
+    def test_upsert_person_empty_lists_treated_as_missing(
+        self, requests_mock: Mocker, an: ActionNetwork, fake_upsert_person: dict
+    ) -> None:
+        requests_mock.post(f"{API_URL}/people", text=json.dumps(fake_upsert_person))
+
+        with pytest.raises(Exception, match="Either email_address or mobile_number is required"):
+            an.upsert_person(email_address=[], mobile_number=[])
+        assert not requests_mock.called
+
+        an.upsert_person(email_address=[], mobile_number="555-555-5555")
+        sent = requests_mock.last_request.json()["person"]
+        assert "email_addresses" not in sent
+        assert sent["phone_numbers"] == [{"number": "5555555555"}]
+
+        an.upsert_person(email_address="test@example.com", mobile_number=[])
+        sent = requests_mock.last_request.json()["person"]
+        assert sent["email_addresses"] == [{"address": "test@example.com"}]
+        assert "phone_numbers" not in sent
+
     def test_update_person(
         self,
         requests_mock: Mocker,

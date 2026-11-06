@@ -129,7 +129,7 @@ class APIConnector:
     @deprecated("Use '.session.auth' instead")
     def auth(self):
         """
-        Access the authentication handler from the requests Session.
+        Access the authentication handler from the :class:`~requests.Session`.
 
         .. version-deprecated:: v6.2.0
 
@@ -156,7 +156,7 @@ class APIConnector:
     @deprecated("Use '.session.headers' instead")
     def headers(self):
         """
-        Access the headers from the requests Session.
+        Access the headers from the :class:`~requests.Session`.
 
         .. version-deprecated:: v6.2.0
 

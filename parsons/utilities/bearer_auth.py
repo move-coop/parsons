@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 class BearerAuth(AuthBase):
     """
-    Requests authentication handler to add bearer token header to :class:`requests.Session` instances.
+    Requests authentication handler to add bearer token header to :class:`~requests.Session` instances.
 
     .. code-block:: python
 

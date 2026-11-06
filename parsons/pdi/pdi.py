@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from json.decoder import JSONDecodeError
 
 import requests
@@ -92,7 +92,7 @@ class PDI(
 
     def _request(self, url, req_type="GET", post_data=None, args=None, limit=None):
         # Make sure to have a current token before we make another request
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         if now > self.session_exp:
             self._get_session_token()
 

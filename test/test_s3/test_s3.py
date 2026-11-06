@@ -2,7 +2,7 @@ import os
 import time
 import unittest
 import urllib
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -116,7 +116,7 @@ class TestS3(unittest.TestCase):
 
     def test_list_keys_date_modified(self):
         # Set current utc timestamp with timezone
-        current_utc = datetime.now(timezone.utc)
+        current_utc = datetime.now(UTC)
 
         # Ensure the files created before now are included
         keys = self.s3.list_keys(self.test_bucket, date_modified_before=current_utc)

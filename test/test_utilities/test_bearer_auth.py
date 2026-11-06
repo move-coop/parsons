@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import secrets
 import warnings
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 
 import pytest
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-TEST_REFRESH_DATETIME = datetime(year=2026, month=5, day=1, hour=18, minute=54, tzinfo=timezone.utc)
+TEST_REFRESH_DATETIME = datetime(year=2026, month=5, day=1, hour=18, minute=54, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -61,7 +61,7 @@ def bearer_auth_token_name() -> BearerAuth:
 def bearer_auth_expires() -> BearerAuth:
     """Fixture for creating a BearerAuth object with a non-expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
+    now = datetime.now(tz=UTC)
     later = now + timedelta(seconds=600)
     return BearerAuth(api_token, expires=later)
 
@@ -70,7 +70,7 @@ def bearer_auth_expires() -> BearerAuth:
 def bearer_auth_expired() -> BearerAuth:
     """Fixture for creating a BearerAuth object with an expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
+    now = datetime.now(tz=UTC)
     before = now - timedelta(seconds=600)
     return BearerAuth(api_token, expires=before)
 
@@ -79,7 +79,7 @@ def bearer_auth_expired() -> BearerAuth:
 def bearer_auth_refresh_callback() -> BearerAuth:
     """Fixture for creating a BearerAuth object with a refresh callback and an expired token."""
     api_token = secrets.token_hex(64)
-    now = datetime.now(tz=timezone.utc)
+    now = datetime.now(tz=UTC)
     now_plus = now - timedelta(seconds=600)
 
     def refresh_callback() -> tuple[str, datetime]:
@@ -92,7 +92,7 @@ def bearer_auth_refresh_callback() -> BearerAuth:
     ("auth_kwargs", "expected_attr", "expected_value_key"),
     [
         ({}, "api_key", "api_token"),
-        ({"expires": datetime.now(tz=timezone.utc)}, "expires", "expires"),
+        ({"expires": datetime.now(tz=UTC)}, "expires", "expires"),
         ({"token_name": "LoginToken"}, "token_name", "token_name"),
         ({"token_divider": ":"}, "token_divider", "token_divider"),
         ({"header_name": "AuthHeader"}, "header_name", "header_name"),
@@ -138,13 +138,13 @@ def test_auth_strips() -> None:
         ({"token_divider": ":"}, {"token_divider": ":"}, True),
         ({"token_divider": ":"}, {"token_divider": " "}, False),
         (
-            {"expires": (now := datetime.now(tz=timezone.utc))},
+            {"expires": (now := datetime.now(tz=UTC))},
             {"expires": now},
             True,
         ),
         (
-            {"expires": datetime.now(tz=timezone.utc)},
-            {"expires": datetime.now(tz=timezone.utc) + timedelta(seconds=600)},
+            {"expires": datetime.now(tz=UTC)},
+            {"expires": datetime.now(tz=UTC) + timedelta(seconds=600)},
             False,
         ),
     ],

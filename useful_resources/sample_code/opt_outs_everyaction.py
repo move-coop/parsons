@@ -68,7 +68,7 @@ def attempt_optout(
     # Documentation on this json construction is here
     # https://docs.ngpvan.com/reference/common-models
     match_json = {"phones": [{"phoneNumber": phone, "phoneOptInStatus": "O"}]}
-    timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    timestamp = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
 
     try:
         response = every_action.update_person_json(id=vanid, match_json=match_json)

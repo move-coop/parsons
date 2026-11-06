@@ -125,7 +125,7 @@ class APIConnector:
     @property
     def auth(self) -> None:
         """
-        Access the authentication handler from the requests Session.
+        Access the authentication handler from the :class:`~requests.Session`.
 
         .. version-removed:: v8.0.0
 
@@ -134,7 +134,7 @@ class APIConnector:
     @property
     def headers(self) -> None:
         """
-        Access the headers from the requests Session.
+        Access the headers from the :class:`~requests.Session`.
 
         .. version-removed:: v8.0.0
 

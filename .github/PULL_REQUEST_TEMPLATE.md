@@ -33,8 +33,7 @@ If there are no breaking changes, any existing parsons user should not need to d
 
 ## Contributor Guidelines
 
-Parsons has well-documented [contribution guidelines](https://www.parsonsproject.org/pub/contributing-guide/)
-and [coding conventions](https://www.parsonsproject.org/pub/coding-conventions/).
+Parsons has well-documented [contribution guidelines](https://www.parsonsproject.org/pub/contributing-guide/) and [coding conventions](https://www.parsonsproject.org/pub/coding-conventions/).
 Have you familiarized yourself with this documentation?
 
 - [ ] Yes

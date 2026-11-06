@@ -5,6 +5,7 @@ import uuid
 from typing import Literal
 
 import petl
+from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
@@ -232,6 +233,7 @@ class FileLoadingJobs:
     def __init__(self, van_connection):
         self.connection = van_connection
 
+    @deprecated("Deprecated method. Use upload_scores instead.")
     def create_file_load(
         self,
         file_name,
@@ -250,11 +252,9 @@ class FileLoadingJobs:
         auto_tolerance=None,
     ):
         """
-        .. warning::
-           .. deprecated:: 0.7 Use :meth:`parsons.ngpvan.scores.Scores.upload_scores` instead.
+        Load a file.
 
-        Loads a file. Only used for loading scores at this time. Scores must be
-        compressed using `zip`.
+        Only used for loading scores at this time. Scores must be compressed using `zip`.
 
         Args:
             file_name: str
@@ -285,6 +285,10 @@ class FileLoadingJobs:
         Returns:
             dict
                 The file load id
+
+        .. version-deprecated:: v0.7.0
+
+            Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
 
         """
         columns = [{"name": c} for c in columns]
@@ -329,6 +333,7 @@ class FileLoadingJobs:
         logger.info("Score loading job %s created.", r)
         return r
 
+    @deprecated("Deprecated method. Use upload_scores instead.")
     def create_file_load_multi(
         self,
         file_name,
@@ -344,11 +349,7 @@ class FileLoadingJobs:
         email=None,
     ):
         """
-        .. warning::
-           .. deprecated:: 0.7 Use :meth:`parsons.ngpvan.scores.Scores.upload_scores` instead.
-
-        An iteration of the :meth:`.create_file_load` method that allows you to load multiple scores
-        at the same time.
+        Load multiple scores at the same time.
 
         Args:
             file_name : str
@@ -380,6 +381,10 @@ class FileLoadingJobs:
 
         Returns:
             The file load job id
+
+        .. version-deprecated:: v0.7.0
+
+            Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
 
         """
         columns = [{"name": c} for c in columns]

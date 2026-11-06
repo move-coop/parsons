@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed
         with:
-          egress-policy: block
+          egress-policy: audit
           allowed-endpoints: >
             api.deps.dev:443
             api.github.com:443

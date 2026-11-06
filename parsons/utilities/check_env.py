@@ -65,16 +65,10 @@ def check(
             Name of environment variable to check.
         value:
             If provided, ignore environment variable and return this.
-        opt:
-            Deprecated; use `optional` instead.
-            If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
 
     Keyword Args:
         optional:
             If ``True``, return ``None`` if no value is found instead of raising ``KeyError``.
-        field:
-            Deprecated; use `value` instead.
-            If provided, ignore environment variable and return this.
 
     Returns:
         The value of the requested environment variable (str) or the provided value (T).
@@ -82,6 +76,14 @@ def check(
 
     Raises:
         KeyError: If no value is found/provided and `optional` is ``False``.
+
+    .. version-changed:: v6.1.0
+
+        Deprecated `opt` positional argument in favor of `optional` keyword argument.
+
+    .. version-changed:: v6.1.0
+
+        Deprecated `field` positional argument in favor of `value` positional argument.
 
     """
     # Handle deprecated arguments

@@ -1,4 +1,3 @@
-import warnings
 from pathlib import Path
 
 import requests
@@ -148,21 +147,16 @@ class Slack:
 
             Removed `thread_ts` argument in favor of `parent_message_id`.
 
-        """
-        if "as_user" in kwargs:
-            warnings.warn(
-                "as_user is a deprecated argument to message_channel.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-        if "thread_ts" in kwargs:
-            warnings.warn(
-                "thread_ts argument to message_channel will be ignored. Use parent_message_id.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            kwargs.pop("thread_ts", None)
+        .. version-changed:: v8.0.0
 
+            Removed `as_user` argument.
+
+        .. version-changed:: v8.0.0
+
+            Removed `thread_ts` argument.
+
+
+        """
         # Resolve channel name to ID if needed
         channel_id = self._resolve_channel_id(channel)
 

@@ -3,7 +3,6 @@ import uuid
 import warnings
 
 import gspread
-from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.google.utilities import (
@@ -255,9 +254,7 @@ class GoogleSheets:
         logger.info("Created worksheet.")
         return sheet_count - 1
 
-    def append_to_sheet(
-        self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
-    ):
+    def append_to_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
         """
         Append data from a Parsons table to a Google sheet.
 
@@ -280,19 +277,14 @@ class GoogleSheets:
 
             Deprecated `sheet_index` argument in favor of `worksheet`.
 
+        .. version-changed:: v8.0.0
+
+            Removed `sheet_index` argument.
+
         """
         if not table.num_rows:
             logger.warning("No data provided to append, skipping.")
             return
-
-        # This is in here to ensure backwards compatibility with previous versions of Parsons.
-        if "sheet_index" in kwargs:
-            worksheet = kwargs["sheet_index"]
-            warnings.warn(
-                "Argument deprecated. Use worksheet instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
 
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
 
@@ -320,12 +312,16 @@ class GoogleSheets:
         sheet.update_cells(cells, value_input_option=value_input_option)
         logger.info("Appended %s rows to worksheet.", table.num_rows)
 
+        return None
+
     def paste_data_in_sheet(
         self, spreadsheet_id, table, worksheet=0, header=True, startrow=0, startcol=0
     ):
         """
-        Pastes data from a Parsons table to a Google sheet. Note that this may overwrite
-        presently existing data. This function is useful for adding data to a subsection
+        Paste data from a Parsons table to a Google sheet.
+
+        Note that this may overwrite presently existing data.
+        This function is useful for adding data to a subsection
         if an existing sheet that will have other existing data - contrast to
         `overwrite_sheet` (which will fully replace any existing data) and `append_to_sheet`
         (which sticks the data only after all other existing data).
@@ -379,9 +375,7 @@ class GoogleSheets:
 
         logger.info("Pasted data to %s in worksheet.", data_range)
 
-    def overwrite_sheet(
-        self, spreadsheet_id, table, worksheet=0, user_entered_value=False, **kwargs
-    ):
+    def overwrite_sheet(self, spreadsheet_id, table, worksheet=0, user_entered_value=False):
         """
         Replace the data in a Google sheet with a Parsons table.
 
@@ -403,16 +397,11 @@ class GoogleSheets:
 
             Deprecated `sheet_index` argument in favor of `worksheet`.
 
-        """
-        # This is in here to ensure backwards compatibility with previous versions of Parsons.
-        if "sheet_index" in kwargs:
-            worksheet = kwargs["sheet_index"]
-            warnings.warn(
-                "Argument deprecated. Use worksheet instead.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
+        .. version-changed:: v8.0.0
 
+            Removed `sheet_index` argument.
+
+        """
         sheet = self._get_worksheet(spreadsheet_id, worksheet)
         sheet.clear()
 
@@ -494,8 +483,7 @@ class GoogleSheets:
         ws.format(range, cell_format)
         logger.info("Formatted worksheet")
 
-    @deprecated("Deprecated method. Use get_worksheet instead.")
-    def read_sheet(self, spreadsheet_id, sheet_index=0):
+    def read_sheet(self) -> None:
         """
         Read the first worksheet with by index to a Table.
 
@@ -503,11 +491,11 @@ class GoogleSheets:
 
             Deprecated in favor of :meth:`get_worksheet`.
 
-        """
-        return self.get_worksheet(spreadsheet_id, sheet_index)
+        .. version-removed:: v8.0.0
 
-    @deprecated("Deprecated method. Use get_worksheet instead.")
-    def read_sheet_with_title(self, spreadsheet_id, title):
+        """
+
+    def read_sheet_with_title(self) -> None:
         """
         Read the first worksheet with a matching title to a Table.
 
@@ -515,11 +503,11 @@ class GoogleSheets:
 
             Deprecated in favor of :meth:`get_worksheet`.
 
-        """
-        return self.get_worksheet(spreadsheet_id, title)
+        .. version-removed:: v8.0.0
 
-    @deprecated("Deprecated method. Use get_worksheet_index instead.")
-    def get_sheet_index_with_title(self, spreadsheet_id, title):
+        """
+
+    def get_sheet_index_with_title(self) -> None:
         """
         Get the index of the first worksheet with a matching title.
 
@@ -527,5 +515,6 @@ class GoogleSheets:
 
             Deprecated in favor of :meth:`get_worksheet_index`.
 
+        .. version-removed:: v8.0.0
+
         """
-        return self.get_worksheet_index(spreadsheet_id, title)

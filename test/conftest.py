@@ -21,7 +21,7 @@ from parsons import Table
 #     ...rest of test...
 
 
-def mark_live_test(func) -> MarkDecorator:
+def mark_live_test() -> None:
     """
     Alias `@pytest.mark.live` as `@mark_live_test` with deprecation message.
 
@@ -29,17 +29,13 @@ def mark_live_test(func) -> MarkDecorator:
 
         Deprecated `@mark_live_test` decorator in favor of `@pytest.mark.live`.
 
+    .. version-removed:: v8.0.0
+
     """
-    warnings.warn(
-        "Marking tests with @mark_live_test is deprecated, use @pytest.mark.live instead.",
-        category=pytest.PytestDeprecationWarning,
-        stacklevel=2,
-    )
-    return pytest.mark.live(func)
 
 
 def pytest_addoption(parser) -> None:
-    """Add pytest command-line flag `--live` to activate live tests"""
+    """Add pytest command-line flag `--live` to activate live tests."""
     parser.addoption(
         "--live",
         action="store",

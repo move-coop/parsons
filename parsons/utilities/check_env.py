@@ -1,5 +1,4 @@
 import os
-import warnings
 from typing import Literal, TypeVar, overload
 
 T = TypeVar("T")
@@ -9,10 +8,8 @@ T = TypeVar("T")
 def check(
     env: str,
     value: None = None,
-    opt: bool | None = ...,
     *,
     optional: Literal[True],
-    field: None = None,
 ) -> str | None: ...
 
 
@@ -20,10 +17,8 @@ def check(
 def check(
     env: str,
     value: None = None,
-    opt: bool | None = ...,
     *,
     optional: Literal[False] = False,
-    field: None = None,
 ) -> str: ...
 
 
@@ -31,10 +26,8 @@ def check(
 def check(
     env: str,
     value: T | None = ...,
-    opt: bool | None = ...,
     *,
     optional: Literal[False] = False,
-    field: T | None = ...,
 ) -> T | str: ...
 
 
@@ -42,20 +35,16 @@ def check(
 def check(
     env: str,
     value: T | None = ...,
-    opt: bool | None = ...,
     *,
     optional: Literal[True],
-    field: T | None = ...,
 ) -> T | str | None: ...
 
 
 def check(
     env: str,
     value: T | None = None,
-    opt: bool | None = None,
     *,
     optional: bool = False,
-    field: T | None = None,
 ) -> T | str | None:
     """
     Check if an environment variable has been set or value has been provided.
@@ -85,28 +74,15 @@ def check(
 
         Ranamed second positional argument `field` to `value`, adding deprecated `field` keyword argument for compatibility.
 
+    .. version-changed:: v8.0.0
+
+        Removed `opt` positional argument.
+
+    .. version-changed:: v8.0.0
+
+        Removed `field` keyword argument.
+
     """
-    # Handle deprecated arguments
-    if opt is not None:
-        warnings.warn(
-            "The 'opt' positional argument is deprecated. "
-            "Use the 'optional' keyword argument. "
-            "Overriding 'optional' with value of 'opt' for backwards-compatibility.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        optional = opt
-
-    if field is not None:
-        warnings.warn(
-            "The 'field' keyword argument is deprecated. "
-            "Use the 'value' positional or keyword argument. "
-            "Overriding 'value' with value of 'field' for backwards-compatibility.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        value = field
-
     if value is not None:
         return value
 

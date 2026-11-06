@@ -1,10 +1,7 @@
 import json
 import logging
 import re
-import warnings
 from typing import Literal
-
-from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.utilities import check_env
@@ -1548,28 +1545,7 @@ class ActionNetwork:
         )
         return response
 
-    @deprecated("Deprecated method. Use upsert_person instead.")
-    def add_person(
-        self,
-        email_address: str
-        | list[str]
-        | list[dict[Literal["address", "primary", "status"], str | bool]]
-        | None = None,
-        given_name=None,
-        family_name=None,
-        tags=None,
-        languages_spoken=None,
-        postal_addresses=None,
-        mobile_number: (
-            str
-            | int
-            | list[str | int]
-            | list[dict[Literal["address", "primary", "status"], str | bool]]
-            | None
-        ) = None,
-        mobile_status: Literal["subscribed", "unsubscribed"] | None = "subscribed",
-        **kwargs,
-    ):
+    def add_person(self) -> None:
         """
         Create a person in the database.
 
@@ -1577,17 +1553,9 @@ class ActionNetwork:
 
             Deprecated in favor of :meth:`upsert_person`.
 
+        .. version-removed:: v8.0.0
+
         """
-        self.upsert_person(
-            email_address=email_address,
-            given_name=given_name,
-            family_name=family_name,
-            languages_spoken=languages_spoken,
-            postal_addresses=postal_addresses,
-            mobile_number=mobile_number,
-            mobile_status=mobile_status,
-            **kwargs,
-        )
 
     def update_person(self, entry_id, background_processing=False, **kwargs):
         """
@@ -2194,7 +2162,7 @@ class ActionNetwork:
         return self.api.post_request(url=f"surveys/{survey_id}", data=json.dumps(data))
 
     # Tags
-    def get_tags(self, limit=None, per_page=None):
+    def get_tags(self, limit=None):
         """
         Get a list of tags.
 
@@ -2212,13 +2180,11 @@ class ActionNetwork:
 
             Deprecated `per_page` argument.
 
+        .. version-changed:: v8.0.0
+
+            Removed `per_page` argument.
+
         """
-        if per_page:
-            warnings.warn(
-                "per_page is a deprecated argument to get_tags",
-                DeprecationWarning,
-                stacklevel=2,
-            )
         return self._get_entry_list("tags", limit)
 
     def get_tag(self, tag_id):

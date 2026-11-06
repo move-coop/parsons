@@ -15,7 +15,7 @@ from parsons.ngpvan.locations import Locations
 from parsons.ngpvan.people import People
 from parsons.ngpvan.printed_lists import PrintedLists
 from parsons.ngpvan.saved_lists import ExportJobs, Folders, SavedLists
-from parsons.ngpvan.scores import FileLoadingJobs, Scores
+from parsons.ngpvan.scores import Scores
 from parsons.ngpvan.signups import Signups
 from parsons.ngpvan.supporter_groups import SupporterGroups
 from parsons.ngpvan.survey_questions import SurveyQuestions
@@ -38,7 +38,6 @@ class VAN(
     SurveyQuestions,
     Codes,
     Scores,
-    FileLoadingJobs,
     SupporterGroups,
     Signups,
     Locations,

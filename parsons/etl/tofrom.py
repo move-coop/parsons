@@ -909,7 +909,7 @@ class ToFrom:
         return Table(petl.fromcsv(local_path, **csvargs))
 
     @classmethod
-    def from_csv_string(cls, csv_string: str, *, str: str | None = None, **csvargs) -> Table:
+    def from_csv_string(cls, csv_string: str, **csvargs) -> Table:
         """
         Create a Table from a string representing a CSV.
 
@@ -921,16 +921,12 @@ class ToFrom:
 
             Deprecated `str` argument in favor of `csv_string` to avoid shadowing `str` type.
 
+        .. version-changed:: v8.0.0
+
+            Removed `str` argument.
+
         """
         from parsons import Table
-
-        if str:
-            warnings.warn(
-                "`str` keyword argument to `from_csv_string` is deprecated, use `csv_string`",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            csv_string = str
 
         bytesio = io.BytesIO(csv_string.encode("utf-8"))
         memory_source = petl.io.sources.MemorySource(bytesio.read())

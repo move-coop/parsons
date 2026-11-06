@@ -1576,6 +1576,7 @@ class ActionNetwork:
         .. version-deprecated:: v0.21.0
 
             Deprecated in favor of :meth:`upsert_person`.
+            Removal scheduled for v8.0.0.
 
         """
         self.upsert_person(
@@ -2211,6 +2212,7 @@ class ActionNetwork:
         .. version-changed:: v1.2.0
 
             Deprecated `per_page` argument.
+            Removal scheduled for v8.0.0.
 
         """
         if per_page:

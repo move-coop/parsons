@@ -71,6 +71,7 @@ class Manifest:
         .. version-deprecated:: v6.0.0
 
             Deprecated `dbt_manifest` attribute in favor of `run_execution_result`, as the former was a misnomer.
+            Removal scheduled for v8.0.0.
 
         """
         warnings.warn(

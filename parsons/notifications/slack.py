@@ -143,10 +143,12 @@ class Slack:
             and icon_emoji args to customize the attributes of the user posting the message.
             See `<https://docs.slack.dev/reference/methods/chat.postMessage#legacy_authorship>`__
             for more information about legacy authorship.
+            Removal scheduled for v8.0.0.
 
         .. version-changed:: v3.0.0
 
             Removed `thread_ts` argument in favor of `parent_message_id`.
+            Removal scheduled for v8.0.0.
 
         """
         if "as_user" in kwargs:

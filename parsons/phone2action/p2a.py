@@ -23,6 +23,7 @@ class Phone2Action:
     .. version-deprecated:: v0.20.0
 
         Deprecated in favor of :class:`parsons.CapitolCanary`.
+        Removal scheduled for v8.0.0.
 
     """
 

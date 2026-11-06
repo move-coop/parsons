@@ -79,11 +79,13 @@ def check(
 
     .. version-changed:: v6.1.0
 
-        Deprecated `opt` positional argument in favor of `optional` keyword argument.
+        Deprecated third positional argument `opt` in favor of `optional` keyword argument.
+        Removal scheduled for v8.0.0.
 
     .. version-changed:: v6.1.0
 
-        Deprecated `field` positional argument in favor of `value` positional argument.
+        Renamed second positional argument `field` to `value`, adding deprecated `field` keyword argument for compatibility.
+        Removal scheduled for v8.0.0.
 
     """
     # Handle deprecated arguments

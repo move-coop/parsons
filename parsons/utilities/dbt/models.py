@@ -1,7 +1,6 @@
 """Pydantic data models for use with dbt utilities."""
 
 import collections
-import warnings
 
 from dbt.artifacts.resources.types import NodeType
 from dbt.artifacts.schemas.run import RunExecutionResult

@@ -1,11 +1,9 @@
 import os
 import unittest
-import unittest.mock as mock
 
 import requests_mock
 
-from parsons import VAN, Table
-from parsons.utilities import cloud_storage
+from parsons import VAN
 from test.conftest import validate_list
 
 

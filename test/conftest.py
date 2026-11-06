@@ -1,9 +1,7 @@
 import os
-import warnings
 from pathlib import Path
 
 import pytest
-from _pytest.mark import MarkDecorator
 
 from parsons import Table
 

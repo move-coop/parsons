@@ -3,7 +3,6 @@ from __future__ import annotations
 import gzip
 import io
 import json
-import warnings
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, overload
 

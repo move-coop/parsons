@@ -135,29 +135,3 @@ def test_init_does_not_accept_ratelimiter_and_session() -> None:
     session = requests.Session()
     with pytest.raises(ValueError, match="session and ratelimit cannot both be provided"):
         APIConnector(uri=EXAMPLE_URL, ratelimit=limiter, session=session)
-
-
-@pytest.mark.filterwarnings("ignore:Use '\\.session\\.(auth|headers)' instead:DeprecationWarning")
-def test_can_access_deprecated_properties() -> None:
-    """Test that the deprecated auth and headers properties still work."""
-    headers = CaseInsensitiveDict({"authorization": "Bearer cz8on37ogn37vn9wg3n7gy29"})
-    auth = HTTPBasicAuth("user", "passwd")
-    conn = APIConnector(uri=EXAMPLE_URL, headers=headers, auth=auth)
-
-    # Ensure deprecated properties pass through session data
-    assert conn.headers == conn.session.headers
-    assert conn.auth == conn.session.auth
-
-    # Ensure setting value of deprecated properties updates session data
-    conn.headers = CaseInsensitiveDict({"authorization": "Bearer i3f937792g37739b937"})
-    conn.auth = HTTPBasicAuth("lizzy", "solidarity")
-
-    assert conn.headers == conn.session.headers
-    assert conn.auth == conn.session.auth
-
-    # Ensure deleting deprecated properties deletes session data
-    del conn.headers
-    del conn.auth
-
-    assert getattr(conn, "headers", None) == getattr(conn.session, "headers", None)
-    assert getattr(conn, "auth", None) == getattr(conn.session, "auth", None)

@@ -5,7 +5,6 @@ import uuid
 from typing import Literal
 
 import petl
-from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
@@ -230,205 +229,34 @@ class Scores:
 
 
 class FileLoadingJobs:
-    def __init__(self, van_connection):
-        self.connection = van_connection
+    def __init__(self) -> None:
+        """
+        Initialize the FileLoadingJobs class.
 
-    @deprecated("Deprecated method. Use upload_scores instead.")
-    def create_file_load(
-        self,
-        file_name,
-        file_url,
-        columns,
-        id_column,
-        id_type,
-        score_id,
-        score_column,
-        delimiter: Literal["csv", "tab", "pipe"] = "csv",
-        header=True,
-        quotes=True,
-        description=None,
-        email=None,
-        auto_average=None,
-        auto_tolerance=None,
-    ):
+        .. version-removed:: v8.0.0
+
+        """
+
+    def create_file_load(self) -> None:
         """
         Load a file.
 
-        Only used for loading scores at this time. Scores must be compressed using `zip`.
-
-        Args:
-            file_name: str
-                The name of the file contained in the zip file.
-            file_url: str
-                The url path to directly download the file. Can also be a path to an FTP site.
-            columns: list
-                A list of column names contained in the file.
-            id_column: str
-                The column name of the id column in the file.
-            id_type: str
-                A valid primary key, such as `VANID` or `DWID`. Varies by VAN instance.
-            score_id: int
-                The score slot id
-            score_column: str
-                    The column holding the score
-            delimiter: str
-                    The file delimiter used.
-            email: str
-                A valid email address in which file loading status will be sent.
-            auto_average: float
-                The average of scores to be loaded.
-            auto_tolerance: float
-                The fault tolerance of the VAN calculated average compared to the ``auto_average``.
-                The tolerance must be less than 10% of the difference between the maximum and
-                minimum possible acceptable values of the score.
-
-        Returns:
-            dict
-                The file load id
-
         .. version-deprecated:: v0.7.0
 
             Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
 
+        .. version-removed:: v8.0.0
+
         """
-        columns = [{"name": c} for c in columns]
 
-        # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
-        # as some urls might not end in ".zip".
-
-        if delimiter not in ["csv", "tab", "pipe"]:
-            raise ValueError("Delimiter must be one of 'csv', 'tab' or 'pipe'")
-
-        delimiter = delimiter.capitalize()
-
-        json = {
-            "description": "A description",
-            "file": {
-                "columnDelimiter": delimiter,
-                "columns": columns,
-                "fileName": file_name,
-                "hasHeader": header,
-                "hasQuotes": quotes,
-                "sourceUrl": file_url,
-            },
-            "actions": [
-                {
-                    "actionType": "score",
-                    "personIdColumn": id_column,
-                    "personIdType": id_type,
-                    "scoreColumn": score_column,
-                    "scoreId": score_id,
-                }
-            ],
-            "listeners": [{"type": "EMAIL", "value": email}],
-        }
-
-        if auto_average and auto_tolerance:
-            json["actions"]["approvalCriteria"] = {
-                "average": auto_average,
-                "tolerance": auto_tolerance,
-            }
-
-        r = self.connection.post_request("fileLoadingJobs", json=json)["jobId"]
-        logger.info("Score loading job %s created.", r)
-        return r
-
-    @deprecated("Deprecated method. Use upload_scores instead.")
-    def create_file_load_multi(
-        self,
-        file_name,
-        file_url,
-        columns,
-        id_column,
-        id_type,
-        score_map,
-        delimiter: Literal["csv", "tab", "pipe"] = "csv",
-        header=True,
-        quotes=True,
-        description=None,
-        email=None,
-    ):
+    def create_file_load_multi(self) -> None:
         """
         Load multiple scores at the same time.
 
-        Args:
-            file_name : str
-                The name of the file contained in the zip file.
-            file_url : str
-                The url path to directly download the file. Can also be a path to an FTP site.
-            columns: list
-                A list of column names contained in the file.
-            id_column : str
-                The column name of the id column in the file.
-            id_type : str
-                A valid primary key, such as `VANID` or `DWID`. Varies by VAN instance.
-            score_map : list
-                A list of dicts that adheres to the following syntax
-
-                .. code-block:: python
-
-                    [
-                        {
-                            'score_id' : int,
-                            'score_column': str,
-                            'auto_average': float,
-                            'auto_tolerance': float
-                        }
-                    ]
-
-            email: str
-                A valid email address in which file loading status will be sent.
-
-        Returns:
-            The file load job id
-
         .. version-deprecated:: v0.7.0
 
             Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
 
+        .. version-removed:: v8.0.0
+
         """
-        columns = [{"name": c} for c in columns]
-
-        # To Do: Validate that it is a .zip file. Not entirely sure if this is possible
-        # as some urls might not end in ".zip".
-
-        if delimiter not in ["csv", "tab", "pipe"]:
-            raise ValueError("Delimiter must be one of 'csv', 'tab' or 'pipe'")
-
-        delimiter = delimiter.capitalize()
-
-        json = {
-            "description": "A description",
-            "file": {
-                "columnDelimiter": delimiter,
-                "columns": columns,
-                "fileName": file_name,
-                "hasHeader": header,
-                "hasQuotes": quotes,
-                "sourceUrl": file_url,
-            },
-            "listeners": [{"type": "EMAIL", "value": email}],
-        }
-
-        actions = []
-
-        for score in score_map:
-            action = {
-                "actionType": "score",
-                "personIdColumn": id_column,
-                "personIdType": id_type,
-                "scoreColumn": score["score_column"],
-                "scoreId": score["score_id"],
-                "approvalCriteria": {
-                    "average": score["auto_average"],
-                    "tolerance": score["auto_tolerance"],
-                },
-            }
-
-            actions.append(action)
-
-        json["actions"] = actions
-
-        r = self.connection.post_request("fileLoadingJobs", json=json)["jobId"]
-        logger.info("Score loading job %s created.", r)
-        return r

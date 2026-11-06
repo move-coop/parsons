@@ -212,37 +212,3 @@ class TestScores(unittest.TestCase):
         json = {"jobId": 9749}
         m.post(self.van.connection.uri + "FileLoadingJobs", json=json, status_code=201)
         self.van.upload_scores(tbl, [{"score_id": 9999, "score_column": "col"}], url_type="S3")
-
-    @requests_mock.Mocker()
-    def test_create_file_load(self, m):
-        file_name = "test_scores.csv"
-        file_url_good = "http://tmc.org/test_scores.zip"
-        # file_url_bad = 'http://tmc.org/test_scores'
-        columns = ["vanid", "score"]
-        id_column = "vanid"
-        id_type = "VANID"
-        score_id = 2716
-        score_column = "score"
-        bad_delimiter = "*"
-
-        json = {"jobId": 9749}
-
-        m.post(self.van.connection.uri + "FileLoadingJobs", json=json, status_code=201)
-
-        # Test bad delimiter
-        with pytest.raises(ValueError, match="Delimiter must be one of 'csv', 'tab' or 'pipe'"):
-            self.van.create_file_load(
-                file_name,
-                file_url_good,
-                columns,
-                id_column,
-                id_type,
-                score_id,
-                score_column,
-                delimiter=bad_delimiter,
-            )
-
-        # Test good request
-        assert json["jobId"] == self.van.create_file_load(
-            file_name, file_url_good, columns, id_column, id_type, score_id, score_column
-        )

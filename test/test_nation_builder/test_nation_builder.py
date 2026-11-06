@@ -12,7 +12,7 @@ class TestNationBuilder(unittest.TestCase):
     def test_client(self):
         nb = NB("test-slug", "test-token")
         assert nb.client.uri == "https://test-slug.nationbuilder.com/api/v1/"
-        assert nb.client.headers == {
+        assert nb.client.session.headers == {
             "authorization": "Bearer test-token",
             "Content-Type": "application/json",
             "Accept": "application/json",

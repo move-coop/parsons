@@ -11,9 +11,6 @@ import requests_ratelimiter
 from pyrate_limiter import Duration, Limiter, Rate
 from requests.exceptions import HTTPError
 from simplejson.errors import JSONDecodeError
-from typing_extensions import (
-    deprecated,  # TODO(bmos): import from warnings when Python >= 3.13
-)
 
 from parsons import Table
 
@@ -126,42 +123,22 @@ class APIConnector:
             self.session.headers = headers  # type: ignore [ty:invalid-assignment]
 
     @property
-    @deprecated("Use '.session.auth' instead")
-    def auth(self): ...
-
-    @auth.getter
-    @deprecated("Use '.session.auth' instead")
-    def auth(self) -> _AuthType:
-        return self.session.auth
-
-    @auth.setter
-    @deprecated("Use '.session.auth' instead")
-    def auth(self, value: _AuthType | None) -> None:
-        self.session.auth = value
-
-    @auth.deleter
-    @deprecated("Use '.session.auth' instead")
     def auth(self) -> None:
-        del self.session.auth
+        """
+        Access the authentication handler from the requests Session.
+
+        .. version-removed:: v8.0.0
+
+        """
 
     @property
-    @deprecated("Use '.session.headers' instead")
-    def headers(self): ...
-
-    @headers.getter
-    @deprecated("Use '.session.headers' instead")
-    def headers(self) -> _HeadersType:
-        return self.session.headers
-
-    @headers.setter
-    @deprecated("Use '.session.headers' instead")
-    def headers(self, value: _HeadersType | None) -> None:
-        self.session.headers = value  # type: ignore [ty:invalid-assignment]
-
-    @headers.deleter
-    @deprecated("Use '.session.headers' instead")
     def headers(self) -> None:
-        del self.session.headers
+        """
+        Access the headers from the requests Session.
+
+        .. version-removed:: v8.0.0
+
+        """
 
     def request(
         self,

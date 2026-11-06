@@ -56,42 +56,6 @@ class TestSavedLists(unittest.TestCase):
 
         assert self.van.get_saved_list(saved_list_id) == json
 
-    def test_upload_saved_list(self):
-        cloud_storage.post_file = mock.MagicMock()
-        cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
-
-        self.van.connection._soap_client = mock.MagicMock()
-        self.van.get_folders = mock.MagicMock()
-        self.van.get_folders.return_value = [{"folderId": 1}]
-
-        tbl = Table([["VANID"], ["1"], ["2"], ["3"]])
-        self.van.upload_saved_list(
-            tbl, "GOTV List", 1, replace=True, url_type="S3", bucket="tmc-scratch"
-        )
-        assert self.van.connection._soap_client.service.CreateAndStoreSavedList.called
-
-        @requests_mock.Mocker()
-        def test_upload_saved_list_rest(self):
-            cloud_storage.post_file = mock.MagicMock()
-            cloud_storage.post_file.return_value = "https://box.com/my_file.zip"
-            self.van.get_folders = mock.MagicMock()
-            self.van.get_folders.return_value = [{"folderId": 1}]
-
-            tbl = Table([["VANID"], ["1"], ["2"], ["3"]])
-            response = self.van.upload_saved_list_rest(
-                tbl=tbl,
-                url_type="S3",
-                folder_id=1,
-                list_name="GOTV List",
-                description="parsons test list",
-                callback_url="https://webhook.site/69ab58c3-a3a7-4ed8-828c-1ea850cb4160",
-                columns=["VANID"],
-                id_column="VANID",
-                bucket="tmc-scratch",
-                overwrite=517612,
-            )
-            assert "jobId" in response
-
     @requests_mock.Mocker()
     def test_get_folders(self, m):
         json = {

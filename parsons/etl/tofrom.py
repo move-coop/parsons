@@ -920,6 +920,7 @@ class ToFrom:
         .. version-changed:: v6.2.0
 
             Deprecated `str` argument in favor of `csv_string` to avoid shadowing `str` type.
+            Removal scheduled for v8.0.0.
 
         """
         from parsons import Table

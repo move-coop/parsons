@@ -289,6 +289,7 @@ class FileLoadingJobs:
         .. version-deprecated:: v0.7.0
 
             Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
+            Removal scheduled for v8.0.0.
 
         """
         columns = [{"name": c} for c in columns]
@@ -385,6 +386,7 @@ class FileLoadingJobs:
         .. version-deprecated:: v0.7.0
 
             Deprecated in favor of :meth:`~parsons.ngpvan.scores.Scores.upload_scores`.
+            Removal scheduled for v8.0.0.
 
         """
         columns = [{"name": c} for c in columns]

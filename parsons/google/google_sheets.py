@@ -279,6 +279,7 @@ class GoogleSheets:
         .. version-changed:: v0.14.0
 
             Deprecated `sheet_index` argument in favor of `worksheet`.
+            Removal scheduled for v8.0.0.
 
         """
         if not table.num_rows:
@@ -402,6 +403,7 @@ class GoogleSheets:
         .. version-changed:: v0.14.0
 
             Deprecated `sheet_index` argument in favor of `worksheet`.
+            Removal scheduled for v8.0.0.
 
         """
         # This is in here to ensure backwards compatibility with previous versions of Parsons.
@@ -502,6 +504,7 @@ class GoogleSheets:
         .. version-deprecated:: v0.14.0
 
             Deprecated in favor of :meth:`get_worksheet`.
+            Removal scheduled for v8.0.0.
 
         """
         return self.get_worksheet(spreadsheet_id, sheet_index)
@@ -514,6 +517,7 @@ class GoogleSheets:
         .. version-deprecated:: v0.14.0
 
             Deprecated in favor of :meth:`get_worksheet`.
+            Removal scheduled for v8.0.0.
 
         """
         return self.get_worksheet(spreadsheet_id, title)
@@ -526,6 +530,7 @@ class GoogleSheets:
         .. version-deprecated:: v0.14.0
 
             Deprecated in favor of :meth:`get_worksheet_index`.
+            Removal scheduled for v8.0.0.
 
         """
         return self.get_worksheet_index(spreadsheet_id, title)

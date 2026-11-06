@@ -28,6 +28,7 @@ def mark_live_test(func) -> MarkDecorator:
     .. version-deprecated:: v6.0.0
 
         Deprecated `@mark_live_test` decorator in favor of `@pytest.mark.live`.
+        Removal scheduled for v8.0.0.
 
     """
     warnings.warn(

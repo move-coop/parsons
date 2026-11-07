@@ -1,7 +1,6 @@
 """Pydantic data models for use with dbt utilities."""
 
 import collections
-import warnings
 
 from dbt.artifacts.resources.types import NodeType
 from dbt.artifacts.schemas.run import RunExecutionResult
@@ -15,18 +14,9 @@ class Manifest:
         self,
         command: str,
         run_execution_result: RunExecutionResult | None = None,
-        *,
-        dbt_manifest: RunExecutionResult | None = None,
     ) -> None:
         self.command = command
         self.run_execution_result = run_execution_result
-        if self.run_execution_result is None and dbt_manifest is not None:
-            self.run_execution_result = dbt_manifest
-            warnings.warn(
-                "dbt_manifest keyword is deprecated, use run_execution_result instead.",
-                category=DeprecationWarning,
-                stacklevel=2,
-            )
         if self.run_execution_result is None:
             raise Exception("missing run_execution_result")
 
@@ -64,7 +54,7 @@ class Manifest:
         return filtered_results
 
     @property
-    def dbt_manifest(self) -> RunExecutionResult:
+    def dbt_manifest(self) -> None:
         """
         Legacy proxy to new attribute.
 
@@ -72,13 +62,9 @@ class Manifest:
 
             Deprecated `dbt_manifest` attribute in favor of `run_execution_result`, as the former was a misnomer.
 
+        .. version-removed:: v8.0.0
+
         """
-        warnings.warn(
-            "dbt_manifest attribute is deprecated, use run_execution_result instead.",
-            category=DeprecationWarning,
-            stacklevel=2,
-        )
-        return self.run_execution_result
 
     @property
     def overall_status(self) -> NodeStatus:

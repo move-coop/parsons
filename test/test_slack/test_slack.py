@@ -279,35 +279,6 @@ class TestSlack(unittest.TestCase):
         assert isinstance(dct, dict)
         assert sorted(dct) == sorted(slack_resp)
 
-    def test_message_channel_deprecated_kwargs(self):
-        self._setup_message_channel_mocks()
-
-        # Test deprecation of as_user kwarg
-        with pytest.warns(
-            DeprecationWarning, match="as_user is a deprecated argument to message_channel()"
-        ):
-            self.slack.message_channel(
-                "C1H9RESGL", "Here's a message for you", as_user="randomvalue"
-            )
-        # Verify as_user was passed to chat_postMessage
-        call_kwargs = self.slack.client.chat_postMessage.call_args.kwargs
-        assert "as_user" in call_kwargs, "as_user should be passed to chat_postMessage"
-
-        # Test deprecation of thread_ts kwarg
-        with pytest.warns(
-            DeprecationWarning,
-            match="thread_ts argument to message_channel will be ignored. Use parent_message_id.",
-        ):
-            self.slack.message_channel(
-                "C1H9RESGL", "Here's a message for you", thread_ts="randomvalue"
-            )
-
-        # Verify thread_ts was NOT passed to chat_postMessage
-        call_kwargs = self.slack.client.chat_postMessage.call_args.kwargs
-        assert call_kwargs["thread_ts"] is None, (
-            "thread_ts should not be passed to chat_postMessage"
-        )
-
     def test_message_channel_error(self):
         self._setup_message_channel_mocks(include_success_response=False)
 

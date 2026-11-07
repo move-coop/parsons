@@ -2,11 +2,7 @@
 
 import logging
 import uuid
-import warnings
 from typing import Literal
-
-from suds.client import Client
-from typing_extensions import deprecated
 
 from parsons.etl.table import Table
 from parsons.utilities import cloud_storage
@@ -186,104 +182,17 @@ class SavedLists:
         )
         return file_load_job_response
 
-    @deprecated("Deprecated method. Use upload_saved_list_rest instead.")
-    def upload_saved_list(
-        self,
-        tbl,
-        list_name,
-        folder_id,
-        url_type,
-        id_type="vanid",
-        replace=False,
-        **url_kwargs,
-    ):
+    def upload_saved_list(self) -> None:
         """
         Upload a saved list.
-
-        Invalid or unmatched person id records will be ignored.
-        Your API user must be shared on the target folder.
-
-        Args:
-            tbl: Table
-                A parsons table object containing one column of person ids.
-            list_name: str
-                The saved list name.
-            folder_id: int
-                The folder id where the list will be stored.
-            url_type: str
-                The cloud file storage to use to post the file (``S3`` or ``GCS``).
-                See :ref:`google/cloud_storage:Cloud Storage` for more details.
-            id_type: str
-                The primary key type. The options, beyond ``vanid`` are specific to your
-                instance of VAN.
-            replace: boolean
-                Replace saved list if already exists.
-            `**url_kwargs`: kwargs
-                Arguments to configure your cloud storage url type. See
-                :ref:`google/cloud_storage:Cloud Storage` for more details.
-
-        Returns:
-            dict
-                Upload results information included the number of matched and saved
-                records in your list.
 
         .. version-deprecated:: v0.17.0
 
             Deprecated in favor of :meth:`~parsons.ngpvan.scores.SavedLists.upload_saved_list_rest`.
 
+        .. version-removed:: v8.0.0
+
         """
-        # Move to cloud storage
-        file_name = str(uuid.uuid1())
-        url = cloud_storage.post_file(tbl, url_type, file_path=file_name + ".zip", **url_kwargs)
-        logger.info("Table uploaded to %s.", url_type)
-
-        # VAN errors for this method are not particularly useful or helpful. For that reason, we
-        # will check that the folder exists and if the list already exists.
-        logger.info("Validating folder id and list name.")
-        if folder_id not in [x["folderId"] for x in self.get_folders()]:
-            raise ValueError("Folder does not exist or is not shared with API user.")
-
-        if not replace and (list_name in [x["name"] for x in self.get_saved_lists(folder_id)]):
-            raise ValueError(
-                "Saved list already exists. Set to replace argument to True or change list name."
-            )
-
-        # i think we dont need this if we have the warning in the funciton description,
-        # perhapse a style/standanrds decision
-        if id_type == "vanid":
-            warnings.warn(
-                "The NVPVAN SOAP API is deprecated, consider using parsons.VAN.upload_saved_list_rest if you are uploading a list of vanids.",
-                DeprecationWarning,
-                stacklevel=2,
-            )
-        # Create XML
-        xml = self.connection.soap_client.factory.create("CreateAndStoreSavedListMetaData")
-        xml.SavedList._Name = list_name
-        xml.DestinationFolder._ID = folder_id
-        xml.SourceFile.FileName = file_name + ".csv"
-        xml.SourceFile.FileUrl = url
-        xml.SourceFile.FileCompression = "zip"
-        xml.Options.OverwriteExistingList = replace
-
-        # Describe file
-        file_desc = self.connection.soap_client.factory.create("SeparatedFileFormatDescription")
-        file_desc._name = "csv"
-        file_desc.HasHeaderRow = True
-
-        # Only support single column for now
-        col = self.connection.soap_client.factory.create("Column")
-        col.Name = id_type
-        col.RefersTo._Path = f"Person[@PersonIDType='{id_type}']"
-        col._Index = "0"
-
-        # Assemble request
-        file_desc.Columns.Column.append(col)
-        xml.SourceFile.Format = file_desc
-
-        r = Client.dict(self.connection.soap_client.service.CreateAndStoreSavedList(xml))
-        if r:
-            logger.info("Uploaded %s records to %s saved list.", r["ListSize"], r["_Name"])
-        return r
 
 
 class Folders:

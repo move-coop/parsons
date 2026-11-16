@@ -3,6 +3,7 @@ import logging
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import requests_mock
 
@@ -235,7 +236,8 @@ class TestCopper(unittest.TestCase):
             return response
 
     @requests_mock.Mocker()
-    def test_paginate_request(self, m):
+    @patch("time.sleep")
+    def test_paginate_request(self, m, _p):
         # Anonymized real output with nested columns
         self.blob = [
             {
@@ -523,7 +525,8 @@ class TestCopper(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
-    def test_get_standard_object(self, m):
+    @patch("time.sleep")
+    def test_get_standard_object(self, m, _p):
         processed_people_emails = Table(
             [
                 {
@@ -560,7 +563,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_people_emails, blob_people_emails)
 
     @requests_mock.Mocker()
-    def test_get_people(self, m):
+    @patch("time.sleep")
+    def test_get_people(self, m, _p):
         processed_people_emails = Table(
             [
                 {
@@ -600,7 +604,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_people_emails, blob_people_emails)
 
     @requests_mock.Mocker()
-    def test_get_opportunities(self, m):
+    @patch("time.sleep")
+    def test_get_opportunities(self, m, _p):
         processed_opps = Table(
             [
                 {
@@ -743,7 +748,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_opps_cf, blob_opps_cf)
 
     @requests_mock.Mocker()
-    def test_get_opportunities2(self, m):
+    @patch("time.sleep")
+    def test_get_opportunities2(self, m, _p):
         processed_opps = Table(
             [
                 {
@@ -886,7 +892,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_opps_cf, blob_opps_cf)
 
     @requests_mock.Mocker()
-    def test_get_companies(self, m):
+    @patch("time.sleep")
+    def test_get_companies(self, m, _p):
         processed_companies = Table(
             [
                 {
@@ -1003,7 +1010,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_companies_phones, blob_companies_phones)
 
     @requests_mock.Mocker()
-    def test_get_activities(self, m):
+    @patch("time.sleep")
+    def test_get_activities(self, m, _p):
         processed_activities = Table(
             [
                 {
@@ -1064,7 +1072,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_activities, blob_activities)
 
     @requests_mock.Mocker()
-    def test_get_custom_fields(self, m):
+    @patch("time.sleep")
+    def test_get_custom_fields(self, m, _p):
         m.get(
             self.cp.uri + "/custom_field_definitions/",
             json=self.paginate_callback,
@@ -1080,7 +1089,8 @@ class TestCopper(unittest.TestCase):
             )
 
     @requests_mock.Mocker()
-    def test_get_activity_types(self, m):
+    @patch("time.sleep")
+    def test_get_activity_types(self, m, _p):
         processed_at = Table(
             [
                 {
@@ -1141,7 +1151,8 @@ class TestCopper(unittest.TestCase):
         assert_matching_tables(processed_at, blob_at)
 
     @requests_mock.Mocker()
-    def test_get_contact_types(self, m):
+    @patch("time.sleep")
+    def test_get_contact_types(self, m, _p):
         processed_ct = Table(
             [
                 {"id": 501947, "name": "Potential Customer"},

@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 import requests_mock
@@ -55,7 +55,8 @@ class TestActBlue(unittest.TestCase):
         assert self.ab.get_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
 
     @requests_mock.Mocker()
-    def test_successful_poll_for_download_url(self, m: requests_mock.Mocker):
+    @patch("time.sleep")
+    def test_successful_poll_for_download_url(self, m: requests_mock.Mocker, mock_sleep):
         mocked_get_response_no_download_url = {
             "id": TEST_ID,
             "download_url": None,
@@ -71,14 +72,17 @@ class TestActBlue(unittest.TestCase):
         )
 
         assert self.ab.poll_for_download_url(csv_id=TEST_ID) == TEST_DOWNLOAD_URL
+        assert mock_sleep.called
 
     @requests_mock.Mocker()
-    def test_successful_get_contributions(self, m: requests_mock.Mocker):
+    @patch("time.sleep")
+    def test_successful_get_contributions(self, m: requests_mock.Mocker, mock_sleep):
         m.post(f"{TEST_URI}/csvs", json=TEST_POST_RESPONSE)
         m.get(f"{TEST_URI}/csvs/{TEST_ID}", json=TEST_GET_RESPONSE)
 
         table = self.ab.get_contributions(TEST_CSV_TYPE, TEST_DATE_RANGE_START, TEST_DATE_RANGE_END)
         assert test_columns_data.expected_table_columns == table.columns
+        assert mock_sleep.called
 
     @requests_mock.Mocker()
     def test_error_on_complete_without_download_url(self, m: requests_mock.Mocker):
